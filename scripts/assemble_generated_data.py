@@ -46,6 +46,11 @@ def checked_file(root, relative):
 def load_attempt(name, directory):
     root = directory.resolve(strict=True)
     run, receipt = read_json(root / "run.json"), read_json(root / "COMPLETE.json")
+    if receipt.get("status") == "COMPLETE_DERIVATION":
+        from scripts.derive_dense_frames import load_derivation
+        return load_derivation(name, root)
+    if run.get("binding", {}).get("plan", {}).get("schema") == "gift.dense-frame-derivation.v1":
+        raise ValueError("Dense-frame derivation must not claim an integration completion status")
     if receipt.get("status") != "COMPLETE_GENERATION":
         raise ValueError(f"{name}: incomplete/pilot generation cannot be assembled")
     binding = run["binding"]
@@ -249,7 +254,11 @@ def main(argv=None):
         if name not in attempts:
             continue
         attempt=attempts[name]
-        records=validate_clean(attempt,full=args.execute) if name in CLEAN_PATHS else validate_derivative(attempt,available,full=args.execute)
+        if attempt["receipt"]["status"] == "COMPLETE_DERIVATION":
+            from scripts.derive_dense_frames import validate_for_assembly
+            records=validate_for_assembly(attempt,attempts,available,full=args.execute)
+        else:
+            records=validate_clean(attempt,full=args.execute) if name in CLEAN_PATHS else validate_derivative(attempt,available,full=args.execute)
         for path,relative,digest,groups in records:
             files.append((path,relative,digest,name))
             available[relative]=digest
@@ -264,6 +273,9 @@ def main(argv=None):
         records.append({"path":relative,"bytes":source.stat().st_size,"sha256":digest,
                         "category":"generated_scientific_input","generation_job":name,
                         "attempt_id":attempts[name]["run"]["attempt_id"]})
+        if attempts[name]["receipt"]["status"] == "COMPLETE_DERIVATION":
+            records[-1].update(generation_method="integer_frame_derivation",
+                               derivation_parent=attempts[name]["scientific"]["parent"])
     for name,attempt in attempts.items():
         for filename in ("run.json","COMPLETE.json"):
             source=attempt["root"]/filename

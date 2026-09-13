@@ -194,9 +194,51 @@ GIFT high training requires an explicit fresh, formal-budget low generator bound
 
 ### 独立生成后如何组装 / Assembly after independent generation
 
-各个生成命令可完全独立执行、独立恢复；不要求所有数据或模型一次run。核心输入可分别生成：① `standard`，② `fno-training`（seed训练50 + 显式参数950，并独立生成验证20），③ `fno-test`。短时与跨分辨率集合另用 `short-test`、`cross-resolution`、`fno-training-coarse` 独立生成；或将来增加仅从**本次新生成**的完整dense文件按整数保存步抽取coarse视图，明确记录派生关系，不从旧发布真值补帧。
+各个生成命令可完全独立执行、独立恢复；不要求所有数据或模型一次run。核心输入可分别生成：① `standard`，② `fno-training`（seed训练50 + 显式参数950，并独立生成验证20），③ `fno-test`。短时与跨分辨率集合仍可用 `generate_data.py` 的 `short-test`、`cross-resolution`、`fno-training-coarse` 分支独立积分；也可用下面的独立入口，仅从**本次新生成**的完整dense文件按整数保存步派生，明确记录母文件关系，不从旧发布真值补帧。
 
-The core clean inputs can be generated independently: standard, FNO training, and FNO test. Short/coarse/cross-resolution inputs use their independent commands, or a future verified integer-frame derivation from the **newly generated** dense outputs. No old reference trajectories may be used to fill missing generated frames.
+The core clean inputs can be generated independently: standard, FNO training, and FNO test. Short/coarse/cross-resolution inputs retain their independent integration commands and additionally support the integer-frame derivation below from **newly generated** complete dense outputs. No old reference trajectories may fill missing frames.
+
+### 新 dense 的整数抽帧 / Integer-frame derivation from new dense outputs
+
+```sh
+python scripts/derive_dense_frames.py --dataset fno-training-coarse --parent /new/fno-training-attempt --output /new/coarse-attempt --execute
+python scripts/derive_dense_frames.py --dataset short-test --parent /new/fno-test-attempt --output /new/short-attempt --execute
+python scripts/derive_dense_frames.py --dataset cross-resolution --parent /new/fno-test-attempt --output /new/cross-attempt --execute
+```
+
+`--parent` 必须是完整的**新积分任务目录**（含 `run.json`、`COMPLETE.json`、`data.h5`），不是下载的H5或另一派生文件。执行前核对母任务完整预算的组/ID/保存步、参数、PDE/源代码与运行时记录、完成状态、文件SHA以及**母文件全部场值**有限性；外链、虚拟数据、未写NaN、pilot/subset和mock均拒绝。省略 `--execute` 仅作只读结构计划，不扫描全部字段、不声称文件完整核验。
+
+`--parent` must identify a completed **new native integration attempt**, not a downloaded H5 or another derived file. Execution checks its full populations/schedules/parameters/physics, current generator/solver sources, runtime receipt, completion binding, whole-file SHA and **all parent field values**, including unselected frames. Linked/virtual storage, unwritten NaNs, pilots, subsets and mocks are rejected. Without `--execute`, inspection is read-only and does not claim full hash/finite verification.
+
+| 目标 / Target | 母组 → 输出组 / Parent → output | 母列（从0计） / Parent columns | 整数积分步 / Solver steps |
+| --- | --- | --- | --- |
+| `fno-training-coarse` | `training/validation` → 原组名 / same names | `0,5,…,500`（101帧） | `0,20,…,2000` |
+| `short-test` | `N64/test` → `test` | `0,5,…,95`（20帧） | `820,840,…,1200` |
+| `cross-resolution` | `N96/test`、`N128/test` → 原组名 / same names | `0,5,…,95`（每组20帧） | `820,840,…,1200` |
+
+涡量float32和初值参数按原位值复制，不插值、不改精度，保留正负零的比特。coarse训练保留1000条训练与20条验证；两个测试输出保留全部200条ID。训练coarse的float64时间标签为 `step*0.005`；short/cross使用既定 `round((step//20)/10,12)`，而非照抄dense标签的末位。short的参数名从 `initial_parameters` 改为reader要求的 `initial_condition_parameters`，其余按原组约定。源求解器元数据标明“继承自母文件”；不会复制dense专属的 `gift.fno.test-data.v1` / `stored_dt=0.02` 为新文件身份。
+
+Vorticity is copied bit-preserving as float32, including signed zero; parameters are copied without conversion. Full training/validation and test populations are retained. Coarse-training float64 times are `step*0.005`; short/cross times use the existing exact rounded-decimal reader convention, not copied dense label rounding. Short-test renames only its parameter dataset; solver metadata is explicitly inherited, not a claim of a new integration invocation.
+
+派生任务采用独立 `gift.dense-frame-derivation.v1` 和 `COMPLETE_DERIVATION`，**不伪造 `COMPLETE_GENERATION`**。记录母任务UUID、binding SHA、H5 SHA、run/完成收据SHA，以及每组整数列映射和当前派生源码。每块为一条轨迹的最多16帧，默认每32块保存自身游标；`--stop-after-chunks N` 可有界暂停，同命令加 `--resume` 恢复。恢复前核对相同母输入/源码/运行时、游标UUID与哈希，并逐比特复核已提交前缀；未提交块可以重写。资格检查会按固定种子重建初值参数作比较，但场抽帧本身没有随机状态，无需RNG或模型检查点。已有完成任务拒绝续算，旧游标文件保留。
+
+Derivation has its own schema and `COMPLETE_DERIVATION` receipt, never an integration completion label. Parent attempt/binding/data/raw-receipt hashes, integer mappings and current sources are bound. Copy blocks contain up to16 frames of one trajectory, with own-cursor checkpoints every32 blocks by default. Use `--stop-after-chunks N`, then the same command with `--resume`; committed prefix bytes are rechecked against the unchanged parent. Qualification deterministically recreates seeded parameters for comparison, while field copying has no RNG state or model checkpoint. Completed attempts and foreign cursors are rejected; old cursors are retained.
+
+每次写入持有该目录 `.writer.lock` 的非阻塞操作系统锁，从完成/游标检查一直覆盖到H5关闭、最终哈希和收据发布；第二写者立即拒绝，不等待轮询，进程退出自动释放锁，不删除锁文件。最终再次检查源文件SHA；完整收据先写唯一 staging 文件并flush/fsync，再通过同目录原子硬链接仅在目标不存在时发布 `COMPLETE.json`。中断产生的partial staging不作为完成记录，恢复重验本次输出后重新发布；成功或失败的staging均保留且不得手工修改。要求支持硬链接的文件系统（如NTFS、常见POSIX文件系统），不支持时失败关闭，不退回非原子覆盖。文件系统损坏不在恢复保证内。
+
+A nonblocking OS lock on `.writer.lock` spans completion/cursor checks, H5 writes and close, final hashing and receipt publication. A second writer fails immediately without polling; process exit releases the lock without deleting its file. Sources are rechecked before completion. The receipt is written to a unique staging file, flushed/synced, then atomically published by a same-directory create-only hard link. Interrupted partial staging files do not mark completion; resume rechecks the attempt before publishing again. All staging files remain and must not be edited. A hard-link-capable filesystem (such as NTFS or common POSIX filesystems) is required; unsupported publication fails closed, never falls back to non-atomic overwrite. Filesystem corruption is outside the recovery guarantee.
+
+组装时必须同时提供相同母任务（例如 `--job fno-test=/new/fno-test-attempt --job short-test=/new/short-attempt`）。组装器将核对母任务/收据身份及相同H5 SHA，重新核验输出字段逐比特等于母文件指定列，并诚实保留派生状态。只给子文件、拿别的母任务补位、修改列映射或使用旧真值均拒绝。模型训练仍消费原dense `fno-training`，不被自动切换为coarse；本入口不改模型、训练或实验定义。
+
+Assembly must include the exact dense parent job and SHA alongside each child. The assembler checks raw parent receipts and integer mappings, then rechecks selected field bytes. Child-only collections or substituted parents are rejected. Baseline training still consumes dense FNO training data; this entry point changes no model, training or experiment definition.
+
+源码变更会改变组装器SHA：请创建**新集合及新训练绑定**，不要更新旧manifest、旧运行记录或旧检查点来绕过source gate。本功能的CPU小夹具覆盖三种映射、正负零、独立进程恢复和拒绝门，仅验证工程接口；尚未在完整新dense母输入上实测，不证明与原发布场或六实验数值一致。
+
+The assembler source hash changes with this feature. Create a **new collection and new training binding**; never rewrite old manifests/journals/checkpoints to bypass source identity. Tiny CPU fixtures cover mappings, signed zero, separate-process resume and rejection gates, not full real-data generation or scientific acceptance. Full new-parent derivation and downstream numerical verification remain pending.
+
+2026-09-13 工程验证：抽帧及关联组装的定向测试 **27/27通过**；独立完整CPU回归 **199通过、22跳过、24个subtests通过**（76.47秒）。包括收据写入/发布前后中断、H5关闭后的真实子进程争锁，以及终态哈希期间源码变动拒绝。Windows分支已实测，POSIX锁分支尚未在本机执行；这些仍不代表完整新数据的科学验收。
+
+Engineering checks on 2026-09-13: **27/27 targeted tests passed**; a separate full CPU regression had **199 passed, 22 skipped and 24 passing subtests** in76.47s. Coverage includes interrupted receipt staging/publication, a real competing process after H5 close, and source changes during final hashing. Windows behavior was exercised; the POSIX lock branch was not executed on this host. This remains engineering evidence, not full generated-data scientific acceptance.
 
 已新增 `scripts/assemble_generated_data.py`，仅接受本候选独立生成 attempt 的 `COMPLETE.json` 与绑定的真实数据哈希，拒绝pilot/部分subset/缺帧/旧源码哈希；使用本页路径表在**新的**集合目录中安放其文件（复制自己的新生成文件属于打包，不是重新生成真值）。执行时扫描完整浮点场有限性，核对ID/时间/PDE/初值参数/源代码，逐文件复制后重验SHA；创建小写 `manifest.json`、`splits.json` 和各任务 `provenance/` 完成记录。已有目标目录直接拒绝，不要求改写或更新旧集合。
 
