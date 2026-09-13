@@ -1,0 +1,22 @@
+{
+  "schema": "gift.portable-generated-reader-manifest.v1",
+  "paths_relative_to": "this directory",
+  "hash_algorithm": "SHA-256",
+  "excluded_self": "manifest.json",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3387,
+      "sha256": "07f0917c6cc8c5ff3835eb02a5ce2d10dd7966d9c3fd06eff1c88a22a1be7f98"
+    },
+    {
+      "path": "result.json",
+      "bytes": 21278,
+      "sha256": "73a0341bb3575439cf7d26d876c0aa7500780554a776f0e592bc01c11215175c"
+    }
+  ],
+  "result_copy_policy": "Byte-exact completed reader-check result; returned array hashes, not scientific arrays.",
+  "verifier_sha256": "05d9ec9e9a57945ad20742e048afb9d7e952a96d83f816543b8db509d0b09e6d",
+  "trained_checkpoints_or_data_included": false,
+  "experiment_numeric_acceptance_claimed": false
+}

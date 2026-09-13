@@ -1,5 +1,12 @@
 # Verification evidence / 验证证据
 
+The [actual experimental-reader check](generated_readers_20260913/README.md)
+passed in 31.218 s on the complete new collection: seven top-level reader calls,
+the nested short reader, original M2/M3 truth and t=5 anchor rules, S1 selections
+and S2 holdout checks. This required no reader-code change. No model or experiment
+was executed; previously recorded numerical differences remain.
+完整新数据的实际读取及跨文件断言通过，不是预测或训练数值验收。
+
 The [complete ten-job generated collection](full_generated_collection_20260913/README.md)
 now has independent full input-integrity evidence: 32 manifest files (13.155 GB),
 all three derived-frame mappings, three GIFT conditions and four formal baseline
