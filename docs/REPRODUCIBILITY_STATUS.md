@@ -64,7 +64,7 @@ unchanged archived reference tables and do not establish fresh training.
 | FNO-2D complete formal training with own-run continuation | All 500 epochs / 25,000 updates completed. The CPU terminal audit passed full source/input/runtime, history, optimizer/RNG and terminal-export integrity. All 1,000 historical loss comparisons and all 42 model-state tensors match the published reference exactly, without a tolerance; the export also matches its own final journal in 42/42 tensors. No published weights were used for initialization or continuation. The final resumed invocation took 76,985.728 s; earlier invocations and pauses are not included in that duration. See [full-training evidence](../validation/fno2d_full_20260913/README.md). This establishes the checked-host full training result, not uninterrupted-vs-resumed equivalence; independent M2/M3 results follow below |
 | M2 using freshly trained GIFT, both FNOs and U-NO | Independent inference completed in 333.05 s using both audited fresh FNO terminal exports and the full fresh U-NO; only U-Net uses reference weights. The unchanged comparison **FAILED 29/245 numeric values**, all U-NO; 216 values passed and all 49 rows / 98 counts matched. Neither fresh FNO added a failed item. This does not establish bit-exact inference or all-model acceptance. See [complete FAIL evidence](../validation/fresh_fno_M2_20260913/README.md), [comparison](../validation/fresh_fno_M2_20260913/comparison.json) and [input/execution provenance](../validation/fresh_fno_M2_20260913/provenance.json). Earlier U-NO/GIFT failures remain preserved |
 | M3 using freshly trained GIFT and both FNOs | Independent inference completed in 686.55 s using the new GIFT low/high models and both audited fresh FNO terminal exports; no U-NO/U-Net is used. All 1,870 rows, 9,350 numeric values and 3,740 counts passed the original criterion. See [PASS evidence](../validation/fresh_fno_M3_20260913/README.md), [comparison](../validation/fresh_fno_M3_20260913/comparison.json) and [input/execution provenance](../validation/fresh_fno_M3_20260913/provenance.json). This is this experiment's numeric acceptance, not bit-exact inference or whole-project acceptance; M2, S2 and PINN failures are not erased |
-| Private GitHub upload and clean-clone validation | Pending |
+| Private GitHub distribution | The initial 303-file candidate was uploaded to [ArmstrongInCN/GIFT](https://github.com/ArmstrongInCN/GIFT), with PRIVATE visibility independently verified. The original U-NO reference is available in [the private checkpoint Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/reference-checkpoints-20260913); the uploaded asset's 121,928,439-byte size and GitHub-reported SHA-256 match the catalog. Authenticated fresh-clone/download validation is still pending; upload is not scientific acceptance |
 
 ## Known original-record and prior reproduction issues / 已知问题
 
@@ -241,5 +241,9 @@ input exceptions are identified separately in the package. Creator/publication
 metadata must still be supplied by the owner; no names or DOI were invented.
 The Zenodo deposit is not created or uploaded by this task. U-NO's terminal
 checkpoint is larger than GitHub's ordinary-file limit and is excluded from
-ordinary Git tracking; an authenticated private release asset remains to be
-provided. A missing asset must not be described as included in a clean clone.
+ordinary Git tracking. It is now available as an authenticated
+[private Release asset](https://github.com/ArmstrongInCN/GIFT/releases/tag/reference-checkpoints-20260913);
+follow the [download and integrity-check instructions](../artifacts/README.md).
+A plain clone still omits this asset. Earlier offline snapshot failures remain
+historical facts and are not rewritten. Private distribution does not resolve
+the numerical failures, data-creator metadata or initialization-rights questions.

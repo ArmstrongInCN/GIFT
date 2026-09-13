@@ -4,6 +4,20 @@ This guide describes the candidate's supported paths. Consult
 [validation status](REPRODUCIBILITY_STATUS.md) for what has actually passed.
 本指南区分读取参照数据、检查点推理与从零训练，不将三者混为复现证据。
 
+## Obtain the private candidate / 获取私有候选
+
+The repository is currently private. An account that already has access can
+authenticate using GitHub CLI and clone it; no password or token belongs in
+project files. Data is distributed separately, and the U-NO weight needs the
+additional authenticated download described below.
+仓库目前仅私有可见；有访问权的账号登录后方可获取。不要把密码或令牌写进项目。
+
+```bash
+gh auth login --hostname github.com
+gh repo clone ArmstrongInCN/GIFT
+cd GIFT
+```
+
 ## Environment / 环境
 
 The recorded main environment is 64-bit CPython 3.10, PyTorch 2.10.0+cu126,
@@ -105,16 +119,27 @@ python -m experiments.formal.s3_seed_stability.run --output runs/s3 --device cud
 ```
 
 M2 additionally requires the pinned FNO, U-NO and U-Net sources and terminal
-weights. U-NO is a separate asset whose download location is still pending in
-`artifacts/CHECKPOINTS.json`; it is not included in a clean clone.
-M2 需要 FNO、U-NO、U-Net 的固定源码及终点权重；U-NO 独立下载位置尚未提供，不能假定 clone 已带齐。
+weights. U-NO is a separate private Release asset listed in
+`artifacts/CHECKPOINTS.json`; it is not included in a plain clone. From the
+repository root, download it with the authenticated account before running M2:
+
+```bash
+gh release download reference-checkpoints-20260913 --repo ArmstrongInCN/GIFT --pattern uno_terminal_epoch150.pt --dir artifacts/formal/uno
+python scripts/verify_checkpoints.py
+```
+
+No overwrite flag is used. If the file already exists, verify it instead;
+do not replace a mismatching file silently. The verifier checks all 16 catalogued
+reference files, not training or numerical acceptance. See [artifact details](../artifacts/README.md).
+M2 需要 FNO、U-NO、U-Net 的固定源码及终点权重。U-NO 须用有私有仓库访问权的账号
+单独下载；已有文件先校验，不覆盖。16 项文件校验通过不等于实验或从零训练通过。
 
 ```bash
 python -m experiments.formal.m2_recursive_prediction.run --output runs/m2 --device cuda
 ```
 
 M3 uses only GIFT and FNO; it does not require U-NO or U-Net sources/weights.
-M3 只需 GIFT 与 FNO，不受 U-NO 尚缺下载地址这一项阻断。
+M3 只需 GIFT 与 FNO，不需要下载 U-NO 附件。
 
 ```bash
 python -m experiments.formal.m3_cross_resolution.run --output runs/m3 --device cuda

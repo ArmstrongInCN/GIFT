@@ -54,8 +54,8 @@
       "bytes": 121928439,
       "sha256": "578186debbffea63afc0805b1a59db3f8f23e79202c8d272b8c45d21493021b4",
       "origin": "authoritative_experimental_reference",
-      "distribution": "private_github_release_asset_pending",
-      "download_url": null,
+      "distribution": "private_github_release_asset",
+      "download_url": "https://github.com/ArmstrongInCN/GIFT/releases/download/reference-checkpoints-20260913/uno_terminal_epoch150.pt",
       "candidate_full_budget_retraining_verified": false,
       "is_resume_checkpoint": false
     },
@@ -205,6 +205,6 @@
   "notes": [
     "Original nested manifests and training reports are historical provenance; they can name paths absent from the portable package.",
     "Raw data and sampling inputs are distributed separately, not under artifacts/.",
-    "A null download URL is unresolved, not a working download link."
+    "Ordinary Git files need no separate download URL. Private Release assets require authentication; a null URL on a separately distributed asset would remain unresolved."
   ]
 }
