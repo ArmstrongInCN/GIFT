@@ -1,5 +1,22 @@
 # Verification evidence / 验证证据
 
+The independent [full clean PINN-KC run](fresh_20260910/pinn_known_noise_000/README.md)
+completed all 31,000 NAdam updates, six STRidge rounds and the original L-BFGS
+limits in 3,388.355 s. Its 82 own-journal/export state tensors agree exactly,
+and **12/12 values** pass the original clean three-row comparison. This is
+single-condition tolerance-level acceptance, not bit-identical reference
+coefficients or full M1/open-mode acceptance. 无噪声KC完整训练的三行数值通过，
+不替代其余条件；先前1%噪声的两项失败仍保留。
+
+The [full standard clean generation](full_standard_20260913/README.md) completed
+all 270 trajectories from seeds/explicit initial conditions with actual own-run
+pause/resume, without reading reference fields. Integrity passed over all
+37,270 frames / 152,657,920 float32 values, but field comparison is **DIFFERENT**:
+aggregate relative L2 0.001559317, maximum absolute difference 0.802553177.
+No whole-field tolerance, first arithmetic cause or downstream acceptance is
+inferred. 完整标准数据生成与自身续算已完成，但数值不逐位相同；完整性通过不等于
+实验验收，下载数据和原报告未修改。
+
 The [full paired-noise check](full_noise_20260913/README.md) regenerated both
 conditions from the released clean input with actual same-attempt pause/resume.
 All 287,293,440 float32 values match the reference bitwise; independent formula,

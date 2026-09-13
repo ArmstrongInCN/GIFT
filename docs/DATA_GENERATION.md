@@ -4,9 +4,9 @@
 
 This entry point freshly integrates the Navier–Stokes equation from declared initial conditions. It does not load model weights or copy saved vorticity as newly generated truth. Data simulation, fresh model training, same-run model resume, and existing-result retrieval are distinct operations. The downloaded data package can be used directly for training.
 
-**当前生成→训练/正式评估尚未完成全量实测验收。** 下述生成与续算轻测试不等于科学验收通过。评估元数据、时间标签、组装入口及严格 released/regenerated profile 接入已实现；新数据必须经组装和显式 regenerated 门禁，不能仅移动文件或假冒原SHA。尚未全量新生成、组装或正式训练验收，详见文末“训练接入现状/限制”。
+**当前生成→训练/正式评估尚未完成全量实测验收。** 完整 standard 数据已从种子生成并实际暂停/续算，结构与来源核验通过，但全场数值与发布数据不同；见下方全量结果。评估元数据、时间标签、组装入口及严格 released/regenerated profile 接入已实现；新数据必须经组装和显式 regenerated 门禁，不能仅移动文件或假冒原SHA。其余完整清洁数据生成、全集合组装及基于该新集合的正式训练验收仍未完成。
 
-**Full real-data generation-to-training/evaluation acceptance is not yet demonstrated.** Generator metadata/time fixes, a create-only assembler and strict released/regenerated training profiles are implemented. Newly generated inputs require assembly and the explicit regenerated gate; moving files or pretending they have the released SHA is insufficient. Full-population generation, assembly and formal-budget acceptance remain untested.
+**Full real-data generation-to-training/evaluation acceptance is not yet demonstrated.** Full standard clean generation and actual same-attempt pause/resume passed integrity checks, but its field values differ from the released reference. Other full clean datasets, complete assembly and formal-budget training on that new collection remain unverified. Newly generated inputs require assembly and the explicit regenerated gate; moving files or pretending they have the released SHA is insufficient.
 
 ## 先做小样本 / Start with a pilot
 
@@ -72,6 +72,20 @@ Resume requires the same scientific configuration, device, runtime, and source h
 - Storage differs from historical containers: new H5 includes attempt/provenance metadata and parameter arrays. Therefore whole-file hashes are expected to differ. Dataset generation completion is not equivalent to experimental numerical acceptance. Original reference tables, tolerances, and observed failures are unchanged.
 
 ## 已实测范围与缺口 / Verified scope and remaining gaps
+
+### 完整 standard CPU 生成 / Full standard CPU generation
+
+2026-09-13，完整 270 条轨迹从种子与显式初值积分到 t=10，保留默认批次 50/20/200、内部 dt=0.005；未读取旧解场。首次进程在验证批次 step101 暂停，独立进程从自身频谱检查点续算完成，合计 1,539.401 秒。全量核验覆盖 37,270 帧、152,657,920 个 float32 值，耗时 12.437 秒；协议、时间轴、参数、有限性与来源/自身续算记录通过，数值状态为 **DIFFERENT**，不是科学验收 PASS。
+
+The full standard CPU attempt completed all 270 trajectories from seeds and explicit initial conditions, with an actual separate-process pause/resume and no reference-field input. Integrity passed over all 37,270 frames / 152,657,920 values; field comparison is **DIFFERENT**. Aggregate relative L2 differences are 0.001492774 (training), 0.001538171 (validation), 0.002302493 (test), and 0.001559317 overall. This uses the ratio of total squared errors to total squared reference values, not an average of per-frame ratios.
+
+全局最大绝对差为 0.802553177，位于 test ID1118、t=10；**该帧** relative L2 为 0.032325574，并非声称它是全局最大 relative L2。最早可观测差异仍在 training ID0、t=0（该帧最大绝对差 1.19209e-6）。未定位最早内部浮点运算的分歧，也未定义或放宽全场验收阈值；未用新数据完成下游训练/实验。求解器保持原字节，下载数据与原报告不变。完整来源与三组统计见 [全量证据](../validation/full_standard_20260913/README.md)。
+
+The largest absolute field difference is 0.802553177 at test ID1118, t=10; that frame's relative L2 is 0.032325574, not a claimed global maximum relative L2. The earliest observable mismatch remains at t=0. This does not locate the first differing arithmetic operation or establish downstream acceptance. No original report, input, solver or tolerance was changed. See the [full evidence](../validation/full_standard_20260913/README.md).
+
+### 早期有界测试 / Earlier bounded tests
+
+下述“尚未全量执行”描述仅适用于当时测试快照；后续 standard 全量执行见上节，其余清洁数据及新集合训练仍未验证。 The following unexecuted-full-run statements describe their historical snapshots; the later full standard result is separate evidence above.
 
 2026-09-10 首批 CPU 轻测试：5 项通过。验证了标准参数协议、输出路径保护、N64 单轨迹 8 步积分、3 步后同 attempt 恢复与连续积分逐项 bitwise 相同，以及 N96/N128 各一条轨迹一步积分。只读比较了训练50、验证20的 t0：最大绝对差均 `1.9073486328125e-6`；extra950 首条为 `1.1814699973911047e-6`。采用**运行前确定的初值诊断范围** atol=1e-5、rtol=1e-6；不是修改原实验数值验收门限，也不是逐比特一致。尚未执行完整2000步/全样本新生成，尚未用新生成数据完成完整训练/六实验验收。
 
