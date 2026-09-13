@@ -1,0 +1,30 @@
+{
+  "schema": "gift.portable-fresh-fno-experiment-manifest.v1",
+  "packaging_status": "complete",
+  "experiment": "M3",
+  "model_scope": "fresh_GIFT_FNO2D_FNO3D_only",
+  "numeric_acceptance": "PASS",
+  "whole_project_acceptance_verified": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1163,
+      "sha256": "EBBEEEA18C5F230963C71F0D8EA08A15349178776F08B883D4A0CAD3F9C02C3B"
+    },
+    {
+      "path": "comparison.json",
+      "bytes": 733,
+      "sha256": "96D5614F1C98CF9C385EC3B6E24F5A5038F69A20943408C5A1FEB0992836EF3A"
+    },
+    {
+      "path": "metrics.csv",
+      "bytes": 339813,
+      "sha256": "37792F99BB3D898E6DFAE69D86547D969BAE5B52A2EEF5F4B4D9CB96E87B5C29"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 65881,
+      "sha256": "720411E4EC1ADCEB09D58177D2277E50C35B35F557175E2550121E93697D30C7"
+    }
+  ]
+}

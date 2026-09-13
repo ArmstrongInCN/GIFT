@@ -1,0 +1,19 @@
+{
+  "schema": "gift.portable-training-evidence-manifest.v1",
+  "packaging_status": "complete",
+  "model": "fno2d",
+  "original_audit_sha256": "5BB97F839295796E55E6BB22F8159A1E8D398EAF313B66C105C03F811FE85064",
+  "scientific_acceptance_verified": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1539,
+      "sha256": "010BAD48DB89492D406EAB03211EF85858DCF84E487EFAFA7F02C10236049584"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 439761,
+      "sha256": "AAD6253C2B8B84106284009C53E4241F2150A26B1EE179CF6A0A4AF73CDE3251"
+    }
+  ]
+}

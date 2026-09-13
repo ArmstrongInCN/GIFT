@@ -1,0 +1,38 @@
+{
+  "schema": "gift.portable-pinn-evidence-manifest.v1",
+  "status": "complete",
+  "files": [
+    {
+      "path": "cpu_preservation.json",
+      "bytes": 31211,
+      "sha256": "33F1790BD55E928DEE2F7FCC8AB472F56AE8C913C65B2A241BE37ED2F8DD1918"
+    },
+    {
+      "path": "gpu_array_comparisons.json",
+      "bytes": 295418,
+      "sha256": "1565457F107BFAAF27C7B3B9D5334FE01271136BE521404B488547B01B607AA4"
+    },
+    {
+      "path": "gpu_resume.json",
+      "bytes": 4846,
+      "sha256": "9949E738765B35A006DA83265BF8AD0F139CF5B0337E82A0504C838210A37179"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2234,
+      "sha256": "35A8146851876E904741E595A37E881EA795A8EFA63A7D4D2D688D4D421ED9D3"
+    },
+    {
+      "path": "source_mapping.json",
+      "bytes": 7365,
+      "sha256": "3939B0798260261E095101B54A47E474BC701C6EAFF9C41945656E4105B5FE0A"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 4852,
+      "sha256": "D570E377939A952E76CB6052DDC08982844FC9D7B08C7AFB94CC8BA1C9723422"
+    }
+  ],
+  "scientific_acceptance": false,
+  "full_training_complete": false
+}

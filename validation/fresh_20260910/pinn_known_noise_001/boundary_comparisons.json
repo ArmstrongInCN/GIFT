@@ -1,0 +1,172 @@
+{
+  "pre5000": {
+    "original_record": {
+      "path": "${AUDIT_WORK}\\pinn_pre5000_comparisons\\comparison_01.json",
+      "bytes": 56399,
+      "sha256": "C1F7226C6B62FC26E55C48739C128A2DFA6905B9D4A496D4EDBB5AF964009166"
+    },
+    "status": "EXACT_PRE5000_MODEL_AND_OPTIMIZER",
+    "primary_tensors": 60,
+    "primary_exact_tensors": 60,
+    "primary_groups": {
+      "network": {
+        "compared": 18,
+        "exact": 18
+      },
+      "coefficients": {
+        "compared": 1,
+        "exact": 1
+      },
+      "nadam_m": {
+        "compared": 19,
+        "exact": 19
+      },
+      "nadam_v": {
+        "compared": 19,
+        "exact": 19
+      },
+      "beta": {
+        "compared": 2,
+        "exact": 2
+      },
+      "mask": {
+        "compared": 1,
+        "exact": 1
+      }
+    },
+    "diagnostic_accumulators_and_totals": {
+      "compared": 22,
+      "exact": 22
+    },
+    "fsm": {
+      "phase": "pre_lbfgs",
+      "phase_step": 0,
+      "round": 0,
+      "nadam_total": 5000,
+      "serial": 5000,
+      "l0_penalty": null,
+      "final_mask": false,
+      "stridge_records": [],
+      "lbfgs_summary": null
+    },
+    "input_hashes": {
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\pre_nadam_step_05000.index": "12E1FEC543CE80845CD82D8FF32058B8EDC940554571960AEFEA66265D0094CA",
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\pre_nadam_step_05000.data-00000-of-00001": "EEB1A6293F712E9E387BA9CB4A8B37B399DCE1D35421C272D80A98B57D373CD5",
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\pre_nadam_step_05000.meta": "AB72C326146AF0CBDB179573BC67F8DB9E657A9666DDEB893230DE44A1D18B7F",
+      "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\state_000005000\\state.json": "D7BF0AA283BF4CDE1939885AA6C11F645A49C3839E71FDB103646A5E4C6A07A0",
+      "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\state_000005000\\state.npz": "3A20AA518B046BB7726D4480094B8634698C12B8971FBCEC509B02496F606E47",
+      "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\RUN.json": "B1A19C8AC580A0ED9BB212C300A12E36B1CBD9B73B122F75445A5556AD7F24E9"
+    },
+    "checker_sha256": "F57C221A35A40081823EB1A411A8DC31EE4910823D509A2EEBF1F540B1EFEC76",
+    "original_summary": null,
+    "candidate_summary": null,
+    "summary_checks": null,
+    "original_note": "Loss/gradient in historical history line51 are pre-update; accumulators are reported separately, not primary equivalence.",
+    "historical_checkpoint_used_for_training": false,
+    "graphs_sessions_forward_gradient_created_by_boundary_checker": false
+  },
+  "after_pre_lbfgs": {
+    "original_record": {
+      "path": "${AUDIT_WORK}\\pinn_after_lbfgs_comparisons\\comparison_01.json",
+      "bytes": 58609,
+      "sha256": "0D2BE0C11449A3F8469E947349AA3B1D48F77510E59AFC7DE4BF4DD4A3BE99C3"
+    },
+    "status": "AFTER_LBFGS_DIFFERENCE",
+    "primary_tensors": 60,
+    "primary_exact_tensors": 41,
+    "primary_groups": {
+      "network": {
+        "compared": 18,
+        "exact": 0
+      },
+      "coefficients": {
+        "compared": 1,
+        "exact": 0
+      },
+      "nadam_m": {
+        "compared": 19,
+        "exact": 19
+      },
+      "nadam_v": {
+        "compared": 19,
+        "exact": 19
+      },
+      "beta": {
+        "compared": 2,
+        "exact": 2
+      },
+      "mask": {
+        "compared": 1,
+        "exact": 1
+      }
+    },
+    "diagnostic_accumulators_and_totals": {
+      "compared": 22,
+      "exact": 0
+    },
+    "fsm": {
+      "phase": "ado_stridge",
+      "phase_step": 0,
+      "round": 0,
+      "nadam_total": 5000,
+      "serial": 7781,
+      "l0_penalty": null,
+      "final_mask": false,
+      "stridge_records": [],
+      "lbfgs_summary": {
+        "task": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "counts": {
+          "iterations": 1356,
+          "evaluations": 1423,
+          "fg_requests": 1424,
+          "kernel_calls": 2781
+        },
+        "loss": 0.9482338565391261,
+        "converged": true
+      }
+    },
+    "input_hashes": {
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\after_pre_lbfgs.index": "B6D866F79F56D047BEF2D57F045C60D4B4D14643F522C4137C9A66D1B4A1E60F",
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\after_pre_lbfgs.data-00000-of-00001": "5C738DCF7F24D081AC41E92E71D184258D9E6E6EBA04334E4A9155E3D3973CE0",
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\after_pre_lbfgs.meta": "AB72C326146AF0CBDB179573BC67F8DB9E657A9666DDEB893230DE44A1D18B7F",
+      "${HISTORICAL_WORK}\\temporary_noise_comparison_v5_20260901\\pinnsr\\runs\\noise_001\\PINN-SR-KC\\attempt_002\\native_run\\history.jsonl": "A0B365E7F9FD7227A4F4D127D7F996CE3520B81A1CCF2BF24571293F850FA56B",
+      "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\state_000007781\\state.json": "CC8B4A718FB007145C51CFAF56860701350C73E8D81CC23B49B08A6DA39060CC",
+      "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\state_000007781\\state.npz": "B9CD21E46A5D3F2A6FCBA72A316B5A7710F982C50392A6F1FEE5AE05A64BC2DD",
+      "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\RUN.json": "B1A19C8AC580A0ED9BB212C300A12E36B1CBD9B73B122F75445A5556AD7F24E9"
+    },
+    "checker_sha256": "805F90F6146706AF230C41D9B77F80F7EDC7977A28A69D86FF323CCA215F4A31",
+    "original_summary": {
+      "function_evaluations": 1075,
+      "gradient_evaluations": 1075,
+      "iterations": 1046,
+      "loss": 1.0370837762271474,
+      "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+      "phase": "pre_lbfgs_summary",
+      "status": 0,
+      "success": true
+    },
+    "candidate_summary": {
+      "task": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+      "counts": {
+        "iterations": 1356,
+        "evaluations": 1423,
+        "fg_requests": 1424,
+        "kernel_calls": 2781
+      },
+      "loss": 0.9482338565391261,
+      "converged": true
+    },
+    "summary_checks": {
+      "loss_exact": false,
+      "iterations_equal": false,
+      "function_evaluations_equal": false,
+      "gradient_evaluations_equal": false,
+      "convergence_equal": true,
+      "termination_message_equal": true
+    },
+    "original_note": "Accumulator comparisons are diagnostic only; no objectives or intermediate trajectory were recomputed.",
+    "historical_checkpoint_used_for_training": false,
+    "graphs_sessions_forward_gradient_created_by_boundary_checker": false
+  },
+  "scope": "Recorded completed-boundary comparisons only; no intermediate objective was recomputed and no optimizer cause is established"
+}

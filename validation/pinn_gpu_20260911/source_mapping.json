@@ -1,0 +1,156 @@
+{
+  "original_bindings_record": {
+    "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\SOURCE_BINDINGS.json",
+    "bytes": 4306,
+    "sha256": "3F10D3D46D3568E906F275C79435E83B1829454C3E77471E442470A56F5BE7A6"
+  },
+  "preserved_cpu_record": {
+    "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\SOURCE_SNAPSHOT.json",
+    "bytes": 1931,
+    "sha256": "A62E1BA9EE91FB670B41A9EADB97BB567FF08A08466D9738E4AA0C9069940E46"
+  },
+  "historical_records_rewritten": false,
+  "current_candidate_matches_old_cpu_source_claimed": false,
+  "files": [
+    {
+      "project_relative_path": "training/train_pinn.py",
+      "historical_original_path": "${GIFT_REPO}\\training\\train_pinn.py",
+      "historical_original_sha256": "8B902415FEE75AE09B982212D21B6FFA85AAA8114069822C450C5718CE5920D3",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\training\\train_pinn.py",
+        "bytes": 27908,
+        "sha256": "8B902415FEE75AE09B982212D21B6FFA85AAA8114069822C450C5718CE5920D3"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\training\\train_pinn.py",
+        "bytes": 28055,
+        "sha256": "CD63DEF84DC7EF5EFEEC132CD754B734399CCA6BAD6AF0CAF694F8AEEE88F5BE"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\training\\train_pinn.py",
+        "bytes": 28055,
+        "sha256": "CD63DEF84DC7EF5EFEEC132CD754B734399CCA6BAD6AF0CAF694F8AEEE88F5BE"
+      }
+    },
+    {
+      "project_relative_path": "external_sources.json",
+      "historical_original_path": "${GIFT_REPO}\\external_sources.json",
+      "historical_original_sha256": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\external_sources.json",
+        "bytes": 5288,
+        "sha256": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\external_sources.json",
+        "bytes": 5288,
+        "sha256": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\external_sources.json",
+        "bytes": 5288,
+        "sha256": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD"
+      }
+    },
+    {
+      "project_relative_path": "training/__init__.py",
+      "historical_original_path": "${GIFT_REPO}\\training\\__init__.py",
+      "historical_original_sha256": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\training\\__init__.py",
+        "bytes": 77,
+        "sha256": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\training\\__init__.py",
+        "bytes": 77,
+        "sha256": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\training\\__init__.py",
+        "bytes": 77,
+        "sha256": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58"
+      }
+    },
+    {
+      "project_relative_path": "training/pinn_lbfgsb.py",
+      "historical_original_path": "${GIFT_REPO}\\training\\pinn_lbfgsb.py",
+      "historical_original_sha256": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\training\\pinn_lbfgsb.py",
+        "bytes": 12651,
+        "sha256": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\training\\pinn_lbfgsb.py",
+        "bytes": 12651,
+        "sha256": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\training\\pinn_lbfgsb.py",
+        "bytes": 12651,
+        "sha256": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2"
+      }
+    },
+    {
+      "project_relative_path": "adapters/pinn_runtime.py",
+      "historical_original_path": "${GIFT_REPO}\\adapters\\pinn_runtime.py",
+      "historical_original_sha256": "02A2FF0C8005964F4D932A9FB67E3A83A9B090FB756967B96AE4A1CB7D3ADD59",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\adapters\\pinn_runtime.py",
+        "bytes": 29391,
+        "sha256": "02A2FF0C8005964F4D932A9FB67E3A83A9B090FB756967B96AE4A1CB7D3ADD59"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\adapters\\pinn_runtime.py",
+        "bytes": 31432,
+        "sha256": "3A9E1A4FC3416384FAFE024C930A10D177A47BEB4640D1A5F5D920D337A56197"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\adapters\\pinn_runtime.py",
+        "bytes": 32309,
+        "sha256": "98F642C5CAFCD68F2A5B478CC7062342E6BD984CEEE44057ECA0ECEC5E83038F"
+      }
+    },
+    {
+      "project_relative_path": "adapters/pinn_stridge.py",
+      "historical_original_path": "${GIFT_REPO}\\adapters\\pinn_stridge.py",
+      "historical_original_sha256": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\adapters\\pinn_stridge.py",
+        "bytes": 10873,
+        "sha256": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\adapters\\pinn_stridge.py",
+        "bytes": 10873,
+        "sha256": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\adapters\\pinn_stridge.py",
+        "bytes": 10873,
+        "sha256": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB"
+      }
+    },
+    {
+      "project_relative_path": "adapters/__init__.py",
+      "historical_original_path": "${GIFT_REPO}\\adapters\\__init__.py",
+      "historical_original_sha256": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016",
+      "verified_preserved_cpu_source": {
+        "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\source\\adapters\\__init__.py",
+        "bytes": 540,
+        "sha256": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016"
+      },
+      "verified_gpu01_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\source\\adapters\\__init__.py",
+        "bytes": 540,
+        "sha256": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016"
+      },
+      "verified_gpu02_source": {
+        "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\source\\adapters\\__init__.py",
+        "bytes": 540,
+        "sha256": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016"
+      }
+    }
+  ]
+}

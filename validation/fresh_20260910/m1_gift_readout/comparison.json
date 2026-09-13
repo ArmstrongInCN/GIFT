@@ -1,0 +1,632 @@
+{
+  "schema": "gift.fresh-low-m1-readout-comparison.v1",
+  "status": "PASS",
+  "scope": "three_newly_trained_low_GIFT_models_CPU_parameter_readout",
+  "readout_training": false,
+  "forward": true,
+  "old_checkpoint_loaded": false,
+  "full_M1_fresh_acceptance": false,
+  "job_count": 3,
+  "parameter_rows": 9,
+  "comparisons": 36,
+  "exact_count": 9,
+  "failure_count": 0,
+  "tolerance": {
+    "atol": 0.0005,
+    "rtol": 0.05
+  },
+  "reference_sha256": "632A449D5F0CBCC505E4A668A8A8FE21C4762B67D1D806C0A6F3E24C9B2D4963",
+  "acceptance_sha256": "3150F94AF5D00D153BB7B784FDF8139D814AB3362086452D0A2F40952F1A645C",
+  "run_source_sha256": "3D95B7089ECE6242CDD95561B0D35E92091A9DF079F80AB23B44BFCC53F87E0E",
+  "evaluation_truth_used_only_after_readout": true,
+  "jobs": [
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "original_result_sha256": "B43E1D9C62E9EC292E07C0944ABE838DBEBF5B2782413CC862CA44906CA3C992",
+      "original_commit_sha256": "68F1EBEAC8104AFB2F5F0CA3B18B8D68B8D8E4C67C891C17A213E3AD206EC092",
+      "checkpoint_binding": {
+        "checkpoint_name": "gift_main.pt",
+        "checkpoint_sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4",
+        "verification_sha256": "D408F5AD3F78FD7AF17D69442FB6B8D33F706496C113D9A4566474FA74EF61D7",
+        "full_budget_training_evidence": "../gift_low_noise_000/verification.json"
+      },
+      "executed_identity": {
+        "method": "GIFT",
+        "condition": "noise_000",
+        "data": {
+          "relative_path": "standard_ns_n64_full_spectrum.h5",
+          "bytes": 528835376,
+          "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+        },
+        "checkpoint": {
+          "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4",
+          "bytes": 398482
+        },
+        "sources": {
+          "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+          "experiments/formal/m1_equation_identification/run.py": "3D95B7089ECE6242CDD95561B0D35E92091A9DF079F80AB23B44BFCC53F87E0E",
+          "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+          "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+          "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+        },
+        "runtime": {
+          "python": "3.10.19",
+          "numpy": "2.2.6",
+          "device": "cpu",
+          "thread_environment": {
+            "OMP_NUM_THREADS": "1",
+            "MKL_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1"
+          },
+          "scipy": "1.15.3",
+          "torch": "2.10.0+cu126",
+          "cuda": "12.6",
+          "matmul_tf32": false,
+          "cudnn_tf32": true,
+          "tf32_override": null,
+          "cublas_workspace_config": null,
+          "torch_threads": 1,
+          "gpu": null
+        },
+        "upstream_sha256": null
+      },
+      "parameters": {
+        "nu": 0.010048400828606757,
+        "beta": 0.995336659928854,
+        "gamma": 0.9996964612764327
+      },
+      "elapsed_seconds": 2.5725120000133757
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "original_result_sha256": "388E557AEF4C4D2991E6DD5BBAE41969799D62D1AA47F26B7BF8F5C768B1950D",
+      "original_commit_sha256": "A14C3F59936B0057BBA6CB1D5DCAD12D76DF5D9EAF1B7A4E6D491723A871DAF1",
+      "checkpoint_binding": {
+        "checkpoint_name": "gift_noise_001.pt",
+        "checkpoint_sha256": "65716CFB83749574ECC2BDA1DCAE33203CB067FA034C4DC792310ABCEABDBB07",
+        "verification_sha256": "DB49366FCF9814E96C07C6E4C94D70B5D1A5FE1EBE448B5E02367C604466ED4F",
+        "full_budget_training_evidence": "../gift_low_noise_001/verification.json"
+      },
+      "executed_identity": {
+        "method": "GIFT",
+        "condition": "noise_001",
+        "data": {
+          "relative_path": "m1_parameter_identification/noise_001.h5",
+          "bytes": 575065406,
+          "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+        },
+        "checkpoint": {
+          "sha256": "65716CFB83749574ECC2BDA1DCAE33203CB067FA034C4DC792310ABCEABDBB07",
+          "bytes": 397714
+        },
+        "sources": {
+          "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+          "experiments/formal/m1_equation_identification/run.py": "3D95B7089ECE6242CDD95561B0D35E92091A9DF079F80AB23B44BFCC53F87E0E",
+          "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+          "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+          "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+        },
+        "runtime": {
+          "python": "3.10.19",
+          "numpy": "2.2.6",
+          "device": "cpu",
+          "thread_environment": {
+            "OMP_NUM_THREADS": "1",
+            "MKL_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1"
+          },
+          "scipy": "1.15.3",
+          "torch": "2.10.0+cu126",
+          "cuda": "12.6",
+          "matmul_tf32": false,
+          "cudnn_tf32": true,
+          "tf32_override": null,
+          "cublas_workspace_config": null,
+          "torch_threads": 1,
+          "gpu": null
+        },
+        "upstream_sha256": null
+      },
+      "parameters": {
+        "nu": 0.00956392513062209,
+        "beta": 0.9912322814801907,
+        "gamma": 0.9996010390248926
+      },
+      "elapsed_seconds": 2.88696789999085
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "original_result_sha256": "78EC57672C3139CDAF6A7A5D0512DC46852053C83D45CC5641EE17475286ECF2",
+      "original_commit_sha256": "5FFDA439B3A6A076328B678748DE26C2471EBDCE374C620DA7DE00E1FA5B6D22",
+      "checkpoint_binding": {
+        "checkpoint_name": "gift_noise_010.pt",
+        "checkpoint_sha256": "D64F72B9418EE4A5A09DB9EF17F04F4B8784B8B8933EDAB1A589F422EAD44498",
+        "verification_sha256": "94DA1C537C56EBA99470796EC12456952BBA05A73D7268B829126BF2C82CD9D1",
+        "full_budget_training_evidence": "../gift_low_noise_010/verification.json"
+      },
+      "executed_identity": {
+        "method": "GIFT",
+        "condition": "noise_010",
+        "data": {
+          "relative_path": "m1_parameter_identification/noise_010.h5",
+          "bytes": 575065354,
+          "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
+        },
+        "checkpoint": {
+          "sha256": "D64F72B9418EE4A5A09DB9EF17F04F4B8784B8B8933EDAB1A589F422EAD44498",
+          "bytes": 392658
+        },
+        "sources": {
+          "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+          "experiments/formal/m1_equation_identification/run.py": "3D95B7089ECE6242CDD95561B0D35E92091A9DF079F80AB23B44BFCC53F87E0E",
+          "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+          "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+          "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+        },
+        "runtime": {
+          "python": "3.10.19",
+          "numpy": "2.2.6",
+          "device": "cpu",
+          "thread_environment": {
+            "OMP_NUM_THREADS": "1",
+            "MKL_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1"
+          },
+          "scipy": "1.15.3",
+          "torch": "2.10.0+cu126",
+          "cuda": "12.6",
+          "matmul_tf32": false,
+          "cudnn_tf32": true,
+          "tf32_override": null,
+          "cublas_workspace_config": null,
+          "torch_threads": 1,
+          "gpu": null
+        },
+        "upstream_sha256": null
+      },
+      "parameters": {
+        "nu": 0.003514771628396511,
+        "beta": 0.8022183727884036,
+        "gamma": 0.9921716747092413
+      },
+      "elapsed_seconds": 2.551198300003307
+    }
+  ],
+  "rows": [
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "estimate",
+      "candidate": 0.010048400828606757,
+      "published": 0.01004840084165195,
+      "exact": false,
+      "difference": 1.304519339773158e-11,
+      "allowed": 0.0010024200420825976,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "reference",
+      "candidate": 0.01,
+      "published": 0.01,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.001,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "absolute_error",
+      "candidate": 0.00004840082860675665,
+      "published": 0.00004840084165195005,
+      "exact": false,
+      "difference": 1.304519339773158e-11,
+      "allowed": 0.0005024200420825976,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "relative_error_percent",
+      "candidate": 0.4840082860675665,
+      "published": 0.4840084165195005,
+      "exact": false,
+      "difference": 1.304519339773158e-7,
+      "allowed": 0.024700420825975025,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "estimate",
+      "candidate": 0.995336659928854,
+      "published": 0.9953366697172102,
+      "exact": false,
+      "difference": 9.788356236661855e-9,
+      "allowed": 0.050266833485860515,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "reference",
+      "candidate": 1,
+      "published": 1,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.0505,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "absolute_error",
+      "candidate": 0.004663340071145994,
+      "published": 0.004663330282789757,
+      "exact": false,
+      "difference": 9.788356236661855e-9,
+      "allowed": 0.0007331665141394879,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "relative_error_percent",
+      "candidate": 0.4663340071145994,
+      "published": 0.4663330282789757,
+      "exact": false,
+      "difference": 9.788356236661855e-7,
+      "allowed": 0.023816651413948786,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "estimate",
+      "candidate": 0.9996964612764327,
+      "published": 0.9996964309071632,
+      "exact": false,
+      "difference": 3.036926954358421e-8,
+      "allowed": 0.05048482154535816,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "reference",
+      "candidate": 1,
+      "published": 1,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.0505,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "absolute_error",
+      "candidate": 0.00030353872356725375,
+      "published": 0.00030356909283679734,
+      "exact": false,
+      "difference": 3.036926954358421e-8,
+      "allowed": 0.0005151784546418398,
+      "passed": true
+    },
+    {
+      "condition": "noise_000",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "relative_error_percent",
+      "candidate": 0.030353872356725375,
+      "published": 0.030356909283679734,
+      "exact": false,
+      "difference": 0.000003036926954358421,
+      "allowed": 0.0020178454641839867,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "estimate",
+      "candidate": 0.00956392513062209,
+      "published": 0.009563925150209117,
+      "exact": false,
+      "difference": 1.9587026445222477e-11,
+      "allowed": 0.0009781962575104559,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "reference",
+      "candidate": 0.01,
+      "published": 0.01,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.001,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "absolute_error",
+      "candidate": 0.0004360748693779098,
+      "published": 0.00043607484979088333,
+      "exact": false,
+      "difference": 1.9587026445222477e-11,
+      "allowed": 0.0005218037424895442,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "relative_error_percent",
+      "candidate": 4.360748693779097,
+      "published": 4.360748497908833,
+      "exact": false,
+      "difference": 1.9587026400813556e-7,
+      "allowed": 0.21853742489544167,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "estimate",
+      "candidate": 0.9912322814801907,
+      "published": 0.9912322209735124,
+      "exact": false,
+      "difference": 6.050667833434886e-8,
+      "allowed": 0.050061611048675625,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "reference",
+      "candidate": 1,
+      "published": 1,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.0505,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "absolute_error",
+      "candidate": 0.008767718519809287,
+      "published": 0.008767779026487621,
+      "exact": false,
+      "difference": 6.050667833434886e-8,
+      "allowed": 0.0009383889513243811,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "relative_error_percent",
+      "candidate": 0.8767718519809287,
+      "published": 0.8767779026487621,
+      "exact": false,
+      "difference": 0.000006050667833434886,
+      "allowed": 0.044338895132438105,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "estimate",
+      "candidate": 0.9996010390248926,
+      "published": 0.9996010057493262,
+      "exact": false,
+      "difference": 3.327556641341545e-8,
+      "allowed": 0.05048005028746631,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "reference",
+      "candidate": 1,
+      "published": 1,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.0505,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "absolute_error",
+      "candidate": 0.0003989609751073875,
+      "published": 0.0003989942506738009,
+      "exact": false,
+      "difference": 3.327556641341545e-8,
+      "allowed": 0.0005199497125336901,
+      "passed": true
+    },
+    {
+      "condition": "noise_001",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "relative_error_percent",
+      "candidate": 0.03989609751073875,
+      "published": 0.03989942506738009,
+      "exact": false,
+      "difference": 0.0000033275566413415447,
+      "allowed": 0.0024949712533690045,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "estimate",
+      "candidate": 0.003514771628396511,
+      "published": 0.0035147716128853214,
+      "exact": false,
+      "difference": 1.551118955500641e-11,
+      "allowed": 0.0006757385806442661,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "reference",
+      "candidate": 0.01,
+      "published": 0.01,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.001,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "absolute_error",
+      "candidate": 0.006485228371603489,
+      "published": 0.006485228387114679,
+      "exact": false,
+      "difference": 1.551118955500641e-11,
+      "allowed": 0.0008242614193557339,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "nu",
+      "column": "relative_error_percent",
+      "candidate": 64.85228371603489,
+      "published": 64.85228387114678,
+      "exact": false,
+      "difference": 1.551118913312166e-7,
+      "allowed": 3.2431141935573393,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "estimate",
+      "candidate": 0.8022183727884036,
+      "published": 0.8022183355234387,
+      "exact": false,
+      "difference": 3.726496489164788e-8,
+      "allowed": 0.040610916776171936,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "reference",
+      "candidate": 1,
+      "published": 1,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.0505,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "absolute_error",
+      "candidate": 0.19778162721159642,
+      "published": 0.19778166447656131,
+      "exact": false,
+      "difference": 3.726496489164788e-8,
+      "allowed": 0.010389083223828068,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "beta",
+      "column": "relative_error_percent",
+      "candidate": 19.778162721159642,
+      "published": 19.778166447656133,
+      "exact": false,
+      "difference": 0.0000037264964909411447,
+      "allowed": 0.9894083223828066,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "estimate",
+      "candidate": 0.9921716747092413,
+      "published": 0.9921716728744288,
+      "exact": false,
+      "difference": 1.8348125241374191e-9,
+      "allowed": 0.05010858364372144,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "reference",
+      "candidate": 1,
+      "published": 1,
+      "exact": true,
+      "difference": 0,
+      "allowed": 0.0505,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "absolute_error",
+      "candidate": 0.00782832529075872,
+      "published": 0.007828327125571244,
+      "exact": false,
+      "difference": 1.8348125241374191e-9,
+      "allowed": 0.0008914163562785622,
+      "passed": true
+    },
+    {
+      "condition": "noise_010",
+      "method": "GIFT",
+      "parameter": "gamma",
+      "column": "relative_error_percent",
+      "candidate": 0.782832529075872,
+      "published": 0.7828327125571244,
+      "exact": false,
+      "difference": 1.834812524137419e-7,
+      "allowed": 0.03964163562785622,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "schema": "gift.full-pinn-kc-failed-acceptance-evidence.v1",
+  "execution_status": "COMPLETE",
+  "numeric_status": "FAIL",
+  "experiment": "M1_subset",
+  "condition": "noise_001",
+  "method": "PINN-SR-KC",
+  "scientific_acceptance": false,
+  "entire_M1_or_project_acceptance": false,
+  "training_from_untrained_initialization": true,
+  "cpu_checkpoint_loaded": false,
+  "execution_returncode": 0,
+  "training_elapsed_seconds": 3433.6004185676575,
+  "execution_checks": {
+    "source_and_input_hashes_unchanged": true,
+    "completed_files_exist": true,
+    "same_run_uuid": true
+  },
+  "actual_budget": {
+    "pre_nadam": 5000,
+    "rounds": 6,
+    "ado_nadam": 1000,
+    "post_nadam": 20000,
+    "lbf_maxiter": 10000,
+    "lbf_maxfun": 10000
+  },
+  "actual_nadam_updates": 31000,
+  "actual_stridge_rounds": 6,
+  "protocol": {
+    "amendment": "002",
+    "initialization_seed": 1234,
+    "float_graph": "float32",
+    "LBF_interface": "float64",
+    "chunk": 32768,
+    "pre": {
+      "learning_rate": 0.001,
+      "physics_weight": 1.0,
+      "l1_weight": 1e-07
+    },
+    "ado_and_post": {
+      "learning_rate": 0.0001,
+      "physics_weight": 2.0,
+      "l1_weight": 0.0
+    },
+    "all_nadam_updates": "joint_network_and_coefficients_same_optimizer",
+    "mask": "exact_nonzero_after_last_ADO_NAdam",
+    "post_LBF": false
+  },
+  "source_data_binding": {
+    "binding_sha256": "B6DDF9106498A5B9DE437EBF98A8083793ADD12667A2A5A14A6C960AE08FE7FB",
+    "sources": {
+      "training/train_pinn.py": "CD63DEF84DC7EF5EFEEC132CD754B734399CCA6BAD6AF0CAF694F8AEEE88F5BE",
+      "external_sources.json": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD",
+      "training/__init__.py": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58",
+      "training/pinn_lbfgsb.py": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2",
+      "adapters/pinn_runtime.py": "98F642C5CAFCD68F2A5B478CC7062342E6BD984CEEE44057ECA0ECEC5E83038F",
+      "adapters/pinn_stridge.py": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB",
+      "adapters/__init__.py": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016"
+    },
+    "inputs": {
+      "auxiliary/pinn_initialization/network_initialization_tf115_seed1234.npz": {
+        "sha256": "AB0834A1494D2D46E0CBC8A4E24D29DE91B5F10EAD97F7DB6990A0C302D990CB",
+        "bytes": 98817
+      },
+      "auxiliary/pinn_sampling/noise_001_seed1234.npz": {
+        "sha256": "091BF97BA7BAB923158B5E5F74DD1469381213EBC169A4BCD2633A52D92D09C3",
+        "bytes": 1152510
+      },
+      "m1_parameter_identification/noise_001.h5": {
+        "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC",
+        "bytes": 575065406
+      }
+    }
+  },
+  "profile": {
+    "python": "3.8.20",
+    "tensorflow": "2.10.0",
+    "numpy": "1.21.6",
+    "scipy": "1.7.3",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "dtype": "float32",
+    "device": "GPU:0",
+    "threads": 1,
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "TF_ENABLE_ONEDNN_OPTS": null,
+      "TF_DETERMINISTIC_OPS": null,
+      "CUDA_VISIBLE_DEVICES": "0",
+      "TF_FORCE_GPU_ALLOW_GROWTH": "true",
+      "NVIDIA_TF32_OVERRIDE": null,
+      "CUBLAS_WORKSPACE_CONFIG": null
+    },
+    "training_random_ops": false,
+    "gpu_details": {
+      "device_name": "NVIDIA RTX A5500 Laptop GPU",
+      "compute_capability": [
+        8,
+        6
+      ]
+    },
+    "cuda_build": "64_112",
+    "cudnn_build": "64_8",
+    "tensorflow_tf32": true,
+    "session": {
+      "gpu_count": 1,
+      "allow_growth": true,
+      "memory_fraction": 0.9,
+      "allow_soft_placement": true,
+      "intra_threads": 1,
+      "inter_threads": 1
+    },
+    "session_devices": [
+      "/job:localhost/replica:0/task:0/device:CPU:0",
+      "/job:localhost/replica:0/task:0/device:GPU:0"
+    ]
+  },
+  "terminal_fsm": {
+    "phase": "complete",
+    "phase_step": 0,
+    "round": 5,
+    "nadam_total": 31000,
+    "serial": 33788,
+    "l0_penalty": 0.5019281428744632,
+    "final_mask": true,
+    "lbfgs_summary": {
+      "task": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+      "counts": {
+        "iterations": 1356,
+        "evaluations": 1423,
+        "fg_requests": 1424,
+        "kernel_calls": 2781
+      },
+      "loss": 0.9482338565391261,
+      "converged": true
+    }
+  },
+  "terminal_values": {
+    "library": [
+      "w",
+      "advection",
+      "laplacian",
+      "q"
+    ],
+    "raw_coefficients": [
+      0.2805883586406708,
+      -0.687115490436554,
+      0.03135053813457489,
+      0.7839743494987488
+    ],
+    "mask": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "effective_coefficients": [
+      0.2805883586406708,
+      -0.687115490436554,
+      0.03135053813457489,
+      0.7839743494987488
+    ]
+  },
+  "parameters": {
+    "nu": 0.03135053813457489,
+    "beta": 0.687115490436554,
+    "gamma": 0.7839743494987488
+  },
+  "original_records": {
+    "${AUDIT_WORK}\\pinn_full_terminal_comparison_01\\execution.json": {
+      "bytes": 7181,
+      "sha256": "28391A7892B5E8625ACE09A289F8A1F9CE8A6D5635AC5651929EC9159D4B9D13"
+    },
+    "${AUDIT_WORK}\\pinn_gpu_launches_01\\full_first\\END.json": {
+      "bytes": 26554,
+      "sha256": "C6AEA9889B27AE5153796FF9C8793C605D130DDA2E054128B3D696731C43EF40"
+    },
+    "${AUDIT_WORK}\\pinn_pre5000_comparisons\\comparison_01.json": {
+      "bytes": 56399,
+      "sha256": "C1F7226C6B62FC26E55C48739C128A2DFA6905B9D4A496D4EDBB5AF964009166"
+    },
+    "${AUDIT_WORK}\\pinn_after_lbfgs_comparisons\\comparison_01.json": {
+      "bytes": 58609,
+      "sha256": "0D2BE0C11449A3F8469E947349AA3B1D48F77510E59AFC7DE4BF4DD4A3BE99C3"
+    }
+  },
+  "terminal_records": {
+    "COMPLETED.json": {
+      "bytes": 348,
+      "sha256": "0530EBD6E4AE85D1909A9C74D372FA0D25B89027EC75658BD50398ABE741CF5A"
+    },
+    "RUN.json": {
+      "bytes": 4594,
+      "sha256": "B1A19C8AC580A0ED9BB212C300A12E36B1CBD9B73B122F75445A5556AD7F24E9"
+    },
+    "result.json": {
+      "bytes": 145609,
+      "sha256": "F0A86560366C0CAE35F156571E5D2D4151A82E0E57FC7FEBD98E4A1DDA6EBD78"
+    },
+    "terminal_state.npz": {
+      "bytes": 405084,
+      "sha256": "771C24EE3016172D123BE29E71EA34DD33DE9A8882BA01AD205A79F0BC531E77"
+    }
+  },
+  "source_and_input_sha256": {
+    "${AUDIT_WORK}\\pinn_gpu_launches_01\\full_first\\START.json": "37ACDC9BED34C47D1F1C686A425D611E72207C12DD1BDCBF6E0EBB61738EADB5",
+    "${FORMAL_REFERENCE}\\experiments\\formal\\m1_equation_identification\\run.py": "0B4F094EFD39D966296B29B6D9D61F072E7BDA5273C3C3EE6B2026283BD5B533",
+    "${GIFT_REPO}\\results\\formal\\M1_equation_identification\\summary\\metrics.csv": "632A449D5F0CBCC505E4A668A8A8FE21C4762B67D1D806C0A6F3E24C9B2D4963",
+    "${GIFT_REPO}\\scripts\\compare_results.py": "96FDA329AADCC835464B9BF015B1012FB6376EECD875378B84346CD732CB0BA4",
+    "${GIFT_REPO}\\adapters\\pinn_reference.py": "2E1CD75B929C47CCDE01F3F06353A098F18F66EA7F7CFD7309F30DF50598E274",
+    "${GIFT_REPO}\\training\\train_pinn.py": "CD63DEF84DC7EF5EFEEC132CD754B734399CCA6BAD6AF0CAF694F8AEEE88F5BE",
+    "${GIFT_REPO}\\external_sources.json": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD",
+    "${GIFT_REPO}\\training\\__init__.py": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58",
+    "${GIFT_REPO}\\training\\pinn_lbfgsb.py": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2",
+    "${GIFT_REPO}\\adapters\\pinn_runtime.py": "98F642C5CAFCD68F2A5B478CC7062342E6BD984CEEE44057ECA0ECEC5E83038F",
+    "${GIFT_REPO}\\adapters\\pinn_stridge.py": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB",
+    "${GIFT_REPO}\\adapters\\__init__.py": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016",
+    "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\COMPLETED.json": "0530EBD6E4AE85D1909A9C74D372FA0D25B89027EC75658BD50398ABE741CF5A",
+    "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\result.json": "F0A86560366C0CAE35F156571E5D2D4151A82E0E57FC7FEBD98E4A1DDA6EBD78",
+    "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\terminal_state.npz": "771C24EE3016172D123BE29E71EA34DD33DE9A8882BA01AD205A79F0BC531E77",
+    "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\RUN.json": "B1A19C8AC580A0ED9BB212C300A12E36B1CBD9B73B122F75445A5556AD7F24E9",
+    "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\LATEST.json": "4E8F32CAA413AB30F289D1D4DB24E57C4AED745F6F7AF3FDEF0E16501EC7D43A",
+    "${AUDIT_WORK}\\pinn_gpu_launches_01\\full_first\\END.json": "C6AEA9889B27AE5153796FF9C8793C605D130DDA2E054128B3D696731C43EF40",
+    "${AUDIT_WORK}\\candidate_pinn_gpu_full\\noise_001_known\\state_000033788\\state.json": "CDA1A859D19840218AD079FDB12F7D72EF8270C87934CF326DC8454F3FDDB781",
+    "${GIFT_DATA_ROOT}\\auxiliary\\pinn_initialization\\network_initialization_tf115_seed1234.npz": "AB0834A1494D2D46E0CBC8A4E24D29DE91B5F10EAD97F7DB6990A0C302D990CB",
+    "${GIFT_DATA_ROOT}\\auxiliary\\pinn_sampling\\noise_001_seed1234.npz": "091BF97BA7BAB923158B5E5F74DD1469381213EBC169A4BCD2633A52D92D09C3",
+    "${GIFT_DATA_ROOT}\\m1_parameter_identification\\noise_001.h5": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC",
+    "${AUDIT_WORK}\\external\\pinn_sr\\Examples\\Discovery with Single Dataset\\Vorticity\\NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py": "C5AE04D1C9E220B912C5D0ABD89D03216B85649C08236F5B9A861F98198BA261",
+    "${AUDIT_WORK}\\external\\tensorflow115\\tensorflow\\contrib\\opt\\python\\training\\nadam_optimizer.py": "53F27B08755B11945E93045680FEEB2786DD7BD27078CDADDB4476F34475155E",
+    "${AUDIT_WORK}\\external\\tensorflow115\\tensorflow\\contrib\\opt\\python\\training\\external_optimizer.py": "38CE5DA0E31982FAAF86F5795027B9D2D3FB140D5D074FDB077F470FC002BA0B"
+  },
+  "original_comparison": {
+    "bytes": 1535,
+    "sha256": "62BB2F6AE79A97EF8DA677EA6C39E8CF14B8887F1E7A7280BA6EC8DBB31F42C7"
+  },
+  "terminal_readout_checker_sha256": "CFF0A5DD23898F7AC1EDF8568511CA6C02BDA5C4CD8DE70792423588FC023662",
+  "log_records": {
+    "stdout": {
+      "bytes": 10158,
+      "sha256": "15BB34EE38F913A44A13131FA376AD1699C41EB43DA2421B8FDF63DA2F383D08"
+    },
+    "stderr": {
+      "bytes": 2989,
+      "sha256": "9EDB1EE21FF914E322422349F46681D7EC48A560EADA4279FD893969FB1FC357"
+    }
+  },
+  "packaging_only": true,
+  "scientific_recalculation_or_model_calls": 0,
+  "weights_or_third_party_source_copied": false
+}

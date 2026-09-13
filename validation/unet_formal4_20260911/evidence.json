@@ -1,0 +1,178 @@
+{
+  "schema": "gift.unet-formal4-first-batch-evidence.v1",
+  "scope": "Historical B7 original control versus current candidate; one actual formal four-step batch only",
+  "status": "PASS_FORMAL4_FIRST_BATCH_ONLY",
+  "whole_training_cli_executed": false,
+  "full_epoch_executed": false,
+  "full_500_epoch_acceptance": false,
+  "scientific_acceptance": false,
+  "physical_batch": 20,
+  "history_frames": 46,
+  "recursive_steps": 4,
+  "accumulation": 1,
+  "optimizer_updates_per_side": 1,
+  "scheduler_advanced": false,
+  "published_trained_weights_loaded": false,
+  "native_backward_unchanged": true,
+  "precision_or_tolerance_changed": false,
+  "comparison_record": {
+    "bytes": 724,
+    "sha256": "A7102AA58DB07B3C2BE159F9D53290E1AC9A03F8DEC1820160DE2881801FBBFE"
+  },
+  "start_record": {
+    "bytes": 4098,
+    "sha256": "86FE042C4B10165FD8D0A53A06202C152882658878D0F52781BA9A6EECAC76A2"
+  },
+  "execution_records": {
+    "original_b7": {
+      "report": {
+        "bytes": 81300,
+        "sha256": "AE0C0678BE33B3B09B254E18751D2F5F63D6085344E62E1C088CC2C3A47F3F94"
+      },
+      "end": {
+        "bytes": 290,
+        "sha256": "B5E75C88B162EF1BA28176161E23F8C20E2E759B7AF6CCFA35DB1B3C35488F76"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      "returncode": 0,
+      "child_elapsed_seconds": 5.109768200010876,
+      "diagnostic_elapsed_seconds": 4.294119199999841,
+      "gpu_peak_allocated_bytes": 552814080
+    },
+    "candidate": {
+      "report": {
+        "bytes": 80853,
+        "sha256": "1483902E1D02C02A70C96B4E932D39DC78A51B1CFC1962B8BB3B8542AF3CF86E"
+      },
+      "end": {
+        "bytes": 288,
+        "sha256": "D6E0F6B73274683BEB7A2F9C90B2304B26DB1436FC3D211F17D97944C0189C4E"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      "returncode": 0,
+      "child_elapsed_seconds": 5.084747300003073,
+      "diagnostic_elapsed_seconds": 4.2660099000058835,
+      "gpu_peak_allocated_bytes": 552814080
+    }
+  },
+  "source_binding": {
+    "${B7_SNAPSHOT}\\baselines\\train_unet.py": "56E37F1DE073BD7F38C50FAF6AFE124B549DAF8BC3EF8593DFFA90AAF888F072",
+    "${B7_SNAPSHOT}\\benchmarks\\unet\\__init__.py": "B1C4F77DDD25E0DFEDD1974EECE0C5D7B0B68C930BF2E901AE843AD8975FDFDA",
+    "${B7_SNAPSHOT}\\benchmarks\\unet\\model.py": "53A0E205E2A61659B6D922F4622909DD913D51ACD42A1F5C07B3140AC0007383",
+    "${B7_SNAPSHOT}\\benchmarks\\unet\\upstream_229da3e\\U-net.py": "AE61376FCB70F063A59D8E8CBEFC6055D0AFF84C7AF06662A4AD8206D8CEF6D8",
+    "${B7_SNAPSHOT}\\scripts\\model_components.py": "696CE43C14915F7CA9D849AC2183D9BCC1CD7D4F0A5222DFBAEAC14D57913F23",
+    "${GIFT_REPO}\\training\\baseline_control.py": "7CDA8F5EE54EA16675464CD08B53370B7D309B550C6920B92F09C6DE6168999C",
+    "${GIFT_REPO}\\adapters\\models.py": "B79B8D750D80807F98CD118A0F3ABBF3C3DB3FF4FA3FBCC33B2BFE0ADE163524",
+    "${GIFT_REPO}\\training\\train_unet.py": "61A15714D60AF6207043AB42A68E5BFE5B1ECA1492E3576D760262751195791B",
+    "${GIFT_REPO}\\external_sources.json": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD",
+    "${GIFT_REPO}\\training\\checkpoints.py": "858309349D511E3C3F8853EC1C1549FB42AD8E576D9756842E09C6C62B72340C",
+    "${GIFT_REPO}\\adapters\\__init__.py": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016",
+    "${GIFT_REPO}\\training\\__init__.py": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58",
+    "${AUDIT_WORK}\\first_update_audit\\audit.py": "6C625D532D6A316DEA2173E2AB7DCEB5D0DD696AD64353ED8BCCAE44D20F2E04",
+    "${AUDIT_WORK}\\external\\unet\\Baselines\\U-net.py": "F7390A41DA24DD8DBC45F80D04ABEA81F4AAC8FFF14C4BCDC982A9EBDF59B237"
+  },
+  "bridge_source_sha256": "55B365CB9A050D87A37A4E9C4FC2869E7D5A64E83F4BA74756A9DE3A7BBDB06E",
+  "dataset": {
+    "relative_file": "fno/fno1000_n64_t0_t10_dt0p02.h5",
+    "sha256": "1322AD0A5BE67BCCAB2A93C55A5A5748F792F80F3A839032BCE888959D54E3EE",
+    "full_data_hash_checked_by_execution_before_and_after": true,
+    "full_data_not_reread_by_packager": true
+  },
+  "fixed_environment": {
+    "PYTHONHASHSEED": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "PYTHONBREAKPOINT": "0",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+    "OMP_NUM_THREADS": "1",
+    "OMP_DYNAMIC": "FALSE",
+    "MKL_NUM_THREADS": "1",
+    "MKL_DYNAMIC": "FALSE",
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "TF_ENABLE_ONEDNN_OPTS": "0",
+    "TF_FORCE_GPU_ALLOW_GROWTH": "true",
+    "TF_DETERMINISTIC_OPS": "1",
+    "TF_CUDNN_DETERMINISTIC": "1"
+  },
+  "removed_environment": [
+    "PYTHONHOME",
+    "PYTHONPATH",
+    "PYTHONPYCACHEPREFIX",
+    "PYTHONSTARTUP",
+    "PYTHONINSPECT",
+    "PYTHONUSERBASE",
+    "PYTHONWARNINGS",
+    "PYTHONOPTIMIZE",
+    "PYTHONSAFEPATH",
+    "PYTHONCASEOK",
+    "CUDA_VISIBLE_DEVICES",
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE",
+    "TF_XLA_FLAGS",
+    "XLA_FLAGS",
+    "KMP_AFFINITY",
+    "KMP_BLOCKTIME",
+    "KMP_DUPLICATE_LIB_OK",
+    "KMP_SETTINGS",
+    "ATEN_CPU_CAPABILITY",
+    "NPY_DISABLE_CPU_FEATURES",
+    "MKL_CBWR",
+    "MKL_ENABLE_INSTRUCTIONS",
+    "CUDA_DEVICE_MAX_CONNECTIONS",
+    "TORCH_CUDNN_V8_API_DISABLED",
+    "CUBLASLT_WORKSPACE_SIZE",
+    "TF_USE_LEGACY_KERAS",
+    "NVIDIA_TF32_OVERRIDE"
+  ],
+  "runtime": {
+    "torch": "2.10.0+cu126",
+    "numpy": "2.2.6",
+    "h5py": "3.16.0",
+    "cuda": "12.6",
+    "cudnn": 91002,
+    "gpu": "NVIDIA RTX A5500 Laptop GPU",
+    "threads": 1,
+    "interop_threads": 16,
+    "strict": true,
+    "warn_only": false,
+    "cudnn_tf32": true,
+    "matmul_tf32": false,
+    "cudnn_deterministic": true,
+    "benchmark": false
+  },
+  "original_preimport_precision_guard": {
+    "schema": "gift.runtime-precision-contract.v1",
+    "profile": "unet-cu126-published-conv-tf32",
+    "nvidia_tf32_override": {
+      "required": "absent",
+      "observed": null
+    },
+    "cudnn_allow_tf32": true,
+    "matmul_allow_tf32": false,
+    "strict_deterministic_algorithms": true,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "checked_before_torch_import": true
+  },
+  "backward_loss": 95.12290954589844,
+  "full_spacetime_metric": 23.802324295043945,
+  "tensor_digest_scope": "Complete tensor byte sequences/dtypes/shapes compared; matching descriptors stored once, not raw tensors",
+  "raw_weights_or_third_party_source_copied": false,
+  "packager_model_imports_or_scientific_calls": 0
+}

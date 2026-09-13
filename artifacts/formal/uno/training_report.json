@@ -1,0 +1,56 @@
+{
+  "schema": "gift.uno.training-report.v1",
+  "status": "complete",
+  "method": "U-NO",
+  "terminal_epoch": 150,
+  "optimizer_updates": 9450,
+  "model_parameter_count": 15290641,
+  "model_configuration": {
+    "history_steps": 46,
+    "periodic_coordinate_channels": 4,
+    "in_width": 50,
+    "width": 32,
+    "padding": 0,
+    "factor": 0.75,
+    "output_steps_per_call": 1
+  },
+  "source_binding": {
+    "repository": "https://github.com/ashiq24/UNO",
+    "commit": "19462d82729ef64ef7b9e97056ddcaaf3044ad47",
+    "license": "BSD-2-Clause",
+    "license_file": "benchmarks/uno/upstream_19462d82/LICENSE",
+    "license_sha256": "1C201A2EAB8570024E5A7CED20DBC1D19474254343DA84B06BF32AD4CCAEF895"
+  },
+  "training_data": {
+    "file": "data/fno/fno1000_n64_t0_t10_dt0p02.h5",
+    "sha256": "1322AD0A5BE67BCCAB2A93C55A5A5748F792F80F3A839032BCE888959D54E3EE",
+    "trajectory_ids": [[0, 49], [1200, 2149]],
+    "trajectory_count": 1000,
+    "time": {"start": 0.0, "stop": 10.0, "step": 0.02, "frames": 501},
+    "validation_or_test_used": false
+  },
+  "training": {
+    "seed": 0,
+    "history_steps": 46,
+    "closed_loop_steps": 20,
+    "teacher_forcing": false,
+    "window_start_indices": "0 through 435",
+    "window_start_count": 436,
+    "configured_batch_size": 16,
+    "batches_per_epoch": {"full_batches": 62, "last_batch_size": 8, "total": 63},
+    "optimizer": {"name": "U-NO Adam", "learning_rate": 0.001, "weight_decay": 0.00001},
+    "scheduler": {"name": "StepLR", "step_size_epochs": 100, "gamma": 0.5},
+    "activation_checkpointing": true,
+    "normalization": "none",
+    "objective": "sum of one-step relative L2 over trajectories and closed-loop steps"
+  },
+  "terminal_training_record": {
+    "mean_relative_l2_per_trajectory_step": 0.021599572920799254,
+    "learning_rate_used": 0.0005
+  },
+  "summed_epoch_seconds": 20261.441567000467,
+  "artifacts": {
+    "terminal_model": "uno_terminal_epoch150.pt",
+    "training_history": "training_history.csv"
+  }
+}

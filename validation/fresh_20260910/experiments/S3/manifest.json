@@ -1,0 +1,30 @@
+{
+  "schema": "gift.portable-fresh-gift-evidence-manifest.v1",
+  "status": "complete",
+  "experiment": "S3",
+  "model_scope": "fresh_GIFT_only",
+  "all_experiment_models_fresh": true,
+  "all_project_models_retrained": false,
+  "files": [
+    {
+      "path": "comparison.json",
+      "bytes": 724,
+      "sha256": "1D9C1894921DCC481B06875FC815167513104DFB7C01BD427A3475203B991C5D"
+    },
+    {
+      "path": "metrics.csv",
+      "bytes": 4144,
+      "sha256": "EC2E7E9376BE24BD0565F0EAA55BF3E871346D583E7A3EDD221064EEA3250844"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 18742,
+      "sha256": "EBFFAC58594D611C7ABE0E1945E99440FBFE51807E70A8E6912DEB29A335DE59"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1056,
+      "sha256": "81763071790A3558971F1A1745EA6F943B3B786C0580EA95F6D4E93268754C8E"
+    }
+  ]
+}

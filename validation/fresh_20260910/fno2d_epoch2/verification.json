@@ -1,0 +1,268 @@
+{
+  "schema": "gift.portable-partial-fno-audit.v1",
+  "model": "fno2d",
+  "status": "VALID_EPOCH2_RESUME_LOSSES_EXACT",
+  "original_audit_sha256": "8E00020AE4BE40FF460965176865A9AA90DBCFFBCD1C2B9127E281724A9A0939",
+  "completed_epochs": 2,
+  "configured_epochs": 500,
+  "own_run_resume_used": true,
+  "original_epoch1_preserved": true,
+  "formal_budget_completed": false,
+  "scientific_experiment_acceptance_verified": false,
+  "reference_weights_available": false,
+  "tolerances_used": false,
+  "source_identity": {
+    "configuration": {
+      "accumulation": 2,
+      "checkpoint_interval": 10,
+      "data_profile": "released",
+      "detach_rollout": false,
+      "epochs": 500,
+      "formal": true,
+      "history": 46,
+      "learning_rate": 0.001,
+      "micro_batch": 10,
+      "model": "fno2d",
+      "rollout": 150,
+      "scheduler_gamma": 0.5,
+      "scheduler_step": 100,
+      "seed": 0,
+      "selection": "terminal_epoch_not_validation",
+      "teacher_forcing": false,
+      "trajectories": 1000,
+      "weight_decay": 0.0001
+    },
+    "data": {
+      "bytes": 7152337473,
+      "dtype": "float32",
+      "provenance": {
+        "full_input_checks_performed": true,
+        "numerical_reproduction_verified": false,
+        "profile": "released",
+        "published_dataset_identity": true
+      },
+      "sha256": "1322ad0a5be67bccab2a93c55a5a5748f792f80f3a839032bce888959d54e3ee",
+      "sha256_verified": true,
+      "shape": [
+        1000,
+        501,
+        64,
+        64
+      ]
+    },
+    "data_file": "fno/fno1000_n64_t0_t10_dt0p02.h5",
+    "device": "cuda",
+    "kind": "gift.independent-baseline-training.v1",
+    "numerical_profile": {
+      "cublas_workspace_config": null,
+      "cuda": "12.6",
+      "cudnn": 91002,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "cudnn_tf32": true,
+      "deterministic": false,
+      "deterministic_warn_only": false,
+      "matmul_tf32": false,
+      "numpy": "2.2.6",
+      "python": "3.10.19",
+      "tf32_override": null,
+      "torch": "2.10.0+cu126"
+    },
+    "sources": {
+      "adapters/models.py": "b79b8d750d80807f98cd118a0f3abbf3c3db3ff4fa3fbcc33b2bfe0ade163524",
+      "external_sources.json": "6371f5c295cc2afc54b708ad2bdb182a4b98a9e4d34fee18b561636739bae7bd",
+      "training/baseline_control.py": "7cda8f5ee54ea16675464cd08b53370b7d309b550c6920b92f09c6de6168999c",
+      "training/checkpoints.py": "858309349d511e3c3f8853ec1c1549fb42ad8e576d9756842e09c6c62b72340c",
+      "training/train_fno2d.py": "5f44fc0cdeb435eb1dfb64265b9ba3771eaa299d34263c00cdecbe52e3e4630c"
+    },
+    "upstream": {
+      "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+      "family": "fno",
+      "repository": "https://github.com/neuraloperator/neuraloperator",
+      "source_sha256": {
+        "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+        "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+        "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "optimizer_updates": 50,
+      "processed_trajectories": 1000,
+      "backward_loss_mean_per_trajectory": 134.83111840820314,
+      "full_loss_mean_per_trajectory": 0.9056980443000794,
+      "sampled_start_min": 0,
+      "sampled_start_max": 305,
+      "learning_rate_used": 0.001,
+      "learning_rate_next": 0.001,
+      "epoch_seconds": 277.4910127000039,
+      "formal": true
+    },
+    {
+      "epoch": 2,
+      "optimizer_updates": 100,
+      "processed_trajectories": 1000,
+      "backward_loss_mean_per_trajectory": 118.62494018554688,
+      "full_loss_mean_per_trajectory": 0.8063657546043396,
+      "sampled_start_min": 0,
+      "sampled_start_max": 305,
+      "learning_rate_used": 0.001,
+      "learning_rate_next": 0.001,
+      "epoch_seconds": 188.6941085000144,
+      "formal": true
+    }
+  ],
+  "scalar_comparison": {
+    "epoch1_preserved_exactly": true,
+    "epoch1": {
+      "exact": true,
+      "fields": {
+        "backward_loss_mean_per_trajectory": {
+          "actual": 134.83111840820314,
+          "reference": 134.83111840820314,
+          "exact": true,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "full_loss_mean_per_trajectory": {
+          "actual": 0.9056980443000794,
+          "reference": 0.9056980443000794,
+          "exact": true,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        }
+      }
+    },
+    "epoch2": {
+      "exact": true,
+      "fields": {
+        "backward_loss_mean_per_trajectory": {
+          "actual": 118.62494018554688,
+          "reference": 118.62494018554688,
+          "exact": true,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "full_loss_mean_per_trajectory": {
+          "actual": 0.8063657546043396,
+          "reference": 0.8063657546043396,
+          "exact": true,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        }
+      }
+    }
+  },
+  "original_reference_rows": [
+    {
+      "epoch": "1",
+      "optimizer_updates": "50",
+      "processed_trajectories": "1000",
+      "optimizer_batches": "50",
+      "microbatches": "100",
+      "micro_batch_size": "10",
+      "effective_batch_size": "20",
+      "backward_loss_mean_per_trajectory": "134.83111840820314",
+      "full_spacetime_loss_mean_per_trajectory": "0.9056980443000794",
+      "learning_rate": "0.001",
+      "epoch_seconds": "143.86044569988735",
+      "mean_epoch_seconds_this_run": "143.8604518000502",
+      "estimated_remaining_seconds": "71786.36544822506",
+      "cuda_peak_allocated_bytes": "9413277696",
+      "cuda_peak_reserved_bytes": "10097786880"
+    },
+    {
+      "epoch": "2",
+      "optimizer_updates": "100",
+      "processed_trajectories": "1000",
+      "optimizer_batches": "50",
+      "microbatches": "100",
+      "micro_batch_size": "10",
+      "effective_batch_size": "20",
+      "backward_loss_mean_per_trajectory": "118.62494018554688",
+      "full_spacetime_loss_mean_per_trajectory": "0.8063657546043396",
+      "learning_rate": "0.001",
+      "epoch_seconds": "189.13910540007055",
+      "mean_epoch_seconds_this_run": "166.5020703499904",
+      "estimated_remaining_seconds": "82918.03103429521",
+      "cuda_peak_allocated_bytes": "9413277696",
+      "cuda_peak_reserved_bytes": "10097786880"
+    }
+  ],
+  "actual_audit_checks": {
+    "inputs_unchanged": true,
+    "released_data_full_sha_verified": true,
+    "cuda_initialized": false,
+    "model_state_tensor_count": 42,
+    "optimizer_tensor_count": 90,
+    "own_checkpoint_and_rng_checked": true,
+    "source_and_runtime_checked": true,
+    "own_normalizer_bitwise_preserved": null
+  },
+  "execution": {
+    "returncode": 0,
+    "harness_elapsed_seconds": 198.9830892086029,
+    "OMP_NUM_THREADS": "16",
+    "MKL_NUM_THREADS": "16",
+    "pretrained_model_loaded_for_training": false
+  },
+  "evidence_hashes": [
+    {
+      "role": "original_audit",
+      "sha256": "8E00020AE4BE40FF460965176865A9AA90DBCFFBCD1C2B9127E281724A9A0939"
+    },
+    {
+      "role": "execution_receipt",
+      "sha256": "1A7C2F571C45A3F20652F1CA2A4DD97852392A2FEF6C112875D350DBCBCC9FD1"
+    },
+    {
+      "role": "execution_log",
+      "sha256": "22139DAEF8EECB258D6F5AEA8B23821B9B51CDB90023B0BF6210B18A071EE0D4"
+    },
+    {
+      "role": "original_training_history_csv",
+      "path": "artifacts/fno/fno2d_training_history.csv",
+      "sha256": "6101604B6CA5CE0301777ACA66F55D97460C702DFBFCB289B075B10C52C68E27"
+    },
+    {
+      "role": "read_only_verifier",
+      "sha256": "4ECFE5BDF8384A3E89D3BED8E0105CA07A735575901F99804DEA2AFF6B30F689"
+    },
+    {
+      "role": "attempt",
+      "bytes": 3156,
+      "sha256": "2AB33C151FA62386B848CBE9F8769D1F08B6BC8FF8A4BDD3F59B2892828ED018"
+    },
+    {
+      "role": "own_checkpoint_epoch_1",
+      "bytes": 11182579,
+      "sha256": "AE252B485CA2DFBB2E21727AC71DA9A88499CC5BC00D806199398BA7BDF27BA1"
+    },
+    {
+      "role": "historical_latest_pointer_at_audit",
+      "bytes": 138,
+      "sha256": "6E6E7487A32D9B7761968BBA6460AC2C4E6D4AF7113B106CF4B299EA12642BE2"
+    },
+    {
+      "role": "own_checkpoint_epoch_2",
+      "bytes": 11182963,
+      "sha256": "B198E37F33BD47357FF2480F9FD91B54C3062689ECDB08FEC3F2F80221B3FF40"
+    },
+    {
+      "role": "prior_epoch1_audit",
+      "sha256": "52B5E5A4E002AA26D34C67BB9A263D2136C4110D60C63C9EAF198DFE489114A9"
+    }
+  ],
+  "publication_checks": {
+    "method": "stdlib_json_csv_sha_only",
+    "checkpoint_deserialized": false,
+    "data_rehashed_during_publication": false,
+    "training_or_forward_performed": false,
+    "immutable_checkpoint_hashes_rechecked": true,
+    "historical_latest_pointer_not_required_current": true,
+    "snapshot_boundary_evidence_only": true
+  },
+  "limitation": "Exact aggregate losses do not establish reference weight/gradient/trajectory equality or full 500-epoch acceptance. Thread counts come from the harness receipt, not the old journal identity."
+}

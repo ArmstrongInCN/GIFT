@@ -1,0 +1,92 @@
+{
+  "schema": "gift.portable-uno-first-epoch-evidence.v1",
+  "status": "VALID_EPOCH1_PAUSE_LOSS_DIFFERS",
+  "execution_status": "COMPLETE_AT_REQUESTED_EPOCH1_PAUSE",
+  "integrity_status": "PASS",
+  "training_loss_status": "DIFFERENT_NOT_BITEXACT",
+  "tolerance_used": false,
+  "formal_150_epoch_budget_completed": false,
+  "scientific_experiment_acceptance_verified": false,
+  "same_run_gpu_resume_actually_tested_by_this_record": false,
+  "execution": {
+    "training_process_returncode": 0,
+    "training_process_seconds": 66.06877990000066,
+    "epoch_seconds": 54.29825239999627,
+    "cpu_verifier_declared_returncode": 2,
+    "cpu_verifier_outer_powershell_returncode": 1,
+    "cpu_verifier_seconds": 10.184251400001813,
+    "returncode_scope": "Verifier code2 denotes valid integrity with differing aggregate loss, not an invalid checkpoint or a newly invented scientific tolerance gate."
+  },
+  "configuration": {
+    "model": "uno", "total_epochs": 150, "completed_epochs": 1,
+    "trajectories": 1000, "history": 46, "rollout": 20,
+    "physical_batch": 16, "last_batch": 8, "accumulation": 1,
+    "optimizer_updates": 63, "seed": 0, "data_profile": "released",
+    "optimizer": "pinned_upstream_Adam", "learning_rate": 0.001,
+    "weight_decay": 0.00001, "scheduler": "StepLR(100,0.5)",
+    "normalization": "none", "native_backward": true,
+    "teacher_forcing": false, "detach_rollout": false,
+    "checkpoint_interval": 10, "stop_after_epoch": 1,
+    "published_weights_used_for_training_or_verification": false
+  },
+  "checks": {
+    "source_and_receipt_hashes": true,
+    "released_input_complete_hash_and_schema": true,
+    "same_own_epoch0_and_epoch1_identity": true,
+    "model_tensors_each_boundary": 36,
+    "model_parameter_elements": 15290641,
+    "epoch0_initialization_matches_prior_fresh_hashes": true,
+    "epoch0_optimizer_moment_tensors": 0,
+    "epoch1_optimizer_moment_tensors": 72,
+    "all36_optimizer_cursors": 63,
+    "scheduler_last_epoch_0_to_1": true,
+    "python_numpy_torch_cpu_and_single_cuda_rng_present": true,
+    "history_matches_actual_stdout": true,
+    "committed_files_unchanged_during_check": true,
+    "cuda_initialized_by_checker": false,
+    "model_constructed_forward_training_or_rng_restore_by_checker": false
+  },
+  "loss_comparison": {
+    "independent_reference_scientific_losses": 1,
+    "candidate_recorded_per_trajectory_20step_sum": 11.766310146331787,
+    "candidate_derived_per_trajectory_step": 0.5883155073165893,
+    "reference_per_trajectory_step": 0.5883155637741089,
+    "exact": false,
+    "absolute_difference": 5.6457519548303026e-8,
+    "relative_difference": 9.596468804279432e-8,
+    "formula": "candidate stored per-trajectory sum /20",
+    "limitation": "Original CSV uses accumulated_error/(1000*20). The conversion is of the saved rounded mean, not exact reconstruction of its unsaved accumulator. The two identical candidate loss fields do not create two independent reference comparisons."
+  },
+  "actual_profile": {
+    "python": "3.10.19", "numpy": "2.2.6", "torch": "2.10.0+cu126",
+    "cuda": "12.6", "cudnn": 91002,
+    "torch_intraop_threads": 1, "torch_interop_threads": 16,
+    "OMP_NUM_THREADS": "24", "MKL_NUM_THREADS": null, "OPENBLAS_NUM_THREADS": null,
+    "NVIDIA_TF32_OVERRIDE": null, "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8", "cudnn_tf32": true,
+    "matmul_tf32": false, "cudnn_benchmark": false,
+    "cudnn_deterministic": true, "deterministic": true, "warn_only": true,
+    "historical_limitation": "The published full-run runtime block is missing. Earlier bounded reports did not capture all environment variables or interop threads; this is actual current provenance, not invented historical provenance."
+  },
+  "source_sha256": {
+    "training/baseline_control.py": "7CDA8F5EE54EA16675464CD08B53370B7D309B550C6920B92F09C6DE6168999C",
+    "training/checkpoints.py": "858309349D511E3C3F8853EC1C1549FB42AD8E576D9756842E09C6C62B72340C",
+    "training/train_uno.py": "1543E2D97AA6EF2149B1CD8DD3F9C3C1F7BA56D7232C0F1ADE05F05F0794352D",
+    "adapters/models.py": "B79B8D750D80807F98CD118A0F3ABBF3C3DB3FF4FA3FBCC33B2BFE0ADE163524",
+    "external_sources.json": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD"
+  },
+  "original_evidence_sha256": {
+    "cpu_verifier": "683662F00F3ECBC02E868D2E12BB1C412DD5E30470AA7E346911CBAC3265D19A",
+    "cpu_execution_json": "B4741EAFE0C14076ED978BB5D54B8A366E77FD6D80B796EECAD8D83BEF20C3B4",
+    "loss_comparison_csv": "24E65B1B757792E2C8CDC3B6327B34C6718169ED83C0B8A9CB8CFD8C4C8BE07D",
+    "training_launcher": "F566B7FBE4BB51404E5BA1932B30FB03FFC70367067C2486CBB2DC26E6C297E2",
+    "training_start": "9C553991FD976C3E581647CCAE8DEDF06350D2971F1A471084960D02EFDDF7F1",
+    "training_end": "FE810ABDF8A5A597FF5F278F1FB8D2C241E23AE5785AC114181AE8F6D53871E4",
+    "native_backward_warning_stderr": "57FCFE30C26AEC20F5F91019D006782E3E0B34D714EE033F7DC30E67F7D75D72",
+    "own_epoch0_state_not_distributed": "11F8E03F2243B1C6B609D8D52BE570154F9EBFDF714CB469A1713F5708B39E54",
+    "own_epoch1_state_not_distributed": "54B4D74A0149A17B63A7EE6873B0DB8B9269DEC64AF91FE769B815DCDA0A9BF6",
+    "original_training_history_csv": "6A505AD534733A2269F6C93006422914245DB7C65DA8A9473A08EE053E9B08FC",
+    "released_training_input": "1322AD0A5BE67BCCAB2A93C55A5A5748F792F80F3A839032BCE888959D54E3EE"
+  },
+  "scope": "Historical first-epoch snapshot only. Its LATEST value may advance during authorized same-run continuation. No checkpoint arrays, private absolute paths, run/device UUIDs or upstream source are distributed."
+}

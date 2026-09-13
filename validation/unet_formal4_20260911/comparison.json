@@ -1,0 +1,26 @@
+{
+  "status": "PASS_FORMAL4_FIRST_BATCH_ONLY",
+  "checks": {
+    "initial_state": true,
+    "cpu_rng": true,
+    "cuda_rng": true,
+    "permutation": true,
+    "starts": true,
+    "runtime": true,
+    "batch": true,
+    "loss": true,
+    "full_metric": true,
+    "forward_outputs": true,
+    "gradients": true,
+    "updated_state": true,
+    "optimizer_state": true,
+    "scheduler_state": true
+  },
+  "gradients_compared": 36,
+  "updated_states_compared": 60,
+  "comparison": "SHA256 of every complete tensor byte sequence, dtype, shape and full scalar metadata; no tolerance",
+  "full_epoch_executed": false,
+  "whole_training_cli_executed": false,
+  "scientific_acceptance": false,
+  "sources_and_data_unchanged": true
+}

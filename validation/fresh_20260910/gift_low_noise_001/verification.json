@@ -1,0 +1,29 @@
+{
+  "condition": "noise_001",
+  "thread_profile": "formal_threads16",
+  "terminal_and_formal_budget_checks": "PASS",
+  "training_performed": true,
+  "pretrained_model_loaded_for_training": false,
+  "reference_loaded_only_for_post_training_comparison": true,
+  "candidate_checkpoint_sha256": "65716cfb83749574ecc2bda1dcae33203cb067fa034c4dc792310abceabdbb07",
+  "reference_checkpoint_sha256": "ec56ea5f67f42524ac1b182e47f1b3ed27a22ab0754191c7324aadfcb1b9c022",
+  "state_tensors_compared": 21,
+  "bitwise_equal_tensors": 21,
+  "differences": [],
+  "full_experiment_acceptance_performed": false,
+  "training_report_sha256": "fec88bde367629c2b386cf517398bbb16139431b224eecd59d370cadfe96a033",
+  "terminal_journal_sha256": "78158028299216358a2fd6632c6964286e15a30c34e69855d4c62a6aff81de0a",
+  "input": {
+    "profile": "released",
+    "condition": "noise_001",
+    "file": "m1_parameter_identification/noise_001.h5",
+    "sha256": "97c5773290b5c50393ff64b7b42c021fd54f2bb429fc6d57cd4599f09f9818bc",
+    "bytes": 575065406,
+    "full_input_checks_performed": true,
+    "published_dataset_identity": true,
+    "numerical_reproduction_verified": false
+  },
+  "model_configuration_equal": true,
+  "original_verification_sha256": "db49366fcf9814e96c07c6e4c94d70b5d1a5fe1ebe448b5e02367c604466ed4f",
+  "publication_scope": "fresh_full_low_training_and_exact_model_state_not_full_experiment_acceptance"
+}

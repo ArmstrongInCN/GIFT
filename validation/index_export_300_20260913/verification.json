@@ -1,0 +1,42 @@
+{
+  "schema": "gift.portable-index-export-check.v1",
+  "scope": "fixed_300_file_index_snapshot_existing_environment_cpu_tests",
+  "status": "PASS_SCOPED_CHECKS_WITH_EXPECTED_MISSING_UNO",
+  "snapshot_predates_this_evidence_package": true,
+  "file_count": 300,
+  "bytes": 215907464,
+  "git_blob_worktree_export_bytes_exact": true,
+  "index_sha256": "54F0FA5962AF24A2424BDAE7950BF4E11472CF7BA3955BA839E24399209F6141",
+  "source_result_sha256": "E8CE4D0454443241520ED0F71B89F59BFCD4A46B16563281FE69754647032736",
+  "source_inventory_sha256": "E4CE6A8821A73EE71D399204E27AE26DA0F4F055FE066517266A30437B59DDBF",
+  "source_harness_sha256": "5DE71F9AB68F3B8F115855909FCEF16A74DE2D978D98AEBC268799A47ED8085C",
+  "pytest": {
+    "returncode": 0,
+    "passed": 149,
+    "skipped": 25,
+    "warnings": 3,
+    "separately_reported_subtests_passed": 24,
+    "reported_seconds": 21.78,
+    "actual_junit_records": 174,
+    "junit_failures": 0,
+    "junit_errors": 0,
+    "junit_skipped": 25
+  },
+  "executed_exported_source_files": 75,
+  "module_origin_violations": [],
+  "cuda_initialized": false,
+  "tensorflow_imported": false,
+  "source_export_index_unchanged_during_test": true,
+  "checkpoint_verifier": {
+    "returncode": 1,
+    "status": "FAIL",
+    "passed": 15,
+    "total": 16,
+    "missing": ["artifacts/formal/uno/uno_terminal_epoch150.pt"]
+  },
+  "checkpoint_distribution_complete": false,
+  "clean_environment_installation_verified": false,
+  "github_clone_verified": false,
+  "scientific_training_or_full_inference_verified": false,
+  "scope_note": "Portable summary of the SHA-bound actual execution only; no rerun and no inference of whole-project acceptance. Subsequent evidence/documentation additions were not part of this exact export."
+}

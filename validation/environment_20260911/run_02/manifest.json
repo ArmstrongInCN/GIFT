@@ -1,0 +1,15 @@
+{
+  "schema": "gift.portable-evidence-manifest.v1",
+  "scope": "additional_default_cpu_suite_run_02_not_replacement_of_run_01",
+  "original_execution_sha256": "027E684287C0480EDC6E243399163B0D6615336C1A29E894361F3C4948DA2A3A",
+  "files": [
+    {"path": "verification.json", "bytes": 3681, "sha256": "E32B0136DA53D151F580AB8778506ED0B45E73099E3379EEA85922960B0497CD"},
+    {"path": "README.md", "bytes": 1622, "sha256": "93813A5DF4C77439C2EABDF12F0E6CC0EAA3710275CC1A576839A581BD7FCC77"}
+  ],
+  "earlier_records_verified_unchanged": [
+    {"path": "../verification.json", "sha256": "F80B225D34F970F380D42ED6B67A8BB083E87EA7C64C06F22F2EB09A82552193"},
+    {"path": "../README.md", "sha256": "3811733FD441D52A1361F1172D677481FB1779E179AA5CC0F1E5A30648104C15"},
+    {"path": "../manifest.json", "sha256": "946F54A563EE0845A7D12A06B5058F7B4ED8E53ED69EB943C308BD0070D1AB6C"}
+  ],
+  "full_scientific_acceptance_claimed": false
+}

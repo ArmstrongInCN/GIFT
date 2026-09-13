@@ -1,0 +1,99 @@
+{
+  "schema": "gift.s2.recorded-execution-identity-comparison.v1",
+  "scope": "Read-only comparison of the two completed EXPERIMENT.json identities and existing model verification records; no model loading or inference",
+  "numeric_acceptance": "FAIL",
+  "fresh_identity_record": {
+    "path": "${AUDIT_WORK}/fresh_gift_experiments/S2/EXPERIMENT.json",
+    "bytes": 6588,
+    "sha256": "B86422DD9283B2AE34444E250661275B538C2D00A19FE1E7D86F0762BBD5996C"
+  },
+  "prior_published_weight_quick_identity_record": {
+    "path": "${AUDIT_WORK}/candidate_quick/S2/EXPERIMENT.json",
+    "bytes": 6086,
+    "sha256": "14A9B6CFE5869659725DB5A3BAC918213C33AF00FE000E2E957A8D69F96D36B4"
+  },
+  "source": {
+    "entries": 16,
+    "equal_entries": 16,
+    "different_keys": [],
+    "full_maps": "trajectory_diagnostic.json"
+  },
+  "runtime": {
+    "entries": 20,
+    "equal_entries": 20,
+    "different_keys": [],
+    "equal_keys": [
+      "cublas_workspace_config", "cuda", "cudnn", "cudnn_benchmark",
+      "cudnn_deterministic", "cudnn_tf32", "deterministic",
+      "deterministic_warn_only", "machine", "matmul_tf32", "numpy",
+      "os", "processor", "python", "selected_gpu", "tf32_override",
+      "torch", "torch_build", "torch_interop_threads", "torch_threads"
+    ],
+    "comparison_performed_before_portable_redaction": true,
+    "private_gpu_uuid_and_build_paths_not_republished": true,
+    "portable_runtime_values": "provenance.json"
+  },
+  "config": {
+    "entries": 4,
+    "equal_keys": ["batch_size", "device"],
+    "equal_values": {"batch_size": 16, "device": "cuda"},
+    "different_keys": ["gift_model", "low_model"],
+    "difference": "Prior run selected default published artifacts (gift_model=[], low_model=null); fresh run supplied three explicit fresh high-model paths and one fresh low-model path. No other configuration field differs."
+  },
+  "inputs": {
+    "entries": 6,
+    "equal_records": ["fno_training", "standard_n64"],
+    "different_records": ["gift_20260820", "gift_20260821", "gift_20260822", "low_model"],
+    "data_sha256": {
+      "fno_training": "fbd23bc242b7db9bcbedf6bcb00e44a223f4b361384a24139be93c437128351a",
+      "standard_n64": "c3f21ef13d0c81713f2770fc67547c91bd5a793fa34a9eecc5c46537237fa8a5"
+    },
+    "model_sha256_pairs": {
+      "gift_20260820": {
+        "fresh": "cc4104778a89458d3d58fdd0fa192b7037cd0b06975ee16f67018225c3641dbe",
+        "prior": "3d37b05c5eba045c30c3b4a9e144fd9db8af99393bc0afc11ecc18a573d6751a"
+      },
+      "gift_20260821": {
+        "fresh": "2170d05fa5217ccbfd72f8b951b05408a623540ada122f590d7bbd0e5aa0756f",
+        "prior": "5159c9066aa17b00a26f5f8a8e6ba348e78c7d57dde8979a9bb9ad75cc09167e"
+      },
+      "gift_20260822": {
+        "fresh": "8c5271ff2805ae727b10ac660aa91e34effc948c924f39659732bf6b2f1b4989",
+        "prior": "4d521deb86d882af564fa50d5bc4a550a3ab4db82f6531050e2f5f20f6311a63"
+      },
+      "low_model": {
+        "fresh": "cbed9b888d5b1bf9c1c4779c845bb5224fadff0598090a9b793c54f445c0bae4",
+        "prior": "c8b4c783d3b69b2c51ce1f2e55185c22106512848c7ed5b4db8c58b94ff2080a"
+      }
+    }
+  },
+  "existing_model_state_comparisons": [
+    {
+      "path": "../../gift_low_noise_000/verification.json",
+      "sha256": "36FCDA795F8EBECA2757D576A8C48860232DDA267E511F453837839E3E2CC40B",
+      "state_tensors": 21,
+      "bitwise_equal_tensors": 21
+    },
+    {
+      "path": "../../gift_high_20260820/verification.json",
+      "sha256": "F43D7212E7C3DBEC20096FF8AA623ABB252E68B276F25668BF1508CBB4DCD04D",
+      "state_tensors": 27,
+      "bitwise_equal_tensors": 5
+    },
+    {
+      "path": "../../gift_high_20260821/verification.json",
+      "sha256": "9A134304F9D3BF12F5848000F70B5DBE5E025A2D4F7F7F6BEA69F731B7468EBF",
+      "state_tensors": 27,
+      "bitwise_equal_tensors": 5
+    },
+    {
+      "path": "../../gift_high_20260822/verification.json",
+      "sha256": "1D8D6C26A23E233267943EB9DFF3ADB0D7A9735BB5CAD350A76C84F522E57DBA",
+      "state_tensors": 27,
+      "bitwise_equal_tensors": 5
+    }
+  ],
+  "interpretation": "Recorded execution source, runtime and data agree. The low model file differs as a serialization but all 21 saved scientific state tensors match; the high model tensors are not all bitwise equal. These facts and the saved-metric ID1278 attribution do not locate the first differing floating-point operation or independently prove which high-model difference caused the six failures. No tolerance, reference value, trajectory selection or scientific parameter is changed.",
+  "added_after_initial_failure_package": true,
+  "initial_manifest_sha256": "46C1A5A638F971255CBE19F673307811FBBFE9199B9B5B27B8770EF8F34D6DD6"
+}

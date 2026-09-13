@@ -1,0 +1,27 @@
+{
+  "schema": "gift.portable-epoch-resume-evidence.v1",
+  "model": "fno2d",
+  "role": "epoch2_evidence_not_weights_journal_or_inputs",
+  "training_performed_in_original_run": true,
+  "own_run_resume_used": true,
+  "completed_epochs": 2,
+  "configured_epochs": 500,
+  "full_budget_completed": false,
+  "exact_aggregate_loss_count": 4,
+  "reference_weights_available": false,
+  "full_experiment_acceptance_performed": false,
+  "original_audit_sha256": "8E00020AE4BE40FF460965176865A9AA90DBCFFBCD1C2B9127E281724A9A0939",
+  "packager_sha256": "B4081B1F5D5E16449747AEB20F6C5070ED622E9D60B69F53CB1D4810DBD391AA",
+  "files": [
+    {
+      "path": "verification.json",
+      "bytes": 9080,
+      "sha256": "6BD813C52E3B10166F16CAB0CC84A51550DC13C2263CC9D890AA2EB57F42133B"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2059,
+      "sha256": "59C6ADD534B5F5B5A5BA289A4AA517B8E36A159720B0252FB060AFA7BABF49BF"
+    }
+  ]
+}

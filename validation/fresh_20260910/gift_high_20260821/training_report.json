@@ -1,0 +1,171 @@
+{
+  "schema": "gift.formal.high-frequency-branch-training.v2",
+  "status": "complete",
+  "experiment": "GIFT_high_frequency_branch_training",
+  "seeds": [
+    20260821
+  ],
+  "input": {
+    "raw_training_and_validation_data": {
+      "path": "${GIFT_DATA_ROOT}\\standard_ns_n64_full_spectrum.h5",
+      "bytes": 528835376,
+      "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+    },
+    "frozen_low_frequency_model": {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+      "bytes": 398482,
+      "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
+    },
+    "training_data": {
+      "profile": "released",
+      "condition": "noise_000",
+      "file": "standard_ns_n64_full_spectrum.h5",
+      "sha256": "c3f21ef13d0c81713f2770fc67547c91bd5a793fa34a9eecc5c46537237fa8a5",
+      "bytes": 528835376,
+      "full_input_checks_performed": true,
+      "published_dataset_identity": true,
+      "numerical_reproduction_verified": false
+    }
+  },
+  "continuation": {
+    "same_run_resume_used": false,
+    "published_high_branch_loaded": false,
+    "frozen_low_generator_selected_explicitly": true,
+    "saved_boundary": "end_of_each_derivative_epoch_short_epoch_or_long_stage"
+  },
+  "data_protocol": {
+    "validated_source_groups": {
+      "training": {
+        "trajectory_ids": [
+          0,
+          49
+        ],
+        "trajectory_count": 50,
+        "field_shape": [
+          50,
+          501,
+          64,
+          64
+        ],
+        "time_interval": [
+          0.0,
+          10.0
+        ]
+      },
+      "validation": {
+        "trajectory_ids": [
+          50,
+          69
+        ],
+        "trajectory_count": 20,
+        "field_shape": [
+          20,
+          501,
+          64,
+          64
+        ],
+        "time_interval": [
+          0.0,
+          10.0
+        ]
+      }
+    },
+    "training_ids": [
+      0,
+      49
+    ],
+    "validation_ids": [
+      50,
+      69
+    ],
+    "derivative": "fourth-order centred difference, dt=0.02",
+    "derivative_centres": "2, 7, ..., 497",
+    "training_derivative_samples": 5000,
+    "validation_derivative_samples": 2000,
+    "rollout_anchors_per_trajectory": [
+      0,
+      100,
+      200,
+      300,
+      400
+    ],
+    "rollout_target_steps": [
+      0,
+      5,
+      10,
+      20,
+      25,
+      30,
+      40,
+      50
+    ],
+    "higher_resolution_data_opened": false
+  },
+  "training_protocol": {
+    "model_config": {
+      "cutoff": 21,
+      "common_source_cutoff": 32,
+      "coefficient_cutoff": 12,
+      "dealiased_products": false,
+      "modes": 21,
+      "width": 20,
+      "layers": 4,
+      "decoder_width": 64,
+      "head": "transport"
+    },
+    "inputs": [
+      "complete state",
+      "Q21 state",
+      "same-state frozen P21 generator output"
+    ],
+    "target": "complete Q21 observed derivative",
+    "derivative_phase": {
+      "epochs": 18,
+      "batch_size": 16,
+      "optimizer": "AdamW(lr=1.5e-3, weight_decay=1e-6)",
+      "scheduler": "CosineAnnealingLR(18, eta_min=1e-4)"
+    },
+    "short_rollout_phase": {
+      "epochs": 2,
+      "batch_size": 5,
+      "optimizer": "AdamW(lr=2e-4, weight_decay=1e-6)"
+    },
+    "long_rollout_phase": {
+      "independent_single_epoch_stages": 2,
+      "batch_size": 5,
+      "optimizer_reset_each_stage": true,
+      "sample_order_reset_each_stage": true,
+      "optimizer": "AdamW(lr=8e-5, weight_decay=1e-6)",
+      "truncated_BPTT_segment_steps": 10
+    },
+    "selection": "strictly lower N64 validation lead=1 full-field relative L2; earliest wins ties",
+    "known_equation_terms": [],
+    "test_data_used": false
+  },
+  "scales": {
+    "complete_state_rms": 4.338481675388491,
+    "q21_state_rms": 0.10380685442709411,
+    "frozen_low_rhs_rms": 9.70306073997447,
+    "q21_rhs_rms": 1.2550774824306983
+  },
+  "per_seed": {
+    "20260821": {
+      "selection": {
+        "phase": "lead_1_truncated_rollout_stage_2",
+        "epoch": 1,
+        "metric": "N64 validation lead=1 full-field relative L2",
+        "value": 0.02606633439892903,
+        "strictly_lower_earliest_tie_break": true,
+        "qualification_threshold": 0.1,
+        "qualification_passed": true
+      },
+      "model": {
+        "path": "gift_seed_20260821.pt",
+        "bytes": 11313298,
+        "sha256": "2170D05FA5217CCBFD72F8B951B05408A623540ADA122F590D7BBD0E5AA0756F"
+      }
+    }
+  },
+  "wall_seconds": 717.9935531000083,
+  "cuda_bitwise_determinism_enforced": false
+}

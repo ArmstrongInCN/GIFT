@@ -1,0 +1,104 @@
+{
+  "schema": "gift.portable-pinn-device-and-preservation-evidence.v1",
+  "scope": "Known/KC GPU bounded validation and separate interrupted CPU journal preservation",
+  "full_training_complete": false,
+  "scientific_acceptance": false,
+  "open_mode_verified": false,
+  "cpu_to_gpu_resume_performed": false,
+  "weights_or_raw_arrays_included": false,
+  "third_party_code_included": false,
+  "packaging_graph_forward_training_gpu_calls": 0,
+  "original_records": {
+    "prior_failed_gate1": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_01\\gate1_01\\RESULT.json",
+      "bytes": 92639,
+      "sha256": "3CA72C31D74114E12BB35FB50444DABE55413CE432A9A9803D6F460618921B18"
+    },
+    "gate1": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\gate1_01\\RESULT.json",
+      "bytes": 286816,
+      "sha256": "9E7E7C4485312A2FD96C0B685622C21E3C72942123C985FD260E39A5CCA779A9"
+    },
+    "gate2": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\gate2_01\\RESULT.json",
+      "bytes": 8224,
+      "sha256": "C8E60EB443E130D02FF5744DB5AA9591DD0EA190D584D4A42F4CE3C4A18D514C"
+    },
+    "gate3": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\gate3_01\\RESULT.json",
+      "bytes": 136858,
+      "sha256": "E847105DFA10C880DFCC218F28969C105E5A5EC9F7E42EAB6623C0F2B6FA384E"
+    },
+    "cpu_restore": {
+      "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\RESTORE_RESULT.json",
+      "bytes": 19902,
+      "sha256": "22E77744ABFFD62C30D4B7C112E2C9034568D6F09FD72FF8363CE9ECA704937A"
+    },
+    "cpu_archive": {
+      "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\ARCHIVE_MANIFEST.json",
+      "bytes": 8001,
+      "sha256": "EFDEAC52B32CFF6F74874C18ADF9DF55E283966F5CEC92B09F3F968450E2FCBD"
+    },
+    "cpu_archive_restore": {
+      "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\ARCHIVE_RESTORE_RESULT.json",
+      "bytes": 1612,
+      "sha256": "0014F7F8C3D867F45ADB3D2548DD40E55A468CBA4C64AC91046F063FC30C041F"
+    },
+    "cpu_sources": {
+      "path": "${AUDIT_WORK}\\pinn_cpu_preserved_01\\SOURCE_SNAPSHOT.json",
+      "bytes": 1931,
+      "sha256": "A62E1BA9EE91FB670B41A9EADB97BB567FF08A08466D9738E4AA0C9069940E46"
+    },
+    "gpu_sources": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\SOURCE_BINDINGS.json",
+      "bytes": 4306,
+      "sha256": "3F10D3D46D3568E906F275C79435E83B1829454C3E77471E442470A56F5BE7A6"
+    },
+    "cpu_original_end": {
+      "path": "${AUDIT_WORK}\\candidate_pinn_full\\noise_001_known_launch\\END.json",
+      "bytes": 423,
+      "sha256": "6D8B0991A5E658BBF901CC75ECFB840F95B229D74962F2730BD21084DA1EA474"
+    },
+    "gate1_script": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\check_gpu_graph.py",
+      "bytes": 17704,
+      "sha256": "16F035E00A3EC1943A911D9C9494A97F9BBBD59AEB1EF23446526F0345DB4A4B"
+    },
+    "gate2_script": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\check_gpu_resume.py",
+      "bytes": 9374,
+      "sha256": "36BC5D4B018C8714B127302EDEBD4A1A15E65ED6AC75F3AEC928A0116ADA24BE"
+    },
+    "gate3_script": {
+      "path": "${AUDIT_WORK}\\pinn_gpu_validation_02\\check_gpu_full_rows.py",
+      "bytes": 3696,
+      "sha256": "13C774B488538DF00A49DE541576ABC1546528E456B9749EE3272AAEEB7839ED"
+    }
+  },
+  "gpu01_failure_status": "GPU_GRAPH_DIFFERENCE_STOPPED",
+  "gpu02_gate1_status": "PASS_SMALL_KC_GPU_GRAPH_ONLY",
+  "gpu02_gate2_status": "PASS_TINY_KC_GPU_NEW_PROCESS_RESUME_ONLY",
+  "gpu02_gate3_status": "PASS_ONE_FULL_ROWS_KC_GPU_UPDATE_ONLY",
+  "sole_gpu01_to_gpu02_change": "KC-only known [4,1] mask static shape; no other runtime/controller/profile/scientific changes",
+  "precision_settings_modified": false,
+  "tolerance_used": false,
+  "gpu02_gate1_elapsed_seconds": 34.771554708480835,
+  "gpu02_gate3_elapsed_seconds": 19.396392583847046,
+  "cpu_original_exit": {
+    "returncode": 4294967295,
+    "elapsed_seconds": 8752.578000000009,
+    "utc": "2026-09-10T17:37:42.763512+00:00",
+    "child_pid": 28292,
+    "scientific_acceptance": false,
+    "source_pins_unchanged": true,
+    "extra_sources_unchanged": true,
+    "stdout_sha256": "B6C562298DA905E68CC0DBAB35321B371AEBD0F438478C753103AA7E393F23A4",
+    "stderr_sha256": "C158678D227D2D1CCEAE36D3EEE0FCB43BA145873F6F6754FD3ABF4CF94FC64D"
+  },
+  "cpu_stop_interpretation": "Intentional pause of incomplete full-budget CPU run; nonzero exit is preserved, not relabelled success",
+  "cpu_restore_status": "PASS_RELOCATED_CPU_RESTORE_ONLY",
+  "cpu_committed_nadam_updates": 2000,
+  "full_protocol_nadam_updates": 31000,
+  "historical_source_path_policy": "original_path describes past locations, not current file identity; originals verified against preserved CPU source, without modifying historical records",
+  "portability_changes": "Machine-local path prefixes replaced; personal GPU UUID omitted; original JSON hashes retained. Existing evidence was summarized, not rerun."
+}

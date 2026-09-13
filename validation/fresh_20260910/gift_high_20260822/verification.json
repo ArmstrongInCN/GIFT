@@ -1,0 +1,1396 @@
+{
+  "schema": "gift.fresh-high.post-terminal-audit.v1",
+  "seed": 20260822,
+  "helper": {
+    "path": "${AUDIT_WORK}\\check_fresh_high_gift.py",
+    "bytes": 23535,
+    "sha256": "3236FA6BA8C0A235445C09070FA63845A079FD7037F1B90F4A7518BBCD329D56"
+  },
+  "terminal_and_provenance_valid": true,
+  "scope": "CPU dictionary/tensor/hash comparison only; no training, forward, GPU, inference acceptance or catalogue promotion",
+  "tolerances_changed": false,
+  "scientific_experiment_acceptance_verified": false,
+  "execution_record": {
+    "path": "${AUDIT_WORK}\\candidate_training_logs\\formal16_high_seed_20260822_first_attempt.json",
+    "bytes": 947,
+    "sha256": "C34C1A5846C053E410271E23076A0E4ADFD92679E0A2B2770EB21C7223FB4066"
+  },
+  "run": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822",
+  "manifest_files": [
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\.writer.lock",
+      "bytes": 1,
+      "sha256": "5FECEB66FFC86F38D952786C6D696C79C2DBC239DD4E91B46729D73A27FB57E9"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\ATTEMPT.json",
+      "bytes": 3295,
+      "sha256": "9B530C040D1D426775751BBE116423413E02E2920B82341C95BE07C4022BE942"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_10_a6dad6454a354845ac93744e1527f9b3.pt",
+      "bytes": 45272137,
+      "sha256": "2BD1E736585F4B904757206BBE6533D9A3E61A1809368067E0F5CDAA3408F70F"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_11_89e47fcad50040439db6476e8efceb6b.pt",
+      "bytes": 45272265,
+      "sha256": "2543B766C129B183D89ADCA7C04DD138221D02A82F16104F6916B13CEC789295"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_12_f83580f97c04474cb65a4b1adf903f78.pt",
+      "bytes": 45272457,
+      "sha256": "86CD7E0B2E5E72FB26C63D2317A910BB13386284E5A7749B039DE7618963E51A"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_13_47c265043c3c4df9bc13deff3c344315.pt",
+      "bytes": 45272585,
+      "sha256": "50DE8DB766E078D42248AB5BFC64C2B2226AE22B2B975DC2B9EFEF792E786A8F"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_14_1b274d3a2adf48a2afbfcc1d1326b97a.pt",
+      "bytes": 45272713,
+      "sha256": "8380B7F2596BF4ECBEA474FBB6E7C57E77B1ABAA232F95242C13EE27F6D2E032"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_15_2624ac92c29140bc811f019c85c4af56.pt",
+      "bytes": 45272841,
+      "sha256": "1E74129402721949C3B0ABE4476823E4F3D17751AE9958EF7BFE4E429396B799"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_16_b5648b81f98e470da03c58739b8ba27d.pt",
+      "bytes": 45273033,
+      "sha256": "F8FF418019FDCE981DC29D4746F670C65D76BD9F8E475CA548D5BC36F2ABB609"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_17_6ae5a7dccbab4d5eb19e5c8cd624265a.pt",
+      "bytes": 45273161,
+      "sha256": "8EE6A2BA50F008D4B1736EA6ECC38FB4A89D8ED2CAF7E0AA4A4ECD3B20318654"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_18_f72300716a8e4a708eadd3fc32a2798f.pt",
+      "bytes": 45273289,
+      "sha256": "005108AB23D994832A3C6CEB1BEDBCF09B381F0B00C3EEDDA7318A46ABB77FAF"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_1_97b501fa479b42d9b9545ef1ed8d5b5b.pt",
+      "bytes": 45270857,
+      "sha256": "3DB38AEFC18213F4966E7A532C507447A504E5D2BEDAAFDBBEEEF7FD5906125A"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_2_98d9bab8b7374b809855153eb9a846ed.pt",
+      "bytes": 45270985,
+      "sha256": "59EFCE70E8959B4EC7DBE71F273CA9D786A1C981164E2836A3E02E6727525A16"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_3_a84fa77bbb4e41bca05a802d0f029a8b.pt",
+      "bytes": 45271177,
+      "sha256": "250168035251A8F1DCF7283BA729E5FF34E357282D12C2A05D63FED32A754B33"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_4_441dd44930c14dc3a6f1f23a9efe16f8.pt",
+      "bytes": 45271305,
+      "sha256": "97496C9E3F197BAEAAB25835E86E0BAE279A58624D6B64ECBA24BA6858BD0307"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_5_21b0ec710ead499282fe39dafc648f61.pt",
+      "bytes": 45271433,
+      "sha256": "A6F9D9607974C4A294F0CF72B514A4A29CD66400CE843BA2899DB3CDE53453DB"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_6_c7277a3a7c14400ca701a85e6a8908ea.pt",
+      "bytes": 45271561,
+      "sha256": "BECB86748965B4AFBFED87ED602A2BA0FC7D9E85E7061143AB9936120AAD113E"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_7_fbed59767a474bbaa053e8d7abf4f5dd.pt",
+      "bytes": 45271753,
+      "sha256": "2F16D8B45455F84C2BB8658FCF1E915D206DC0293AF8C21F501C30E2CD64C64F"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_8_adbe2d560fdb4565a5a023bcd94edcb8.pt",
+      "bytes": 45271881,
+      "sha256": "6AC2477449C52FB29C95CAE4C82F921E60EBA2FD3057E69C0A84823294287B43"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\derivative_9_d8673f649f564b87a7d7f8f051cf2c3f.pt",
+      "bytes": 45272009,
+      "sha256": "0AB769A750A0B05030BD305453E09FB1E329C7F8F9D19B47A8EAB86BD9353A1C"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\LATEST.json",
+      "bytes": 134,
+      "sha256": "2D6A82D1E0AED5138D05DD7F9F0DA4EE161F10CA5D8512A08843422039C1F701"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\long_1_5570a6a03ef04d6e89f40a88046be936.pt",
+      "bytes": 45273673,
+      "sha256": "006F2CDDF74096AD8BE9E624168AB7B10446C31B95632E18950410DE1C3859C9"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\long_2_8b416ea81dca4562b966f63f16f3e989.pt",
+      "bytes": 45273801,
+      "sha256": "6A35C4BE3A12F160DAF04CE028A5F375AAD0E66C75E0737267EC5C6497CD0CBA"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\short_1_a0645e43ddd24217927261d22e9843e4.pt",
+      "bytes": 45273417,
+      "sha256": "E27C98C9425C7FBDF5E9D8DCF40DC196F32C6CAA4AE7A692A39F7D8862711C59"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\checkpoints\\short_2_62d9c3485c4b4d57836c722e61d080ca.pt",
+      "bytes": 45273545,
+      "sha256": "CF6D8822E4D3855C641AB028877108F6A7DF5287252212F4240384D37A77336A"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\gift_seed_20260822.pt",
+      "bytes": 11313298,
+      "sha256": "8C5271FF2805AE727B10AC660AA91E34EFFC948C924F39659732BF6B2F1B4989"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\report.json",
+      "bytes": 4537,
+      "sha256": "279F1200B5D635C47BE7681B7E79E5EC7EC6F0BF59B8C4273B2CA08E8E78DFCE"
+    },
+    {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\training_history.csv",
+      "bytes": 2177,
+      "sha256": "A97B119A2AEB1428871B1D5F02FBAB23DC6F1747FB266E32ED88B4CA7CB97CB6"
+    }
+  ],
+  "runtime": {
+    "saved": {
+      "python": "3.10.19",
+      "numpy": "2.2.6",
+      "torch": "2.10.0+cu126",
+      "cuda": "12.6",
+      "cudnn": 91002,
+      "matmul_tf32": false,
+      "cudnn_tf32": true,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "deterministic": false,
+      "deterministic_warn_only": false,
+      "tf32_override": null,
+      "cublas_workspace_config": null
+    },
+    "expected": {
+      "python": "3.10.19",
+      "numpy": "2.2.6",
+      "torch": "2.10.0+cu126",
+      "cuda": "12.6",
+      "cudnn": 91002,
+      "matmul_tf32": false,
+      "cudnn_tf32": true,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "deterministic": false,
+      "deterministic_warn_only": false,
+      "tf32_override": null,
+      "cublas_workspace_config": null
+    },
+    "expectation_source": "current checker libraries and unmodified process backend defaults",
+    "thread_profile": "formal_threads16",
+    "training_identity": {
+      "data_sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5",
+      "device": "cuda",
+      "epochs": [
+        18,
+        2,
+        2
+      ],
+      "frozen_generator_sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4",
+      "gpu": "NVIDIA RTX A5500 Laptop GPU",
+      "h5py": "3.16.0",
+      "input_provenance": {
+        "bytes": 528835376,
+        "condition": "noise_000",
+        "file": "standard_ns_n64_full_spectrum.h5",
+        "full_input_checks_performed": true,
+        "numerical_reproduction_verified": false,
+        "profile": "released",
+        "published_dataset_identity": true,
+        "sha256": "c3f21ef13d0c81713f2770fc67547c91bd5a793fa34a9eecc5c46537237fa8a5"
+      },
+      "method": "GIFT-high",
+      "mkl_threads": "16",
+      "omp_threads": "16",
+      "scales": [
+        4.338481675388491,
+        0.10380685442709411,
+        9.70306073997447,
+        1.2550774824306983
+      ],
+      "seed": 20260822,
+      "sources": {
+        "experiments/formal/_shared/common.py": "15DCEA7A0FF498CD14803BF4EEA26CBF77D4F89A36517E56A119B09F781B6C76",
+        "experiments/formal/_shared/gift_generator_training.py": "5060A7C5644AFA25FED381F3702322FD1183D37BF587CAC6F30C9D15D7395151",
+        "experiments/formal/_shared/gift_runtime.py": "2CEB836B14915592FE6644CA4CAA7A567717EE097750BB12A7587C07A25F7D13",
+        "experiments/formal/_shared/high_frequency.py": "0941F76D64860EF6B52850D89DBBD01187087A6BEED64D5143D9FD7FD28CA15E",
+        "experiments/formal/train_gift_branches.py": "EB00DFEDADA7625E697376DE0721F3B68D92B31485CFE3AF748D7761829C62FB",
+        "scripts/assemble_generated_data.py": "0F5F34496245910078966946DA7D4E20E1D8F65D225E7865AE3A4076DB8EA1B9",
+        "scripts/generate_data.py": "E4D8129228A3B9928CEE0DB1EB27A35E2AB8E28312F1DC558572011EBF263C36",
+        "scripts/generate_noise.py": "7BE2DEDBE4D656EFDA1CC4946EE8A24EE2374D2F01688DD71235E47AB1FA74F1",
+        "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D",
+        "src/gift/__init__.py": "A2A63BD2E220F15DFD31679EC7512B0ECD408BD697EB8A95F0263EB204C14EE6",
+        "src/gift/identifiability.py": "DF2985767976ED9618260FF1BF068AFA88849655656013B67EEF97D048AA6959",
+        "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+        "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+        "src/gift/paths.py": "D8767F3C9FE4B9904BEA0553C405E676E5AED83C3E61F988C6F1C59AB74993C4",
+        "training/checkpoints.py": "858309349D511E3C3F8853EC1C1549FB42AD8E576D9756842E09C6C62B72340C",
+        "training/gift_data.py": "FD75DDF0FB5A60A5E577BFCB058E5C2D314A0B8432DD2A2D638676E8A0636936"
+      },
+      "torch_interop_threads": 16,
+      "torch_threads": 16
+    }
+  },
+  "own_low": {
+    "file": {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+      "bytes": 398482,
+      "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
+    },
+    "evidence": [
+      {
+        "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+        "bytes": 398482,
+        "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
+      },
+      {
+        "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\training_history.csv",
+        "bytes": 4974,
+        "sha256": "22A42E9CB2F5B5A70BEDAA98A19064409CA39D68EECCE86DA3314BE44235E7EA"
+      },
+      {
+        "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\training_report.json",
+        "bytes": 69136,
+        "sha256": "B63FD5DC55F559577A7373EDD3517C4ADD6F5014D2E71CDB74DBD740ECBEB0D6"
+      }
+    ],
+    "published_pretraining_loaded": false
+  },
+  "selection": {
+    "phase": "lead_1_truncated_rollout_stage_2",
+    "epoch": 1,
+    "metric": "N64 validation lead=1 full-field relative L2",
+    "value": 0.02621625503292307,
+    "strictly_lower_earliest_tie_break": true,
+    "qualification_threshold": 0.1,
+    "qualification_passed": true
+  },
+  "reference_comparison": {
+    "exact": false,
+    "state": {
+      "exact": false,
+      "missing_keys": [],
+      "extra_keys": [],
+      "tensor_count": 27,
+      "exact_tensor_count": 5,
+      "tensors": [
+        {
+          "key": "blocks.0.pointwise.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20
+          ],
+          "reference_shape": [
+            20
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 20,
+          "max_absolute_difference": 6.0498714447021484e-06,
+          "relative_l2_difference": 2.346012133026761e-05
+        },
+        {
+          "key": "blocks.0.pointwise.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "reference_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 400,
+          "max_absolute_difference": 1.7598271369934082e-05,
+          "relative_l2_difference": 3.415485576432026e-05
+        },
+        {
+          "key": "blocks.0.spectral.weight_negative",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.0003408182449584809,
+          "relative_l2_difference": 0.00014530587904787033
+        },
+        {
+          "key": "blocks.0.spectral.weight_positive",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.00018942957049312024,
+          "relative_l2_difference": 0.00014918205437628544
+        },
+        {
+          "key": "blocks.1.pointwise.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20
+          ],
+          "reference_shape": [
+            20
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 19,
+          "max_absolute_difference": 8.381903171539307e-06,
+          "relative_l2_difference": 1.7447079515949154e-05
+        },
+        {
+          "key": "blocks.1.pointwise.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "reference_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 400,
+          "max_absolute_difference": 2.3126602172851562e-05,
+          "relative_l2_difference": 5.738219278689597e-05
+        },
+        {
+          "key": "blocks.1.spectral.weight_negative",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.0003042099335044065,
+          "relative_l2_difference": 0.0002541824774729407
+        },
+        {
+          "key": "blocks.1.spectral.weight_positive",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176399,
+          "max_absolute_difference": 0.00035744411280782504,
+          "relative_l2_difference": 0.00024797457259268516
+        },
+        {
+          "key": "blocks.2.pointwise.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20
+          ],
+          "reference_shape": [
+            20
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 20,
+          "max_absolute_difference": 1.0579824447631836e-05,
+          "relative_l2_difference": 2.860927838992096e-05
+        },
+        {
+          "key": "blocks.2.pointwise.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "reference_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 400,
+          "max_absolute_difference": 2.5838613510131836e-05,
+          "relative_l2_difference": 6.301006798585406e-05
+        },
+        {
+          "key": "blocks.2.spectral.weight_negative",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.000353373264705903,
+          "relative_l2_difference": 0.00031382449019981334
+        },
+        {
+          "key": "blocks.2.spectral.weight_positive",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.00036004679397112413,
+          "relative_l2_difference": 0.00030336859438418064
+        },
+        {
+          "key": "blocks.3.pointwise.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20
+          ],
+          "reference_shape": [
+            20
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 19,
+          "max_absolute_difference": 1.1838972568511963e-05,
+          "relative_l2_difference": 3.9447893820740116e-05
+        },
+        {
+          "key": "blocks.3.pointwise.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "reference_shape": [
+            20,
+            20,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 400,
+          "max_absolute_difference": 4.0024518966674805e-05,
+          "relative_l2_difference": 8.205133438593774e-05
+        },
+        {
+          "key": "blocks.3.spectral.weight_negative",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.0004238857582766313,
+          "relative_l2_difference": 0.00038596241819298713
+        },
+        {
+          "key": "blocks.3.spectral.weight_positive",
+          "actual_dtype": "torch.complex64",
+          "reference_dtype": "torch.complex64",
+          "actual_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "reference_shape": [
+            20,
+            20,
+            21,
+            21
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 176400,
+          "max_absolute_difference": 0.0003741403306567558,
+          "relative_l2_difference": 0.0003804645016331874
+        },
+        {
+          "key": "decode1.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            64
+          ],
+          "reference_shape": [
+            64
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 64,
+          "max_absolute_difference": 4.844367504119873e-05,
+          "relative_l2_difference": 7.804359434115383e-05
+        },
+        {
+          "key": "decode1.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            64,
+            20,
+            1,
+            1
+          ],
+          "reference_shape": [
+            64,
+            20,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 1279,
+          "max_absolute_difference": 6.338953971862793e-05,
+          "relative_l2_difference": 5.605182838676879e-05
+        },
+        {
+          "key": "decode2.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            5
+          ],
+          "reference_shape": [
+            5
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 5,
+          "max_absolute_difference": 0.00844409316778183,
+          "relative_l2_difference": 0.03775636030971956
+        },
+        {
+          "key": "decode2.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            5,
+            64,
+            1,
+            1
+          ],
+          "reference_shape": [
+            5,
+            64,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 320,
+          "max_absolute_difference": 9.876489639282227e-05,
+          "relative_l2_difference": 3.48454266727513e-05
+        },
+        {
+          "key": "high_rhs_scale",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [],
+          "reference_shape": [],
+          "finite": true,
+          "exact": true,
+          "unequal_elements": 0,
+          "max_absolute_difference": 0.0,
+          "relative_l2_difference": 0.0
+        },
+        {
+          "key": "high_scale",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [],
+          "reference_shape": [],
+          "finite": true,
+          "exact": true,
+          "unequal_elements": 0,
+          "max_absolute_difference": 0.0,
+          "relative_l2_difference": 0.0
+        },
+        {
+          "key": "lift.bias",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20
+          ],
+          "reference_shape": [
+            20
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 19,
+          "max_absolute_difference": 3.293156623840332e-06,
+          "relative_l2_difference": 6.50757258866224e-06
+        },
+        {
+          "key": "lift.weight",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [
+            20,
+            3,
+            1,
+            1
+          ],
+          "reference_shape": [
+            20,
+            3,
+            1,
+            1
+          ],
+          "finite": true,
+          "exact": false,
+          "unequal_elements": 60,
+          "max_absolute_difference": 6.13480806350708e-05,
+          "relative_l2_difference": 3.935238016469638e-05
+        },
+        {
+          "key": "low_rhs_scale",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [],
+          "reference_shape": [],
+          "finite": true,
+          "exact": true,
+          "unequal_elements": 0,
+          "max_absolute_difference": 0.0,
+          "relative_l2_difference": 0.0
+        },
+        {
+          "key": "rate_scale",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [],
+          "reference_shape": [],
+          "finite": true,
+          "exact": true,
+          "unequal_elements": 0,
+          "max_absolute_difference": 0.0,
+          "relative_l2_difference": 0.0
+        },
+        {
+          "key": "state_scale",
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "actual_shape": [],
+          "reference_shape": [],
+          "finite": true,
+          "exact": true,
+          "unequal_elements": 0,
+          "max_absolute_difference": 0.0,
+          "relative_l2_difference": 0.0
+        }
+      ]
+    },
+    "scientific_payload_fields": {
+      "epoch": {
+        "exact": true,
+        "actual": 1,
+        "reference": 1
+      },
+      "equation_terms": {
+        "exact": true,
+        "actual": [],
+        "reference": []
+      },
+      "fixed_upper_output_cutoff": {
+        "exact": true,
+        "actual": null,
+        "reference": null
+      },
+      "high_rhs_scale": {
+        "exact": true,
+        "actual": 1.2550774812698364,
+        "reference": 1.2550774812698364
+      },
+      "high_scale": {
+        "exact": true,
+        "actual": 0.10380685329437256,
+        "reference": 0.10380685329437256
+      },
+      "low_rhs_scale": {
+        "exact": true,
+        "actual": 9.7030611038208,
+        "reference": 9.7030611038208
+      },
+      "memory_or_hidden_state": {
+        "exact": true,
+        "actual": false,
+        "reference": false
+      },
+      "method": {
+        "exact": true,
+        "actual": "GIFT",
+        "reference": "GIFT"
+      },
+      "model_config": {
+        "exact": true,
+        "actual": {
+          "cutoff": 21,
+          "common_source_cutoff": 32,
+          "coefficient_cutoff": 12,
+          "dealiased_products": false,
+          "modes": 21,
+          "width": 20,
+          "layers": 4,
+          "decoder_width": 64,
+          "head": "transport"
+        },
+        "reference": {
+          "cutoff": 21,
+          "common_source_cutoff": 32,
+          "coefficient_cutoff": 12,
+          "dealiased_products": false,
+          "modes": 21,
+          "width": 20,
+          "layers": 4,
+          "decoder_width": 64,
+          "head": "transport"
+        }
+      },
+      "phase": {
+        "exact": true,
+        "actual": "lead_1_truncated_rollout_stage_2",
+        "reference": "lead_1_truncated_rollout_stage_2"
+      },
+      "schema": {
+        "exact": true,
+        "actual": "gift.high_frequency_branch.parameters.v2",
+        "reference": "gift.high_frequency_branch.parameters.v2"
+      },
+      "seed": {
+        "exact": true,
+        "actual": 20260822,
+        "reference": 20260822
+      },
+      "selection_data_resolution": {
+        "exact": true,
+        "actual": 64,
+        "reference": 64
+      },
+      "selection_metric": {
+        "exact": false,
+        "actual": 0.02621625503292307,
+        "reference": 0.026216258860658856
+      },
+      "state_scale": {
+        "exact": true,
+        "actual": 4.338481903076172,
+        "reference": 4.338481903076172
+      },
+      "support": {
+        "exact": true,
+        "actual": {
+          "low_generator": "P21",
+          "learned_rhs": "complete Q21 through incoming-grid Nyquist support",
+          "common_explicit_source": "P22-P32",
+          "coefficient_logits": "P12 before nonlinear activation",
+          "modes_above_32": "state-conditioned local differential action"
+        },
+        "reference": {
+          "low_generator": "P21",
+          "learned_rhs": "complete Q21 through incoming-grid Nyquist support",
+          "common_explicit_source": "P22-P32",
+          "coefficient_logits": "P12 before nonlinear activation",
+          "modes_above_32": "state-conditioned local differential action"
+        }
+      },
+      "training_seed": {
+        "exact": true,
+        "actual": 20260822,
+        "reference": 20260822
+      }
+    },
+    "report_fields": {
+      "scales": {
+        "exact": true,
+        "actual": {
+          "complete_state_rms": 4.338481675388491,
+          "q21_state_rms": 0.10380685442709411,
+          "frozen_low_rhs_rms": 9.70306073997447,
+          "q21_rhs_rms": 1.2550774824306983
+        },
+        "reference": {
+          "complete_state_rms": 4.338481675388491,
+          "q21_state_rms": 0.10380685442709411,
+          "frozen_low_rhs_rms": 9.70306073997447,
+          "q21_rhs_rms": 1.2550774824306983
+        }
+      },
+      "selection": {
+        "exact": false,
+        "actual": {
+          "phase": "lead_1_truncated_rollout_stage_2",
+          "epoch": 1,
+          "metric": "N64 validation lead=1 full-field relative L2",
+          "value": 0.02621625503292307,
+          "strictly_lower_earliest_tie_break": true,
+          "qualification_threshold": 0.1,
+          "qualification_passed": true
+        },
+        "reference": {
+          "phase": "lead_1_truncated_rollout_stage_2",
+          "epoch": 1,
+          "metric": "N64 validation lead=1 full-field relative L2",
+          "value": 0.026216258860658856,
+          "strictly_lower_earliest_tie_break": true,
+          "qualification_threshold": 0.1,
+          "qualification_passed": true
+        }
+      }
+    },
+    "history": {
+      "exact": false,
+      "differences": [
+        {
+          "row": 2,
+          "field": "training_metric",
+          "actual": "0.48324260337352754",
+          "reference": "0.4832427032470703"
+        },
+        {
+          "row": 2,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.3391163445948623",
+          "reference": "0.3391165002687048"
+        },
+        {
+          "row": 2,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.5543704472999152",
+          "reference": "0.5543705759281273"
+        },
+        {
+          "row": 3,
+          "field": "training_metric",
+          "actual": "0.24496061869859695",
+          "reference": "0.24496064693927766"
+        },
+        {
+          "row": 3,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.27325957683991875",
+          "reference": "0.2732592290893663"
+        },
+        {
+          "row": 3,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.49763785211810085",
+          "reference": "0.4976375373260871"
+        },
+        {
+          "row": 4,
+          "field": "training_metric",
+          "actual": "0.1887335524201393",
+          "reference": "0.1887335147023201"
+        },
+        {
+          "row": 4,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.24708826546119236",
+          "reference": "0.2470883447691158"
+        },
+        {
+          "row": 4,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4732076679857932",
+          "reference": "0.47320773952284256"
+        },
+        {
+          "row": 5,
+          "field": "training_metric",
+          "actual": "0.1579397124528885",
+          "reference": "0.15793983927965163"
+        },
+        {
+          "row": 5,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.2320313329710334",
+          "reference": "0.2320315434191725"
+        },
+        {
+          "row": 5,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.45856302197585724",
+          "reference": "0.45856323006154615"
+        },
+        {
+          "row": 6,
+          "field": "training_metric",
+          "actual": "0.138115817630291",
+          "reference": "0.13811598278284073"
+        },
+        {
+          "row": 6,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.2189206974326371",
+          "reference": "0.21892109040189825"
+        },
+        {
+          "row": 6,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4454193931218229",
+          "reference": "0.4454197953352196"
+        },
+        {
+          "row": 7,
+          "field": "training_metric",
+          "actual": "0.12236627455949783",
+          "reference": "0.12236648448705673"
+        },
+        {
+          "row": 7,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.21364759370128014",
+          "reference": "0.21364763885727733"
+        },
+        {
+          "row": 7,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4400223291975485",
+          "reference": "0.4400223767880439"
+        },
+        {
+          "row": 8,
+          "field": "training_metric",
+          "actual": "0.111116301882267",
+          "reference": "0.11111630268096924"
+        },
+        {
+          "row": 8,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.2098744026968925",
+          "reference": "0.20987480330739344"
+        },
+        {
+          "row": 8,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.43611944177797685",
+          "reference": "0.4361198587550933"
+        },
+        {
+          "row": 9,
+          "field": "training_metric",
+          "actual": "0.10193484184145928",
+          "reference": "0.10193497712016106"
+        },
+        {
+          "row": 9,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.20602299324622436",
+          "reference": "0.2060230898027803"
+        },
+        {
+          "row": 9,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.43209929630122895",
+          "reference": "0.4320993949271966"
+        },
+        {
+          "row": 10,
+          "field": "training_metric",
+          "actual": "0.0943630469918251",
+          "reference": "0.09436309865713119"
+        },
+        {
+          "row": 10,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.20348135035057202",
+          "reference": "0.20348188387323898"
+        },
+        {
+          "row": 10,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4294256823921926",
+          "reference": "0.4294262487302397"
+        },
+        {
+          "row": 11,
+          "field": "training_metric",
+          "actual": "0.08784910653829575",
+          "reference": "0.08784923262596131"
+        },
+        {
+          "row": 11,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.2028594264298881",
+          "reference": "0.20285907026442873"
+        },
+        {
+          "row": 11,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.42876893259691673",
+          "reference": "0.4287685512867183"
+        },
+        {
+          "row": 12,
+          "field": "training_metric",
+          "actual": "0.08255555521845817",
+          "reference": "0.08255568675994873"
+        },
+        {
+          "row": 12,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.2000679381450318",
+          "reference": "0.2000681987878197"
+        },
+        {
+          "row": 12,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.42580863163505966",
+          "reference": "0.4258089074872764"
+        },
+        {
+          "row": 13,
+          "field": "training_metric",
+          "actual": "0.07821514322757721",
+          "reference": "0.07821527318954467"
+        },
+        {
+          "row": 13,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.19922750931345218",
+          "reference": "0.1992274898882315"
+        },
+        {
+          "row": 13,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4249133388659826",
+          "reference": "0.42491331670137383"
+        },
+        {
+          "row": 14,
+          "field": "training_metric",
+          "actual": "0.0745904601097107",
+          "reference": "0.07459059973955154"
+        },
+        {
+          "row": 14,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.1995785130474178",
+          "reference": "0.19957831640997029"
+        },
+        {
+          "row": 14,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4252874866467813",
+          "reference": "0.42528727533187627"
+        },
+        {
+          "row": 15,
+          "field": "training_metric",
+          "actual": "0.07167555208206176",
+          "reference": "0.07167567147016525"
+        },
+        {
+          "row": 15,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.1993448393552244",
+          "reference": "0.1993449180687021"
+        },
+        {
+          "row": 15,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.42503843953704135",
+          "reference": "0.4250385266027615"
+        },
+        {
+          "row": 16,
+          "field": "training_metric",
+          "actual": "0.06943481762409211",
+          "reference": "0.06943491529226303"
+        },
+        {
+          "row": 16,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.19896404245882876",
+          "reference": "0.19896393785215333"
+        },
+        {
+          "row": 16,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4246322833561837",
+          "reference": "0.42463217217630117"
+        },
+        {
+          "row": 17,
+          "field": "training_metric",
+          "actual": "0.06767392871379853",
+          "reference": "0.06767402161955834"
+        },
+        {
+          "row": 17,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.19919821132330254",
+          "reference": "0.19919797670412664"
+        },
+        {
+          "row": 17,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.42488209519126185",
+          "reference": "0.4248818425196123"
+        },
+        {
+          "row": 18,
+          "field": "training_metric",
+          "actual": "0.06636664512753486",
+          "reference": "0.06636673146486283"
+        },
+        {
+          "row": 18,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.19935304429948156",
+          "reference": "0.19935296209451916"
+        },
+        {
+          "row": 18,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.4250471855208549",
+          "reference": "0.4250470996963625"
+        },
+        {
+          "row": 19,
+          "field": "training_metric",
+          "actual": "0.06547699975371361",
+          "reference": "0.06547708278894425"
+        },
+        {
+          "row": 19,
+          "field": "validation_derivative_normalized_mse",
+          "actual": "0.19964860291983497",
+          "reference": "0.1996486079172755"
+        },
+        {
+          "row": 19,
+          "field": "validation_derivative_q21_global_relative_l2",
+          "actual": "0.42536215869947513",
+          "reference": "0.4253621601209958"
+        },
+        {
+          "row": 20,
+          "field": "validation_lead_1_full_relative_l2",
+          "actual": "0.028259109200444072",
+          "reference": "0.028259099891874938"
+        },
+        {
+          "row": 20,
+          "field": "validation_lead_1_q21_relative_l2",
+          "actual": "0.761512027233839",
+          "reference": "0.7615101137757301"
+        },
+        {
+          "row": 21,
+          "field": "training_metric",
+          "actual": "0.09368443010374904",
+          "reference": "0.09368430264294147"
+        },
+        {
+          "row": 21,
+          "field": "validation_lead_1_full_relative_l2",
+          "actual": "0.026752264795359224",
+          "reference": "0.026752275612670927"
+        },
+        {
+          "row": 21,
+          "field": "validation_lead_1_q21_relative_l2",
+          "actual": "0.6672840811312198",
+          "reference": "0.6672839541733265"
+        },
+        {
+          "row": 22,
+          "field": "training_metric",
+          "actual": "0.07957080490887165",
+          "reference": "0.07957076642662286"
+        },
+        {
+          "row": 22,
+          "field": "validation_lead_1_full_relative_l2",
+          "actual": "0.026619811712298543",
+          "reference": "0.026619856923352926"
+        },
+        {
+          "row": 22,
+          "field": "validation_lead_1_q21_relative_l2",
+          "actual": "0.6568247972428799",
+          "reference": "0.6568271127343178"
+        },
+        {
+          "row": 23,
+          "field": "training_metric",
+          "actual": "0.19437172732626393",
+          "reference": "0.19437220362325514"
+        },
+        {
+          "row": 23,
+          "field": "validation_lead_1_full_relative_l2",
+          "actual": "0.026321757407858967",
+          "reference": "0.02632176473736763"
+        },
+        {
+          "row": 23,
+          "field": "validation_lead_1_q21_relative_l2",
+          "actual": "0.6284371349215507",
+          "reference": "0.628436078876257"
+        },
+        {
+          "row": 24,
+          "field": "training_metric",
+          "actual": "0.17954941350035367",
+          "reference": "0.17954959084900715"
+        },
+        {
+          "row": 24,
+          "field": "validation_lead_1_full_relative_l2",
+          "actual": "0.02621625503292307",
+          "reference": "0.026216258860658856"
+        },
+        {
+          "row": 24,
+          "field": "validation_lead_1_q21_relative_l2",
+          "actual": "0.6177090737223625",
+          "reference": "0.6177086244523525"
+        }
+      ]
+    },
+    "reference_files": [
+      {
+        "path": "${GIFT_REPO}\\artifacts\\gift\\gift_seed_20260822.pt",
+        "bytes": 11312850,
+        "sha256": "4D521DEB86D882AF564FA50D5BC4A550A3AB4DB82F6531050E2F5F20F6311A63"
+      },
+      {
+        "path": "${GIFT_REPO}\\artifacts\\gift\\training_report.json",
+        "bytes": 4957,
+        "sha256": "C28EC44C176391B7ED24CEB374B7B39CC77103AAD616A5C55B90629A76770B1B"
+      },
+      {
+        "path": "${GIFT_REPO}\\artifacts\\gift\\training_history.csv",
+        "bytes": 6163,
+        "sha256": "A0EEFADFE39F5043A4010F55465C5D6BE6D4FF3389A2E116C969292997E7B7F0"
+      }
+    ],
+    "provenance_differences": {
+      "own_low_sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4",
+      "historical_low_sha256": "C8B4C783D3B69B2C51CE1F2E55185C22106512848C7ED5B4DB8C58B94FF2080A",
+      "new_fields": [
+        "training_data",
+        "data_profile"
+      ],
+      "note": "Do not require new artifact-file SHA to equal a historical serialization; compare every scientific state/config above."
+    }
+  },
+  "inputs_unchanged": true,
+  "cuda_initialized": false,
+  "status": "TERMINAL_VALID_REFERENCE_DIFFERENT_OR_UNQUALIFIED",
+  "original_audit_sha256": "280223ad9a8f5dc83dc292b615f866d050cf30fbbc2f043075b079e959384218",
+  "publication_scope": "fresh_full_high_training_with_recorded_state_differences_not_experiment_acceptance"
+}

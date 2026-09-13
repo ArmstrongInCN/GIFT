@@ -1,0 +1,453 @@
+{
+  "schema": "gift.portable-fresh-gift-experiment.v1",
+  "experiment": "S1",
+  "model_scope": "fresh_GIFT_only",
+  "all_experiment_models_fresh": true,
+  "all_project_models_retrained": false,
+  "inference_performed": true,
+  "training_performed_inside_experiment": false,
+  "package_training_performed": false,
+  "package_forward_performed": false,
+  "package_gpu_used": false,
+  "run_id": "b8520862531f4a9a8424bcce2e17e0e9",
+  "elapsed_seconds": 1236.8467977046967,
+  "execution_returncode": 0,
+  "harness_exit_code": 0,
+  "execution_record": {
+    "path": "${AUDIT_WORK}\\fresh_gift_experiment_logs\\S1_first_attempt.json",
+    "bytes": 9700,
+    "sha256": "22E2DFD0024AF935C535B4A5CF5E2B5AB5B231566A2A69842AD41BD855F4D0A9"
+  },
+  "attempt_record": {
+    "path": "${AUDIT_WORK}\\fresh_gift_experiments\\S1\\EXPERIMENT.json",
+    "bytes": 6884,
+    "sha256": "C0AAD1FAA0EC0A674B0388E44FFAD0F72E25677248E637290D66D3C37D74A33A"
+  },
+  "completion_records": {
+    "continuation.json": {
+      "path": "${AUDIT_WORK}\\fresh_gift_experiments\\S1\\continuation.json",
+      "bytes": 1462,
+      "sha256": "140CCF22D6D2366EAF8243ACF40A2118434F3F35ECB51F5A9438A2EED705434B"
+    },
+    "report.json": {
+      "path": "${AUDIT_WORK}\\fresh_gift_experiments\\S1\\report.json",
+      "bytes": 23936336,
+      "sha256": "2E2FCDDCB45541475DA2E9E95872B84EEBD42F6144A7C410E8E60241808C2DB9"
+    },
+    "manifest.json": {
+      "path": "${AUDIT_WORK}\\fresh_gift_experiments\\S1\\manifest.json",
+      "bytes": 8542,
+      "sha256": "ACDBA00791F7354C7BE1E761528F0AC45A4E085F3D78BF08BC9A07B5F8CE1F93"
+    }
+  },
+  "executed_command": [
+    "-B",
+    "-u",
+    "-m",
+    "experiments.formal.s1_high_frequency_branch.run",
+    "--project-root",
+    "${GIFT_REPO}",
+    "--output",
+    "${AUDIT_WORK}\\fresh_gift_experiments\\S1",
+    "--device",
+    "cuda",
+    "--low-model",
+    "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+    "--gift-model",
+    "20260820=${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260820\\gift_seed_20260820.pt",
+    "--gift-model",
+    "20260821=${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260821\\gift_seed_20260821.pt",
+    "--gift-model",
+    "20260822=${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\gift_seed_20260822.pt"
+  ],
+  "runtime": {
+    "cublas_workspace_config": null,
+    "cuda": "12.6",
+    "cudnn": 91002,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": false,
+    "cudnn_tf32": true,
+    "deterministic": false,
+    "deterministic_warn_only": false,
+    "machine": "AMD64",
+    "matmul_tf32": false,
+    "numpy": "2.2.6",
+    "os": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "python": "3.10.19",
+    "selected_gpu": {
+      "major": 8,
+      "minor": 6,
+      "multiprocessors": 58,
+      "name": "NVIDIA RTX A5500 Laptop GPU",
+      "total_memory": 17179344896
+    },
+    "tf32_override": null,
+    "torch": "2.10.0+cu126",
+    "torch_interop_threads": 16,
+    "torch_threads": 2,
+    "original_torch_build_text_sha256": "08c3a5ab5d12f778b780457a9ee8a3ca381616c6a7583716dd47e314ecd5a1d9"
+  },
+  "source_files": {
+    "experiments/__init__.py": "93ee043977a7dde15e0759a50f43a9c137229677ccb219b21f6253722412ed80",
+    "experiments/formal/__init__.py": "f7a044c53c6941fcc298120b969af3298666dc4ca5d08cfe67245af71dedd262",
+    "experiments/formal/_shared/__init__.py": "46087dacb1af884b584414db17a5ff2b5249ce51738469f5f02a013715167ce8",
+    "experiments/formal/_shared/common.py": "15dcea7a0ff498cd14803bf4eea26cbf77d4f89a36517e56a119b09f781b6c76",
+    "experiments/formal/_shared/gift_runtime.py": "2ceb836b14915592fe6644ca4caa7a567717ee097750bb12a7587c07a25f7d13",
+    "experiments/formal/_shared/high_frequency.py": "0941f76d64860ef6b52850d89dbbd01187087a6beed64d5143d9fd7fd28ca15e",
+    "experiments/formal/_shared/resume.py": "f073031571f8415656a5d9c54dc42011d4481642894c551fa074427b909a5148",
+    "experiments/formal/s1_high_frequency_branch/__init__.py": "8606fe9ed677ba7855ebb082901472d5e34bf55d0e9be403d67cd8565a55b63b",
+    "experiments/formal/s1_high_frequency_branch/run.py": "20a99a79da70be81a24fabaa659e22f79c9a05785aea4a5193fe3ad98679efa8",
+    "src/gift/__init__.py": "a2a63bd2e220f15dfd31679ec7512b0ecd408bd697eb8a95f0263eb204c14ee6",
+    "src/gift/identifiability.py": "df2985767976ed9618260ff1bf068afa88849655656013b67eef97d048aa6959",
+    "src/gift/identified.py": "f3efb36a0276def2bbbee1a5be589379d85abbee0082f30cb9d588744ec3df2b",
+    "src/gift/model.py": "c26ace74f419c4f58197bb6d6b7b0625cbbe368d0e4b7fdd443176b0108315b7",
+    "src/gift/paths.py": "d8767f3c9fe4b9904bea0553c405e676e5aed83c3e61f988c6f1c59ab74993c4",
+    "training/__init__.py": "9860d5327ef144a43867bd5f229738d7e416e964b3dc91590d9d931fcc83bd58",
+    "training/checkpoints.py": "858309349d511e3c3f8853ec1c1549fb42ad8e576d9756842e09c6c62b72340c"
+  },
+  "current_source_matches_executed_source": true,
+  "inputs": {
+    "cross_resolution": {
+      "path": "${GIFT_DATA_ROOT}\\cross_resolution\\cross_resolution_n96_n128_t4p1_t6p0_dt0p1.h5",
+      "bytes": 385148873,
+      "sha256": "A89CC73170EF4F84FD7AA07776496D40901E485636D11A26C839513AB915FC88"
+    },
+    "dense_n64": {
+      "path": "${GIFT_DATA_ROOT}\\fair_short_horizon\\standard_ns_n64_full_spectrum_test_t4p1_t6p0_dt0p1.h5",
+      "bytes": 65511992,
+      "sha256": "55B7DA895481EC4FD832FF82DDFAF02AABCD261762685FAA9C287B1EEE480477"
+    },
+    "gift_20260820": {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260820\\gift_seed_20260820.pt",
+      "bytes": 11313298,
+      "sha256": "CC4104778A89458D3D58FDD0FA192B7037CD0B06975EE16F67018225C3641DBE"
+    },
+    "gift_20260821": {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260821\\gift_seed_20260821.pt",
+      "bytes": 11313298,
+      "sha256": "2170D05FA5217CCBFD72F8B951B05408A623540ADA122F590D7BBD0E5AA0756F"
+    },
+    "gift_20260822": {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\gift_seed_20260822.pt",
+      "bytes": 11313298,
+      "sha256": "8C5271FF2805AE727B10AC660AA91E34EFFC948C924F39659732BF6B2F1B4989"
+    },
+    "low_model": {
+      "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+      "bytes": 398482,
+      "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
+    },
+    "standard_n64": {
+      "path": "${GIFT_DATA_ROOT}\\standard_ns_n64_full_spectrum.h5",
+      "bytes": 528835376,
+      "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+    }
+  },
+  "external_sources": {},
+  "config": {
+    "derivative_batch_size": 64,
+    "device": "cuda",
+    "gift_model": [
+      "20260820=${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260820\\gift_seed_20260820.pt",
+      "20260821=${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260821\\gift_seed_20260821.pt",
+      "20260822=${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\gift_seed_20260822.pt"
+    ],
+    "low_model": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+    "rollout_batch_size": 8
+  },
+  "training_prerequisites": {
+    "low": {
+      "training_receipt": {
+        "file": {
+          "path": "${AUDIT_WORK}\\candidate_training_logs\\formal16_low_noise_000_first_attempt.json",
+          "bytes": 822,
+          "sha256": "9249E1388944F167252FB31D24D691A52F32837E4D7B5FF62B592B0EA96AFD70"
+        },
+        "own_training_resume": false
+      },
+      "evidence": {
+        "manifest": {
+          "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\manifest.json",
+          "bytes": 2350,
+          "sha256": "080EAB3555B096A63CECFCDA66D5A1373F7B4C4AE76FAE1E3E0213C52187D81B"
+        },
+        "files": {
+          "gift_main.pt": {
+            "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\gift_main.pt",
+            "bytes": 398482,
+            "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
+          },
+          "training_report.json": {
+            "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\low_noise_000\\training_report.json",
+            "bytes": 69136,
+            "sha256": "B63FD5DC55F559577A7373EDD3517C4ADD6F5014D2E71CDB74DBD740ECBEB0D6"
+          }
+        }
+      }
+    },
+    "high": {
+      "20260820": {
+        "training_receipt": {
+          "file": {
+            "path": "${AUDIT_WORK}\\candidate_training_logs\\formal16_high_seed_20260820_first_attempt.json",
+            "bytes": 947,
+            "sha256": "54D3B3DD6E6B717D39433F2950DAF6E0F996DE07843D51091BD125528C14FB93"
+          },
+          "own_training_resume": false
+        },
+        "evidence": {
+          "manifest": {
+            "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260820\\manifest.json",
+            "bytes": 5440,
+            "sha256": "1D610CD889132E0750C8FD49A2A0584F0781FF71DE1F7922945D006216A6F0D9"
+          },
+          "files": {
+            "report.json": {
+              "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260820\\report.json",
+              "bytes": 4538,
+              "sha256": "60ABEB3A516D0D21BEC7B71180686622835894C81F7A15F2F99BC16B76069D7B"
+            },
+            "gift_seed_20260820.pt": {
+              "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260820\\gift_seed_20260820.pt",
+              "bytes": 11313298,
+              "sha256": "CC4104778A89458D3D58FDD0FA192B7037CD0B06975EE16F67018225C3641DBE"
+            }
+          }
+        },
+        "selection": {
+          "phase": "lead_1_truncated_rollout_stage_2",
+          "epoch": 1,
+          "metric": "N64 validation lead=1 full-field relative L2",
+          "value": 0.026085190724115817,
+          "strictly_lower_earliest_tie_break": true,
+          "qualification_threshold": 0.1,
+          "qualification_passed": true
+        }
+      },
+      "20260821": {
+        "training_receipt": {
+          "file": {
+            "path": "${AUDIT_WORK}\\candidate_training_logs\\formal16_high_seed_20260821_first_attempt.json",
+            "bytes": 947,
+            "sha256": "8E68F09891FA7B952055996953AF052B09520E0D52B1BB8C23EDC07A727646C7"
+          },
+          "own_training_resume": false
+        },
+        "evidence": {
+          "manifest": {
+            "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260821\\manifest.json",
+            "bytes": 5440,
+            "sha256": "8940B2FCDB50C7DADF305E6ED961FC725EB04E8480E08C82F468C98E9EDB405A"
+          },
+          "files": {
+            "report.json": {
+              "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260821\\report.json",
+              "bytes": 4537,
+              "sha256": "6393D1C86752C6F9889E09FCB0840176B9EFDD846555AAD8963DDEE708E5DA67"
+            },
+            "gift_seed_20260821.pt": {
+              "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260821\\gift_seed_20260821.pt",
+              "bytes": 11313298,
+              "sha256": "2170D05FA5217CCBFD72F8B951B05408A623540ADA122F590D7BBD0E5AA0756F"
+            }
+          }
+        },
+        "selection": {
+          "phase": "lead_1_truncated_rollout_stage_2",
+          "epoch": 1,
+          "metric": "N64 validation lead=1 full-field relative L2",
+          "value": 0.02606633439892903,
+          "strictly_lower_earliest_tie_break": true,
+          "qualification_threshold": 0.1,
+          "qualification_passed": true
+        }
+      },
+      "20260822": {
+        "training_receipt": {
+          "file": {
+            "path": "${AUDIT_WORK}\\candidate_training_logs\\formal16_high_seed_20260822_first_attempt.json",
+            "bytes": 947,
+            "sha256": "C34C1A5846C053E410271E23076A0E4ADFD92679E0A2B2770EB21C7223FB4066"
+          },
+          "own_training_resume": false
+        },
+        "evidence": {
+          "manifest": {
+            "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\manifest.json",
+            "bytes": 5440,
+            "sha256": "FC61247602621B3625A81E1084CB07191C9D1D1B97482CF5B177CA0C682FD5EE"
+          },
+          "files": {
+            "report.json": {
+              "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\report.json",
+              "bytes": 4537,
+              "sha256": "279F1200B5D635C47BE7681B7E79E5EC7EC6F0BF59B8C4273B2CA08E8E78DFCE"
+            },
+            "gift_seed_20260822.pt": {
+              "path": "${AUDIT_WORK}\\candidate_fresh_formal16\\high_seed_20260822\\gift_seed_20260822.pt",
+              "bytes": 11313298,
+              "sha256": "8C5271FF2805AE727B10AC660AA91E34EFFC948C924F39659732BF6B2F1B4989"
+            }
+          }
+        },
+        "selection": {
+          "phase": "lead_1_truncated_rollout_stage_2",
+          "epoch": 1,
+          "metric": "N64 validation lead=1 full-field relative L2",
+          "value": 0.02621625503292307,
+          "strictly_lower_earliest_tie_break": true,
+          "qualification_threshold": 0.1,
+          "qualification_passed": true
+        }
+      }
+    },
+    "reference_exactness_required": false,
+    "qualification_not_used_as_a_reference_matching_filter": true
+  },
+  "high_training_reference_differences": {
+    "20260820": {
+      "verification": {
+        "path": "${GIFT_REPO}\\validation\\fresh_20260910\\gift_high_20260820\\verification.json",
+        "bytes": 45452,
+        "sha256": "F43D7212E7C3DBEC20096FF8AA623ABB252E68B276F25668BF1508CBB4DCD04D"
+      },
+      "audit_status": "TERMINAL_VALID_REFERENCE_DIFFERENT_OR_UNQUALIFIED",
+      "state_exact": false,
+      "tensor_count": 27,
+      "exact_tensor_count": 5,
+      "maximum_tensor_absolute_difference": 0.004340372979640961,
+      "selection": {
+        "phase": "lead_1_truncated_rollout_stage_2",
+        "epoch": 1,
+        "metric": "N64 validation lead=1 full-field relative L2",
+        "value": 0.026085190724115817,
+        "strictly_lower_earliest_tie_break": true,
+        "qualification_threshold": 0.1,
+        "qualification_passed": true
+      },
+      "historical_selection_metric": 0.026085179725196212
+    },
+    "20260821": {
+      "verification": {
+        "path": "${GIFT_REPO}\\validation\\fresh_20260910\\gift_high_20260821\\verification.json",
+        "bytes": 45448,
+        "sha256": "9A134304F9D3BF12F5848000F70B5DBE5E025A2D4F7F7F6BEA69F731B7468EBF"
+      },
+      "audit_status": "TERMINAL_VALID_REFERENCE_DIFFERENT_OR_UNQUALIFIED",
+      "state_exact": false,
+      "tensor_count": 27,
+      "exact_tensor_count": 5,
+      "maximum_tensor_absolute_difference": 0.003570929169654846,
+      "selection": {
+        "phase": "lead_1_truncated_rollout_stage_2",
+        "epoch": 1,
+        "metric": "N64 validation lead=1 full-field relative L2",
+        "value": 0.02606633439892903,
+        "strictly_lower_earliest_tie_break": true,
+        "qualification_threshold": 0.1,
+        "qualification_passed": true
+      },
+      "historical_selection_metric": 0.02606634542811662
+    },
+    "20260822": {
+      "verification": {
+        "path": "${GIFT_REPO}\\validation\\fresh_20260910\\gift_high_20260822\\verification.json",
+        "bytes": 45444,
+        "sha256": "1D8D6C26A23E233267943EB9DFF3ADB0D7A9735BB5CAD350A76C84F522E57DBA"
+      },
+      "audit_status": "TERMINAL_VALID_REFERENCE_DIFFERENT_OR_UNQUALIFIED",
+      "state_exact": false,
+      "tensor_count": 27,
+      "exact_tensor_count": 5,
+      "maximum_tensor_absolute_difference": 0.00844409316778183,
+      "selection": {
+        "phase": "lead_1_truncated_rollout_stage_2",
+        "epoch": 1,
+        "metric": "N64 validation lead=1 full-field relative L2",
+        "value": 0.02621625503292307,
+        "strictly_lower_earliest_tie_break": true,
+        "qualification_threshold": 0.1,
+        "qualification_passed": true
+      },
+      "historical_selection_metric": 0.026216258860658856
+    }
+  },
+  "continuation": {
+    "schema": "gift.experiment-continuation.v1",
+    "run_root": "${AUDIT_WORK}\\fresh_gift_experiments\\S1",
+    "run_id": "b8520862531f4a9a8424bcce2e17e0e9",
+    "aggregation_output": "${AUDIT_WORK}\\fresh_gift_experiments\\S1",
+    "calls": [
+      {
+        "key": "validation_derivative",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N64_gift_20260820",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N64_disabled",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N96_gift_20260820",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N96_disabled",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N128_gift_20260820",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N128_disabled",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N64_gift_20260821",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N96_gift_20260821",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N128_gift_20260821",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N64_gift_20260822",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N96_gift_20260822",
+        "action": "computed_and_saved"
+      },
+      {
+        "key": "N128_gift_20260822",
+        "action": "computed_and_saved"
+      }
+    ],
+    "not_a_training_checkpoint": true
+  },
+  "original_comparison": {
+    "path": "${AUDIT_WORK}\\fresh_gift_experiments\\S1_numeric_comparison.json",
+    "bytes": 879,
+    "sha256": "046E49A165D7F6DA98114C1E3449A084F8EBDBED0AF86C7CDC3D1BFE9BEC19D5"
+  },
+  "numeric_acceptance": "PASS_under_unchanged_original_tolerance_not_bitwise_equality",
+  "original_comparator_sha256": "96FDA329AADCC835464B9BF015B1012FB6376EECD875378B84346CD732CB0BA4",
+  "raw_arrays_revalidated": false,
+  "raw_arrays_and_weights_included": false,
+  "plots_included": false,
+  "plot_execution": null,
+  "limitations": [
+    "M2 uses published FNO2D/FNO3D/U-NO/U-Net checkpoints; M3 uses published FNO2D/FNO3D only. S1/S2/S3 use fresh GIFT only.",
+    "High-branch weights retain measured reference differences; numerical CSV acceptance is a separate test.",
+    "This small bundle does not replace raw-array deep verification or establish complete-project from-zero acceptance."
+  ]
+}

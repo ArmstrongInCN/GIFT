@@ -1,0 +1,18 @@
+{
+  "schema": "gift.portable-epoch-evidence-manifest.v1",
+  "packaging_status": "complete",
+  "scope": "U-NO historical epoch1 pause only; valid integrity, differing mapped loss, no150-epoch acceptance",
+  "original_execution_sha256": "B4741EAFE0C14076ED978BB5D54B8A366E77FD6D80B796EECAD8D83BEF20C3B4",
+  "files": [
+    {
+      "path": "verification.json",
+      "bytes": 5602,
+      "sha256": "1108EB06643EF1A55D23FA3F7CE4D5373F3D7A6C33CB5F03D073C37165D363E1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1943,
+      "sha256": "8D1050B66C1DE5457AA82F4CE6406CB2C978E7D96EE2100E2E71175ACC4F7C81"
+    }
+  ]
+}

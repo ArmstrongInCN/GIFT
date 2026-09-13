@@ -1,0 +1,209 @@
+{
+  "schema": "gift.portable-partial-fno-audit.v1",
+  "model": "fno3d",
+  "status": "VALID_EPOCH1_PAUSE_LOSSES_EXACT",
+  "original_audit_sha256": "CBDE4B5FAE84E248F4F4F4273D613129B0669F765F7EEBBFC36F7955D2FD411C",
+  "completed_epochs": 1,
+  "configured_epochs": 500,
+  "own_run_resume_used": false,
+  "original_epoch1_preserved": null,
+  "formal_budget_completed": false,
+  "scientific_experiment_acceptance_verified": false,
+  "reference_weights_available": false,
+  "tolerances_used": false,
+  "source_identity": {
+    "configuration": {
+      "accumulation": 2,
+      "checkpoint_interval": 10,
+      "data_profile": "released",
+      "detach_rollout": false,
+      "epochs": 500,
+      "formal": true,
+      "history": 46,
+      "learning_rate": 0.001,
+      "micro_batch": 5,
+      "model": "fno3d",
+      "rollout": 150,
+      "scheduler_gamma": 0.5,
+      "scheduler_step": 100,
+      "seed": 0,
+      "selection": "terminal_epoch_not_validation",
+      "teacher_forcing": false,
+      "trajectories": 1000,
+      "weight_decay": 0.0001
+    },
+    "data": {
+      "bytes": 7152337473,
+      "dtype": "float32",
+      "provenance": {
+        "full_input_checks_performed": true,
+        "numerical_reproduction_verified": false,
+        "profile": "released",
+        "published_dataset_identity": true
+      },
+      "sha256": "1322ad0a5be67bccab2a93c55a5a5748f792f80f3a839032bce888959d54e3ee",
+      "sha256_verified": true,
+      "shape": [
+        1000,
+        501,
+        64,
+        64
+      ]
+    },
+    "data_file": "fno/fno1000_n64_t0_t10_dt0p02.h5",
+    "device": "cuda",
+    "kind": "gift.independent-baseline-training.v1",
+    "numerical_profile": {
+      "cublas_workspace_config": null,
+      "cuda": "12.6",
+      "cudnn": 91002,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "cudnn_tf32": true,
+      "deterministic": false,
+      "deterministic_warn_only": false,
+      "matmul_tf32": false,
+      "numpy": "2.2.6",
+      "python": "3.10.19",
+      "tf32_override": null,
+      "torch": "2.10.0+cu126"
+    },
+    "sources": {
+      "adapters/models.py": "b79b8d750d80807f98cd118a0f3abbf3c3db3ff4fa3fbcc33b2bfe0ade163524",
+      "external_sources.json": "6371f5c295cc2afc54b708ad2bdb182a4b98a9e4d34fee18b561636739bae7bd",
+      "training/baseline_control.py": "7cda8f5ee54ea16675464cd08b53370b7d309b550c6920b92f09c6de6168999c",
+      "training/checkpoints.py": "858309349d511e3c3f8853ec1c1549fb42ad8e576d9756842e09c6c62b72340c",
+      "training/train_fno3d.py": "2ce0d21534e48ec76dbeb4116b655376d798e690d70a6698c259884dce84bc8c"
+    },
+    "upstream": {
+      "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+      "family": "fno",
+      "repository": "https://github.com/neuraloperator/neuraloperator",
+      "source_sha256": {
+        "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+        "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+        "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "optimizer_updates": 100,
+      "processed_trajectories": 1000,
+      "backward_loss_mean_per_trajectory": 0.8610787947177887,
+      "full_loss_mean_per_trajectory": 0.8610787947177887,
+      "sampled_start_min": 0,
+      "sampled_start_max": 305,
+      "learning_rate_used": 0.001,
+      "learning_rate_next": 0.001,
+      "epoch_seconds": 80.65523059999396,
+      "formal": true
+    }
+  ],
+  "scalar_comparison": {
+    "epoch1": {
+      "exact": true,
+      "fields": {
+        "backward_loss_mean_per_trajectory": {
+          "actual": 0.8610787947177887,
+          "reference": 0.8610787947177887,
+          "exact": true,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        },
+        "full_loss_mean_per_trajectory": {
+          "actual": 0.8610787947177887,
+          "reference": 0.8610787947177887,
+          "exact": true,
+          "absolute_difference": 0.0,
+          "relative_difference": 0.0
+        }
+      }
+    }
+  },
+  "original_reference_rows": [
+    {
+      "epoch": "1",
+      "optimizer_updates": "100",
+      "processed_trajectories": "1000",
+      "optimizer_batches": "100",
+      "microbatches": "200",
+      "micro_batch_size": "5",
+      "effective_batch_size": "10",
+      "backward_loss_mean_per_trajectory": "0.8610787947177887",
+      "full_spacetime_loss_mean_per_trajectory": "0.8610787947177887",
+      "learning_rate": "0.001",
+      "epoch_seconds": "310.43368199979886",
+      "mean_epoch_seconds_this_run": "310.4336960003711",
+      "estimated_remaining_seconds": "154906.4143041852",
+      "cuda_peak_allocated_bytes": "6754928640",
+      "cuda_peak_reserved_bytes": "8269070336"
+    }
+  ],
+  "actual_audit_checks": {
+    "inputs_unchanged": true,
+    "released_data_full_sha_verified": true,
+    "cuda_initialized": false,
+    "model_state_tensor_count": 50,
+    "optimizer_tensor_count": 90,
+    "own_checkpoint_and_rng_checked": true,
+    "source_and_runtime_checked": true,
+    "own_normalizer_bitwise_preserved": null
+  },
+  "execution": {
+    "returncode": 0,
+    "harness_elapsed_seconds": 418.02752208709717,
+    "OMP_NUM_THREADS": "16",
+    "MKL_NUM_THREADS": "16",
+    "pretrained_model_loaded_for_training": false
+  },
+  "evidence_hashes": [
+    {
+      "role": "original_audit",
+      "sha256": "CBDE4B5FAE84E248F4F4F4273D613129B0669F765F7EEBBFC36F7955D2FD411C"
+    },
+    {
+      "role": "execution_receipt",
+      "sha256": "C15B528937B8564D9AB3724777A00F662CFDFD71691927726D76549DD21DE129"
+    },
+    {
+      "role": "execution_log",
+      "sha256": "CD240BBCB9FA3768767275793DDD0DAFC16C251DF8CBB7458194C4D2E96CA046"
+    },
+    {
+      "role": "original_training_history_csv",
+      "path": "artifacts/fno/fno3d_training_history.csv",
+      "sha256": "39CF91C42E311D577CC4950650837F11EDE8EB487E47AFCC676D5740D6D22602"
+    },
+    {
+      "role": "read_only_verifier",
+      "sha256": "6179AD5C8E8C87F2DA98E12E155458D16E2915E55DE1AF0CE4AF18EF5103C3C9"
+    },
+    {
+      "role": "attempt",
+      "bytes": 3155,
+      "sha256": "0E63EE81671648A1D45E796E192565A02A66060461306EAE64684C5B306B00F4"
+    },
+    {
+      "role": "historical_latest_pointer_at_audit",
+      "bytes": 138,
+      "sha256": "0A634464BEFFC0DE3AB7EA6AA0573E52DE7B91399B78FAB4B742CD97E15A69F1"
+    },
+    {
+      "role": "own_checkpoint_epoch_1",
+      "bytes": 85192667,
+      "sha256": "05379C3E28018D9381D87DA040C2DFD8F0B5938B2B0AB876A5926532D992C62A"
+    }
+  ],
+  "publication_checks": {
+    "method": "stdlib_json_csv_sha_only",
+    "checkpoint_deserialized": false,
+    "data_rehashed_during_publication": false,
+    "training_or_forward_performed": false,
+    "immutable_checkpoint_hashes_rechecked": true,
+    "historical_latest_pointer_not_required_current": true,
+    "snapshot_boundary_evidence_only": true
+  },
+  "limitation": "Exact aggregate losses do not establish reference weight/gradient/trajectory equality or full 500-epoch acceptance. Thread counts come from the harness receipt, not the old journal identity."
+}

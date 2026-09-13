@@ -1,0 +1,34 @@
+# Scientific inputs and third-party source must remain outside this repository.
+/data/
+/zenodo*/
+/external/
+/vendor/
+/third_party/
+/benchmarks/
+*.h5
+*.hdf5
+*.npz
+!artifacts/pinn_reference/noise_000/open/terminal_state.npz
+!artifacts/pinn_reference/noise_000/known/terminal_state.npz
+!artifacts/pinn_reference/noise_001/open/terminal_state.npz
+!artifacts/pinn_reference/noise_001/known/terminal_state.npz
+!artifacts/pinn_reference/noise_010/open/terminal_state.npz
+!artifacts/pinn_reference/noise_010/known/terminal_state.npz
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+/build/
+/dist/
+/runs/
+/reproduced_models/
+/reproduced_results/
+/backup/
+/论文写作/
+# Distributed through private release assets, not ordinary Git objects (>100 MiB).
+/artifacts/formal/uno/uno_terminal_epoch150.pt

@@ -1,0 +1,28 @@
+{
+  "schema": "gift.portable-fresh-uno-m2-manifest.v1",
+  "packaging_status": "complete",
+  "numeric_acceptance": "FAIL",
+  "model_scope": "fresh_GIFT_and_fresh_full150_UNO_plus_reference_FNO2D_FNO3D_UNet",
+  "files": [
+    {
+      "path": "comparison.json",
+      "bytes": 10443,
+      "sha256": "28ED23A4AA952819A59E1F9DE80ED9A98B408FBCA99306C28375C5B1BCE61004"
+    },
+    {
+      "path": "metrics.csv",
+      "bytes": 7071,
+      "sha256": "8705220EB508151679537081BC84B7BAF1F50242AAFF815EAC24ED5612736932"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 12868,
+      "sha256": "72643B35BEEE939D649C3D471110F107A646884583C6A53AB3D12B6AB241CAE4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 968,
+      "sha256": "46464441852D311705980715C0897C11F940025DEA5266E02E991341047A3D9D"
+    }
+  ]
+}

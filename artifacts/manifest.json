@@ -1,0 +1,116 @@
+{
+  "schema": "gift.artifact-manifest",
+  "status": "complete",
+  "artifacts": [
+    {
+      "file": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
+      "bytes": 397780,
+      "sha256": "C8B4C783D3B69B2C51CE1F2E55185C22106512848C7ED5B4DB8C58B94FF2080A"
+    },
+    {
+      "file": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
+      "bytes": 3727845,
+      "sha256": "02ACE5C0C38FE35B8FFC9A976A13DF607DB012CDCC5AC16155432B55EEB93116"
+    },
+    {
+      "file": "artifacts/fno/fno2d_training_history.csv",
+      "bytes": 76522,
+      "sha256": "6101604B6CA5CE0301777ACA66F55D97460C702DFBFCB289B075B10C52C68E27"
+    },
+    {
+      "file": "artifacts/fno/fno2d_training_report.json",
+      "bytes": 16027,
+      "sha256": "81E08BD5765A9AFC8889A090EAA4AFC5D1EEF0BDD13EFCC68D2A9503DEC9CBBC"
+    },
+    {
+      "file": "artifacts/fno/fno3d_ntrain1000_terminal_epoch500.pt",
+      "bytes": 32682369,
+      "sha256": "D5A56172D14ACEAC20DEA0B6FBD8A55D646FBA339D88D8B98CF30C3EBFEB3938"
+    },
+    {
+      "file": "artifacts/fno/fno3d_training_history.csv",
+      "bytes": 76373,
+      "sha256": "39CF91C42E311D577CC4950650837F11EDE8EB487E47AFCC676D5740D6D22602"
+    },
+    {
+      "file": "artifacts/fno/fno3d_training_report.json",
+      "bytes": 16069,
+      "sha256": "751C1B1DEC8133B9DB0B33F98CFBEDC4DB891FBE3D6743237F2A07A86E3FF25A"
+    },
+    {
+      "file": "artifacts/formal/unet/artifact_verification.json",
+      "bytes": 777,
+      "sha256": "C212D77913AABFC1ECF7CE042BA8AA023ABFD2DF1A69CAC148376F1201D30C10"
+    },
+    {
+      "file": "artifacts/formal/unet/manifest.json",
+      "bytes": 976,
+      "sha256": "1C0DDBEB59AB678B44EBF216D759F1E4644280FDC8B2F8743D3630479A55EBDB"
+    },
+    {
+      "file": "artifacts/formal/unet/training_history.csv",
+      "bytes": 75621,
+      "sha256": "E04BDABD7BF884A491B0F942504F836A3E419146DE4FEF87962A18EAF789CE4A"
+    },
+    {
+      "file": "artifacts/formal/unet/training_report.json",
+      "bytes": 2011,
+      "sha256": "F914C986A1993CACA724D8947354A9B6284780E168526E8E86550F9DA7523108"
+    },
+    {
+      "file": "artifacts/formal/unet/unet_terminal_epoch500.pt",
+      "bytes": 99937455,
+      "sha256": "FAF0C953EC3CA50F88FCBC3D452821FFF671AEF3A5C86C09AFD7E343DAF0D206"
+    },
+    {
+      "file": "artifacts/formal/uno/artifact_verification.json",
+      "bytes": 776,
+      "sha256": "021C597529A30CDF9C24B30B434B8C5D592F0EAFD4C809B57D3687360FA626A1"
+    },
+    {
+      "file": "artifacts/formal/uno/manifest.json",
+      "bytes": 971,
+      "sha256": "3359B476301FC80C9B5CEC4BE56EE46B9DE411CC6785736E8809F087B8F6CC21"
+    },
+    {
+      "file": "artifacts/formal/uno/training_history.csv",
+      "bytes": 21813,
+      "sha256": "6A505AD534733A2269F6C93006422914245DB7C65DA8A9473A08EE053E9B08FC"
+    },
+    {
+      "file": "artifacts/formal/uno/training_report.json",
+      "bytes": 1981,
+      "sha256": "90E626067897E0A51F0439A3208A30F941F8A2CA25B9F983CE699C55ACA34958"
+    },
+    {
+      "file": "artifacts/formal/uno/uno_terminal_epoch150.pt",
+      "bytes": 121928439,
+      "sha256": "578186DEBBFFEA63AFC0805B1A59DB3F8F23E79202C8D272B8C45D21493021B4"
+    },
+    {
+      "file": "artifacts/gift/gift_seed_20260820.pt",
+      "bytes": 11312850,
+      "sha256": "3D37B05C5EBA045C30C3B4A9E144FD9DB8AF99393BC0AFC11ECC18A573D6751A"
+    },
+    {
+      "file": "artifacts/gift/gift_seed_20260821.pt",
+      "bytes": 11312850,
+      "sha256": "5159C9066AA17B00A26F5F8A8E6BA348E78C7D57DDE8979A9BB9AD75CC09167E"
+    },
+    {
+      "file": "artifacts/gift/gift_seed_20260822.pt",
+      "bytes": 11312850,
+      "sha256": "4D521DEB86D882AF564FA50D5BC4A550A3AB4DB82F6531050E2F5F20F6311A63"
+    },
+    {
+      "file": "artifacts/gift/training_history.csv",
+      "bytes": 6163,
+      "sha256": "A0EEFADFE39F5043A4010F55465C5D6BE6D4FF3389A2E116C969292997E7B7F0"
+    },
+    {
+      "file": "artifacts/gift/training_report.json",
+      "bytes": 4957,
+      "sha256": "C28EC44C176391B7ED24CEB374B7B39CC77103AAD616A5C55B90629A76770B1B"
+    }
+  ]
+}

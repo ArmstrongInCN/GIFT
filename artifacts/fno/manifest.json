@@ -1,0 +1,36 @@
+{
+  "schema": "gift.fno-artifact-manifest.v1",
+  "status": "complete",
+  "artifacts": [
+    {
+      "file": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
+      "bytes": 3727845,
+      "sha256": "02ACE5C0C38FE35B8FFC9A976A13DF607DB012CDCC5AC16155432B55EEB93116"
+    },
+    {
+      "file": "artifacts/fno/fno2d_training_history.csv",
+      "bytes": 76522,
+      "sha256": "6101604B6CA5CE0301777ACA66F55D97460C702DFBFCB289B075B10C52C68E27"
+    },
+    {
+      "file": "artifacts/fno/fno2d_training_report.json",
+      "bytes": 16027,
+      "sha256": "81E08BD5765A9AFC8889A090EAA4AFC5D1EEF0BDD13EFCC68D2A9503DEC9CBBC"
+    },
+    {
+      "file": "artifacts/fno/fno3d_ntrain1000_terminal_epoch500.pt",
+      "bytes": 32682369,
+      "sha256": "D5A56172D14ACEAC20DEA0B6FBD8A55D646FBA339D88D8B98CF30C3EBFEB3938"
+    },
+    {
+      "file": "artifacts/fno/fno3d_training_history.csv",
+      "bytes": 76373,
+      "sha256": "39CF91C42E311D577CC4950650837F11EDE8EB487E47AFCC676D5740D6D22602"
+    },
+    {
+      "file": "artifacts/fno/fno3d_training_report.json",
+      "bytes": 16069,
+      "sha256": "751C1B1DEC8133B9DB0B33F98CFBEDC4DB891FBE3D6743237F2A07A86E3FF25A"
+    }
+  ]
+}

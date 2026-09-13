@@ -1,0 +1,19 @@
+{
+  "schema": "gift.baseline-artifact-verification.v1",
+  "status": "passed",
+  "method": "U-NO",
+  "source_weight_artifact_sha256": "85194D86279C9597271E3B6B1BE9CA3164FC5FA198E8D4B7FC95915FEF9C4FD9",
+  "formal_artifact_sha256": "578186DEBBFFEA63AFC0805B1A59DB3F8F23E79202C8D272B8C45D21493021B4",
+  "model_state_sha256": "7A965D069286773F4E2E9C33F81D1229C663D396320047676757EE43672DF232",
+  "state_keys_shapes_dtypes_equal": true,
+  "state_tensors_bitwise_equal": true,
+  "all_model_tensors_finite": true,
+  "weights_only_load_passed": true,
+  "probe": {
+    "input": "test trajectory 1000, 46 history frames",
+    "output_shape": [1, 64, 64, 1],
+    "output_bitwise_equal": true,
+    "maximum_absolute_difference": 0.0
+  },
+  "metadata_has_forbidden_paths_or_terms": false
+}

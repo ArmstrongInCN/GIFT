@@ -1,0 +1,39 @@
+{
+  "schema": "gift.formal.M1.artifacts.v1",
+  "status": "complete",
+  "gift_checkpoints": [
+    {
+      "condition": "noise_000",
+      "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
+      "bytes": 397780,
+      "sha256": "C8B4C783D3B69B2C51CE1F2E55185C22106512848C7ED5B4DB8C58B94FF2080A"
+    },
+    {
+      "condition": "noise_001",
+      "path": "artifacts/m1_parameter_identification/gift_noise_001.pt",
+      "bytes": 397076,
+      "sha256": "EC56EA5F67F42524AC1B182E47F1B3ED27A22AB0754191C7324AADFCB1B9C022"
+    },
+    {
+      "condition": "noise_010",
+      "path": "artifacts/m1_parameter_identification/gift_noise_010.pt",
+      "bytes": 391956,
+      "sha256": "EED8460C7D13C440AD03EC54A19998FFAA2DE2BE2336435825D8835C2DF54408"
+    }
+  ],
+  "gift_training": {
+    "training_trajectories": 50,
+    "validation_trajectories": 20,
+    "cutoff": 21,
+    "rank": 8,
+    "phase_steps": [6000, 6000],
+    "phase_learning_rates": [0.01, 0.003],
+    "batch_size": 16,
+    "seed": 2026072301
+  },
+  "pinn_sampling_manifest": {
+    "path": "artifacts/m1_parameter_identification/pinn_sampling/manifest.json",
+    "bytes": 1417,
+    "sha256": "79DA543BEF463E29EB1AC967B3D576630CE2E45615211A78E6D2BB96478A2AB4"
+  }
+}

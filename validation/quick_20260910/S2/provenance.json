@@ -1,0 +1,86 @@
+{
+  "schema": "gift.portable-quick-verification.v1",
+  "experiment": "S2",
+  "scope": "full_experiment_inference_with_reference_weights_not_fresh_training",
+  "run_id": "c6843a0f5bb3415fb15f82a90e7e13f6",
+  "elapsed_seconds": 716.8970324993134,
+  "execution_returncode": 0,
+  "source_files": {
+    "experiments/__init__.py": "93ee043977a7dde15e0759a50f43a9c137229677ccb219b21f6253722412ed80",
+    "experiments/formal/__init__.py": "f7a044c53c6941fcc298120b969af3298666dc4ca5d08cfe67245af71dedd262",
+    "experiments/formal/_shared/__init__.py": "46087dacb1af884b584414db17a5ff2b5249ce51738469f5f02a013715167ce8",
+    "experiments/formal/_shared/common.py": "15dcea7a0ff498cd14803bf4eea26cbf77d4f89a36517e56a119b09f781b6c76",
+    "experiments/formal/_shared/gift_runtime.py": "2ceb836b14915592fe6644ca4caa7a567717ee097750bb12a7587c07a25f7d13",
+    "experiments/formal/_shared/high_frequency.py": "0941f76d64860ef6b52850d89dbbd01187087a6beed64d5143d9fd7fd28ca15e",
+    "experiments/formal/_shared/resume.py": "f073031571f8415656a5d9c54dc42011d4481642894c551fa074427b909a5148",
+    "experiments/formal/s2_recursive_local_correction/__init__.py": "6564dbab063065ac6424deb80f96394e78793a2a9211c3e64c0c3acbbe34da3e",
+    "experiments/formal/s2_recursive_local_correction/run.py": "50dd5e404e0ead30ba159791236ee6600935fcfdd5da0f0aa460e6d0b6c5f859",
+    "src/gift/__init__.py": "a2a63bd2e220f15dfd31679ec7512b0ecd408bd697eb8a95f0263eb204c14ee6",
+    "src/gift/identifiability.py": "df2985767976ed9618260ff1bf068afa88849655656013b67eef97d048aa6959",
+    "src/gift/identified.py": "f3efb36a0276def2bbbee1a5be589379d85abbee0082f30cb9d588744ec3df2b",
+    "src/gift/model.py": "c26ace74f419c4f58197bb6d6b7b0625cbbe368d0e4b7fdd443176b0108315b7",
+    "src/gift/paths.py": "d8767f3c9fe4b9904bea0553c405e676e5aed83c3e61f988c6f1c59ab74993c4",
+    "training/__init__.py": "9860d5327ef144a43867bd5f229738d7e416e964b3dc91590d9d931fcc83bd58",
+    "training/checkpoints.py": "858309349d511e3c3f8853ec1c1549fb42ad8e576d9756842e09c6c62b72340c"
+  },
+  "current_source_matches_executed_source": true,
+  "runtime": {
+    "cublas_workspace_config": null,
+    "cuda": "12.6",
+    "cudnn": 91002,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": false,
+    "cudnn_tf32": true,
+    "deterministic": false,
+    "deterministic_warn_only": false,
+    "machine": "AMD64",
+    "matmul_tf32": false,
+    "numpy": "2.2.6",
+    "os": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "python": "3.10.19",
+    "selected_gpu": {
+      "major": 8,
+      "minor": 6,
+      "multiprocessors": 58,
+      "name": "NVIDIA RTX A5500 Laptop GPU",
+      "total_memory": 17179344896
+    },
+    "tf32_override": null,
+    "torch": "2.10.0+cu126",
+    "torch_build": "PyTorch built with:\n  - C++ Version: 201703\n  - MSVC 194234444\n  - Intel(R) oneAPI Math Kernel Library Version 2025.3-Product Build 20251007 for Intel(R) 64 architecture applications\n  - Intel(R) MKL-DNN v3.7.1 (Git Hash 8d263e693366ef8db40acc569cc7d8edf644556d)\n  - OpenMP 2019\n  - LAPACK is enabled (usually provided by MKL)\n  - CPU capability usage: AVX2\n  - CUDA Runtime 12.6\n  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90\n  - CuDNN 91.0.2  (built against CUDA 12.9)\n  - Magma 2.5.4\n  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, COMMIT_SHA=449b1768410104d3ed79d3bcfe4ba1d65c7f22c0, CUDA_VERSION=12.6, CUDNN_VERSION=9.10.2, CXX_COMPILER=C:/actions-runner/_work/pytorch/pytorch/pytorch/.ci/pytorch/windows/tmp_bin/sccache-cl.exe, CXX_FLAGS=/DWIN32 /D_WINDOWS /EHsc /Zc:__cplusplus /bigobj /FS /utf-8 -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE /wd4624 /wd4068 /wd4067 /wd4267 /wd4661 /wd4717 /wd4244 /wd4804 /wd4273, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.10.0, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=OFF, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=OFF, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n",
+    "torch_interop_threads": 16,
+    "torch_threads": 2
+  },
+  "inputs": {
+    "fno_training": {
+      "sha256": "fbd23bc242b7db9bcbedf6bcb00e44a223f4b361384a24139be93c437128351a"
+    },
+    "gift_20260820": {
+      "sha256": "3d37b05c5eba045c30c3b4a9e144fd9db8af99393bc0afc11ecc18a573d6751a"
+    },
+    "gift_20260821": {
+      "sha256": "5159c9066aa17b00a26f5f8a8e6ba348e78c7d57dde8979a9bb9ad75cc09167e"
+    },
+    "gift_20260822": {
+      "sha256": "4d521deb86d882af564fa50d5bc4a550a3ab4db82f6531050e2f5f20f6311a63"
+    },
+    "low_model": {
+      "sha256": "c8b4c783d3b69b2c51ce1f2e55185c22106512848c7ed5b4db8c58b94ff2080a"
+    },
+    "standard_n64": {
+      "sha256": "c3f21ef13d0c81713f2770fc67547c91bd5a793fa34a9eecc5c46537237fa8a5"
+    }
+  },
+  "external_sources": {},
+  "original_execution_record_sha256": "3bf799f565eca2b47aca170f99757c4862d72dc20773a87dce0b69ff696e12fe",
+  "original_attempt_record_sha256": "14a9b6cfe5869659725db5a3bac918213c33af00fe000e2e957a8d69f96d36b4",
+  "metrics_sha256": "0037c1828ea17ccc919173520e34607a1a53109c856f36123bb7026adbc7792c",
+  "comparison_sha256": "c479fa8dabc1ce88eaefba32a22d20c9e26a28aef088c39489b339c001f5fde4",
+  "raw_arrays_included": false,
+  "training_performed": false,
+  "portability_changes": [
+    "Absolute input and external checkout paths omitted",
+    "Device UUID omitted; numerical hardware profile retained"
+  ]
+}

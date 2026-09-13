@@ -1,0 +1,2225 @@
+{
+  "schema": "gift.generator.independent-training.v1",
+  "status": "complete",
+  "created_utc": "2026-09-10T15:19:51.311522+00:00",
+  "condition": "noise_001",
+  "mode": "fresh_from_observations",
+  "formal_protocol_defaults_used": true,
+  "freshness_contract": {
+    "pretrained_model_loaded": false,
+    "resume_checkpoint_loaded": false,
+    "optimizer_state_loaded": false,
+    "checkpoint_inputs": [],
+    "same_attempt_continuation": false,
+    "cached_derivatives_loaded": false,
+    "analytic_rhs_calls": 0,
+    "known_pde_basis": false,
+    "pde_dictionary": false
+  },
+  "information_firewall": {
+    "opened_hdf5_datasets": [
+      "training/time",
+      "training/trajectory_index",
+      "training/vorticity",
+      "validation/time",
+      "validation/trajectory_index",
+      "validation/vorticity"
+    ],
+    "forcing_or_physical_metadata_opened": false,
+    "test_group_opened": false
+  },
+  "data": {
+    "source": {
+      "path": "${GIFT_DATA_ROOT}\\m1_parameter_identification\\noise_001.h5",
+      "bytes": 575065406,
+      "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+    },
+    "training": {
+      "trajectory_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "raw_shape": [
+        50,
+        501,
+        64,
+        64
+      ],
+      "selected_shape": [
+        50,
+        501,
+        64,
+        64
+      ],
+      "time_interval": [
+        0.0,
+        10.0
+      ],
+      "time_count": 501,
+      "dt": 0.02,
+      "derivative_centre_count": 24850,
+      "vorticity_source_dtype": "float32",
+      "training_tensor_dtype": "float32"
+    },
+    "validation": {
+      "trajectory_ids": [
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "raw_shape": [
+        20,
+        501,
+        64,
+        64
+      ],
+      "selected_shape": [
+        20,
+        501,
+        64,
+        64
+      ],
+      "time_interval": [
+        0.0,
+        10.0
+      ],
+      "time_count": 501,
+      "dt": 0.02,
+      "derivative_centre_count": 9940,
+      "vorticity_source_dtype": "float32",
+      "training_tensor_dtype": "float32"
+    },
+    "validation_trajectory_ids": [
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69
+    ],
+    "derivative": "fourth-order centered finite difference",
+    "derivative_centre_interval": [
+      0.04,
+      9.96
+    ]
+  },
+  "model_configuration": {
+    "cutoff": 21,
+    "rank": 8,
+    "state_scale": 4.347969055175781,
+    "conserve_spatial_mean": false
+  },
+  "real_parameter_count": 66588,
+  "optimization": {
+    "training_trajectories": 50,
+    "validation_trajectories": 20,
+    "cutoff": 21,
+    "rank": 8,
+    "phase_steps": [
+      6000,
+      6000
+    ],
+    "phase_learning_rates": [
+      0.01,
+      0.003
+    ],
+    "batch_size": 16,
+    "affine_refit_interval": 500,
+    "validation_interval": 250,
+    "rank_rcond": null,
+    "seed": 2026072301,
+    "strict_determinism": true,
+    "phase_records": [
+      {
+        "phase": 1,
+        "best_step": 6000,
+        "best_validation_relative_l2": 0.33216007181908935
+      },
+      {
+        "phase": 2,
+        "best_step": 6000,
+        "best_validation_relative_l2": 0.33187873009592295
+      }
+    ],
+    "state_scale": 4.347969055175781,
+    "target_mean_square_scale": 103.68868255615234
+  },
+  "determinism": {
+    "seed": 2026072301,
+    "python_random_seeded": true,
+    "numpy_random_seeded": true,
+    "torch_cpu_seeded": true,
+    "torch_cuda_all_seeded": true,
+    "torch_deterministic_algorithms": true,
+    "torch_deterministic_warn_only": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "cublas_workspace_config": ":4096:8",
+    "data_loader_workers": 0
+  },
+  "identifiability_initial": {
+    "method": "rank-revealing TSVD Moore-Penrose affine fit",
+    "design_coordinates": "[1, fft(state)/N^2 - pooled_sample_mean]",
+    "target_coordinates": "fft(derivative)/(N^2)",
+    "subtract_quadratic": false,
+    "singular_value_precision": "complex128/float64",
+    "storage_precision_assumption": "float32",
+    "rcond": 0.002962350845336914,
+    "threshold_rule": "sigma_j > rcond * sigma_max",
+    "sample_count": 24850,
+    "state_scale": 4.347969055175781,
+    "active_mode_count": 1849,
+    "rank_histogram": {
+      "0": 0,
+      "1": 69,
+      "2": 1780
+    },
+    "unresolved_modes": [
+      {
+        "ky": 0,
+        "kx": 0,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.10683957799264071
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 16,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.46130321470433194
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 16,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4536597210212123
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 17,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4618172764328536
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 17,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42897253049871387
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 17,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.41939446643003236
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42243701009976137
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38006333722396485
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38572778462495655
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4220987026118886
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42496138453050136
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38472002340057826
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.34986209855790584
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.34993982708159704
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38874029643114233
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42381850666616594
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4640444053765454
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4290686527993164
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38971666267616734
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3505953008100924
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3131054138780197
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.32237667585894497
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3592469535823324
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38469782680414166
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4392745181896816
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4220601878915243
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3898347773664351
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3540259326884899
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3136757730162753
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.28483362634571724
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.2921836270266379
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3240340942247396
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3580386309990108
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.40014192448257346
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.43503413375265826
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.43503415873902623
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4001419468918861
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3580386429156553
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3240341007914769
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.29218362511341706
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.28483362771381976
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3136757740533204
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.35402592236182645
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38983476244053683
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42206016611541264
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.43927453621541857
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3846978373841756
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3592469527607397
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3223766592812929
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.31310541954044124
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3505952946780909
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38971665777755854
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42906863014305796
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.464044379041561
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42381849950014405
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3887402853836144
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3499398162230663
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3498620867876331
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38472001644567
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42496136677349183
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42209868532441686
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3857277654057603
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3800633211361463
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42243698822755416
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -17,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4193944405456583
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -17,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4289725159221938
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -17,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4618172481814542
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -16,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4536597243832537
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -16,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4613032153680362
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      }
+    ]
+  },
+  "identifiability_final": {
+    "method": "rank-revealing TSVD Moore-Penrose affine fit",
+    "design_coordinates": "[1, fft(state)/N^2 - pooled_sample_mean]",
+    "target_coordinates": "fft(derivative-Q)/(N^2)",
+    "subtract_quadratic": true,
+    "singular_value_precision": "complex128/float64",
+    "storage_precision_assumption": "float32",
+    "rcond": 0.002962350845336914,
+    "threshold_rule": "sigma_j > rcond * sigma_max",
+    "sample_count": 24850,
+    "state_scale": 4.347969055175781,
+    "active_mode_count": 1849,
+    "rank_histogram": {
+      "0": 0,
+      "1": 69,
+      "2": 1780
+    },
+    "unresolved_modes": [
+      {
+        "ky": 0,
+        "kx": 0,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.10683957799264071
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 16,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.46130321470433194
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 16,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4536597210212123
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 17,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4618172764328536
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 17,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42897253049871387
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 17,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.41939446643003236
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42243701009976137
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38006333722396485
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38572778462495655
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 18,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4220987026118886
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42496138453050136
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38472002340057826
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.34986209855790584
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.34993982708159704
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38874029643114233
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 19,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42381850666616594
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4640444053765454
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4290686527993164
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38971666267616734
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3505953008100924
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3131054138780197
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.32237667585894497
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3592469535823324
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38469782680414166
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 20,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4392745181896816
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4220601878915243
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3898347773664351
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3540259326884899
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3136757730162753
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.28483362634571724
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.2921836270266379
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3240340942247396
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3580386309990108
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.40014192448257346
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": 21,
+        "kx": -17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.43503413375265826
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.43503415873902623
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4001419468918861
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3580386429156553
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3240341007914769
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.29218362511341706
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.28483362771381976
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3136757740533204
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.35402592236182645
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38983476244053683
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -21,
+        "kx": -17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42206016611541264
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.43927453621541857
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3846978373841756
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3592469527607397
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3223766592812929
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.31310541954044124
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3505952946780909
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38971665777755854
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -18,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42906863014305796
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -20,
+        "kx": -17,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.464044379041561
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": 19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42381849950014405
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3887402853836144
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3499398162230663
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3498620867876331
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.38472001644567
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -19,
+        "kx": -19,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42496136677349183
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": 20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42209868532441686
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3857277654057603
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.3800633211361463
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -18,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.42243698822755416
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -17,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4193944405456583
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -17,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4289725159221938
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -17,
+        "kx": -20,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4618172481814542
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -16,
+        "kx": 21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4536597243832537
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      },
+      {
+        "ky": -16,
+        "kx": -21,
+        "numerical_rank": 1,
+        "singular_values": [
+          157.63882770434446,
+          0.4613032153680362
+        ],
+        "tolerance": 0.466981514507885,
+        "intercept_retained": true,
+        "slope_retained": false,
+        "status": "discarded TSVD directions use the centered minimum-norm gauge"
+      }
+    ]
+  },
+  "rank_threshold_sensitivity": {
+    "rows": [
+      {
+        "rcond_multiplier": 0.25,
+        "rank_histogram": {
+          "0": 0,
+          "1": 1,
+          "2": 1848
+        }
+      },
+      {
+        "rcond_multiplier": 0.5,
+        "rank_histogram": {
+          "0": 0,
+          "1": 1,
+          "2": 1848
+        }
+      },
+      {
+        "rcond_multiplier": 1.0,
+        "rank_histogram": {
+          "0": 0,
+          "1": 69,
+          "2": 1780
+        }
+      },
+      {
+        "rcond_multiplier": 2.0,
+        "rank_histogram": {
+          "0": 0,
+          "1": 395,
+          "2": 1454
+        }
+      },
+      {
+        "rcond_multiplier": 4.0,
+        "rank_histogram": {
+          "0": 0,
+          "1": 901,
+          "2": 948
+        }
+      }
+    ],
+    "minimum_retained_singular_value_to_threshold_ratio": 1.0015167087139456
+  },
+  "metrics": {
+    "training_derivative_relative_l2": {
+      "mean": 0.33505720203371353,
+      "median": 0.25935009121894836,
+      "p95": 0.6401066392660141,
+      "maximum": 0.6857494115829468
+    },
+    "independent_validation_derivative_relative_l2": {
+      "mean": 0.33088593773798686,
+      "median": 0.25168460607528687,
+      "p95": 0.6362418115139008,
+      "maximum": 0.6752241253852844
+    }
+  },
+  "runtime": {
+    "python": "3.10.19",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.2.6",
+    "h5py": "3.16.0",
+    "torch": "2.10.0+cu126",
+    "device": "cuda",
+    "cuda_available": true,
+    "cuda_runtime": "12.6",
+    "cudnn": 91002,
+    "gpu": "NVIDIA RTX A5500 Laptop GPU",
+    "training_and_final_evaluation_seconds": 409.12842359999195,
+    "peak_cuda_allocated_bytes": 69345792
+  },
+  "sources": [
+    {
+      "path": "src/gift/__init__.py",
+      "bytes": 758,
+      "sha256": "A2A63BD2E220F15DFD31679EC7512B0ECD408BD697EB8A95F0263EB204C14EE6"
+    },
+    {
+      "path": "src/gift/model.py",
+      "bytes": 6484,
+      "sha256": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7"
+    },
+    {
+      "path": "src/gift/identifiability.py",
+      "bytes": 11020,
+      "sha256": "DF2985767976ED9618260FF1BF068AFA88849655656013B67EEF97D048AA6959"
+    },
+    {
+      "path": "src/gift/identified.py",
+      "bytes": 6227,
+      "sha256": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B"
+    },
+    {
+      "path": "training/checkpoints.py",
+      "bytes": 8426,
+      "sha256": "858309349D511E3C3F8853EC1C1549FB42AD8E576D9756842E09C6C62B72340C"
+    },
+    {
+      "path": "experiments/formal/_shared/gift_generator_training.py",
+      "bytes": 31072,
+      "sha256": "5060A7C5644AFA25FED381F3702322FD1183D37BF587CAC6F30C9D15D7395151"
+    },
+    {
+      "path": "experiments/formal/train_low_generator.py",
+      "bytes": 7871,
+      "sha256": "227C8B2E96A5CE5674A80655A3A412E18D94B0E86F5932ED310143CE340EE079"
+    },
+    {
+      "path": "training/gift_data.py",
+      "bytes": 9196,
+      "sha256": "FD75DDF0FB5A60A5E577BFCB058E5C2D314A0B8432DD2A2D638676E8A0636936"
+    },
+    {
+      "path": "scripts/assemble_generated_data.py",
+      "bytes": 17710,
+      "sha256": "0F5F34496245910078966946DA7D4E20E1D8F65D225E7865AE3A4076DB8EA1B9"
+    },
+    {
+      "path": "scripts/generate_data.py",
+      "bytes": 19979,
+      "sha256": "E4D8129228A3B9928CEE0DB1EB27A35E2AB8E28312F1DC558572011EBF263C36"
+    },
+    {
+      "path": "scripts/generate_noise.py",
+      "bytes": 10577,
+      "sha256": "7BE2DEDBE4D656EFDA1CC4946EE8A24EE2374D2F01688DD71235E47AB1FA74F1"
+    },
+    {
+      "path": "src/even_full_spectrum_ns.py",
+      "bytes": 16002,
+      "sha256": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+    }
+  ],
+  "outputs": {
+    "checkpoint": {
+      "path": "gift_noise_001.pt",
+      "bytes": 397714,
+      "sha256": "65716CFB83749574ECC2BDA1DCAE33203CB067FA034C4DC792310ABCEABDBB07"
+    },
+    "history": {
+      "path": "training_history.csv",
+      "bytes": 4932,
+      "sha256": "27000C7C05722E65D50CD2C666855151AD7DEDB47DB399B82EAECB5366EB1E51"
+    }
+  },
+  "claims_boundary": {
+    "minimum_norm_values_are_gauges_not_recovered_physical_coefficients": true,
+    "bitwise_replay_requires_same_recorded_software_and_hardware": true,
+    "scientific_reproduction_uses_frozen_protocol_and_validation_metrics": true
+  }
+}

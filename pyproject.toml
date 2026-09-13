@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gift-field-generator"
+dynamic = ["version"]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "torch",
+    "h5py",
+    "matplotlib",
+    "scipy",
+    "pandas",
+    "scikit-learn",
+    "scikit-optimize",
+    "pyaml",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "ruff"]
+
+[tool.setuptools.dynamic]
+version = {attr = "gift.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88

@@ -1,0 +1,77 @@
+{
+  "schema": "gift.formal-experiment-index",
+  "schema_version": 1,
+  "record_document": "EXPERIMENTS.md",
+  "experiments": [
+    {
+      "id": "M1",
+      "category": "main",
+      "name": "equation_parameter_identification",
+      "title_zh": "方程参数识别",
+      "entrypoint": "experiments/formal/m1_equation_identification/run.py",
+      "result_directory": "results/formal/M1_equation_identification",
+      "raw_directory": "results/formal/M1_equation_identification/raw",
+      "metrics": "results/formal/M1_equation_identification/summary/metrics.csv"
+    },
+    {
+      "id": "M2",
+      "category": "main",
+      "name": "recursive_prediction",
+      "title_zh": "递归预测",
+      "entrypoint": "experiments/formal/m2_recursive_prediction/run.py",
+      "result_directory": "results/formal/M2_recursive_prediction",
+      "raw_directory": "results/formal/M2_recursive_prediction/raw",
+      "metrics": "results/formal/M2_recursive_prediction/summary/metrics.csv"
+    },
+    {
+      "id": "M3",
+      "category": "main",
+      "name": "cross_resolution_prediction",
+      "title_zh": "跨分辨率预测",
+      "entrypoint": "experiments/formal/m3_cross_resolution/run.py",
+      "result_directory": "results/formal/M3_cross_resolution",
+      "raw_directory": "results/formal/M3_cross_resolution/raw",
+      "metrics": "results/formal/M3_cross_resolution/summary/metrics.csv"
+    },
+    {
+      "id": "S1",
+      "category": "supporting",
+      "name": "high_frequency_branch_ablation",
+      "title_zh": "高频支路有效性",
+      "entrypoint": "experiments/formal/s1_high_frequency_branch/run.py",
+      "result_directory": "results/formal/S1_high_frequency_branch",
+      "raw_directory": "results/formal/S1_high_frequency_branch/raw",
+      "metrics": "results/formal/S1_high_frequency_branch/summary/metrics.csv"
+    },
+    {
+      "id": "S2",
+      "category": "supporting",
+      "name": "recursive_local_correction_ablation",
+      "title_zh": "递归局部修正有效性",
+      "entrypoint": "experiments/formal/s2_recursive_local_correction/run.py",
+      "result_directory": "results/formal/S2_recursive_local_correction",
+      "raw_directory": "results/formal/S2_recursive_local_correction/raw",
+      "metrics": "results/formal/S2_recursive_local_correction/summary/metrics.csv"
+    },
+    {
+      "id": "S3",
+      "category": "supporting",
+      "name": "random_seed_stability",
+      "title_zh": "随机种子稳定性",
+      "entrypoint": "experiments/formal/s3_seed_stability/run.py",
+      "result_directory": "results/formal/S3_seed_stability",
+      "raw_directory": "results/formal/S3_seed_stability/raw",
+      "metrics": "results/formal/S3_seed_stability/summary/metrics.csv"
+    }
+  ],
+  "shared_tools": {
+    "aggregate": "experiments/formal/common/aggregate.py",
+    "verify": "experiments/formal/verify_experiment_record.py",
+    "gift_training": "experiments/formal/train_gift_branches.py",
+    "fno_training": "baselines/train_fno.py",
+    "uno_training": "baselines/train_uno.py",
+    "unet_training": "baselines/train_unet.py",
+    "m2_mean_error_figure": "experiments/formal/m2_recursive_prediction/plot_mean_error.py",
+    "m2_keyframe_figure": "experiments/formal/m2_recursive_prediction/plot_keyframes.py"
+  }
+}

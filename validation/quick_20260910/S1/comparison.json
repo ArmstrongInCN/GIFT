@@ -1,0 +1,26 @@
+{
+  "schema": "gift.numeric-comparison.v1",
+  "experiment": "S1",
+  "status": "PASS",
+  "scope": "numeric_csv_only_not_provenance_or_training_verification",
+  "self_comparison": false,
+  "tolerance": {
+    "absolute": 0.0005,
+    "relative_to_reference": 0.05
+  },
+  "candidate_rows": 180,
+  "reference_rows": 180,
+  "numeric_comparisons": 180,
+  "count_comparisons": 360,
+  "failures": [],
+  "inputs": {
+    "candidate": {
+      "path": "metrics.csv",
+      "sha256": "c79103313d1e9e82b549ce43db31f6cef3f2a16e102944b0d3de6c2314c40d96"
+    },
+    "reference": {
+      "path": "results/formal/S1_high_frequency_branch/summary/metrics.csv",
+      "sha256": "c79103313d1e9e82b549ce43db31f6cef3f2a16e102944b0d3de6c2314c40d96"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "gift.portable-test-evidence-manifest.v1",
+  "role": "existing_environment_cpu_test_summary_not_installation_or_science_acceptance",
+  "default_suite_exit_code": 0,
+  "default_suite_passed": 139,
+  "default_suite_skipped": 25,
+  "source_checkout_test_distinct_from_earlier_187_file_export": true,
+  "earlier_export_checkpoint_verifier_exit_code": 1,
+  "clean_environment_or_github_clone_verified": false,
+  "files": [
+    {"path": "verification.json", "bytes": 4648, "sha256": "F80B225D34F970F380D42ED6B67A8BB083E87EA7C64C06F22F2EB09A82552193"},
+    {"path": "README.md", "bytes": 2213, "sha256": "3811733FD441D52A1361F1172D677481FB1779E179AA5CC0F1E5A30648104C15"}
+  ]
+}
