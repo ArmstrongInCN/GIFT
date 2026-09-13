@@ -115,9 +115,17 @@ The first command derives paired noisy observations from the specified clean inp
 
 In short: use a **group-wide** population standard deviation, a single uninterrupted MT19937 stream, paired draws, float64 noise addition, and float32 storage. The full RNG state (including the cached Gaussian) and next block position are checkpointed. `--pilot` permits a reduced clean input and labels its outputs non-formal; it does not change the formal protocol silently.
 
-CPU 实测：按上述全组统计，从指定原 clean 新生成两条件首32帧，共262,144个数值，与原噪声 H5 **bitwise exact**；未生成后续2,238块。另用小样本验证了跨 training/validation 边界的暂停恢复与连续运行 exact，及带缓存高斯值的 RNG 恢复。尚未在新入口运行两份完整噪声数据集。
+首批有界 CPU 实测（历史）：按上述全组统计，从指定原 clean 新生成两条件首32帧，共262,144个数值，与原噪声 H5 **bitwise exact**；该次未生成后续2,238块。另用小样本验证了跨 training/validation 边界的暂停恢复与连续运行 exact，及带缓存高斯值的 RNG 恢复。
 
-The bounded oracle test matched both conditions' first 32 frames exactly. A separate reduced input verified resume across the group boundary; a cached-Gaussian test checked all RNG-state components. Full paired-noise generation was not run in this validation.
+The earlier bounded oracle test matched both conditions' first 32 frames exactly. A separate reduced input verified resume across the group boundary; a cached-Gaussian test checked all RNG-state components. That historical validation did not run full paired-noise generation.
+
+2026-09-13 完整实测：从指定的已发布 clean 输入重新生成全部两种噪声，在第1601/2240块暂停后，由独立进程读取**本次自身**检查点完成余下639块。训练50条、验证20条、每条501帧，共 **287,293,440 个 float32 值全部与原噪声逐比特一致**，且独立公式重算、全组统计量、暂停/终态完整 RNG 状态与坐标核验通过。两次生成进程分别耗时9.08秒、4.44秒，完整只读验证16.56秒；环境为Python3.10.19、NumPy2.2.6、h5py3.16.0，未导入Torch/TF。见[完整证据](../validation/full_noise_20260913/README.md)。
+
+Full execution on 2026-09-13 regenerated both conditions from the specified released clean input, paused after chunk1601 of2240 and resumed the remaining639 chunks in a separate process from its **own attempt**. All **287,293,440 float32 values** matched the archived noisy fields bitwise; independent formula replay, whole-group statistics, coordinates and both complete RNG states also passed. Generation processes took9.08/4.44s, followed by16.56s of complete read-only verification in Python3.10.19/NumPy2.2.6/h5py3.16.0 without Torch/TF. See the [source-bound full evidence](../validation/full_noise_20260913/README.md).
+
+边界不变：本次未重新积分 clean；新 H5 的元数据和整文件哈希与旧文件不同，未替换下载包中的文件。完整新数据组装还要求同一集合内的**新生成 clean 父输入**，不能用本次结果填补缺失的 clean。它也不证明跨设备逐比特一致、完整模型训练或六实验全部通过。
+
+The clean input was not reintegrated. New H5 metadata and whole-file hashes differ from the legacy containers, and no packaged input was replaced. Full regenerated collection assembly still requires a **newly generated clean parent** in that collection; this result does not supply it. Cross-device bitwise identity, full model training and six-experiment acceptance are not established by this check.
 
 ## PINN 观测采样 / PINN observation sampling
 

@@ -1,0 +1,18 @@
+{
+  "schema": "gift.portable-full-paired-noise-manifest.v1",
+  "hash_algorithm": "SHA-256",
+  "paths_relative_to": "this directory",
+  "excluded_self": "manifest.json",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4324,
+      "sha256": "e76fc1b88b982af5b39a7d2d349acc7aaf476e97557b547019d6ab06949f49ec"
+    },
+    {
+      "path": "result.json",
+      "bytes": 16052,
+      "sha256": "f3518b0ae0a0ef7ba631089c485899ae6843cfae3210a1cd31360df03dc78edc"
+    }
+  ]
+}

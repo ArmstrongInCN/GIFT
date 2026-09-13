@@ -1,5 +1,12 @@
 # Verification evidence / 验证证据
 
+The [full paired-noise check](full_noise_20260913/README.md) regenerated both
+conditions from the released clean input with actual same-attempt pause/resume.
+All 287,293,440 float32 values match the reference bitwise; independent formula,
+RNG and full-group-statistic checks passed. No clean reintegration, original-input
+replacement or model acceptance is inferred. 完整噪声生成及自身续算已通过逐位核验，
+不等于清洁流场重生成或完整训练验收；历史失败仍保留。
+
 The latest [runtime-guard regression](runtime_guards_20260913/README.md) covers
 the new U-Net pre-import environment gate and shared checkpoint thread identity:
 173 passed, 25 skipped, 3 warnings in 27.99 s (24 separate subtests). An actual
