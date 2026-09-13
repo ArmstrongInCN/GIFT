@@ -45,10 +45,10 @@ Installing that wheel alone is not a complete experiment installation.
 # First ensure `python` is your 64-bit CPython 3.10 interpreter.
 python -m venv .venv
 # Activate the environment using your operating system's activation command.
-python -m pip install --upgrade pip==26.0.1
+python -m pip install --upgrade pip==26.0.1 setuptools==80.10.2 wheel==0.46.3
 python -m pip install "torch==2.10.0+cu126" --index-url https://download.pytorch.org/whl/cu126
 python -m pip install -r requirements-reproduction.txt
-python -m pip install -e .
+python -m pip install --no-deps --no-build-isolation -e .
 python -c "import torch; print(torch.__version__, torch.version.cuda)"
 ```
 
@@ -66,8 +66,41 @@ cu126 build using `pip install --dry-run --ignore-installed --only-binary=:all:`
 This was metadata-only resolution, not downloading/installing the training
 packages or testing CUDA operation. Transitive dependencies are not all pinned
 by the requirements file; resolution is not proof of an identical environment.
-已完成上述 Windows/Python 3.10 固定依赖的元数据解析预检，未完成新环境整套安装
-或 GPU 运行验收；其他设备应另行验证，不作逐位相同承诺。
+该 9 月 10 日记录仅是元数据解析，不是安装通过；后续实际安装结果单独记录如下。
+
+On 2026-09-13, a **new Windows / CPython 3.10.19 venv**, without shared system
+site-packages, successfully installed all 32 runtime distributions from that
+fixed resolution, including the SHA-256-verified 2.10.0+cu126 wheel. The project
+was installed editable from the actual GitHub clone at commit
+`c6ae4d0268f782d64603bab29049b70e87a95b2f`, using the build-tool versions above
+without build isolation. Runtime versions and import paths matched the new venv;
+`pip check` passed before and after the default CPU suite: **149 passed, 25 skipped,
+3 warnings in 21.77 s** (24 subtests reported separately). See the
+[installation evidence and complete version inventory](../validation/fresh_environment_20260913/README.md).
+The fixed Windows wheel resolution was used for that validation; the general
+requirements command above does not lock every transitive dependency on every
+platform. This venv uses an existing Python installation, not a newly installed
+OS or a GPU/full-training acceptance test. Other devices still need verification.
+
+**Windows temporary paths:** the first editable build failed at a 262-character
+temporary destination. A retry using a short, new writable `TEMP`/`TMP` directory
+succeeded without changing project source or system settings. If you encounter
+the same long-path build error, select your own short unused directory, for example:
+
+```powershell
+# Choose a writable drive and an unused directory; do not overwrite an old run.
+New-Item -ItemType Directory -Path 'D:\gift-tmp' -ErrorAction Stop | Out-Null
+$env:TEMP = 'D:\gift-tmp'
+$env:TMP = 'D:\gift-tmp'
+python -m pip install --no-deps --no-build-isolation -e .
+```
+
+These variables affect the current shell and its children, not global Windows
+settings. Editable installation creates normal `src/*.egg-info` metadata in your
+clone; it does not require access to the author's formal source directory.
+9 月 13 日已实际通过新隔离环境安装、32 个运行依赖版本/来源核验及上述 CPU 测试；
+首次临时路径过长的安装失败也予以保留。Windows 可仅为当前终端选择较短、可写的新
+临时目录，不必改系统配置或实验代码。本结果仍不代表新设备 GPU 训练或全部实验通过。
 
 Do not run training or inference inside an author's authoritative source folder.
 无须访问作者电脑上的 `1_GIFT`，也不要向它写入缓存或输出。
