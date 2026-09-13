@@ -1,5 +1,14 @@
 # Verification evidence / 验证证据
 
+The [complete ten-job generated collection](full_generated_collection_20260913/README.md)
+now has independent full input-integrity evidence: 32 manifest files (13.155 GB),
+all three derived-frame mappings, three GIFT conditions and four formal baseline
+input functions passed. The first work-only wrapper failed after its own file
+changed; that failure is preserved, and a separate read-only verifier qualified
+the retained collection without rebuilding it. PINN regenerated input is still
+unsupported; no new training or six-experiment acceptance is inferred.
+完整数据集合及可用输入检查通过，不等于全部模型或实验数值通过。
+
 Full [FNO training-data](full_fno_training_20260913/README.md) and
 [three-grid test-data](full_fno_test_20260913/README.md) integrations completed
 independently in about 80 and 75 minutes. Every stored value was checked:

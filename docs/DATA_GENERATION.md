@@ -185,13 +185,13 @@ Optional read-only package comparisons require `GIFT_TEST_REFERENCE_DATA_ROOT` t
 
 | 消费端 / Consumer | 当前结果 / Current finding | 必须完成的最小工作 / Required minimum work |
 | --- | --- | --- |
-| 独立 FNO/U-NO/U-Net formal training | 已实现 `--data-profile released/regenerated`，默认仍严格核原SHA；regenerated复用组装器检查完整来源、ID/时间/PDE/参数及执行时全部哈希/有限性。 | CPU门禁测试通过；正向元数据测试的科学边界为mock，不是实际全量集合训练通过。 |
+| 独立 FNO/U-NO/U-Net formal training | 已实现 `--data-profile released/regenerated`，默认仍严格核原SHA；regenerated复用组装器检查完整来源、ID/时间/PDE/参数及执行时全部哈希/有限性。 | 后续真实完整集合的四个正式配置输入检查已通过；不是训练CLI、U-Net启动环境或模型训练验收。 |
 | GIFT低频/高频训练 | 已实现同名profile门禁，复用组装器；clean/noisy低模型及高分支写入自身输入绑定。高训练要求明确传入在相同standard输入上完成原正式预算的新低模型。 | 数据资格检查可读取完整标准文件作完整性校验（包括test），但不向训练损失/模型选择传入test场；完整新数据训练尚未执行。 |
 | M2/M3 的 FNO native test reader | 初审发现缺少 `metadata_json`；**已修复生成端**。仅完成的非pilot完整选择才授予metadata `complete`；记录 regenerated 来源。原N64 reader 的稀疏mock接口测试通过，未使用新真实全量测试数据。 | 仍需全量真实生成后的reader与正式实验验收；不能把mock接口通过称为M2/M3通过。 |
-| short-test 与 cross-resolution reader | 初审发现 `step*0.005` 与规范十进制标签在3/20帧差8.881784197001252e-16；**已修复生成端**，所有20时刻与原 `array_equal` 要求一致，原整数积分步未变。 | 仍需真实完整场验证；未改reader或实验容差。 |
-| M1入口 | 每个数据文件必须在集合根 `manifest.json` 唯一声明且大小/实际SHA一致。新增组装器可生成这样的新集合；GIFT readout还会核对模型 `training_data.sha256`。 | 组装后的真实全量集合尚未实测；模型必须绑定该新数据。不能把原发布模型与不同SHA的新数据组合后宣称同源训练。 |
+| short-test 与 cross-resolution reader | 初审发现 `step*0.005` 与规范十进制标签在3/20帧差8.881784197001252e-16；**已修复生成端**，所有20时刻与原 `array_equal` 要求一致，原整数积分步未变。 | 后续完整新父数据的派生场/时间轴和组装检查已通过；实际评估reader与实验数值验收仍另计，未改reader或容差。 |
+| M1入口 | 每个数据文件必须在集合根 `manifest.json` 唯一声明且大小/实际SHA一致。新增组装器可生成这样的新集合；GIFT readout还会核对模型 `training_data.sha256`。 | 完整集合的文件/来源及GIFT输入检查已通过；模型必须绑定该新数据。不能把原发布模型与不同SHA的新数据组合后宣称同源训练。PINN运行时仍不支持regenerated输入。 |
 
-The original audit found a fixed-file-hash deadlock, missing FNO-test metadata, strict time-label mismatches, and missing assembly. Generator-side metadata/time fixes, guarded assembly, and explicit baseline/GIFT data profiles are now implemented. Full real-data assembly, training and downstream acceptance remain unverified. Positive controller tests mock the scientific boundary; they do not prove scientific reproduction.
+The original audit found a fixed-file-hash deadlock, missing FNO-test metadata, strict time-label mismatches, and missing assembly. Generator-side metadata/time fixes, guarded assembly, and explicit baseline/GIFT data profiles are now implemented. The later real ten-job collection and available full training-input gates passed the independent checks below. Formal training and downstream experimental acceptance remain unverified; the historical mock tests do not establish either.
 
 ### 已实现的双 profile 规则 / Implemented explicit profiles
 
@@ -246,9 +246,9 @@ A nonblocking OS lock on `.writer.lock` spans completion/cursor checks, H5 write
 
 Assembly must include the exact dense parent job and SHA alongside each child. The assembler checks raw parent receipts and integer mappings, then rechecks selected field bytes. Child-only collections or substituted parents are rejected. Baseline training still consumes dense FNO training data; this entry point changes no model, training or experiment definition.
 
-源码变更会改变组装器SHA：请创建**新集合及新训练绑定**，不要更新旧manifest、旧运行记录或旧检查点来绕过source gate。本功能的CPU小夹具覆盖三种映射、正负零、独立进程恢复和拒绝门，仅验证工程接口；尚未在完整新dense母输入上实测，不证明与原发布场或六实验数值一致。
+源码变更会改变组装器SHA：请创建**新集合及新训练绑定**，不要更新旧manifest、旧运行记录或旧检查点来绕过source gate。本功能的CPU小夹具覆盖三种映射、正负零、独立进程恢复和拒绝门。后续三项完整新dense派生已分别实际完成，并在完整集合独立核验中通过所有选帧的逐位比较；这仍不证明与原发布场或六实验数值一致。
 
-The assembler source hash changes with this feature. Create a **new collection and new training binding**; never rewrite old manifests/journals/checkpoints to bypass source identity. Tiny CPU fixtures cover mappings, signed zero, separate-process resume and rejection gates, not full real-data generation or scientific acceptance. Full new-parent derivation and downstream numerical verification remain pending.
+The assembler source hash changes with this feature. Create a **new collection and new training binding**; never rewrite old manifests/journals/checkpoints to bypass source identity. Tiny CPU fixtures cover mappings, signed zero, separate-process resume and rejection gates. The three later full new-parent derivations also completed independently, and all selected field bits passed the separate full-collection audit below. Neither result establishes released-field identity or downstream numerical acceptance.
 
 2026-09-13 工程验证：抽帧及关联组装的定向测试 **27/27通过**；独立完整CPU回归 **199通过、22跳过、24个subtests通过**（76.47秒）。包括收据写入/发布前后中断、H5关闭后的真实子进程争锁，以及终态哈希期间源码变动拒绝。Windows分支已实测，POSIX锁分支尚未在本机执行；这些仍不代表完整新数据的科学验收。
 
@@ -263,10 +263,16 @@ python scripts/assemble_generated_data.py --job standard=/new/standard-attempt -
 
 第一条仅检查来源/结构并显示计划，不创建目标、不完整扫描场；第二条才执行全部输入哈希/有限性检查和字节保留复制。可增加 `--job short-test=...`、`cross-resolution=...`、`fno-training-coarse=...`、`noise=...`、`sampling-clean=...`、`sampling-001=...`、`sampling-010=...`。噪声任务的clean哈希必须等于集合内新生成standard的哈希；采样任务的输入哈希必须等于集合中对应新生成clean/noise哈希。仅有下载数据、缺少自身生成完成记录或其parent未进入本集合时拒绝，不能偷用旧真值/噪声补齐。TensorFlow初始化不纳入组装器。
 
-`manifest.json` 明确列出 available_jobs/missing_jobs，允许只为某个独立消费者组装所需的完整文件；缺少其他任务时不声称六实验输入齐全。状态为 `ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED`，不是原发布数据，也不是数值验收通过。已做pilot/无receipt/错误父输入/未写NaN拒绝及字节保留复制轻测试；另已完成下述**真实standard子集合组装及GIFT输入门禁**，但六实验完整集合仍未组装验收。基线与GIFT的 `--data-profile regenerated` 已实现，但不能用 `--tiny` 绕过正式资格门冒充正式训练。
+`manifest.json` 明确列出 available_jobs/missing_jobs，允许只为某个独立消费者组装所需的完整文件；缺少其他任务时不声称六实验输入齐全。状态为 `ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED`，不是原发布数据，也不是数值验收通过。已做拒绝与复制轻测试、下述真实standard子集合检查，以及后续十任务完整集合的独立输入核验；科学验收仍未通过。基线与GIFT的 `--data-profile regenerated` 已实现，但不能用 `--tiny` 绕过正式资格门冒充正式训练。
 
-The create-only assembler validates current generator/solver hashes, completion receipts, full selected-file populations, initial parameters, physical protocol, exact axes, and (on execution) full hashes/finite fields before byte-preserving copies. Derived noise and sampling must bind to the newly generated parent inputs present in the same collection. Missing jobs remain explicit; the collection is not labeled experiment-accepted. Guard/rejection tests and the real standard subcollection below passed; a complete six-experiment collection remains unverified. Baseline and GIFT regenerated profile switches are implemented; `--tiny` is not a workaround for formal acceptance.
+The create-only assembler validates current generator/solver hashes, completion receipts, full selected-file populations, initial parameters, physical protocol, exact axes, and (on execution) full hashes/finite fields before byte-preserving copies. Derived noise and sampling must bind to the newly generated parent inputs present in the same collection. Missing jobs remain explicit; the collection is not labeled experiment-accepted. Guard tests, the real standard subcollection and the later full ten-job collection input checks are separate evidence below. Baseline and GIFT regenerated profile switches are implemented; `--tiny` is not a workaround for formal acceptance.
 
 2026-09-13 实际组装：新standard、成对noise及3个sampling任务生成一个独立子集合，清单17文件约1.689GB；所有清单SHA、来源和完整场有限性检查通过，三个条件各自的正式 `regenerated` GIFT输入门禁也通过（无mock、tiny、模型恢复、训练或CUDA初始化）。组装7.703秒，连同门禁和独立清单复核共25.078秒。清单明确缺少FNO训练/测试、coarse/short/cross五个槽位，未包含PINN初始化。见[实际组装证据](../validation/new_standard_collection_20260913/README.md)。原数据包不变，这不是新数据上的训练或实验数值验收。
 
 Actual execution on 2026-09-13 assembled the new standard, paired noise and three sampling jobs into an independent subcollection:17 manifest-listed files, approximately1.689GB. All manifest hashes, provenance and full-field finite checks passed, as did all three formal `regenerated` GIFT input gates without mocks, tiny flags, training or CUDA initialization. Assembly took7.703s; assembly plus consumer gates and manifest verification took25.078s. Five FNO/coarse/short/cross slots remain explicitly missing; PINN initialization is excluded. See [real assembly evidence](../validation/new_standard_collection_20260913/README.md). Downloaded inputs are unchanged, and neither model training nor experimental-number acceptance is inferred.
+
+### 完整集合的独立输入核验 / Independent full-collection input audit
+
+后续已组装全部十个数据任务，清单32文件、13,155,083,047字节，无缺失任务。原生组装88.000秒完成；工作目录执行器随后因启动后的自身文件变更被身份保护拒绝，失败记录未改写。另一冻结脚本对保留集合独立只读核验187.218秒，所有清单哈希、19项科学源码、20项父收据、完整数据资格与三项派生选帧逐位检查通过；三个GIFT条件及四个基线正式配置的完整输入函数也通过。未重新组装/复制、积分、构建模型、恢复权重或训练。
+
+All ten generated jobs were subsequently assembled: 32 manifest entries, 13.155 GB, no missing job. The work-only wrapper failed its final identity guard after a concurrent wrapper-file edit; its failure remains recorded. A separately frozen verifier passed the existing collection's full provenance/data/derived-bit checks and all three GIFT plus four formal baseline input functions in 187.218 s, without recopying, integration or training. See [independent evidence and preserved failure](../validation/full_generated_collection_20260913/README.md). PINN's runtime input profile remains unsupported for regenerated data and initialization is excluded. Input checks do not qualify U-Net's startup, upstream models, formal training, fresh prediction or six-experiment numerical acceptance. The original downloaded data package is unchanged.

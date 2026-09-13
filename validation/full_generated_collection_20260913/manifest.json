@@ -1,0 +1,24 @@
+{
+  "schema": "gift.portable-generated-collection-audit-manifest.v1",
+  "hash_algorithm": "SHA-256",
+  "paths_relative_to": "this directory",
+  "excluded_self": "manifest.json",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4372,
+      "sha256": "c53e7a21f8718b3d94a3da76ce9cc104aa7b7d002cbea3bb09f70a0559ebd381"
+    },
+    {
+      "path": "result.json",
+      "bytes": 23594,
+      "sha256": "9674bf186350716c6cbe5c9742fe0bcd719072cb19467514bafb8ea4ba53a9da"
+    }
+  ],
+  "result_copy_policy": "Byte-exact original independent audit, including the failed prior wrapper identity; no numerical fields relabelled.",
+  "independent_verifier_sha256": "300007c9ac2916ad52c6ce3bf3ce8f8f16fe0d7f0cbdd891fe11e7b2da363bd8",
+  "original_wrapper_accepted": false,
+  "data_or_checkpoints_included": false,
+  "scientific_recomputation_during_packaging": false,
+  "whole_experiment_acceptance_claimed": false
+}
