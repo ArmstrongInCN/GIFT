@@ -40,7 +40,8 @@ PROTOCOLS = {
 
 
 def _arguments(model: str, argv=None):
-    parser = argparse.ArgumentParser(description=f"Independent {model} training; default is read-only dry run")
+    parser = argparse.ArgumentParser(description=f"Independent {model} training; default is read-only dry run",
+                                     allow_abbrev=False)
     action = parser.add_mutually_exclusive_group()
     action.add_argument("--dry-run", action="store_true")
     action.add_argument("--run-training", action="store_true")
@@ -383,6 +384,9 @@ def save_boundary(epoch: int, config: dict, stop: int) -> bool:
 def main(model_name: str, argv=None) -> None:
     args = _arguments(model_name, argv)
     config = configuration(model_name, args)
+    if model_name == "unet" and config["formal"]:
+        from training.unet_environment import require_validated_startup
+        require_validated_startup()
     data_base, data_file = _data_path(args.data_file)
     source = source_record(model_name)
     data = _validate_data(data_file, config, hash_bytes=args.run_training, data_base=data_base)
@@ -407,6 +411,8 @@ def main(model_name: str, argv=None) -> None:
                         ROOT / "training" / f"train_{model_name}.py", ROOT / "adapters" / "models.py",
                         ROOT / "external_sources.json")},
                     numerical_profile=runtime_identity(), device=str(device))
+    if model_name == "unet":
+        identity["sources"]["training/unet_environment.py"] = digest_file(ROOT / "training/unet_environment.py")
     if args.data_profile == "regenerated":
         identity["sources"].update({relative: digest_file(ROOT / relative) for relative in (
             "scripts/assemble_generated_data.py", "scripts/generate_data.py", "src/even_full_spectrum_ns.py")})

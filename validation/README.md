@@ -1,5 +1,14 @@
 # Verification evidence / 验证证据
 
+The latest [runtime-guard regression](runtime_guards_20260913/README.md) covers
+the new U-Net pre-import environment gate and shared checkpoint thread identity:
+173 passed, 25 skipped, 3 warnings in 27.99 s (24 separate subtests). An actual
+formal U-Net dry plan also passed without training or full data hashing. This
+engineering result is source-hash-bound; earlier full-training and numerical
+records retain their original source snapshots and unresolved failures.
+最新门禁/续算工程测试与历史训练、数值验收分开；新源码不自动兼容旧任务日志，
+旧任务继续使用其绑定的原源码，不改写历史证据。
+
 `quick_20260910/` contains newly calculated summary tables, comparisons with the
 unchanged archived experiment tables, and source/input/runtime bindings.
 M2/M3/S1/S2/S3 use **checkpoint inference**. M1 separately combines GIFT parameter
@@ -68,7 +77,7 @@ M1 子集、“新 GIFT＋参照基线”的 M2/M3 及仅使用新 GIFT 的 S1 �
 的整套六实验验收，也不证明重新生成数据链已通过。新 GIFT 的 S2 数值有6项超差，
 S3的132项数值通过；保留各自真实状态，不以S3通过注销S2失败。最新范围见[复现状态](../docs/REPRODUCIBILITY_STATUS.md)。
 
-[New CPU test evidence](environment_20260911/run_02/README.md) records the latest
+[Historical CPU test evidence](environment_20260911/run_02/README.md) records an earlier
 existing-environment suite: 143 passed, 25 skipped, three warnings and 24
 separately reported passed subtests in 17.72 s. The [earlier evidence](environment_20260911/README.md)
 is not overwritten: it retains its 139-pass suite and separate 187-file portable

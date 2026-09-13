@@ -17,10 +17,18 @@ Portable summaries and execution bindings for completed quick checks are in
 [verification evidence](../validation/README.md). They are separate from the
 unchanged archived reference tables and do not establish fresh training.
 
+Evidence is bound to its recorded source snapshot, not automatically to the
+latest branch. The later U-Net startup and shared-thread-identity hardening
+changes source/runtime bindings. Preserve an old job's own commit/frozen source
+for continuation; never migrate its hashes or silently fill missing runtime
+fields. The new checks do not change numerical definitions or resolve previously
+reported U-NO, S2 or PINN failures.
+
 | Item / 项目 | Evidence / 状态 |
 | --- | --- |
 | First-party GIFT model and correction tests | 17 original tests passed in the candidate |
 | Shared resume journal | 3 CPU tests passed: replayed update is byte-identical; changed identity, corrupt data and stale concurrent writer rejected |
+| Later startup and thread-identity hardening | New U-Net formal entry checks the documented 27 absent / 17 fixed B7 environment keys before scientific imports; exact `--tiny` remains nonformal. The shared journal now rejects changed actual Torch thread pools and seven thread-environment entries, including absent/empty differences and old threadless records. One new-venv CPU regression passed **173 tests, 25 skipped, 3 warnings in 27.99 s**, plus 24 separately reported subtests; all 311 tested source files were unchanged during execution, no CUDA initialized. An actual formal U-Net dry plan passed in 2.12 s with zero training/output and no full data hashing. See [source-bound evidence](../validation/runtime_guards_20260913/README.md). This is engineering validation, not new full-model training or scientific acceptance; old source snapshots remain available |
 | Dataset package | Separate 13.03 GB package; full checksum and schema checks passed; owner selected CC BY 4.0 for own data, with third-party input exceptions |
 | External baseline loading | All four model types passed strict original-state loading and CPU forward checks; FNO GPU first-forward and N64/N96/N128 normalization lifting exactly matched original implementation |
 | Low-frequency GIFT resume | 7 CPU fixture tests passed, including three interruption points across two phases |

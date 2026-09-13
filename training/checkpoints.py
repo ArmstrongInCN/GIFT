@@ -44,6 +44,20 @@ def runtime_identity() -> dict[str, Any]:
         "deterministic_warn_only": torch.is_deterministic_algorithms_warn_only_enabled(),
         "tf32_override": os.environ.get("NVIDIA_TF32_OVERRIDE"),
         "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
+        # Reduction scheduling can change training even with identical seeds.
+        # Record actual Torch counts as well as the launch environment: changing
+        # an environment variable after import need not change an existing pool.
+        # Missing and empty values deliberately remain different. Old journals
+        # without this binding require their original code, not a guessed upgrade.
+        "threading": {
+            "torch_num_threads": torch.get_num_threads(),
+            "torch_num_interop_threads": torch.get_num_interop_threads(),
+            "environment": {name: os.environ.get(name) for name in (
+                "OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS", "VECLIB_MAXIMUM_THREADS",
+                "OMP_DYNAMIC", "MKL_DYNAMIC",
+            )},
+        },
     }
 
 

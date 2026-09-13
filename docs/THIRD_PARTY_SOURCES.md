@@ -2,6 +2,27 @@
 
 核查日期：2026-09-10。本文件依据旧临时项目的 `source_manifest.json`、`SOURCE_AUDIT.md`、实际模型/训练/锁定运行器及上游主来源的只读核查。它是发布来源清单，不是法律保证，也不是从零复现已经通过的证书。
 
+## 固定源码登记表与当前执行状态 / Locked registry versus current status
+
+`external_sources.json` 的仓库、提交和文件哈希用于固定外部源。其 PINN
+`adapter_status` / `validation_status` 字符串保留的是早期 NAdam-only 阶段，
+**不是当前功能或验收状态**。当前 known/KC 已实现完整阶段调度，并完成
+noise001 的完整 GPU 预算；原数值比较仍有 2/12 项失败，open 训练仍关闭。
+最新范围请查 [复现状态](REPRODUCIBILITY_STATUS.md) 和
+[PINN 阶段调度说明](adapters/PINN_PHASE_SCHEDULER.md)，不要由旧状态字符串
+推断完整训练未执行，也不要由完成训练推断科学验收通过。
+
+The PINN status strings in the locked registry are historical, not a live
+capability API. Known/KC full-budget execution completed with numerical
+acceptance failing 2/12 values; open training remains gated. Use the linked
+status and phase-scheduler documentation for current evidence.
+
+登记表整个文件的字节哈希已由 `training/baseline_control.py` 写入四种基线的
+任务身份。因此，即使只更新描述字符串，也会使旧基线任务与修改后的源码身份
+不匹配；不要为刷新状态改写此文件、旧 journal 或其哈希。PINN 的 STRidge
+记录也包含登记表哈希，但这不表示其恢复校验与基线完全相同。续算应保留本次
+任务绑定的原源码/登记表；本段只更新说明，不修改任何源身份或解除执行门禁。
+
 ## 发布规则
 
 本候选按项目所有者要求仅提供上游 URL、固定版本、文件身份及必要的原创最小适配；不打包他人的源代码或实质性派生大段代码。该规则也适用于具有 MIT/BSD/Apache 许可的代码：许可存在不改变本次不打包的选择。Zenodo 是外置数值数据/权重与真实审计结果的载体，不是第三方源码的转存处。

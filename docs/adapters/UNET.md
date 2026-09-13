@@ -44,33 +44,46 @@ matmul TF32 disabled, cuDNN deterministic enabled/benchmark disabled, strict
 deterministic algorithms, and `NVIDIA_TF32_OVERRIDE` **completely unset**.
 Forcing all TF32 off is not equivalent to that published training profile.
 The override must not be set to `0`, `1`, or an
-empty string. The adapter itself sets none of these flags. The controller sets
-the backend booleans, but currently imports Torch before its profile function,
-rejects only override value `0`, and does **not** implement the complete B7
-pre-import environment gate. Recording a runtime is not enforcing that gate;
-the documentation below does not claim a code fix.
+empty string. The adapter itself sets none of these flags. The controller keeps
+the existing backend booleans. The independent CLI now checks the complete
+fixed/absent B7 environment below **before importing NumPy, Torch or HDF5**;
+formal dry runs and training/resume use the same fail-closed gate. It reports
+only known key names, not arbitrary environment values, and does not modify
+the environment. Case variants of required/forbidden keys are also rejected.
+`--help` needs no scientific runtime or configured environment. Only the exact
+`--tiny` option selects explicitly nonformal tests (including `--device cpu`);
+long-option abbreviations are not accepted. Calling the internal formal
+controller without this startup gate is rejected.
+
+This gate is a startup safety change, not another 500-epoch verification or a
+new numerical definition. Its helper is included in each new U-Net run's source
+identity. New source/runtime identities intentionally do not resume older
+journals: retain the original Git commit/frozen source and original environment
+for those runs. Do not edit recorded hashes or relabel old training evidence.
+新增门禁不改模型、损失、精度布尔设置或训练预算，也不更改全局环境。旧运行必须
+保留自身源码版本与环境续算；新入口的检查通过不能替代完整训练或数值验收。
 
 The earlier controlled U-Net first update used physical batch 20 and **two** recursive
 steps (diagnostic truncation; the formal objective has **four**). It matched
 initialization, sample/window ordering, loss, 36 gradient tensors and 60 updated
 state tensors against the original functions. It bound controller SHA-256
 `78C3C3364785A3DA2C5710EBCC3DA065175039093AF5786527A42EAC6423525A`,
-not the current controller
+not the controller later tested in the four-step bridge,
 `7CDA8F5EE54EA16675464CD08B53370B7D309B550C6920B92F09C6DE6168999C`.
 The unchanged adapter SHA is
 `B79B8D750D80807F98CD118A0F3ABBF3C3DB3FF4FA3FBCC33B2BFE0ADE163524`.
 That earlier record remains a two-step diagnostic and is not relabeled.
 
 On 2026-09-11, the [actual formal four-step first-batch bridge](../../validation/unet_formal4_20260911/README.md)
-separately bound current controller `7CDA...` to the actual B7 original control:
+separately bound that historical candidate controller `7CDA...` to the actual B7 original control:
 two fresh seed-0 processes, physical batch20, four recursive steps, one native
 Adam update, no trained initialization. All14 fields matched exactly, including
 all4 forward outputs,36 gradient tensors,60 updated states, and complete
 Adam/StepLR state; the B7 thread-1 and pre-import precision profile was retained.
 Original/current child elapsed times were5.110/5.085 seconds, both exit0.
-This is not a full CLI/epoch/500-epoch or evaluation acceptance, and does not
-add the missing pre-import gate to the candidate CLI itself.
-历史B7的500轮验收与当前 `7CDA...` 的四步首批次桥接均保留、各自独立；
+This is not a full CLI/epoch/500-epoch or evaluation acceptance. It predates the
+new pre-import gate and does not validate that later source revision.
+历史B7的500轮验收与旧候选 `7CDA...` 的四步首批次桥接均保留、各自独立；
 不能据此改标当前控制器已完成500轮。见[当前证据范围](../REPRODUCIBILITY_STATUS.md)。
 
 ### U-Net-only child-process environment
@@ -96,8 +109,8 @@ Do not turn off cuDNN TF32. **This is U-Net's thread-1 profile, not the tested
 FNO-2D thread-16 profile.**
 
 下面只清理/设置新子进程的环境，不修改系统或用户全局环境，不删除文件；父终端
-设置保持不变。默认仅检查计划。环境准备不等于当前 CLI 已实现或通过完整 B7
-preflight，也不等于已完成训练；cuDNN TF32 必须保持开启。
+设置保持不变。默认仅检查计划，当前 CLI 会检查这些固定/缺省环境项；检查通过
+不等于完整训练或科学验收，也不包含硬件等价性保证。cuDNN TF32 必须保持开启。
 
 PowerShell (creates a child process without opening a new window):
 
@@ -179,7 +192,7 @@ and source roots. B7 required `CUDA_VISIBLE_DEVICES` to be absent; do not use
 this example to claim the same device selection on a different multi-GPU host.
 The source/profile binding above covers only the controlled formal first batch.
 The complete current CLI still lacks an equivalent full-run acceptance claim;
-these instructions only prepare its startup environment.
+the startup gate enforces these environment entries but not hardware equality.
 
 Identical terminal weights did not make the previous M2 saved prediction fields
 bitwise identical: recursive rollout amplified a nonzero discrepancy, although

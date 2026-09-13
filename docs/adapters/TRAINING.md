@@ -18,10 +18,11 @@ Replace `uno` with the desired model; do not run both training commands at once.
 在仓库根执行，先配置仓库外的数据与固定源码。将 `uno` 换成目标模型；`--dry-run` 只检查计划，`--run-training` 才训练。中断后保留原命令和输出目录，加 `--resume`；不要同时启动示例中的两条训练命令。
 For U-Net, also follow the [U-Net-only child-process environment](UNET.md#u-net-only-child-process-environment)
 before Python starts. It requires the TF32 override to be completely unset and
-thread counts of 1; it is not the FNO-2D thread-16 profile. The current CLI does
-not itself enforce the entire historical B7 pre-import environment gate.
-U-Net 初训与续算均须使用该专用启动环境；说明补全不代表训练代码的门禁已修复，
-也不能把旧控制器的两步首更新诊断当作当前控制器的正式四步或500轮验收。
+thread counts of 1; it is not the FNO-2D thread-16 profile. The current U-Net
+entry point checks its documented B7 launch-environment contract before importing
+the scientific runtime. The check is not a full B7 training acceptance test.
+U-Net 初训与续算均须使用该专用启动环境；新版入口已增加计算库导入前的环境检查，
+但不能把启动检查、旧两步诊断或四步首批次桥接当作新版控制器的500轮验收。
 The first command does not build a model, train or write output. It validates
 source hashes and data metadata, explicitly reports that data bytes have not
 yet been hashed. Training fully checks the data hash before use. Relative
@@ -113,17 +114,29 @@ continuation. Saving every epoch is available, but 500 full U-Net optimizer
 states may require roughly 150 GB; the default ten-epoch interval avoids that
 storage requirement while preserving resumability.
 
-The baseline journal currently records library versions and precision flags,
-but does **not** automatically compare CPU thread counts or `OMP_NUM_THREADS` /
-`MKL_NUM_THREADS`. Keep those settings fixed yourself across initial training
-and continuation. The checked FNO-2D first-epoch run used both environment
-variables set to `16` before Python started; this is a tested profile, not a
-recovered complete historical runtime record. Configure the checkpoint interval
-at the start of a run and retain it when resuming.
+The current shared journal additionally binds actual Torch intra-op/inter-op
+thread counts and the launch entries `OMP_NUM_THREADS`, `MKL_NUM_THREADS`,
+`OPENBLAS_NUM_THREADS`, `NUMEXPR_NUM_THREADS`, `VECLIB_MAXIMUM_THREADS`,
+`OMP_DYNAMIC` and `MKL_DYNAMIC`. Resume rejects differences before loading
+weights, including an absent versus empty entry. It does not configure these
+settings for you or prove that all device/library numerical behavior is fixed.
+Keep the initial thread settings and checkpoint interval when resuming.
+The checked FNO-2D profile used OMP/MKL `16` before Python started; U-Net uses
+its separate [B7 thread-1 startup contract](UNET.md), not the FNO profile.
 
-基线续算校验目前不自动拦截 CPU 线程数及 OMP/MKL 环境变量变化；初训和续算必须
-保持这些设置一致。已检验的 FNO-2D 首轮在启动 Python 前将两项均设为 `16`。
-这不代表历史运行环境已完整恢复，也不证明后续 499 轮通过；保存间隔亦需保持不变。
+**Old jobs retain their original code.** The shared runtime identity previously
+lacked these thread fields. Old journals are not upgraded or given invented
+thread values; their original bound source/commit is required for continuation.
+Commit `77e987e0de97d93944daea4fbcce583546f575f0` preserves the published source
+before this hardening; earlier jobs may bind still earlier source snapshots.
+Do not rewrite hashes, suppress identity checks or relabel prior full-training
+evidence as a run of the new source. This shared-journal change also applies to
+GIFT training/experiment consumers, not to the separate PINN journal.
+
+新版共享检查点已绑定实际 Torch 两类线程数及上述七项环境变量，变化时拒绝续算，
+但不替用户修改环境。旧任务须使用自身绑定的原源码；不改写旧状态或伪造缺失字段。
+此加固同样影响使用共享日志的 GIFT 训练/实验；PINN 使用独立日志。历史训练和
+数值验收的范围不因增加工程门禁而扩大。
 
 `--stop-after-epoch 1` provides an explicit test/pause boundary without changing
 the total training budget. Use the same command without this option plus

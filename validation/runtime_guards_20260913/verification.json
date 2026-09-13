@@ -1,0 +1,193 @@
+{
+  "schema": "gift.portable-runtime-guards-verification.v1",
+  "status": "PASS_SCOPED_RUNTIME_GUARDS_CPU_AND_DRY_PLAN",
+  "parent_commit": "77e987e0de97d93944daea4fbcce583546f575f0",
+  "tested_source_state": "parent commit plus pending runtime/test/documentation changes, before this portable summary was created",
+  "unchanged_parent_commit_was_tested": false,
+  "scientific_acceptance_verified": false,
+  "tested_runtime_files": [
+    {
+      "path": "training/checkpoints.py",
+      "bytes": 9268,
+      "sha256": "95DD279522581865B6D2E39B49B2E78CF619B0DE45383F2FF4AD357182F06572"
+    },
+    {
+      "path": "training/baseline_control.py",
+      "bytes": 29697,
+      "sha256": "33543A42CA4E0424394172C6384AF261E6301147DB9EA0E6A34917D3044B25B2"
+    },
+    {
+      "path": "training/train_unet.py",
+      "bytes": 707,
+      "sha256": "7E9FD8B256C0A40FD90A881B3309A7E7DAD568535736D5B6D078E290575F3CE2"
+    },
+    {
+      "path": "training/unet_environment.py",
+      "bytes": 5147,
+      "sha256": "9CC9EF2AAC356257D32B31F2793D028F2E62CF6988693A798EE5B0755973603F"
+    }
+  ],
+  "tested_test_files": [
+    {
+      "path": "tests/test_training_checkpoints.py",
+      "bytes": 7560,
+      "sha256": "29543706BD072EE45A5C291F89CD58BE5923A563D7BCB51603854DF9EAAB5C54"
+    },
+    {
+      "path": "tests/test_unet_environment.py",
+      "bytes": 7858,
+      "sha256": "0F1D91519D22A8AC3E7B91582A5204E31196663B599CE36F9F0E312C1956687E"
+    }
+  ],
+  "cpu_regression": {
+    "status": "PASS",
+    "returncode": 0,
+    "invocations": 1,
+    "started_utc": "2026-09-13T11:31:51.498320+00:00",
+    "ended_utc": "2026-09-13T11:32:22.265845+00:00",
+    "helper_elapsed_seconds": 30.767363300023135,
+    "pytest_reported_elapsed_seconds": 27.99,
+    "passed": 173,
+    "skipped": 25,
+    "warnings": 3,
+    "subtests_passed": 24,
+    "junit": {
+      "tests_attribute_including_subtests": 222,
+      "testcase_elements": 198,
+      "passed_testcase_elements": 173,
+      "skipped_testcase_elements": 25,
+      "failures": 0,
+      "errors": 0,
+      "suite_time_seconds": 27.984
+    },
+    "working_tree_inventory_file_count": 311,
+    "working_tree_inventory_scope": "git cached plus unignored files, including documentation and artifacts, not just Python code",
+    "working_tree_inventory_unchanged": true,
+    "environment": {
+      "interpreter": "previously validated isolated main Python venv",
+      "user_site_disabled": true,
+      "bytecode_writes_disabled": true,
+      "cuda_visible_devices": "-1",
+      "cuda_initialized_before": false,
+      "cuda_initialized_after": false,
+      "gift_import_origin": "<candidate>/src/gift/__init__.py",
+      "checkpoint_import_origin": "<candidate>/training/checkpoints.py",
+      "whole_dependency_import_origin_reaudit": false
+    },
+    "coverage": [
+      "Shared checkpoint runtime identity records actual Torch intra-op and inter-op thread counts.",
+      "All seven recorded environment entries reject absent-versus-empty changes before loading weights.",
+      "Fresh child processes accept unchanged journal identity and reject changes to actual Torch pools or OMP_NUM_THREADS without mutating saved files.",
+      "A synthetic legacy threadless journal is rejected rather than upgraded.",
+      "U-Net startup rejects forbidden, missing, changed and case-variant environment entries without printing arbitrary values or mutating the environment.",
+      "Fresh-child invalid formal startup is rejected before NumPy, Torch or HDF5 imports.",
+      "Valid startup, help and explicit nonformal tiny behavior are exercised with an import sentinel, not model execution.",
+      "Long-option abbreviation and direct formal controller bypass are rejected; changes after preflight are rechecked."
+    ]
+  },
+  "formal_unet_dry_plan": {
+    "status": "PASS",
+    "returncode": 0,
+    "invocations": 1,
+    "elapsed_seconds": 2.1166010000160895,
+    "command_equivalent": "python -s -B -m training.train_unet --dry-run",
+    "launch_environment": "Documented B7 child profile; training/unet_environment.py fixed keys applied and absent keys removed before launching the child.",
+    "runtime_entry_executed": "training.train_unet through runpy in a fresh child, with actual baseline metadata/source checks",
+    "configuration_formal": true,
+    "configuration_epochs": 500,
+    "configuration_data_profile": "released",
+    "training_performed": false,
+    "outputs_written": 0,
+    "cuda_initialized": false,
+    "torch_num_threads": 1,
+    "environment_unchanged": true,
+    "data_sha256_verified": false,
+    "full_input_checks_performed": false,
+    "numerical_reproduction_verified": false,
+    "upstream": {
+      "repository": "https://github.com/Rui1521/Turbulent-Flow-Nets",
+      "commit": "229da3e01acefa6f4dd6c77244da5015c9b965af",
+      "source_path": "Baselines/U-net.py",
+      "source_sha256": "F7390A41DA24DD8DBC45F80D04ABEA81F4AAC8FFF14C4BCDC982A9EBDF59B237"
+    }
+  },
+  "shared_thread_environment_keys": [
+    "OMP_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "OPENBLAS_NUM_THREADS",
+    "NUMEXPR_NUM_THREADS",
+    "VECLIB_MAXIMUM_THREADS",
+    "OMP_DYNAMIC",
+    "MKL_DYNAMIC"
+  ],
+  "compatibility_and_limitations": [
+    "Old journals retain their own frozen bound source and runtime; no legacy fields or source hashes were rewritten.",
+    "The shared runtime identity applies to baseline/GIFT training and shared experiment continuation; the separate PINN journal is unchanged.",
+    "This verification does not certify cross-device determinism, full model training, full data generation, or resolution of the existing U-NO, S2 and PINN numerical failures.",
+    "The parent commit identifies the starting point, not the exact tested working tree. The six explicit code/test hashes bind the pending changes.",
+    "The dry plan does not build or train a model and does not hash all training data bytes.",
+    "Raw local evidence is retained outside the repository. The portable summary does not distribute private paths, logs, datasets, wheels or checkpoints."
+  ],
+  "local_source_evidence": [
+    {
+      "relative_to_local_evidence_root": "run_validation.py",
+      "bytes": 4505,
+      "sha256": "CB223F49625ECE062D710D346B82B92CA7A7E61CD5CC5CE2CDF3D15F7FC5CC09"
+    },
+    {
+      "relative_to_local_evidence_root": "run_dry_plan.py",
+      "bytes": 2512,
+      "sha256": "6A3EF816E58965556065383322E8010C2DE2C17E588E50F010693B7137F3C67A"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/START.json",
+      "bytes": 1430,
+      "sha256": "EB5E1292433F9F111E657650A12644BC8D6346C3CC82CD89F418F7E24E526120"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/result.json",
+      "bytes": 576,
+      "sha256": "2C9AFBDA6D340CB00495E1655D692A43AC025A611179DD5581CD3A83B78B7F5D"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/stdout.log",
+      "bytes": 1389,
+      "sha256": "61D5A2603DE1DA1298CE43D2AC26A8F50E4F9F88F4848FBCB8A9844EB807485F"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/stderr.log",
+      "bytes": 0,
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/pytest-junit.xml",
+      "bytes": 32930,
+      "sha256": "1D34A28FF5CD54E8E8378F3D86AE8B9217435374B16795F75FDEC3EEDFC306E3"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/source_before.json",
+      "bytes": 36973,
+      "sha256": "454349E98438BB55AD245F37DF93CCD75AC9A6DF5BBC7A792BD1C9713BCF0A66"
+    },
+    {
+      "relative_to_local_evidence_root": "run_01/source_after.json",
+      "bytes": 36973,
+      "sha256": "454349E98438BB55AD245F37DF93CCD75AC9A6DF5BBC7A792BD1C9713BCF0A66"
+    },
+    {
+      "relative_to_local_evidence_root": "formal_dry_plan_01/result.json",
+      "bytes": 441,
+      "sha256": "D4D618BA4C3E9FE46540D779FF57D0B76B66D63B190151BE6E6F36CFB97228D7"
+    },
+    {
+      "relative_to_local_evidence_root": "formal_dry_plan_01/stdout.log",
+      "bytes": 1467,
+      "sha256": "A10F6FC89A71C8E1FBAB69E2F0018D8C9A9F1896CE74571A68569908599CB34E"
+    },
+    {
+      "relative_to_local_evidence_root": "formal_dry_plan_01/stderr.log",
+      "bytes": 0,
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    }
+  ]
+}
