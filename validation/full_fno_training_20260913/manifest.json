@@ -1,0 +1,19 @@
+{
+  "schema": "gift.validation-evidence-manifest.v1",
+  "evidence": "full_fno_training_20260913",
+  "payload_files": [
+    {
+      "path": "README.md",
+      "bytes": 5728,
+      "sha256": "2aebccf72255e6b25f674d6dbc56f06d11dfbf49c5759582453e79dfa6fb3bb7"
+    },
+    {
+      "path": "result.json",
+      "bytes": 45191,
+      "sha256": "8c753feffc52b41c3bae4dff9e9d3edbbd330f574cdb60e8cbd90b5cd8b40980"
+    }
+  ],
+  "self_hash_exclusion": "manifest.json is the sole unlisted file; its SHA-256 is delivered separately to avoid circular self-hashing.",
+  "large_arrays_csv_weights_or_temporary_code_included": false,
+  "scientific_scope": "Full FNO-training data generation integrity PASS; complete released-field comparison DIFFERENT. No full-field scientific tolerance, model-training acceptance or cross-device guarantee is claimed."
+}

@@ -1,0 +1,1634 @@
+{
+  "schema": "gift.full-fno-test-cpu-verification.v1",
+  "integrity_status": "PASS",
+  "field_comparison_status": "DIFFERENT",
+  "started_utc": "2026-09-13T14:30:36.371990+00:00",
+  "scientific_acceptance": "NOT_ASSESSED_NO_FULL_FIELD_TOLERANCE_DEFINED",
+  "training_performed": false,
+  "integration_reexecuted_by_verifier": false,
+  "comparison_uses_read_only_released_reference": true,
+  "recorded_generation_runtime": {
+    "python": "3.10.19",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.2.6",
+    "h5py": "3.16.0",
+    "torch": "2.10.0+cu126",
+    "threads": 1,
+    "interop_threads": 16,
+    "cuda_runtime": "12.6",
+    "device": "cpu",
+    "matmul_tf32": false,
+    "cudnn_tf32": true,
+    "deterministic_algorithms": false,
+    "cublas_workspace_config": null
+  },
+  "verifier_runtime": {
+    "python": "3.10.19",
+    "numpy": "2.2.6",
+    "h5py": "3.16.0",
+    "torch_distribution_version_without_import": "2.10.0+cu126",
+    "torch_imported": false,
+    "tensorflow_imported": false,
+    "scope": "Checks recorded exact generation runtime and installed distributions, not live Torch thread pools or FFT implementation."
+  },
+  "own_run": {
+    "attempt_id": "21b6c706-706d-4279-adb1-aa4992ad9f7f",
+    "binding_sha256": "27d85cb3715cfcf1d3b5e04ecd89467be9f4378f6ff150f7c3e471aa4866606a",
+    "phase_count": 1,
+    "own_resume_used": false,
+    "artificial_pause": false,
+    "final_checkpoint": {
+      "file": "checkpoint_0353b536e75641e3922ccdc6cd2e5610.npz",
+      "sha256": "60464e9c6a485439d20244c5a8fc69ae6779af95877bbb1b2431d38c9d17caa0",
+      "job_index": 51,
+      "step": 0,
+      "state_dtype": "complex64",
+      "state_shape": [
+        0
+      ],
+      "state_finite": true,
+      "integrator_replay_performed": false,
+      "intermediate_checkpoints_opened": false,
+      "rng_checkpoint_required": false,
+      "scope": "Final own cursor/empty-state marker only; no internal spectral trajectory replay. Randomness is local to parameter construction."
+    },
+    "completed_batches": 51,
+    "batch_advances": 61600,
+    "trajectory_resolution_steps": 800000,
+    "unique_trajectory_ids": 200,
+    "trajectory_resolution_pairs": 600,
+    "integration_begins_at_time": 0.0,
+    "first_stored_time": 4.1,
+    "t0_field_compared": false,
+    "count_scope": "Full bound schedule plus 51 batch-completion messages and final cursor, not an instrumented internal operation trace."
+  },
+  "phases": {
+    "phase_01": {
+      "started_utc": "2026-09-13T13:12:39.928484+00:00",
+      "ended_utc": "2026-09-13T14:27:50.314699+00:00",
+      "elapsed_seconds": 4510.378191599972,
+      "returncode": 0,
+      "phase_status": "COMPLETE_GENERATION_NOT_NUMERIC_ACCEPTANCE"
+    }
+  },
+  "files_before": {
+    "verifier": {
+      "sha256": "8655e66c067c314c0c86ff96829e2f9b402849a04584be2408808bfc7a4d4f37",
+      "bytes": 42594
+    },
+    "launcher": {
+      "sha256": "897a4d9fcdc41b1997885d243b30a4131b6588ad0172060a5098da8e705de77b",
+      "bytes": 9744
+    },
+    "launcher_stdlib_helper": {
+      "sha256": "949cb44f33457945b8e2e9a9afbc69ccb0690dcc70b93b9b74d6f6b68fe64716",
+      "bytes": 12063
+    },
+    "attempt/run.json": {
+      "sha256": "407ebc9b0883ba8634aada44ccd433344c91f390ca10450b5bbe4643d01eb831",
+      "bytes": 473053
+    },
+    "OWNER.json": {
+      "sha256": "f8ab2119935a7291a09a1738ff1794dce929bb71a2d89794e0d1fc4cb468dce6",
+      "bytes": 2403
+    },
+    "phase_01/START.json": {
+      "sha256": "bf70698cee640b30c1a2625f3b86e2ef9f74d00e31199314a48681bd8be6859d",
+      "bytes": 2737
+    },
+    "phase_01/PROCESS.json": {
+      "sha256": "fc2adff4f045a2f59ac98e558b0547b93ad1eb3de8496d14704a9e50e00466ba",
+      "bytes": 102
+    },
+    "phase_01/END.json": {
+      "sha256": "69ae226926d11c3f45b04dac029914689bbb890cc9b6c89164372e9a70619e27",
+      "bytes": 641
+    },
+    "phase_01/stdout.log": {
+      "sha256": "47e928f9fb5b63d48630c949c55880974d0b97db2fdde587fcea46ea47c26d7d",
+      "bytes": 4074
+    },
+    "phase_01/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt/COMPLETE.json": {
+      "sha256": "f7527a05ff174a846dc94381771858e26285dcf33b6bd3c309093b4d14e28adf",
+      "bytes": 361
+    },
+    "attempt/latest.json": {
+      "sha256": "880eace723c872d638520600fa437f8e91f57106cdb079557c1e0fcb60a843f2",
+      "bytes": 205
+    },
+    "attempt/data.h5": {
+      "sha256": "fbedd396d3172b6be831e9462e213aefe273e6852465b2f4828b654cb2dc533c",
+      "bytes": 2277776802
+    },
+    "attempt/checkpoint_0353b536e75641e3922ccdc6cd2e5610.npz": {
+      "sha256": "60464e9c6a485439d20244c5a8fc69ae6779af95877bbb1b2431d38c9d17caa0",
+      "bytes": 1690
+    },
+    "reference/manifest.json": {
+      "sha256": "ef0540907e9778b9858d7b02da46be5415fc59c7f909ed9f86afd8124913fa2d",
+      "bytes": 11816
+    },
+    "reference/fno/fno_test_n64_n96_n128_dt0p02.h5": {
+      "sha256": "ed57949d16de9eb118b91621394d08d41b490a3c233ec708292f8326acf82bc7",
+      "bytes": 2259874675
+    },
+    "reference/splits.json": {
+      "sha256": "d634fd60a200bb770d2f87e4537a1b700a3c5e28f4c92902d703f538a9112478",
+      "bytes": 176229
+    },
+    "source/scripts/generate_data.py": {
+      "sha256": "e4d8129228a3b9928cee0db1eb27a35e2ab8e28312f1dc558572011ebf263c36",
+      "bytes": 19979
+    },
+    "source/src/even_full_spectrum_ns.py": {
+      "sha256": "c4064b06d940ae05be4904012d125d7fae3300b03f04679748d7f3f538b37a1d",
+      "bytes": 16002
+    }
+  },
+  "generation_inputs": {
+    "external_initial_parameter_file": null,
+    "old_solution_fields": false,
+    "trained_weights": false,
+    "parameters_array_sha256": "94d1ce16d6beb4cf92c2985253661ff978cb9af80297dd97818ecf437a935604",
+    "source": "Declared PCG64 seed2026080801, pool1150 rows950:1150; parameters source-bound in run.json and independently reconstructed."
+  },
+  "reference_manifest_binding": {
+    "schema_preflight_manifest_sha256": "ef0540907e9778b9858d7b02da46be5415fc59c7f909ed9f86afd8124913fa2d",
+    "verification_manifest_sha256": "ef0540907e9778b9858d7b02da46be5415fc59c7f909ed9f86afd8124913fa2d",
+    "reference_h5_manifest_entry_matches_pin": true,
+    "scope": "Preflight whole-manifest SHA is historical. Actual verification snapshot is hashed before/after; unrelated publication metadata may have changed in between without changing the pinned data entry."
+  },
+  "split_declaration_checks": {
+    "N64/test": {
+      "role": "evaluation_truth_not_model_training",
+      "all_ids_time_shape_axes_match": true
+    },
+    "N96/test": {
+      "role": "evaluation_truth_not_model_training",
+      "all_ids_time_shape_axes_match": true
+    },
+    "N128/test": {
+      "role": "evaluation_truth_not_model_training",
+      "all_ids_time_shape_axes_match": true
+    }
+  },
+  "h5_metadata": {
+    "generated_attribute_value_sha256": {
+      "/": {
+        "attempt_id": "29eb1e73cc0058d15c11e7854cc676518c687634c1333a227e97ce61946f38f0",
+        "binding_sha256": "7b48327e5a034a4091663b7f338c7bd12366211ac45baa6c6b4b3dd44d9b4977",
+        "generated_from": "d22a057b8df23f5d203a2298368083990b597cf818e7e76042ba31bbc16ca66e",
+        "internal_dt": "07e17407c7918077774d46219a18f93114e778efe79c5e70ffffcc9784c2e75e",
+        "metadata_json": "7f0bb9fb70d614dcbfcd5dc144ad79beb89ec07dc45a1aa5a077ab6571d591b6",
+        "pilot": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+        "status": "b01b7a31e1c6513fc64b2240ba36f5ccc116b74ff99f37c67e48db5812e7aaf1"
+      },
+      "N128": {},
+      "N128/test": {
+        "solver_metadata": "99a02750fcc43f47f559de595ed2c27b4cbc623343e62aeab397393bc414c478"
+      },
+      "N128/test/initial_parameters": {},
+      "N128/test/time": {},
+      "N128/test/trajectory_index": {},
+      "N128/test/vorticity": {},
+      "N64": {},
+      "N64/test": {
+        "solver_metadata": "de077d17e7854d1d8a0385ed4641e4a2d8c71138fe61e83fe28ca76d8ba4089f"
+      },
+      "N64/test/initial_parameters": {},
+      "N64/test/time": {},
+      "N64/test/trajectory_index": {},
+      "N64/test/vorticity": {},
+      "N96": {},
+      "N96/test": {
+        "solver_metadata": "c68bcfee2dc4655cfd1abb72706580975b3afe33c12cf471e982b4878b5794c2"
+      },
+      "N96/test/initial_parameters": {},
+      "N96/test/time": {},
+      "N96/test/trajectory_index": {},
+      "N96/test/vorticity": {}
+    },
+    "reference_attribute_value_sha256": {
+      "/": {
+        "metadata_json": "04dc69d2562f84730d17cfe4d855333be063ab55c794fde2b2a5cd3712b43316"
+      },
+      "N128": {
+        "solver_metadata_json": "13de3601961d990d3efab2772461f7a3e0229ecac1dc312c3af9a26ce2ada9b1"
+      },
+      "N128/test": {},
+      "N128/test/initial_parameters": {},
+      "N128/test/time": {},
+      "N128/test/trajectory_index": {},
+      "N128/test/vorticity": {
+        "axes": "fc881e7803c38a051ce809814cce37e7aed914c350da9fff2734dccef8169fb7",
+        "state_mask_applied": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+      },
+      "N64": {
+        "solver_metadata_json": "e36ca51bf1f567482c67e53036a4a1ba50bb91dda432f4a1503af472a5add0e7"
+      },
+      "N64/test": {},
+      "N64/test/initial_parameters": {},
+      "N64/test/time": {},
+      "N64/test/trajectory_index": {},
+      "N64/test/vorticity": {
+        "axes": "fc881e7803c38a051ce809814cce37e7aed914c350da9fff2734dccef8169fb7",
+        "state_mask_applied": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+      },
+      "N96": {
+        "solver_metadata_json": "fdc876759bbad6ea9b2136f3063b7a5f3c93a51508f4b8d450360307d053c1ab"
+      },
+      "N96/test": {},
+      "N96/test/initial_parameters": {},
+      "N96/test/time": {},
+      "N96/test/trajectory_index": {},
+      "N96/test/vorticity": {
+        "axes": "fc881e7803c38a051ce809814cce37e7aed914c350da9fff2734dccef8169fb7",
+        "state_mask_applied": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+      }
+    },
+    "comparison": {
+      "/": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [
+          "metadata_json"
+        ],
+        "generated_only_attribute_names": [
+          "attempt_id",
+          "binding_sha256",
+          "generated_from",
+          "internal_dt",
+          "pilot",
+          "status"
+        ],
+        "reference_only_attribute_names": []
+      },
+      "N128": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": [
+          "solver_metadata_json"
+        ]
+      },
+      "N128/test": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [
+          "solver_metadata"
+        ],
+        "reference_only_attribute_names": []
+      },
+      "N128/test/initial_parameters": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N128/test/time": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N128/test/trajectory_index": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N128/test/vorticity": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": [
+          "axes",
+          "state_mask_applied"
+        ]
+      },
+      "N64": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": [
+          "solver_metadata_json"
+        ]
+      },
+      "N64/test": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [
+          "solver_metadata"
+        ],
+        "reference_only_attribute_names": []
+      },
+      "N64/test/initial_parameters": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N64/test/time": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N64/test/trajectory_index": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N64/test/vorticity": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": [
+          "axes",
+          "state_mask_applied"
+        ]
+      },
+      "N96": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": [
+          "solver_metadata_json"
+        ]
+      },
+      "N96/test": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [
+          "solver_metadata"
+        ],
+        "reference_only_attribute_names": []
+      },
+      "N96/test/initial_parameters": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N96/test/time": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N96/test/trajectory_index": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": []
+      },
+      "N96/test/vorticity": {
+        "equal_shared_attribute_names": [],
+        "different_shared_attribute_names": [],
+        "generated_only_attribute_names": [],
+        "reference_only_attribute_names": [
+          "axes",
+          "state_mask_applied"
+        ]
+      }
+    },
+    "whole_h5_identity_claimed": false,
+    "scope": "Every root/group/dataset attribute inventoried and shared values compared as normalized JSON hashes; provenance/runtime/elapsed attributes are not numerical acceptance tests.",
+    "reference_metadata_json": {
+      "N64_frame_count": 196,
+      "N64_time_interval": [
+        4.1,
+        8.0
+      ],
+      "N96_N128_frame_count": 96,
+      "N96_N128_time_interval": [
+        4.1,
+        6.0
+      ],
+      "all_native_dft_coefficients_retained": true,
+      "continuous_initial_parameters_shared_across_grids": true,
+      "domain": "[0,2pi)^2 periodic",
+      "equation": "omega_t+u dot grad(omega)=0.01 Delta(omega)-4 cos(4y)",
+      "grids": [
+        64,
+        96,
+        128
+      ],
+      "internal_dt": 0.005,
+      "interpolation_used": false,
+      "numeric_source_container_sha256": "76BA0256E46EA8DF3DCEE6F336E09163F3E1EDB89D842159997FC962B6C99704",
+      "schema_version": "gift.fno.test-data.v1",
+      "spectral_filter_or_cutoff": null,
+      "state_mask_applied": false,
+      "status": "complete",
+      "stored_dt": 0.02,
+      "trajectory_count_per_grid": 200,
+      "trajectory_ids": [
+        1000,
+        1199
+      ]
+    },
+    "generated_metadata_json": {
+      "schema_version": "gift.fno.test-data.v1",
+      "status": "complete",
+      "stored_dt": 0.02,
+      "interpolation_used": false,
+      "generation_profile": "regenerated",
+      "source_hashes": {
+        "scripts/generate_data.py": "e4d8129228a3b9928cee0db1eb27a35e2ab8e28312f1dc558572011ebf263c36",
+        "src/even_full_spectrum_ns.py": "c4064b06d940ae05be4904012d125d7fae3300b03f04679748d7f3f538b37a1d"
+      },
+      "physical_protocol": {
+        "equation": "omega_t+u.grad(omega)=nu*laplacian(omega)-4*cos(4*y)",
+        "domain": [
+          0.0,
+          6.283185307179586
+        ],
+        "periodic": true,
+        "viscosity": 0.01,
+        "forcing_amplitude": 1.0,
+        "forcing_wavenumber": 4,
+        "internal_dt": 0.005,
+        "real_dtype": "float32",
+        "complex_dtype": "complex64",
+        "solver": "full-spectrum Fourier pseudospectral ETDRK4",
+        "state_mask_applied": false,
+        "padding": {
+          "64": 99,
+          "96": 147,
+          "128": 195
+        }
+      },
+      "pilot": false,
+      "subset": null,
+      "copied_reference_truth": false
+    },
+    "reference_physical_protocol_semantically_matches_bound_generation": true,
+    "axis_order": [
+      "trajectory",
+      "time",
+      "y",
+      "x"
+    ],
+    "axis_semantics": "Reference vorticity attributes declare trajectory,time,y,x; generated source stores that order. No separate x/y coordinate arrays occur in either file.",
+    "solver_metadata_location_mapping": "Reference N*/solver_metadata_json is compared to generated N*/test/solver_metadata for all three grids.",
+    "source_container_note": "numeric_source_container_sha256 is historical source lineage, not the reference H5 SHA or a hash the newly integrated output should reuse.",
+    "reference_runtime_limit": "Reference metadata contains no device or elapsed-time record; original generating device and duration are not inferred."
+  },
+  "dataset_storage": {
+    "N64/test": {
+      "generated": {
+        "initial_parameters": {
+          "shape": [
+            200,
+            4,
+            4
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "time": {
+          "shape": [
+            196
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "trajectory_index": {
+          "shape": [
+            200
+          ],
+          "dtype": "<i8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "vorticity": {
+          "shape": [
+            200,
+            196,
+            64,
+            64
+          ],
+          "dtype": "<f4",
+          "chunks": [
+            1,
+            1,
+            64,
+            64
+          ],
+          "compression": "lzf",
+          "shuffle": true,
+          "fillvalue_repr": "nan",
+          "dimension_labels": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "reference": {
+        "initial_parameters": {
+          "shape": [
+            200,
+            4,
+            4
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "time": {
+          "shape": [
+            196
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "trajectory_index": {
+          "shape": [
+            200
+          ],
+          "dtype": "<i8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "vorticity": {
+          "shape": [
+            200,
+            196,
+            64,
+            64
+          ],
+          "dtype": "<f4",
+          "chunks": [
+            1,
+            16,
+            64,
+            64
+          ],
+          "compression": "lzf",
+          "shuffle": true,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      }
+    },
+    "N96/test": {
+      "generated": {
+        "initial_parameters": {
+          "shape": [
+            200,
+            4,
+            4
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "time": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "trajectory_index": {
+          "shape": [
+            200
+          ],
+          "dtype": "<i8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "vorticity": {
+          "shape": [
+            200,
+            96,
+            96,
+            96
+          ],
+          "dtype": "<f4",
+          "chunks": [
+            1,
+            1,
+            96,
+            96
+          ],
+          "compression": "lzf",
+          "shuffle": true,
+          "fillvalue_repr": "nan",
+          "dimension_labels": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "reference": {
+        "initial_parameters": {
+          "shape": [
+            200,
+            4,
+            4
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "time": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "trajectory_index": {
+          "shape": [
+            200
+          ],
+          "dtype": "<i8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "vorticity": {
+          "shape": [
+            200,
+            96,
+            96,
+            96
+          ],
+          "dtype": "<f4",
+          "chunks": [
+            1,
+            16,
+            96,
+            96
+          ],
+          "compression": "lzf",
+          "shuffle": true,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      }
+    },
+    "N128/test": {
+      "generated": {
+        "initial_parameters": {
+          "shape": [
+            200,
+            4,
+            4
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "time": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "trajectory_index": {
+          "shape": [
+            200
+          ],
+          "dtype": "<i8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "vorticity": {
+          "shape": [
+            200,
+            96,
+            128,
+            128
+          ],
+          "dtype": "<f4",
+          "chunks": [
+            1,
+            1,
+            128,
+            128
+          ],
+          "compression": "lzf",
+          "shuffle": true,
+          "fillvalue_repr": "nan",
+          "dimension_labels": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "reference": {
+        "initial_parameters": {
+          "shape": [
+            200,
+            4,
+            4
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "time": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "trajectory_index": {
+          "shape": [
+            200
+          ],
+          "dtype": "<i8",
+          "chunks": null,
+          "compression": null,
+          "shuffle": false,
+          "fillvalue_repr": "0",
+          "dimension_labels": [
+            ""
+          ]
+        },
+        "vorticity": {
+          "shape": [
+            200,
+            96,
+            128,
+            128
+          ],
+          "dtype": "<f4",
+          "chunks": [
+            1,
+            16,
+            128,
+            128
+          ],
+          "compression": "lzf",
+          "shuffle": true,
+          "fillvalue_repr": "0.0",
+          "dimension_labels": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      }
+    }
+  },
+  "parameter_protocol_checks": {
+    "N64/test": {
+      "dtype": "float64",
+      "shape": [
+        200,
+        4,
+        4
+      ],
+      "generated_reference_seed_protocol_parameter_bits_equal": true,
+      "array_sha256": "94d1ce16d6beb4cf92c2985253661ff978cb9af80297dd97818ecf437a935604",
+      "reference_has_parameter_dataset": true,
+      "trajectory_count": 200,
+      "batch_size": 200,
+      "coordinate_bits_equal": true,
+      "saved_frames_per_trajectory": 196,
+      "stored_time_interval": [
+        4.1,
+        8.0
+      ],
+      "origin": "PCG64 seed 2026080801; rows950:1150 of the independently drawn 1150-member pool",
+      "same_continuous_parameters_across_grids": true
+    },
+    "N96/test": {
+      "dtype": "float64",
+      "shape": [
+        200,
+        4,
+        4
+      ],
+      "generated_reference_seed_protocol_parameter_bits_equal": true,
+      "array_sha256": "94d1ce16d6beb4cf92c2985253661ff978cb9af80297dd97818ecf437a935604",
+      "reference_has_parameter_dataset": true,
+      "trajectory_count": 200,
+      "batch_size": 8,
+      "coordinate_bits_equal": true,
+      "saved_frames_per_trajectory": 96,
+      "stored_time_interval": [
+        4.1,
+        6.0
+      ],
+      "origin": "PCG64 seed 2026080801; rows950:1150 of the independently drawn 1150-member pool",
+      "same_continuous_parameters_across_grids": true
+    },
+    "N128/test": {
+      "dtype": "float64",
+      "shape": [
+        200,
+        4,
+        4
+      ],
+      "generated_reference_seed_protocol_parameter_bits_equal": true,
+      "array_sha256": "94d1ce16d6beb4cf92c2985253661ff978cb9af80297dd97818ecf437a935604",
+      "reference_has_parameter_dataset": true,
+      "trajectory_count": 200,
+      "batch_size": 8,
+      "coordinate_bits_equal": true,
+      "saved_frames_per_trajectory": 96,
+      "stored_time_interval": [
+        4.1,
+        6.0
+      ],
+      "origin": "PCG64 seed 2026080801; rows950:1150 of the independently drawn 1150-member pool",
+      "same_continuous_parameters_across_grids": true
+    }
+  },
+  "field_comparison": {
+    "group_summaries": {
+      "N64/test": {
+        "frames": 39200,
+        "values": 160563200,
+        "bit_mismatches": 160532177,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "max_absolute_error": 0.18331849575042725,
+        "error_sum_square_float64": 1662.612200125515,
+        "reference_sum_square_float64": 3263078876.570146,
+        "worst_absolute_frame": {
+          "group": "N64/test",
+          "grid": 64,
+          "trajectory_id": 1118,
+          "row": 118,
+          "frame_index": 195,
+          "time": 8.0,
+          "values": 4096,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "bit_mismatches": 4096,
+          "max_absolute_error": 0.18331849575042725,
+          "error_l2": 2.096374473938223,
+          "reference_l2": 270.9321711372662,
+          "relative_l2": 0.00773763582648185,
+          "relative_l2_zero_reference_nonzero_error": false
+        },
+        "worst_relative_l2_frame": {
+          "group": "N64/test",
+          "grid": 64,
+          "trajectory_id": 1118,
+          "row": 118,
+          "frame_index": 195,
+          "time": 8.0,
+          "values": 4096,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "bit_mismatches": 4096,
+          "max_absolute_error": 0.18331849575042725,
+          "error_l2": 2.096374473938223,
+          "reference_l2": 270.9321711372662,
+          "relative_l2": 0.00773763582648185,
+          "relative_l2_zero_reference_nonzero_error": false
+        },
+        "undefined_relative_l2_frames": 0,
+        "first_observable_difference": {
+          "ordering_time_id_grid": [
+            4.1,
+            1000,
+            64
+          ],
+          "group": "N64/test",
+          "grid": 64,
+          "trajectory_id": 1000,
+          "frame_index": 0,
+          "time": 4.1,
+          "first_spatial_index_yx": [
+            0,
+            0
+          ],
+          "generated_uint32": 1076906318,
+          "reference_uint32": 1076906256,
+          "generated_value": 2.75447416305542,
+          "reference_value": 2.7544593811035156,
+          "frame_bit_mismatches": 4096,
+          "frame_max_absolute_error": 0.0034633874893188477,
+          "frame_relative_l2": 0.0001063524566691349
+        },
+        "relative_l2_over_all_stored_values": 0.0007138084677094552,
+        "comparison_status": "DIFFERENT",
+        "first_saved_frame_at_t4p1_only": {
+          "frames": 200,
+          "values": 819200,
+          "bit_mismatches": 818627,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "max_absolute_error": 0.009837865829467773,
+          "error_sum_square_float64": 0.35976413777989574,
+          "reference_sum_square_float64": 26050121.382933028,
+          "worst_absolute_frame": {
+            "group": "N64/test",
+            "grid": 64,
+            "trajectory_id": 1089,
+            "row": 89,
+            "frame_index": 0,
+            "time": 4.1,
+            "values": 4096,
+            "generated_nonfinite": 0,
+            "reference_nonfinite": 0,
+            "bit_mismatches": 4091,
+            "max_absolute_error": 0.009837865829467773,
+            "error_l2": 0.07240278155929958,
+            "reference_l2": 322.9016618200305,
+            "relative_l2": 0.00022422548447475422,
+            "relative_l2_zero_reference_nonzero_error": false
+          },
+          "worst_relative_l2_frame": {
+            "group": "N64/test",
+            "grid": 64,
+            "trajectory_id": 1155,
+            "row": 155,
+            "frame_index": 0,
+            "time": 4.1,
+            "values": 4096,
+            "generated_nonfinite": 0,
+            "reference_nonfinite": 0,
+            "bit_mismatches": 4093,
+            "max_absolute_error": 0.007838845252990723,
+            "error_l2": 0.07464788591643091,
+            "reference_l2": 329.67449338000586,
+            "relative_l2": 0.0002264290608323967,
+            "relative_l2_zero_reference_nonzero_error": false
+          },
+          "undefined_relative_l2_frames": 0,
+          "first_observable_difference": {
+            "ordering_time_id_grid": [
+              4.1,
+              1000,
+              64
+            ],
+            "group": "N64/test",
+            "grid": 64,
+            "trajectory_id": 1000,
+            "frame_index": 0,
+            "time": 4.1,
+            "first_spatial_index_yx": [
+              0,
+              0
+            ],
+            "generated_uint32": 1076906318,
+            "reference_uint32": 1076906256,
+            "generated_value": 2.75447416305542,
+            "reference_value": 2.7544593811035156,
+            "frame_bit_mismatches": 4096,
+            "frame_max_absolute_error": 0.0034633874893188477,
+            "frame_relative_l2": 0.0001063524566691349
+          },
+          "relative_l2_over_all_stored_values": 0.00011751791000446635,
+          "comparison_status": "DIFFERENT"
+        }
+      },
+      "N96/test": {
+        "frames": 19200,
+        "values": 176947200,
+        "bit_mismatches": 176897476,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "max_absolute_error": 0.07293868064880371,
+        "error_sum_square_float64": 350.2656138086215,
+        "reference_sum_square_float64": 4197394374.0696435,
+        "worst_absolute_frame": {
+          "group": "N96/test",
+          "grid": 96,
+          "trajectory_id": 1118,
+          "row": 118,
+          "frame_index": 95,
+          "time": 6.0,
+          "values": 9216,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "bit_mismatches": 9216,
+          "max_absolute_error": 0.07293868064880371,
+          "error_l2": 0.7264495897829885,
+          "reference_l2": 464.6885738826659,
+          "relative_l2": 0.0015633041796427243,
+          "relative_l2_zero_reference_nonzero_error": false
+        },
+        "worst_relative_l2_frame": {
+          "group": "N96/test",
+          "grid": 96,
+          "trajectory_id": 1118,
+          "row": 118,
+          "frame_index": 95,
+          "time": 6.0,
+          "values": 9216,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "bit_mismatches": 9216,
+          "max_absolute_error": 0.07293868064880371,
+          "error_l2": 0.7264495897829885,
+          "reference_l2": 464.6885738826659,
+          "relative_l2": 0.0015633041796427243,
+          "relative_l2_zero_reference_nonzero_error": false
+        },
+        "undefined_relative_l2_frames": 0,
+        "first_observable_difference": {
+          "ordering_time_id_grid": [
+            4.1,
+            1000,
+            96
+          ],
+          "group": "N96/test",
+          "grid": 96,
+          "trajectory_id": 1000,
+          "frame_index": 0,
+          "time": 4.1,
+          "first_spatial_index_yx": [
+            0,
+            0
+          ],
+          "generated_uint32": 1076503201,
+          "reference_uint32": 1076502946,
+          "generated_value": 2.6583635807037354,
+          "reference_value": 2.6583027839660645,
+          "frame_bit_mismatches": 9212,
+          "frame_max_absolute_error": 0.003246307373046875,
+          "frame_relative_l2": 9.838644951901979e-05
+        },
+        "relative_l2_over_all_stored_values": 0.0002888742719511077,
+        "comparison_status": "DIFFERENT",
+        "first_saved_frame_at_t4p1_only": {
+          "frames": 200,
+          "values": 1843200,
+          "bit_mismatches": 1842093,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "max_absolute_error": 0.010113000869750977,
+          "error_sum_square_float64": 0.7627800518027605,
+          "reference_sum_square_float64": 58605256.126645975,
+          "worst_absolute_frame": {
+            "group": "N96/test",
+            "grid": 96,
+            "trajectory_id": 1089,
+            "row": 89,
+            "frame_index": 0,
+            "time": 4.1,
+            "values": 9216,
+            "generated_nonfinite": 0,
+            "reference_nonfinite": 0,
+            "bit_mismatches": 9214,
+            "max_absolute_error": 0.010113000869750977,
+            "error_l2": 0.10811867862286954,
+            "reference_l2": 484.3174307639353,
+            "relative_l2": 0.0002232392884400819,
+            "relative_l2_zero_reference_nonzero_error": false
+          },
+          "worst_relative_l2_frame": {
+            "group": "N96/test",
+            "grid": 96,
+            "trajectory_id": 1089,
+            "row": 89,
+            "frame_index": 0,
+            "time": 4.1,
+            "values": 9216,
+            "generated_nonfinite": 0,
+            "reference_nonfinite": 0,
+            "bit_mismatches": 9214,
+            "max_absolute_error": 0.010113000869750977,
+            "error_l2": 0.10811867862286954,
+            "reference_l2": 484.3174307639353,
+            "relative_l2": 0.0002232392884400819,
+            "relative_l2_zero_reference_nonzero_error": false
+          },
+          "undefined_relative_l2_frames": 0,
+          "first_observable_difference": {
+            "ordering_time_id_grid": [
+              4.1,
+              1000,
+              96
+            ],
+            "group": "N96/test",
+            "grid": 96,
+            "trajectory_id": 1000,
+            "frame_index": 0,
+            "time": 4.1,
+            "first_spatial_index_yx": [
+              0,
+              0
+            ],
+            "generated_uint32": 1076503201,
+            "reference_uint32": 1076502946,
+            "generated_value": 2.6583635807037354,
+            "reference_value": 2.6583027839660645,
+            "frame_bit_mismatches": 9212,
+            "frame_max_absolute_error": 0.003246307373046875,
+            "frame_relative_l2": 9.838644951901979e-05
+          },
+          "relative_l2_over_all_stored_values": 0.0001140857440839452,
+          "comparison_status": "DIFFERENT"
+        }
+      },
+      "N128/test": {
+        "frames": 19200,
+        "values": 314572800,
+        "bit_mismatches": 314472301,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "max_absolute_error": 0.07412528991699219,
+        "error_sum_square_float64": 647.4310224500633,
+        "reference_sum_square_float64": 7462015677.133999,
+        "worst_absolute_frame": {
+          "group": "N128/test",
+          "grid": 128,
+          "trajectory_id": 1118,
+          "row": 118,
+          "frame_index": 95,
+          "time": 6.0,
+          "values": 16384,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "bit_mismatches": 16384,
+          "max_absolute_error": 0.07412528991699219,
+          "error_l2": 0.9675731375995706,
+          "reference_l2": 619.5846067003382,
+          "relative_l2": 0.0015616481222031668,
+          "relative_l2_zero_reference_nonzero_error": false
+        },
+        "worst_relative_l2_frame": {
+          "group": "N128/test",
+          "grid": 128,
+          "trajectory_id": 1118,
+          "row": 118,
+          "frame_index": 95,
+          "time": 6.0,
+          "values": 16384,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "bit_mismatches": 16384,
+          "max_absolute_error": 0.07412528991699219,
+          "error_l2": 0.9675731375995706,
+          "reference_l2": 619.5846067003382,
+          "relative_l2": 0.0015616481222031668,
+          "relative_l2_zero_reference_nonzero_error": false
+        },
+        "undefined_relative_l2_frames": 0,
+        "first_observable_difference": {
+          "ordering_time_id_grid": [
+            4.1,
+            1000,
+            128
+          ],
+          "group": "N128/test",
+          "grid": 128,
+          "trajectory_id": 1000,
+          "frame_index": 0,
+          "time": 4.1,
+          "first_spatial_index_yx": [
+            0,
+            0
+          ],
+          "generated_uint32": 1076505880,
+          "reference_uint32": 1076505750,
+          "generated_value": 2.6590023040771484,
+          "reference_value": 2.6589713096618652,
+          "frame_bit_mismatches": 16372,
+          "frame_max_absolute_error": 0.003607034683227539,
+          "frame_relative_l2": 0.0001052687406017264
+        },
+        "relative_l2_over_all_stored_values": 0.0002945565429390893,
+        "comparison_status": "DIFFERENT",
+        "first_saved_frame_at_t4p1_only": {
+          "frames": 200,
+          "values": 3276800,
+          "bit_mismatches": 3274513,
+          "generated_nonfinite": 0,
+          "reference_nonfinite": 0,
+          "max_absolute_error": 0.010182380676269531,
+          "error_sum_square_float64": 1.4374466904092256,
+          "reference_sum_square_float64": 104186901.1950345,
+          "worst_absolute_frame": {
+            "group": "N128/test",
+            "grid": 128,
+            "trajectory_id": 1089,
+            "row": 89,
+            "frame_index": 0,
+            "time": 4.1,
+            "values": 16384,
+            "generated_nonfinite": 0,
+            "reference_nonfinite": 0,
+            "bit_mismatches": 16379,
+            "max_absolute_error": 0.010182380676269531,
+            "error_l2": 0.14626884764415063,
+            "reference_l2": 645.7557039702674,
+            "relative_l2": 0.00022650802268544157,
+            "relative_l2_zero_reference_nonzero_error": false
+          },
+          "worst_relative_l2_frame": {
+            "group": "N128/test",
+            "grid": 128,
+            "trajectory_id": 1155,
+            "row": 155,
+            "frame_index": 0,
+            "time": 4.1,
+            "values": 16384,
+            "generated_nonfinite": 0,
+            "reference_nonfinite": 0,
+            "bit_mismatches": 16375,
+            "max_absolute_error": 0.008070707321166992,
+            "error_l2": 0.15066904724679417,
+            "reference_l2": 659.3175639334376,
+            "relative_l2": 0.00022852272635953198,
+            "relative_l2_zero_reference_nonzero_error": false
+          },
+          "undefined_relative_l2_frames": 0,
+          "first_observable_difference": {
+            "ordering_time_id_grid": [
+              4.1,
+              1000,
+              128
+            ],
+            "group": "N128/test",
+            "grid": 128,
+            "trajectory_id": 1000,
+            "frame_index": 0,
+            "time": 4.1,
+            "first_spatial_index_yx": [
+              0,
+              0
+            ],
+            "generated_uint32": 1076505880,
+            "reference_uint32": 1076505750,
+            "generated_value": 2.6590023040771484,
+            "reference_value": 2.6589713096618652,
+            "frame_bit_mismatches": 16372,
+            "frame_max_absolute_error": 0.003607034683227539,
+            "frame_relative_l2": 0.0001052687406017264
+          },
+          "relative_l2_over_all_stored_values": 0.00011745981516087359,
+          "comparison_status": "DIFFERENT"
+        }
+      }
+    },
+    "all_groups": {
+      "frames": 77600,
+      "values": 652083200,
+      "bit_mismatches": 651901954,
+      "generated_nonfinite": 0,
+      "reference_nonfinite": 0,
+      "max_absolute_error": 0.18331849575042725,
+      "error_sum_square_float64": 2660.308836384182,
+      "reference_sum_square_float64": 14922488927.773897,
+      "worst_absolute_frame": {
+        "group": "N64/test",
+        "grid": 64,
+        "trajectory_id": 1118,
+        "row": 118,
+        "frame_index": 195,
+        "time": 8.0,
+        "values": 4096,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "bit_mismatches": 4096,
+        "max_absolute_error": 0.18331849575042725,
+        "error_l2": 2.096374473938223,
+        "reference_l2": 270.9321711372662,
+        "relative_l2": 0.00773763582648185,
+        "relative_l2_zero_reference_nonzero_error": false
+      },
+      "worst_relative_l2_frame": {
+        "group": "N64/test",
+        "grid": 64,
+        "trajectory_id": 1118,
+        "row": 118,
+        "frame_index": 195,
+        "time": 8.0,
+        "values": 4096,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "bit_mismatches": 4096,
+        "max_absolute_error": 0.18331849575042725,
+        "error_l2": 2.096374473938223,
+        "reference_l2": 270.9321711372662,
+        "relative_l2": 0.00773763582648185,
+        "relative_l2_zero_reference_nonzero_error": false
+      },
+      "undefined_relative_l2_frames": 0,
+      "first_observable_difference": {
+        "ordering_time_id_grid": [
+          4.1,
+          1000,
+          64
+        ],
+        "group": "N64/test",
+        "grid": 64,
+        "trajectory_id": 1000,
+        "frame_index": 0,
+        "time": 4.1,
+        "first_spatial_index_yx": [
+          0,
+          0
+        ],
+        "generated_uint32": 1076906318,
+        "reference_uint32": 1076906256,
+        "generated_value": 2.75447416305542,
+        "reference_value": 2.7544593811035156,
+        "frame_bit_mismatches": 4096,
+        "frame_max_absolute_error": 0.0034633874893188477,
+        "frame_relative_l2": 0.0001063524566691349
+      },
+      "relative_l2_over_all_stored_values": 0.0004222264111280865,
+      "comparison_status": "DIFFERENT"
+    },
+    "all_first_saved_frames_at_t4p1": {
+      "frames": 600,
+      "values": 5939200,
+      "bit_mismatches": 5935233,
+      "generated_nonfinite": 0,
+      "reference_nonfinite": 0,
+      "max_absolute_error": 0.010182380676269531,
+      "error_sum_square_float64": 2.5599908799918847,
+      "reference_sum_square_float64": 188842278.7046135,
+      "worst_absolute_frame": {
+        "group": "N128/test",
+        "grid": 128,
+        "trajectory_id": 1089,
+        "row": 89,
+        "frame_index": 0,
+        "time": 4.1,
+        "values": 16384,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "bit_mismatches": 16379,
+        "max_absolute_error": 0.010182380676269531,
+        "error_l2": 0.14626884764415063,
+        "reference_l2": 645.7557039702674,
+        "relative_l2": 0.00022650802268544157,
+        "relative_l2_zero_reference_nonzero_error": false
+      },
+      "worst_relative_l2_frame": {
+        "group": "N128/test",
+        "grid": 128,
+        "trajectory_id": 1155,
+        "row": 155,
+        "frame_index": 0,
+        "time": 4.1,
+        "values": 16384,
+        "generated_nonfinite": 0,
+        "reference_nonfinite": 0,
+        "bit_mismatches": 16375,
+        "max_absolute_error": 0.008070707321166992,
+        "error_l2": 0.15066904724679417,
+        "reference_l2": 659.3175639334376,
+        "relative_l2": 0.00022852272635953198,
+        "relative_l2_zero_reference_nonzero_error": false
+      },
+      "undefined_relative_l2_frames": 0,
+      "first_observable_difference": {
+        "ordering_time_id_grid": [
+          4.1,
+          1000,
+          64
+        ],
+        "group": "N64/test",
+        "grid": 64,
+        "trajectory_id": 1000,
+        "frame_index": 0,
+        "time": 4.1,
+        "first_spatial_index_yx": [
+          0,
+          0
+        ],
+        "generated_uint32": 1076906318,
+        "reference_uint32": 1076906256,
+        "generated_value": 2.75447416305542,
+        "reference_value": 2.7544593811035156,
+        "frame_bit_mismatches": 4096,
+        "frame_max_absolute_error": 0.0034633874893188477,
+        "frame_relative_l2": 0.0001063524566691349
+      },
+      "relative_l2_over_all_stored_values": 0.00011643125881243083,
+      "comparison_status": "DIFFERENT"
+    },
+    "per_frame_csv": "per_trajectory_frame_errors.csv",
+    "csv_rows": 77600,
+    "float32_values": 652083200,
+    "metric_definition": "All float32 values compared as uint32 bits, including signed zero. Per-frame and aggregate relative L2 = sqrt(sum((generated-reference)^2)/sum(reference^2)), accumulated in float64; no tolerance. All-grid aggregates weight stored scalar values, not equal weight per grid.",
+    "maxima_scope": "worst_absolute_frame and worst_relative_l2_frame are independently tracked. The relative L2 of the maximum-absolute frame is not necessarily the maximum frame-relative L2.",
+    "first_boundary_scope": "Earliest stored time, then trajectory ID and numeric grid, with different bits. First stored time is 4.1 on every grid. No t0 field is present or compared, and this does not identify the first differing internal arithmetic operation."
+  },
+  "files_after": {
+    "verifier": {
+      "sha256": "8655e66c067c314c0c86ff96829e2f9b402849a04584be2408808bfc7a4d4f37",
+      "bytes": 42594
+    },
+    "launcher": {
+      "sha256": "897a4d9fcdc41b1997885d243b30a4131b6588ad0172060a5098da8e705de77b",
+      "bytes": 9744
+    },
+    "launcher_stdlib_helper": {
+      "sha256": "949cb44f33457945b8e2e9a9afbc69ccb0690dcc70b93b9b74d6f6b68fe64716",
+      "bytes": 12063
+    },
+    "attempt/run.json": {
+      "sha256": "407ebc9b0883ba8634aada44ccd433344c91f390ca10450b5bbe4643d01eb831",
+      "bytes": 473053
+    },
+    "OWNER.json": {
+      "sha256": "f8ab2119935a7291a09a1738ff1794dce929bb71a2d89794e0d1fc4cb468dce6",
+      "bytes": 2403
+    },
+    "phase_01/START.json": {
+      "sha256": "bf70698cee640b30c1a2625f3b86e2ef9f74d00e31199314a48681bd8be6859d",
+      "bytes": 2737
+    },
+    "phase_01/PROCESS.json": {
+      "sha256": "fc2adff4f045a2f59ac98e558b0547b93ad1eb3de8496d14704a9e50e00466ba",
+      "bytes": 102
+    },
+    "phase_01/END.json": {
+      "sha256": "69ae226926d11c3f45b04dac029914689bbb890cc9b6c89164372e9a70619e27",
+      "bytes": 641
+    },
+    "phase_01/stdout.log": {
+      "sha256": "47e928f9fb5b63d48630c949c55880974d0b97db2fdde587fcea46ea47c26d7d",
+      "bytes": 4074
+    },
+    "phase_01/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt/COMPLETE.json": {
+      "sha256": "f7527a05ff174a846dc94381771858e26285dcf33b6bd3c309093b4d14e28adf",
+      "bytes": 361
+    },
+    "attempt/latest.json": {
+      "sha256": "880eace723c872d638520600fa437f8e91f57106cdb079557c1e0fcb60a843f2",
+      "bytes": 205
+    },
+    "attempt/data.h5": {
+      "sha256": "fbedd396d3172b6be831e9462e213aefe273e6852465b2f4828b654cb2dc533c",
+      "bytes": 2277776802
+    },
+    "attempt/checkpoint_0353b536e75641e3922ccdc6cd2e5610.npz": {
+      "sha256": "60464e9c6a485439d20244c5a8fc69ae6779af95877bbb1b2431d38c9d17caa0",
+      "bytes": 1690
+    },
+    "reference/manifest.json": {
+      "sha256": "ef0540907e9778b9858d7b02da46be5415fc59c7f909ed9f86afd8124913fa2d",
+      "bytes": 11816
+    },
+    "reference/fno/fno_test_n64_n96_n128_dt0p02.h5": {
+      "sha256": "ed57949d16de9eb118b91621394d08d41b490a3c233ec708292f8326acf82bc7",
+      "bytes": 2259874675
+    },
+    "reference/splits.json": {
+      "sha256": "d634fd60a200bb770d2f87e4537a1b700a3c5e28f4c92902d703f538a9112478",
+      "bytes": 176229
+    },
+    "source/scripts/generate_data.py": {
+      "sha256": "e4d8129228a3b9928cee0db1eb27a35e2ab8e28312f1dc558572011ebf263c36",
+      "bytes": 19979
+    },
+    "source/src/even_full_spectrum_ns.py": {
+      "sha256": "c4064b06d940ae05be4904012d125d7fae3300b03f04679748d7f3f538b37a1d",
+      "bytes": 16002
+    }
+  },
+  "all_sources_inputs_outputs_checkpoint_and_receipts_unchanged": true,
+  "limitations": [
+    "This covers full held-out FNO-test data generation at N64/N96/N128: 200 unique trajectory IDs and 600 trajectory-resolution pairs. No model training or assembled-collection experiment acceptance is established.",
+    "All generation initial parameters come from the declared seed protocol, not an external initial-condition JSON, old solution fields, or model weights. The released reference is opened only for post-generation comparison.",
+    "All three reference groups contain initial_parameters, and their full float64 parameter arrays are checked against generated arrays and an independent seed reconstruction.",
+    "The bound generator integrates from t0, but stored fields begin at t4.1. This verifier compares no t0 fields and cannot determine an earlier internal divergence from these outputs.",
+    "Source/schema/completion integrity PASS is independent of field EXACT_BITS or DIFFERENT. No scientific full-field threshold or cross-device bitwise guarantee is added or implied.",
+    "The final own checkpoint confirms completed 51-job cursor and empty spectrum marker. Intermediate checkpoint files are preserved but not opened/replayed; this uninterrupted invocation is not another pause/resume test.",
+    "Whole H5 metadata, chunking, fill values and provenance may differ. The reference parent-grid solver_metadata_json is semantically checked against generated test-group solver_metadata rather than required at the same attribute path."
+  ],
+  "ended_utc": "2026-09-13T14:31:04.265954+00:00",
+  "elapsed_seconds": 27.889999999955762,
+  "per_frame_csv_receipt": {
+    "path": "per_trajectory_frame_errors.csv",
+    "bytes": 10340987,
+    "sha256": "36a156730b58319658ca1e69b961a5c4feb85be0b4edcd92a0fb880485147edb"
+  }
+}

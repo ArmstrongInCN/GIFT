@@ -4,9 +4,9 @@
 
 This entry point freshly integrates the Navier–Stokes equation from declared initial conditions. It does not load model weights or copy saved vorticity as newly generated truth. Data simulation, fresh model training, same-run model resume, and existing-result retrieval are distinct operations. The downloaded data package can be used directly for training.
 
-**当前生成→训练/正式评估尚未完成全量实测验收。** 完整 standard 数据已从种子生成并实际暂停/续算，结构与来源核验通过，但全场数值与发布数据不同；见下方全量结果。评估元数据、时间标签、组装入口及严格 released/regenerated profile 接入已实现；新数据必须经组装和显式 regenerated 门禁，不能仅移动文件或假冒原SHA。其余完整清洁数据生成、全集合组装及基于该新集合的正式训练验收仍未完成。
+**当前生成→训练/正式评估尚未完成全量实测验收。** 完整 standard、FNO训练及三分辨率FNO测试数据均已重新积分，结构与来源核验通过，但全场数值与发布数据不同；见下方全量结果。新数据必须经组装和显式 regenerated 门禁，不能仅移动文件或假冒原SHA。完整集合的接口检查与基于新集合的正式训练/实验数值验收是后续独立步骤，不由生成完成推定通过。
 
-**Full real-data generation-to-training/evaluation acceptance is not yet demonstrated.** Full standard clean generation and actual same-attempt pause/resume passed integrity checks, but its field values differ from the released reference. Other full clean datasets, complete assembly and formal-budget training on that new collection remain unverified. Newly generated inputs require assembly and the explicit regenerated gate; moving files or pretending they have the released SHA is insufficient.
+**Full real-data generation-to-training/evaluation acceptance is not yet demonstrated.** Full standard, FNO-training and three-grid FNO-test integration passed integrity checks, but their field values differ from the released references. Complete-collection consumer checks and formal-budget training/experimental acceptance on new inputs are separate steps, not implied by generation. Newly generated inputs require assembly and the explicit regenerated gate; moving files or pretending they have the released SHA is insufficient.
 
 ## 先做小样本 / Start with a pilot
 
@@ -83,9 +83,15 @@ The full standard CPU attempt completed all 270 trajectories from seeds and expl
 
 The largest absolute field difference is 0.802553177 at test ID1118, t=10; that frame's relative L2 is 0.032325574, not a claimed global maximum relative L2. The earliest observable mismatch remains at t=0. This does not locate the first differing arithmetic operation or establish downstream acceptance. No original report, input, solver or tolerance was changed. See the [full evidence](../validation/full_standard_20260913/README.md).
 
+### 完整 FNO 数据生成 / Full FNO data generation
+
+两个独立CPU任务已完整结束：FNO训练数据用时4,813.907秒（1,020条轨迹、511,020帧），FNO测试数据用时4,510.378秒（三网格各200条、77,600帧）。各自的全值独立检查通过来源、物理协议、参数、时间轴与有限性验证；与旧场比较均为 **DIFFERENT**。训练数据整体relative L2为0.001538922，独立最大逐帧relative L2为0.024500633；测试数据整体为0.000422226，最大逐帧为0.007737636。训练数据的可见差异已在t=0出现；测试文件首帧为t=4.1，不能称作t0比较。
+
+Two independent full CPU jobs completed: FNO-training in 4,813.907 s and three-grid FNO-test in 4,510.378 s. Full-field integrity checks passed; both comparisons are **DIFFERENT**, without an invented field tolerance. Training aggregate / maximum frame-relative L2 are 0.001538922 / 0.024500633; test values are 0.000422226 / 0.007737636. Training discrepancies are visible at t=0; test files store no t0 field. These are data differences, not prediction errors. See [full training-data evidence](../validation/full_fno_training_20260913/README.md) and [full test-data evidence](../validation/full_fno_test_20260913/README.md) for separate extrema, provenance and runtime limits. The extra950 initial parameters are supplied explicitly; their unknown original random seed has not been recovered. Neither run retrained a model or adds a pause/resume experiment.
+
 ### 早期有界测试 / Earlier bounded tests
 
-下述“尚未全量执行”描述仅适用于当时测试快照；后续 standard 全量执行见上节，其余清洁数据及新集合训练仍未验证。 The following unexecuted-full-run statements describe their historical snapshots; the later full standard result is separate evidence above.
+下述“尚未全量执行”描述仅适用于当时测试快照；后续standard及FNO全量执行见上节，不等于新集合训练已通过。 The following unexecuted-full-run statements describe their historical snapshots; later full standard and FNO results are separate evidence above, not acceptance of training on the new collection.
 
 2026-09-10 首批 CPU 轻测试：5 项通过。验证了标准参数协议、输出路径保护、N64 单轨迹 8 步积分、3 步后同 attempt 恢复与连续积分逐项 bitwise 相同，以及 N96/N128 各一条轨迹一步积分。只读比较了训练50、验证20的 t0：最大绝对差均 `1.9073486328125e-6`；extra950 首条为 `1.1814699973911047e-6`。采用**运行前确定的初值诊断范围** atol=1e-5、rtol=1e-6；不是修改原实验数值验收门限，也不是逐比特一致。尚未执行完整2000步/全样本新生成，尚未用新生成数据完成完整训练/六实验验收。
 

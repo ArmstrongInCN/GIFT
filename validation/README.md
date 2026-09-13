@@ -1,5 +1,13 @@
 # Verification evidence / 验证证据
 
+Full [FNO training-data](full_fno_training_20260913/README.md) and
+[three-grid test-data](full_fno_test_20260913/README.md) integrations completed
+independently in about 80 and 75 minutes. Every stored value was checked:
+integrity passed, but released-field comparisons remain **DIFFERENT**.
+Aggregate relative L2 differences are about 0.154% and 0.0422%, respectively;
+these aggregate measures are not worst-frame errors or model acceptance.
+完整FNO训练/测试数据已生成并全量核验，场差异保留；不是重新训练模型。
+
 The independent [full 10% noise PINN-KC run](fresh_20260910/pinn_known_noise_010/README.md)
 completed the full 31,000-update/six-STRidge protocol in 3,637.043 s. All 12 original
 scalar comparisons passed and all 82 own-journal/export tensors matched. This

@@ -1,0 +1,57 @@
+{
+  "schema": "gift.portable-full-fno-test-verification-manifest.v1",
+  "hash_algorithm": "SHA-256",
+  "paths_relative_to": "this directory",
+  "excluded_self": "manifest.json",
+  "integrity_status": "PASS",
+  "field_comparison_status": "DIFFERENT",
+  "scientific_acceptance": "NOT_ASSESSED_NO_FULL_FIELD_TOLERANCE_DEFINED",
+  "result_copy_policy": "Original completed local result.json copied byte-for-byte; no measured, numeric, metadata or historical provenance fields rewritten",
+  "identity_policy": "No machine filesystem paths or machine UUIDs are present. Experiment attempt UUID and own checkpoint filename identifier are retained as scientific artifact identities, not device/account identifiers. Relative source/reference/attempt labels identify undistributed hashed evidence.",
+  "scientific_recomputation_performed_by_packaging": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 7315,
+      "sha256": "542da7a84a018c082a995d697db204247f532b10a034d7f089a40cc4025094f9"
+    },
+    {
+      "path": "result.json",
+      "bytes": 53411,
+      "sha256": "8a2b540261f20c80bff4ec133e867c879b50c95efe175e34ad062e8875061bc8"
+    }
+  ],
+  "source_receipts": {
+    "original_result": {
+      "bytes": 53411,
+      "sha256": "8a2b540261f20c80bff4ec133e867c879b50c95efe175e34ad062e8875061bc8"
+    },
+    "fixed_verifier": {
+      "bytes": 42594,
+      "sha256": "8655e66c067c314c0c86ff96829e2f9b402849a04584be2408808bfc7a4d4f37",
+      "code_distributed": false
+    },
+    "generation_end": {
+      "bytes": 641,
+      "sha256": "69ae226926d11c3f45b04dac029914689bbb890cc9b6c89164372e9a70619e27",
+      "returncode": 0,
+      "ended_utc": "2026-09-13T14:27:50.314699+00:00",
+      "elapsed_seconds": 4510.378191599972
+    },
+    "per_frame_csv": {
+      "rows": 77600,
+      "bytes": 10340987,
+      "sha256": "36a156730b58319658ca1e69b961a5c4feb85be0b4edcd92a0fb880485147edb",
+      "distributed": false
+    }
+  },
+  "not_distributed_here": [
+    "per_trajectory_frame_errors.csv",
+    "generated and reference H5 data",
+    "initial-parameter arrays",
+    "spectral checkpoints",
+    "raw execution logs",
+    "verifier code",
+    "external source code"
+  ]
+}
