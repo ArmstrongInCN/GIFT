@@ -1,0 +1,279 @@
+{
+  "schema": "gift.full-pinn-kc-condition-evidence.v1",
+  "execution_status": "COMPLETE",
+  "numeric_status": "PASS",
+  "scientific_acceptance_scope": "M1/noise_010/PINN-SR-KC: three original rows, twelve scalars under unchanged tolerance; not full M1, open mode, or project acceptance",
+  "from_untrained_initialization": true,
+  "prior_trained_checkpoint_loaded": false,
+  "actual_device": "GPU:0",
+  "actual_budget": {
+    "pre_nadam": 5000,
+    "rounds": 6,
+    "ado_nadam": 1000,
+    "post_nadam": 20000,
+    "lbf_maxiter": 10000,
+    "lbf_maxfun": 10000
+  },
+  "actual_chunk": 32768,
+  "actual_selected_rows": {
+    "train_rows": 24000,
+    "physics_rows": 84000,
+    "diagnostic_subset": false
+  },
+  "training_started_utc": "2026-09-13T12:50:56.975695+00:00",
+  "training_ended_utc": "2026-09-13T13:51:34.025119+00:00",
+  "training_returncode": 0,
+  "training_elapsed_seconds": 3637.0431019000243,
+  "launch_checks": {
+    "source_and_inputs_unchanged": true,
+    "completion_present": true,
+    "first_invocation": true,
+    "same_run_uuid_verified_before_redaction": true
+  },
+  "source_data_binding": {
+    "same_source_gpu02_binding": "B6DDF9106498A5B9DE437EBF98A8083793ADD12667A2A5A14A6C960AE08FE7FB",
+    "sources": {
+      "training/train_pinn.py": "CD63DEF84DC7EF5EFEEC132CD754B734399CCA6BAD6AF0CAF694F8AEEE88F5BE",
+      "external_sources.json": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD",
+      "training/__init__.py": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58",
+      "training/pinn_lbfgsb.py": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2",
+      "adapters/pinn_runtime.py": "98F642C5CAFCD68F2A5B478CC7062342E6BD984CEEE44057ECA0ECEC5E83038F",
+      "adapters/pinn_stridge.py": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB",
+      "adapters/__init__.py": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016"
+    },
+    "inputs": {
+      "auxiliary/pinn_initialization/network_initialization_tf115_seed1234.npz": {
+        "sha256": "AB0834A1494D2D46E0CBC8A4E24D29DE91B5F10EAD97F7DB6990A0C302D990CB",
+        "bytes": 98817
+      },
+      "auxiliary/pinn_sampling/noise_010_seed1234.npz": {
+        "sha256": "86E993B6F70F11401F1BB40DEC11F6AC1BCC76CB62613F6F382FB4C8DB8B0D76",
+        "bytes": 1152554
+      },
+      "m1_parameter_identification/noise_010.h5": {
+        "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC",
+        "bytes": 575065354
+      }
+    },
+    "condition": "noise_010",
+    "mode": "known",
+    "budget": {
+      "pre_nadam": 5000,
+      "rounds": 6,
+      "ado_nadam": 1000,
+      "post_nadam": 20000,
+      "lbf_maxiter": 10000,
+      "lbf_maxfun": 10000
+    },
+    "launcher_sha256": "4A8D1CBA71C0E643A6FECD9FCE09A4BCABED5EE9A2401E54C82F4203A09A682F",
+    "reused_utility_sha256": "7E441CD06E78B0D45F0DB425F0F4A82FC0E1E52D1E5A5023A1485A33B4064891"
+  },
+  "verification": {
+    "experiment": "M1",
+    "condition": "noise_010",
+    "method": "PINN-SR-KC",
+    "source_run": "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known",
+    "readout_scope": "fresh_full_training_terminal_coefficients_readout",
+    "training_executed_by_checker": false,
+    "forward": false,
+    "checkpoint_restore": false,
+    "whole_M1_or_project_acceptance": false,
+    "status": "PASS",
+    "execution_validation": "PASS_FULL_BUDGET_AND_OWN_JOURNAL_EXPORT",
+    "numeric_comparisons": 12,
+    "failures": 0,
+    "nadam_updates": 31000,
+    "stridge_rounds": 6,
+    "lbfgs_summary": {
+      "task": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+      "counts": {
+        "iterations": 825,
+        "evaluations": 856,
+        "fg_requests": 857,
+        "kernel_calls": 1683
+      },
+      "loss": 1.1489224378848062,
+      "converged": true
+    },
+    "own_journal_export_exact_tensors": 82,
+    "gpu_profile": {
+      "python": "3.8.20",
+      "tensorflow": "2.10.0",
+      "numpy": "1.21.6",
+      "scipy": "1.7.3",
+      "platform": "Windows-10-10.0.26200-SP0",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+      "dtype": "float32",
+      "device": "GPU:0",
+      "threads": 1,
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "TF_ENABLE_ONEDNN_OPTS": null,
+        "TF_DETERMINISTIC_OPS": null,
+        "CUDA_VISIBLE_DEVICES": "0",
+        "TF_FORCE_GPU_ALLOW_GROWTH": "true",
+        "NVIDIA_TF32_OVERRIDE": null,
+        "CUBLAS_WORKSPACE_CONFIG": null
+      },
+      "training_random_ops": false,
+      "gpu_details": {
+        "device_name": "NVIDIA RTX A5500 Laptop GPU",
+        "compute_capability": [
+          8,
+          6
+        ]
+      },
+      "cuda_build": "64_112",
+      "cudnn_build": "64_8",
+      "tensorflow_tf32": true,
+      "session": {
+        "gpu_count": 1,
+        "allow_growth": true,
+        "memory_fraction": 0.9,
+        "allow_soft_placement": true,
+        "intra_threads": 1,
+        "inter_threads": 1
+      },
+      "session_devices": [
+        "/job:localhost/replica:0/task:0/device:CPU:0",
+        "/job:localhost/replica:0/task:0/device:GPU:0"
+      ]
+    },
+    "parameters": {
+      "nu": 0.03180219978094101,
+      "beta": 0.6786507368087769,
+      "gamma": 0.7969624996185303
+    },
+    "raw_coefficients": [
+      0.28566214442253113,
+      -0.6786507368087769,
+      0.03180219978094101,
+      0.7969624996185303
+    ],
+    "mask": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "effective_coefficients": [
+      0.28566214442253113,
+      -0.6786507368087769,
+      0.03180219978094101,
+      0.7969624996185303
+    ],
+    "input_hashes_unchanged": true,
+    "source_and_input_sha256": {
+      "${AUDIT_WORK}/pinn_full_terminal_comparison_candidate/check_terminal.py": "CFF0A5DD23898F7AC1EDF8568511CA6C02BDA5C4CD8DE70792423588FC023662",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_noise010.py": "4A8D1CBA71C0E643A6FECD9FCE09A4BCABED5EE9A2401E54C82F4203A09A682F",
+      "${AUDIT_WORK}/run_candidate_pinn_gpu.py": "7E441CD06E78B0D45F0DB425F0F4A82FC0E1E52D1E5A5023A1485A33B4064891",
+      "${GIFT_REPO}/results/formal/M1_equation_identification/summary/metrics.csv": "632A449D5F0CBCC505E4A668A8A8FE21C4762B67D1D806C0A6F3E24C9B2D4963",
+      "${GIFT_REPO}/scripts/compare_results.py": "96FDA329AADCC835464B9BF015B1012FB6376EECD875378B84346CD732CB0BA4",
+      "${GIFT_REPO}/adapters/pinn_reference.py": "2E1CD75B929C47CCDE01F3F06353A098F18F66EA7F7CFD7309F30DF50598E274",
+      "${FORMAL_REFERENCE}/experiments/formal/m1_equation_identification/run.py": "0B4F094EFD39D966296B29B6D9D61F072E7BDA5273C3C3EE6B2026283BD5B533",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/OWNER.json": "33A7F9C853D00B1F1D3B9EC4B6DAD59DEC505572FD9982620DCF5F3CD3234DC1",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/RUN.json": "D61D911E5F2F0AB9085CD5E8C5A44578FB5287A4A9EA90F270E5578A6E49FD22",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/PROCESS.json": "660CE75129C85D1ACDAAC8F11780B96B43BA5A88DEE4F045702682C35DC08928",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/END.json": "4D23142E99124D8EF68DD283ACCE57F5E4FC2CF3487B90F4C82B0CF25F7BE0F7",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/START.json": "439066A90E141C94272373A3F9DEE50BFA25055B6366F063493E956CAA4F8C94",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/stdout.txt": "257067BEF54E7B485B1C6B26187D35CFD9445500BBE1E6E61A7EAC9A5E1BB868",
+      "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/stderr.txt": "139B99DF25FA7586E2885C260F8695CDC840C8E8649BB666CE7D257BA8277872",
+      "${GIFT_REPO}/training/train_pinn.py": "CD63DEF84DC7EF5EFEEC132CD754B734399CCA6BAD6AF0CAF694F8AEEE88F5BE",
+      "${GIFT_REPO}/external_sources.json": "6371F5C295CC2AFC54B708AD2BDB182A4B98A9E4D34FEE18B561636739BAE7BD",
+      "${GIFT_REPO}/training/__init__.py": "9860D5327EF144A43867BD5F229738D7E416E964B3DC91590D9D931FCC83BD58",
+      "${GIFT_REPO}/training/pinn_lbfgsb.py": "1DD8683ACA2BEFA1F1A6E57B40BC88CFD3F700A0CC0292F30C7CAEAC0E81C4F2",
+      "${GIFT_REPO}/adapters/pinn_runtime.py": "98F642C5CAFCD68F2A5B478CC7062342E6BD984CEEE44057ECA0ECEC5E83038F",
+      "${GIFT_REPO}/adapters/pinn_stridge.py": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB",
+      "${GIFT_REPO}/adapters/__init__.py": "69D2591A25FB29F8AAADB36156F7C94AAD6339B483781B861A774C4BEF290016",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/result.json": "C6669581200C25BD423339DB7D87079E0683EF90908DB067FD828AA9D3200FC9",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/COMPLETED.json": "468842DCB88C73F8BDAE67DB081D5E5445C7D5DF6D550E4DC1CF474276F3ABC8",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/LATEST.json": "7559AC8080D7467BADA3A6105A5DC767643ABC28603335169D2246652AC5DCED",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/state_000032690/state.json": "E8C79BA877BF887B71576FABC129C1D72B1A852D4F279F117250C9ECA33F1522",
+      "${GIFT_DATA_ROOT}/auxiliary/pinn_initialization/network_initialization_tf115_seed1234.npz": "AB0834A1494D2D46E0CBC8A4E24D29DE91B5F10EAD97F7DB6990A0C302D990CB",
+      "${GIFT_DATA_ROOT}/auxiliary/pinn_sampling/noise_010_seed1234.npz": "86E993B6F70F11401F1BB40DEC11F6AC1BCC76CB62613F6F382FB4C8DB8B0D76",
+      "${GIFT_DATA_ROOT}/m1_parameter_identification/noise_010.h5": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC",
+      "${AUDIT_WORK}/external/pinn_sr/Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py": "C5AE04D1C9E220B912C5D0ABD89D03216B85649C08236F5B9A861F98198BA261",
+      "${AUDIT_WORK}/external/tensorflow115/tensorflow/contrib/opt/python/training/nadam_optimizer.py": "53F27B08755B11945E93045680FEEB2786DD7BD27078CDADDB4476F34475155E",
+      "${AUDIT_WORK}/external/tensorflow115/tensorflow/contrib/opt/python/training/external_optimizer.py": "38CE5DA0E31982FAAF86F5795027B9D2D3FB140D5D074FDB077F470FC002BA0B",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/terminal_state.npz": "85BB963AF23A49B7529F02CE2CC5F594280D1E7020A8FCC48B8F9830B8CE7791",
+      "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/state_000032690/state.npz": "639424EA25F219D7932FB1519D15B784076F156CC379B194E304908D53575B07"
+    },
+    "training_elapsed_seconds": 3637.0431019000243,
+    "elapsed_seconds": 1.912601399992127,
+    "checker_sha256": "211FC589A46C6E665E91AFC038E5EF6A3BE5A914D1345391F86ACA6EE6524B68",
+    "numeric_tolerance": {
+      "absolute": 0.0005,
+      "relative_to_reference": 0.05
+    },
+    "note": "Full noise010/KC run and 3 original rows only; no broader M1/project acceptance or first-divergence diagnosis."
+  },
+  "raw_receipts": [
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/terminal_audit_01/execution.json",
+      "bytes": 8714,
+      "sha256": "1074D136F6F3A4B756771C1B814120E2BFCE6D49F5BB26FD3098C8AE9A823048"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/terminal_audit_01/comparison.json",
+      "bytes": 884,
+      "sha256": "6BCC44D5C04BBB27E441028F35BA8D41B7CBB09EE384991B6613D3F7DB8EB3B4"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/terminal_audit_01/metrics.csv",
+      "bytes": 402,
+      "sha256": "54EA73DD95A244503303F9B2164FA8AD71033A4615CD8DE8A031B53B2D311437"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/terminal_audit_01/reference_subset.csv",
+      "bytes": 401,
+      "sha256": "42975C1442A142AB48A4263A5191CD8461642C6233909C97F0206CA1392ECF6A"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/START.json",
+      "bytes": 3633,
+      "sha256": "439066A90E141C94272373A3F9DEE50BFA25055B6366F063493E956CAA4F8C94"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/run_01/END.json",
+      "bytes": 552,
+      "sha256": "4D23142E99124D8EF68DD283ACCE57F5E4FC2CF3487B90F4C82B0CF25F7BE0F7"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/OWNER.json",
+      "bytes": 2167,
+      "sha256": "33A7F9C853D00B1F1D3B9EC4B6DAD59DEC505572FD9982620DCF5F3CD3234DC1"
+    },
+    {
+      "path": "${AUDIT_WORK}/candidate_pinn_gpu_full/noise_010_known/RUN.json",
+      "bytes": 4594,
+      "sha256": "D61D911E5F2F0AB9085CD5E8C5A44578FB5287A4A9EA90F270E5578A6E49FD22"
+    },
+    {
+      "path": "${AUDIT_WORK}/pinn_noise010_launches_20260913/check_noise010_terminal.py",
+      "bytes": 24027,
+      "sha256": "211FC589A46C6E665E91AFC038E5EF6A3BE5A914D1345391F86ACA6EE6524B68"
+    }
+  ],
+  "packaging": {
+    "scientific_recomputation": false,
+    "weights_or_npz_copied": false,
+    "third_party_source_copied": false,
+    "csv_policy": "Actual metrics and original reference subset copied byte-for-byte; portable comparison changes only its two input paths.",
+    "redactions": "Local path prefixes become explicit logical roots with forward slashes; run_id and gpu_uuid_name_driver fields are omitted; journal directory UUID suffixes are removed. Raw receipt hashes preserve traceability.",
+    "logical_roots": {
+      "${GIFT_REPO}": "This candidate Git repository",
+      "${GIFT_DATA_ROOT}": "Separate released dataset package; not in Git",
+      "${AUDIT_WORK}": "Local validation workspace; raw audit receipts and own training journal are not distributed here",
+      "${FORMAL_REFERENCE}": "Owner's original read-only reference project; the scalar source hash is retained"
+    }
+  },
+  "unchanged_limitations": [
+    "The adjacent noise_001/KC full run still fails 2 of 12 original scalar comparisons.",
+    "Open training remains gated; this known-library result does not validate it.",
+    "82 exact tensors compare this run's export with its own final journal, not with historical model weights.",
+    "Numerical PASS uses the original scalar tolerance and does not imply cross-device or bitwise training equivalence."
+  ]
+}

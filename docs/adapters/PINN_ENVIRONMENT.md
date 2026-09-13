@@ -2,7 +2,7 @@
 
 本入口不要求安装主项目 wheel。主项目 `pyproject.toml` 的 Python>=3.10/Torch 依赖面向 GIFT 与其他模型；PINN 使用独立 Python3.8，从源码根运行 `python -m adapters.pinn_runtime`，或直接运行 `adapters/pinn_runtime.py`。`adapters/__init__.py` 延迟加载三个既有 Torch 模型导出，不会仅因导入 PINN 模块而导入 Torch。
 
-已测试的旧 PINN 环境是 Python **3.8.20**、TensorFlow **2.10.0**、NumPy **1.21.6**、SciPy **1.7.3**、h5py **3.7.0**；本轮没有安装任何依赖。核心运行器拒绝未验证的 TF/NumPy/SciPy 版本。不是 TensorFlow1.15 二进制环境：只从官方 TF1.15 固定源码调用与原训练相同的 contrib 优化器，运行在现有 TF2.10 compat.v1 图中；不能替换为 Keras Nadam。既有 Windows 独立环境中的 KC GPU 三项有界门禁已通过；noise001/known 完整 GPU 训练随后完成，但原数值比较有2/12项失败，见下文。新机器安装与其他环境等价仍未验证。
+已测试的旧 PINN 环境是 Python **3.8.20**、TensorFlow **2.10.0**、NumPy **1.21.6**、SciPy **1.7.3**、h5py **3.7.0**；本轮没有安装任何依赖。核心运行器拒绝未验证的 TF/NumPy/SciPy 版本。不是 TensorFlow1.15 二进制环境：只从官方 TF1.15 固定源码调用与原训练相同的 contrib 优化器，运行在现有 TF2.10 compat.v1 图中；不能替换为 Keras Nadam。既有 Windows 独立环境中的 KC GPU 三项有界门禁已通过；三个known条件的独立完整GPU训练均已完成，noise000与noise010各12/12项数值通过，noise001有2/12项失败，见下文。新机器安装与其他环境等价仍未验证。
 
 ## 外置源
 
@@ -66,7 +66,9 @@ GPU02 相对保留的 GPU01 失败尝试，唯一计算修正是将 KC 外置 ma
 
 通过上述检查后，另一个全新noise001/known GPU任务已完成原完整预算和chunk32768：进程rc0、3433.60秒、31000次NAdam及6轮STRidge；源、输入、预算和终态提交校验通过。独立读取实际终态系数×mask后，原三行12个数值中**2项失败**，均为gamma派生的绝对误差与相对误差；三个参数estimate本身均通过。它从未训练初始化开始，与tiny任务及保全的旧CPU任务分别独立，没有CPU→GPU续接；完成训练不等于原数值验收通过。具体数值及L-BFGS边界见 [完整训练失败旁证](../../validation/fresh_20260910/pinn_known_noise_001/README.md)。
 
-本次pre-NAdam5000边界的60个主状态和22个诊断累积器均exact；L-BFGS后18个网络张量及1个系数张量不同，slots/beta/mask仍相同。两边参数/梯度打包顺序相同已排除，首个分歧操作及具体原因尚未证实。另一次隔离CPU试验只把open mask补为`[90,1]`，仍保留160/26133梯度差及3个更新参数张量差；试验失败后停止，未集成，不解除open门禁。
+该noise001任务的pre-NAdam5000边界60个主状态和22个诊断累积器均exact；L-BFGS后18个网络张量及1个系数张量不同，slots/beta/mask仍相同。两边参数/梯度打包顺序相同已排除，首个分歧操作及具体原因尚未证实。另一次隔离CPU试验只把open mask补为`[90,1]`，仍保留160/26133梯度差及3个更新参数张量差；试验失败后停止，未集成，不解除open门禁。
+
+后续[noise000/known](../../validation/fresh_20260910/pinn_known_noise_000/README.md)与[noise010/known](../../validation/fresh_20260910/pinn_known_noise_010/README.md)分别从未训练初始化独立完成完整预算，耗时3388.355秒和3637.043秒。两者各自原三行12个标量均在原容差内通过，82个导出状态均与本次自身终态日志一致；这不是历史权重逐位相同，不覆盖open，也不消除noise001两项失败。
 
 Windows GPU 使用**独立 PINN 环境自己的** CUDA11.2.2/cuDNN8.1 DLL，不能把主 Torch cu126 环境当作同一依赖集合。以下示例由 `PINN_PYTHON` 定位用户自己的独立环境 Python，仅读取环境目录并设置新子进程 PATH；不安装 DLL，不修改系统/用户全局 PATH，不打开新窗口，不删除文件。在 clone 根运行，先设置仓库外的 `GIFT_DATA_ROOT` 和 `GIFT_EXTERNAL_ROOT`：
 
@@ -103,7 +105,7 @@ if ($child.ExitCode -ne 0) { throw "PINN child exited with code $($child.ExitCod
 
 `PINNRuntime` 提供 `predict`、`library`、`objective`、`step`、`state/restore`；`NAdamCheckpoints` 提供同 run 的安全保存/恢复原语。预测会执行 forward，读 JSON/NPZ 文件本身才是纯缓存读取。两模式同次两步恢复通过；KC 的非零系数、稀疏 mask、两 chunk 的完整梯度和一步更新通过。open 在同一更强检查中仍有微小但明确的梯度不一致，未放宽断言。
 
-[STRidge](PINN_STRIDGE.md) 和 [L-BFGS 状态驱动](PINN_LBFGSB.md)已有合成/解析目标的有限验证；[KC 阶段控制器](PINN_PHASE_SCHEDULER.md)另已通过 mock、固定小预算真实全阶段联动、新进程续算及 CLI 终态导出。noise001/known完整GPU训练已完成，但原终态指标比较2/12失败，其他条件完整训练及整套M1科学验收仍未完成。M1另提供[已训练 PINN 终态的快速读出](M1.md#9-已恢复训练终态的独立-pinn-快速读取)，不运行这些训练阶段、不解除open训练门禁。本页NAdam接口不产生原公开COMPLETE、不生成完整45行表，也不解决原参考与从零结果在L-BFGS后的漂移。
+[STRidge](PINN_STRIDGE.md) 和 [L-BFGS 状态驱动](PINN_LBFGSB.md)已有合成/解析目标的有限验证；[KC 阶段控制器](PINN_PHASE_SCHEDULER.md)另已通过 mock、固定小预算真实全阶段联动、新进程续算及 CLI 终态导出。三个known条件的完整GPU训练均已完成；noise000与noise010各12/12数值通过，noise001仍2/12失败，整套M1科学验收未完成。M1另提供[已训练 PINN 终态的快速读出](M1.md#9-已恢复训练终态的独立-pinn-快速读取)，不运行这些训练阶段、不解除open训练门禁。本页NAdam接口不产生原公开COMPLETE、不生成完整45行表，也不解决原参考与从零结果在L-BFGS后的漂移。
 
 维护者可以用 `GIFT_LEGACY_PROJECT_ROOT` 显式指向自己已有的只读旧图，用 `GIFT_PINN_TEST_OUTPUT` 指向新的仓库外测试目录，运行：
 

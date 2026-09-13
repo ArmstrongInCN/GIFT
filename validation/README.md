@@ -1,5 +1,28 @@
 # Verification evidence / 验证证据
 
+The independent [full 10% noise PINN-KC run](fresh_20260910/pinn_known_noise_010/README.md)
+completed the full 31,000-update/six-STRidge protocol in 3,637.043 s. All 12 original
+scalar comparisons passed and all 82 own-journal/export tensors matched. This
+does not remove noise001's two failures or establish open-mode/all-M1 acceptance.
+10%噪声KC完整训练数值通过，不代表其他条件或全项目通过。
+
+The **newly integrated** standard parent also now has independently verified
+[full paired noise](new_standard_noise_20260913/README.md) and
+[all three sampling conditions](new_standard_sampling_20260913/README.md).
+All 287,293,440 noisy values matched independent formula replay; each sampling
+job's ten arrays and own design/RNG state passed independent replay. Sampling
+designs match the archived designs, but targets differ (relative L2 about 0.28%)
+because the new clean fields differ. These are not copies of released fields,
+new model training, full collection assembly or original-number acceptance.
+新清洁输入的噪声与采样派生已验证；清洁场差异及其传播仍如实保留。
+
+The [real standard subcollection assembly](new_standard_collection_20260913/README.md)
+then passed all 17 manifest-file hashes and all three full `regenerated` GIFT
+input gates in 25.078 s, without mocks, tiny flags or training. Five FNO/short/cross
+data slots remain explicitly absent: this is not a complete six-experiment
+collection or downstream numerical acceptance. 新standard子集合已实际接通输入门禁，
+不是六实验全数据或模型重训通过。
+
 The independent [full clean PINN-KC run](fresh_20260910/pinn_known_noise_000/README.md)
 completed all 31,000 NAdam updates, six STRidge rounds and the original L-BFGS
 limits in 3,388.355 s. Its 82 own-journal/export state tensors agree exactly,

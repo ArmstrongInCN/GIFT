@@ -1,0 +1,24 @@
+{
+  "schema": "gift.portable-new-standard-noise-verification-manifest.v1",
+  "hash_algorithm": "SHA-256",
+  "paths_relative_to": "this directory",
+  "excluded_self": "manifest.json",
+  "result_copy_policy": "Original completed local result.json copied byte-for-byte; no values, hashes or run identifiers rewritten",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3540,
+      "sha256": "88927d484199ea88da04eae7a97523675a64f26a40424ade560742d085ca6499"
+    },
+    {
+      "path": "result.json",
+      "bytes": 14118,
+      "sha256": "0cea46af35b54dc03a2369b1d70e9a72886260bb0322a62453f457d644a9adc0"
+    }
+  ],
+  "not_distributed_here": [
+    "clean or noisy H5 arrays",
+    "checkpoints or model arrays",
+    "source code and raw execution logs"
+  ]
+}

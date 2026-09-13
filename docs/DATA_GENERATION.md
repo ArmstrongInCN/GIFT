@@ -141,6 +141,10 @@ Full execution on 2026-09-13 regenerated both conditions from the specified rele
 
 The clean input was not reintegrated. New H5 metadata and whole-file hashes differ from the legacy containers, and no packaged input was replaced. Full regenerated collection assembly still requires a **newly generated clean parent** in that collection; this result does not supply it. Cross-device bitwise identity, full model training and six-experiment acceptance are not established by this check.
 
+另一次独立任务已使用前述**新积分完成的 standard** 为输入，完整生成两种噪声（18.885秒）；全量独立公式、全组统计、终态MT19937状态及前后哈希复核通过（12.890秒），共287,293,440值逐位等于公式重算。见[新清洁输入的噪声证据](../validation/new_standard_noise_20260913/README.md)。该任务没有人为暂停，不新增恢复实证；不读取旧噪声作为目标，也不把新clean与旧clean的差异消除或标为通过。
+
+A separate full task used the **newly integrated standard parent** above: generation18.885s, independent full formula/statistics/final-RNG/hash verification12.890s, all287,293,440 values bitwise equal to formula replay. See [new-parent noise evidence](../validation/new_standard_noise_20260913/README.md). This uninterrupted task adds no resume claim, reads no archived noisy target and does not erase the parent's recorded difference from released clean fields.
+
 ## PINN 观测采样 / PINN observation sampling
 
 ```sh
@@ -156,6 +160,10 @@ Each condition produces its own `sampling.npz`: trajectory ID0; seed1234; 500 se
 数值语义锁：NumPy 2.0 改变了单精度 FFT 的计算精度；本机2.2.6直接对float32做FFT会产生与原缓存不同的速度末位。新入口显式使用 float64 FFT / complex128 中间频谱，再按原协议输出 float32，以保留原缓存语义。初测差异最大 `9.536743e-7`；独立核对确认显式双精度后，三条件全部10个数组（共30数组）与原 NPZ **bitwise exact**，无需任何容差。这一变化只限采样的 NumPy Biot–Savart 计算，不改变 NS 求解器的 float32/complex64 定义。[NumPy 2.0 official release notes](https://numpy.org/doc/2.0/release/2.0.0-notes.html)
 
 The sampling implementation explicitly preserves the original cache's double-precision FFT intermediates despite NumPy 2.x's changed single-precision FFT behavior. All 30 arrays across the three conditions then matched the reference arrays bitwise, including after design/resume. This does not change the NS solver, experiment tolerances, or claim that subsequent PINN training reproduces its published coefficients.
+
+随后对上述新clean及其新noise分别独立采样，三个任务均完成，各10数组及完整设计/RNG状态通过独立公式复核。每个条件的9个设计数组仍与旧缓存逐位相同；targets随新clean变化，相对L2差分别约0.28034%、0.28031%、0.27902%。见[新输入采样证据](../validation/new_standard_sampling_20260913/README.md)。不替换原缓存，不声称新输入训练或全实验已验收。
+
+Three separate sampling jobs from the new clean/noisy inputs also completed, with each ten-array output and full design/RNG state independently replayed. All nine design arrays per condition still match the archived cache; targets differ by relativeL2 approximately0.28034%,0.28031%,0.27902%. See [new-input sampling evidence](../validation/new_standard_sampling_20260913/README.md). Archived caches are unchanged; this does not establish training or experiment acceptance on the new inputs.
 
 运行轻测试（`/new/test-temp` 必须尚不存在，避免测试工具清理旧目录）：
 
@@ -249,6 +257,10 @@ python scripts/assemble_generated_data.py --job standard=/new/standard-attempt -
 
 第一条仅检查来源/结构并显示计划，不创建目标、不完整扫描场；第二条才执行全部输入哈希/有限性检查和字节保留复制。可增加 `--job short-test=...`、`cross-resolution=...`、`fno-training-coarse=...`、`noise=...`、`sampling-clean=...`、`sampling-001=...`、`sampling-010=...`。噪声任务的clean哈希必须等于集合内新生成standard的哈希；采样任务的输入哈希必须等于集合中对应新生成clean/noise哈希。仅有下载数据、缺少自身生成完成记录或其parent未进入本集合时拒绝，不能偷用旧真值/噪声补齐。TensorFlow初始化不纳入组装器。
 
-`manifest.json` 明确列出 available_jobs/missing_jobs，允许只为某个独立消费者组装所需的完整文件；缺少其他任务时不声称六实验输入齐全。状态为 `ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED`，不是原发布数据，也不是数值验收通过。已做pilot/无receipt/错误父输入/未写NaN拒绝及字节保留复制轻测试；**没有全量真实组装成功测试**。基线与GIFT的 `--data-profile regenerated` 已实现，但不能用 `--tiny` 绕过正式资格门冒充正式训练。
+`manifest.json` 明确列出 available_jobs/missing_jobs，允许只为某个独立消费者组装所需的完整文件；缺少其他任务时不声称六实验输入齐全。状态为 `ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED`，不是原发布数据，也不是数值验收通过。已做pilot/无receipt/错误父输入/未写NaN拒绝及字节保留复制轻测试；另已完成下述**真实standard子集合组装及GIFT输入门禁**，但六实验完整集合仍未组装验收。基线与GIFT的 `--data-profile regenerated` 已实现，但不能用 `--tiny` 绕过正式资格门冒充正式训练。
 
-The create-only assembler validates current generator/solver hashes, completion receipts, full selected-file populations, initial parameters, physical protocol, exact axes, and (on execution) full hashes/finite fields before byte-preserving copies. Derived noise and sampling must bind to the newly generated parent inputs present in the same collection. Missing jobs remain explicit; the collection is not labeled experiment-accepted. Guard/rejection and copy tests were run, but a full real-data assembly was not. Baseline and GIFT regenerated profile switches are implemented; `--tiny` is not a workaround for formal acceptance.
+The create-only assembler validates current generator/solver hashes, completion receipts, full selected-file populations, initial parameters, physical protocol, exact axes, and (on execution) full hashes/finite fields before byte-preserving copies. Derived noise and sampling must bind to the newly generated parent inputs present in the same collection. Missing jobs remain explicit; the collection is not labeled experiment-accepted. Guard/rejection tests and the real standard subcollection below passed; a complete six-experiment collection remains unverified. Baseline and GIFT regenerated profile switches are implemented; `--tiny` is not a workaround for formal acceptance.
+
+2026-09-13 实际组装：新standard、成对noise及3个sampling任务生成一个独立子集合，清单17文件约1.689GB；所有清单SHA、来源和完整场有限性检查通过，三个条件各自的正式 `regenerated` GIFT输入门禁也通过（无mock、tiny、模型恢复、训练或CUDA初始化）。组装7.703秒，连同门禁和独立清单复核共25.078秒。清单明确缺少FNO训练/测试、coarse/short/cross五个槽位，未包含PINN初始化。见[实际组装证据](../validation/new_standard_collection_20260913/README.md)。原数据包不变，这不是新数据上的训练或实验数值验收。
+
+Actual execution on 2026-09-13 assembled the new standard, paired noise and three sampling jobs into an independent subcollection:17 manifest-listed files, approximately1.689GB. All manifest hashes, provenance and full-field finite checks passed, as did all three formal `regenerated` GIFT input gates without mocks, tiny flags, training or CUDA initialization. Assembly took7.703s; assembly plus consumer gates and manifest verification took25.078s. Five FNO/coarse/short/cross slots remain explicitly missing; PINN initialization is excluded. See [real assembly evidence](../validation/new_standard_collection_20260913/README.md). Downloaded inputs are unchanged, and neither model training nor experimental-number acceptance is inferred.
