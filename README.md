@@ -5,50 +5,42 @@
 **Learning interpretable field generators**  
 **从观测数据学习可解释的场生成器**
 
-[English](#english) · [中文](#中文) · [Experiments / 实验记录](EXPERIMENTS.md) · [Getting started / 使用指南](docs/GETTING_STARTED.md)
-
 </div>
 
-![Recursive prediction on the held-out N64 test set / N64 测试集上的递归预测](results/formal/M2_recursive_prediction/figures/mean_relative_l2_vs_time.png)
+![Cross-resolution prediction errors / 跨分辨率预测误差](results/formal/M3_cross_resolution/figures/cross_resolution_mean_relative_l2.svg)
 
-<p align="center"><sub>Reference results from the experimental record; not a new reproduction run. / 图示为原实验记录中的结果，并非此次重新运行的结果。</sub></p>
-
-## English
-
-GIFT learns a continuous-time field generator from observed trajectories. An interpretable low-frequency component is combined with a learned high-frequency branch and local correction for recursive prediction. This project studies equation identification, long-horizon prediction and cross-resolution transfer in two-dimensional vorticity dynamics.
-
-### Explore the project
-
-- **Understand the results:** read the unchanged [experimental record](EXPERIMENTS.md), covering three main experiments (M1–M3) and three supporting experiments (S1–S3).
-- **Check the results quickly:** use the supplied reference tables, recompute predictions with trained checkpoints, or read PINN parameters from recovered numeric terminal states. These are different forms of verification and are labelled separately.
-- **Train independently:** GIFT, FNO, U-NO and U-Net have independent entry points; resume continues that run's saved state, not published weights presented as fresh training. PINN known/KC supports CPU/GPU, but full-budget acceptance is unfinished and open training remains gated. See [current verification status](docs/REPRODUCIBILITY_STATUS.md).
-
-The dataset is distributed separately for a future Zenodo deposit; it is **not included in this Git repository**. Third-party algorithm implementations are also not bundled. Please obtain the authors' pinned repositories and follow the [adapter guides](docs/THIRD_PARTY_SOURCES.md).
-
-**Release status:** this is a private release candidate under validation. Check [verified capabilities and remaining issues](docs/REPRODUCIBILITY_STATUS.md) before relying on from-scratch reproduction claims. No cross-device bitwise-identical result is promised.
+<p align="center">Cross-resolution evaluation / 跨分辨率评价。Training protocols and evaluation boundaries differ by method; see <a href="docs/RESULTS.md">result notes / 结果说明</a>.</p>
 
 ## 中文
 
-GIFT 从观测轨迹中学习连续时间的场生成器，将可解释的低频部分、高频学习支路与递归局部修正结合起来。本项目以二维涡量动力学为对象，研究方程识别、长时预测及跨分辨率泛化。
+GIFT 将可解释的低频生成元、高频学习支路和递归局部修正结合起来，研究二维流动中的方程参数识别、递归预测与跨分辨率预测。
 
-### 从这里开始
+每个模型和实验分别运行。数据与第三方实现位于项目外；第三方代码的固定来源和必要调整见[外部适配说明](docs/EXTERNAL_ADAPTATIONS.md)。数据通过 `GIFT_DATA_ROOT` 指定，外部源码通过 `GIFT_EXTERNAL_ROOT` 指定。
 
-- **了解实验：** [实验记录](EXPERIMENTS.md) 保留原文，包含三个主实验 M1–M3 和三个补充实验 S1–S3。
-- **快速核验：** 可以查看随附的参照表格、用训练好的检查点重新计算预测，或从恢复的数值终态读取 PINN 参数；这些不同形式的验证会明确区分。
-- **独立训练：** GIFT、FNO、U-NO 和 U-Net 已提供独立入口，断点续算延续本次状态，不将读取已发布权重冒充从零训练。PINN known/KC 支持 CPU/GPU，但完整预算验收尚未完成，open 训练仍关闭。详见[当前验证状态](docs/REPRODUCIBILITY_STATUS.md)。
+[实验报告](EXPERIMENTS.md) · [安装与独立运行](docs/SETUP.md) · [训练协议](docs/TRAINING_PROTOCOL.md) · [实验图像](docs/FIGURES.md)
 
-数据另行打包，供后续上传 Zenodo，**不包含在本 Git 仓库中**。其他算法的实现也不随仓库分发，请从原作者仓库获取固定版本，并参照[适配说明](docs/THIRD_PARTY_SOURCES.md)接入。
+项目包含六项实验的实测汇总、五幅 SVG 和完整训练所得的模型权重。可直接阅读结果、用权重快速重算，或按模型分别从零训练与断点续算。四个预测基线均训练 500 epoch；GIFT 保留独立多阶段设置。数据包单独提供，不包含在 GitHub 仓库中。
 
-**当前状态：** 本项目仍是私有发布候选，正在验证。使用前请查看[已验证范围及待解决问题](docs/REPRODUCIBILITY_STATUS.md)；目前不承诺不同设备上的逐位一致结果。
+结论及适用范围见[结果说明](docs/RESULTS.md)：相同 epoch 不代表相同计算量，固定种子也不保证跨设备逐比特一致。
+
+## English
+
+GIFT combines an interpretable low-frequency generator, a learned high-frequency branch and local correction for equation identification and flow prediction.
+
+Models and experiments have independent entry points. Data and third-party implementations are supplied separately. See the [external adaptation guide](docs/EXTERNAL_ADAPTATIONS.md) for source boundaries and explicit adjustments.
+
+[Experiment report (Chinese)](EXPERIMENTS.md) · [Setup and execution](docs/SETUP.md) · [Training protocol](docs/TRAINING_PROTOCOL.md) · [Experiment figures](docs/FIGURES.md)
+
+The project includes measured summaries for six experiments, five SVG figures and weights from completed training. Read the results, recompute them with supplied weights, or train and resume each model independently. All four prediction baselines use 500 epochs; GIFT has its own multi-stage protocol. The data package is supplied separately, outside GitHub.
+
+See the [result notes](docs/RESULTS.md) for findings and evaluation boundaries. Equal epochs do not imply equal compute, and fixed seeds do not guarantee cross-device bitwise equality.
 
 ## Acknowledgements / 致谢
 
-We thank the authors and contributors of [NeuralOperator / FNO](https://github.com/neuraloperator/neuraloperator), [U-NO](https://github.com/ashiq24/UNO), and [Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets), together with the equation-discovery projects listed in the [source and attribution guide](docs/THIRD_PARTY_SOURCES.md). Their research and shared implementations make careful comparison possible. Please cite and acknowledge the original work when using those methods.
+We thank the authors and contributors of the external projects listed in `external_sources.json`. Their research and shared implementations support these comparisons. Please cite the corresponding work and retain attribution.
 
-感谢 NeuralOperator / FNO、U-NO、Turbulent-Flow-Nets，以及[来源与署名指南](docs/THIRD_PARTY_SOURCES.md)所列方程发现项目的作者和贡献者。他们的研究与共享实现使严谨比较成为可能。使用相应方法时，请引用原始研究并保留署名。
+感谢所引用仓库的作者与贡献者。使用相关方法时，请引用原始研究并保留署名。
 
 ## License / 许可
 
-GIFT's first-party software and documentation retain the existing [MIT license](LICENSE). Dataset rights are stated separately in the data package; upstream projects remain subject to their own terms. Acknowledgement alone does not replace permission where permission is required.
-
-GIFT 自有软件与文档沿用 [MIT 许可证](LICENSE)。数据包及上游项目分别适用其自身的授权条件；致谢并不代替必要的授权。
+GIFT software and documentation use the [MIT license](LICENSE). Data and external projects have their own terms.

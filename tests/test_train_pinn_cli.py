@@ -38,7 +38,7 @@ class TerminalTests(unittest.TestCase):
         output = self.output / "complete"
         with contextlib.redirect_stdout(io.StringIO()):
             first = execute_schedule(coordinator(), output)
-        self.assertFalse(first["already_complete"])
+        self.assertEqual(first["status"], "complete")
         result = json.loads((output / "result.json").read_text())
         self.assertFalse(result["scientific_acceptance"])
         self.assertTrue(result["diagnostic_test_only"])
@@ -51,7 +51,7 @@ class TerminalTests(unittest.TestCase):
         before = {path.name: path.read_bytes() for path in output.iterdir() if path.is_file()}
         with contextlib.redirect_stdout(io.StringIO()):
             second = execute_schedule(coordinator(), output, resume=True)
-        self.assertTrue(second["already_complete"])
+        self.assertEqual(second["status"], "complete")
         self.assertEqual(first["completion"], second["completion"])
         self.assertEqual(before, {path.name: path.read_bytes() for path in output.iterdir() if path.is_file()})
         with self.assertRaises(FileExistsError):

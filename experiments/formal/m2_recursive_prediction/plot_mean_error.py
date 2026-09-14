@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -19,7 +20,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
+from matplotlib.ticker import MaxNLocator  # noqa: E402
 from scipy.interpolate import PchipInterpolator  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[3]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from experiments.formal._shared.figure_evidence import bind_result, finish_figures
 
 
 REPORT_TIMES = np.asarray([5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0])
@@ -71,6 +78,11 @@ def read_source(metrics_path: Path) -> list[dict[str, object]]:
             ):
                 raise ValueError(f"{method} population or finiteness differs")
             values = np.asarray([float(row["mean"]) for row in matches])
+            expected_seeds = {"20260820", "20260821", "20260822"}
+            if method == "GIFT" and {row["seed"] for row in matches} != expected_seeds:
+                raise ValueError("GIFT requires one result from each declared training seed")
+            if not np.isfinite(values).all() or (values < 0).any():
+                raise ValueError(f"{method} mean errors must be finite and nonnegative")
             source.append(
                 {
                     "method": method,
@@ -129,10 +141,8 @@ def draw(rows: list[dict[str, object]]):
         fitted = interpolator(fitted_times)
         if not np.allclose(interpolator(REPORT_TIMES), values, rtol=0.0, atol=1.0e-12):
             raise AssertionError(f"{method} fitted curve misses a sample point")
-        if np.min(fitted) < -1.0e-12 or np.min(np.diff(fitted)) < -1.0e-10:
-            raise AssertionError(
-                f"{method} fitted curve violates nonnegative monotonicity"
-            )
+        if np.min(fitted) < -1.0e-12:
+            raise AssertionError(f"{method} interpolation produces a negative error")
         axis.plot(
             fitted_times,
             fitted,
@@ -165,13 +175,19 @@ def draw(rows: list[dict[str, object]]):
             markeredgewidth=0.55,
         )
     axis.set_xlim(4.96, 8.04)
-    axis.set_ylim(0.0, 1.28)
+    # Keep the specified design unless the data need more room. Errors need not
+    # increase monotonically; neither ordering nor a target value is imposed.
+    maximum = max(float(np.max(values)) for values in series.values())
+    axis.set_ylim(0.0, max(1.28, 1.08 * maximum))
     axis.set_xticks(REPORT_TIMES)
-    axis.set_yticks(np.arange(0.0, 1.21, 0.2))
+    if maximum <= 1.28:
+        axis.set_yticks(np.arange(0.0, 1.21, 0.2))
+    else:
+        axis.yaxis.set_major_locator(MaxNLocator(nbins=6, min_n_ticks=3))
     axis.set_xlabel(r"Time, $t$")
     axis.set_ylabel(r"Mean relative $L^2$ error")
     axis.tick_params(axis="both", direction="out", length=3.0, width=0.8, pad=2.5)
-    axis.spines["left"].set_bounds(0.0, 1.2)
+    axis.spines["left"].set_bounds(0.0, 1.2 if maximum <= 1.28 else axis.get_ylim()[1])
     axis.spines["bottom"].set_bounds(5.0, 8.0)
     axis.legend(
         [handles[method] for method in METHOD_ORDER],
@@ -202,14 +218,15 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     metrics = args.metrics.resolve(strict=True)
+    if metrics.name != "metrics.csv" or metrics.parent.name != "summary":
+        raise ValueError("use the completed experiment's summary/metrics.csv")
+    evidence = bind_result(metrics.parent.parent, "M2", ("summary/metrics.csv",))
     output = args.output_dir.resolve(strict=False)
-    output.mkdir(parents=True, exist_ok=True)
+    output.mkdir(parents=True, exist_ok=False)
     targets = [
         output / "source_data.csv",
         output / "source_manifest.csv",
         output / "mean_relative_l2_vs_time.svg",
-        output / "mean_relative_l2_vs_time.pdf",
-        output / "mean_relative_l2_vs_time.png",
     ]
     if any(path.exists() for path in targets):
         raise FileExistsError("refusing to overwrite an existing M2 figure file")
@@ -219,7 +236,7 @@ def main() -> None:
     try:
         metric_display = metrics.relative_to(output.parent).as_posix()
     except ValueError:
-        metric_display = metrics.as_posix()
+        metric_display = "summary/metrics.csv"
     write_source(
         targets[1],
         [
@@ -232,9 +249,14 @@ def main() -> None:
     )
     figure = draw(source)
     figure.savefig(targets[2], bbox_inches="tight")
-    figure.savefig(targets[3], bbox_inches="tight")
-    figure.savefig(targets[4], dpi=600, bbox_inches="tight")
+    axis_limits = list(figure.axes[0].get_ylim())
     plt.close(figure)
+    finish_figures(output, evidence, Path(__file__), {
+        "metric": "mean per-trajectory relative L2", "trajectory_count": POPULATION,
+        "gift_seeds": [20260820, 20260821, 20260822], "baseline_models_per_method": 1,
+        "curve": "PCHIP visual guide through measured points", "y_limits": axis_limits,
+        "error_bars": "none", "hypothesis_tests": "none",
+    })
 
 
 if __name__ == "__main__":

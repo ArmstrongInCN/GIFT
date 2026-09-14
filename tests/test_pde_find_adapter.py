@@ -1,11 +1,8 @@
 """Small external-source equivalence tests, never full M1 scientific acceptance.
 
-Set GIFT_EXTERNAL_ROOT for upstream tests. Maintainers may additionally set
-GIFT_LEGACY_PROJECT_ROOT to their read-only historical audit copy; no local
-absolute path or old implementation is bundled in this test.
+Set GIFT_EXTERNAL_ROOT for pinned upstream tests. Analytic periodic fields test
+the data adapter independently, without another project checkout.
 """
-import ast
-import importlib.util
 import json
 import os
 from pathlib import Path
@@ -58,60 +55,60 @@ def test_external_solver_sampling_and_coefficients_exact(upstream, small_rows, k
 def test_external_polynomial_derivative_small_reference(upstream):
     values = np.random.RandomState(4).normal(size=9)
     positions = np.arange(9, dtype=np.float64) * .02
-    for order in (1, 2):
-        expected = upstream.PolyDiffPoint(values, positions, deg=5, diff=order)[order - 1]
-        observed = values @ pde.derivative_weights(9, order, .02)
-        assert abs(expected - observed) <= 1e-10
+    for window in (9, 19):
+        values = np.random.RandomState(4).normal(size=window)
+        positions = np.arange(window, dtype=np.float64) * .02
+        for order in (1, 2):
+            expected = upstream.PolyDiffPoint(values, positions, deg=5, diff=order)[order - 1]
+            observed = values @ pde.derivative_weights(window, order, .02)
+            assert abs(expected - observed) <= 1e-10
 
 
-def load_legacy_oracle():
-    configured = os.environ.get("GIFT_LEGACY_PROJECT_ROOT")
-    if not configured:
-        pytest.skip("optional historical read-only oracle not configured")
-    root = Path(configured).resolve(strict=True)
-    path = root / "benchmarks/pde_find/locked_runtime/run_pdefind_batch.py"
-    spec = importlib.util.spec_from_file_location("readonly_pdefind_oracle", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    # Read only one project-owned data transformation, not legacy optimizer code.
-    native = root / "experiments/formal/m1_equation_identification/benchmark_sources/pdefind_native.py"
-    parsed = ast.parse(native.read_text(encoding="utf-8-sig"))
-    selected = [node for node in parsed.body if isinstance(node, ast.FunctionDef)
-                and node.name == "truncated_svd_field"]
-    assert len(selected) == 1
-    namespace = {"np": np, "Any": object, "sha256_array": pde.array_digest}
-    exec(compile(ast.Module(body=selected, type_ignores=[]), str(native), "exec"), namespace)
-    return module, namespace["truncated_svd_field"]
+def test_known_physical_columns_match_declared_equation(upstream, small_rows):
+    observed, names = pde.library(upstream, small_rows, known=True)
+    expected = np.column_stack((small_rows["w"][:, 0],
+        (small_rows["u"]*small_rows["wx"] + small_rows["v"]*small_rows["wy"])[:, 0],
+        (small_rows["wxx"]+small_rows["wyy"])[:, 0], small_rows["q"][:, 0])).astype(np.complex64)
+    np.testing.assert_array_equal(observed, expected)
+    assert len(names) == 4
 
 
-def test_all_library_columns_match_historical_oracle(upstream, small_rows):
-    oracle, _ = load_legacy_oracle()
-    for known in (False, True):
-        expected, expected_names = (oracle.build_kc_theta(small_rows) if known else
-                                    oracle.build_open_theta(small_rows))
-        observed, names = pde.library(upstream, small_rows, known=known)
-        assert names == expected_names
-        np.testing.assert_array_equal(observed, expected)
+def test_periodic_velocity_matches_single_fourier_mode():
+    n = 64
+    yy, xx = np.meshgrid(2*np.pi*np.arange(n)/n, 2*np.pi*np.arange(n)/n, indexing="ij")
+    amplitude = np.array([1., 2., 3.])[:, None, None]
+    w = amplitude*np.sin(xx)*np.cos(2*yy)
+    u, v = pde.velocity(w)
+    np.testing.assert_allclose(u, -.4*amplitude*np.sin(xx)*np.sin(2*yy), atol=1e-14)
+    np.testing.assert_allclose(v, -.2*amplitude*np.cos(xx)*np.cos(2*yy), atol=1e-14)
 
 
 @pytest.mark.parametrize("condition", pde.CONDITIONS)
-def test_project_data_derivatives_and_noise_svd_match_historical_oracle(condition):
-    oracle, svd = load_legacy_oracle()
-    raw = np.random.RandomState(27).normal(size=(101, 64, 64))
-    times = np.arange(101) * .02
-    observed, protocol = pde.prepare_rows(raw, times, condition)
-    u, v = oracle.velocity_from_vorticity(raw)
-    state = raw
-    if condition != "noise_000":
-        state, _ = svd(raw, 26)
-        u, _ = svd(u, 20)
-        v, _ = svd(v, 20)
-    oracle.velocity_from_vorticity = lambda _: (u, v)
-    expected, expected_protocol = oracle.collect_rows(state, times)
-    assert protocol["time_indices"] == expected_protocol["time_indices"]
-    assert observed.keys() == expected.keys()
-    for name in expected:
-        np.testing.assert_array_equal(observed[name], expected[name], err_msg=name)
+def test_derivative_rows_and_svd_preserve_analytic_low_rank_field(condition):
+    n, times = 64, np.arange(101)*.02
+    yy, xx = np.meshgrid(2*np.pi*np.arange(n)/n, 2*np.pi*np.arange(n)/n, indexing="ij")
+    amplitude = 1 + .1*times[:, None, None]
+    raw = amplitude*np.sin(xx)*np.cos(2*yy)
+    rows, protocol = pde.prepare_rows(raw, times, condition)
+    selected = np.asarray(protocol["time_indices"])
+    assert len(np.unique(selected)) == 60 and protocol["row_order"] == "y,x,time"
+    def cube(name):
+        return rows[name].reshape(n, n, 60).transpose(2, 0, 1)
+    # SVD of the large rank-one field has ordinary double-precision roundoff.
+    np.testing.assert_allclose(cube("w"), raw[selected], atol=1e-12)
+    np.testing.assert_allclose(cube("wt"), np.broadcast_to(.1*np.sin(xx)*np.cos(2*yy), (60,n,n)), atol=1e-10)
+    # A polynomial stencil is not an exact spectral derivative. Its Fourier
+    # symbol predicts the discrete answer, including its truncation error.
+    def response(window, order, frequency):
+        offsets = np.arange(-(window//2), window//2+1)
+        return np.dot(pde.derivative_weights(window, order, 2*np.pi/n),
+                      np.exp(1j*frequency*offsets*2*np.pi/n))
+    np.testing.assert_allclose(cube("wx"), response(19,1,1).imag*amplitude[selected]*np.cos(xx)*np.cos(2*yy), atol=1e-10)
+    np.testing.assert_allclose(cube("wy"), -response(9,1,2).imag*amplitude[selected]*np.sin(xx)*np.sin(2*yy), atol=1e-10)
+    np.testing.assert_allclose(cube("wxx"), response(19,2,1).real*raw[selected], atol=1e-10)
+    np.testing.assert_allclose(cube("wyy"), response(9,2,2).real*raw[selected], atol=1e-10)
+    assert abs(response(9,2,2).real/(-4)-1) < 1e-3
+    np.testing.assert_allclose(cube("q"), np.broadcast_to(-4*np.cos(4*yy), (60,n,n)), atol=1e-14)
 
 
 def synthetic_args(tmp_path, monkeypatch):

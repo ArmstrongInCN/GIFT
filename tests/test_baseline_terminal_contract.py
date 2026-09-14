@@ -98,3 +98,11 @@ def test_export_is_create_only(tmp_path):
     with pytest.raises(FileExistsError):
         control._export_terminal(output, MetadataOnlyModel(), {"kind": "none"}, config,
                                  {"purpose": "METADATA_ONLY_MOCK_NOT_TRAINING"}, resumed=True)
+
+
+def test_uno_short_budget_cannot_supply_formal_predictions(tmp_path, monkeypatch):
+    output, payload, _ = export_fixture(tmp_path, "uno")
+    short = dict(payload, terminal_epoch=150)
+    monkeypatch.setattr(prediction, "load_checkpoint", lambda *args: (MetadataOnlyModel(), short))
+    with pytest.raises(ValueError, match="500-epoch"):
+        prediction._load("uno", output / "model.pt", "cpu")

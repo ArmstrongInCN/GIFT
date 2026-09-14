@@ -1,143 +1,166 @@
-"""NumPy-only reference readout/integrity tests; no graph or training fixtures.
+"""Synthetic native-terminal schema tests, never scientific training evidence.
 
-Negative cases mutate only new external test copies. Patching the catalog pin
-inside a test isolates deeper schema gates; production exposes no such bypass.
-Test directories are retained rather than automatically deleted.
+Every fixture is explicitly marked and kept in an external temporary directory.
+Positive tests exercise the formal schema using synthetic arrays; negative tests
+rebind checksums only to reach the deeper consistency gates.
 """
-
 import hashlib
 import json
-import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
-from unittest import mock
 
 import numpy as np
-
 from adapters import pinn_reference as reference
 
 
-EXPECTED = {
-    ("noise_000", "open"): (0.024630296044051647, 0.6550853848457336, 0.6280219554901123),
-    ("noise_000", "known"): (0.03012167103588581, 0.6795651912689209, 0.7922863960266113),
-    ("noise_001", "open"): (0.024698439985513687, 0.6387129724025726, 0.6868330836296082),
-    ("noise_001", "known"): (0.031230388209223747, 0.6807405352592468, 0.7674525380134583),
-    ("noise_010", "open"): (0.02113440167158842, 0.5910610258579254, 0.5980175137519836),
-    ("noise_010", "known"): (0.031767163425683975, 0.6828765273094177, 0.8023972511291504),
-}
+def write_fixture(root, mode="known"):
+    root.mkdir(parents=True, exist_ok=False)
+    (root / "TEST_FIXTURE.txt").write_text("UNIT TEST ONLY: synthetic arrays; no training was executed.\n")
+    names = reference.expected_library(mode)
+    layout = reference.expected_layout(len(names))
+    arrays = {"model_%03d" % index: np.zeros(item["shape"], np.float32)
+              for index, item in enumerate(layout)}
+    coefficients = np.arange(1, len(names)+1, dtype=np.float32) / 100
+    mask = np.ones((len(names), 1), np.float32)
+    mask[0] = 0
+    arrays.update(model_mask=mask, raw_coefficients=coefficients,
+                  effective_coefficients=coefficients * mask.reshape(-1))
+    arrays["model_018"] = coefficients.reshape(-1, 1).copy()
+    cost = {"nadam_updates": 31000, "stridge_calls": 6, "phase_seconds": {}}
+    record = {"schema": "gift.pinn-terminal.v1", "run_id": "UNIT_TEST_SYNTHETIC_NOT_TRAINED",
+        "mode": mode, "training_completed": True, "diagnostic_test_only": False,
+        "eligible_for_formal_M1": True, "requested_budget": reference.BUDGET.copy(),
+        "library": names, "raw_coefficients": coefficients.tolist(), "mask": mask.reshape(-1).tolist(),
+        "effective_coefficients": arrays["effective_coefficients"].tolist(), "training_cost": cost,
+        "terminal_snapshot": {"identity": {"mode": mode, "budget": reference.BUDGET.copy(),
+            "diagnostic_test_only": False, "backend": {"inputs": {"condition": "noise_000",
+                "selection": {"diagnostic_subset": False, "train_rows": 24000, "physics_rows": 84000},
+                "data": {"sha256": "A"*64}, "sampling": {"sha256": "B"*64}}}},
+            "fsm": {"phase": "complete", "nadam_total": 31000, "round": 5,
+                    "stridge_records": [{} for _ in range(6)], "final_mask": True, "cost": cost},
+            "model_iteration": 31000, "model_layout": layout}}
+    save_fixture(root, record, arrays)
+    return record, arrays
+
+
+def save_fixture(root, record, arrays):
+    np.savez_compressed(root / "terminal_state.npz", **arrays)
+    record["terminal_state_sha256"] = reference.digest((root / "terminal_state.npz").read_bytes())
+    raw = json.dumps(record, allow_nan=False).encode()
+    (root / "result.json").write_bytes(raw)
+    (root / "COMPLETED.json").write_text(json.dumps({
+        "schema": "gift.pinn-completion.v1", "run_id": record["run_id"],
+        "result_sha256": reference.digest(raw),
+        "terminal_state_sha256": record["terminal_state_sha256"], "diagnostic_test_only": False}))
 
 
 class ReferenceTests(unittest.TestCase):
-    def fixture(self):
-        parent = os.environ.get("GIFT_PINN_REFERENCE_TEST_OUTPUT")
-        if parent:
-            Path(parent).mkdir(parents=True, exist_ok=True)
-        root = Path(tempfile.mkdtemp(prefix="pinn-reference-test-only-", dir=parent))
-        raw = (reference.REFERENCE_ROOT / "manifest.json").read_bytes()
-        (root / "manifest.json").write_bytes(raw)
-        catalog = json.loads(raw)
-        row = next(item for item in catalog["runs"]
-                   if (item["condition"], item["mode"]) == ("noise_000", "known"))
-        target = root / row["path"]
-        target.parent.mkdir(parents=True)
-        target.write_bytes((reference.REFERENCE_ROOT / row["path"]).read_bytes())
-        return root, catalog, row
+    def fixture(self, mode="known"):
+        parent = Path(tempfile.mkdtemp(prefix="gift-native-reader-test-only-"))
+        root = parent / "synthetic"
+        record, arrays = write_fixture(root, mode)
+        return root, record, arrays
 
-    def fixture_catalog_pin(self, root, catalog):
-        raw = (json.dumps(catalog, indent=2) + "\n").encode()
-        (root / "manifest.json").write_bytes(raw)
-        return mock.patch.object(reference, "MANIFEST_SHA256", hashlib.sha256(raw).hexdigest())
+    def test_known_and_open_read_coefficients_and_physical_forcing(self):
+        for mode in ("known", "open"):
+            root, record, arrays = self.fixture(mode)
+            result = reference.read_checkpoint(root / "result.json", "noise_000", mode)
+            values = dict(zip(record["library"], arrays["effective_coefficients"].astype(float)))
+            expected = ({"nu": values["laplacian"], "beta": -values["advection"], "gamma": values["q"]}
+                        if mode == "known" else {"nu": (values["w_{xx}"]+values["w_{yy}"])/2,
+                        "beta": -(values["u**1w_{x}"]+values["v**1w_{y}"])/2, "gamma": values["q"]})
+            self.assertEqual(result["parameters"], expected)
+            self.assertEqual(result["verified_tensor_count"], 59)
+            self.assertFalse(result["training"])
+            self.assertFalse(result["forward"])
+            self.assertFalse(result["sparse_structure_recovery_claimed"])
 
-    def test_all_six_real_reference_readouts(self):
-        for pair, expected in EXPECTED.items():
-            with self.subTest(condition=pair[0], mode=pair[1]):
-                result = reference.read_reference(*pair)
-                self.assertEqual(tuple(result["parameters"][key] for key in ("nu", "beta", "gamma")), expected)
-                self.assertEqual(result["verified_tensor_count"], 82)
-                self.assertEqual(result["readout_scope"], "trained_coefficients_readout")
-                self.assertEqual(result["artifact_role"], "reference_not_resume")
-                for flag in ("training", "forward", "fresh_training", "full_budget_retraining_verified",
-                             "is_resume_checkpoint", "sparse_structure_recovery_claimed"):
-                    self.assertIs(result[flag], False)
-                self.assertEqual(len(result["coefficients"]), 90 if pair[1] == "open" else 4)
-                self.assertEqual(result["nonzero_effective_coefficients"], len(result["coefficients"]))
-
-    def test_no_framework_import_in_clean_child(self):
+    def test_no_tensorflow_or_torch_import(self):
+        root, _, _ = self.fixture()
         project = str(Path(__file__).resolve().parents[1])
         code = ("import sys; sys.path.insert(0, %r); "
-                "from adapters.pinn_reference import read_reference; "
-                "read_reference('noise_000','known'); "
-                "assert 'tensorflow' not in sys.modules and 'torch' not in sys.modules; print('PASS')") % project
-        output = subprocess.check_output([sys.executable, "-I", "-B", "-c", code], timeout=30)
-        self.assertEqual(output.strip(), b"PASS")
+                "from adapters.pinn_reference import read_checkpoint; "
+                "read_checkpoint(%r, 'noise_000', 'known'); "
+                "assert 'tensorflow' not in sys.modules and 'torch' not in sys.modules; print('PASS')") % (project, str(root/"result.json"))
+        self.assertEqual(subprocess.check_output([sys.executable, "-I", "-B", "-c", code], timeout=30).strip(), b"PASS")
 
-    def test_changed_catalog_refused(self):
-        root, _, _ = self.fixture()
-        with (root / "manifest.json").open("ab") as stream:
-            stream.write(b" ")
-        with self.assertRaisesRegex(ValueError, "manifest SHA256"):
-            reference.read_reference("noise_000", "known", root)
-
-    def test_changed_archive_refused(self):
-        root, _, row = self.fixture()
-        target = root / row["path"]
-        raw = bytearray(target.read_bytes())
-        raw[-1] ^= 1
-        target.write_bytes(raw)
-        with self.assertRaisesRegex(ValueError, "archive size/SHA256"):
-            reference.read_reference("noise_000", "known", root)
-
-    def test_condition_mode_path_and_schema_refused(self):
-        for condition, mode in (("noise_100", "known"), ("noise_000", "PINN-SR")):
-            with self.subTest(condition=condition, mode=mode), self.assertRaises(ValueError):
-                reference.read_reference(condition, mode)
-        for field in ("path", "shape", "role"):
-            root, catalog, row = self.fixture()
-            if field == "path":
-                row["path"] = "../outside.npz"
-            elif field == "shape":
-                catalog["tensor_schemas"]["known"][0]["shape"] = [1]
-            else:
-                row["artifact_role"] = "resume_checkpoint"
-            with self.subTest(field=field), self.fixture_catalog_pin(root, catalog), self.assertRaises(ValueError):
-                reference.read_reference("noise_000", "known", root)
-
-    def test_numeric_array_gates_even_with_fixture_checksums(self):
-        for defect in ("float64", "nonfinite", "mask", "object", "missing"):
-            root, catalog, row = self.fixture()
-            target = root / row["path"]
-            with np.load(target, allow_pickle=False) as archive:
-                arrays = {key: archive[key].copy() for key in archive.files}
-            mask_key = next(item["key"] for item in catalog["tensor_schemas"]["known"]
-                            if item["name"] == "coefficient_mask")
-            if defect == "float64":
-                arrays[mask_key] = arrays[mask_key].astype(np.float64)
-            elif defect == "nonfinite":
-                arrays[mask_key][0, 0] = np.nan
+    def test_incomplete_diagnostic_and_wrong_condition_rejected(self):
+        for defect in ("diagnostic", "budget", "rows", "phase", "steps", "rounds", "mask", "condition", "cost"):
+            root, record, arrays = self.fixture()
+            snapshot = record["terminal_snapshot"]
+            if defect == "diagnostic":
+                record["diagnostic_test_only"] = True
+            elif defect == "budget":
+                record["requested_budget"]["pre_nadam"] = 1
+            elif defect == "rows":
+                snapshot["identity"]["backend"]["inputs"]["selection"]["train_rows"] = 64
+            elif defect == "phase":
+                snapshot["fsm"]["phase"] = "post_nadam"
+            elif defect == "steps":
+                snapshot["model_iteration"] = 6
+            elif defect == "rounds":
+                snapshot["fsm"]["stridge_records"].pop()
             elif defect == "mask":
-                arrays[mask_key][0, 0] = 0.5
-            elif defect == "object":
-                arrays[mask_key] = np.zeros((4, 1), dtype=object)
+                snapshot["fsm"]["final_mask"] = False
+            elif defect == "condition":
+                snapshot["identity"]["backend"]["inputs"]["condition"] = "noise_010"
             else:
-                del arrays[mask_key]
-            with target.open("wb") as stream:
-                np.savez_compressed(stream, **arrays)
-            raw = target.read_bytes()
-            row.update(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
-            for key, array in arrays.items():
-                row["array_sha256"][key] = hashlib.sha256(array.tobytes(order="C")).hexdigest()
-            with self.subTest(defect=defect), self.fixture_catalog_pin(root, catalog), self.assertRaises(ValueError):
-                reference.read_reference("noise_000", "known", root)
+                snapshot["fsm"]["cost"] = {"nadam_updates": 10}
+            save_fixture(root, record, arrays)
+            with self.subTest(defect=defect), self.assertRaises(ValueError):
+                reference.read_checkpoint(root/"result.json", "noise_000", "known")
 
-    def test_parameters_are_computed_not_trusted_metadata(self):
-        root, catalog, row = self.fixture()
-        row["parameters"] = {"nu": 999, "beta": 999, "gamma": 999}
-        with self.fixture_catalog_pin(root, catalog):
-            result = reference.read_reference("noise_000", "known", root)
-        self.assertEqual(tuple(result["parameters"].values()), EXPECTED[("noise_000", "known")])
+    def test_archive_state_library_and_json_consistency(self):
+        for defect in ("dtype", "nonfinite", "mask_dtype", "mask_shape", "mask_value", "lambda",
+                       "layout_name", "layout_shape", "library", "missing", "effective", "json"):
+            root, record, arrays = self.fixture()
+            if defect == "dtype":
+                arrays["model_000"] = arrays["model_000"].astype(np.float64)
+            elif defect == "nonfinite":
+                arrays["model_000"][0, 0] = np.nan
+            elif defect == "mask_dtype":
+                arrays["model_mask"] = arrays["model_mask"].astype(np.float64)
+            elif defect == "mask_shape":
+                arrays["model_mask"] = arrays["model_mask"].reshape(-1)
+            elif defect == "mask_value":
+                arrays["model_mask"][0, 0] = .5
+            elif defect == "lambda":
+                arrays["model_018"][0, 0] = 5
+            elif defect == "layout_name":
+                record["terminal_snapshot"]["model_layout"][0]["name"] = "not_native:0"
+            elif defect == "layout_shape":
+                record["terminal_snapshot"]["model_layout"][0]["shape"] = [180]
+                arrays["model_000"] = arrays["model_000"].reshape(-1)
+            elif defect == "library":
+                record["library"][0], record["library"][1] = record["library"][1], record["library"][0]
+            elif defect == "missing":
+                del arrays["model_058"]
+            elif defect == "effective":
+                arrays["effective_coefficients"][0] = 1
+            else:
+                record["raw_coefficients"][0] = 5
+            save_fixture(root, record, arrays)
+            with self.subTest(defect=defect), self.assertRaises(ValueError):
+                reference.read_checkpoint(root/"result.json", "noise_000", "known")
+
+    def test_unbound_result_archive_and_duplicate_json_rejected(self):
+        for defect in ("result", "archive", "duplicate"):
+            root, record, arrays = self.fixture()
+            path = root/("terminal_state.npz" if defect == "archive" else "result.json")
+            raw = path.read_bytes()
+            if defect == "duplicate":
+                raw = raw[:-1] + b', "mode": "known"}'
+                path.write_bytes(raw)
+                completion = json.loads((root/"COMPLETED.json").read_text())
+                completion["result_sha256"] = reference.digest(raw)
+                (root/"COMPLETED.json").write_text(json.dumps(completion))
+            else:
+                path.write_bytes(raw+b" ")
+            with self.subTest(defect=defect), self.assertRaises(ValueError):
+                reference.read_checkpoint(root/"result.json", "noise_000", "known")
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
   "schema": "gift.formal-experiment-index",
   "schema_version": 1,
   "record_document": "EXPERIMENTS.md",
+  "result_scope": "Published directories contain compact summaries and selected figures; raw_directory names describe independently recomputable full outputs, not files included in Git.",
   "experiments": [
     {
       "id": "M1",
@@ -66,11 +67,17 @@
   ],
   "shared_tools": {
     "aggregate": "experiments/formal/common/aggregate.py",
-    "verify": "experiments/formal/verify_experiment_record.py",
+    "verify_result_integrity": "scripts/verify_results.py",
+    "verify_published_integrity": "scripts/verify_published_results.py",
+    "run_one_experiment": "scripts/run_experiment.py",
+    "m1_aggregate": "experiments/formal/m1_equation_identification/aggregate.py",
     "gift_training": "experiments/formal/train_gift_branches.py",
-    "fno_training": "baselines/train_fno.py",
-    "uno_training": "baselines/train_uno.py",
-    "unet_training": "baselines/train_unet.py",
+    "gift_generator_training": "experiments/formal/train_low_generator.py",
+    "fno2d_training": "training/train_fno2d.py",
+    "fno3d_training": "training/train_fno3d.py",
+    "uno_training": "training/train_uno.py",
+    "unet_training": "training/train_unet.py",
+    "pinn_training": "training/train_pinn.py",
     "m2_mean_error_figure": "experiments/formal/m2_recursive_prediction/plot_mean_error.py",
     "m2_keyframe_figure": "experiments/formal/m2_recursive_prediction/plot_keyframes.py"
   }

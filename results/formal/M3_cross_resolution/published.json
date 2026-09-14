@@ -1,0 +1,195 @@
+{
+  "schema": "gift.published-results.v1",
+  "experiment": "M3",
+  "scope": "summaries_and_selected_figures",
+  "full_raw_outputs_included": false,
+  "resumable_experiment": false,
+  "measurement": {
+    "report_sha256": "8F501B11D0309534917433C2EC634D63F42F5AF5B9BFE9F0B2E7ED1D74443B9E",
+    "result_manifest_sha256": "4B657EBF599E6A7FF97DAD50D9A2089D87E5C441C77AC697B3F302D1336270B3",
+    "settings": {
+      "device": "cuda",
+      "fno2d_batch_size": 10,
+      "fno3d_batch_size": 5,
+      "gift_batch_size": 8
+    },
+    "runtime": {
+      "cublas_workspace_config": null,
+      "cuda": "12.6",
+      "cudnn": 91002,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "cudnn_tf32": true,
+      "deterministic": false,
+      "deterministic_warn_only": false,
+      "machine": "AMD64",
+      "matmul_tf32": false,
+      "numpy": "2.2.6",
+      "os": "Windows-10-10.0.26200-SP0",
+      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+      "python": "3.10.19",
+      "selected_gpu": {
+        "major": 8,
+        "minor": 6,
+        "multiprocessors": 58,
+        "name": "NVIDIA RTX A5500 Laptop GPU",
+        "total_memory": 17179344896
+      },
+      "tf32_override": null,
+      "torch": "2.10.0+cu126",
+      "torch_interop_threads": 16,
+      "torch_threads": 2
+    },
+    "external": {
+      "fno2d": {
+        "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+        "family": "fno",
+        "repository": "https://github.com/neuraloperator/neuraloperator",
+        "source_sha256": {
+          "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+          "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+          "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+        }
+      },
+      "fno3d": {
+        "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+        "family": "fno",
+        "repository": "https://github.com/neuraloperator/neuraloperator",
+        "source_sha256": {
+          "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+          "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+          "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+        }
+      }
+    },
+    "executed_source_sha256": {
+      "adapters/__init__.py": "69d2591a25fb29f8aaadb36156f7c94aad6339b483781b861a774c4bef290016",
+      "adapters/models.py": "b79b8d750d80807f98cd118a0f3abbf3c3db3ff4fa3fbcc33b2bfe0ade163524",
+      "experiments/__init__.py": "93ee043977a7dde15e0759a50f43a9c137229677ccb219b21f6253722412ed80",
+      "experiments/formal/__init__.py": "f7a044c53c6941fcc298120b969af3298666dc4ca5d08cfe67245af71dedd262",
+      "experiments/formal/_shared/__init__.py": "46087dacb1af884b584414db17a5ff2b5249ce51738469f5f02a013715167ce8",
+      "experiments/formal/_shared/common.py": "15dcea7a0ff498cd14803bf4eea26cbf77d4f89a36517e56a119b09f781b6c76",
+      "experiments/formal/_shared/fno_runtime.py": "06c6209dfa7cdec828c2b79b51fd65c255bbc83f4f44ac0aa93656b7fea0d186",
+      "experiments/formal/_shared/gift_runtime.py": "2ceb836b14915592fe6644ca4caa7a567717ee097750bb12a7587c07a25f7d13",
+      "experiments/formal/_shared/high_frequency.py": "0941f76d64860ef6b52850d89dbbd01187087a6beed64d5143d9fd7fd28ca15e",
+      "experiments/formal/_shared/resume.py": "f073031571f8415656a5d9c54dc42011d4481642894c551fa074427b909a5148",
+      "experiments/formal/m3_cross_resolution/__init__.py": "2bb1de3b7d0362598886b9e290f0aa80dc3e5654d58922e138f4df4c0a2a594b",
+      "experiments/formal/m3_cross_resolution/run.py": "82596aa811b3dd1c91e5f5ed19a7ae126d8aaaac0be209463b1461a9522990cd",
+      "src/even_full_spectrum_ns.py": "c4064b06d940ae05be4904012d125d7fae3300b03f04679748d7f3f538b37a1d",
+      "src/gift/__init__.py": "a2a63bd2e220f15dfd31679ec7512b0ecd408bd697eb8a95f0263eb204c14ee6",
+      "src/gift/identifiability.py": "df2985767976ed9618260ff1bf068afa88849655656013b67eef97d048aa6959",
+      "src/gift/identified.py": "f3efb36a0276def2bbbee1a5be589379d85abbee0082f30cb9d588744ec3df2b",
+      "src/gift/model.py": "c26ace74f419c4f58197bb6d6b7b0625cbbe368d0e4b7fdd443176b0108315b7",
+      "src/gift/paths.py": "d8767f3c9fe4b9904bea0553c405e676e5aed83c3e61f988c6f1c59ab74993c4",
+      "training/__init__.py": "9860d5327ef144a43867bd5f229738d7e416e964b3dc91590d9d931fcc83bd58",
+      "training/baseline_control.py": "7cda8f5ee54ea16675464cd08b53370b7d309b550c6920b92f09c6de6168999c",
+      "training/checkpoints.py": "858309349d511e3c3f8853ec1c1549fb42ad8e576d9756842e09c6c62b72340c"
+    },
+    "released_input_bindings": {
+      "cross_resolution": {
+        "root": "GIFT_DATA_ROOT",
+        "path": "cross_resolution/cross_resolution_n96_n128_t4p1_t6p0_dt0p1.h5",
+        "relation": "identical_serialized_bytes",
+        "sha256": "A89CC73170EF4F84FD7AA07776496D40901E485636D11A26C839513AB915FC88",
+        "measured_serialization_sha256": "A89CC73170EF4F84FD7AA07776496D40901E485636D11A26C839513AB915FC88"
+      },
+      "dense_n64": {
+        "root": "GIFT_DATA_ROOT",
+        "path": "fair_short_horizon/standard_ns_n64_full_spectrum_test_t4p1_t6p0_dt0p1.h5",
+        "relation": "identical_serialized_bytes",
+        "sha256": "55B7DA895481EC4FD832FF82DDFAF02AABCD261762685FAA9C287B1EEE480477",
+        "measured_serialization_sha256": "55B7DA895481EC4FD832FF82DDFAF02AABCD261762685FAA9C287B1EEE480477"
+      },
+      "fno2d_model": {
+        "root": "project",
+        "path": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
+        "relation": "identical_serialized_bytes",
+        "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039",
+        "measured_serialization_sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039"
+      },
+      "fno3d_model": {
+        "root": "project",
+        "path": "artifacts/fno/fno3d_ntrain1000_terminal_epoch500.pt",
+        "relation": "identical_serialized_bytes",
+        "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B",
+        "measured_serialization_sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B"
+      },
+      "fno_test_dt0p02": {
+        "root": "GIFT_DATA_ROOT",
+        "path": "fno/fno_test_n64_n96_n128_dt0p02.h5",
+        "relation": "identical_serialized_bytes",
+        "sha256": "ED57949D16DE9EB118B91621394D08D41B490A3C233EC708292F8326ACF82BC7",
+        "measured_serialization_sha256": "ED57949D16DE9EB118B91621394D08D41B490A3C233EC708292F8326ACF82BC7"
+      },
+      "gift_20260820": {
+        "root": "project",
+        "path": "artifacts/gift/gift_seed_20260820.pt",
+        "relation": "identical_model_tensors_and_computational_metadata",
+        "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A",
+        "measured_serialization_sha256": "CC4104778A89458D3D58FDD0FA192B7037CD0B06975EE16F67018225C3641DBE"
+      },
+      "gift_20260821": {
+        "root": "project",
+        "path": "artifacts/gift/gift_seed_20260821.pt",
+        "relation": "identical_model_tensors_and_computational_metadata",
+        "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819",
+        "measured_serialization_sha256": "2170D05FA5217CCBFD72F8B951B05408A623540ADA122F590D7BBD0E5AA0756F"
+      },
+      "gift_20260822": {
+        "root": "project",
+        "path": "artifacts/gift/gift_seed_20260822.pt",
+        "relation": "identical_model_tensors_and_computational_metadata",
+        "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201",
+        "measured_serialization_sha256": "8C5271FF2805AE727B10AC660AA91E34EFFC948C924F39659732BF6B2F1B4989"
+      },
+      "low_model": {
+        "root": "project",
+        "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
+        "relation": "identical_model_tensors_and_computational_metadata",
+        "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B",
+        "measured_serialization_sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
+      }
+    }
+  },
+  "figure_directories": [
+    "figures"
+  ],
+  "recompute_command": "python -m scripts.run_experiment M3 --output ../runs/M3",
+  "files": [
+    {
+      "path": "summary/metrics.csv",
+      "bytes": 339813,
+      "sha256": "37792F99BB3D898E6DFAE69D86547D969BAE5B52A2EEF5F4B4D9CB96E87B5C29"
+    },
+    {
+      "path": "summary/summary.json",
+      "bytes": 10182,
+      "sha256": "2BA5FCDD485DF38D4657891298A0531A7D442A5FA0D7901845EEF2F0EBEEBE6B"
+    },
+    {
+      "path": "figures/cross_resolution_mean_relative_l2.svg",
+      "bytes": 56134,
+      "sha256": "CC503FB8A04109E88DCD4CA90667735EEBD226F019D4549BCD58EB4507A598F2"
+    },
+    {
+      "path": "figures/source_data.csv",
+      "bytes": 29269,
+      "sha256": "27AA809D9F7483AAB9D7190B30BCABB3C17C0886EF5B7B1D549EEC15458F818B"
+    },
+    {
+      "path": "figures/source_fields.npz",
+      "bytes": 243612,
+      "sha256": "B8698D9D12229CD228722DAF48A581B6E077004A25423A0653FE294F2382EE22"
+    },
+    {
+      "path": "figures/traj1130_n128_t6_prediction_fields.svg",
+      "bytes": 22600742,
+      "sha256": "2FCF75D098DDCC96DE8F3B7C81229D8CF816AE11F6CF6437EE6F57F7162FF82A"
+    },
+    {
+      "path": "figures/figure_manifest.json",
+      "bytes": 4507,
+      "sha256": "D8688FAAD8954ABEB1D953E07103E87C5E5D9649821ED110176CC989D7D0745A"
+    }
+  ]
+}

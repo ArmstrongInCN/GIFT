@@ -1,0 +1,144 @@
+{
+  "schema": "gift.training-costs.v1",
+  "shared_clean_pretraining_counted_once": true,
+  "runs": [
+    {
+      "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 398738,
+      "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B",
+      "model_state_sha256": "b4c97878bde6c16afeedb6567a4ce1ea15e723e35f50920c5f02c14daf6048fc",
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 351.2951514000015,
+        "timing_scope": "training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial preparation and affine fit, terminal export",
+        "count_evidence": "complete same-run journal and phase-end history",
+        "same_run_resume_used": false
+      },
+      "condition": "noise_000"
+    },
+    {
+      "path": "artifacts/m1_parameter_identification/gift_noise_001.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 398034,
+      "sha256": "9E3858869EF76F496F7C165EAEA49629EC4990880B21FB0D3C4296B9AE85009C",
+      "model_state_sha256": "d90a0656c4643651599ede7fff355dd1ea7a19fafe6957fac00b6695325bc68f",
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 409.12842359999195,
+        "timing_scope": "training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial preparation and affine fit, terminal export",
+        "count_evidence": "complete same-run journal and phase-end history",
+        "same_run_resume_used": false
+      },
+      "condition": "noise_001"
+    },
+    {
+      "path": "artifacts/m1_parameter_identification/gift_noise_010.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 392978,
+      "sha256": "7E59BA53E0688D60F8CED0BC885CE84E57848925FAB7EFB1BDE5814FDDCCFC0F",
+      "model_state_sha256": "e87fa342ef91fc585dca13deb3138edd55e5990e624606a6517e6f2075751e80",
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 476.8908530000044,
+        "timing_scope": "training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial preparation and affine fit, terminal export",
+        "count_evidence": "complete same-run journal and phase-end history",
+        "same_run_resume_used": false
+      },
+      "condition": "noise_010"
+    },
+    {
+      "path": "artifacts/gift/gift_seed_20260820.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11314322,
+      "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A",
+      "model_state_sha256": "5911cde7deb840b819eddf3b9bb77e92fc596198d0e6818cc880969a2fc009fd",
+      "training_cost": {
+        "optimizer_updates": 5834,
+        "phase_updates": [
+          5634,
+          100,
+          100
+        ],
+        "training_and_export_seconds": 610.8053727999941,
+        "committed_training_validation_seconds": null,
+        "timing_scope": "single-seed data/RHS preparation, training, validation, selection, checkpoint and terminal/history export",
+        "timing_excludes": "shared low-generator pretraining, initial input/protocol checks, final report/manifest writing",
+        "per_stage_times_available": false,
+        "same_run_resume_used": false,
+        "count_evidence": "complete 18+2+2 same-run history; one update per batch, final partial batch retained",
+        "shared_generator_pretraining_included": false
+      },
+      "seed": 20260820
+    },
+    {
+      "path": "artifacts/gift/gift_seed_20260821.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11314322,
+      "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819",
+      "model_state_sha256": "724ddb436b9569eb4ad2f627de77d7a6eedc137cae6fece8d6c65b53578162c7",
+      "training_cost": {
+        "optimizer_updates": 5834,
+        "phase_updates": [
+          5634,
+          100,
+          100
+        ],
+        "training_and_export_seconds": 717.9935531000083,
+        "committed_training_validation_seconds": null,
+        "timing_scope": "single-seed data/RHS preparation, training, validation, selection, checkpoint and terminal/history export",
+        "timing_excludes": "shared low-generator pretraining, initial input/protocol checks, final report/manifest writing",
+        "per_stage_times_available": false,
+        "same_run_resume_used": false,
+        "count_evidence": "complete 18+2+2 same-run history; one update per batch, final partial batch retained",
+        "shared_generator_pretraining_included": false
+      },
+      "seed": 20260821
+    },
+    {
+      "path": "artifacts/gift/gift_seed_20260822.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11314322,
+      "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201",
+      "model_state_sha256": "c0f42c91cc8c333eb64d3a7df62fa94dbb49224cd0cde640741aa40429e934dd",
+      "training_cost": {
+        "optimizer_updates": 5834,
+        "phase_updates": [
+          5634,
+          100,
+          100
+        ],
+        "training_and_export_seconds": 703.8174106000079,
+        "committed_training_validation_seconds": null,
+        "timing_scope": "single-seed data/RHS preparation, training, validation, selection, checkpoint and terminal/history export",
+        "timing_excludes": "shared low-generator pretraining, initial input/protocol checks, final report/manifest writing",
+        "per_stage_times_available": false,
+        "same_run_resume_used": false,
+        "count_evidence": "complete 18+2+2 same-run history; one update per batch, final partial batch retained",
+        "shared_generator_pretraining_included": false
+      },
+      "seed": 20260822
+    }
+  ]
+}

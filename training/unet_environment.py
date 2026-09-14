@@ -1,4 +1,4 @@
-"""Stdlib-only, read-only startup checks for the recorded U-Net B7 profile.
+"""Stdlib-only, read-only startup checks for the single-GPU U-Net profile.
 
 These checks select no device, seed, backend flag, or training budget. Configure
 the documented environment in the child process before starting Python. A
@@ -55,8 +55,8 @@ def validate_environment(environment: Mapping[str, str] | None = None) -> None:
             details.append("must be absent: " + ", ".join(present))
         if mismatched:
             details.append("fixed value/canonical key required: " + ", ".join(mismatched))
-        raise ValueError("U-Net B7 environment mismatch; " + "; ".join(details)
-                         + ". Configure a new child using docs/adapters/UNET.md; no environment was changed.")
+        raise ValueError("U-Net environment mismatch; " + "; ".join(details)
+                         + ". Use scripts.run_training or docs/SETUP.md; no environment was changed.")
 
 
 def validate_before_import() -> None:
@@ -90,7 +90,7 @@ def preflight(argv: list[str]) -> bool:
     if selected.help:
         print("Independent U-Net training / same-run resume\n"
               "Usage: python -m training.train_unet [--dry-run | --run-training] [options]\n"
-              "Formal startup requires the B7 child environment in docs/adapters/UNET.md.\n"
+              "Formal startup requires the child environment described in docs/SETUP.md.\n"
               "Options: --output PATH, --device DEVICE (default cuda), --resume,\n"
               "  --data-file RELATIVE_PATH, --data-profile released|regenerated,\n"
               "  --stop-after-epoch N, --checkpoint-interval N (default 10).\n"

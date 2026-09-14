@@ -1,4 +1,4 @@
-"""Real temporary Git indexes; no candidate Git operations, commits or deletion.
+"""Real temporary Git indexes; no project Git operations, commits or deletion.
 
 Each fixture starts in a new pytest directory and is retained. The checker is
 read-only: its call must leave both index and existing work-file bytes intact.

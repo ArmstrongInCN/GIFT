@@ -15,7 +15,7 @@ import uuid
 
 # Metadata contract only; no architecture, solver, objective or optimizer code.
 # epochs, rollout, physical batch, accumulation, weight decay, group IDs, states
-BUDGETS = {"uno": (150, 20, 16, 1, 1e-5, 36, 36),
+BUDGETS = {"uno": (500, 20, 16, 1, 1e-5, 36, 36),
            "fno2d": (500, 150, 10, 2, 1e-4, 30, 30),
            "fno3d": (500, 150, 5, 2, 1e-4, 38, 30),
            "unet": (500, 4, 20, 1, 1e-4, 36, 36)}
@@ -117,7 +117,7 @@ def check_tensors(payload, model, torch):
 
 def artifact(saved, attempt, checkpoint_record, attempt_record):
     config, payload = saved["identity"]["configuration"], saved["payload"]
-    return dict(schema="gift.recovered-baseline-weights.v1", status="complete", method=config["model"],
+    result = dict(schema="gift.recovered-baseline-weights.v1", status="complete", method=config["model"],
         model_state_dict=payload["model_state_dict"], normalization=payload["normalization"],
         formal_configuration=config, terminal_epoch=config["epochs"], artifact_role="recovered_terminal",
         fresh_training=None, same_run_resume_used=None,
@@ -130,6 +130,10 @@ def artifact(saved, attempt, checkpoint_record, attempt_record):
             source_and_data_hashes="preserved recorded bindings; source, upstream and datasets not reread",
             original_invocation_completion="not inferred; export can recover after crash without an END receipt",
             scientific_acceptance_verified=False, training_or_forward_performed=False))
+    # Preserve measured cost when recorded; never infer missing timing from epochs.
+    if "training_cost" in payload:
+        result["training_cost"] = payload["training_cost"]
+    return result
 
 
 def atomic_create(destination, writer, verify):

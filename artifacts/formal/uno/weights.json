@@ -1,0 +1,22 @@
+{
+  "schema": "gift.sharded-checkpoint.v1",
+  "bytes": 121930295,
+  "sha256": "8811ee013aa60b88d749278971abb77814507e18be2f486ca6edf2b23dfc9c55",
+  "parts": [
+    {
+      "path": "weights-0001.part",
+      "bytes": 41943040,
+      "sha256": "16d5567d685347e8da0a9ff32cce77fa8a6a92677fb282ff6d8fa92691fc0a61"
+    },
+    {
+      "path": "weights-0002.part",
+      "bytes": 41943040,
+      "sha256": "60b2b23f59542236f5972dc6f32e5802eab460d6c00fad122d4a08379bd7aa2f"
+    },
+    {
+      "path": "weights-0003.part",
+      "bytes": 38044215,
+      "sha256": "22fefcfe020a5deaafe90966bd48caf43a88ce81fd3728906607e519894d1f80"
+    }
+  ]
+}

@@ -4,11 +4,12 @@ from __future__ import annotations
 import torch
 
 from .models import load_checkpoint
+from training.budgets import PREDICTION_EPOCHS
 
 
 def _load(method, path, device):
     model, payload = load_checkpoint(method, path, str(device))
-    epochs = 150 if method == "uno" else 500
+    epochs = PREDICTION_EPOCHS
     if payload.get("status") != "complete" or int(payload.get("terminal_epoch", -1)) != epochs:
         raise ValueError(f"{method}: a completed {epochs}-epoch terminal model is required")
     if payload.get("artifact_role") == "test_only" or payload.get("formal_configuration") is False:

@@ -15,15 +15,21 @@ import h5py
 import numpy as np
 import torch
 
-from training.baseline_control import PROTOCOLS, _arguments, configuration, epoch_schedule, objective, save_boundary
+from training.baseline_control import PROTOCOLS, _arguments, configuration, epoch_schedule, objective, save_boundary, training_cost
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_training_cost_is_sum_of_committed_epochs(self):
+        actual = training_cost([{"epoch_seconds": 1.5}, {"epoch_seconds": 2.25}], 126)
+        self.assertEqual(actual["completed_epochs"], 2)
+        self.assertEqual(actual["optimizer_updates"], 126)
+        self.assertEqual(actual["committed_epoch_seconds"], 3.75)
+
     def test_formal_budgets(self):
         self.assertEqual([(PROTOCOLS[name]["epochs"], PROTOCOLS[name]["micro_batch"],
                            PROTOCOLS[name]["accumulation"], PROTOCOLS[name]["rollout"])
                           for name in ("fno2d", "fno3d", "uno", "unet")],
-                         [(500, 10, 2, 150), (500, 5, 2, 150), (150, 16, 1, 20), (500, 20, 1, 4)])
+                         [(500, 10, 2, 150), (500, 5, 2, 150), (500, 16, 1, 20), (500, 20, 1, 4)])
 
     def test_tiny_is_distinct_budget(self):
         config = configuration("uno", _arguments("uno", ["--tiny"]))

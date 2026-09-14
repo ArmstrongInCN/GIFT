@@ -78,6 +78,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--unet-batch-size", type=int, default=4)
     parser.add_argument("--uno-model", type=Path)
     parser.add_argument("--unet-model", type=Path)
+    parser.add_argument("--fno2d-model", type=Path)
+    parser.add_argument("--fno3d-model", type=Path)
     parser.add_argument("--skip-plots", action="store_true", help="save numerical evidence; render figures independently later")
     return parser.parse_args()
 
@@ -138,7 +140,7 @@ def adaptation_record() -> dict[str, list[str]]:
         "U-NO": [
             "history length changed from 10 to 46 frames while retaining the four periodic coordinate channels",
             "training rollout shortened from 40 to 20 steps for device memory; evaluation remains 150 steps",
-            "training duration fixed to 150 epochs and activation checkpointing changes memory use only",
+            "training duration fixed to 500 epochs and activation checkpointing changes memory use only",
         ],
         "U-Net": [
             "input and output channels changed to 46 and 1; the published encoder-decoder layers remain unchanged",
@@ -153,6 +155,10 @@ def main() -> None:
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:
         paths = replace(paths, low_model=args.low_model.expanduser().resolve(strict=True))
+    for name in ("fno2d", "fno3d"):
+        selected = getattr(args, name + "_model")
+        if selected is not None:
+            paths = replace(paths, **{name + "_model": selected.expanduser().resolve(strict=True)})
     gift_models = parse_seed_model_specs(paths.root, args.gift_model)
     output = (
         args.output or paths.root / "reproduced_results" / "M2_recursive_prediction"
@@ -160,7 +166,7 @@ def main() -> None:
     device = torch.device(args.device)
 
     uno_path = resolve_input(
-        paths.root, args.uno_model, "artifacts/formal/uno/uno_terminal_epoch150.pt"
+        paths.root, args.uno_model, "artifacts/formal/uno/weights.json"
     )
     unet_path = resolve_input(
         paths.root,

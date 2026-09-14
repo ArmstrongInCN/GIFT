@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def _fixture():
-    config = dict(model="uno", epochs=150, trajectories=1000, history=46, rollout=20,
+    config = dict(model="uno", epochs=500, trajectories=1000, history=46, rollout=20,
         micro_batch=16, accumulation=1, learning_rate=.001, weight_decay=1e-5, seed=0,
         formal=True, scheduler_step=100, scheduler_gamma=.5, selection="terminal_epoch_not_validation",
         teacher_forcing=False, detach_rollout=False, checkpoint_interval=10, data_profile="released")
@@ -25,15 +25,15 @@ def _fixture():
         data=dict(sha256_verified=True, sha256="b"*64, shape=[1000, 501, 64, 64], dtype="float32"))
     history = [dict(epoch=e, optimizer_updates=e*63, processed_trajectories=1000, formal=True,
         learning_rate_used=.001*.5**((e-1)//100), learning_rate_next=.001*.5**(e//100),
-        backward_loss_mean_per_trajectory=1., full_loss_mean_per_trajectory=1.) for e in range(1, 151)]
-    payload = dict(status="complete", completed_epochs=150, optimizer_updates=9450, formal=True,
+        backward_loss_mean_per_trajectory=1., full_loss_mean_per_trajectory=1.) for e in range(1, 501)]
+    payload = dict(status="complete", completed_epochs=500, optimizer_updates=31500, formal=True,
         selection="terminal_epoch_not_validation", history=history,
         model_state_dict={"SYNTHETIC_NOT_TRAINING": None}, normalization={"kind": "none"},
-        optimizer_state_dict=dict(param_groups=[dict(params=list(range(36)), lr=.0005, betas=(.9, .999), weight_decay=1e-5)],
-            state={i: dict(step=9450, exp_avg=None, exp_avg_sq=None) for i in range(36)}),
-        scheduler_state_dict=dict(last_epoch=150, step_size=100, gamma=.5, _last_lr=[.0005]))
+        optimizer_state_dict=dict(param_groups=[dict(params=list(range(36)), lr=.00003125, betas=(.9, .999), weight_decay=1e-5)],
+            state={i: dict(step=31500, exp_avg=None, exp_avg_sq=None) for i in range(36)}),
+        scheduler_state_dict=dict(last_epoch=500, step_size=100, gamma=.5, _last_lr=[.00003125]))
     saved = dict(schema="gift.training-boundary.v1", identity=identity, runtime=identity["numerical_profile"],
-        boundary="epoch_0150", payload=payload, rng=dict(python=None, numpy=None, torch_cpu=None, torch_cuda=None))
+        boundary="epoch_0500", payload=payload, rng=dict(python=None, numpy=None, torch_cpu=None, torch_cuda=None))
     attempt = dict(schema="gift.training-attempt.v1", identity=copy.deepcopy(identity),
         runtime=identity["numerical_profile"], run_id="a"*32)
     return saved, attempt
@@ -120,7 +120,7 @@ def test_current_consumers_metadata_only_without_model_import():
     for relative, name in paths:
         source = ast.parse((ROOT / relative).read_text(encoding="utf-8"))
         node = next(n for n in source.body if isinstance(n, ast.FunctionDef) and n.name == name)
-        scope = {"load_checkpoint": lambda *args: (FakeModel(), artifact)}
+        scope = {"load_checkpoint": lambda *args: (FakeModel(), artifact), "PREDICTION_EPOCHS": 500}
         exec(compile(ast.Module(body=[node], type_ignores=[]), relative, "exec"), scope)
         if name == "_load":
             scope[name]("uno", "NOT_READ", "cpu")
@@ -129,7 +129,7 @@ def test_current_consumers_metadata_only_without_model_import():
 
 
 def test_synthetic_cpu_tensor_end_to_end(tmp_path):
-    # These 36 tiny tensors and 150 invented metadata rows are not a UNO model
+    # These 36 tiny tensors and 500 invented metadata rows are not a UNO model
     # or evidence of training. The actual tool runs in another CPU-only child.
     code = r'''
 import json, runpy, subprocess, sys
@@ -147,7 +147,7 @@ for item in saved["payload"]["optimizer_state_dict"]["state"].values():
     item["exp_avg"], item["exp_avg_sq"] = torch.zeros(2), torch.ones(2)
 saved["rng"].update(torch_cpu=torch.zeros(4, dtype=torch.uint8), torch_cuda=[],
     python=(3, (1, 2), None), numpy=("SYNTHETIC_NOT_TRAINING", [], 0, 0, 0.))
-checkpoint = directory / ("epoch_0150_" + "b"*32 + ".pt")
+checkpoint = directory / ("epoch_0500_" + "b"*32 + ".pt")
 attempt_path = directory / "ATTEMPT.json"
 with checkpoint.open("xb") as stream: torch.save(saved, stream)
 with attempt_path.open("x", encoding="utf-8") as stream: json.dump(attempt, stream)
@@ -168,7 +168,7 @@ assert all(actual[k] == value for k, value in expected.items() if k != "model_st
 assert [recovery.record(checkpoint), recovery.record(attempt_path)] == before
 assert not torch.cuda.is_initialized()
 evidence = dict(purpose="SYNTHETIC_NOT_TRAINING", status="PASS", tensor_count=36,
-    fake_history_rows=150, inputs_unchanged=True, cuda_initialized=False, subprocess_receipt=receipt)
+    fake_history_rows=500, inputs_unchanged=True, cuda_initialized=False, subprocess_receipt=receipt)
 with (directory / "SYNTHETIC_RESULT.json").open("x", encoding="utf-8") as stream: json.dump(evidence, stream, indent=2)
 print(json.dumps(evidence))
 '''

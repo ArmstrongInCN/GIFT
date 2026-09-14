@@ -1,210 +1,148 @@
 {
-  "schema": "gift.checkpoint-catalog.v1",
-  "status": "private_candidate",
-  "weights_unchanged": true,
+  "schema": "gift.checkpoints.v1",
+  "collection_complete": true,
   "files": [
     {
-      "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
-      "bytes": 397780,
-      "sha256": "c8b4c783d3b69b2c51ce1f2e55185c22106512848c7ed5b4db8c58b94ff2080a",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": true,
-      "retraining_scope": "clean low generator: all 21 model-state tensors and model configuration exact on checked 16-thread host; not whole-experiment acceptance",
-      "retraining_evidence": "validation/fresh_20260910/gift_low_noise_000/verification.json",
-      "is_resume_checkpoint": false
-    },
-    {
       "path": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
-      "bytes": 3727845,
-      "sha256": "02ace5c0c38fe35b8ffc9a976a13df607db012cdcc5ac16155432b55eeb93116",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": true,
-      "retraining_scope": "FNO-2D full 500 epochs / 25000 updates on the checked 16-thread host: all 1000 historical loss comparisons and 42 model-state tensors exact; same-own-run continuation, not uninterrupted-vs-resumed equivalence or M2/M3 acceptance",
-      "retraining_evidence": "validation/fno2d_full_20260913/verification.json",
-      "is_resume_checkpoint": false
+      "method": "FNO-2D",
+      "artifact_role": "trained_weights",
+      "bytes": 3724645,
+      "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039"
     },
     {
       "path": "artifacts/fno/fno3d_ntrain1000_terminal_epoch500.pt",
-      "bytes": 32682369,
-      "sha256": "d5a56172d14aceac20dea0b6fbd8a55d646fba339d88d8b98cf30c3ebfeb3938",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": true,
-      "retraining_scope": "FNO-3D full 500 epochs / 50000 updates on the checked 16-thread host: all 1000 historical loss comparisons, 50 model-state tensors and four normalization tensors exact; same-own-run continuation, not uninterrupted-vs-resumed equivalence or M2/M3 acceptance",
-      "retraining_evidence": "validation/fno3d_full_20260911/verification.json",
-      "is_resume_checkpoint": false
+      "method": "FNO-3D",
+      "artifact_role": "trained_weights",
+      "bytes": 32679041,
+      "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B"
     },
     {
-      "path": "artifacts/formal/unet/unet_terminal_epoch500.pt",
-      "bytes": 99937455,
-      "sha256": "faf0c953ec3ca50f88fcbc3d452821fff671aef3a5c86c09afd7e343daf0d206",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false
-    },
-    {
-      "path": "artifacts/formal/uno/uno_terminal_epoch150.pt",
-      "bytes": 121928439,
-      "sha256": "578186debbffea63afc0805b1a59db3f8f23e79202c8d272b8c45d21493021b4",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "private_github_release_asset",
-      "download_url": "https://github.com/ArmstrongInCN/GIFT/releases/download/reference-checkpoints-20260913/uno_terminal_epoch150.pt",
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false
-    },
-    {
-      "path": "artifacts/gift/gift_seed_20260820.pt",
-      "bytes": 11312850,
-      "sha256": "3d37b05c5eba045c30c3b4a9e144fd9db8af99393bc0afc11ecc18a573d6751a",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false
-    },
-    {
-      "path": "artifacts/gift/gift_seed_20260821.pt",
-      "bytes": 11312850,
-      "sha256": "5159c9066aa17b00a26f5f8a8e6ba348e78c7d57dde8979a9bb9ad75cc09167e",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false
-    },
-    {
-      "path": "artifacts/gift/gift_seed_20260822.pt",
-      "bytes": 11312850,
-      "sha256": "4d521deb86d882af564fa50d5bc4a550a3ab4db82f6531050e2f5f20f6311a63",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false
+      "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 398738,
+      "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B"
     },
     {
       "path": "artifacts/m1_parameter_identification/gift_noise_001.pt",
-      "bytes": 397076,
-      "sha256": "ec56ea5f67f42524ac1b182e47f1b3ed27a22ab0754191c7324aadfcb1b9c022",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": true,
-      "retraining_scope": "1% noise low generator: all 21 model-state tensors and model configuration exact on checked 16-thread host; not whole-experiment acceptance",
-      "retraining_evidence": "validation/fresh_20260910/gift_low_noise_001/verification.json",
-      "is_resume_checkpoint": false
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 398034,
+      "sha256": "9E3858869EF76F496F7C165EAEA49629EC4990880B21FB0D3C4296B9AE85009C"
     },
     {
       "path": "artifacts/m1_parameter_identification/gift_noise_010.pt",
-      "bytes": 391956,
-      "sha256": "eed8460c7d13c440ad03ec54a19998ffaa2de2be2336435825d8835c2df54408",
-      "origin": "authoritative_experimental_reference",
-      "distribution": "ordinary_git_file",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": true,
-      "retraining_scope": "10% noise low generator: all 21 model-state tensors and model configuration exact on checked 16-thread host; not whole-experiment acceptance",
-      "retraining_evidence": "validation/fresh_20260910/gift_low_noise_010/verification.json",
-      "is_resume_checkpoint": false
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 392978,
+      "sha256": "7E59BA53E0688D60F8CED0BC885CE84E57848925FAB7EFB1BDE5814FDDCCFC0F"
     },
     {
-      "path": "artifacts/pinn_reference/noise_000/open/terminal_state.npz",
-      "bytes": 405893,
-      "sha256": "4c5ac4b33742ce88e25f91e848a1b2d1f97b9bf9bd54b2f1ef05e05e9e3c1480",
-      "origin": "recovered_original_trained_terminal_numeric_conversion",
-      "distribution": "ordinary_git_file",
-      "format": "numeric_npz_reference_state",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false,
+      "path": "artifacts/gift/gift_seed_20260820.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11314322,
+      "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A"
+    },
+    {
+      "path": "artifacts/gift/gift_seed_20260821.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11314322,
+      "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819"
+    },
+    {
+      "path": "artifacts/gift/gift_seed_20260822.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11314322,
+      "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201"
+    },
+    {
+      "path": "artifacts/formal/unet/unet_terminal_epoch500.pt",
+      "method": "U-Net",
+      "artifact_role": "trained_weights",
+      "bytes": 99937647,
+      "sha256": "5E41BBFA29BB779B8F3D596E5F1DAC9FF0BB526CFF62BD5E89EFF77D75167086"
+    },
+    {
+      "path": "artifacts/formal/uno/weights.json",
+      "method": "U-NO",
+      "artifact_role": "trained_weights_index",
+      "bytes": 654,
+      "sha256": "6CD0072A2563A90F8045689825BB083C518BED1F315CE670BBC0781331FE5D56"
+    },
+    {
+      "path": "artifacts/formal/uno/weights-0001.part",
+      "method": "U-NO",
+      "artifact_role": "trained_weights_part",
+      "checkpoint_index": "artifacts/formal/uno/weights.json",
+      "bytes": 41943040,
+      "sha256": "16D5567D685347E8DA0A9FF32CCE77FA8A6A92677FB282FF6D8FA92691FC0A61"
+    },
+    {
+      "path": "artifacts/formal/uno/weights-0002.part",
+      "method": "U-NO",
+      "artifact_role": "trained_weights_part",
+      "checkpoint_index": "artifacts/formal/uno/weights.json",
+      "bytes": 41943040,
+      "sha256": "60B2B23F59542236F5972DC6F32E5802EAB460D6C00FAD122D4A08379BD7AA2F"
+    },
+    {
+      "path": "artifacts/formal/uno/weights-0003.part",
+      "method": "U-NO",
+      "artifact_role": "trained_weights_part",
+      "checkpoint_index": "artifacts/formal/uno/weights.json",
+      "bytes": 38044215,
+      "sha256": "22FEFCFE020A5DEAAFE90966BD48CAF43A88CE81FD3728906607E519894D1F80"
+    },
+    {
+      "path": "artifacts/pinn/noise_000/known/terminal_state.npz",
+      "method": "PINN-SR-KC",
       "condition": "noise_000",
-      "mode": "open",
-      "reference_manifest": "artifacts/pinn_reference/manifest.json"
+      "artifact_role": "trained_weights",
+      "bytes": 302922,
+      "sha256": "BEB0016824329C3DFAC5B19CC1411C0346C603222D37B3EBCCFFD06D09C22245"
     },
     {
-      "path": "artifacts/pinn_reference/noise_000/known/terminal_state.npz",
-      "bytes": 404665,
-      "sha256": "f566a50dd44fd31e46f83a626d5d2fe0d4392e8bcf89ed472edc165570c4be4d",
-      "origin": "recovered_original_trained_terminal_numeric_conversion",
-      "distribution": "ordinary_git_file",
-      "format": "numeric_npz_reference_state",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false,
+      "path": "artifacts/pinn/noise_000/open/terminal_state.npz",
+      "method": "PINN-SR",
       "condition": "noise_000",
-      "mode": "known",
-      "reference_manifest": "artifacts/pinn_reference/manifest.json"
+      "artifact_role": "trained_weights",
+      "bytes": 304794,
+      "sha256": "9E57554F94DC11A92F76F035BBB847BC0A9C476183DFB9F870F26D553D57EF07"
     },
     {
-      "path": "artifacts/pinn_reference/noise_001/open/terminal_state.npz",
-      "bytes": 405841,
-      "sha256": "57e89de02eed3bebd91eb3175d373b236869421f0c5d1337baffaa978ffdb4db",
-      "origin": "recovered_original_trained_terminal_numeric_conversion",
-      "distribution": "ordinary_git_file",
-      "format": "numeric_npz_reference_state",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false,
+      "path": "artifacts/pinn/noise_001/known/terminal_state.npz",
+      "method": "PINN-SR-KC",
       "condition": "noise_001",
-      "mode": "open",
-      "reference_manifest": "artifacts/pinn_reference/manifest.json"
+      "artifact_role": "trained_weights",
+      "bytes": 302780,
+      "sha256": "106CADEBCC99C08CA7D4A117186E87A17CF9D46D659E5E266B67ABCCDF1C1F13"
     },
     {
-      "path": "artifacts/pinn_reference/noise_001/known/terminal_state.npz",
-      "bytes": 405300,
-      "sha256": "31cdff925e0f5671329bfdfd8080a2cd951d2e4a4b60ff63d810e2abbea7bdc8",
-      "origin": "recovered_original_trained_terminal_numeric_conversion",
-      "distribution": "ordinary_git_file",
-      "format": "numeric_npz_reference_state",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false,
+      "path": "artifacts/pinn/noise_001/open/terminal_state.npz",
+      "method": "PINN-SR",
       "condition": "noise_001",
-      "mode": "known",
-      "reference_manifest": "artifacts/pinn_reference/manifest.json"
+      "artifact_role": "trained_weights",
+      "bytes": 304698,
+      "sha256": "B7837B48300FBE21627CDC176EDCD149AFEDD36D184B93DA598C3C8515BC91FA"
     },
     {
-      "path": "artifacts/pinn_reference/noise_010/open/terminal_state.npz",
-      "bytes": 405594,
-      "sha256": "6670a8821dd653eec0f32c80d29a6fc2fca63a4b3b08a7bf6fb04aa34e5ee020",
-      "origin": "recovered_original_trained_terminal_numeric_conversion",
-      "distribution": "ordinary_git_file",
-      "format": "numeric_npz_reference_state",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false,
+      "path": "artifacts/pinn/noise_010/known/terminal_state.npz",
+      "method": "PINN-SR-KC",
       "condition": "noise_010",
-      "mode": "open",
-      "reference_manifest": "artifacts/pinn_reference/manifest.json"
+      "artifact_role": "trained_weights",
+      "bytes": 302937,
+      "sha256": "3ECA9A97588FC6E472F1FBEE99D8C6D4B165BC94F26DC1533EAE8848EBEBECC9"
     },
     {
-      "path": "artifacts/pinn_reference/noise_010/known/terminal_state.npz",
-      "bytes": 404583,
-      "sha256": "0d2c21cc46ea23746015f5acd702a92ba37b917c25be0b476ff9bfda2cb8d0ee",
-      "origin": "recovered_original_trained_terminal_numeric_conversion",
-      "distribution": "ordinary_git_file",
-      "format": "numeric_npz_reference_state",
-      "download_url": null,
-      "candidate_full_budget_retraining_verified": false,
-      "is_resume_checkpoint": false,
+      "path": "artifacts/pinn/noise_010/open/terminal_state.npz",
+      "method": "PINN-SR",
       "condition": "noise_010",
-      "mode": "known",
-      "reference_manifest": "artifacts/pinn_reference/manifest.json"
+      "artifact_role": "trained_weights",
+      "bytes": 304740,
+      "sha256": "1066B4B23081ECA7DEB993C91632F5B5A12BBC325C6C35E633C2BC5EF2936BB5"
     }
-  ],
-  "missing": [],
-  "pending_validation": [
-    "Full-budget candidate PINN retraining acceptance (the recovered numeric reference states are included)"
-  ],
-  "notes": [
-    "Original nested manifests and training reports are historical provenance; they can name paths absent from the portable package.",
-    "Raw data and sampling inputs are distributed separately, not under artifacts/.",
-    "Ordinary Git files need no separate download URL. Private Release assets require authentication; a null URL on a separately distributed asset would remain unresolved."
   ]
 }

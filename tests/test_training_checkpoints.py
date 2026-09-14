@@ -98,19 +98,19 @@ def test_resume_rejects_changed_thread_environment_without_reading_weights(tmp_p
         CheckpointStore(tmp_path / "checkpoints", {"fixture": "thread-environment"}, resume=True)
 
 
-def test_legacy_threadless_journal_is_not_silently_upgraded(tmp_path):
-    store = CheckpointStore(tmp_path / "checkpoints", {"fixture": "legacy-runtime"})
+def test_missing_thread_binding_is_rejected(tmp_path):
+    store = CheckpointStore(tmp_path / "checkpoints", {"fixture": "missing-threading"})
     store.save("step_0", {"model": torch.zeros(1)})
-    legacy = copy.deepcopy(store.runtime)
-    legacy.pop("threading")
-    # This synthetic journal models the old schema; no historical run is edited.
+    incomplete = copy.deepcopy(store.runtime)
+    incomplete.pop("threading")
+    # Corrupt only this synthetic fixture; real training records are untouched.
     path = store.directory / "ATTEMPT.json"
     record = json.loads(path.read_text(encoding="utf-8"))
-    record["runtime"] = legacy
+    record["runtime"] = incomplete
     path.write_text(json.dumps(record), encoding="utf-8")
     before = path.read_bytes()
     with pytest.raises(ValueError, match="numerical runtime differs"):
-        CheckpointStore(store.directory, {"fixture": "legacy-runtime"}, resume=True)
+        CheckpointStore(store.directory, {"fixture": "missing-threading"}, resume=True)
     assert path.read_bytes() == before
 
 
@@ -143,7 +143,7 @@ else:
 '''
     env = dict(os.environ, CUDA_VISIBLE_DEVICES="-1", PYTHONDONTWRITEBYTECODE="1",
                OMP_NUM_THREADS="1", MKL_NUM_THREADS="1", OPENBLAS_NUM_THREADS="1")
-    # Child imports must use the candidate under test, not a caller's Python path.
+    # Child imports must use the project under test, not a caller's Python path.
     env.pop("PYTHONPATH", None)
     def invoke(mode, intra=1, inter=1, **changes):
         result = subprocess.run([sys.executable, "-s", "-B", "-c", script,

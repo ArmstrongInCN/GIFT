@@ -180,7 +180,8 @@ def load_checkpoint(model: str, checkpoint: str | Path, device: str = "cpu",
     """Strict state-key/shape loading only; this is not a provenance or resume audit."""
     import torch
 
-    payload = torch.load(Path(checkpoint), map_location="cpu", weights_only=True)
+    from training.weight_files import load_weights
+    payload = load_weights(checkpoint)
     if not isinstance(payload, dict) or not isinstance(payload.get("model_state_dict"), dict):
         raise ValueError("expected a weights-only-readable dictionary with model_state_dict")
     instance = build_model(model, "cpu", external_root)

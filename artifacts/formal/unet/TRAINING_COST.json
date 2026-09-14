@@ -1,0 +1,37 @@
+{
+  "schema": "gift.training-cost.v1",
+  "model": "U-Net",
+  "training_cost": {
+    "epochs": 500,
+    "optimizer_updates": 25000,
+    "committed_epoch_seconds": 3394.2714107000047,
+    "timing_scope": "per-epoch batch loading, forward/backward, optimizer/scheduler updates and CUDA synchronization",
+    "timing_excludes": "setup, checkpoint IO, paused and discarded uncommitted work"
+  },
+  "runtime": {
+    "python": "3.10.19",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.10.0+cu126",
+    "numpy": "2.2.6",
+    "h5py": "3.16.0",
+    "device": "cuda",
+    "cuda_available": true,
+    "cuda_runtime": "12.6",
+    "cuda_device_name": "NVIDIA RTX A5500 Laptop GPU",
+    "precision_contract": {
+      "schema": "gift.runtime-precision-contract.v1",
+      "profile": "unet-cu126-published-conv-tf32",
+      "nvidia_tf32_override": {
+        "required": "absent",
+        "observed": null
+      },
+      "cudnn_allow_tf32": true,
+      "matmul_allow_tf32": false,
+      "strict_deterministic_algorithms": true,
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "checked_before_torch_import": true
+    }
+  },
+  "model_state_sha256": "237027dce0bd8ad6c3fa6943a244ddb29c1cf0e9e7e8203269eabe10630a522c"
+}

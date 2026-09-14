@@ -8,7 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import shutil
+import sys
 from typing import Any
 
 import h5py
@@ -21,6 +21,13 @@ from matplotlib.cm import ScalarMappable  # noqa: E402
 from matplotlib.colors import TwoSlopeNorm  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 import numpy as np  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[3]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from experiments.formal._shared.figure_evidence import (
+    bind_result, finish_figures, symmetric_limit,
+)
 
 
 METHODS = (
@@ -205,13 +212,11 @@ def verify_color_limits(
         + [float(np.max(np.abs(value))) for value in predictions.values()]
     )
     residual_maximum = max(float(np.max(np.abs(value))) for value in residuals.values())
-    if field_maximum > FIELD_LIMIT:
-        raise RuntimeError("field color limit would clip a selected keyframe")
-    if residual_maximum > RESIDUAL_LIMIT:
-        raise RuntimeError("residual color limit would clip a selected keyframe")
     return {
         "selected_field_maximum_absolute_value": field_maximum,
         "selected_residual_maximum_absolute_value": residual_maximum,
+        "field_limit": symmetric_limit(field_maximum, FIELD_LIMIT),
+        "residual_limit": symmetric_limit(residual_maximum, RESIDUAL_LIMIT),
     }
 
 
@@ -236,7 +241,7 @@ def save_source_data(
         arrays[f"prediction_{slug}"] = predictions[slug]
         arrays[f"residual_{slug}"] = residuals[slug]
         arrays[f"relative_l2_{slug}"] = errors[slug]
-    np.savez_compressed(output / "source_data.npz", **arrays)
+    np.savez_compressed(output / "source_fields.npz", **arrays)
 
     with (output / "panel_metrics.csv").open(
         "x", encoding="utf-8", newline=""
@@ -511,7 +516,8 @@ def draw_composite(
         ScalarMappable(norm=field_norm, cmap=FIELD_CMAP),
         cax=field_bar_axis,
         orientation="horizontal",
-        ticks=(-19, -10, 0, 10, 19),
+        ticks=((-19, -10, 0, 10, 19) if field_norm.vmax == FIELD_LIMIT
+               else np.linspace(field_norm.vmin, field_norm.vmax, 5)),
     )
     field_bar.set_label("Scalar field, ω", fontsize=5.4, labelpad=1.3)
     field_bar.ax.xaxis.set_label_position("top")
@@ -532,7 +538,8 @@ def draw_composite(
         ScalarMappable(norm=residual_norm, cmap=RESIDUAL_CMAP),
         cax=residual_bar_axis,
         orientation="horizontal",
-        ticks=(-21, -10, 0, 10, 21),
+        ticks=((-21, -10, 0, 10, 21) if residual_norm.vmax == RESIDUAL_LIMIT
+               else np.linspace(residual_norm.vmin, residual_norm.vmax, 5)),
     )
     residual_bar.set_label(
         "Residual (prediction − reference)", fontsize=5.4, labelpad=1.3
@@ -550,15 +557,10 @@ def draw_composite(
         fontweight="bold",
     )
 
-    stem = output / f"traj{trajectory_id}_recursive_keyframes"
-    for suffix in (".svg", ".pdf", ".png"):
-        path = stem.with_suffix(suffix)
-        if path.exists():
-            raise FileExistsError(f"refusing to overwrite composite: {path}")
-        if suffix == ".png":
-            figure.savefig(path, dpi=300, bbox_inches=None, pad_inches=0.0)
-        else:
-            figure.savefig(path, bbox_inches=None, pad_inches=0.0)
+    path = output / f"traj{trajectory_id}_recursive_keyframes.svg"
+    if path.exists():
+        raise FileExistsError(f"refusing to overwrite composite: {path}")
+    figure.savefig(path, bbox_inches=None, pad_inches=0.0)
     plt.close(figure)
 
 
@@ -590,55 +592,6 @@ def verify_vector_svgs(output: Path, expected_panel_count: int) -> dict[str, Any
     }
 
 
-def write_readme(output: Path, trajectory_id: int) -> None:
-    readme = f"""# Recursive prediction keyframes — trajectory {trajectory_id}
-
-The primary figure is `traj{trajectory_id}_recursive_keyframes.svg`; the PDF is an additional vector export and the PNG is a preview only.
-
-- Key times: t = 5.0, 6.0, 7.0, and 8.0.
-- Scalar-field scale: `RdBu_r`, shared linear range [-19, 19].
-- Residual definition: prediction minus reference.
-- Residual scale: `PuOr`, shared linear range [-21, 21].
-- GIFT visualization: representative trained model with seed 20260820; no field-level seed averaging is used.
-- t = 5.0 is the shared initial state, so every method has exactly zero residual at that time.
-- Scalar fields occupy the left block and signed residuals occupy the right block; the two blocks share the same method rows and vertical centers.
-- The reference row appears only in the scalar-field block because a residual is defined only for a model prediction.
-- All individual scalar-field and residual tiles are editable SVG files under `panels/`.
-- `source_data.npz`, `panel_metrics.csv`, and `panel_file_index.csv` provide traceability to the plotted arrays.
-- The SVG verification rejects embedded raster `<image>` elements.
-"""
-    (output / "README.md").write_text(readme, encoding="utf-8", newline="\n")
-
-
-def build_manifest(output: Path) -> None:
-    manifest_path = output / "manifest.json"
-    if manifest_path.exists():
-        raise FileExistsError(f"refusing to overwrite manifest: {manifest_path}")
-    files = sorted(
-        (path for path in output.rglob("*") if path.is_file()),
-        key=lambda path: path.relative_to(output).as_posix(),
-    )
-    records = [
-        {
-            "path": path.relative_to(output).as_posix(),
-            "bytes": int(path.stat().st_size),
-            "sha256": sha256_file(path),
-        }
-        for path in files
-    ]
-    payload = {
-        "schema": "gift.paper-figure-manifest.v1",
-        "status": "complete",
-        "file_count": len(records),
-        "files": records,
-    }
-    with manifest_path.open("x", encoding="utf-8", newline="\n") as stream:
-        json.dump(payload, stream, ensure_ascii=False, indent=2)
-        stream.write("\n")
-        stream.flush()
-        os.fsync(stream.fileno())
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, type=Path)
@@ -647,6 +600,9 @@ def main() -> None:
     args = parser.parse_args()
 
     input_path = args.input.resolve(strict=True)
+    if input_path.name != "predictions.h5" or input_path.parent.name != "raw":
+        raise ValueError("use the completed experiment's raw/predictions.h5")
+    evidence = bind_result(input_path.parent.parent, "M2", ("raw/predictions.h5", "summary/metrics.csv"))
     output = args.output_dir.resolve(strict=False)
     if output.exists():
         raise FileExistsError(f"refusing to overwrite output directory: {output}")
@@ -657,9 +613,10 @@ def main() -> None:
         input_path, args.trajectory_id
     )
     ranges = verify_color_limits(truth, predictions, residuals)
-    field_norm = TwoSlopeNorm(vmin=-FIELD_LIMIT, vcenter=0.0, vmax=FIELD_LIMIT)
+    field_limit, residual_limit = ranges["field_limit"], ranges["residual_limit"]
+    field_norm = TwoSlopeNorm(vmin=-field_limit, vcenter=0.0, vmax=field_limit)
     residual_norm = TwoSlopeNorm(
-        vmin=-RESIDUAL_LIMIT, vcenter=0.0, vmax=RESIDUAL_LIMIT
+        vmin=-residual_limit, vcenter=0.0, vmax=residual_limit
     )
 
     save_source_data(
@@ -690,15 +647,13 @@ def main() -> None:
         field_norm=field_norm,
         residual_norm=residual_norm,
     )
-    shutil.copy2(Path(__file__).resolve(), output / "plot_keyframes.py")
-    write_readme(output, args.trajectory_id)
 
     vector_qa = verify_vector_svgs(output, expected_panel_count=44)
     project_root = Path(__file__).resolve().parents[3]
     try:
         input_record = input_path.relative_to(project_root).as_posix()
     except ValueError:
-        input_record = str(input_path)
+        input_record = "raw/predictions.h5"
     metadata = {
         "schema": "gift.paper-figure.M2.keyframes.v1",
         "status": "complete",
@@ -719,7 +674,7 @@ def main() -> None:
         ],
         "gift_visualization": {
             "training_seed": 20260820,
-            "selection": "representative run closest to the three-seed aggregate mean",
+            "selection": "prespecified training seed; not selected from evaluation errors",
             "field_level_seed_averaging": False,
         },
         "residual_definition": "prediction_minus_reference",
@@ -727,14 +682,14 @@ def main() -> None:
             "scalar_field": {
                 "colormap": FIELD_CMAP,
                 "normalization": "linear_centered_at_zero",
-                "minimum": -FIELD_LIMIT,
-                "maximum": FIELD_LIMIT,
+                "minimum": -field_limit,
+                "maximum": field_limit,
             },
             "signed_residual": {
                 "colormap": RESIDUAL_CMAP,
                 "normalization": "linear_centered_at_zero",
-                "minimum": -RESIDUAL_LIMIT,
-                "maximum": RESIDUAL_LIMIT,
+                "minimum": -residual_limit,
+                "maximum": residual_limit,
             },
             **ranges,
         },
@@ -761,15 +716,21 @@ def main() -> None:
         stream.write("\n")
         stream.flush()
         os.fsync(stream.fileno())
-    build_manifest(output)
+    # Commit one manifest after all SVG display hints are applied. Plotting code
+    # and usage instructions live in the project, not as duplicate result files.
+    finish_figures(output, evidence, Path(__file__), {
+        "trajectory_id": args.trajectory_id, "gift_seed": 20260820,
+        "selection": "prespecified trajectory and training seed",
+        "color_scales": metadata["color_scales"], "crop": "none", "smoothing": "none",
+    })
     print(
         json.dumps(
             {
                 "status": "complete",
                 "output": str(output),
                 "individual_vector_panels": len(panel_index),
-                "field_limit": FIELD_LIMIT,
-                "residual_limit": RESIDUAL_LIMIT,
+                "field_limit": field_limit,
+                "residual_limit": residual_limit,
                 "vector_qa": vector_qa,
             },
             ensure_ascii=False,

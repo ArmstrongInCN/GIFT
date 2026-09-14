@@ -222,6 +222,7 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
     if experiment in ("M2", "M3"):
         relative_sources += ["experiments/formal/_shared/fno_runtime.py",
                              "training/baseline_control.py", "adapters/models.py",
+                             "training/budgets.py", "training/weight_files.py",
                              "adapters/__init__.py", "src/even_full_spectrum_ns.py"]
     if experiment == "M2":
         relative_sources += ["adapters/prediction.py"]

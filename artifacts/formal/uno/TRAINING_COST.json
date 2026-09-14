@@ -1,0 +1,40 @@
+{
+  "schema": "gift.training-cost.v1",
+  "model": "U-NO",
+  "training_cost": {
+    "completed_epochs": 500,
+    "optimizer_updates": 31500,
+    "committed_epoch_seconds": 30337.729646499647,
+    "timing_scope": "epoch input loading, forward/backward, updates and CUDA synchronization",
+    "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+  },
+  "runtime": {
+    "python": "3.10.19",
+    "numpy": "2.2.6",
+    "torch": "2.10.0+cu126",
+    "cuda": "12.6",
+    "cudnn": 91002,
+    "matmul_tf32": false,
+    "cudnn_tf32": true,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "deterministic": true,
+    "deterministic_warn_only": true,
+    "tf32_override": null,
+    "cublas_workspace_config": ":4096:8",
+    "threading": {
+      "torch_num_threads": 1,
+      "torch_num_interop_threads": 16,
+      "environment": {
+        "OMP_NUM_THREADS": "24",
+        "MKL_NUM_THREADS": null,
+        "OPENBLAS_NUM_THREADS": null,
+        "NUMEXPR_NUM_THREADS": null,
+        "VECLIB_MAXIMUM_THREADS": null,
+        "OMP_DYNAMIC": null,
+        "MKL_DYNAMIC": null
+      }
+    }
+  },
+  "model_state_sha256": "72a1b0eebc5518a102b45960459ec088520c9c30d6d346b1b96c2d6dd3ccf9d8"
+}

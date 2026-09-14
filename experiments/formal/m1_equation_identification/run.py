@@ -1,7 +1,7 @@
 """One M1 method/condition per job; no fabricated complete five-method table.
 
 PDE-FIND uses the user's pinned external source. GIFT reads one bound trained
-generator. PINN methods read bound numeric reference coefficients, not train.
+generator. PINN methods evaluate an explicitly bound completed native training checkpoint.
 A completed job can be
 read without inference, or verified/reused by repeating its execution command.
 """
@@ -114,11 +114,11 @@ def calculate(method, condition, dataset, checkpoint, device):
                 "training_executed": False, "forward_executed": True,
                 "native_coefficients": [], "readout": "original P21 component projection"}
     if method.startswith("PINN"):
-        from adapters.pinn_reference import read_reference
-        reference = read_reference(condition, "known" if method == "PINN-SR-KC" else "open")
+        from adapters.pinn_reference import read_checkpoint
+        reference = read_checkpoint(checkpoint, condition, "known" if method == "PINN-SR-KC" else "open")
         if (reference["method"] != method or reference["condition"] != condition
                 or reference["source_data_protocol"]["data_sha256"].upper() != digest(dataset)):
-            raise ValueError("PINN reference method/condition/original data binding differs")
+            raise ValueError("PINN checkpoint method/condition/data binding differs")
         return {"parameters": reference["parameters"], "scope": "trained_coefficients_readout",
                 "readout_scope": "trained_coefficients_readout", "training": False, "forward": False,
                 "training_executed": False, "forward_executed": False, "sparse_regression_executed": False,
@@ -173,20 +173,21 @@ def read_completed(job, method, condition, identity=None):
             "source_readout_scope": record.get("readout_scope")}
 
 
-def _pinn_reference_binding(method, condition, data_record):
-    from adapters import pinn_reference as reference
-    root = reference.REFERENCE_ROOT.resolve(strict=True)
-    catalog = reference._manifest(root)  # Fixed pin and six-run metadata/schema gates.
-    mode = "known" if method == "PINN-SR-KC" else "open"
-    row = next(item for item in catalog["runs"] if item["condition"] == condition and item["mode"] == mode)
-    if row["source_data_protocol"]["data_sha256"].upper() != data_record["sha256"]:
-        raise ValueError("PINN reference is not bound to the selected original data")
-    path = (root / row["path"]).resolve(strict=True)
-    if root not in path.parents or path.stat().st_size != row["bytes"] or digest(path) != row["sha256"].upper():
-        raise ValueError("PINN numeric reference archive path/size/SHA differs")
-    return path, {"sha256": row["sha256"].upper(), "bytes": row["bytes"],
-                  "manifest_sha256": reference.MANIFEST_SHA256.upper(), "mode": mode,
-                  "artifact_role": "reference_not_resume", "source_data_protocol": row["source_data_protocol"]}
+def _pinn_checkpoint_binding(args, data_record):
+    from adapters import pinn_reference
+    mode = "known" if args.method == "PINN-SR-KC" else "open"
+    path = (args.checkpoint if args.checkpoint is not None else
+            pinn_reference.REFERENCE_ROOT / args.condition / mode / "result.json").resolve(strict=True)
+    checksum = digest(path)
+    if args.checkpoint is not None and checksum != args.checkpoint_sha256.upper():
+        raise ValueError("explicit PINN result checksum differs")
+    result = pinn_reference.read_checkpoint(path, args.condition, mode)
+    if result["source_data_protocol"]["data_sha256"].upper() != data_record["sha256"]:
+        raise ValueError("PINN checkpoint is bound to another dataset")
+    return path, {"sha256": checksum, "bytes": path.stat().st_size,
+                  "archive_sha256": result["archive_sha256"], "mode": mode,
+                  "artifact_role": "completed_native_training",
+                  "source_data_protocol": result["source_data_protocol"]}
 
 
 def execute(args):
@@ -194,7 +195,7 @@ def execute(args):
     job = _job_path(args)
     dataset, data_record = _dataset_binding(args.condition)
     if is_pinn:
-        checkpoint, checkpoint_record = _pinn_reference_binding(args.method, args.condition, data_record)
+        checkpoint, checkpoint_record = _pinn_checkpoint_binding(args, data_record)
     else:
         from adapters import pde_find as pde
         checkpoint, checkpoint_record = _checkpoint(args) if args.method == "GIFT" else (None, None)
@@ -240,8 +241,8 @@ def execute(args):
             raise ValueError("M1 requires exactly three finite reported parameters")
         if digest(dataset) != data_record["sha256"] or (checkpoint and digest(checkpoint) != checkpoint_record["sha256"]):
             raise ValueError("input changed during M1 job")
-        if is_pinn and _pinn_reference_binding(args.method, args.condition, data_record)[1] != checkpoint_record:
-            raise ValueError("PINN reference catalog changed during M1 job")
+        if is_pinn and _pinn_checkpoint_binding(args, data_record)[1] != checkpoint_record:
+            raise ValueError("PINN completed checkpoint changed during M1 job")
         if upstream is not None and pde.source_record()["sha256"] != upstream["sha256"]:
             raise ValueError("external source changed during M1 job")
         if any(digest(ROOT / relative) != checksum for relative, checksum in sources.items()):
@@ -291,8 +292,8 @@ def parse_args(argv=None):
     parser.add_argument("--checkpoint", type=Path)
     parser.add_argument("--checkpoint-sha256")
     args = parser.parse_args(argv)
-    if args.method != "GIFT" and (args.checkpoint or args.checkpoint_sha256):
-        parser.error("only GIFT accepts a trained checkpoint for parameter readout")
+    if args.method.startswith("PDE") and (args.checkpoint or args.checkpoint_sha256):
+        parser.error("PDE-FIND does not use a trained checkpoint")
     if (args.checkpoint is None) != (args.checkpoint_sha256 is None):
         parser.error("--checkpoint and --checkpoint-sha256 must be supplied together")
     return args

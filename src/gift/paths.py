@@ -16,7 +16,7 @@ def _external(name: str, project_root: Path) -> Path:
     if not value:
         raise FileNotFoundError(
             f"Set {name} to the separately downloaded directory; "
-            "see docs/GETTING_STARTED.md. Inputs are not bundled with the code."
+            "see docs/SETUP.md. Inputs are not bundled with the code."
         )
     path = Path(value).expanduser().resolve()
     root = Path(project_root).resolve()

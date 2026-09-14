@@ -1,4 +1,4 @@
-"""B7 startup contracts only: no models, dataset reads, GPU or training.
+"""Startup contracts only: no models, dataset reads, GPU or training.
 
 Fresh children stop at an import sentinel instead of loading the baseline
 runtime. Parser/controller AST probes exercise only the guarded entry boundary.

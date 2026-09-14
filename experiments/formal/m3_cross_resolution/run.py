@@ -21,7 +21,6 @@ from experiments.formal._shared.common import (  # noqa: E402
     ProjectPaths,
     default_project_root,
     file_record,
-    finish_output,
     load_cross_resolution,
     load_fno_test_dt0p02,
     metric_arrays,
@@ -55,6 +54,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--gift-batch-size", type=int, default=8)
     parser.add_argument("--fno2d-batch-size", type=int, default=10)
     parser.add_argument("--fno3d-batch-size", type=int, default=5)
+    parser.add_argument("--fno2d-model", type=Path)
+    parser.add_argument("--fno3d-model", type=Path)
+    parser.add_argument("--skip-plots", action="store_true", help="save numerical evidence; render SVGs independently later")
     return parser.parse_args()
 
 
@@ -63,6 +65,10 @@ def main() -> None:
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:
         paths = replace(paths, low_model=args.low_model.expanduser().resolve(strict=True))
+    for name in ("fno2d", "fno3d"):
+        selected = getattr(args, name + "_model")
+        if selected is not None:
+            paths = replace(paths, **{name + "_model": selected.expanduser().resolve(strict=True)})
     models = parse_seed_model_specs(paths.root, args.gift_model)
     output = args.output or paths.root / "reproduced_results" / "M3_cross_resolution"
     session = start_experiment(args, paths, "M3", output, models)
@@ -317,7 +323,10 @@ def main() -> None:
         },
     }
     session.finish()
-    finish_output(output, report)
+    from experiments.formal._shared.plotting import publish_numeric_then_plot
+    command = [sys.executable, str(Path(__file__).with_name("plot_results.py")),
+               "--result-dir", str(output), "--output-dir", str(output / "figures")]
+    publish_numeric_then_plot(output, report, [] if args.skip_plots else [command])
 
 
 if __name__ == "__main__":

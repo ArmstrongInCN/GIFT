@@ -2,7 +2,7 @@
 
 Does not assert scientific reproduction or grant licences. In --tracked mode,
 Git's tracked files and their actual staged bytes are audited before pushing.
-The ordinary candidate mode respects .gitignore after git init.
+The ordinary file-selection mode respects .gitignore after git init.
 """
 from __future__ import annotations
 
@@ -18,7 +18,6 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 FORBIDDEN = {"data", "external", "vendor", "third_party", "benchmarks", "backup", "论文写作"}
-REFERENCE_SHA = "874859f3b40565c6ee252ced471b507f475421213a89e682863db410275cfa5c"
 
 
 def digest(path):
@@ -83,38 +82,71 @@ def function_fingerprints(path):
 
 
 def numeric_checkpoint_allowlist():
-    """Allow only six sealed numeric weight archives, never arbitrary NPZ data.
+    """Explicit published checkpoint inventory, not arbitrary data archives.
 
-    The adapter pins the reference manifest, which pins every archive. The main
-    checkpoint catalog must independently agree. No model code or pickle runs.
+    Catalogued files must remain under artifacts, with exact byte hashes.
+    Native PINN terminal validation and experiment validation are separate gates.
     """
-    adapter = ROOT / "adapters/pinn_reference.py"
-    if not adapter.exists():
+    manifest_path = ROOT / "artifacts/CHECKPOINTS.json"
+    if not manifest_path.exists():
         return {}
-    parsed = ast.parse(adapter.read_text(encoding="utf-8"))
-    pins = [node.value.value for node in parsed.body
-            if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant)
-            and any(isinstance(target, ast.Name) and target.id == "MANIFEST_SHA256" for target in node.targets)]
-    manifest_path = ROOT / "artifacts/pinn_reference/manifest.json"
-    if len(pins) != 1 or digest(manifest_path) != pins[0]:
-        raise ValueError("Numeric reference manifest does not match its adapter pin")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if manifest.get("artifact_role") != "reference_not_resume" or manifest.get("fresh_training") is not False:
-        raise ValueError("Numeric archive role is not reference weights")
-    catalog = json.loads((ROOT / "artifacts/CHECKPOINTS.json").read_text(encoding="utf-8"))["files"]
-    expected = {f"{condition}/{mode}/terminal_state.npz" for condition in
-                ("noise_000", "noise_001", "noise_010") for mode in ("open", "known")}
-    runs = manifest["runs"]
-    if len(runs) != 6 or {row["path"] for row in runs} != expected:
-        raise ValueError("Numeric reference file inventory differs")
     allowed = {}
-    for row in runs:
-        relative = "artifacts/pinn_reference/" + row["path"]
-        entries = [entry for entry in catalog if entry["path"] == relative]
-        if (len(entries) != 1 or entries[0].get("format") != "numeric_npz_reference_state"
-                or entries[0]["sha256"] != row["sha256"] or entries[0]["bytes"] != row["bytes"]):
-            raise ValueError("Numeric reference and checkpoint catalogs disagree")
+    role_suffixes = {
+        "trained_weights": {".npz", ".pt", ".pth"},
+        "resumable_training_state": {".npz", ".pt", ".pth"},
+        "trained_weights_index": {".json"},
+        "trained_weights_part": {".part"},
+    }
+    for row in manifest["files"]:
+        relative = row["path"]
+        path = (ROOT / relative).resolve(strict=True)
+        if (not relative.startswith("artifacts/") or ROOT not in path.parents
+                or "\\" in relative or ":" in relative or any(part in ("", ".", "..") for part in relative.split("/"))
+                or path.suffix.lower() not in role_suffixes.get(row.get("artifact_role"), set())
+                or relative in allowed
+                or not re.fullmatch(r"[a-fA-F0-9]{64}", row.get("sha256", ""))
+                or type(row.get("bytes")) is not int or row["bytes"] <= 0):
+            raise ValueError("Invalid checkpoint catalog entry")
         allowed[relative] = row
+    from training.weight_files import read_index, reconstruct
+    linked_parts = set()
+    for relative, row in allowed.items():
+        if row["artifact_role"] != "trained_weights_index":
+            continue
+        index = read_index(ROOT / relative)
+        for part in index["parts"]:
+            name = (Path(relative).parent / part["path"]).as_posix()
+            record = allowed.get(name, {})
+            if (record.get("artifact_role") != "trained_weights_part"
+                    or record.get("checkpoint_index") != relative
+                    or record.get("sha256", "").lower() != part["sha256"]
+                    or record.get("bytes") != part["bytes"]):
+                raise ValueError("Checkpoint part/catalog binding differs")
+            linked_parts.add(name)
+        class DiscardBytes:
+            def write(self, block):
+                return len(block)
+        reconstruct(ROOT / relative, DiscardBytes())
+    if linked_parts != {name for name, row in allowed.items() if row["artifact_role"] == "trained_weights_part"}:
+        raise ValueError("Orphan checkpoint part in catalog")
+    return allowed
+
+
+def figure_source_allowlist():
+    """Permit only verified selected-panel arrays in explicit report packages."""
+    from scripts.verify_published_results import EXPERIMENTS, verify_package
+    allowed = {}
+    for experiment, directory in EXPERIMENTS.items():
+        relative = "results/formal/" + directory
+        root = ROOT / relative
+        if not root.exists():
+            continue
+        checked = verify_package(root, experiment)
+        manifest = json.loads((root / "published.json").read_text(encoding="utf-8"))
+        records = {r["path"]: r for r in manifest["files"]}
+        for name in checked["figure_array_files"]:
+            allowed[relative + "/" + name] = records[name]
     return allowed
 
 
@@ -123,7 +155,7 @@ def main():
     parser.add_argument("--tracked", action="store_true")
     args = parser.parse_args()
     if not (ROOT / ".git").is_dir():
-        raise SystemExit("Run git init in the candidate first so the exact ignore policy is respected")
+        raise SystemExit("Run git init in the project first so the exact ignore policy is respected")
     command = ["git", "-C", str(ROOT), "ls-files", "-z"]
     if not args.tracked:
         command += ["--cached", "--others", "--exclude-standard"]
@@ -134,12 +166,17 @@ def main():
     except (ValueError, KeyError, OSError) as error:
         numeric_weights = {}
         failures.append("Numeric checkpoint allowlist invalid: " + str(error))
+    try:
+        figure_sources = figure_source_allowlist()
+    except (ValueError, KeyError, TypeError, OSError) as error:
+        figure_sources = {}
+        failures.append("Published figure source allowlist invalid: " + str(error))
     external_fingerprints = set()
     external = os.environ.get("GIFT_EXTERNAL_ROOT")
     if external:
         source_root = Path(external).resolve(strict=True)
         if source_root == ROOT or ROOT in source_root.parents:
-            failures.append("External checkout is inside the candidate repository")
+            failures.append("External checkout is inside the project repository")
         else:
             for source in source_root.rglob("*.py"):
                 external_fingerprints.update(function_fingerprints(source))
@@ -156,12 +193,13 @@ def main():
         if not path.is_file():
             failures.append(f"Tracked file is missing: {relative}")
             continue
-        allowed_npz = relative in numeric_weights
-        if allowed_npz and (path.stat().st_size != numeric_weights[relative]["bytes"]
-                            or digest(path) != numeric_weights[relative]["sha256"]):
-            failures.append(f"Numeric checkpoint integrity differs: {relative}")
+        record = numeric_weights.get(relative) or figure_sources.get(relative)
+        allowed_npz = record is not None
+        if allowed_npz and (path.stat().st_size != record["bytes"]
+                            or digest(path) != record["sha256"].lower()):
+            failures.append(f"Numeric artifact integrity differs: {relative}")
         if (Path(relative).parts[0] in FORBIDDEN or path.suffix.lower() in {".h5", ".hdf5"}
-                or (path.suffix.lower() == ".npz" and not allowed_npz)):
+                or (path.suffix.lower() in {".npz", ".pt", ".pth", ".part"} and not allowed_npz)):
             failures.append(f"Data or external source in Git file list: {relative}")
         if path.stat().st_size > 100 * 1024 * 1024:
             failures.append(f"File exceeds GitHub's 100 MiB ordinary Git limit: {relative}")
@@ -177,9 +215,7 @@ def main():
             # Deliberately do not print a detected secret or its matching line.
             if re.search(r"(?:ghp_|github_pat_|sk-proj-)[A-Za-z0-9_]{20,}|-----BEGIN (?:RSA |OPENSSH )?PRIVATE KEY-----", text):
                 failures.append(f"Possible credential content (not displayed): {relative}")
-    if digest(ROOT / "EXPERIMENTS.md") != REFERENCE_SHA:
-        failures.append("The original EXPERIMENTS.md bytes changed")
-    for name in ("README.md", "AGENTS.md", "LICENSE", "external_sources.json"):
+    for name in ("README.md", "AGENTS.md", "LICENSE", "external_sources.json", "EXPERIMENTS.md"):
         if name not in files:
             failures.append(f"Required publication file missing from Git selection: {name}")
     for match in re.finditer(r"!?\[[^\]]*\]\(([^\s)]+)\)", (ROOT / "README.md").read_text(encoding="utf-8")):

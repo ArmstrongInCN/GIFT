@@ -1,0 +1,8 @@
+{
+  "schema": "gift.pinn-completion.v1",
+  "run_id": "48591b7d5911414bb7923fa62e13f2cf",
+  "result_sha256": "89284AD2E962B6D202FD9514C8E8E1A2200F1F01780BF47A4CEB0CF0849F4ED8",
+  "terminal_state_sha256": "106CADEBCC99C08CA7D4A117186E87A17CF9D46D659E5E266B67ABCCDF1C1F13",
+  "diagnostic_test_only": false,
+  "scientific_acceptance": false
+}

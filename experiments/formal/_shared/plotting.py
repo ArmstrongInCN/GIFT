@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Sequence
 
 from .common import finish_output, write_json_new
+from .figure_evidence import file_record
 
 
 def publish_numeric_then_plot(output: Path, report: dict[str, Any], commands: Sequence[Sequence[str]]) -> None:
@@ -15,7 +16,10 @@ def publish_numeric_then_plot(output: Path, report: dict[str, Any], commands: Se
     failure. Figures can subsequently be rendered with their independent CLIs
     into a new figure directory without rerunning model inference.
     """
-    numeric_report = {**report, "status": "numerical_complete", "plots": "not_run"}
+    numeric_files = [file_record(path, output) for directory in ("raw", "summary")
+                     for path in sorted((output / directory).rglob("*")) if path.is_file()]
+    numeric_report = {**report, "status": "numerical_complete", "plots": "not_run",
+                      "numeric_files": numeric_files}
     write_json_new(output / "numeric_report.json", numeric_report)
     completed = 0
     try:

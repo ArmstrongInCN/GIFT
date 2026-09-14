@@ -1,282 +1,137 @@
-# 数据生成 / Data generation
+# Independent data generation / 独立数据生成
 
-本入口从明确初值重新求解 Navier–Stokes 方程；不加载模型权重，不读取已有涡量真值来充当新生成结果。它与模型的独立从零训练、模型自身续算、已有结果取数是不同操作。下载的数据包可以直接用于训练，通常无需重新生成全部真值。
+**Training from scratch on supplied fields** and **generating those fields again**
+are different workflows. Fresh training initializes a model without trained
+weights. Regeneration additionally integrates the PDE from specified initial
+conditions and creates the observation inputs. Neither is achieved by renaming
+or relabelling a downloaded checkpoint.
 
-This entry point freshly integrates the Navier–Stokes equation from declared initial conditions. It does not load model weights or copy saved vorticity as newly generated truth. Data simulation, fresh model training, same-run model resume, and existing-result retrieval are distinct operations. The downloaded data package can be used directly for training.
+从零训练可使用单独下载的数据包；从初值重新生成仿真场还涉及求解器及浮点环境。
+模型训练、数据生成和已有检查点的快速读出分别使用独立命令。
 
-**当前生成→训练/正式评估尚未完成全量实测验收。** 完整 standard、FNO训练及三分辨率FNO测试数据均已重新积分，结构与来源核验通过，但全场数值与发布数据不同；见下方全量结果。新数据必须经组装和显式 regenerated 门禁，不能仅移动文件或假冒原SHA。完整集合的接口检查与基于新集合的正式训练/实验数值验收是后续独立步骤，不由生成完成推定通过。
+## Environment and boundaries
 
-**Full real-data generation-to-training/evaluation acceptance is not yet demonstrated.** Full standard, FNO-training and three-grid FNO-test integration passed integrity checks, but their field values differ from the released references. Complete-collection consumer checks and formal-budget training/experimental acceptance on new inputs are separate steps, not implied by generation. Newly generated inputs require assembly and the explicit regenerated gate; moving files or pretending they have the released SHA is insufficient.
+Use the prediction/GIFT environment in [SETUP.md](SETUP.md). The project's
+`src/even_full_spectrum_ns.py` implements full-spectrum Fourier pseudospectral
+ETDRK4, internal step 0.005, float32/complex64. Physical parameters, grid sizes,
+source hashes and numerical runtime are recorded in each generation attempt.
 
-## 先做小样本 / Start with a pilot
+Run commands from the project root. Each `--output` must be a **new directory
+outside both the repository and `GIFT_DATA_ROOT`**. Omit `--execute` for a
+read-only plan. These are separate commands, not an all-experiment program.
 
-在仓库根目录执行。`/new/...` 是用户选择的、尚不存在的仓库外目录；Windows 可使用相应的盘符路径。输出不得置于代码仓库或 `GIFT_DATA_ROOT` 内。省略 `--execute` 只显示计划，不写文件或开始积分。
+## Clean fields
 
-Run from the repository root. Replace `/new/...` with a new external directory (use drive-letter paths on Windows). Never use the code repository or `GIFT_DATA_ROOT` as an output destination. Omitting `--execute` prints the plan without writing or integrating.
-
-```sh
-python scripts/generate_data.py --dataset standard --split training --subset 0 --pilot-steps 8 --output /new/ns-pilot --execute
+```shell
+python -m scripts.generate_data --dataset standard --device cuda --output ../generation/standard --execute
+python -m scripts.generate_data --dataset fno-training --initial-conditions ../GIFT-data/initial_conditions/baseline_extra950.json --device cuda --output ../generation/fno-training --execute
+python -m scripts.generate_data --dataset fno-test --device cuda --output ../generation/fno-test --execute
 ```
 
-`--subset 0,2,50:52` 使用真实轨迹 ID，闭区间，不是 H5 行号。`--split` 可选 `all/training/validation/test`，组合中出现不属于所选数据集的 ID 会报错。`--pilot-steps` 从 t=0 开始，显式标记 `COMPLETE_PILOT`；不能用作完整实验输入。
+The standard run uses 50 training, 20 validation and 200 test trajectories.
+Common prediction training uses the 50 training initial conditions plus 950
+explicit parameter sets, IDs 1200–2149. The extra-950 JSON contains parameters,
+not saved vorticity; its original random-draw seed is unspecified. The provided
+parameter values suffice to integrate these trajectories without saved truth.
 
-`--subset` accepts global trajectory IDs and inclusive ranges, not row indices. IDs outside the selected dataset/split are rejected. `--pilot-steps` starts at t=0 and produces explicitly non-formal `COMPLETE_PILOT` output, not a complete experimental input.
+Keep default batch sizes and the recorded environment when reproducing a
+generation profile. `--subset`, `--split` selections and `--pilot-steps` are
+partial/diagnostic options, not evidence for a full-population experiment.
 
-## 完整协议 / Full protocols
+### Exact coarse frames
 
-移除 `--pilot-steps` 才使用下表全部保存时刻。每个命令只运行一个数据集；默认包含该数据集所有 split/ID，可独立运行。生成文件始终为该 attempt 目录的 `data.h5`。完成后应先验收，再由用户放入**新的**数据集合对应相对路径；程序不覆盖下载包。
+After the corresponding dense parent finishes:
 
-Without `--pilot-steps`, the following full schedules apply. Each command generates one dataset, with its complete split/ID selection by default. Its output is `data.h5` inside the attempt directory. Validate a completed output before placing it at the corresponding relative path in a **new** data collection. The downloaded package is never overwritten.
-
-| `--dataset` | 完整组与时刻 / Groups and saved times | 数据集合中的相对路径 / Collection-relative path |
-| --- | --- | --- |
-| `standard` | N64 training IDs 0–49、validation 50–69：0:0.02:10；test 1000–1199：5:0.5:10 | `standard_ns_n64_full_spectrum.h5` |
-| `fno-training` | N64 training 0–49 + 1200–2149、validation 50–69：0:0.02:10 | `fno/fno1000_n64_t0_t10_dt0p02.h5` |
-| `fno-training-coarse` | 同上 / same IDs：0:0.1:10 | `fair_short_horizon/fno1000_n64_t0_t10_dt0p1.h5` |
-| `fno-test` | `N64/test`：4.1:0.02:8；`N96/test`、`N128/test`：4.1:0.02:6；IDs 1000–1199 | `fno/fno_test_n64_n96_n128_dt0p02.h5` |
-| `cross-resolution` | `N96/test`、`N128/test`：4.1:0.1:6；IDs 1000–1199 | `cross_resolution/cross_resolution_n96_n128_t4p1_t6p0_dt0p1.h5` |
-| `short-test` | N64 test：4.1:0.1:6；IDs 1000–1199 | `fair_short_horizon/standard_ns_n64_full_spectrum_test_t4p1_t6p0_dt0p1.h5` |
-
-```sh
-python scripts/generate_data.py --dataset standard --device cuda --output /new/standard-attempt --execute
-python scripts/generate_data.py --dataset fno-training --initial-conditions /download/initial_conditions/baseline_extra950.json --device cuda --output /new/fno-training-attempt --execute
-python scripts/generate_data.py --dataset cross-resolution --device cuda --output /new/cross-attempt --execute
+```shell
+python -m scripts.derive_dense_frames --dataset fno-training-coarse --parent ../generation/fno-training --output ../generation/fno-training-coarse --execute
+python -m scripts.derive_dense_frames --dataset short-test --parent ../generation/fno-test --output ../generation/short-test --execute
+python -m scripts.derive_dense_frames --dataset cross-resolution --parent ../generation/fno-test --output ../generation/cross-resolution --execute
 ```
 
-FNO 的两种训练输出都必须提供 `--initial-conditions`。该 JSON 是 950 条四涡旋参数，不是未来解、模型检查点或训练结果。程序验证其 shape、真实 ID 和固定参数 SHA-256，然后从 t=0 积分，**不会复用前 50 条或验证集的旧真值**。
+Derivation selects exact integer frames without interpolation or another solver
+invocation. It requires a completed new parent attempt, not a downloaded HDF5
+substituted as that parent. Its receipt says `COMPLETE_DERIVATION`. Independent
+integration of these three dataset names is also supported by `generate_data`;
+choose one approach per collection slot.
 
-Both FNO-training variants require the extra-950 parameter JSON. These are four-vortex initial conditions, not future solutions, model checkpoints, or training results. Their shape, IDs, and parameter SHA-256 are verified before integration from t=0. No old solutions are reused for the first 50 training trajectories or the validation group.
+## Noise and PINN sampling
 
-## 本次自身续算 / Resume this attempt only
-
-```sh
-python scripts/generate_data.py --dataset standard --split training --subset 0 --pilot-steps 8 --checkpoint-every 2 --stop-after-steps 3 --output /new/resume-pilot --execute
-python scripts/generate_data.py --dataset standard --split training --subset 0 --pilot-steps 8 --checkpoint-every 2 --output /new/resume-pilot --resume --execute
+```shell
+python -m scripts.generate_noise --clean ../generation/standard/data.h5 --output ../generation/noise --execute
+python -m scripts.generate_sampling --input ../generation/standard/data.h5 --output ../generation/sampling-clean --execute
+python -m scripts.generate_sampling --input ../generation/noise/noise_001.h5 --output ../generation/sampling-001 --execute
+python -m scripts.generate_sampling --input ../generation/noise/noise_010.h5 --output ../generation/sampling-010 --execute
 ```
 
-第二条必须使用相同科学参数、设备、运行时与源代码。`--stop-after-steps` 只控制本次进程何时暂停，不改变任务协议；可移除。检查点间隔也可改变。程序绑定 attempt UUID、完整参数、代码哈希、Python/NumPy/PyTorch/设备与数值环境，并只加载该目录自己的已哈希 complex64 频谱状态、积分步和批次位置。方程积分在初值生成后不再调用随机数，不需要模型/优化器检查点。已有完成目录和无 `--resume` 的已有目录会被拒绝。
+Noise uses paired MT19937 seed-0 standard normals at 1% and 10% of each clean
+group's standard deviation, without finite-sample RMS renormalization. Sampling
+uses seed 1234, trajectory 0, 500 sensors, 60 times, a 24,000/6,000 observation-row
+split and 60,000 LHS physics points. No neural-network weights are exported.
 
-Resume requires the same scientific configuration, device, runtime, and source hashes. The pause control and checkpoint frequency may change. The saved state includes the attempt identity, complex64 Fourier state, physical step, and batch position, bound to the exact parameter/configuration/source/runtime record. Integration itself makes no random draws after initial-condition construction. No model or optimizer checkpoint is involved. Completed attempts and accidental reuse of existing output directories are rejected.
+## Same-attempt continuation / 同次运行断点续算
 
-`run.json` 是不可覆盖的任务说明；`checkpoint_*.npz` 保存本次频谱状态；`latest.json` 原子指向最近已提交状态。检查点之前已写的帧在续算时可能按同一状态重写；未完成 H5 的空帧为 NaN，且标记 `INCOMPLETE`。仅同时具有 `COMPLETE.json` 和完成标记的 H5 才是生成结束；中断时不要直接把不完整文件当成数据集。旧检查点保留，程序不批量删除。文件系统损坏不属于可保证恢复范围。
+Add `--resume` to the same command with unchanged output, source, inputs and
+numerical environment. Integration saves completed solver-step boundaries;
+noise and derivation save completed block boundaries. Sampling saves its random
+design before generating targets. Uncommitted work may repeat after interruption.
+Completed outputs are not overwritten, and another run's checkpoint is rejected.
 
-`run.json` is immutable; checkpoints are retained and `latest.json` is updated atomically. Resuming may rewrite frames from the same saved state. Unwritten frames are NaN and the H5 remains `INCOMPLETE`. Only a completion record together with a completed H5 marks a finished generation. Filesystem corruption is outside the recovery guarantee.
+`--stop-after-steps`, `--stop-after-chunks` and `--stop-after-design` provide
+operational pauses for their respective programs. They do not reduce the final
+declared dataset or certify a reduced attempt as a full result.
 
-## 初值来源与数值边界 / Provenance and numerical boundaries
+## Assemble completed inputs
 
-- 方程和离散：`src/even_full_spectrum_ns.py` 保留原字节，SHA-256 `C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D`；float32/complex64、ETDRK4、内部 dt=0.005、N=64/96/128 对应 padding=99/147/195，无状态频谱截断。
-- Initial conditions: first five trajectories use explicit four-vortex parameters with circulation ×1.5; the additional 45 use NumPy PCG64/default_rng seed `2026080604`. A 1,150-draw evaluation pool uses seed `2026080801`: validation uses rows 0–19, test uses rows 950–1149. The exact draw order is in the new CLI.
-- 该种子协议来自只读历史自有生成器的参数协议，历史源码 SHA-256 `F79B69AEBAB8E1CD55118522CF5904961C5D881074771B19E52FAA2F57F3BAA7`。未复制其目录、旧求解器或复用旧真值；本 CLI 为独立实现，运行时不访问历史工程。恢复的 training50/test200 参数与正式数据中的对应参数逐项完全相等；validation20 用 t0 字段另行核对。
-- Extra 950: their parameter-array SHA-256 is `77A90CCD984690B4C5C3CA45C281AF69E59199F138FD6AA05E3902CCAC817126`. Their original seed-generation provenance is **not recovered**. This pathway is **fresh integration from specified initial conditions**, not a claim of reconstruction from the original random seed.
-- 默认完整批次：standard train50/validation20/test200；FNO training 每批50；N64 test200；N96/N128 每批8。`--subset` 或 `--batch-size` 会改变实际批次形状，CPU/GPU、FFT 库、设备和版本也会影响末位数值。程序记录而不隐藏这些差异，不擅自全局覆盖 TF32 设置；相同种子不承诺跨平台逐比特一致。
-- Storage differs from historical containers: new H5 includes attempt/provenance metadata and parameter arrays. Therefore whole-file hashes are expected to differ. Dataset generation completion is not equivalent to experimental numerical acceptance. Original reference tables, tolerances, and observed failures are unchanged.
+Assembly verifies and packages independent completed jobs; it does not train
+models or fill gaps using downloaded truth. In PowerShell:
 
-## 已实测范围与缺口 / Verified scope and remaining gaps
-
-### 完整 standard CPU 生成 / Full standard CPU generation
-
-2026-09-13，完整 270 条轨迹从种子与显式初值积分到 t=10，保留默认批次 50/20/200、内部 dt=0.005；未读取旧解场。首次进程在验证批次 step101 暂停，独立进程从自身频谱检查点续算完成，合计 1,539.401 秒。全量核验覆盖 37,270 帧、152,657,920 个 float32 值，耗时 12.437 秒；协议、时间轴、参数、有限性与来源/自身续算记录通过，数值状态为 **DIFFERENT**，不是科学验收 PASS。
-
-The full standard CPU attempt completed all 270 trajectories from seeds and explicit initial conditions, with an actual separate-process pause/resume and no reference-field input. Integrity passed over all 37,270 frames / 152,657,920 values; field comparison is **DIFFERENT**. Aggregate relative L2 differences are 0.001492774 (training), 0.001538171 (validation), 0.002302493 (test), and 0.001559317 overall. This uses the ratio of total squared errors to total squared reference values, not an average of per-frame ratios.
-
-全局最大绝对差为 0.802553177，位于 test ID1118、t=10；**该帧** relative L2 为 0.032325574，并非声称它是全局最大 relative L2。最早可观测差异仍在 training ID0、t=0（该帧最大绝对差 1.19209e-6）。未定位最早内部浮点运算的分歧，也未定义或放宽全场验收阈值；未用新数据完成下游训练/实验。求解器保持原字节，下载数据与原报告不变。完整来源与三组统计见 [全量证据](../validation/full_standard_20260913/README.md)。
-
-The largest absolute field difference is 0.802553177 at test ID1118, t=10; that frame's relative L2 is 0.032325574, not a claimed global maximum relative L2. The earliest observable mismatch remains at t=0. This does not locate the first differing arithmetic operation or establish downstream acceptance. No original report, input, solver or tolerance was changed. See the [full evidence](../validation/full_standard_20260913/README.md).
-
-### 完整 FNO 数据生成 / Full FNO data generation
-
-两个独立CPU任务已完整结束：FNO训练数据用时4,813.907秒（1,020条轨迹、511,020帧），FNO测试数据用时4,510.378秒（三网格各200条、77,600帧）。各自的全值独立检查通过来源、物理协议、参数、时间轴与有限性验证；与旧场比较均为 **DIFFERENT**。训练数据整体relative L2为0.001538922，独立最大逐帧relative L2为0.024500633；测试数据整体为0.000422226，最大逐帧为0.007737636。训练数据的可见差异已在t=0出现；测试文件首帧为t=4.1，不能称作t0比较。
-
-Two independent full CPU jobs completed: FNO-training in 4,813.907 s and three-grid FNO-test in 4,510.378 s. Full-field integrity checks passed; both comparisons are **DIFFERENT**, without an invented field tolerance. Training aggregate / maximum frame-relative L2 are 0.001538922 / 0.024500633; test values are 0.000422226 / 0.007737636. Training discrepancies are visible at t=0; test files store no t0 field. These are data differences, not prediction errors. See [full training-data evidence](../validation/full_fno_training_20260913/README.md) and [full test-data evidence](../validation/full_fno_test_20260913/README.md) for separate extrema, provenance and runtime limits. The extra950 initial parameters are supplied explicitly; their unknown original random seed has not been recovered. Neither run retrained a model or adds a pause/resume experiment.
-
-### 早期有界测试 / Earlier bounded tests
-
-下述“尚未全量执行”描述仅适用于当时测试快照；后续standard及FNO全量执行见上节，不等于新集合训练已通过。 The following unexecuted-full-run statements describe their historical snapshots; later full standard and FNO results are separate evidence above, not acceptance of training on the new collection.
-
-2026-09-10 首批 CPU 轻测试：5 项通过。验证了标准参数协议、输出路径保护、N64 单轨迹 8 步积分、3 步后同 attempt 恢复与连续积分逐项 bitwise 相同，以及 N96/N128 各一条轨迹一步积分。只读比较了训练50、验证20的 t0：最大绝对差均 `1.9073486328125e-6`；extra950 首条为 `1.1814699973911047e-6`。采用**运行前确定的初值诊断范围** atol=1e-5、rtol=1e-6；不是修改原实验数值验收门限，也不是逐比特一致。尚未执行完整2000步/全样本新生成，尚未用新生成数据完成完整训练/六实验验收。
-
-Initial CPU checks passed, but only the bounded tests above were executed. Full-duration/full-population generation and subsequent full-budget model training/evaluation using the newly generated data remain untested. The t0 diagnostic threshold is separate from, and does not alter, the original experiment acceptance criteria.
-
-### t0 精度定位补查 / Bounded initial-state precision diagnosis
-
-另做训练ID0、N64、CPU单线程、最多8步的有界补查：恢复的16个初值参数与原参数逐位相同；四个Gaussian解析频谱均为complex64，逐涡旋求和及zero-mode步骤与原 `build_initial_hat` 逐位相同。历史与当前求解器源SHA都为上列 `C406…`；原生成器同样直接调用该初值函数和 `torch.fft.ifft2` 保存场。对 NumPy FFT 入口安装“若调用立即失败”的测试检查后，初值及8步积分完成，**NumPy FFT调用为0**。因此这里没有采样入口所发现的 NumPy 2 单精度FFT变化，也没有证据支持给clean生成器加入float64 FFT补丁。
-
-| 已保存边界 / Saved boundary | 最大绝对差 / Maximum absolute error | relative L2 | 非逐位相同值 / Unequal values |
-| --- | ---: | ---: | ---: |
-| t=0，积分前 / before integration | 1.1920928955078125e-6 | 1.66532692351771e-7 | 3843/4096 |
-| step4，t=0.02 | 1.9073486328125e-6 | 2.370408662336258e-7 | 3878/4096 |
-| step8，t=0.04 | 2.384185791015625e-6 | 4.1591648704048785e-7 | 3976/4096 |
-
-最早**可观测**差异已在解析初值频谱经Torch逆FFT保存为t0时出现，早于积分、导数乘子和padding乘积。原H5未保存逐涡旋频谱、合并频谱或实际生成设备/版本，因此仅此CPU检查不能进一步断言差异首先来自 `torch.exp`/复相位、Nyquist合并、求和还是逆FFT；设备/数学库差异只是候选上游原因，不是已证明因果。本次未修改生成或求解数学、未使用原t0作积分输入，也未放宽任何验收阈值。若需继续定位，应在原生成数值环境可用时以同参数保存上述中间值逐段比较；单轨迹/单设备结果不能替代全批次与长期积分验收。
-
-The earliest observable discrepancy is already present in the saved initial field, before time integration. Parameters match exactly, and the historical/current solver sources are identical. Clean generation uses analytic complex64 Torch spectra and Torch FFT, not NumPy FFT; the sampling-specific float64-FFT fix is therefore not applicable. Historical intermediate spectra and actual runtime details are absent, so CPU-only evidence cannot separate exponential/phase, Nyquist merge, summation and inverse-FFT backend effects. No numerical implementation or acceptance threshold was changed. The new `test_single_trajectory_initial_path_diagnostic` records these differences without asserting cross-device bitwise success.
-
-TensorFlow 1.15 未训练初始化 NPZ **不在本生成入口范围内**，其权利仍待审定，继续排除于数据包的 CC BY 4.0 授予。下面两个独立入口只做噪声观测与采样数据准备，不复制外部网络、优化器或训练代码，不生成初始化权重。
-
-The TensorFlow 1.15 untrained-initialization NPZ is **not generated here**, remains subject to rights review, and is excluded from the dataset's CC BY 4.0 grant. The two independent preparation commands below do not copy or run external network, optimizer, or training implementations.
-
-## 派生噪声：保持全组统计与随机顺序 / Paired noise with original statistics
-
-```sh
-python scripts/generate_noise.py --clean /download/standard_ns_n64_full_spectrum.h5 --output /new/noise-attempt --execute
-python scripts/generate_noise.py --clean /download/standard_ns_n64_full_spectrum.h5 --output /new/noise-attempt --resume --execute
+```powershell
+python -m scripts.assemble_generated_data `
+  --job standard=../generation/standard `
+  --job fno-training=../generation/fno-training `
+  --job fno-test=../generation/fno-test `
+  --job fno-training-coarse=../generation/fno-training-coarse `
+  --job short-test=../generation/short-test `
+  --job cross-resolution=../generation/cross-resolution `
+  --job noise=../generation/noise `
+  --job sampling-clean=../generation/sampling-clean `
+  --job sampling-001=../generation/sampling-001 `
+  --job sampling-010=../generation/sampling-010 `
+  --output ../generated-inputs --execute
 ```
 
-第一条使用指定 clean 输入重新叠加噪声，同时生成 `noise_001.h5`、`noise_010.h5`；第二条只用于未完成的同一次任务。clean 可以是下载的固定输入，也可以是独立生成并完成的新 clean 数据集，不要求二者在一个进程内生成。记录明确写作“从指定清洁输入派生”，不冒称本入口重新积分了 clean。程序不读取原噪声 H5 作为生成目标；测试才会以只读 oracle 比较。
+For bash, replace the line-continuation backticks with backslashes. Assembly
+checks source/receipt identities, SHA-256, IDs, times, initial parameters, numeric
+shapes/types and finite values. Preserve its provenance, manifest and splits
+together. Successful assembly establishes input integrity, not equality of
+downstream experiment results. This generated collection has a different schema
+from the downloadable package checked by `scripts.verify_data`.
 
-The first command derives paired noisy observations from the specified clean input; the second resumes an incomplete same-attempt generation. Clean input can be the downloaded dataset or a separately completed fresh simulation. The receipt explicitly records derivation from a supplied clean input, not reintegration of that input. Reference noisy outputs are used only by optional read-only tests, never by generation.
+## Train on regenerated fields
 
-原协议不可改成每条轨迹各自缩放：
+Set `GIFT_DATA_ROOT` to `../generated-inputs`, then add `--data-profile regenerated`
+to an independent FNO-2D, FNO-3D, U-NO, U-Net or GIFT training command. GIFT branch
+training requires the clean low generator trained on that same collection;
+downloaded low-generator weights do not qualify as its fresh prerequisite.
 
-- **尺度为全组 `std(clean_group, ddof=0)`，不是 trajectory std。** 先按轨迹顺序逐条读完整501帧，以 float64 分别求和、平方和，再顺序累加算总体方差。
-- 单一 `RandomState(0)` / MT19937；顺序为 **training → validation → 各组轨迹行 → 每轨迹16帧块**；跨轨迹、跨组都不重设随机种子。
-- 同一块标准正态 `Z` 同时用于1%与10%：`(clean.astype(float64) + fraction * group_sigma * Z).astype(float32)`；不按有限样本 RMS 重新归一化，不给时间、坐标、forcing 加噪。
-- 默认每32块保留一次自身检查点，可用 `--checkpoint-every` 调整；`--stop-after-chunks N` 有界暂停。完整 MT19937 624个状态字、位置、缓存高斯值，以及下一 group/trajectory/frame 块位置均保存；输入文件哈希、代码与 NumPy 版本变化时拒绝续算。
+For native PINN training, switch to the separate PINN environment, retain the
+same generated `GIFT_DATA_ROOT`, and choose one condition and library:
 
-In short: use a **group-wide** population standard deviation, a single uninterrupted MT19937 stream, paired draws, float64 noise addition, and float32 storage. The full RNG state (including the cached Gaussian) and next block position are checkpointed. `--pilot` permits a reduced clean input and labels its outputs non-formal; it does not change the formal protocol silently.
-
-首批有界 CPU 实测（历史）：按上述全组统计，从指定原 clean 新生成两条件首32帧，共262,144个数值，与原噪声 H5 **bitwise exact**；该次未生成后续2,238块。另用小样本验证了跨 training/validation 边界的暂停恢复与连续运行 exact，及带缓存高斯值的 RNG 恢复。
-
-The earlier bounded oracle test matched both conditions' first 32 frames exactly. A separate reduced input verified resume across the group boundary; a cached-Gaussian test checked all RNG-state components. That historical validation did not run full paired-noise generation.
-
-2026-09-13 完整实测：从指定的已发布 clean 输入重新生成全部两种噪声，在第1601/2240块暂停后，由独立进程读取**本次自身**检查点完成余下639块。训练50条、验证20条、每条501帧，共 **287,293,440 个 float32 值全部与原噪声逐比特一致**，且独立公式重算、全组统计量、暂停/终态完整 RNG 状态与坐标核验通过。两次生成进程分别耗时9.08秒、4.44秒，完整只读验证16.56秒；环境为Python3.10.19、NumPy2.2.6、h5py3.16.0，未导入Torch/TF。见[完整证据](../validation/full_noise_20260913/README.md)。
-
-Full execution on 2026-09-13 regenerated both conditions from the specified released clean input, paused after chunk1601 of2240 and resumed the remaining639 chunks in a separate process from its **own attempt**. All **287,293,440 float32 values** matched the archived noisy fields bitwise; independent formula replay, whole-group statistics, coordinates and both complete RNG states also passed. Generation processes took9.08/4.44s, followed by16.56s of complete read-only verification in Python3.10.19/NumPy2.2.6/h5py3.16.0 without Torch/TF. See the [source-bound full evidence](../validation/full_noise_20260913/README.md).
-
-边界不变：本次未重新积分 clean；新 H5 的元数据和整文件哈希与旧文件不同，未替换下载包中的文件。完整新数据组装还要求同一集合内的**新生成 clean 父输入**，不能用本次结果填补缺失的 clean。它也不证明跨设备逐比特一致、完整模型训练或六实验全部通过。
-
-The clean input was not reintegrated. New H5 metadata and whole-file hashes differ from the legacy containers, and no packaged input was replaced. Full regenerated collection assembly still requires a **newly generated clean parent** in that collection; this result does not supply it. Cross-device bitwise identity, full model training and six-experiment acceptance are not established by this check.
-
-另一次独立任务已使用前述**新积分完成的 standard** 为输入，完整生成两种噪声（18.885秒）；全量独立公式、全组统计、终态MT19937状态及前后哈希复核通过（12.890秒），共287,293,440值逐位等于公式重算。见[新清洁输入的噪声证据](../validation/new_standard_noise_20260913/README.md)。该任务没有人为暂停，不新增恢复实证；不读取旧噪声作为目标，也不把新clean与旧clean的差异消除或标为通过。
-
-A separate full task used the **newly integrated standard parent** above: generation18.885s, independent full formula/statistics/final-RNG/hash verification12.890s, all287,293,440 values bitwise equal to formula replay. See [new-parent noise evidence](../validation/new_standard_noise_20260913/README.md). This uninterrupted task adds no resume claim, reads no archived noisy target and does not erase the parent's recorded difference from released clean fields.
-
-## PINN 观测采样 / PINN observation sampling
-
-```sh
-python scripts/generate_sampling.py --input /download/standard_ns_n64_full_spectrum.h5 --output /new/sampling-clean --execute
-python scripts/generate_sampling.py --input /download/m1_parameter_identification/noise_001.h5 --output /new/sampling-001 --execute
-python scripts/generate_sampling.py --input /download/m1_parameter_identification/noise_010.h5 --output /new/sampling-010 --execute
+```shell
+python -m scripts.run_training pinn --execute --data-profile regenerated --mode known --condition noise_000 --output ../runs/generated_pinn/noise_000/known
 ```
 
-每个命令独立生成该条件的 `sampling.npz`。使用指定输入的 training ID0，固定 RandomState1234，依次取500传感器、60时间层、24,000训练行/6,000验证行、60,000 LHS点；按 sensor/time 的 C 顺序展开。先重新生成随机设计，再仅读取所选60帧重建速度并组成 `u,v,ω` 目标。可用 `--stop-after-design` 保存完整设计和 RNG 后暂停，再以相同参数加 `--resume` 完成目标计算。三个条件的设计相同，但目标来自各自的观测数据，不互相复制。
+Use `--mode open` for the open library and select `noise_001` or `noise_010`
+separately as needed. Add `--resume` to continue that same output directory.
+The input gate verifies the clean/noise/sampling provenance chain, hashes,
+population and split metadata, and recomputes observation targets from the
+declared HDF5 input. The network, loss and native optimizer are unchanged.
+The default `--data-profile released` continues to require the supplied data's
+exact hashes. Never bypass either profile's checks or mix their checkpoints.
 
-Each condition produces its own `sampling.npz`: trajectory ID0; seed1234; 500 sensors; 60 time layers; 24,000/6,000 measurement split; 60,000 stratified LHS points; sensor-major C-order flattening. `--stop-after-design` and `--resume` exercise the saved design/RNG checkpoint. Only the selected 60 input frames are read for velocity reconstruction. No model is loaded.
+Successful input checks and small native continuation tests establish the
+execution route, not agreement of full-budget trained metrics. Regenerated
+inputs retain their own source and numerical identities in each training run.
 
-数值语义锁：NumPy 2.0 改变了单精度 FFT 的计算精度；本机2.2.6直接对float32做FFT会产生与原缓存不同的速度末位。新入口显式使用 float64 FFT / complex128 中间频谱，再按原协议输出 float32，以保留原缓存语义。初测差异最大 `9.536743e-7`；独立核对确认显式双精度后，三条件全部10个数组（共30数组）与原 NPZ **bitwise exact**，无需任何容差。这一变化只限采样的 NumPy Biot–Savart 计算，不改变 NS 求解器的 float32/complex64 定义。[NumPy 2.0 official release notes](https://numpy.org/doc/2.0/release/2.0.0-notes.html)
-
-The sampling implementation explicitly preserves the original cache's double-precision FFT intermediates despite NumPy 2.x's changed single-precision FFT behavior. All 30 arrays across the three conditions then matched the reference arrays bitwise, including after design/resume. This does not change the NS solver, experiment tolerances, or claim that subsequent PINN training reproduces its published coefficients.
-
-随后对上述新clean及其新noise分别独立采样，三个任务均完成，各10数组及完整设计/RNG状态通过独立公式复核。每个条件的9个设计数组仍与旧缓存逐位相同；targets随新clean变化，相对L2差分别约0.28034%、0.28031%、0.27902%。见[新输入采样证据](../validation/new_standard_sampling_20260913/README.md)。不替换原缓存，不声称新输入训练或全实验已验收。
-
-Three separate sampling jobs from the new clean/noisy inputs also completed, with each ten-array output and full design/RNG state independently replayed. All nine design arrays per condition still match the archived cache; targets differ by relativeL2 approximately0.28034%,0.28031%,0.27902%. See [new-input sampling evidence](../validation/new_standard_sampling_20260913/README.md). Archived caches are unchanged; this does not establish training or experiment acceptance on the new inputs.
-
-运行轻测试（`/new/test-temp` 必须尚不存在，避免测试工具清理旧目录）：
-
-```sh
-python -B -m pytest tests/test_data_generation.py tests/test_derived_data_generation.py tests/test_generated_data_assembly.py -v -s -p no:cacheprovider --basetemp /new/test-temp
-```
-
-Optional read-only package comparisons require `GIFT_TEST_REFERENCE_DATA_ROOT` to point to the downloaded package; otherwise that one test is explicitly skipped. Tests perform no model training and load no weights. Test outputs belong outside the code and data packages.
-
-## 训练接入现状/限制 / Current training integration and limitations
-
-2026-09-10 追加只读接口审计采用原函数的精确 AST 提取与约23–26 KB的稀疏H5元数据夹具；不导入模型、不积分、不训练。夹具的场数据未写入、填充值为NaN，明确标记 `METADATA_ONLY_MOCK_NOT_SCIENCE`，不能用于实验。结果说明的是接口阻断，不是科学通过：
-
-| 消费端 / Consumer | 当前结果 / Current finding | 必须完成的最小工作 / Required minimum work |
-| --- | --- | --- |
-| 独立 FNO/U-NO/U-Net formal training | 已实现 `--data-profile released/regenerated`，默认仍严格核原SHA；regenerated复用组装器检查完整来源、ID/时间/PDE/参数及执行时全部哈希/有限性。 | 后续真实完整集合的四个正式配置输入检查已通过；不是训练CLI、U-Net启动环境或模型训练验收。 |
-| GIFT低频/高频训练 | 已实现同名profile门禁，复用组装器；clean/noisy低模型及高分支写入自身输入绑定。高训练要求明确传入在相同standard输入上完成原正式预算的新低模型。 | 数据资格检查可读取完整标准文件作完整性校验（包括test），但不向训练损失/模型选择传入test场；完整新数据训练尚未执行。 |
-| M2/M3 的 FNO native test reader | 初审发现缺少 `metadata_json`；**已修复生成端**。后续已在完整真实新数据上执行N64的M2和三网格的M3原生读取，元数据、全时间轴及所选字段均通过。 | 原调用方跨文件真值和t=5锚点断言也通过；仅为真实reader检查，不是M2/M3预测或数值验收。 |
-| short-test 与 cross-resolution reader | 初审发现 `step*0.005` 与规范十进制标签在3/20帧差8.881784197001252e-16；**已修复生成端**，所有20时刻与原 `array_equal` 要求一致，原整数积分步未变。 | 后续完整新数据的实际cross/内部short读取通过，S1跨文件取数一致；未改reader或容差，实验预测仍另计。 |
-| M1入口 | 每个数据文件必须在集合根 `manifest.json` 唯一声明且大小/实际SHA一致。新增组装器可生成这样的新集合；GIFT readout还会核对模型 `training_data.sha256`。 | 完整集合的文件/来源及GIFT输入检查已通过；模型必须绑定该新数据。不能把原发布模型与不同SHA的新数据组合后宣称同源训练。PINN运行时仍不支持regenerated输入。 |
-
-The original audit found a fixed-file-hash deadlock, missing FNO-test metadata, strict time-label mismatches, and missing assembly. Generator-side metadata/time fixes, guarded assembly, and explicit baseline/GIFT data profiles are now implemented. The later real ten-job collection and available full training-input gates passed the independent checks below. Formal training and downstream experimental acceptance remain unverified; the historical mock tests do not establish either.
-
-### 已实现的双 profile 规则 / Implemented explicit profiles
-
-1. `released` 默认：固定发布数据集身份，以受信发布清单核对每个输入的相对路径、大小、SHA-256；拒绝缺失、越界、重复路径或被改写文件。发布数据当前已有的严格门槛保持。
-2. `regenerated` 必须显式选择：核对一个独立新集合的 `manifest.json`、`splits.json`、每个生成 attempt 的完成记录、非pilot/完整ID与时刻、dtype/shape/有限性、参数数组哈希、PDE/域/nu/forcing/dt/padding/精度与固定源码哈希。记录每个新文件自己的真实SHA，不将其认作发布文件SHA。独立标准训练50+恢复seed的验证20，以及参数JSON的额外950，都须明确来源；额外950仍不是from-seed声明。
-3. profile、manifest哈希、每个输入SHA与生成来源都写入训练 attempt、续算检查点和模型产物；输入改变时拒绝续算。仅schema正确但没有生成完成证据、存在NaN未写帧或物理定义不明的文件不能放行。
-4. 固定参考场抽样比较作为独立、可选的数值验证报告：预先确定ID、时刻、范数/容差与目的，并保存通过和失败；不替换新数据、不读取参考真值作为生成输入、不更改原六实验验收门。字段近似一致也不能改称H5文件哈希相同或完整复现已通过。
-
-The default released profile retains original input SHA checks. The explicit regenerated profile validates complete collection provenance, populations/axes/physical protocol, source hashes and finite fields; training journals and products bind the actual input profile and hashes. Read-only plans do not claim full byte verification. Optional reference-field comparison is separate and never relabels regenerated files as released bytes.
-
-GIFT高训练必须用 `--low-model /new/low/gift_main.pt`；低模型必须是相同standard文件SHA、原完整默认预算、明确未加载发布参数的新训练v3产物。历史独立训练v3无profile字段时，仅兼容已绑定原发布clean SHA且具备完整新训练/预算元数据的产物；再生输入不享受这个兼容例外。高分支自身产物记录 `training_data` 和 `data_profile`。五个实验现在均支持同一显式 `--low-model`，须与 `--gift-model seed=/new/high.pt` 配套；不指定低模型仍保持原发布模型路径行为。此为选择/绑定接口，不代表新组合已经完成六实验验收。
-
-GIFT high training requires an explicit fresh, formal-budget low generator bound to exactly the same standard input and profile. Five experiments accept `--low-model` before creating their continuation session; pair it with the new high branch. Default published inference paths remain unchanged. High journals bind participating GIFT/runtime/training/generator sources and reject changed resume identity before derivative/RHS preparation; an interrupted unfinished preparation is recomputed, not silently reused. These engineering controls do not assert full-budget numerical success.
-
-### 独立生成后如何组装 / Assembly after independent generation
-
-各个生成命令可完全独立执行、独立恢复；不要求所有数据或模型一次run。核心输入可分别生成：① `standard`，② `fno-training`（seed训练50 + 显式参数950，并独立生成验证20），③ `fno-test`。短时与跨分辨率集合仍可用 `generate_data.py` 的 `short-test`、`cross-resolution`、`fno-training-coarse` 分支独立积分；也可用下面的独立入口，仅从**本次新生成**的完整dense文件按整数保存步派生，明确记录母文件关系，不从旧发布真值补帧。
-
-The core clean inputs can be generated independently: standard, FNO training, and FNO test. Short/coarse/cross-resolution inputs retain their independent integration commands and additionally support the integer-frame derivation below from **newly generated** complete dense outputs. No old reference trajectories may fill missing frames.
-
-### 新 dense 的整数抽帧 / Integer-frame derivation from new dense outputs
-
-```sh
-python scripts/derive_dense_frames.py --dataset fno-training-coarse --parent /new/fno-training-attempt --output /new/coarse-attempt --execute
-python scripts/derive_dense_frames.py --dataset short-test --parent /new/fno-test-attempt --output /new/short-attempt --execute
-python scripts/derive_dense_frames.py --dataset cross-resolution --parent /new/fno-test-attempt --output /new/cross-attempt --execute
-```
-
-`--parent` 必须是完整的**新积分任务目录**（含 `run.json`、`COMPLETE.json`、`data.h5`），不是下载的H5或另一派生文件。执行前核对母任务完整预算的组/ID/保存步、参数、PDE/源代码与运行时记录、完成状态、文件SHA以及**母文件全部场值**有限性；外链、虚拟数据、未写NaN、pilot/subset和mock均拒绝。省略 `--execute` 仅作只读结构计划，不扫描全部字段、不声称文件完整核验。
-
-`--parent` must identify a completed **new native integration attempt**, not a downloaded H5 or another derived file. Execution checks its full populations/schedules/parameters/physics, current generator/solver sources, runtime receipt, completion binding, whole-file SHA and **all parent field values**, including unselected frames. Linked/virtual storage, unwritten NaNs, pilots, subsets and mocks are rejected. Without `--execute`, inspection is read-only and does not claim full hash/finite verification.
-
-| 目标 / Target | 母组 → 输出组 / Parent → output | 母列（从0计） / Parent columns | 整数积分步 / Solver steps |
-| --- | --- | --- | --- |
-| `fno-training-coarse` | `training/validation` → 原组名 / same names | `0,5,…,500`（101帧） | `0,20,…,2000` |
-| `short-test` | `N64/test` → `test` | `0,5,…,95`（20帧） | `820,840,…,1200` |
-| `cross-resolution` | `N96/test`、`N128/test` → 原组名 / same names | `0,5,…,95`（每组20帧） | `820,840,…,1200` |
-
-涡量float32和初值参数按原位值复制，不插值、不改精度，保留正负零的比特。coarse训练保留1000条训练与20条验证；两个测试输出保留全部200条ID。训练coarse的float64时间标签为 `step*0.005`；short/cross使用既定 `round((step//20)/10,12)`，而非照抄dense标签的末位。short的参数名从 `initial_parameters` 改为reader要求的 `initial_condition_parameters`，其余按原组约定。源求解器元数据标明“继承自母文件”；不会复制dense专属的 `gift.fno.test-data.v1` / `stored_dt=0.02` 为新文件身份。
-
-Vorticity is copied bit-preserving as float32, including signed zero; parameters are copied without conversion. Full training/validation and test populations are retained. Coarse-training float64 times are `step*0.005`; short/cross times use the existing exact rounded-decimal reader convention, not copied dense label rounding. Short-test renames only its parameter dataset; solver metadata is explicitly inherited, not a claim of a new integration invocation.
-
-派生任务采用独立 `gift.dense-frame-derivation.v1` 和 `COMPLETE_DERIVATION`，**不伪造 `COMPLETE_GENERATION`**。记录母任务UUID、binding SHA、H5 SHA、run/完成收据SHA，以及每组整数列映射和当前派生源码。每块为一条轨迹的最多16帧，默认每32块保存自身游标；`--stop-after-chunks N` 可有界暂停，同命令加 `--resume` 恢复。恢复前核对相同母输入/源码/运行时、游标UUID与哈希，并逐比特复核已提交前缀；未提交块可以重写。资格检查会按固定种子重建初值参数作比较，但场抽帧本身没有随机状态，无需RNG或模型检查点。已有完成任务拒绝续算，旧游标文件保留。
-
-Derivation has its own schema and `COMPLETE_DERIVATION` receipt, never an integration completion label. Parent attempt/binding/data/raw-receipt hashes, integer mappings and current sources are bound. Copy blocks contain up to16 frames of one trajectory, with own-cursor checkpoints every32 blocks by default. Use `--stop-after-chunks N`, then the same command with `--resume`; committed prefix bytes are rechecked against the unchanged parent. Qualification deterministically recreates seeded parameters for comparison, while field copying has no RNG state or model checkpoint. Completed attempts and foreign cursors are rejected; old cursors are retained.
-
-每次写入持有该目录 `.writer.lock` 的非阻塞操作系统锁，从完成/游标检查一直覆盖到H5关闭、最终哈希和收据发布；第二写者立即拒绝，不等待轮询，进程退出自动释放锁，不删除锁文件。最终再次检查源文件SHA；完整收据先写唯一 staging 文件并flush/fsync，再通过同目录原子硬链接仅在目标不存在时发布 `COMPLETE.json`。中断产生的partial staging不作为完成记录，恢复重验本次输出后重新发布；成功或失败的staging均保留且不得手工修改。要求支持硬链接的文件系统（如NTFS、常见POSIX文件系统），不支持时失败关闭，不退回非原子覆盖。文件系统损坏不在恢复保证内。
-
-A nonblocking OS lock on `.writer.lock` spans completion/cursor checks, H5 writes and close, final hashing and receipt publication. A second writer fails immediately without polling; process exit releases the lock without deleting its file. Sources are rechecked before completion. The receipt is written to a unique staging file, flushed/synced, then atomically published by a same-directory create-only hard link. Interrupted partial staging files do not mark completion; resume rechecks the attempt before publishing again. All staging files remain and must not be edited. A hard-link-capable filesystem (such as NTFS or common POSIX filesystems) is required; unsupported publication fails closed, never falls back to non-atomic overwrite. Filesystem corruption is outside the recovery guarantee.
-
-组装时必须同时提供相同母任务（例如 `--job fno-test=/new/fno-test-attempt --job short-test=/new/short-attempt`）。组装器将核对母任务/收据身份及相同H5 SHA，重新核验输出字段逐比特等于母文件指定列，并诚实保留派生状态。只给子文件、拿别的母任务补位、修改列映射或使用旧真值均拒绝。模型训练仍消费原dense `fno-training`，不被自动切换为coarse；本入口不改模型、训练或实验定义。
-
-Assembly must include the exact dense parent job and SHA alongside each child. The assembler checks raw parent receipts and integer mappings, then rechecks selected field bytes. Child-only collections or substituted parents are rejected. Baseline training still consumes dense FNO training data; this entry point changes no model, training or experiment definition.
-
-源码变更会改变组装器SHA：请创建**新集合及新训练绑定**，不要更新旧manifest、旧运行记录或旧检查点来绕过source gate。本功能的CPU小夹具覆盖三种映射、正负零、独立进程恢复和拒绝门。后续三项完整新dense派生已分别实际完成，并在完整集合独立核验中通过所有选帧的逐位比较；这仍不证明与原发布场或六实验数值一致。
-
-The assembler source hash changes with this feature. Create a **new collection and new training binding**; never rewrite old manifests/journals/checkpoints to bypass source identity. Tiny CPU fixtures cover mappings, signed zero, separate-process resume and rejection gates. The three later full new-parent derivations also completed independently, and all selected field bits passed the separate full-collection audit below. Neither result establishes released-field identity or downstream numerical acceptance.
-
-2026-09-13 工程验证：抽帧及关联组装的定向测试 **27/27通过**；独立完整CPU回归 **199通过、22跳过、24个subtests通过**（76.47秒）。包括收据写入/发布前后中断、H5关闭后的真实子进程争锁，以及终态哈希期间源码变动拒绝。Windows分支已实测，POSIX锁分支尚未在本机执行；这些仍不代表完整新数据的科学验收。
-
-Engineering checks on 2026-09-13: **27/27 targeted tests passed**; a separate full CPU regression had **199 passed, 22 skipped and 24 passing subtests** in76.47s. Coverage includes interrupted receipt staging/publication, a real competing process after H5 close, and source changes during final hashing. Windows behavior was exercised; the POSIX lock branch was not executed on this host. This remains engineering evidence, not full generated-data scientific acceptance.
-
-已新增 `scripts/assemble_generated_data.py`，仅接受本候选独立生成 attempt 的 `COMPLETE.json` 与绑定的真实数据哈希，拒绝pilot/部分subset/缺帧/旧源码哈希；使用本页路径表在**新的**集合目录中安放其文件（复制自己的新生成文件属于打包，不是重新生成真值）。执行时扫描完整浮点场有限性，核对ID/时间/PDE/初值参数/源代码，逐文件复制后重验SHA；创建小写 `manifest.json`、`splits.json` 和各任务 `provenance/` 完成记录。已有目标目录直接拒绝，不要求改写或更新旧集合。
-
-```sh
-python scripts/assemble_generated_data.py --job standard=/new/standard-attempt --job fno-training=/new/fno-training-attempt --job fno-test=/new/fno-test-attempt --output /new/generated-input-collection
-python scripts/assemble_generated_data.py --job standard=/new/standard-attempt --job fno-training=/new/fno-training-attempt --job fno-test=/new/fno-test-attempt --output /new/generated-input-collection --execute
-```
-
-第一条仅检查来源/结构并显示计划，不创建目标、不完整扫描场；第二条才执行全部输入哈希/有限性检查和字节保留复制。可增加 `--job short-test=...`、`cross-resolution=...`、`fno-training-coarse=...`、`noise=...`、`sampling-clean=...`、`sampling-001=...`、`sampling-010=...`。噪声任务的clean哈希必须等于集合内新生成standard的哈希；采样任务的输入哈希必须等于集合中对应新生成clean/noise哈希。仅有下载数据、缺少自身生成完成记录或其parent未进入本集合时拒绝，不能偷用旧真值/噪声补齐。TensorFlow初始化不纳入组装器。
-
-`manifest.json` 明确列出 available_jobs/missing_jobs，允许只为某个独立消费者组装所需的完整文件；缺少其他任务时不声称六实验输入齐全。状态为 `ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED`，不是原发布数据，也不是数值验收通过。已做拒绝与复制轻测试、下述真实standard子集合检查，以及后续十任务完整集合的独立输入核验；科学验收仍未通过。基线与GIFT的 `--data-profile regenerated` 已实现，但不能用 `--tiny` 绕过正式资格门冒充正式训练。
-
-The create-only assembler validates current generator/solver hashes, completion receipts, full selected-file populations, initial parameters, physical protocol, exact axes, and (on execution) full hashes/finite fields before byte-preserving copies. Derived noise and sampling must bind to the newly generated parent inputs present in the same collection. Missing jobs remain explicit; the collection is not labeled experiment-accepted. Guard tests, the real standard subcollection and the later full ten-job collection input checks are separate evidence below. Baseline and GIFT regenerated profile switches are implemented; `--tiny` is not a workaround for formal acceptance.
-
-2026-09-13 实际组装：新standard、成对noise及3个sampling任务生成一个独立子集合，清单17文件约1.689GB；所有清单SHA、来源和完整场有限性检查通过，三个条件各自的正式 `regenerated` GIFT输入门禁也通过（无mock、tiny、模型恢复、训练或CUDA初始化）。组装7.703秒，连同门禁和独立清单复核共25.078秒。清单明确缺少FNO训练/测试、coarse/short/cross五个槽位，未包含PINN初始化。见[实际组装证据](../validation/new_standard_collection_20260913/README.md)。原数据包不变，这不是新数据上的训练或实验数值验收。
-
-Actual execution on 2026-09-13 assembled the new standard, paired noise and three sampling jobs into an independent subcollection:17 manifest-listed files, approximately1.689GB. All manifest hashes, provenance and full-field finite checks passed, as did all three formal `regenerated` GIFT input gates without mocks, tiny flags, training or CUDA initialization. Assembly took7.703s; assembly plus consumer gates and manifest verification took25.078s. Five FNO/coarse/short/cross slots remain explicitly missing; PINN initialization is excluded. See [real assembly evidence](../validation/new_standard_collection_20260913/README.md). Downloaded inputs are unchanged, and neither model training nor experimental-number acceptance is inferred.
-
-### 完整集合的独立输入核验 / Independent full-collection input audit
-
-后续已组装全部十个数据任务，清单32文件、13,155,083,047字节，无缺失任务。原生组装88.000秒完成；工作目录执行器随后因启动后的自身文件变更被身份保护拒绝，失败记录未改写。另一冻结脚本对保留集合独立只读核验187.218秒，所有清单哈希、19项科学源码、20项父收据、完整数据资格与三项派生选帧逐位检查通过；三个GIFT条件及四个基线正式配置的完整输入函数也通过。未重新组装/复制、积分、构建模型、恢复权重或训练。
-
-All ten generated jobs were subsequently assembled: 32 manifest entries, 13.155 GB, no missing job. The work-only wrapper failed its final identity guard after a concurrent wrapper-file edit; its failure remains recorded. A separately frozen verifier passed the existing collection's full provenance/data/derived-bit checks and all three GIFT plus four formal baseline input functions in 187.218 s, without recopying, integration or training. See [independent evidence and preserved failure](../validation/full_generated_collection_20260913/README.md). PINN's runtime input profile remains unsupported for regenerated data and initialization is excluded. Input checks do not qualify U-Net's startup, upstream models, formal training, fresh prediction or six-experiment numerical acceptance. The original downloaded data package is unchanged.
-
-另一次真实reader检查于2026-09-13完成（31.218秒）：七次顶层读取及内部short读取覆盖M2、三网格M3、S1/S3取数及S2全部200条留出轨迹。原调用方时间/真值/锚点断言全部通过，所有额外记录的float32位差计数为0；六个选中H5及源码、清单在前后均未变。见[实际reader证据](../validation/generated_readers_20260913/README.md)。未导入实验run模块或执行模型、预测、训练和验证集计算。
-
-A subsequent real-reader check passed in 31.218 s: seven top-level calls plus the nested short reader, including original M2/M3 cross-file truth and t=5 anchor rules, S1 selections and the complete S2 holdout population. Six selected H5 hashes and source/manifest bindings remained unchanged. See [reader evidence](../validation/generated_readers_20260913/README.md). This is neither a mock nor full experimental execution: no model, checkpoint, prediction, training or validation-set computation was used. The earlier new-versus-released field differences remain unresolved.
+跨设备不承诺逐比特一致。检验时分别记录文件哈希、数组差异、训练权重和实验指标，
+不能将其中一种核验替代其它层次的验证。

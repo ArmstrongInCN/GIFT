@@ -74,5 +74,12 @@ def test_high_branch_resume_preserves_all_phases(tmp_path, monkeypatch, boundary
     actual, actual_selection, actual_history = trainer._train_seed(
         **kwargs, checkpoint_directory=tmp_path / "interrupted", resume=True)
     assert actual_selection == expected_selection
-    assert actual_history == expected_history
+    def numerical_history(rows):
+        return [{key: value for key, value in row.items() if key != "training_validation_seconds"} for row in rows]
+    assert numerical_history(actual_history) == numerical_history(expected_history)
+    expected_cost = trainer.branch_training_cost(expected_history)
+    actual_cost = trainer.branch_training_cost(actual_history)
+    assert actual_cost["optimizer_updates"] == expected_cost["optimizer_updates"] == 7
+    assert actual_cost["committed_training_validation_seconds"] >= 0
+    assert actual_cost["shared_generator_pretraining_included"] is False
     assert all(torch.equal(value, expected.state_dict()[key]) for key, value in actual.state_dict().items())

@@ -1,6 +1,6 @@
 """Assemble completed independent generation attempts into a NEW input collection.
 
-Only this candidate's generation receipts are accepted. Never imports models,
+Only this project's completed generation receipts are accepted. Never imports models,
 copies released truth to fill gaps, edits arrays, or relaxes training hash gates.
 """
 from __future__ import annotations

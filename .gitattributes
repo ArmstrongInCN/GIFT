@@ -1,4 +1,4 @@
 # Source, reference tables and evidence are bound by byte-level hashes.
 # Disable newline conversion for every tracked file on every platform.
-# Do not normalize historical files to satisfy a local editor preference.
+# Keep the exact source and evidence bytes across checkouts.
 * -text

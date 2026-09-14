@@ -1,0 +1,3692 @@
+{
+  "schema": "gift.pinn-terminal.v1",
+  "run_id": "343825bdcff744c3925b33d18cbd07f7",
+  "mode": "open",
+  "training_completed": true,
+  "scientific_acceptance": false,
+  "scientific_status": "training_complete; equation_readout_not_yet_evaluated",
+  "diagnostic_test_only": false,
+  "eligible_for_formal_M1": true,
+  "requested_budget": {
+    "pre_nadam": 5000,
+    "rounds": 6,
+    "ado_nadam": 1000,
+    "post_nadam": 20000,
+    "lbf_maxiter": 10000,
+    "lbf_maxfun": 10000
+  },
+  "standard_budget": true,
+  "protocol": {
+    "initialization": "native_Xavier_seed1234",
+    "float_graph": "float32",
+    "LBF_interface": "upstream_public_ScipyOptimizerInterface",
+    "batching": "complete_population",
+    "pre": {
+      "learning_rate": 0.001,
+      "physics_weight": 1.0,
+      "l1_weight": 1e-07
+    },
+    "ado_and_post": {
+      "learning_rate": 0.0001,
+      "physics_weight": 2.0,
+      "l1_weight": 0.0
+    },
+    "all_nadam_updates": "joint_network_and_coefficients_same_optimizer",
+    "mask": "exact_nonzero_after_last_ADO_NAdam",
+    "post_LBF": false
+  },
+  "library": [
+    "",
+    "w_{x}",
+    "w_{y}",
+    "w_{xx}",
+    "w_{xy}",
+    "w_{yy}",
+    "u**1",
+    "u**1w_{x}",
+    "u**1w_{y}",
+    "u**1w_{xx}",
+    "u**1w_{xy}",
+    "u**1w_{yy}",
+    "u**2",
+    "u**2w_{x}",
+    "u**2w_{y}",
+    "u**2w_{xx}",
+    "u**2w_{xy}",
+    "u**2w_{yy}",
+    "v**1",
+    "v**1w_{x}",
+    "v**1w_{y}",
+    "v**1w_{xx}",
+    "v**1w_{xy}",
+    "v**1w_{yy}",
+    "v**2",
+    "v**2w_{x}",
+    "v**2w_{y}",
+    "v**2w_{xx}",
+    "v**2w_{xy}",
+    "v**2w_{yy}",
+    "w**1",
+    "w**1w_{x}",
+    "w**1w_{y}",
+    "w**1w_{xx}",
+    "w**1w_{xy}",
+    "w**1w_{yy}",
+    "w**2",
+    "w**2w_{x}",
+    "w**2w_{y}",
+    "w**2w_{xx}",
+    "w**2w_{xy}",
+    "w**2w_{yy}",
+    "uv",
+    "uvw_{x}",
+    "uvw_{y}",
+    "uvw_{xx}",
+    "uvw_{xy}",
+    "uvw_{yy}",
+    "uw",
+    "uww_{x}",
+    "uww_{y}",
+    "uww_{xx}",
+    "uww_{xy}",
+    "uww_{yy}",
+    "vw",
+    "vww_{x}",
+    "vww_{y}",
+    "vww_{xx}",
+    "vww_{xy}",
+    "vww_{yy}",
+    "q",
+    "qw_{x}",
+    "qw_{y}",
+    "qw_{xx}",
+    "qw_{xy}",
+    "qw_{yy}",
+    "q^2",
+    "q^2w_{x}",
+    "q^2w_{y}",
+    "q^2w_{xx}",
+    "q^2w_{xy}",
+    "q^2w_{yy}",
+    "u*q",
+    "u*qw_{x}",
+    "u*qw_{y}",
+    "u*qw_{xx}",
+    "u*qw_{xy}",
+    "u*qw_{yy}",
+    "v*q",
+    "v*qw_{x}",
+    "v*qw_{y}",
+    "v*qw_{xx}",
+    "v*qw_{xy}",
+    "v*qw_{yy}",
+    "w*q",
+    "w*qw_{x}",
+    "w*qw_{y}",
+    "w*qw_{xx}",
+    "w*qw_{xy}",
+    "w*qw_{yy}"
+  ],
+  "training_cost": {
+    "phase_seconds": {
+      "pre_nadam": 769.897542899998,
+      "pre_lbfgs": 7.885074199999963,
+      "ado_stridge": 314.7411341999998,
+      "ado_nadam": 1456.3404695999957,
+      "final_mask": 0.001497199999903387,
+      "post_nadam": 3096.14208090006
+    },
+    "nadam_updates": 31000,
+    "stridge_calls": 6,
+    "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+  },
+  "raw_coefficients": [
+    0.5998056530952454,
+    -0.10443177074193954,
+    0.03027690201997757,
+    0.040753599256277084,
+    0.004024065565317869,
+    0.00903354398906231,
+    -0.15712717175483704,
+    -0.6862546801567078,
+    -0.05009374022483826,
+    -0.01360934879630804,
+    0.01066390797495842,
+    0.0018019248964264989,
+    0.27189183235168457,
+    0.06464676558971405,
+    -0.003558926284313202,
+    -0.0004404489300213754,
+    -0.018806027248501778,
+    0.007700926158577204,
+    -0.24248725175857544,
+    -0.12268756330013275,
+    -0.5715628266334534,
+    -0.012726039625704288,
+    0.009072200395166874,
+    0.0005850153393112123,
+    -0.9919154644012451,
+    -0.012282880954444408,
+    -0.02630051039159298,
+    -0.005822413135319948,
+    0.006220248062163591,
+    0.010553128086030483,
+    0.18427321314811707,
+    0.013448040001094341,
+    0.0018636402674019337,
+    -5.5898686696309596e-05,
+    0.0004920086939819157,
+    -0.00028615305200219154,
+    -0.0008934057550504804,
+    0.00026514293858781457,
+    0.0007661759154871106,
+    -6.923235923750326e-05,
+    0.00015779603563714772,
+    9.513503755442798e-06,
+    -0.6412065029144287,
+    -0.0426095612347126,
+    0.020483996719121933,
+    0.0007763596368022263,
+    -0.002062245737761259,
+    -0.002365371212363243,
+    -0.08758171647787094,
+    -0.005651647690683603,
+    0.006594433449208736,
+    -0.0002899833198171109,
+    -0.0008635481353849173,
+    0.000540846143849194,
+    0.0019606980495154858,
+    -0.006826817989349365,
+    0.003219055710360408,
+    0.0008483852725476027,
+    0.0016841143369674683,
+    -9.518657316220924e-05,
+    0.5530133843421936,
+    -0.0008550679194740951,
+    0.0033787318971008062,
+    -0.0008130563073791564,
+    0.002659781835973263,
+    0.0015803485875949264,
+    0.0010097242193296552,
+    0.0014990958152338862,
+    8.527324098395184e-06,
+    7.54719294491224e-05,
+    4.767887367052026e-05,
+    -1.085549229173921e-05,
+    -0.037416551262140274,
+    2.963622591778403e-08,
+    0.0021527898497879505,
+    0.0016261758282780647,
+    -0.001492373994551599,
+    -0.0007187841692939401,
+    0.052383776754140854,
+    0.008017392829060555,
+    0.003176356665790081,
+    0.0007423902279697359,
+    -0.0005905658472329378,
+    -0.0007000824552960694,
+    0.006845364812761545,
+    -0.0008417046628892422,
+    -0.0005265120998956263,
+    0.0001532050664536655,
+    -0.00022064030054025352,
+    3.996964551333804e-06
+  ],
+  "mask": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "effective_coefficients": [
+    0.5998056530952454,
+    -0.10443177074193954,
+    0.03027690201997757,
+    0.040753599256277084,
+    0.004024065565317869,
+    0.00903354398906231,
+    -0.15712717175483704,
+    -0.6862546801567078,
+    -0.05009374022483826,
+    -0.01360934879630804,
+    0.01066390797495842,
+    0.0018019248964264989,
+    0.27189183235168457,
+    0.06464676558971405,
+    -0.003558926284313202,
+    -0.0004404489300213754,
+    -0.018806027248501778,
+    0.007700926158577204,
+    -0.24248725175857544,
+    -0.12268756330013275,
+    -0.5715628266334534,
+    -0.012726039625704288,
+    0.009072200395166874,
+    0.0005850153393112123,
+    -0.9919154644012451,
+    -0.012282880954444408,
+    -0.02630051039159298,
+    -0.005822413135319948,
+    0.006220248062163591,
+    0.010553128086030483,
+    0.18427321314811707,
+    0.013448040001094341,
+    0.0018636402674019337,
+    -5.5898686696309596e-05,
+    0.0004920086939819157,
+    -0.00028615305200219154,
+    -0.0008934057550504804,
+    0.00026514293858781457,
+    0.0007661759154871106,
+    -6.923235923750326e-05,
+    0.00015779603563714772,
+    9.513503755442798e-06,
+    -0.6412065029144287,
+    -0.0426095612347126,
+    0.020483996719121933,
+    0.0007763596368022263,
+    -0.002062245737761259,
+    -0.002365371212363243,
+    -0.08758171647787094,
+    -0.005651647690683603,
+    0.006594433449208736,
+    -0.0002899833198171109,
+    -0.0008635481353849173,
+    0.000540846143849194,
+    0.0019606980495154858,
+    -0.006826817989349365,
+    0.003219055710360408,
+    0.0008483852725476027,
+    0.0016841143369674683,
+    -9.518657316220924e-05,
+    0.5530133843421936,
+    -0.0008550679194740951,
+    0.0033787318971008062,
+    -0.0008130563073791564,
+    0.002659781835973263,
+    0.0015803485875949264,
+    0.0010097242193296552,
+    0.0014990958152338862,
+    8.527324098395184e-06,
+    7.54719294491224e-05,
+    4.767887367052026e-05,
+    -1.085549229173921e-05,
+    -0.037416551262140274,
+    2.963622591778403e-08,
+    0.0021527898497879505,
+    0.0016261758282780647,
+    -0.001492373994551599,
+    -0.0007187841692939401,
+    0.052383776754140854,
+    0.008017392829060555,
+    0.003176356665790081,
+    0.0007423902279697359,
+    -0.0005905658472329378,
+    -0.0007000824552960694,
+    0.006845364812761545,
+    -0.0008417046628892422,
+    -0.0005265120998956263,
+    0.0001532050664536655,
+    -0.00022064030054025352,
+    3.996964551333804e-06
+  ],
+  "terminal_snapshot": {
+    "identity": {
+      "protocol": "native_loss_joint_nadam_phase_boundary_lbfgs",
+      "mode": "open",
+      "source_sha256": "B196F47E1DBF061CDD710CE87DC4D93615C665D1EC343DD0B25972379548A8B2",
+      "backend": {
+        "inputs": {
+          "sampling": {
+            "sha256": "091BF97BA7BAB923158B5E5F74DD1469381213EBC169A4BCD2633A52D92D09C3",
+            "bytes": 1152510
+          },
+          "data": {
+            "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC",
+            "bytes": 575065406
+          },
+          "condition": "noise_001",
+          "selection": {
+            "train_rows": 24000,
+            "physics_rows": 84000,
+            "diagnostic_subset": false
+          }
+        },
+        "mode": "open",
+        "batching": "complete_population",
+        "profile": {
+          "python": "3.8.20",
+          "tensorflow": "2.10.0",
+          "numpy": "1.21.6",
+          "scipy": "1.7.3",
+          "platform": "Windows-10-10.0.26200-SP0",
+          "dtype": "float32",
+          "device": "gpu",
+          "threads": 1,
+          "tensorflow_tf32": false,
+          "initialization": "native_Xavier_seed1234",
+          "environment": {
+            "TF_ENABLE_ONEDNN_OPTS": "0",
+            "TF_DETERMINISTIC_OPS": "1",
+            "TF_CUDNN_DETERMINISTIC": "1",
+            "CUBLAS_WORKSPACE_CONFIG": ":4096:8"
+          },
+          "session_devices": [
+            "/job:localhost/replica:0/task:0/device:CPU:0",
+            "/job:localhost/replica:0/task:0/device:GPU:0"
+          ],
+          "gpu_details": {
+            "device_name": "NVIDIA RTX A5500 Laptop GPU",
+            "compute_capability": [
+              8,
+              6
+            ]
+          }
+        },
+        "external_sources": {
+          "pinn_sr": {
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "files": {
+              "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py": "C5AE04D1C9E220B912C5D0ABD89D03216B85649C08236F5B9A861F98198BA261"
+            }
+          },
+          "tensorflow115": {
+            "commit": "590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b",
+            "repository": "https://github.com/tensorflow/tensorflow",
+            "files": {
+              "tensorflow/contrib/opt/python/training/nadam_optimizer.py": "53F27B08755B11945E93045680FEEB2786DD7BD27078CDADDB4476F34475155E",
+              "tensorflow/contrib/opt/python/training/external_optimizer.py": "38CE5DA0E31982FAAF86F5795027B9D2D3FB140D5D074FDB077F470FC002BA0B"
+            }
+          }
+        },
+        "source_sha256": "5D52E2EBBAE3B4366507443A074C768D6461C30909650E29D6E5B9D72E7C3FFB"
+      },
+      "stridge": {
+        "name": "adapters.pinn_stridge.fit_stridge",
+        "source_sha256": "1E62AB3CAAEE9F8EE993ED3E5CCDE2AC56E506D689A3BC1263645A28F5C6E3CB"
+      },
+      "budget": {
+        "pre_nadam": 5000,
+        "rounds": 6,
+        "ado_nadam": 1000,
+        "post_nadam": 20000,
+        "lbf_maxiter": 10000,
+        "lbf_maxfun": 10000
+      },
+      "lbfgs_source_sha256": "17C642346EB20C1BF147B23DCDC33104F152C03614BF5FBF983606D1C700B465",
+      "diagnostic_test_only": false,
+      "nadam_checkpoint_interval": 1000
+    },
+    "fsm": {
+      "phase": "complete",
+      "phase_step": 0,
+      "round": 5,
+      "nadam_total": 31000,
+      "serial": 31008,
+      "l0_penalty": 0.8877563119846816,
+      "final_mask": true,
+      "stridge_records": [
+        {
+          "l0_penalty": 0.8877563119846816,
+          "best_tolerance": 78.03636363636365,
+          "best_error": 16.515509810291494,
+          "accepted_history": [
+            {
+              "kind": "initial",
+              "score": 80.78582439060604,
+              "residual_mse": 0.8877563119846816,
+              "l0_cost": 79.89806807862135,
+              "reported_tolerance_after_accept_increment": 0.0
+            },
+            {
+              "kind": "accepted",
+              "score": 75.22964445930428,
+              "residual_mse": 0.6581142525910169,
+              "l0_cost": 74.57153020671326,
+              "reported_tolerance_after_accept_increment": 2.0
+            },
+            {
+              "kind": "accepted",
+              "score": 74.34192791316546,
+              "residual_mse": 0.6581540184368867,
+              "l0_cost": 73.68377389472857,
+              "reported_tolerance_after_accept_increment": 3.0
+            },
+            {
+              "kind": "accepted",
+              "score": 70.79124079598613,
+              "residual_mse": 0.658492149196271,
+              "l0_cost": 70.13274864678985,
+              "reported_tolerance_after_accept_increment": 4.0
+            },
+            {
+              "kind": "accepted",
+              "score": 70.79124079598613,
+              "residual_mse": 0.658492149196271,
+              "l0_cost": 70.13274864678985,
+              "reported_tolerance_after_accept_increment": 5.0
+            },
+            {
+              "kind": "accepted",
+              "score": 68.13230492867348,
+              "residual_mse": 0.6628252178376722,
+              "l0_cost": 67.4694797108358,
+              "reported_tolerance_after_accept_increment": 6.0
+            },
+            {
+              "kind": "accepted",
+              "score": 66.35773613588829,
+              "residual_mse": 0.6637690490218497,
+              "l0_cost": 65.69396708686644,
+              "reported_tolerance_after_accept_increment": 7.0
+            },
+            {
+              "kind": "accepted",
+              "score": 64.58316041890663,
+              "residual_mse": 0.6647059560095543,
+              "l0_cost": 63.918454462897074,
+              "reported_tolerance_after_accept_increment": 8.0
+            },
+            {
+              "kind": "accepted",
+              "score": 64.58316041890663,
+              "residual_mse": 0.6647059560095543,
+              "l0_cost": 63.918454462897074,
+              "reported_tolerance_after_accept_increment": 9.0
+            },
+            {
+              "kind": "accepted",
+              "score": 62.808709632511174,
+              "residual_mse": 0.6657677935834623,
+              "l0_cost": 62.14294183892771,
+              "reported_tolerance_after_accept_increment": 10.0
+            },
+            {
+              "kind": "accepted",
+              "score": 60.1467275447068,
+              "residual_mse": 0.6670546417331281,
+              "l0_cost": 59.47967290297367,
+              "reported_tolerance_after_accept_increment": 11.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.486893037920915,
+              "residual_mse": 0.6704890709012893,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 12.0
+            },
+            {
+              "kind": "accepted",
+              "score": 56.6011361666045,
+              "residual_mse": 0.6724885115695535,
+              "l0_cost": 55.92864765503494,
+              "reported_tolerance_after_accept_increment": 13.0
+            },
+            {
+              "kind": "accepted",
+              "score": 55.7132031202239,
+              "residual_mse": 0.6723117771736364,
+              "l0_cost": 55.04089134305026,
+              "reported_tolerance_after_accept_increment": 14.0
+            },
+            {
+              "kind": "accepted",
+              "score": 53.05590885180936,
+              "residual_mse": 0.6782864447131439,
+              "l0_cost": 52.37762240709622,
+              "reported_tolerance_after_accept_increment": 15.0
+            },
+            {
+              "kind": "accepted",
+              "score": 51.281634647343104,
+              "residual_mse": 0.6795248642162508,
+              "l0_cost": 50.602109783126856,
+              "reported_tolerance_after_accept_increment": 16.0
+            },
+            {
+              "kind": "accepted",
+              "score": 51.281634647343104,
+              "residual_mse": 0.6795248642162508,
+              "l0_cost": 50.602109783126856,
+              "reported_tolerance_after_accept_increment": 17.0
+            },
+            {
+              "kind": "accepted",
+              "score": 48.63463511780268,
+              "residual_mse": 0.6957942706298765,
+              "l0_cost": 47.938840847172806,
+              "reported_tolerance_after_accept_increment": 18.0
+            },
+            {
+              "kind": "accepted",
+              "score": 45.09833669186697,
+              "residual_mse": 0.7105210926328854,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 19.0
+            },
+            {
+              "kind": "accepted",
+              "score": 45.09833669186697,
+              "residual_mse": 0.7105210926328854,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 20.0
+            },
+            {
+              "kind": "accepted",
+              "score": 45.09833669186697,
+              "residual_mse": 0.7105210926328854,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 21.0
+            },
+            {
+              "kind": "accepted",
+              "score": 45.09833669186697,
+              "residual_mse": 0.7105210926328854,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 22.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.45042621940962,
+              "residual_mse": 0.7258795561295811,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 23.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.45042621940962,
+              "residual_mse": 0.7258795561295811,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 24.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.6868837113445,
+              "residual_mse": 0.7378496720338233,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 25.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.6868837113445,
+              "residual_mse": 0.7378496720338233,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 26.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.6868837113445,
+              "residual_mse": 0.7378496720338233,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 27.0
+            },
+            {
+              "kind": "accepted",
+              "score": 39.80463996989453,
+              "residual_mse": 0.743362242568534,
+              "l0_cost": 39.061277727325994,
+              "reported_tolerance_after_accept_increment": 28.0
+            },
+            {
+              "kind": "accepted",
+              "score": 39.80463996989453,
+              "residual_mse": 0.743362242568534,
+              "l0_cost": 39.061277727325994,
+              "reported_tolerance_after_accept_increment": 29.0
+            },
+            {
+              "kind": "accepted",
+              "score": 39.80463996989453,
+              "residual_mse": 0.743362242568534,
+              "l0_cost": 39.061277727325994,
+              "reported_tolerance_after_accept_increment": 30.0
+            },
+            {
+              "kind": "accepted",
+              "score": 38.0472573094972,
+              "residual_mse": 0.7614922061405683,
+              "l0_cost": 37.28576510335663,
+              "reported_tolerance_after_accept_increment": 31.0
+            },
+            {
+              "kind": "accepted",
+              "score": 38.042250757582394,
+              "residual_mse": 0.756485654225763,
+              "l0_cost": 37.28576510335663,
+              "reported_tolerance_after_accept_increment": 32.0
+            },
+            {
+              "kind": "accepted",
+              "score": 38.042250757582394,
+              "residual_mse": 0.756485654225763,
+              "l0_cost": 37.28576510335663,
+              "reported_tolerance_after_accept_increment": 33.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.28585198085781,
+              "residual_mse": 0.7755995014705456,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 34.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.28585198085781,
+              "residual_mse": 0.7755995014705456,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 35.0
+            },
+            {
+              "kind": "accepted",
+              "score": 34.546948574314435,
+              "residual_mse": 0.8122087188965322,
+              "l0_cost": 33.7347398554179,
+              "reported_tolerance_after_accept_increment": 36.0
+            },
+            {
+              "kind": "accepted",
+              "score": 33.672883799294695,
+              "residual_mse": 0.8259002558614797,
+              "l0_cost": 32.84698354343322,
+              "reported_tolerance_after_accept_increment": 37.0
+            },
+            {
+              "kind": "accepted",
+              "score": 30.183696319752553,
+              "residual_mse": 0.8877380242580588,
+              "l0_cost": 29.295958295494493,
+              "reported_tolerance_after_accept_increment": 38.0
+            },
+            {
+              "kind": "accepted",
+              "score": 29.320966801201664,
+              "residual_mse": 0.9127648176918524,
+              "l0_cost": 28.408201983509812,
+              "reported_tolerance_after_accept_increment": 39.0
+            },
+            {
+              "kind": "accepted",
+              "score": 28.445604799124848,
+              "residual_mse": 0.9251591275997152,
+              "l0_cost": 27.52044567152513,
+              "reported_tolerance_after_accept_increment": 40.0
+            },
+            {
+              "kind": "accepted",
+              "score": 26.70401121278347,
+              "residual_mse": 0.9590781652277026,
+              "l0_cost": 25.74493304755577,
+              "reported_tolerance_after_accept_increment": 41.0
+            },
+            {
+              "kind": "accepted",
+              "score": 26.70401121278347,
+              "residual_mse": 0.9590781652277026,
+              "l0_cost": 25.74493304755577,
+              "reported_tolerance_after_accept_increment": 42.0
+            },
+            {
+              "kind": "accepted",
+              "score": 26.70401121278347,
+              "residual_mse": 0.9590781652277026,
+              "l0_cost": 25.74493304755577,
+              "reported_tolerance_after_accept_increment": 43.0
+            },
+            {
+              "kind": "accepted",
+              "score": 26.70401121278347,
+              "residual_mse": 0.9590781652277026,
+              "l0_cost": 25.74493304755577,
+              "reported_tolerance_after_accept_increment": 44.0
+            },
+            {
+              "kind": "accepted",
+              "score": 25.84398914525934,
+              "residual_mse": 0.9868124096882516,
+              "l0_cost": 24.857176735571088,
+              "reported_tolerance_after_accept_increment": 45.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.98248279905143,
+              "residual_mse": 1.0130623754650272,
+              "l0_cost": 23.969420423586403,
+              "reported_tolerance_after_accept_increment": 46.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.98248279905143,
+              "residual_mse": 1.0130623754650272,
+              "l0_cost": 23.969420423586403,
+              "reported_tolerance_after_accept_increment": 47.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.98248279905143,
+              "residual_mse": 1.0130623754650272,
+              "l0_cost": 23.969420423586403,
+              "reported_tolerance_after_accept_increment": 48.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.98248279905143,
+              "residual_mse": 1.0130623754650272,
+              "l0_cost": 23.969420423586403,
+              "reported_tolerance_after_accept_increment": 49.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.114037577072416,
+              "residual_mse": 1.0323734654706962,
+              "l0_cost": 23.08166411160172,
+              "reported_tolerance_after_accept_increment": 50.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.114037577072416,
+              "residual_mse": 1.0323734654706962,
+              "l0_cost": 23.08166411160172,
+              "reported_tolerance_after_accept_increment": 51.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.114037577072416,
+              "residual_mse": 1.0323734654706962,
+              "l0_cost": 23.08166411160172,
+              "reported_tolerance_after_accept_increment": 52.0
+            },
+            {
+              "kind": "accepted",
+              "score": 24.114037577072416,
+              "residual_mse": 1.0323734654706962,
+              "l0_cost": 23.08166411160172,
+              "reported_tolerance_after_accept_increment": 53.0
+            },
+            {
+              "kind": "accepted",
+              "score": 23.251423777131322,
+              "residual_mse": 1.0575159775142828,
+              "l0_cost": 22.19390779961704,
+              "reported_tolerance_after_accept_increment": 54.0
+            },
+            {
+              "kind": "accepted",
+              "score": 23.251423777131322,
+              "residual_mse": 1.0575159775142828,
+              "l0_cost": 22.19390779961704,
+              "reported_tolerance_after_accept_increment": 55.0
+            },
+            {
+              "kind": "accepted",
+              "score": 22.392123430989532,
+              "residual_mse": 1.0859719433571728,
+              "l0_cost": 21.30615148763236,
+              "reported_tolerance_after_accept_increment": 56.0
+            },
+            {
+              "kind": "accepted",
+              "score": 22.392123430989532,
+              "residual_mse": 1.0859719433571728,
+              "l0_cost": 21.30615148763236,
+              "reported_tolerance_after_accept_increment": 57.0
+            },
+            {
+              "kind": "accepted",
+              "score": 22.392123430989532,
+              "residual_mse": 1.0859719433571728,
+              "l0_cost": 21.30615148763236,
+              "reported_tolerance_after_accept_increment": 58.0
+            },
+            {
+              "kind": "accepted",
+              "score": 21.529094998930898,
+              "residual_mse": 1.1106998232832206,
+              "l0_cost": 20.418395175647678,
+              "reported_tolerance_after_accept_increment": 59.0
+            },
+            {
+              "kind": "accepted",
+              "score": 21.529094998930898,
+              "residual_mse": 1.1106998232832206,
+              "l0_cost": 20.418395175647678,
+              "reported_tolerance_after_accept_increment": 60.0
+            },
+            {
+              "kind": "accepted",
+              "score": 21.529094998930898,
+              "residual_mse": 1.1106998232832206,
+              "l0_cost": 20.418395175647678,
+              "reported_tolerance_after_accept_increment": 61.0
+            },
+            {
+              "kind": "accepted",
+              "score": 21.529094998930898,
+              "residual_mse": 1.1106998232832206,
+              "l0_cost": 20.418395175647678,
+              "reported_tolerance_after_accept_increment": 62.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 63.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 64.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 65.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 66.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 67.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 68.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 69.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.83517358569377,
+              "residual_mse": 1.192291034015455,
+              "l0_cost": 18.642882551678316,
+              "reported_tolerance_after_accept_increment": 70.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 71.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 72.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 73.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 74.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 75.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 76.0
+            },
+            {
+              "kind": "accepted",
+              "score": 19.006660818556966,
+              "residual_mse": 1.2515345788633354,
+              "l0_cost": 17.75512623969363,
+              "reported_tolerance_after_accept_increment": 77.0
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.0
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 79.0
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.18181818181819
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.27272727272728
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.36363636363637
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.45454545454547
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.54545454545456
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.63636363636365
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.72727272727275
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.81818181818184
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.90909090909093
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.00000000000003
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.09090909090912
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.94545454545457
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.96363636363638
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 77.9818181818182
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.00000000000001
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.01818181818183
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.03636363636365
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.05454545454546
+            },
+            {
+              "kind": "accepted",
+              "score": 16.515509810291494,
+              "residual_mse": 1.423652506551907,
+              "l0_cost": 15.091857303739587,
+              "reported_tolerance_after_accept_increment": 78.05454545454546
+            }
+          ],
+          "source_binding": {
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "file": "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py",
+            "sha256": "c5ae04d1c9e220b912c5d0abd89d03216b85649c08236f5b9a861f98198ba261",
+            "registry_sha256": "1255293218c852fb83596de3d179842c848aabbf7a8ee8de0beafd0268064d57",
+            "adapter_sha256": "1e62ab3caaee9f8ee993ed3e5ccde2ac56e506d689a3bc1263645a28f5c6e3cb"
+          },
+          "input_binding": {
+            "matrix": {
+              "shape": [
+                84000,
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "a47cc3fdd4a1711dbcae8525275b8a9d3ca30621ba29445a6549d80e5be949cb"
+            },
+            "target": {
+              "shape": [
+                84000,
+                1
+              ],
+              "dtype": "<f4",
+              "sha256": "a748172a7838d2f8701f30076a00da12c59b04146975a634bb21958879102006"
+            },
+            "inherited": {
+              "shape": [
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "8b028730f60c32ecdd2294d626f510bb39f5ce01733d4c69b63eb6d4d6945515"
+            },
+            "training_rows": {
+              "shape": [
+                67200
+              ],
+              "dtype": "<i4",
+              "sha256": "e53a3bd8c6bf619286c02e5f2e1b1f41c529da2c5fb7a898dbf3db7cbb656417"
+            },
+            "iteration": 0,
+            "supplied_l0_penalty": null
+          },
+          "runtime": {
+            "python": "3.8.20",
+            "numpy": "1.21.6",
+            "omp_threads": "1",
+            "mkl_threads": "1",
+            "openblas_threads": "1"
+          },
+          "audit": {
+            "scope": "native_STRidge_only_not_complete_PINN",
+            "inputs_unchanged": true,
+            "history_scope": "initial_plus_accepted_only_not_all_100_trials",
+            "tolerance_history_semantics": "accepted entries report tolerance after increment; use best_tolerance for selected tolerance",
+            "inherited_float64": true,
+            "training_rows_sorted": true,
+            "lstsq_rcond": -1,
+            "empty_comparison_ast_edits": 1,
+            "full_population_acceptance_performed": false
+          },
+          "iteration": 0,
+          "coefficients": [
+            0.5667288304864286,
+            -0.08177457173497252,
+            0.06021204178339157,
+            0.019053793315355404,
+            0.0,
+            0.0,
+            0.0,
+            -0.5630298967514104,
+            -0.033879856430175465,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.047973595612260986,
+            0.0,
+            0.0,
+            0.0,
+            0.010805184874074815,
+            0.0,
+            -0.11581253453909127,
+            -0.39492399120794947,
+            -0.01339397371942764,
+            0.0,
+            0.0,
+            -0.8698891352021697,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00889136677329394,
+            0.0,
+            0.021042140415178913,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.9773587195348095,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.010568813129190899,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.3524575894193933,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "l0_penalty": 0.8877563119846816,
+          "best_tolerance": 19.0,
+          "best_error": 44.911623408214375,
+          "accepted_history": [
+            {
+              "kind": "initial",
+              "score": 80.37710248341332,
+              "residual_mse": 0.47903440479197423,
+              "l0_cost": 79.89806807862135,
+              "reported_tolerance_after_accept_increment": 0.0
+            },
+            {
+              "kind": "accepted",
+              "score": 75.05085331087724,
+              "residual_mse": 0.47932310416398066,
+              "l0_cost": 74.57153020671326,
+              "reported_tolerance_after_accept_increment": 2.0
+            },
+            {
+              "kind": "accepted",
+              "score": 73.27523164321211,
+              "residual_mse": 0.4792140604682128,
+              "l0_cost": 72.7960175827439,
+              "reported_tolerance_after_accept_increment": 3.0
+            },
+            {
+              "kind": "accepted",
+              "score": 72.387413736613,
+              "residual_mse": 0.47915246585378585,
+              "l0_cost": 71.90826127075921,
+              "reported_tolerance_after_accept_increment": 4.0
+            },
+            {
+              "kind": "accepted",
+              "score": 70.61204595471239,
+              "residual_mse": 0.4792973079225351,
+              "l0_cost": 70.13274864678985,
+              "reported_tolerance_after_accept_increment": 5.0
+            },
+            {
+              "kind": "accepted",
+              "score": 68.83694111663695,
+              "residual_mse": 0.4797050938164673,
+              "l0_cost": 68.35723602282049,
+              "reported_tolerance_after_accept_increment": 6.0
+            },
+            {
+              "kind": "accepted",
+              "score": 67.94992945794061,
+              "residual_mse": 0.4804497471048084,
+              "l0_cost": 67.4694797108358,
+              "reported_tolerance_after_accept_increment": 7.0
+            },
+            {
+              "kind": "accepted",
+              "score": 64.40054150998743,
+              "residual_mse": 0.48208704709035405,
+              "l0_cost": 63.918454462897074,
+              "reported_tolerance_after_accept_increment": 8.0
+            },
+            {
+              "kind": "accepted",
+              "score": 60.85182946346847,
+              "residual_mse": 0.4844002485101198,
+              "l0_cost": 60.36742921495835,
+              "reported_tolerance_after_accept_increment": 9.0
+            },
+            {
+              "kind": "accepted",
+              "score": 59.96457842515102,
+              "residual_mse": 0.4849055221773518,
+              "l0_cost": 59.47967290297367,
+              "reported_tolerance_after_accept_increment": 10.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.189761834144875,
+              "residual_mse": 0.48560155514056547,
+              "l0_cost": 57.704160279004306,
+              "reported_tolerance_after_accept_increment": 11.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.30340936990046,
+              "residual_mse": 0.4870054028808328,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 12.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.30340936990046,
+              "residual_mse": 0.4870054028808328,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 13.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.30340936990046,
+              "residual_mse": 0.4870054028808328,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 14.0
+            },
+            {
+              "kind": "accepted",
+              "score": 56.418028815365524,
+              "residual_mse": 0.489381160330581,
+              "l0_cost": 55.92864765503494,
+              "reported_tolerance_after_accept_increment": 15.0
+            },
+            {
+              "kind": "accepted",
+              "score": 53.75873262676967,
+              "residual_mse": 0.4933539076887692,
+              "l0_cost": 53.2653787190809,
+              "reported_tolerance_after_accept_increment": 16.0
+            },
+            {
+              "kind": "accepted",
+              "score": 52.87345183279977,
+              "residual_mse": 0.49582942570355476,
+              "l0_cost": 52.37762240709622,
+              "reported_tolerance_after_accept_increment": 17.0
+            },
+            {
+              "kind": "accepted",
+              "score": 52.87345183279977,
+              "residual_mse": 0.49582942570355476,
+              "l0_cost": 52.37762240709622,
+              "reported_tolerance_after_accept_increment": 18.0
+            },
+            {
+              "kind": "accepted",
+              "score": 48.44854735466677,
+              "residual_mse": 0.5097065074939691,
+              "l0_cost": 47.938840847172806,
+              "reported_tolerance_after_accept_increment": 19.0
+            },
+            {
+              "kind": "accepted",
+              "score": 44.911623408214375,
+              "residual_mse": 0.523807808980291,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 20.0
+            }
+          ],
+          "source_binding": {
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "file": "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py",
+            "sha256": "c5ae04d1c9e220b912c5d0abd89d03216b85649c08236f5b9a861f98198ba261",
+            "registry_sha256": "1255293218c852fb83596de3d179842c848aabbf7a8ee8de0beafd0268064d57",
+            "adapter_sha256": "1e62ab3caaee9f8ee993ed3e5ccde2ac56e506d689a3bc1263645a28f5c6e3cb"
+          },
+          "input_binding": {
+            "matrix": {
+              "shape": [
+                84000,
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "02286593b7135cfb6cd9d8e20865ac980050a666fffeb41f399e9fff8e2ad7ba"
+            },
+            "target": {
+              "shape": [
+                84000,
+                1
+              ],
+              "dtype": "<f4",
+              "sha256": "7c04d3aea2cfee67fd8e08bb24ff62b4874e40454c59993ddbf5bac5ab59b4a9"
+            },
+            "inherited": {
+              "shape": [
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "04aac806518937f52817109ea62409f77d1e42f434bb4bf59c3a79c32b94a4b3"
+            },
+            "training_rows": {
+              "shape": [
+                67200
+              ],
+              "dtype": "<i4",
+              "sha256": "e53a3bd8c6bf619286c02e5f2e1b1f41c529da2c5fb7a898dbf3db7cbb656417"
+            },
+            "iteration": 1,
+            "supplied_l0_penalty": 0.8877563119846816
+          },
+          "runtime": {
+            "python": "3.8.20",
+            "numpy": "1.21.6",
+            "omp_threads": "1",
+            "mkl_threads": "1",
+            "openblas_threads": "1"
+          },
+          "audit": {
+            "scope": "native_STRidge_only_not_complete_PINN",
+            "inputs_unchanged": true,
+            "history_scope": "initial_plus_accepted_only_not_all_100_trials",
+            "tolerance_history_semantics": "accepted entries report tolerance after increment; use best_tolerance for selected tolerance",
+            "inherited_float64": true,
+            "training_rows_sorted": true,
+            "lstsq_rcond": -1,
+            "empty_comparison_ast_edits": 1,
+            "full_population_acceptance_performed": false
+          },
+          "iteration": 1,
+          "coefficients": [
+            0.6453631568407704,
+            -0.0714052308473219,
+            0.050394485432454915,
+            0.023564871938618902,
+            0.015930486458376608,
+            0.0,
+            0.0,
+            -0.5656080731507976,
+            -0.03980276023745805,
+            -0.012670636305886612,
+            0.006092555290700072,
+            0.0024814960684538374,
+            0.09329950692590919,
+            0.062488012192752844,
+            0.0,
+            0.0,
+            -0.021765663796094348,
+            0.011555550552979263,
+            0.0,
+            -0.10350400287483322,
+            -0.397001122522258,
+            -0.016222418642310235,
+            0.0,
+            0.0050928890224750095,
+            -0.9486779182455243,
+            -0.009599992309267311,
+            -0.027915045279131984,
+            0.0,
+            0.0,
+            0.010644138581027475,
+            0.05667775600525262,
+            0.02044729598390482,
+            0.0045225965781813485,
+            0.0,
+            0.0,
+            0.00042857618461662956,
+            0.0,
+            0.0007513593153271018,
+            0.0009770048482351554,
+            0.0,
+            0.0,
+            0.0,
+            -1.048184293851658,
+            0.0,
+            0.016180695390335162,
+            0.0,
+            -0.010245234641568247,
+            -0.003298561068254354,
+            -0.07302669920254343,
+            -0.005126436809570693,
+            0.007906553604055877,
+            0.0,
+            0.0,
+            0.0008771700697579017,
+            0.06191496361795182,
+            -0.007876147472978936,
+            0.0,
+            0.0012065304054681006,
+            0.0013089250304233466,
+            -0.000838462503452246,
+            0.3400386646154387,
+            0.0,
+            0.0,
+            0.0,
+            0.0030870956034358336,
+            0.0,
+            0.0,
+            0.0,
+            0.00075244069842966,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.005167057210003676,
+            0.001711718198270355,
+            -0.002773415298214745,
+            0.0,
+            0.05198513826674341,
+            0.00791500050689336,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.0021169087396738996,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "l0_penalty": 0.8877563119846816,
+          "best_tolerance": 40.0,
+          "best_error": 25.58306549756244,
+          "accepted_history": [
+            {
+              "kind": "initial",
+              "score": 80.3270334371077,
+              "residual_mse": 0.42896535848635564,
+              "l0_cost": 79.89806807862135,
+              "reported_tolerance_after_accept_increment": 0.0
+            },
+            {
+              "kind": "accepted",
+              "score": 77.66525539359708,
+              "residual_mse": 0.4304562509297825,
+              "l0_cost": 77.2347991426673,
+              "reported_tolerance_after_accept_increment": 2.0
+            },
+            {
+              "kind": "accepted",
+              "score": 75.00199713598398,
+              "residual_mse": 0.43046692927071845,
+              "l0_cost": 74.57153020671326,
+              "reported_tolerance_after_accept_increment": 3.0
+            },
+            {
+              "kind": "accepted",
+              "score": 74.11447993213366,
+              "residual_mse": 0.43070603740508867,
+              "l0_cost": 73.68377389472857,
+              "reported_tolerance_after_accept_increment": 4.0
+            },
+            {
+              "kind": "accepted",
+              "score": 73.22682548074442,
+              "residual_mse": 0.43080789800052766,
+              "l0_cost": 72.7960175827439,
+              "reported_tolerance_after_accept_increment": 5.0
+            },
+            {
+              "kind": "accepted",
+              "score": 68.78896106029097,
+              "residual_mse": 0.43172503747049185,
+              "l0_cost": 68.35723602282049,
+              "reported_tolerance_after_accept_increment": 6.0
+            },
+            {
+              "kind": "accepted",
+              "score": 67.01409742215152,
+              "residual_mse": 0.4323740233003924,
+              "l0_cost": 66.58172339885112,
+              "reported_tolerance_after_accept_increment": 7.0
+            },
+            {
+              "kind": "accepted",
+              "score": 62.57674523657297,
+              "residual_mse": 0.43380339764525777,
+              "l0_cost": 62.14294183892771,
+              "reported_tolerance_after_accept_increment": 8.0
+            },
+            {
+              "kind": "accepted",
+              "score": 62.57674523657297,
+              "residual_mse": 0.43380339764525777,
+              "l0_cost": 62.14294183892771,
+              "reported_tolerance_after_accept_increment": 9.0
+            },
+            {
+              "kind": "accepted",
+              "score": 60.802865809482086,
+              "residual_mse": 0.4354365945237334,
+              "l0_cost": 60.36742921495835,
+              "reported_tolerance_after_accept_increment": 10.0
+            },
+            {
+              "kind": "accepted",
+              "score": 59.91559684956188,
+              "residual_mse": 0.4359239465882079,
+              "l0_cost": 59.47967290297367,
+              "reported_tolerance_after_accept_increment": 11.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.14026452793245,
+              "residual_mse": 0.4361042489281486,
+              "l0_cost": 57.704160279004306,
+              "reported_tolerance_after_accept_increment": 12.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.14026452793245,
+              "residual_mse": 0.4361042489281486,
+              "l0_cost": 57.704160279004306,
+              "reported_tolerance_after_accept_increment": 13.0
+            },
+            {
+              "kind": "accepted",
+              "score": 56.36800775775646,
+              "residual_mse": 0.4393601027215179,
+              "l0_cost": 55.92864765503494,
+              "reported_tolerance_after_accept_increment": 14.0
+            },
+            {
+              "kind": "accepted",
+              "score": 55.4803458896945,
+              "residual_mse": 0.4394545466442375,
+              "l0_cost": 55.04089134305026,
+              "reported_tolerance_after_accept_increment": 15.0
+            },
+            {
+              "kind": "accepted",
+              "score": 54.59424658633524,
+              "residual_mse": 0.4411115552696538,
+              "l0_cost": 54.15313503106558,
+              "reported_tolerance_after_accept_increment": 16.0
+            },
+            {
+              "kind": "accepted",
+              "score": 54.59424658633524,
+              "residual_mse": 0.4411115552696538,
+              "l0_cost": 54.15313503106558,
+              "reported_tolerance_after_accept_increment": 17.0
+            },
+            {
+              "kind": "accepted",
+              "score": 51.05287965806689,
+              "residual_mse": 0.4507698749400395,
+              "l0_cost": 50.602109783126856,
+              "reported_tolerance_after_accept_increment": 18.0
+            },
+            {
+              "kind": "accepted",
+              "score": 48.39687157760369,
+              "residual_mse": 0.4580307304308879,
+              "l0_cost": 47.938840847172806,
+              "reported_tolerance_after_accept_increment": 19.0
+            },
+            {
+              "kind": "accepted",
+              "score": 46.62859640448351,
+              "residual_mse": 0.4652681812800639,
+              "l0_cost": 46.16332822320344,
+              "reported_tolerance_after_accept_increment": 20.0
+            },
+            {
+              "kind": "accepted",
+              "score": 45.744811329766435,
+              "residual_mse": 0.4692394185476741,
+              "l0_cost": 45.27557191121876,
+              "reported_tolerance_after_accept_increment": 21.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.9743935617697,
+              "residual_mse": 0.47433427452030325,
+              "l0_cost": 43.5000592872494,
+              "reported_tolerance_after_accept_increment": 22.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.09193176669849,
+              "residual_mse": 0.47962879143376624,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 23.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.20862888700245,
+              "residual_mse": 0.48408222372240756,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 24.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.20862888700245,
+              "residual_mse": 0.48408222372240756,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 25.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.20862888700245,
+              "residual_mse": 0.48408222372240756,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 26.0
+            },
+            {
+              "kind": "accepted",
+              "score": 41.329841370612016,
+              "residual_mse": 0.4930510193166602,
+              "l0_cost": 40.836790351295356,
+              "reported_tolerance_after_accept_increment": 27.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.44951916023509,
+              "residual_mse": 0.500485120924419,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 28.0
+            },
+            {
+              "kind": "accepted",
+              "score": 38.68944388181427,
+              "residual_mse": 0.5159224664729543,
+              "l0_cost": 38.17352141534131,
+              "reported_tolerance_after_accept_increment": 29.0
+            },
+            {
+              "kind": "accepted",
+              "score": 37.807601431652415,
+              "residual_mse": 0.5218363282957861,
+              "l0_cost": 37.28576510335663,
+              "reported_tolerance_after_accept_increment": 30.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.926096068927365,
+              "residual_mse": 0.5280872775554109,
+              "l0_cost": 36.39800879137195,
+              "reported_tolerance_after_accept_increment": 31.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.926096068927365,
+              "residual_mse": 0.5280872775554109,
+              "l0_cost": 36.39800879137195,
+              "reported_tolerance_after_accept_increment": 32.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.04700878930338,
+              "residual_mse": 0.5367563099161194,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 33.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.04700878930338,
+              "residual_mse": 0.5367563099161194,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 34.0
+            },
+            {
+              "kind": "accepted",
+              "score": 34.29031462784309,
+              "residual_mse": 0.5555747724251923,
+              "l0_cost": 33.7347398554179,
+              "reported_tolerance_after_accept_increment": 35.0
+            },
+            {
+              "kind": "accepted",
+              "score": 33.41392358232843,
+              "residual_mse": 0.5669400388952117,
+              "l0_cost": 32.84698354343322,
+              "reported_tolerance_after_accept_increment": 36.0
+            },
+            {
+              "kind": "accepted",
+              "score": 30.787007485618627,
+              "residual_mse": 0.6032928781394531,
+              "l0_cost": 30.183714607479175,
+              "reported_tolerance_after_accept_increment": 37.0
+            },
+            {
+              "kind": "accepted",
+              "score": 27.307604387096767,
+              "residual_mse": 0.6749150275563172,
+              "l0_cost": 26.63268935954045,
+              "reported_tolerance_after_accept_increment": 38.0
+            },
+            {
+              "kind": "accepted",
+              "score": 27.307604387096767,
+              "residual_mse": 0.6749150275563172,
+              "l0_cost": 26.63268935954045,
+              "reported_tolerance_after_accept_increment": 39.0
+            },
+            {
+              "kind": "accepted",
+              "score": 26.442280878258355,
+              "residual_mse": 0.6973478307025878,
+              "l0_cost": 25.74493304755577,
+              "reported_tolerance_after_accept_increment": 40.0
+            },
+            {
+              "kind": "accepted",
+              "score": 25.58306549756244,
+              "residual_mse": 0.7258887619913517,
+              "l0_cost": 24.857176735571088,
+              "reported_tolerance_after_accept_increment": 41.0
+            }
+          ],
+          "source_binding": {
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "file": "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py",
+            "sha256": "c5ae04d1c9e220b912c5d0abd89d03216b85649c08236f5b9a861f98198ba261",
+            "registry_sha256": "1255293218c852fb83596de3d179842c848aabbf7a8ee8de0beafd0268064d57",
+            "adapter_sha256": "1e62ab3caaee9f8ee993ed3e5ccde2ac56e506d689a3bc1263645a28f5c6e3cb"
+          },
+          "input_binding": {
+            "matrix": {
+              "shape": [
+                84000,
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "cff88ebbbac1ab5e4095692024f617167c80f09697b35c1fbe009411c18274a5"
+            },
+            "target": {
+              "shape": [
+                84000,
+                1
+              ],
+              "dtype": "<f4",
+              "sha256": "d95e33e1a0a68c314910d60a88828a88d176ed3fcb7b0e681ebf048264e2913c"
+            },
+            "inherited": {
+              "shape": [
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "6684ae89e798cf0fdc8370c650b7819fb285449f013db6adbaababbc3b26ad0b"
+            },
+            "training_rows": {
+              "shape": [
+                67200
+              ],
+              "dtype": "<i4",
+              "sha256": "e53a3bd8c6bf619286c02e5f2e1b1f41c529da2c5fb7a898dbf3db7cbb656417"
+            },
+            "iteration": 2,
+            "supplied_l0_penalty": 0.8877563119846816
+          },
+          "runtime": {
+            "python": "3.8.20",
+            "numpy": "1.21.6",
+            "omp_threads": "1",
+            "mkl_threads": "1",
+            "openblas_threads": "1"
+          },
+          "audit": {
+            "scope": "native_STRidge_only_not_complete_PINN",
+            "inputs_unchanged": true,
+            "history_scope": "initial_plus_accepted_only_not_all_100_trials",
+            "tolerance_history_semantics": "accepted entries report tolerance after increment; use best_tolerance for selected tolerance",
+            "inherited_float64": true,
+            "training_rows_sorted": true,
+            "lstsq_rcond": -1,
+            "empty_comparison_ast_edits": 1,
+            "full_population_acceptance_performed": false
+          },
+          "iteration": 2,
+          "coefficients": [
+            0.6362533166356337,
+            -0.06940987897196622,
+            0.046504163397704676,
+            0.024731219180036235,
+            0.01598841739084711,
+            0.0,
+            0.0,
+            -0.5861554866396773,
+            -0.03655801332001194,
+            -0.008365540551464481,
+            0.0,
+            0.0,
+            0.0,
+            0.054598304208324885,
+            0.0,
+            0.0,
+            -0.01914297875130925,
+            0.012584398427804396,
+            0.0,
+            -0.10409126368377043,
+            -0.41678914957940705,
+            -0.013042453872716102,
+            0.0,
+            0.0,
+            -0.9516245038860548,
+            0.0,
+            -0.025441994654573818,
+            0.0,
+            0.0,
+            0.01248720910280593,
+            0.09801858748048556,
+            0.019439020742302353,
+            0.005020106017366891,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0007896145166821414,
+            0.0,
+            0.0,
+            0.0,
+            -1.0605922889441086,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.10668517535905041,
+            0.0,
+            0.006695365796075326,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.006018772720188264,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.30701565959274835,
+            0.0,
+            0.0,
+            0.0,
+            0.0031280559167187884,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.005477503020243688,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "l0_penalty": 0.8877563119846816,
+          "best_tolerance": 22.0,
+          "best_error": 42.164946197339766,
+          "accepted_history": [
+            {
+              "kind": "initial",
+              "score": 80.29463651683163,
+              "residual_mse": 0.39656843821028037,
+              "l0_cost": 79.89806807862135,
+              "reported_tolerance_after_accept_increment": 0.0
+            },
+            {
+              "kind": "accepted",
+              "score": 77.62980546390352,
+              "residual_mse": 0.39500632123621887,
+              "l0_cost": 77.2347991426673,
+              "reported_tolerance_after_accept_increment": 2.0
+            },
+            {
+              "kind": "accepted",
+              "score": 76.74212270108352,
+              "residual_mse": 0.3950798704008987,
+              "l0_cost": 76.34704283068262,
+              "reported_tolerance_after_accept_increment": 3.0
+            },
+            {
+              "kind": "accepted",
+              "score": 73.19115973126856,
+              "residual_mse": 0.39514214852464874,
+              "l0_cost": 72.7960175827439,
+              "reported_tolerance_after_accept_increment": 4.0
+            },
+            {
+              "kind": "accepted",
+              "score": 68.75283791980166,
+              "residual_mse": 0.3956018969811817,
+              "l0_cost": 68.35723602282049,
+              "reported_tolerance_after_accept_increment": 5.0
+            },
+            {
+              "kind": "accepted",
+              "score": 66.09011588924066,
+              "residual_mse": 0.39614880237422734,
+              "l0_cost": 65.69396708686644,
+              "reported_tolerance_after_accept_increment": 6.0
+            },
+            {
+              "kind": "accepted",
+              "score": 65.20256066997341,
+              "residual_mse": 0.3963498950916446,
+              "l0_cost": 64.80621077488176,
+              "reported_tolerance_after_accept_increment": 7.0
+            },
+            {
+              "kind": "accepted",
+              "score": 64.31509874137541,
+              "residual_mse": 0.3966442784783332,
+              "l0_cost": 63.918454462897074,
+              "reported_tolerance_after_accept_increment": 8.0
+            },
+            {
+              "kind": "accepted",
+              "score": 61.65346286586007,
+              "residual_mse": 0.3982773389170383,
+              "l0_cost": 61.25518552694303,
+              "reported_tolerance_after_accept_increment": 9.0
+            },
+            {
+              "kind": "accepted",
+              "score": 60.7658451506111,
+              "residual_mse": 0.39841593565274824,
+              "l0_cost": 60.36742921495835,
+              "reported_tolerance_after_accept_increment": 10.0
+            },
+            {
+              "kind": "accepted",
+              "score": 59.87955999020939,
+              "residual_mse": 0.3998870872357163,
+              "l0_cost": 59.47967290297367,
+              "reported_tolerance_after_accept_increment": 11.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.2188248744279,
+              "residual_mse": 0.40242090740827413,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 12.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.2188248744279,
+              "residual_mse": 0.40242090740827413,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 13.0
+            },
+            {
+              "kind": "accepted",
+              "score": 56.33199329921019,
+              "residual_mse": 0.4033456441752439,
+              "l0_cost": 55.92864765503494,
+              "reported_tolerance_after_accept_increment": 14.0
+            },
+            {
+              "kind": "accepted",
+              "score": 55.44448965057667,
+              "residual_mse": 0.40359830752640763,
+              "l0_cost": 55.04089134305026,
+              "reported_tolerance_after_accept_increment": 15.0
+            },
+            {
+              "kind": "accepted",
+              "score": 53.67018793478173,
+              "residual_mse": 0.40480921570083284,
+              "l0_cost": 53.2653787190809,
+              "reported_tolerance_after_accept_increment": 16.0
+            },
+            {
+              "kind": "accepted",
+              "score": 53.67018793478173,
+              "residual_mse": 0.40480921570083284,
+              "l0_cost": 53.2653787190809,
+              "reported_tolerance_after_accept_increment": 17.0
+            },
+            {
+              "kind": "accepted",
+              "score": 48.35565223068616,
+              "residual_mse": 0.41681138351335273,
+              "l0_cost": 47.938840847172806,
+              "reported_tolerance_after_accept_increment": 18.0
+            },
+            {
+              "kind": "accepted",
+              "score": 47.47083817889934,
+              "residual_mse": 0.41975364371122004,
+              "l0_cost": 47.051084535188124,
+              "reported_tolerance_after_accept_increment": 19.0
+            },
+            {
+              "kind": "accepted",
+              "score": 44.813781577262446,
+              "residual_mse": 0.425965978028364,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 20.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.930080682903615,
+              "residual_mse": 0.4300213956542122,
+              "l0_cost": 43.5000592872494,
+              "reported_tolerance_after_accept_increment": 21.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.930080682903615,
+              "residual_mse": 0.4300213956542122,
+              "l0_cost": 43.5000592872494,
+              "reported_tolerance_after_accept_increment": 22.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.164946197339766,
+              "residual_mse": 0.44039953405973253,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 23.0
+            }
+          ],
+          "source_binding": {
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "file": "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py",
+            "sha256": "c5ae04d1c9e220b912c5d0abd89d03216b85649c08236f5b9a861f98198ba261",
+            "registry_sha256": "1255293218c852fb83596de3d179842c848aabbf7a8ee8de0beafd0268064d57",
+            "adapter_sha256": "1e62ab3caaee9f8ee993ed3e5ccde2ac56e506d689a3bc1263645a28f5c6e3cb"
+          },
+          "input_binding": {
+            "matrix": {
+              "shape": [
+                84000,
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "da3bcc45799822e57e9164e201c14d12a961293ae67043d8b5b86c14a2a81f78"
+            },
+            "target": {
+              "shape": [
+                84000,
+                1
+              ],
+              "dtype": "<f4",
+              "sha256": "3f5dd71c5d2a2ee3fefca3aa6b972a1a4fdf0a0bada4bac667e4e608cc028981"
+            },
+            "inherited": {
+              "shape": [
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "790770a7a333dd62f742e6f5f43ab7305c40ee4893241af0718db1762a910de9"
+            },
+            "training_rows": {
+              "shape": [
+                67200
+              ],
+              "dtype": "<i4",
+              "sha256": "e53a3bd8c6bf619286c02e5f2e1b1f41c529da2c5fb7a898dbf3db7cbb656417"
+            },
+            "iteration": 3,
+            "supplied_l0_penalty": 0.8877563119846816
+          },
+          "runtime": {
+            "python": "3.8.20",
+            "numpy": "1.21.6",
+            "omp_threads": "1",
+            "mkl_threads": "1",
+            "openblas_threads": "1"
+          },
+          "audit": {
+            "scope": "native_STRidge_only_not_complete_PINN",
+            "inputs_unchanged": true,
+            "history_scope": "initial_plus_accepted_only_not_all_100_trials",
+            "tolerance_history_semantics": "accepted entries report tolerance after increment; use best_tolerance for selected tolerance",
+            "inherited_float64": true,
+            "training_rows_sorted": true,
+            "lstsq_rcond": -1,
+            "empty_comparison_ast_edits": 1,
+            "full_population_acceptance_performed": false
+          },
+          "iteration": 3,
+          "coefficients": [
+            0.7231612260766906,
+            -0.06764457580603413,
+            0.04531041012596174,
+            0.03030927206125286,
+            0.01634543336269065,
+            0.0,
+            0.0,
+            -0.6036607142368993,
+            -0.03614788858233429,
+            -0.01395060087979568,
+            0.0076957406520901895,
+            0.002163846610150894,
+            0.0,
+            0.06468016823431891,
+            0.0,
+            0.0,
+            -0.023555916494927696,
+            0.01237013443317206,
+            0.0,
+            -0.10152211170789684,
+            -0.4295216349133702,
+            -0.01577633112018727,
+            0.0,
+            0.005867854135081363,
+            -1.002635620626557,
+            0.0,
+            -0.029959012775354954,
+            -0.00423000236981745,
+            0.0,
+            0.012879968922572512,
+            0.10854549429192377,
+            0.018842389322119867,
+            0.003808176472980408,
+            0.0,
+            0.0,
+            0.0004560287150888798,
+            0.0,
+            0.0005422408074704449,
+            0.001015680847359719,
+            0.0,
+            0.0,
+            0.0,
+            -1.1014099944733966,
+            0.0,
+            0.015743076648115792,
+            0.0,
+            -0.011165051250088391,
+            0.0,
+            -0.09729563455799174,
+            -0.006225526576817212,
+            0.007996894298963088,
+            0.0,
+            0.0,
+            0.0008739859797716372,
+            0.05430982223691489,
+            -0.005781718361536955,
+            0.0,
+            0.0012880116982708664,
+            0.0,
+            -0.0006145394459040479,
+            0.33833832739757863,
+            0.0,
+            0.0,
+            -0.0013451637203152492,
+            0.003806730285154271,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.004800686553453127,
+            0.0016340725093252051,
+            -0.0031775555944420913,
+            0.0,
+            0.06474132761748863,
+            0.006478684234067683,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.0018323816641324898,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "l0_penalty": 0.8877563119846816,
+          "best_tolerance": 37.0,
+          "best_error": 28.096434763422,
+          "accepted_history": [
+            {
+              "kind": "initial",
+              "score": 80.2611658716849,
+              "residual_mse": 0.36309779306353973,
+              "l0_cost": 79.89806807862135,
+              "reported_tolerance_after_accept_increment": 0.0
+            },
+            {
+              "kind": "accepted",
+              "score": 76.71016034905114,
+              "residual_mse": 0.3631175183685072,
+              "l0_cost": 76.34704283068262,
+              "reported_tolerance_after_accept_increment": 2.0
+            },
+            {
+              "kind": "accepted",
+              "score": 74.93456642493355,
+              "residual_mse": 0.36303621822028836,
+              "l0_cost": 74.57153020671326,
+              "reported_tolerance_after_accept_increment": 3.0
+            },
+            {
+              "kind": "accepted",
+              "score": 71.38381032116335,
+              "residual_mse": 0.363305362388826,
+              "l0_cost": 71.02050495877452,
+              "reported_tolerance_after_accept_increment": 4.0
+            },
+            {
+              "kind": "accepted",
+              "score": 69.60844653849473,
+              "residual_mse": 0.3634542036895752,
+              "l0_cost": 69.24499233480516,
+              "reported_tolerance_after_accept_increment": 5.0
+            },
+            {
+              "kind": "accepted",
+              "score": 67.83341719910997,
+              "residual_mse": 0.3639374882741795,
+              "l0_cost": 67.4694797108358,
+              "reported_tolerance_after_accept_increment": 6.0
+            },
+            {
+              "kind": "accepted",
+              "score": 66.05781534461141,
+              "residual_mse": 0.3638482577449827,
+              "l0_cost": 65.69396708686644,
+              "reported_tolerance_after_accept_increment": 7.0
+            },
+            {
+              "kind": "accepted",
+              "score": 60.73322098786806,
+              "residual_mse": 0.36579177290970794,
+              "l0_cost": 60.36742921495835,
+              "reported_tolerance_after_accept_increment": 8.0
+            },
+            {
+              "kind": "accepted",
+              "score": 60.73322098786806,
+              "residual_mse": 0.36579177290970794,
+              "l0_cost": 60.36742921495835,
+              "reported_tolerance_after_accept_increment": 9.0
+            },
+            {
+              "kind": "accepted",
+              "score": 59.845582418075814,
+              "residual_mse": 0.36590951510214437,
+              "l0_cost": 59.47967290297367,
+              "reported_tolerance_after_accept_increment": 10.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.95881194036708,
+              "residual_mse": 0.3668953493780925,
+              "l0_cost": 58.59191659098899,
+              "reported_tolerance_after_accept_increment": 11.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.07121048821061,
+              "residual_mse": 0.36705020920630216,
+              "l0_cost": 57.704160279004306,
+              "reported_tolerance_after_accept_increment": 12.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.18463259249476,
+              "residual_mse": 0.3682286254751306,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 13.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.18463259249476,
+              "residual_mse": 0.3682286254751306,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 14.0
+            },
+            {
+              "kind": "accepted",
+              "score": 56.29799989925211,
+              "residual_mse": 0.36935224421717094,
+              "l0_cost": 55.92864765503494,
+              "reported_tolerance_after_accept_increment": 15.0
+            },
+            {
+              "kind": "accepted",
+              "score": 55.411282786836786,
+              "residual_mse": 0.37039144378652467,
+              "l0_cost": 55.04089134305026,
+              "reported_tolerance_after_accept_increment": 16.0
+            },
+            {
+              "kind": "accepted",
+              "score": 50.09254144784669,
+              "residual_mse": 0.37818797670451515,
+              "l0_cost": 49.714353471142175,
+              "reported_tolerance_after_accept_increment": 17.0
+            },
+            {
+              "kind": "accepted",
+              "score": 44.777898762247986,
+              "residual_mse": 0.3900831630139042,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 18.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 19.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 20.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 21.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 22.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 23.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 24.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.00800965062537,
+              "residual_mse": 0.39570667536064924,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 25.0
+            },
+            {
+              "kind": "accepted",
+              "score": 41.24657805770065,
+              "residual_mse": 0.4097877064052933,
+              "l0_cost": 40.836790351295356,
+              "reported_tolerance_after_accept_increment": 26.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.36278206332833,
+              "residual_mse": 0.41374802401765526,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 27.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.36278206332833,
+              "residual_mse": 0.41374802401765526,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 28.0
+            },
+            {
+              "kind": "accepted",
+              "score": 39.481497775126634,
+              "residual_mse": 0.42022004780064176,
+              "l0_cost": 39.061277727325994,
+              "reported_tolerance_after_accept_increment": 29.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.845871412775054,
+              "residual_mse": 0.447862621403106,
+              "l0_cost": 36.39800879137195,
+              "reported_tolerance_after_accept_increment": 30.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.845871412775054,
+              "residual_mse": 0.447862621403106,
+              "l0_cost": 36.39800879137195,
+              "reported_tolerance_after_accept_increment": 31.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.845871412775054,
+              "residual_mse": 0.447862621403106,
+              "l0_cost": 36.39800879137195,
+              "reported_tolerance_after_accept_increment": 32.0
+            },
+            {
+              "kind": "accepted",
+              "score": 36.845871412775054,
+              "residual_mse": 0.447862621403106,
+              "l0_cost": 36.39800879137195,
+              "reported_tolerance_after_accept_increment": 33.0
+            },
+            {
+              "kind": "accepted",
+              "score": 35.96806033239924,
+              "residual_mse": 0.4578078530119756,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 34.0
+            },
+            {
+              "kind": "accepted",
+              "score": 35.96806033239924,
+              "residual_mse": 0.4578078530119756,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 35.0
+            },
+            {
+              "kind": "accepted",
+              "score": 35.96806033239924,
+              "residual_mse": 0.4578078530119756,
+              "l0_cost": 35.51025247938726,
+              "reported_tolerance_after_accept_increment": 36.0
+            },
+            {
+              "kind": "accepted",
+              "score": 29.835781629231143,
+              "residual_mse": 0.5398233337366498,
+              "l0_cost": 29.295958295494493,
+              "reported_tolerance_after_accept_increment": 37.0
+            },
+            {
+              "kind": "accepted",
+              "score": 28.096434763422,
+              "residual_mse": 0.5759890918968681,
+              "l0_cost": 27.52044567152513,
+              "reported_tolerance_after_accept_increment": 38.0
+            }
+          ],
+          "source_binding": {
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "file": "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py",
+            "sha256": "c5ae04d1c9e220b912c5d0abd89d03216b85649c08236f5b9a861f98198ba261",
+            "registry_sha256": "1255293218c852fb83596de3d179842c848aabbf7a8ee8de0beafd0268064d57",
+            "adapter_sha256": "1e62ab3caaee9f8ee993ed3e5ccde2ac56e506d689a3bc1263645a28f5c6e3cb"
+          },
+          "input_binding": {
+            "matrix": {
+              "shape": [
+                84000,
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "a81ef8da4ae59ba9f245566c826128f9840edd2c4551902b0b0ce913863e87e6"
+            },
+            "target": {
+              "shape": [
+                84000,
+                1
+              ],
+              "dtype": "<f4",
+              "sha256": "1e4bc5a0fbe6198193e19be1ce4d2dd18088dcbcaa830fc317bdb9f81cf6f40b"
+            },
+            "inherited": {
+              "shape": [
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "7d0736cce2503f07c4717c6a0a8d87796b1dd2d30cdbf86383438db50e92d24c"
+            },
+            "training_rows": {
+              "shape": [
+                67200
+              ],
+              "dtype": "<i4",
+              "sha256": "e53a3bd8c6bf619286c02e5f2e1b1f41c529da2c5fb7a898dbf3db7cbb656417"
+            },
+            "iteration": 4,
+            "supplied_l0_penalty": 0.8877563119846816
+          },
+          "runtime": {
+            "python": "3.8.20",
+            "numpy": "1.21.6",
+            "omp_threads": "1",
+            "mkl_threads": "1",
+            "openblas_threads": "1"
+          },
+          "audit": {
+            "scope": "native_STRidge_only_not_complete_PINN",
+            "inputs_unchanged": true,
+            "history_scope": "initial_plus_accepted_only_not_all_100_trials",
+            "tolerance_history_semantics": "accepted entries report tolerance after increment; use best_tolerance for selected tolerance",
+            "inherited_float64": true,
+            "training_rows_sorted": true,
+            "lstsq_rcond": -1,
+            "empty_comparison_ast_edits": 1,
+            "full_population_acceptance_performed": false
+          },
+          "iteration": 4,
+          "coefficients": [
+            0.6482718538549455,
+            -0.06807520576170085,
+            0.04797503358582956,
+            0.035296647438833394,
+            0.016818611602174162,
+            0.0,
+            0.0,
+            -0.6283433818510299,
+            -0.03302675849139239,
+            -0.014036838951859074,
+            0.009355391799228518,
+            0.0,
+            0.0,
+            0.06789528635051623,
+            0.0,
+            0.0,
+            -0.022246460879964586,
+            0.012614742283871539,
+            0.0,
+            -0.11121801880189053,
+            -0.44872287253854143,
+            -0.014636012388532994,
+            0.0,
+            0.0,
+            -1.0210029170602857,
+            0.0,
+            -0.022170527056196446,
+            -0.007215442685934031,
+            0.0,
+            0.013312483830697988,
+            0.1371160067898397,
+            0.01858226678103934,
+            0.005145813862888557,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009666430027571487,
+            0.0,
+            0.0,
+            0.0,
+            -1.047460642997981,
+            0.0,
+            0.02259406188938575,
+            0.0,
+            0.0,
+            0.0,
+            -0.13175024855930575,
+            0.0,
+            0.008194227753899658,
+            0.0,
+            0.0,
+            0.0008071951404873048,
+            0.0,
+            0.0,
+            0.0,
+            0.001195521023251736,
+            0.0,
+            0.0,
+            0.35303429850471074,
+            0.0,
+            0.0,
+            0.0,
+            0.002924476965136053,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "l0_penalty": 0.8877563119846816,
+          "best_tolerance": 24.0,
+          "best_error": 39.461314504868945,
+          "accepted_history": [
+            {
+              "kind": "initial",
+              "score": 80.25236366308881,
+              "residual_mse": 0.3542955844674714,
+              "l0_cost": 79.89806807862135,
+              "reported_tolerance_after_accept_increment": 0.0
+            },
+            {
+              "kind": "accepted",
+              "score": 78.4644353824454,
+              "residual_mse": 0.341879927793414,
+              "l0_cost": 78.12255545465199,
+              "reported_tolerance_after_accept_increment": 2.0
+            },
+            {
+              "kind": "accepted",
+              "score": 77.57671615096082,
+              "residual_mse": 0.3419170082935161,
+              "l0_cost": 77.2347991426673,
+              "reported_tolerance_after_accept_increment": 3.0
+            },
+            {
+              "kind": "accepted",
+              "score": 74.91348833451168,
+              "residual_mse": 0.3419581277984272,
+              "l0_cost": 74.57153020671326,
+              "reported_tolerance_after_accept_increment": 4.0
+            },
+            {
+              "kind": "accepted",
+              "score": 68.69992733143246,
+              "residual_mse": 0.34269130861196867,
+              "l0_cost": 68.35723602282049,
+              "reported_tolerance_after_accept_increment": 5.0
+            },
+            {
+              "kind": "accepted",
+              "score": 68.69992733143246,
+              "residual_mse": 0.34269130861196867,
+              "l0_cost": 68.35723602282049,
+              "reported_tolerance_after_accept_increment": 6.0
+            },
+            {
+              "kind": "accepted",
+              "score": 66.92494695340902,
+              "residual_mse": 0.34322355455789477,
+              "l0_cost": 66.58172339885112,
+              "reported_tolerance_after_accept_increment": 7.0
+            },
+            {
+              "kind": "accepted",
+              "score": 65.14983568422393,
+              "residual_mse": 0.3436249093421624,
+              "l0_cost": 64.80621077488176,
+              "reported_tolerance_after_accept_increment": 8.0
+            },
+            {
+              "kind": "accepted",
+              "score": 62.48689170923676,
+              "residual_mse": 0.34394987030904395,
+              "l0_cost": 62.14294183892771,
+              "reported_tolerance_after_accept_increment": 9.0
+            },
+            {
+              "kind": "accepted",
+              "score": 59.82569583100531,
+              "residual_mse": 0.3460229280316425,
+              "l0_cost": 59.47967290297367,
+              "reported_tolerance_after_accept_increment": 10.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.93840342131845,
+              "residual_mse": 0.34648683032946326,
+              "l0_cost": 58.59191659098899,
+              "reported_tolerance_after_accept_increment": 11.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.93840342131845,
+              "residual_mse": 0.34648683032946326,
+              "l0_cost": 58.59191659098899,
+              "reported_tolerance_after_accept_increment": 12.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.93840342131845,
+              "residual_mse": 0.34648683032946326,
+              "l0_cost": 58.59191659098899,
+              "reported_tolerance_after_accept_increment": 13.0
+            },
+            {
+              "kind": "accepted",
+              "score": 58.05105322233984,
+              "residual_mse": 0.3468929433355319,
+              "l0_cost": 57.704160279004306,
+              "reported_tolerance_after_accept_increment": 14.0
+            },
+            {
+              "kind": "accepted",
+              "score": 57.16401506501757,
+              "residual_mse": 0.3476110979979463,
+              "l0_cost": 56.816403967019625,
+              "reported_tolerance_after_accept_increment": 15.0
+            },
+            {
+              "kind": "accepted",
+              "score": 54.50591092909312,
+              "residual_mse": 0.3527758980275383,
+              "l0_cost": 54.15313503106558,
+              "reported_tolerance_after_accept_increment": 16.0
+            },
+            {
+              "kind": "accepted",
+              "score": 54.50591092909312,
+              "residual_mse": 0.3527758980275383,
+              "l0_cost": 54.15313503106558,
+              "reported_tolerance_after_accept_increment": 17.0
+            },
+            {
+              "kind": "accepted",
+              "score": 47.419673668217754,
+              "residual_mse": 0.368589133029633,
+              "l0_cost": 47.051084535188124,
+              "reported_tolerance_after_accept_increment": 18.0
+            },
+            {
+              "kind": "accepted",
+              "score": 44.761169848872726,
+              "residual_mse": 0.37335424963864644,
+              "l0_cost": 44.38781559923408,
+              "reported_tolerance_after_accept_increment": 19.0
+            },
+            {
+              "kind": "accepted",
+              "score": 43.875085663136744,
+              "residual_mse": 0.37502637588734095,
+              "l0_cost": 43.5000592872494,
+              "reported_tolerance_after_accept_increment": 20.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.989424786231694,
+              "residual_mse": 0.37712181096697533,
+              "l0_cost": 42.61230297526472,
+              "reported_tolerance_after_accept_increment": 21.0
+            },
+            {
+              "kind": "accepted",
+              "score": 42.10797988472516,
+              "residual_mse": 0.3834332214451205,
+              "l0_cost": 41.72454666328004,
+              "reported_tolerance_after_accept_increment": 22.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.34094209681046,
+              "residual_mse": 0.3919080574997817,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 23.0
+            },
+            {
+              "kind": "accepted",
+              "score": 40.34094209681046,
+              "residual_mse": 0.3919080574997817,
+              "l0_cost": 39.949034039310675,
+              "reported_tolerance_after_accept_increment": 24.0
+            },
+            {
+              "kind": "accepted",
+              "score": 39.461314504868945,
+              "residual_mse": 0.4000367775429497,
+              "l0_cost": 39.061277727325994,
+              "reported_tolerance_after_accept_increment": 25.0
+            }
+          ],
+          "source_binding": {
+            "repository": "https://github.com/isds-neu/EQDiscovery",
+            "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+            "file": "Examples/Discovery with Single Dataset/Vorticity/NS_Vorticity_UniformSetting_OneAdam_PreADOPt.py",
+            "sha256": "c5ae04d1c9e220b912c5d0abd89d03216b85649c08236f5b9a861f98198ba261",
+            "registry_sha256": "1255293218c852fb83596de3d179842c848aabbf7a8ee8de0beafd0268064d57",
+            "adapter_sha256": "1e62ab3caaee9f8ee993ed3e5ccde2ac56e506d689a3bc1263645a28f5c6e3cb"
+          },
+          "input_binding": {
+            "matrix": {
+              "shape": [
+                84000,
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "47eef7d69116cb75ac06c7033c2f2843f472df62e90aae806c0dda150c8910be"
+            },
+            "target": {
+              "shape": [
+                84000,
+                1
+              ],
+              "dtype": "<f4",
+              "sha256": "ad662b0cd8268885215082af5a579ae5961337977d31dd9764b0e1cd3c4b18f5"
+            },
+            "inherited": {
+              "shape": [
+                90
+              ],
+              "dtype": "<f4",
+              "sha256": "9a45ec5c5cb8115387d0394f2b1d7488dfa929d44597789239abee8de310941b"
+            },
+            "training_rows": {
+              "shape": [
+                67200
+              ],
+              "dtype": "<i4",
+              "sha256": "e53a3bd8c6bf619286c02e5f2e1b1f41c529da2c5fb7a898dbf3db7cbb656417"
+            },
+            "iteration": 5,
+            "supplied_l0_penalty": 0.8877563119846816
+          },
+          "runtime": {
+            "python": "3.8.20",
+            "numpy": "1.21.6",
+            "omp_threads": "1",
+            "mkl_threads": "1",
+            "openblas_threads": "1"
+          },
+          "audit": {
+            "scope": "native_STRidge_only_not_complete_PINN",
+            "inputs_unchanged": true,
+            "history_scope": "initial_plus_accepted_only_not_all_100_trials",
+            "tolerance_history_semantics": "accepted entries report tolerance after increment; use best_tolerance for selected tolerance",
+            "inherited_float64": true,
+            "training_rows_sorted": true,
+            "lstsq_rcond": -1,
+            "empty_comparison_ast_edits": 1,
+            "full_population_acceptance_performed": false
+          },
+          "iteration": 5,
+          "coefficients": [
+            0.7292474626589268,
+            -0.07387361748385914,
+            0.04527585743076191,
+            0.034127518216859054,
+            0.016345517257805947,
+            0.0,
+            0.0,
+            -0.6376360211460069,
+            -0.03214425621607129,
+            -0.015631797788560567,
+            0.009466270981347415,
+            0.0,
+            0.0,
+            0.07186122972722027,
+            0.0,
+            0.0,
+            -0.02483774031906594,
+            0.013527263554821695,
+            0.0,
+            -0.10660521696583337,
+            -0.4645564415438469,
+            -0.015629557915074536,
+            0.0,
+            0.004235342736273159,
+            -1.0389213519104463,
+            0.0,
+            -0.02707871244754168,
+            -0.005692089572966116,
+            0.0,
+            0.013511297872730059,
+            0.12697666003597466,
+            0.0182866336121729,
+            0.0035189316784063622,
+            0.0,
+            0.0,
+            0.000468729714431633,
+            0.0,
+            0.0,
+            0.0009703508003761506,
+            0.0,
+            0.0,
+            0.0,
+            -1.0673278736949188,
+            0.0,
+            0.021321676929453196,
+            0.0,
+            -0.011902463201322362,
+            0.0,
+            -0.12486492559160878,
+            -0.006833967028994729,
+            0.008968630951138416,
+            0.0,
+            0.0,
+            0.0007399953731483359,
+            0.04593138789428268,
+            -0.005198514614316833,
+            0.0,
+            0.001238680997578757,
+            0.0,
+            0.0,
+            0.36510340264844726,
+            0.0,
+            0.0,
+            -0.0015681760682821342,
+            0.004048065443959443,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0036845115485128785,
+            0.0017201440729277028,
+            -0.0030985234701979276,
+            0.0,
+            0.05713864667214186,
+            0.00626483812985927,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.0014582357334922617,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "lbfgs_summary": {
+        "iterations": 1,
+        "function_evaluations": 33,
+        "seconds": 7.4292376999999306,
+        "final_loss": 1.65285062789917,
+        "termination": "upstream_interface_returned; convergence_not_exposed",
+        "resume_boundary": "phase_start_if_interrupted"
+      },
+      "cost": {
+        "phase_seconds": {
+          "pre_nadam": 769.897542899998,
+          "pre_lbfgs": 7.885074199999963,
+          "ado_stridge": 314.7411341999998,
+          "ado_nadam": 1456.3404695999957,
+          "final_mask": 0.001497199999903387,
+          "post_nadam": 3096.14208090006
+        },
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      }
+    },
+    "model_iteration": 31000,
+    "model_layout": [
+      {
+        "name": "W:0",
+        "shape": [
+          3,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_2:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_2:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_3:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_3:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_4:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_4:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_5:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_5:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_6:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_6:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_7:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_7:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_8:0",
+        "shape": [
+          60,
+          3
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_8:0",
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "Variable:0",
+        "shape": [
+          90,
+          1
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "beta1_power:0",
+        "shape": [],
+        "dtype": "float32"
+      },
+      {
+        "name": "beta2_power:0",
+        "shape": [],
+        "dtype": "float32"
+      },
+      {
+        "name": "b/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_1/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_1/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_2/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_2/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_3/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_3/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_4/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_4/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_5/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_5/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_6/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_6/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_7/Adam:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_7/Adam_1:0",
+        "shape": [
+          1,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_8/Adam:0",
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "b_8/Adam_1:0",
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W/Adam:0",
+        "shape": [
+          3,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W/Adam_1:0",
+        "shape": [
+          3,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_1/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_1/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_2/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_2/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_3/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_3/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_4/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_4/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_5/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_5/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_6/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_6/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_7/Adam:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_7/Adam_1:0",
+        "shape": [
+          60,
+          60
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_8/Adam:0",
+        "shape": [
+          60,
+          3
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "W_8/Adam_1:0",
+        "shape": [
+          60,
+          3
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "Variable/Adam:0",
+        "shape": [
+          90,
+          1
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "Variable/Adam_1:0",
+        "shape": [
+          90,
+          1
+        ],
+        "dtype": "float32"
+      }
+    ]
+  },
+  "terminal_state_sha256": "B7837B48300FBE21627CDC176EDCD149AFEDD36D184B93DA598C3C8515BC91FA",
+  "checkpoint": {
+    "run_id": "343825bdcff744c3925b33d18cbd07f7",
+    "serial": 31008,
+    "directory": "state_000031008_122d2d39bc2a4a769fb5d987686c4f63",
+    "metadata_sha256": "12C10775B06A3E6F68A7C72B00FE7A7D295D40B04FD7756D731EAFF6AF60B781"
+  },
+  "tensor_format": "numeric_npz_allow_pickle_false_no_meta_graph"
+}

@@ -584,6 +584,7 @@ def train_fresh_generator(
         phase_records.append(
             {
                 "phase": phase,
+                "completed_steps": steps,
                 "best_step": best_step,
                 "best_validation_relative_l2": best_validation,
             }
@@ -602,6 +603,14 @@ def train_fresh_generator(
     training_metrics = evaluate(model, train_state, train_derivative, device=device)
     validation_metrics = evaluate(model, valid_state, valid_derivative, device=device)
     elapsed = previous_elapsed + time.perf_counter() - started
+    training_cost = {
+        "optimizer_updates": sum(item["completed_steps"] for item in phase_records),
+        "phase_updates": [item["completed_steps"] for item in phase_records],
+        "training_and_final_evaluation_seconds": elapsed,
+        "timing_scope": "all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial data preparation, initial affine fit, paused and discarded uncommitted work, terminal export",
+        "budget_unit": "random-minibatch parameter updates, not epochs",
+    }
     configuration = model.configuration()
     artifact = {
         "format_version": 3,
@@ -641,6 +650,7 @@ def train_fresh_generator(
             "autoregressive_loss": False,
         },
         "artifact_role": "trained_generator",
+        "training_cost": training_cost,
         "identification_method": "identifiability-aware-centered-TSVD-minimum-norm",
         "fresh_training": {
             "pretrained_model_loaded": False,
@@ -725,6 +735,7 @@ def train_fresh_generator(
             ),
         },
         "sources": [file_record(path, root) for path in source_paths],
+        "training_cost": training_cost,
         "outputs": {
             "checkpoint": file_record(checkpoint, checkpoint.parent),
             "history": file_record(history_path, history_path.parent),

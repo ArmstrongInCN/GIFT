@@ -1,0 +1,5 @@
+# Separate Python 3.8 environment; do not combine with requirements-reproduction.txt.
+tensorflow==2.10.0
+numpy==1.21.6
+scipy==1.7.3
+h5py==3.7.0

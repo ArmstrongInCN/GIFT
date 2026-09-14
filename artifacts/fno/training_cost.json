@@ -1,0 +1,28 @@
+{
+  "schema": "gift.training-cost.v1",
+  "timing_scope": "committed epoch wall time: input loading, forward/backward, parameter updates and CUDA synchronization",
+  "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work",
+  "source": "complete 500-epoch training histories and terminal optimizer states",
+  "runs": [
+    {
+      "method": "FNO-2D",
+      "training_trajectories": 1000,
+      "epochs": 500,
+      "optimizer_updates": 25000,
+      "committed_epoch_seconds": 100605.3240858998,
+      "weights": "fno2d_ntrain1000_terminal_epoch500.pt",
+      "weights_sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039",
+      "terminal_training_state_sha256": "E52BAD59CCAB2E24747940ED5AE094F88819BFA16DEB2F457177B38FC699F5E3"
+    },
+    {
+      "method": "FNO-3D",
+      "training_trajectories": 1000,
+      "epochs": 500,
+      "optimizer_updates": 50000,
+      "committed_epoch_seconds": 41287.05456980024,
+      "weights": "fno3d_ntrain1000_terminal_epoch500.pt",
+      "weights_sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B",
+      "terminal_training_state_sha256": "37ECE2DEA8A38278679A790050FCC8B6B2F02B4762D67CBD163F6FE2F552BE29"
+    }
+  ]
+}

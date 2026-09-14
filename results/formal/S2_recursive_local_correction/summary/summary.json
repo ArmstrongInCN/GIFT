@@ -1,0 +1,637 @@
+{
+  "schema": "gift.formal.S2.summary.v3",
+  "experiment_id": "S2",
+  "cohorts": {
+    "benchmark": {
+      "trajectory_ids": [
+        1000,
+        1199
+      ],
+      "count": 200
+    },
+    "independent_holdout": {
+      "trajectory_ids": [
+        1200,
+        1399
+      ],
+      "count": 200
+    }
+  },
+  "key_metrics": {
+    "benchmark": {
+      "t8": {
+        "corrected": {
+          "values": {
+            "20260820": 0.08748523857010078,
+            "20260821": 0.08756422698308232,
+            "20260822": 0.08757539747195967
+          },
+          "mean": 0.08754162100838092,
+          "sample_sd": 4.9147018884671376e-05,
+          "coefficient_of_variation_percent": 0.05614131691708818
+        },
+        "uncorrected_finite_values": {
+          "values": {
+            "20260820": 0.0892097631197734,
+            "20260821": 0.08946500192864582,
+            "20260822": 0.08933581140464229
+          },
+          "mean": 0.08933685881768717,
+          "sample_sd": 0.0001276226280650013,
+          "coefficient_of_variation_percent": 0.1428555131151916
+        }
+      },
+      "finite_population_required_for_direct_error_ranking": true,
+      "correction_audit_by_seed_and_arm": {
+        "20260820": {
+          "corrected": {
+            "aggregate": {
+              "trigger_pixel_events": 123,
+              "triggered_step_count": 49,
+              "triggered_trajectory_count": 4,
+              "triggered_trajectory_ids": [
+                1016,
+                1042,
+                1084,
+                1121
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 123,
+              "triggered_step_count": 49,
+              "triggered_trajectory_count": 4,
+              "triggered_trajectory_ids": [
+                1016,
+                1042,
+                1084,
+                1121
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          },
+          "uncorrected": {
+            "aggregate": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          }
+        },
+        "20260821": {
+          "corrected": {
+            "aggregate": {
+              "trigger_pixel_events": 130,
+              "triggered_step_count": 53,
+              "triggered_trajectory_count": 4,
+              "triggered_trajectory_ids": [
+                1016,
+                1042,
+                1084,
+                1121
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 123,
+              "triggered_step_count": 49,
+              "triggered_trajectory_count": 4,
+              "triggered_trajectory_ids": [
+                1016,
+                1042,
+                1084,
+                1121
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 7,
+              "triggered_step_count": 6,
+              "triggered_trajectory_count": 1,
+              "triggered_trajectory_ids": [
+                1042
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          },
+          "uncorrected": {
+            "aggregate": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          }
+        },
+        "20260822": {
+          "corrected": {
+            "aggregate": {
+              "trigger_pixel_events": 125,
+              "triggered_step_count": 49,
+              "triggered_trajectory_count": 4,
+              "triggered_trajectory_ids": [
+                1016,
+                1042,
+                1084,
+                1121
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 123,
+              "triggered_step_count": 49,
+              "triggered_trajectory_count": 4,
+              "triggered_trajectory_ids": [
+                1016,
+                1042,
+                1084,
+                1121
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 2,
+              "triggered_step_count": 1,
+              "triggered_trajectory_count": 1,
+              "triggered_trajectory_ids": [
+                1084
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          },
+          "uncorrected": {
+            "aggregate": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          }
+        }
+      },
+      "finite_count_by_seed_and_arm": {
+        "20260820": {
+          "corrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "uncorrected": [
+            200,
+            200,
+            200,
+            200,
+            199,
+            199,
+            199
+          ]
+        },
+        "20260821": {
+          "corrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "uncorrected": [
+            200,
+            200,
+            200,
+            200,
+            199,
+            199,
+            199
+          ]
+        },
+        "20260822": {
+          "corrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "uncorrected": [
+            200,
+            200,
+            200,
+            200,
+            199,
+            199,
+            199
+          ]
+        }
+      },
+      "failure_trajectory_ids_by_seed_and_arm": {
+        "20260820": {
+          "corrected": [],
+          "uncorrected": [
+            1042
+          ]
+        },
+        "20260821": {
+          "corrected": [],
+          "uncorrected": [
+            1042
+          ]
+        },
+        "20260822": {
+          "corrected": [],
+          "uncorrected": [
+            1042
+          ]
+        }
+      }
+    },
+    "independent_holdout": {
+      "t8": {
+        "corrected": {
+          "values": {
+            "20260820": 0.08978496824503536,
+            "20260821": 0.09027471156609357,
+            "20260822": 0.09008196848520583
+          },
+          "mean": 0.09004721609877825,
+          "sample_sd": 0.0002467142606378677,
+          "coefficient_of_variation_percent": 0.273983218278766
+        },
+        "uncorrected_finite_values": {
+          "values": {
+            "20260820": 0.10747986524439597,
+            "20260821": 11429.838292969232,
+            "20260822": 0.13894991204528523
+          },
+          "mean": 3810.0282409155075,
+          "sample_sd": 6598.9490771093115,
+          "coefficient_of_variation_percent": 173.1994793698342
+        }
+      },
+      "finite_population_required_for_direct_error_ranking": true,
+      "correction_audit_by_seed_and_arm": {
+        "20260820": {
+          "corrected": {
+            "aggregate": {
+              "trigger_pixel_events": 177,
+              "triggered_step_count": 41,
+              "triggered_trajectory_count": 5,
+              "triggered_trajectory_ids": [
+                1220,
+                1235,
+                1278,
+                1374,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 170,
+              "triggered_step_count": 41,
+              "triggered_trajectory_count": 5,
+              "triggered_trajectory_ids": [
+                1220,
+                1235,
+                1278,
+                1374,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 7,
+              "triggered_step_count": 6,
+              "triggered_trajectory_count": 1,
+              "triggered_trajectory_ids": [
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          },
+          "uncorrected": {
+            "aggregate": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          }
+        },
+        "20260821": {
+          "corrected": {
+            "aggregate": {
+              "trigger_pixel_events": 394,
+              "triggered_step_count": 60,
+              "triggered_trajectory_count": 5,
+              "triggered_trajectory_ids": [
+                1220,
+                1235,
+                1278,
+                1374,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 170,
+              "triggered_step_count": 41,
+              "triggered_trajectory_count": 5,
+              "triggered_trajectory_ids": [
+                1220,
+                1235,
+                1278,
+                1374,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 224,
+              "triggered_step_count": 51,
+              "triggered_trajectory_count": 3,
+              "triggered_trajectory_ids": [
+                1220,
+                1278,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          },
+          "uncorrected": {
+            "aggregate": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          }
+        },
+        "20260822": {
+          "corrected": {
+            "aggregate": {
+              "trigger_pixel_events": 263,
+              "triggered_step_count": 41,
+              "triggered_trajectory_count": 5,
+              "triggered_trajectory_ids": [
+                1220,
+                1235,
+                1278,
+                1374,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 170,
+              "triggered_step_count": 41,
+              "triggered_trajectory_count": 5,
+              "triggered_trajectory_ids": [
+                1220,
+                1235,
+                1278,
+                1374,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 93,
+              "triggered_step_count": 23,
+              "triggered_trajectory_count": 2,
+              "triggered_trajectory_ids": [
+                1220,
+                1384
+              ],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          },
+          "uncorrected": {
+            "aggregate": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "P21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            },
+            "Q21": {
+              "trigger_pixel_events": 0,
+              "triggered_step_count": 0,
+              "triggered_trajectory_count": 0,
+              "triggered_trajectory_ids": [],
+              "gate_failed_trajectory_count": 0,
+              "gate_failed_trajectory_ids": []
+            }
+          }
+        }
+      },
+      "finite_count_by_seed_and_arm": {
+        "20260820": {
+          "corrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "uncorrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ]
+        },
+        "20260821": {
+          "corrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "uncorrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ]
+        },
+        "20260822": {
+          "corrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "uncorrected": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ]
+        }
+      },
+      "failure_trajectory_ids_by_seed_and_arm": {
+        "20260820": {
+          "corrected": [],
+          "uncorrected": []
+        },
+        "20260821": {
+          "corrected": [],
+          "uncorrected": []
+        },
+        "20260822": {
+          "corrected": [],
+          "uncorrected": []
+        }
+      }
+    }
+  }
+}

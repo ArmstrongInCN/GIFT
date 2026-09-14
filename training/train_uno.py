@@ -7,4 +7,8 @@ if __package__ in (None, ""):
 from training.baseline_control import main
 
 if __name__ == "__main__":
+    import torch
+    # The measured native U-NO training profile uses one intra-op thread.
+    # This controls CPU scheduling, not the external optimizer or network.
+    torch.set_num_threads(1)
     main("uno")

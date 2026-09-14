@@ -22,19 +22,20 @@ from torch.utils.checkpoint import checkpoint as activation_checkpoint
 
 from adapters.models import build_model, source_record, fno_utilities, uno_components
 from training.checkpoints import CheckpointStore, digest_file, runtime_identity
+from training.budgets import PREDICTION_EPOCHS
 
 
 ROOT = Path(__file__).resolve().parents[1]
 TRAIN_FILE = "fno/fno1000_n64_t0_t10_dt0p02.h5"
 TRAIN_SHA = "1322ad0a5be67bccab2a93c55a5a5748f792f80f3a839032bce888959d54e3ee"
 PROTOCOLS = {
-    "fno2d": dict(epochs=500, trajectories=1000, history=46, rollout=150, micro_batch=10,
+    "fno2d": dict(epochs=PREDICTION_EPOCHS, trajectories=1000, history=46, rollout=150, micro_batch=10,
                   accumulation=2, learning_rate=0.001, weight_decay=0.0001, seed=0),
-    "fno3d": dict(epochs=500, trajectories=1000, history=46, rollout=150, micro_batch=5,
+    "fno3d": dict(epochs=PREDICTION_EPOCHS, trajectories=1000, history=46, rollout=150, micro_batch=5,
                   accumulation=2, learning_rate=0.001, weight_decay=0.0001, seed=0),
-    "uno": dict(epochs=150, trajectories=1000, history=46, rollout=20, micro_batch=16,
+    "uno": dict(epochs=PREDICTION_EPOCHS, trajectories=1000, history=46, rollout=20, micro_batch=16,
                 accumulation=1, learning_rate=0.001, weight_decay=0.00001, seed=0),
-    "unet": dict(epochs=500, trajectories=1000, history=46, rollout=4, micro_batch=20,
+    "unet": dict(epochs=PREDICTION_EPOCHS, trajectories=1000, history=46, rollout=4, micro_batch=20,
                  accumulation=1, learning_rate=0.001, weight_decay=0.0001, seed=0),
 }
 
@@ -358,7 +359,15 @@ def objective(model, context, target, family: str, loss_function=None, normalize
     return loss, full
 
 
-def _export_terminal(output, network, normalization, config, identity, resumed):
+def training_cost(history, optimizer_updates):
+    """Sum committed epoch timers; do not count paused time as GPU training."""
+    return dict(completed_epochs=len(history), optimizer_updates=int(optimizer_updates),
+                committed_epoch_seconds=sum(float(row["epoch_seconds"]) for row in history),
+                timing_scope="epoch input loading, forward/backward, updates and CUDA synchronization",
+                timing_excludes="setup, checkpoint IO, paused time and discarded uncommitted work")
+
+
+def _export_terminal(output, network, normalization, config, identity, resumed, cost=None):
     """A new-schema weights-only product; never masquerade as a published file."""
     attempt = json.loads((output / "ATTEMPT.json").read_text(encoding="utf-8"))
     latest = json.loads((output / "LATEST.json").read_text(encoding="utf-8"))
@@ -370,6 +379,8 @@ def _export_terminal(output, network, normalization, config, identity, resumed):
                     fresh_training=True, same_run_resume_used=resumed,
                     initialization="random_from_seed_no_published_checkpoint",
                     terminal_epoch=config["epochs"])
+    if cost is not None:
+        artifact["training_cost"] = cost
     with (output / "model.pt").open("xb") as stream:
         torch.save(artifact, stream)
         stream.flush()
@@ -407,7 +418,7 @@ def main(model_name: str, argv=None) -> None:
     identity = dict(kind="gift.independent-baseline-training.v1", configuration=config,
                     data=data, data_file=args.data_file, upstream=source,
                     sources={str(path.relative_to(ROOT)): digest_file(path) for path in (
-                        Path(__file__), ROOT / "training" / "checkpoints.py",
+                        Path(__file__), ROOT / "training" / "checkpoints.py", ROOT / "training" / "budgets.py",
                         ROOT / "training" / f"train_{model_name}.py", ROOT / "adapters" / "models.py",
                         ROOT / "external_sources.json")},
                     numerical_profile=runtime_identity(), device=str(device))
@@ -447,7 +458,8 @@ def main(model_name: str, argv=None) -> None:
             return dict(status=status, model_state_dict=network.state_dict(),
                         optimizer_state_dict=optimizer.state_dict(), scheduler_state_dict=scheduler.state_dict(),
                         normalization=normalization, completed_epochs=epoch, optimizer_updates=updates,
-                        history=history, selection="terminal_epoch_not_validation", formal=not args.tiny)
+                        history=history, training_cost=training_cost(history, updates),
+                        selection="terminal_epoch_not_validation", formal=not args.tiny)
 
         if args.resume:
             store.restore_random_state()
@@ -500,6 +512,8 @@ def main(model_name: str, argv=None) -> None:
                           if save_boundary(epoch + 1, config, stop) else None)
             print(json.dumps(dict(record, checkpoint=checkpoint.name if checkpoint else None, status=status), allow_nan=False), flush=True)
     if status == "complete":
-        _export_terminal(output, network, normalization, config, identity, resumed)
+        _export_terminal(output, network, normalization, config, identity, resumed,
+                         cost=training_cost(history, updates))
     print(json.dumps(dict(status=status, completed_epochs=stop, output=str(output),
-                          formal=not args.tiny, published_numerical_reproduction_verified=False)))
+                          formal=not args.tiny, training_cost=training_cost(history, updates),
+                          published_numerical_reproduction_verified=False)))

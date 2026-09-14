@@ -451,6 +451,7 @@ def _write_checkpoint(
     selection_metric: float,
     frozen_generator_sha256: str,
     training_data: dict[str, Any] | None = None,
+    training_cost: dict[str, Any] | None = None,
 ) -> None:
     payload = {
         "schema": "gift.high_frequency_branch.parameters.v2",
@@ -481,6 +482,8 @@ def _write_checkpoint(
         "equation_terms": [],
         "memory_or_hidden_state": False,
     }
+    if training_cost is not None:
+        payload["training_cost"] = training_cost
     with path.open("xb") as stream:
         torch.save(payload, stream)
         stream.flush()
@@ -645,6 +648,7 @@ def _train_seed(
         else:
             first_derivative = DERIVATIVE_EPOCHS + 1
     for epoch in range(first_derivative, DERIVATIVE_EPOCHS + 1):
+        epoch_started = time.perf_counter()
         model.train()
         loss_sum = 0.0
         rows = 0
@@ -666,6 +670,8 @@ def _train_seed(
         record = {
             "phase": "derivative",
             "epoch": epoch,
+            "optimizer_updates": len(derivative_train),
+            "training_validation_seconds": time.perf_counter() - epoch_started,
             "training_normalized_mse": loss_sum / rows,
             **{f"validation_{key}": value for key, value in metrics.items()},
             "learning_rate": optimizer.param_groups[0]["lr"],
@@ -722,11 +728,14 @@ def _train_seed(
     elif saved is not None and saved["phase"] == "long":
         first_short = SHORT_ROLLOUT_EPOCHS + 1
     for epoch in range(first_short, SHORT_ROLLOUT_EPOCHS + 1):
+        epoch_started = time.perf_counter()
         loss = _short_epoch(model, low_rhs, rollout_train, optimizer, device)
         metric = _validate_rollout(model, low_rhs, rollout_valid, device)
         record = {
             "phase": "short_free_rollout",
             "epoch": epoch,
+            "optimizer_updates": len(rollout_train),
+            "training_validation_seconds": time.perf_counter() - epoch_started,
             "training_normalized_q21_mse": loss,
             **metric,
         }
@@ -744,6 +753,7 @@ def _train_seed(
     if saved is not None and saved["phase"] == "long":
         store.restore_random_state()
     for stage in range(first_long, LONG_ROLLOUT_STAGES + 1):
+        epoch_started = time.perf_counter()
         rollout_train = _rollout_loader(
             train_sequence, seed, shuffle=True, batch_size=ROLLOUT_BATCH_SIZE
         )
@@ -755,6 +765,8 @@ def _train_seed(
         record = {
             "phase": f"lead_1_truncated_rollout_stage_{stage}",
             "epoch": 1,
+            "optimizer_updates": len(rollout_train),
+            "training_validation_seconds": time.perf_counter() - epoch_started,
             "training_normalized_q21_mse": loss,
             **metric,
         }
@@ -781,6 +793,26 @@ def _train_seed(
         "qualification_passed": selected_metric <= 0.10,
     }
     return model, selection, history
+
+
+def branch_training_cost(history):
+    """Count completed loader passes, with one optimizer update per batch.
+
+    Include all training, not only the selected epoch. Checkpointed history
+    retains the counts and timings of previously committed epochs on resume.
+    """
+    rows = [row for row in history if row["phase"] != "derivative_checkpoint"]
+    if not rows or any(type(row.get("optimizer_updates")) is not int or row["optimizer_updates"] < 1
+                       or not math.isfinite(row.get("training_validation_seconds", math.nan))
+                       or row["training_validation_seconds"] < 0 for row in rows):
+        raise ValueError("incomplete branch training cost records")
+    return {"optimizer_updates": sum(row["optimizer_updates"] for row in rows),
+            "committed_training_validation_seconds": sum(row["training_validation_seconds"] for row in rows),
+            "phases": [{key: row[key] for key in
+                ("phase", "epoch", "optimizer_updates", "training_validation_seconds")} for row in rows],
+            "timing_scope": "training passes and their validation, including data transfers",
+            "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+            "shared_generator_pretraining_included": False}
 
 
 def main() -> None:
@@ -873,6 +905,7 @@ def main() -> None:
             input_binding=input_binding,
         )
         checkpoint = output / f"gift_seed_{seed}.pt"
+        cost = branch_training_cost(history)
         _write_checkpoint(
             checkpoint,
             model,
@@ -882,10 +915,12 @@ def main() -> None:
             selection_metric=selection["value"],
             frozen_generator_sha256=frozen_sha256,
             training_data=input_binding,
+            training_cost=cost,
         )
         reports[str(seed)] = {
             "selection": selection,
             "model": file_record(checkpoint, output),
+            "training_cost": cost,
         }
         for row in history:
             all_history.append(
@@ -893,6 +928,8 @@ def main() -> None:
                     "seed": seed,
                     "phase": row["phase"],
                     "epoch": row["epoch"],
+                    "optimizer_updates": row.get("optimizer_updates", 0),
+                    "training_validation_seconds": row.get("training_validation_seconds", ""),
                     "training_metric": row.get(
                         "training_normalized_mse",
                         row.get("training_normalized_q21_mse", ""),
