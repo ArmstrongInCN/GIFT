@@ -129,6 +129,18 @@ inserted only after committed boundaries; resumed numerical histories and
 selected weights matched uninterrupted runs. These are explicitly short-budget
 control-flow tests, not substitutes for reported scientific experiments.
 
+Complete-budget, from-scratch checks on the stated environment reproduced every
+packaged generator tensor bitwise: 12,000 updates for each of the clean/1%/10%
+noise generators, and 500 trajectory epochs (31,500 updates, 501 affine fits)
+for the full-data generator. The three reduced-data runs recorded 117.52, 121.38
+and 126.28 seconds respectively for training, refits, validation and intermediate
+checkpoint I/O, including graph setup but excluding initial preparation and
+terminal export. The full-data run recorded 266.84 committed epoch seconds,
+including graph setup and excluding initial preparation and checkpoint writes.
+These single-run checks have different timing scopes and are not additional
+rows in the repeated component benchmark above. Tensor equality does not imply
+identical serialized files: timestamps, source records and run metadata differ.
+
 ## What is optimized / 优化范围
 
 - Cache only constant frequency grids, masks and table indices. Learned

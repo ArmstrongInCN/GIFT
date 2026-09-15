@@ -124,11 +124,12 @@ PINN uses float32 with TF32 disabled. U-Net uses cuDNN TF32 and disables matmul
 TF32. These are recorded numerical environments, not changes to the upstream
 network. `--device cpu` before the model selects a CPU runtime. The external
 prediction baselines permit CPU only with an explicit `--tiny` diagnostic budget;
-their formal-budget gate requires CUDA. CPU GIFT runs have separately recorded
-runtime identities and are not advertised as bitwise-identical to GPU training.
-FNO and the GIFT-Lite high-branch profile leave `CUBLAS_WORKSPACE_CONFIG` unset;
-the other training profiles set
-`:4096:8`. These settings are applied before scientific libraries are imported.
+their formal-budget gate requires CUDA. The formal GIFT-Lite branch command also
+requires CUDA. CPU-capable GIFT entry points record separate runtime identities;
+CPU and GPU training are not advertised as bitwise-identical.
+FNO leaves `CUBLAS_WORKSPACE_CONFIG` unset; all GIFT training profiles set
+`:4096:8` and deterministic cuDNN kernel selection. The launcher sets the workspace
+before scientific imports, and GIFT trainers set kernel flags before tensor work.
 
 ## M1 quick readout, aggregation and SVG
 
