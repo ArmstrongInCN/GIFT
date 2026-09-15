@@ -124,14 +124,12 @@ def write_csv_new(path: Path, rows: list[dict[str, Any]]) -> None:
 def configure_determinism(seed: int, *, strict: bool) -> dict[str, Any]:
     """Configure all RNGs before model construction and return an audit record."""
 
-    os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+    from training.gift_execution import configure_training_runtime
+    configure_training_runtime(strict=strict)
     random.seed(seed)
     np.random.seed(seed % (2**32 - 1))
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    torch.backends.cudnn.benchmark = False
-    torch.backends.cudnn.deterministic = True
-    torch.use_deterministic_algorithms(strict, warn_only=not strict)
     return {
         "seed": int(seed),
         "python_random_seeded": True,
@@ -378,6 +376,7 @@ def train_fresh_generator(
     resume: bool = False,
     checkpoint_interval: int = 250,
     input_binding: dict[str, Any] | None = None,
+    execution: str = "auto",
 ) -> dict[str, Any]:
     """Train from observations, optionally continuing this attempt's own state."""
 
@@ -401,6 +400,9 @@ def train_fresh_generator(
         )
 
     device = torch.device(device_name)
+    from training.gift_execution import EXECUTION_SOURCES, resolve_execution
+    execution = resolve_execution(execution, device, resume=resume,
+                                  checkpoint_directory=checkpoint.parent/"checkpoints")
     if device.type == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("requested CUDA training but CUDA is unavailable")
     deterministic = configure_determinism(config.seed, strict=config.strict_determinism)
@@ -419,8 +421,10 @@ def train_fresh_generator(
     if input_binding is not None:
         from training.gift_data import PROFILE_SOURCES
         source_paths.extend(root / relative for relative in PROFILE_SOURCES)
+    source_paths = list(dict.fromkeys([*source_paths, *(root / name for name in EXECUTION_SOURCES)]))
     identity = {
         "role": "gift_low_generator", "condition": condition,
+        "execution": execution,
         "configuration": asdict(config),
         "dataset_sha256": dataset_sha256, "dataset_bytes": data_path.stat().st_size,
         "input_provenance": input_binding,
@@ -487,6 +491,10 @@ def train_fresh_generator(
     if saved is not None and saved["target_scale"] != target_scale:
         raise ValueError("resumed target scale differs")
     started = time.perf_counter()
+    engine = None
+    if execution == "cuda-graph":
+        from training.gift_acceleration import TrainingEngine
+        engine = TrainingEngine(model, kind="generator", scale=target_scale, backend=execution)
     for phase, (steps, learning_rate) in enumerate(
         zip(config.phase_steps, config.phase_learning_rates, strict=True), start=1
     ):
@@ -537,12 +545,16 @@ def train_fresh_generator(
             ids = torch.randint(len(train_state), (config.batch_size,))
             batch_state = train_state[ids].to(device)
             batch_target = train_derivative[ids].to(device)
-            prediction = model(batch_state)
-            data_loss = (prediction - batch_target).square().mean() / target_scale
-            optimizer.zero_grad(set_to_none=True)
-            data_loss.backward()
-            torch.nn.utils.clip_grad_norm_(nonlinear_parameters, 5.0)
-            optimizer.step()
+            if engine is None:
+                prediction = model(batch_state)
+                data_loss = (prediction - batch_target).square().mean() / target_scale
+                optimizer.zero_grad(set_to_none=True)
+                data_loss.backward()
+                torch.nn.utils.clip_grad_norm_(nonlinear_parameters, 5.0)
+                optimizer.step()
+                data_loss_value = data_loss.detach()
+            else:
+                data_loss_value = engine.step(optimizer, batch_state, batch_target)
             scheduler.step()
             if step % config.affine_refit_interval == 0:
                 fit_affine_minimum_norm(
@@ -571,7 +583,7 @@ def train_fresh_generator(
                     "condition": condition,
                     "phase": phase,
                     "step": step,
-                    "normalized_data_loss": float(data_loss.detach()),
+                    "normalized_data_loss": float(data_loss_value),
                     "validation_relative_l2": validation,
                     "learning_rate": float(optimizer.param_groups[0]["lr"]),
                     "elapsed_seconds": previous_elapsed + time.perf_counter() - started,
@@ -614,6 +626,7 @@ def train_fresh_generator(
     configuration = model.configuration()
     artifact = {
         "format_version": 3,
+        "execution": execution,
         "condition": condition,
         "model_configuration": configuration,
         "model_state_dict": clone_state(model),
@@ -668,6 +681,7 @@ def train_fresh_generator(
 
     report = {
         "schema": "gift.generator.independent-training.v1",
+        "execution": execution,
         "status": "complete",
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "condition": condition,

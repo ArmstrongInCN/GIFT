@@ -47,6 +47,10 @@ from experiments.formal._shared.high_frequency import (
     HighFrequencyConfig,
 )
 from training.gift_data import PROFILE_SOURCES, validate_input, validate_low_prerequisite
+from training.gift_execution import (
+    EXECUTION_CHOICES, EXECUTION_HELP, EXECUTION_SOURCES,
+    configure_training_runtime, resolve_execution,
+)
 
 
 DT = 0.02
@@ -73,6 +77,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-profile", choices=("released", "regenerated"), default="released")
     parser.add_argument("--resume", action="store_true", help="continue only this seed's own saved training run")
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--execution", choices=EXECUTION_CHOICES, default="auto", help=EXECUTION_HELP)
     return parser.parse_args()
 
 
@@ -106,6 +111,7 @@ def _validate_training_source_metadata(paths: ProjectPaths) -> dict[str, Any]:
 
 
 def _set_seed(seed: int) -> None:
+    configure_training_runtime(strict=False)
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -502,7 +508,7 @@ def _rollout_loader(
     )
 
 
-def _training_identity(seed, paths, scales, device, input_binding=None):
+def _training_identity(seed, paths, scales, device, input_binding=None, execution="eager"):
     root = getattr(paths, "root", PROJECT_ROOT)
     sources = {
         "experiments/formal/train_gift_branches.py",
@@ -510,12 +516,13 @@ def _training_identity(seed, paths, scales, device, input_binding=None):
         "experiments/formal/_shared/gift_runtime.py",
         "experiments/formal/_shared/high_frequency.py",
         "experiments/formal/_shared/gift_generator_training.py",
-        "training/checkpoints.py", *PROFILE_SOURCES,
+        "training/checkpoints.py", *PROFILE_SOURCES, *EXECUTION_SOURCES,
         *(f"src/gift/{name}" for name in
           ("__init__.py", "model.py", "identifiability.py", "identified.py", "paths.py")),
     }
     return {
         "method": "GIFT-high", "seed": seed,
+        "execution": execution,
         "data_sha256": sha256_file(paths.standard_n64),
         "frozen_generator_sha256": sha256_file(paths.low_model),
         "sources": {relative: sha256_file(root / relative) for relative in sorted(sources)},
@@ -530,7 +537,7 @@ def _training_identity(seed, paths, scales, device, input_binding=None):
     }
 
 
-def _preflight_resume(directory, seed, paths, device, input_binding):
+def _preflight_resume(directory, seed, paths, device, input_binding, execution="auto"):
     """Reject changed inputs/sources before full-data derivative/RHS preparation.
 
     Recomputed scales are checked again by the normal journal opening. This
@@ -541,7 +548,8 @@ def _preflight_resume(directory, seed, paths, device, input_binding):
     scales = attempt["identity"].get("scales", [])
     if len(scales) != 4 or not all(math.isfinite(x) and x > 0 for x in scales):
         raise ValueError("Invalid saved branch scale identity")
-    identity = _training_identity(seed, paths, scales, device, input_binding)
+    execution = resolve_execution(execution, device, resume=True, checkpoint_directory=directory)
+    identity = _training_identity(seed, paths, scales, device, input_binding, execution)
     if attempt["identity"] != identity or attempt["runtime"] != runtime_identity():
         raise ValueError("Resume identity/runtime differs before data preparation")
 
@@ -558,8 +566,11 @@ def _train_seed(
     resume: bool = False,
     boundary_hook: Callable[[str], None] | None = None,
     input_binding: dict[str, Any] | None = None,
+    execution: str = "auto",
 ) -> tuple[HighFrequencyBranch, dict[str, Any], list[dict[str, Any]]]:
     _set_seed(seed)
+    execution = resolve_execution(execution, device, resume=resume,
+                                  checkpoint_directory=checkpoint_directory)
     # The fixed training protocol instantiates the frozen generator after setting the
     # seed. Its constructor consumes random numbers before branch
     # initialization even though its released parameters are then loaded.
@@ -603,7 +614,7 @@ def _train_seed(
     saved = None
     if checkpoint_directory is not None:
         from training.checkpoints import CheckpointStore
-        identity = _training_identity(seed, paths, scales, device, input_binding)
+        identity = _training_identity(seed, paths, scales, device, input_binding, execution)
         store = CheckpointStore(checkpoint_directory, identity, resume=resume)
         saved = store.payload
     elif resume:
@@ -647,6 +658,11 @@ def _train_seed(
             store.restore_random_state()
         else:
             first_derivative = DERIVATIVE_EPOCHS + 1
+    derivative_engine = None
+    if execution == "cuda-graph":
+        from training.gift_acceleration import TrainingEngine
+        derivative_engine = TrainingEngine(model, kind="derivative", frozen=low_rhs,
+                                           scale=high_rhs_scale, backend=execution)
     for epoch in range(first_derivative, DERIVATIVE_EPOCHS + 1):
         epoch_started = time.perf_counter()
         model.train()
@@ -656,13 +672,17 @@ def _train_seed(
             state = state.to(device, non_blocking=True)
             target = target.to(device, non_blocking=True)
             frozen = frozen.to(device, non_blocking=True)
-            optimizer.zero_grad(set_to_none=True)
-            prediction = model.forward_with_generator_output(state, frozen)
-            loss = torch.mean(((prediction - target) / high_rhs_scale) ** 2)
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-            optimizer.step()
-            loss_sum += float(loss.detach()) * len(state)
+            if derivative_engine is None:
+                optimizer.zero_grad(set_to_none=True)
+                prediction = model.forward_with_generator_output(state, frozen)
+                loss = torch.mean(((prediction - target) / high_rhs_scale) ** 2)
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                optimizer.step()
+                loss_value = float(loss.detach())
+            else:
+                loss_value = derivative_engine.step(optimizer, state, target, frozen)
+            loss_sum += loss_value * len(state)
             rows += len(state)
         metrics = _validate_derivative(
             model, derivative_valid, device, high_rhs_scale
@@ -687,6 +707,7 @@ def _train_seed(
             "derivative_best": derivative_best, "derivative_state": derivative_state,
             "derivative_epoch": derivative_epoch,
         })
+    derivative_engine = None  # Release phase-specific graphs before rollout capture.
     if saved is None or saved["phase"] == "derivative":
         if derivative_state is None:
             raise RuntimeError("derivative phase produced no selected model")
@@ -727,9 +748,12 @@ def _train_seed(
         store.restore_random_state()
     elif saved is not None and saved["phase"] == "long":
         first_short = SHORT_ROLLOUT_EPOCHS + 1
+    short_engine = (TrainingEngine(model, kind="short", frozen=low_rhs, backend=execution)
+                    if execution == "cuda-graph" else None)
     for epoch in range(first_short, SHORT_ROLLOUT_EPOCHS + 1):
         epoch_started = time.perf_counter()
-        loss = _short_epoch(model, low_rhs, rollout_train, optimizer, device)
+        loss = (short_engine.epoch(rollout_train, optimizer, device) if short_engine is not None
+                else _short_epoch(model, low_rhs, rollout_train, optimizer, device))
         metric = _validate_rollout(model, low_rhs, rollout_valid, device)
         record = {
             "phase": "short_free_rollout",
@@ -749,6 +773,9 @@ def _train_seed(
         save_boundary("short", epoch + 1, rollout_train, selected_values())
     model.load_state_dict(selected_state, strict=True)
 
+    short_engine = None
+    long_engine = (TrainingEngine(model, kind="long", frozen=low_rhs, backend=execution)
+                   if execution == "cuda-graph" else None)
     first_long = saved["next_index"] if saved is not None and saved["phase"] == "long" else 1
     if saved is not None and saved["phase"] == "long":
         store.restore_random_state()
@@ -760,7 +787,8 @@ def _train_seed(
         optimizer = torch.optim.AdamW(
             model.parameters(), lr=8e-5, weight_decay=1e-6
         )
-        loss = _long_epoch(model, low_rhs, rollout_train, optimizer, device)
+        loss = (long_engine.epoch(rollout_train, optimizer, device) if long_engine is not None
+                else _long_epoch(model, low_rhs, rollout_train, optimizer, device))
         metric = _validate_rollout(model, low_rhs, rollout_valid, device)
         record = {
             "phase": f"lead_1_truncated_rollout_stage_{stage}",
@@ -841,6 +869,7 @@ def main() -> None:
             json.dumps(
                 {
                     "status": "dry_run_complete",
+                    "execution": args.execution,
                     "method": "GIFT high-frequency branch",
                     "seeds": list(seeds),
                     "raw_dataset": file_record(paths.standard_n64, paths.root),
@@ -869,11 +898,16 @@ def main() -> None:
     device = torch.device(args.device)
     if device.type != "cuda" or not torch.cuda.is_available():
         raise RuntimeError("formal high-frequency branch training requires CUDA")
+    # Apply before preparing frozen-generator RHS tensors, not just before the
+    # trainable branch. Kernel policy and precision must agree throughout a run.
+    configure_training_runtime(strict=False)
     suffix = f"seed_{args.seed}" if args.seed is not None else "three_seeds"
     output = Path(
         args.output
         or paths.root / "reproduced_models" / f"gift_branches_{suffix}"
     ).resolve(strict=False)
+    execution = resolve_execution(args.execution, device, resume=args.resume,
+                                  checkpoint_directory=output/"checkpoints")
     if output.exists() and not args.resume:
         raise FileExistsError(f"refusing to overwrite training output: {output}")
     if args.resume and (not output.is_dir() or (output / "report.json").exists()
@@ -885,7 +919,7 @@ def main() -> None:
         # Match the deterministic runtime flags used at the journal boundary;
         # _train_seed sets the seed again in its unchanged scientific order.
         _set_seed(args.seed)
-        _preflight_resume(output / "checkpoints", args.seed, paths, device, input_binding)
+        _preflight_resume(output / "checkpoints", args.seed, paths, device, input_binding, execution)
     training_raw, validation_raw = _load_raw_training_data(paths)
     low_rhs = load_low_generator(paths, 64, device)
     train_frozen = _compute_low_rhs(low_rhs, training_raw[0], device)
@@ -903,6 +937,7 @@ def main() -> None:
             seed, paths, training, validation, scales, device,
             checkpoint_directory=output / "checkpoints", resume=args.resume,
             input_binding=input_binding,
+            execution=execution,
         )
         checkpoint = output / f"gift_seed_{seed}.pt"
         cost = branch_training_cost(history)
@@ -914,7 +949,7 @@ def main() -> None:
             epoch=selection["epoch"],
             selection_metric=selection["value"],
             frozen_generator_sha256=frozen_sha256,
-            training_data=input_binding,
+            training_data=dict(input_binding, execution=execution),
             training_cost=cost,
         )
         reports[str(seed)] = {
@@ -951,6 +986,7 @@ def main() -> None:
     write_csv_new(output / "training_history.csv", all_history)
     report = {
         "schema": "gift.formal.high-frequency-branch-training.v2",
+        "execution": execution,
         "status": "complete",
         "experiment": "GIFT_high_frequency_branch_training",
         "seeds": list(seeds),

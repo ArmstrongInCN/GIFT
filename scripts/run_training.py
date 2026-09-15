@@ -24,12 +24,12 @@ def child_environment(model, python, device, parent=None):
     threads = "1" if model in ("unet", "pinn") else "16"
     env.update(OMP_NUM_THREADS=threads, MKL_NUM_THREADS=threads, OPENBLAS_NUM_THREADS="1",
                PYTHONDONTWRITEBYTECODE="1", CUBLAS_WORKSPACE_CONFIG=":4096:8")
-    if model in ("gift_generator", "gift_predictor"):
+    if model.startswith("gift_"):
         # Prefer this checkout when an older installed package is also present.
         env["PYTHONPATH"] = os.pathsep.join((str(ROOT / "src"), str(ROOT)))
     if model not in ("unet", "pinn"):
         env["CUDA_VISIBLE_DEVICES"] = "-1" if device == "cpu" else "0"
-    if model in ("fno2d", "fno3d", "gift_branch"):
+    if model in ("fno2d", "fno3d"):
         env.pop("CUBLAS_WORKSPACE_CONFIG", None)
     if model == "uno":
         # Match the recorded native launch; train_uno sets Torch intra-op=1.

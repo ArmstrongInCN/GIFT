@@ -15,7 +15,7 @@
 
 GIFT 将可解释的生成元、高频学习支路和递归局部修正结合起来，研究二维流动中的方程参数识别、递归预测与跨分辨率预测。
 
-每个模型和实验分别运行。数据与第三方实现位于项目外；第三方代码的固定来源和必要调整见[外部适配说明](docs/EXTERNAL_ADAPTATIONS.md)。数据通过 `GIFT_DATA_ROOT` 指定，外部源码通过 `GIFT_EXTERNAL_ROOT` 指定。
+每个模型和实验分别运行，GIFT 的 GPU 训练默认使用加速实现并支持完整状态恢复。数据与第三方实现位于项目外；第三方代码的固定来源和必要调整见[外部适配说明](docs/EXTERNAL_ADAPTATIONS.md)。数据通过 `GIFT_DATA_ROOT` 指定，外部源码通过 `GIFT_EXTERNAL_ROOT` 指定。
 
 [实验报告](EXPERIMENTS.md) · [安装与独立运行](docs/SETUP.md) · [训练协议](docs/TRAINING_PROTOCOL.md) · [计算效率](docs/PERFORMANCE.md) · [实验图像](docs/FIGURES.md)
 
@@ -27,7 +27,7 @@ GIFT 将可解释的生成元、高频学习支路和递归局部修正结合起
 
 GIFT combines an interpretable generator, a learned high-frequency branch and local correction for equation identification and flow prediction.
 
-Models and experiments have independent entry points. Data and third-party implementations are supplied separately. See the [external adaptation guide](docs/EXTERNAL_ADAPTATIONS.md) for source boundaries and explicit adjustments.
+Models and experiments have independent entry points. GIFT uses accelerated GPU training by default with complete-state recovery. Data and third-party implementations are supplied separately. See the [external adaptation guide](docs/EXTERNAL_ADAPTATIONS.md) for source boundaries and explicit adjustments.
 
 [Experiment report (Chinese)](EXPERIMENTS.md) · [Setup and execution](docs/SETUP.md) · [Training protocol](docs/TRAINING_PROTOCOL.md) · [Performance](docs/PERFORMANCE.md) · [Experiment figures](docs/FIGURES.md)
 

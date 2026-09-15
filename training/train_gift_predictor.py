@@ -30,6 +30,7 @@ from training.gift_prediction_control import (
     _open_run, synchronize, write_json_new,
 )
 from training.gift_prediction_data import ObservationBank
+from training.gift_execution import EXECUTION_CHOICES, EXECUTION_HELP, resolve_execution
 
 SEEDS = (20260820, 20260821, 20260822)
 
@@ -105,7 +106,7 @@ def derivative_epoch(model, loader, optimizer, device, scale):
 
 def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                config=PredictionTrainingConfig(), checkpoint_interval=10,
-               stop_after_epoch=None, log_interval=10, execution="eager",
+               stop_after_epoch=None, log_interval=10, execution="auto",
                continue_from=None, transition_record=None):
     config.validate()
     if seed not in SEEDS or checkpoint_interval < 1 or log_interval < 1:
@@ -114,10 +115,8 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
     if stop_after_epoch is not None and not 1 <= stop_after_epoch <= total_epochs:
         raise ValueError("stop boundary must be inside the configured budget")
     device = torch.device(device)
-    if execution not in ("eager", "cuda-graph"):
-        raise ValueError("unknown GIFT execution backend")
-    if device.type != "cuda":
-        execution = "eager"  # CPU fallback uses the reference path and identity.
+    execution = resolve_execution(execution, device, resume=resume,
+                                  checkpoint_directory=Path(output)/"checkpoints")
     configure_determinism(seed, strict=False)
     bank = ObservationBank(dataset, fixture=config.fixture_only)
     qualify_generator(low_model, bank, config)
@@ -259,8 +258,7 @@ def main(argv=None):
     parser.add_argument("--device", default="cuda", choices=("cpu", "cuda"))
     parser.add_argument("--checkpoint-interval", type=int, default=10)
     parser.add_argument("--stop-after-epoch", type=int)
-    parser.add_argument("--execution", choices=("eager", "cuda-graph"), default="eager",
-                        help="Opt-in graph replay; CPU executes eager. Resume requires the same backend.")
+    parser.add_argument("--execution", choices=EXECUTION_CHOICES, default="auto", help=EXECUTION_HELP)
     args = parser.parse_args(argv)
     if args.dry_run:
         result = {"configuration": asdict(PredictionTrainingConfig()), "seed": args.seed,

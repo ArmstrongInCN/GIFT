@@ -21,6 +21,7 @@ for import_root in (PROJECT_ROOT, PROJECT_ROOT / "src"):
 
 from gift.paths import data_root
 from training.gift_data import validate_input
+from training.gift_execution import EXECUTION_CHOICES, EXECUTION_HELP
 from experiments.formal._shared.gift_generator_training import (
     GeneratorTrainingConfig, file_record, inspect_observation_dataset,
     train_fresh_generator, write_json_new,
@@ -44,6 +45,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--data-profile", choices=("released", "regenerated"), default="released")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--execution", choices=EXECUTION_CHOICES, default="auto", help=EXECUTION_HELP)
     parser.add_argument("--seed", type=int, default=2026072301)
     parser.add_argument("--phase-steps", type=int, nargs="+", default=(6000, 6000))
     parser.add_argument("--phase-learning-rates", type=float, nargs="+", default=(1e-2, 3e-3))
@@ -99,7 +101,7 @@ def build_plan(args: argparse.Namespace) -> dict[str, Any]:
         "project_root": str(root), "dataset": str(dataset),
         "dataset_exists": dataset.is_file(), "output": str(output),
         "output_exists": output.exists(), "endpoint": str(output / name),
-        "device": args.device, "configuration": config.__dict__,
+        "device": args.device, "execution": args.execution, "configuration": config.__dict__,
         "data_profile": args.data_profile,
         "input_provenance": (validate_input(data_root(root), args.condition, args.data_profile, full=False)
                              if dataset.is_file() else None),
@@ -134,6 +136,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         project_root=root, entry_script=Path(__file__), resume=args.resume,
         checkpoint_interval=args.checkpoint_interval,
         input_binding=input_binding,
+        execution=args.execution,
     )
     manifest = {
         "schema": "gift.generator.independent-attempt.v1", "status": "complete",

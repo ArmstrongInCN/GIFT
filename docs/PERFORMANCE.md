@@ -1,24 +1,32 @@
 # GIFT execution efficiency / GIFT 计算效率
 
-GIFT provides an optional `cuda-graph` execution backend. It replays the same
-tensor operations with less CPU dispatch overhead. `eager` remains the default
-reference backend; CPU execution remains available. No extra package is needed.
+Every GIFT training entry point uses the shared `auto` execution policy. Fresh
+GPU training uses `cuda-graph` to replay the same tensor operations with less
+CPU dispatch overhead; CPU uses `eager`. `--execution eager` selects the explicit
+reference training path. Prediction remains eager by default. No extra package
+is needed. The formal GIFT-Lite branch command requires CUDA; CPU fallback applies
+to entry points that support CPU.
 
-GIFT 提供可选的 `cuda-graph` 执行后端，以减少 CPU 逐个调度小算子的开销。
-默认仍为 `eager` 参考路径。优化不改变模型、训练数据量、epoch 数、批大小、
+所有 GIFT 独立训练入口共用 `auto` 执行策略：GPU 新训练默认使用 `cuda-graph`，
+CPU 使用 `eager`；`--execution eager` 可明确选择参考训练路径。预测默认路径不变。
+优化不改变模型、训练数据量、epoch 数、批大小、
 AdamW、学习率日程、损失、RK4 步长或递归截断位置，也不启用混合精度。
 
 ## Use / 使用
 
-Add `--execution cuda-graph` to either independent full-data training command:
+Full-data GIFT and reduced-data GIFT-Lite use the same training engine. Each
+model still has its own command, scientific schedule and complete-state journal:
 
 ```shell
-python -m training.train_gift_generator --run-training --execution cuda-graph --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
-python -m training.train_gift_predictor --run-training --execution cuda-graph --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
+python -m scripts.run_training gift_generator --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
+python -m scripts.run_training gift_predictor --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
+python -m scripts.run_training gift_low --run-training --condition noise_000 --output ../runs/gift_lite_generator
+python -m scripts.run_training gift_branch --run-training --low-model ../runs/gift_lite_generator/gift_main.pt --seed 20260820 --output ../runs/gift_lite_branch_20260820
 ```
 
 Continue with `--resume`, the same output directory, source, runtime and execution
-backend. Graphs are rebuilt from the saved model, optimizer, scheduler and RNG
+backend. `auto` inherits the journal's backend when resuming; it does not silently
+upgrade an eager run. Graphs are rebuilt from the saved model, optimizer, scheduler and RNG
 state; the checkpoint never depends on a serialized CUDA graph. Changing source
 or switching backends is **not** silently accepted as same-run continuation.
 Existing parameter artifacts remain usable for inference.
@@ -28,7 +36,14 @@ Existing parameter artifacts remain usable for inference.
 训练日志不能通过修改身份校验来冒充当前实现的同次续算；已有模型参数文件
 仍可正常读取。首次图构建计入训练 epoch 耗时，并非免费的训练计算。
 
-A reviewed source/backend change uses `--continue-from PARENT_RUN` instead of
+The reduced-data branch command retains `--run-training` when adding `--resume`.
+The clean/noisy reduced-data generator keeps its best-validation phase selection,
+random-minibatch sampling and affine refit schedule. GIFT-Lite branches keep their
+derivative/short/long selection and optimizer/loader resets. These protocols are
+not replaced by the full-data trajectory-epoch schedule. M1 evaluation, published
+weights and scientific settings are not changed by execution selection.
+
+For the full-data branch trainer, a reviewed source/backend change uses `--continue-from PARENT_RUN` instead of
 `--resume`, with a new output directory and `--transition-record RECORD.json`.
 The record binds the exact parent checkpoint SHA256, both source maps and
 backends, and hashed numerical-equality evidence. All other scientific identity
@@ -57,7 +72,13 @@ their time is included in graph setup and total elapsed time.
 
 Hardware: RTX A5500 Laptop GPU (16 GiB), Intel i9-12950HX, Windows,
 PyTorch 2.10.0 + CUDA 12.6; 16 Torch CPU threads. Original float32/complex64
-arithmetic and TF32/determinism settings are retained. Affine-fit statistics
+arithmetic and TF32 settings are retained. All GIFT training entry points disable
+cuDNN benchmarking, select deterministic cuDNN algorithms and fix the cuBLAS
+workspace before tensor work. Seeding alone is insufficient for reproducible
+convolution backward operations. Full-data/generator determinism policies are
+retained; the reduced-data branch uses this same explicit runtime policy.
+Journals bind these settings, and numerical agreement across different hardware
+or library versions is not guaranteed to be bitwise. Affine-fit statistics
 remain float64/complex128 with the original chunk size and rank threshold.
 
 The following measurements visit 60 observed training trajectories per repeat,
@@ -97,6 +118,16 @@ tail batches. All comparisons were bitwise equal. Fresh-process continuation was
 actual training entry points on explicitly marked, short-budget fixtures,
 including phase changes and short final batches. This does not replace a full
 500 + 500 epoch accuracy run.
+
+The independent reduced-data entry points were also checked with clean, 1% and
+10% noise fixtures: affine refits, phase-best selection, optimizer/scheduler and
+random states matched the eager reference exactly. Branch checks covered the
+derivative, short-recursion and long-recursion stages, including their separate
+loader and optimizer resets. Eager and graph runs use the same deterministic
+CUDA runtime for these comparisons. Independent-process interruptions were
+inserted only after committed boundaries; resumed numerical histories and
+selected weights matched uninterrupted runs. These are explicitly short-budget
+control-flow tests, not substitutes for reported scientific experiments.
 
 ## What is optimized / 优化范围
 

@@ -115,9 +115,11 @@ Uncommitted epochs may be repeated after interruption. A published unrelated
 generator or a reduced-data checkpoint is not accepted as the full-data training
 prerequisite.
 
-Both commands optionally accept `--execution cuda-graph`; the default is the
-reference `eager` backend. Keep the chosen backend when resuming. This does not
-change the 500 + 500 epoch budgets or batch/update counts. See
+All four GIFT training entry points share `--execution auto`: fresh GPU training
+uses CUDA graphs, CPU uses eager, and resume retains the journal's backend.
+Use `--execution eager` for the explicit reference implementation. This does not
+change the full-data 500 + 500 epoch budgets, the reduced-data selection protocol,
+or any batch/update counts. Source and runtime checks remain strict. See
 [execution efficiency and measured scope](PERFORMANCE.md).
 
 Full-data timers sum committed epoch time: sampling, forward/backward,

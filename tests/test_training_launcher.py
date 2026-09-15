@@ -16,7 +16,7 @@ def test_child_environment_does_not_change_parent():
     env = launcher.child_environment("unet", sys.executable, "cuda", parent)
     validate_environment(env)
     assert env["UNRELATED"] == "preserved" and parent == before
-    for model in ("fno2d", "fno3d", "uno", "gift_low", "gift_branch"):
+    for model in ("fno2d", "fno3d", "uno", "gift_low", "gift_branch", "gift_generator", "gift_predictor"):
         env = launcher.child_environment(model, sys.executable, "cuda", {})
         if model == "uno":
             assert env["OMP_NUM_THREADS"] == "24"
@@ -24,7 +24,7 @@ def test_child_environment_does_not_change_parent():
         else:
             assert env["OMP_NUM_THREADS"] == env["MKL_NUM_THREADS"] == "16"
         assert env["CUDA_VISIBLE_DEVICES"] == "0"
-        if model.startswith("fno") or model == "gift_branch":
+        if model.startswith("fno"):
             assert "CUBLAS_WORKSPACE_CONFIG" not in env
         else:
             assert env["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"
