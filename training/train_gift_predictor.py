@@ -37,6 +37,7 @@ SEEDS = (20260820, 20260821, 20260822)
 def branch_sources():
     value = source_identity()
     for name in ("training/train_gift_predictor.py", "experiments/formal/train_gift_branches.py",
+                 "training/gift_continuation.py",
                  "experiments/formal/_shared/common.py", "experiments/formal/_shared/high_frequency.py",
                  "experiments/formal/_shared/gift_runtime.py", "training/gift_data.py",
                  "src/gift/paths.py"):
@@ -104,7 +105,8 @@ def derivative_epoch(model, loader, optimizer, device, scale):
 
 def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                config=PredictionTrainingConfig(), checkpoint_interval=10,
-               stop_after_epoch=None, log_interval=10, execution="eager"):
+               stop_after_epoch=None, log_interval=10, execution="eager",
+               continue_from=None, transition_record=None):
     config.validate()
     if seed not in SEEDS or checkpoint_interval < 1 or log_interval < 1:
         raise ValueError("invalid seed or checkpoint/log interval")
@@ -134,7 +136,10 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                 "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
                 "selection": "terminal_epoch", "budget_unit": "trajectory_epoch"}
     identity["execution"] = execution if device.type == "cuda" else "eager"
-    output, store = _open_run(output, identity, resume)
+    from training.gift_continuation import open_branch_run
+    output, store = open_branch_run(output, identity, resume=resume,
+                                   continue_from=continue_from, transition_record=transition_record)
+    identity = store.identity
     saved = store.payload
     if saved is not None:
         model.load_state_dict(saved["model"], strict=True)
@@ -221,6 +226,8 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
     binding = dict(bank.binding, profile="full_data_prediction", configuration=asdict(config),
                    selection="terminal_epoch", pretrained_branch_loaded=False, sources=identity["sources"],
                    execution=identity["execution"])
+    if "continuation" in identity:
+        binding["continuation"] = identity["continuation"]
     _write_checkpoint(output / "model.pt", model, seed=seed, phase="terminal_epoch", epoch=total_epochs,
                       selection_metric=history[-1]["validation"]["lead_1_full_relative_l2"],
                       frozen_generator_sha256=digest_file(low_model).upper(),
@@ -230,6 +237,8 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
               "configuration": asdict(config), "training_data": bank.binding, "training_cost": cost,
               "model_sha256": digest_file(output / "model.pt"), "runtime": store.runtime,
               "selection": "terminal_epoch", "sources": identity["sources"]}
+    if "continuation" in identity:
+        result["continuation"] = identity["continuation"]
     write_json_new(output / "COMPLETE.json", result)
     return result
 
@@ -240,6 +249,9 @@ def main(argv=None):
     action.add_argument("--dry-run", action="store_true")
     action.add_argument("--run-training", action="store_true")
     action.add_argument("--resume", action="store_true")
+    action.add_argument("--continue-from", type=Path,
+                        help="Continue this unfinished run in a NEW journal using a reviewed transition record.")
+    parser.add_argument("--transition-record", type=Path)
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--low-model", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -259,7 +271,8 @@ def main(argv=None):
         result = run_branch(args.dataset, args.low_model, args.output, seed=args.seed,
                             device=args.device, resume=args.resume,
                             checkpoint_interval=args.checkpoint_interval, stop_after_epoch=args.stop_after_epoch,
-                            execution=args.execution)
+                            execution=args.execution, continue_from=args.continue_from,
+                            transition_record=args.transition_record)
     print(json.dumps(result, indent=2), flush=True)
 
 

@@ -28,6 +28,21 @@ Existing parameter artifacts remain usable for inference.
 训练日志不能通过修改身份校验来冒充当前实现的同次续算；已有模型参数文件
 仍可正常读取。首次图构建计入训练 epoch 耗时，并非免费的训练计算。
 
+A reviewed source/backend change uses `--continue-from PARENT_RUN` instead of
+`--resume`, with a new output directory and `--transition-record RECORD.json`.
+The record binds the exact parent checkpoint SHA256, both source maps and
+backends, and hashed numerical-equality evidence. All other scientific identity
+fields and the numerical runtime must match. The complete committed model,
+optimizer, scheduler, RNG and history are transferred without a training update;
+the parent remains untouched. Subsequent ordinary resume is strict again.
+Continuation provenance is retained in the journal and terminal artifact. This
+is not permission to substitute another model's trained weights or to accept an
+unverified numerical change.
+
+经数值对照验证的执行方式切换须使用独立续算目录和明确的转换记录，不能放宽
+普通断点校验。已提交 epoch 的训练状态全部保留；未落盘的工作从最近检查点
+重算。训练耗时按各段实际记录累计，不把暂停等待时间算作计算时间。
+
 M2/M3/S1/S2/S3 accept `--gift-execution cuda-graph`. This only changes GIFT
 execution, including the GIFT-Lite inference arm. External algorithms and M1
 are unaffected. Inference retains all correction reports, leakage audits,
