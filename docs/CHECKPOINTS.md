@@ -19,10 +19,10 @@ Full-data prediction GIFT uses `artifacts/gift_full/generator.pt` and
 on 1,000 trajectories for 500 epochs each; their budgets and times are reported
 separately. Branch metadata bind the exact generator hash and declared seed.
 
-Availability: the full-data generator is complete; its three prediction branches
-are still training. The current prediction tables use completed GIFT-Lite and
-baseline weights. Missing full-data branches are not replaced by intermediate
-states. See the explicit GIFT-Lite-only commands in EXPERIMENT_EXECUTION.md.
+The full-data generator and all three prediction branches are included with
+their completed training histories, budget records and weight hashes. These
+are terminal 500-epoch states, not intermediate training checkpoints. Both GIFT
+regimes can be evaluated using the commands in EXPERIMENT_EXECUTION.md.
 
 GIFT-Lite uses the preserved clean generator in `artifacts/fixed_k21_n64_unmasked/`
 and the three branches in `artifacts/gift/`. It uses 50 training trajectories and

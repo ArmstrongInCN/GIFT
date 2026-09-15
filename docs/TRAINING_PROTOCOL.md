@@ -27,14 +27,14 @@ normalization, scheduling or checkpoint selection.
 Two training regimes share the same GIFT architecture. **GIFT** uses all 1,000
 prediction-training trajectories; its generator and high-frequency branch each
 receive 500 trajectory epochs. This is **500 + 500**, not a 500-epoch total and
-not a compute-matched claim. **GIFT-Lite** preserves the independently trained
-50-trajectory models and their original training schedule; Lite denotes reduced
+not a compute-matched claim. **GIFT-Lite** uses independently trained
+50-trajectory models and its own multi-stage schedule; Lite denotes reduced
 training data, not a smaller network. M1 identification training and results are
 unchanged and keep their separate protocol below.
 
 GIFT 的生成元与高频支路各训练 500 epoch，分项报告。每个 epoch 对
 全部 1,000 条训练轨迹各访问一次，从每条轨迹选择一个固定种子控制的时间窗口。
-GIFT-Lite 保留 50 条训练轨迹、20 条验证轨迹及已有训练权重；网络结构不缩小。
+GIFT-Lite 使用 50 条训练轨迹、20 条验证轨迹及验证选模方式；网络结构不缩小。
 两者的训练预算也不同，因此不能把性能差异仅归因于训练数据数量。
 
 ### Data and model selection
@@ -88,23 +88,24 @@ validation checkpoint.
 Generator derivative centres are sampled from 2–498. Branch derivative
 centres use the same available observation stencil. Rollout anchors are
 sampled from 0–450 so every 50-step target is a saved observation within 0–10.
-The formulas and normalization rules are unchanged, while the sampling unit
-is now a trajectory epoch rather than a pass over all derivative examples.
+The full-data sampling unit is a trajectory epoch. The reduced-data derivative
+stage instead passes over its fixed set of derivative examples.
 
 ### Reduced-data GIFT-Lite
 
-GIFT-Lite retains its completed generator (6,000 + 6,000 random-minibatch
-updates on 50 trajectories, with 20 validation trajectories). These updates
-are steps, not trajectory epochs. Its three branch runs retain 18 derivative
+GIFT-Lite uses a generator trained for 6,000 + 6,000 random-minibatch
+updates on 50 trajectories, with 20 validation trajectories. These updates
+are steps, not trajectory epochs. Its three branch runs use 18 derivative
 passes, two short-rollout passes and two single-pass long-rollout stages,
-5,834 updates per seed. Its validation-selected weights are preserved exactly.
+5,834 updates per seed. The packaged branches are the validation-selected
+weights from their respective fresh-initialization runs.
 The shared generator cost is reported once, separately from the three branches.
 
 ### Independent commands and continuation
 
 ```shell
-python -m training.train_gift_generator --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
-python -m training.train_gift_predictor --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
+python -m training.train_gift_generator --run-training --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
+python -m training.train_gift_predictor --run-training --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
 ```
 
 Run the branch command separately for each of the three declared seeds. Replace

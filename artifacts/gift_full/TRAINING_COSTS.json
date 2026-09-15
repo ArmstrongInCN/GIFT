@@ -1,0 +1,90 @@
+{
+  "schema": "gift.training-costs.v1",
+  "shared_clean_pretraining_counted_once": true,
+  "runs": [
+    {
+      "path": "artifacts/gift_full/generator.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 279268,
+      "sha256": "8C224C873198F844EBCABF1BEF95FFD6ACCA0C922020030A63DC71BF62EAF220",
+      "training_cost": {
+        "epochs": 500,
+        "optimizer_updates": 31500,
+        "affine_fits": 501,
+        "committed_epoch_seconds": 703.8105353003484,
+        "timing_scope": "sampling, gradient updates, affine refits and validation; excludes setup, checkpoint writes and paused time"
+      },
+      "training_regime": "full_data_prediction"
+    },
+    {
+      "path": "artifacts/gift_full/gift_seed_20260820.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11321746,
+      "sha256": "34D9F0D41BB3B1AF7F2EC388B402CA13E8F0E346271D0CECC7423ADD56AB0904",
+      "training_cost": {
+        "epochs": 500,
+        "phase_epochs": [
+          400,
+          50,
+          25,
+          25
+        ],
+        "optimizer_updates": 45200,
+        "committed_epoch_seconds": 17376.91221470089,
+        "shared_generator_epochs": 500,
+        "shared_generator_sha256": "8c224c873198f844ebcabf1bef95ffd6acca0c922020030a63dc71bf62eaf220",
+        "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"
+      },
+      "training_regime": "full_data_prediction",
+      "seed": 20260820
+    },
+    {
+      "path": "artifacts/gift_full/gift_seed_20260821.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11319506,
+      "sha256": "98150F51C8F4980866CAAF95B75BA53FE86F05F8948D15DEE75C86CB7704AAC1",
+      "training_cost": {
+        "epochs": 500,
+        "phase_epochs": [
+          400,
+          50,
+          25,
+          25
+        ],
+        "optimizer_updates": 45200,
+        "committed_epoch_seconds": 7867.976711800729,
+        "shared_generator_epochs": 500,
+        "shared_generator_sha256": "8c224c873198f844ebcabf1bef95ffd6acca0c922020030a63dc71bf62eaf220",
+        "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"
+      },
+      "training_regime": "full_data_prediction",
+      "seed": 20260821
+    },
+    {
+      "path": "artifacts/gift_full/gift_seed_20260822.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 11319506,
+      "sha256": "177E9804BFE5432F0B42DC0787E846EF5F5D692EEF787F65C6459671DC5593BD",
+      "training_cost": {
+        "epochs": 500,
+        "phase_epochs": [
+          400,
+          50,
+          25,
+          25
+        ],
+        "optimizer_updates": 45200,
+        "committed_epoch_seconds": 9268.392118600197,
+        "shared_generator_epochs": 500,
+        "shared_generator_sha256": "8c224c873198f844ebcabf1bef95ffd6acca0c922020030a63dc71bf62eaf220",
+        "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"
+      },
+      "training_regime": "full_data_prediction",
+      "seed": 20260822
+    }
+  ]
+}

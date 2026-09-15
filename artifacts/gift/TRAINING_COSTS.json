@@ -67,78 +67,480 @@
     },
     {
       "path": "artifacts/gift/gift_seed_20260820.pt",
-      "method": "GIFT",
+      "method": "GIFT-Lite",
+      "seed": 20260820,
       "artifact_role": "trained_weights",
-      "bytes": 11314322,
-      "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A",
-      "model_state_sha256": "5911cde7deb840b819eddf3b9bb77e92fc596198d0e6818cc880969a2fc009fd",
+      "bytes": 11318866,
+      "sha256": "9BA5941EC4B915EB1323117AA9D6A18E7D6BFC3FB8406A7F016497F3F2131B89",
+      "model_state_sha256": "f12ee8548b56943cf76faa52dea054f9ccc786866057e16185a2aaef5782b18f",
       "training_cost": {
         "optimizer_updates": 5834,
+        "committed_training_validation_seconds": 205.49187930009793,
+        "phases": [
+          {
+            "phase": "derivative",
+            "epoch": 1,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.559772400010843
+          },
+          {
+            "phase": "derivative",
+            "epoch": 2,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.1851603999966756
+          },
+          {
+            "phase": "derivative",
+            "epoch": 3,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.213392300007399
+          },
+          {
+            "phase": "derivative",
+            "epoch": 4,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.186327199975494
+          },
+          {
+            "phase": "derivative",
+            "epoch": 5,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.2603066000156105
+          },
+          {
+            "phase": "derivative",
+            "epoch": 6,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.11075679998612
+          },
+          {
+            "phase": "derivative",
+            "epoch": 7,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.178851300035603
+          },
+          {
+            "phase": "derivative",
+            "epoch": 8,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.254102099977899
+          },
+          {
+            "phase": "derivative",
+            "epoch": 9,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.363907499995548
+          },
+          {
+            "phase": "derivative",
+            "epoch": 10,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.364375300006941
+          },
+          {
+            "phase": "derivative",
+            "epoch": 11,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.222225800040178
+          },
+          {
+            "phase": "derivative",
+            "epoch": 12,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.3388407999882475
+          },
+          {
+            "phase": "derivative",
+            "epoch": 13,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.299581600003876
+          },
+          {
+            "phase": "derivative",
+            "epoch": 14,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.278541300038341
+          },
+          {
+            "phase": "derivative",
+            "epoch": 15,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.578274899977259
+          },
+          {
+            "phase": "derivative",
+            "epoch": 16,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.319205500010867
+          },
+          {
+            "phase": "derivative",
+            "epoch": 17,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.24873450002633
+          },
+          {
+            "phase": "derivative",
+            "epoch": 18,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.371202500013169
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 22.589122499979567
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 2,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 18.927582300035283
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_1",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 45.683108300028834
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_2",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 40.95850739994785
+          }
+        ],
+        "timing_scope": "training passes and their validation, including data transfers",
+        "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+        "shared_generator_pretraining_included": false,
         "phase_updates": [
           5634,
           100,
           100
         ],
-        "training_and_export_seconds": 610.8053727999941,
-        "committed_training_validation_seconds": null,
-        "timing_scope": "single-seed data/RHS preparation, training, validation, selection, checkpoint and terminal/history export",
-        "timing_excludes": "shared low-generator pretraining, initial input/protocol checks, final report/manifest writing",
-        "per_stage_times_available": false,
+        "per_stage_times_available": true,
         "same_run_resume_used": false,
-        "count_evidence": "complete 18+2+2 same-run history; one update per batch, final partial batch retained",
-        "shared_generator_pretraining_included": false
-      },
-      "seed": 20260820
+        "training_and_export_seconds": 231.3080475999741,
+        "end_to_end_timing_scope": "data/RHS preparation, training, validation, selection, checkpoint and terminal/history export; excludes shared generator pretraining and initial input checks"
+      }
     },
     {
       "path": "artifacts/gift/gift_seed_20260821.pt",
-      "method": "GIFT",
+      "method": "GIFT-Lite",
+      "seed": 20260821,
       "artifact_role": "trained_weights",
-      "bytes": 11314322,
-      "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819",
-      "model_state_sha256": "724ddb436b9569eb4ad2f627de77d7a6eedc137cae6fece8d6c65b53578162c7",
+      "bytes": 11318866,
+      "sha256": "AFB09D168934FB732E72B5E10D5007101D7BAEADA0480F923936524A165FB76C",
+      "model_state_sha256": "7d8459ef6e3835209987c764930d049c27cc96c9f767eca0be9bbea3f6df3b59",
       "training_cost": {
         "optimizer_updates": 5834,
+        "committed_training_validation_seconds": 233.10490210028365,
+        "phases": [
+          {
+            "phase": "derivative",
+            "epoch": 1,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.032975100039039
+          },
+          {
+            "phase": "derivative",
+            "epoch": 2,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.4455220000236295
+          },
+          {
+            "phase": "derivative",
+            "epoch": 3,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.23502780002309
+          },
+          {
+            "phase": "derivative",
+            "epoch": 4,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.207972800009884
+          },
+          {
+            "phase": "derivative",
+            "epoch": 5,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.291109699988738
+          },
+          {
+            "phase": "derivative",
+            "epoch": 6,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.332784600032028
+          },
+          {
+            "phase": "derivative",
+            "epoch": 7,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.4673343999893405
+          },
+          {
+            "phase": "derivative",
+            "epoch": 8,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.525834999978542
+          },
+          {
+            "phase": "derivative",
+            "epoch": 9,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.409501600021031
+          },
+          {
+            "phase": "derivative",
+            "epoch": 10,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.520160800020676
+          },
+          {
+            "phase": "derivative",
+            "epoch": 11,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.464843900001142
+          },
+          {
+            "phase": "derivative",
+            "epoch": 12,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.293756400002167
+          },
+          {
+            "phase": "derivative",
+            "epoch": 13,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.412103099981323
+          },
+          {
+            "phase": "derivative",
+            "epoch": 14,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.482584300043527
+          },
+          {
+            "phase": "derivative",
+            "epoch": 15,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.4231664999970235
+          },
+          {
+            "phase": "derivative",
+            "epoch": 16,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.526599400036503
+          },
+          {
+            "phase": "derivative",
+            "epoch": 17,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.4577973000123166
+          },
+          {
+            "phase": "derivative",
+            "epoch": 18,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.316946700040717
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 25.856934799987357
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 2,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 28.108945700048935
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_1",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 57.69253519998165
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_2",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 41.600465000025
+          }
+        ],
+        "timing_scope": "training passes and their validation, including data transfers",
+        "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+        "shared_generator_pretraining_included": false,
         "phase_updates": [
           5634,
           100,
           100
         ],
-        "training_and_export_seconds": 717.9935531000083,
-        "committed_training_validation_seconds": null,
-        "timing_scope": "single-seed data/RHS preparation, training, validation, selection, checkpoint and terminal/history export",
-        "timing_excludes": "shared low-generator pretraining, initial input/protocol checks, final report/manifest writing",
-        "per_stage_times_available": false,
+        "per_stage_times_available": true,
         "same_run_resume_used": false,
-        "count_evidence": "complete 18+2+2 same-run history; one update per batch, final partial batch retained",
-        "shared_generator_pretraining_included": false
-      },
-      "seed": 20260821
+        "training_and_export_seconds": 261.25198459997773,
+        "end_to_end_timing_scope": "data/RHS preparation, training, validation, selection, checkpoint and terminal/history export; excludes shared generator pretraining and initial input checks"
+      }
     },
     {
       "path": "artifacts/gift/gift_seed_20260822.pt",
-      "method": "GIFT",
+      "method": "GIFT-Lite",
+      "seed": 20260822,
       "artifact_role": "trained_weights",
-      "bytes": 11314322,
-      "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201",
-      "model_state_sha256": "c0f42c91cc8c333eb64d3a7df62fa94dbb49224cd0cde640741aa40429e934dd",
+      "bytes": 11318866,
+      "sha256": "4C365A7D7AD25EF30AAB5784010D9C3CD843F11142C70C8DE0F66E83EB08A1FA",
+      "model_state_sha256": "792bed18623dd31dc6efe7e40377ffb8ae1a95dc7dd7d2ede9372091e00f7b30",
       "training_cost": {
         "optimizer_updates": 5834,
+        "committed_training_validation_seconds": 221.19860789988888,
+        "phases": [
+          {
+            "phase": "derivative",
+            "epoch": 1,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.288644200016279
+          },
+          {
+            "phase": "derivative",
+            "epoch": 2,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.169163899961859
+          },
+          {
+            "phase": "derivative",
+            "epoch": 3,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.08443669998087
+          },
+          {
+            "phase": "derivative",
+            "epoch": 4,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.973276200005785
+          },
+          {
+            "phase": "derivative",
+            "epoch": 5,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.028749599994626
+          },
+          {
+            "phase": "derivative",
+            "epoch": 6,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.871095400012564
+          },
+          {
+            "phase": "derivative",
+            "epoch": 7,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.9989397000172175
+          },
+          {
+            "phase": "derivative",
+            "epoch": 8,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.750488099991344
+          },
+          {
+            "phase": "derivative",
+            "epoch": 9,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.0121303999912925
+          },
+          {
+            "phase": "derivative",
+            "epoch": 10,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.681252299982589
+          },
+          {
+            "phase": "derivative",
+            "epoch": 11,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.6888293999945745
+          },
+          {
+            "phase": "derivative",
+            "epoch": 12,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.697776300017722
+          },
+          {
+            "phase": "derivative",
+            "epoch": 13,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.058229700021911
+          },
+          {
+            "phase": "derivative",
+            "epoch": 14,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.358898799982853
+          },
+          {
+            "phase": "derivative",
+            "epoch": 15,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.003751599986572
+          },
+          {
+            "phase": "derivative",
+            "epoch": 16,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.126652799954172
+          },
+          {
+            "phase": "derivative",
+            "epoch": 17,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.857704499969259
+          },
+          {
+            "phase": "derivative",
+            "epoch": 18,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.736644899996463
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 23.430041900021024
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 2,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 21.3357819999801
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_1",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 47.540577200008556
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_2",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 39.50554230000125
+          }
+        ],
+        "timing_scope": "training passes and their validation, including data transfers",
+        "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+        "shared_generator_pretraining_included": false,
         "phase_updates": [
           5634,
           100,
           100
         ],
-        "training_and_export_seconds": 703.8174106000079,
-        "committed_training_validation_seconds": null,
-        "timing_scope": "single-seed data/RHS preparation, training, validation, selection, checkpoint and terminal/history export",
-        "timing_excludes": "shared low-generator pretraining, initial input/protocol checks, final report/manifest writing",
-        "per_stage_times_available": false,
+        "per_stage_times_available": true,
         "same_run_resume_used": false,
-        "count_evidence": "complete 18+2+2 same-run history; one update per batch, final partial batch retained",
-        "shared_generator_pretraining_included": false
-      },
-      "seed": 20260822
+        "training_and_export_seconds": 251.05257470003562,
+        "end_to_end_timing_scope": "data/RHS preparation, training, validation, selection, checkpoint and terminal/history export; excludes shared generator pretraining and initial input checks"
+      }
     }
   ]
 }

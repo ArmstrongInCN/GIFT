@@ -18,8 +18,8 @@ Full-data GIFT and reduced-data GIFT-Lite use the same training engine. Each
 model still has its own command, scientific schedule and complete-state journal:
 
 ```shell
-python -m scripts.run_training gift_generator --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
-python -m scripts.run_training gift_predictor --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
+python -m scripts.run_training gift_generator --run-training --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
+python -m scripts.run_training gift_predictor --run-training --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
 python -m scripts.run_training gift_low --run-training --condition noise_000 --output ../runs/gift_lite_generator
 python -m scripts.run_training gift_branch --run-training --low-model ../runs/gift_lite_generator/gift_main.pt --seed 20260820 --output ../runs/gift_lite_branch_20260820
 ```
@@ -192,7 +192,7 @@ precision or rewriting external algorithms is deliberately outside this backend.
 Use the same configured environment and explicitly selected model files:
 
 ```shell
-python -m scripts.benchmark_gift --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --generator ../runs/gift_generator/model.pt --branch ../runs/gift_branch_20260820/model.pt --rows 60 --repeats 3 --output ../benchmarks/gift.json
+python -m scripts.benchmark_gift --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --generator ../runs/gift_generator/model.pt --branch ../runs/gift_branch_20260820/model.pt --rows 60 --repeats 3 --output ../benchmarks/gift.json
 ```
 
 This writes a new JSON receipt and performs disposable optimizer updates only.

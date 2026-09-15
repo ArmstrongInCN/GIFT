@@ -3,6 +3,14 @@ Reference,scalar_field,5.0,panels/reference/traj1045_reference_scalar_T5p0.svg
 Reference,scalar_field,6.0,panels/reference/traj1045_reference_scalar_T6p0.svg
 Reference,scalar_field,7.0,panels/reference/traj1045_reference_scalar_T7p0.svg
 Reference,scalar_field,8.0,panels/reference/traj1045_reference_scalar_T8p0.svg
+GIFT,scalar_field,5.0,panels/gift/traj1045_gift_scalar_T5p0.svg
+GIFT,signed_residual,5.0,panels/gift/traj1045_gift_residual_T5p0.svg
+GIFT,scalar_field,6.0,panels/gift/traj1045_gift_scalar_T6p0.svg
+GIFT,signed_residual,6.0,panels/gift/traj1045_gift_residual_T6p0.svg
+GIFT,scalar_field,7.0,panels/gift/traj1045_gift_scalar_T7p0.svg
+GIFT,signed_residual,7.0,panels/gift/traj1045_gift_residual_T7p0.svg
+GIFT,scalar_field,8.0,panels/gift/traj1045_gift_scalar_T8p0.svg
+GIFT,signed_residual,8.0,panels/gift/traj1045_gift_residual_T8p0.svg
 GIFT-Lite,scalar_field,5.0,panels/gift_lite/traj1045_gift_lite_scalar_T5p0.svg
 GIFT-Lite,signed_residual,5.0,panels/gift_lite/traj1045_gift_lite_residual_T5p0.svg
 GIFT-Lite,scalar_field,6.0,panels/gift_lite/traj1045_gift_lite_scalar_T6p0.svg

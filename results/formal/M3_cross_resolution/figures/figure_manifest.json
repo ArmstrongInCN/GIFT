@@ -2,20 +2,77 @@
   "status": "complete",
   "evidence": {
     "experiment": "M3",
-    "report_sha256": "0F7B45CC9571E0026DA7BC855B60C291FD485A5E37CBB00B1BF4252E40E91E40",
+    "report_sha256": "8DDECC67DB48B5E444B6880248E815AED0312AFC7413295BA21340FED6845715",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 165319,
-        "sha256": "71A98C6C587D72FA9B33DDC10F60510C720D5E5ABDB400FDCCCD8A3CF07C2A42"
+        "bytes": 264003,
+        "sha256": "E5EF587AAF262440DD59D418732CFEB172319ED7F6ED27CF5DFB4F64CD0BE6FE"
       },
       {
         "path": "raw/predictions.h5",
-        "bytes": 1424020941,
-        "sha256": "6E4DAA05E3415E9EEA14DAC01B2169B4B550688A4E3E26502676D5E3FBC725CD"
+        "bytes": 1730423987,
+        "sha256": "0FFCF960E0239B69B39E987FE896717E599C844DC878A7B6EC847D9AC7C04D76"
       }
     ],
-    "experiment_inputs": {}
+    "experiment_inputs": {
+      "N64_raw_data": {
+        "bytes": 53612625,
+        "sha256": "4B448BDCA9CC982C75CE1AD7CD77D8F16B3316536179DE56AC2311A1283F9E26"
+      },
+      "N96_N128_raw_data": {
+        "bytes": 326926073,
+        "sha256": "1F4AB3C619EB4D583DD3DA61481FA3806BB74A4A7265A000ADCAF25002CBCF02"
+      },
+      "fno_test_data": {
+        "bytes": 2080467036,
+        "sha256": "4EC93370765E4D2700F6443AC44C5B103C383DE6973568D0908CB36B944E84C3"
+      },
+      "low_frequency_model": {
+        "bytes": 279268,
+        "sha256": "8C224C873198F844EBCABF1BEF95FFD6ACCA0C922020030A63DC71BF62EAF220"
+      },
+      "gift_models": {
+        "20260820": {
+          "bytes": 11321746,
+          "sha256": "34D9F0D41BB3B1AF7F2EC388B402CA13E8F0E346271D0CECC7423ADD56AB0904"
+        },
+        "20260821": {
+          "bytes": 11319506,
+          "sha256": "98150F51C8F4980866CAAF95B75BA53FE86F05F8948D15DEE75C86CB7704AAC1"
+        },
+        "20260822": {
+          "bytes": 11319506,
+          "sha256": "177E9804BFE5432F0B42DC0787E846EF5F5D692EEF787F65C6459671DC5593BD"
+        }
+      },
+      "fno2d_model": {
+        "bytes": 3724645,
+        "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039"
+      },
+      "fno3d_model": {
+        "bytes": 32679041,
+        "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B"
+      },
+      "gift_lite": {
+        "lite_low_model": {
+          "bytes": 398738,
+          "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B"
+        },
+        "lite_gift_20260820": {
+          "bytes": 11318866,
+          "sha256": "9BA5941EC4B915EB1323117AA9D6A18E7D6BFC3FB8406A7F016497F3F2131B89"
+        },
+        "lite_gift_20260821": {
+          "bytes": 11318866,
+          "sha256": "AFB09D168934FB732E72B5E10D5007101D7BAEADA0480F923936524A165FB76C"
+        },
+        "lite_gift_20260822": {
+          "bytes": 11318866,
+          "sha256": "4C365A7D7AD25EF30AAB5784010D9C3CD843F11142C70C8DE0F66E83EB08A1FA"
+        }
+      }
+    }
   },
   "details": {
     "trajectory_id": 1150,
@@ -62,6 +119,7 @@
     "baseline_seeds": 1,
     "hypothesis_tests": "none",
     "methods": [
+      "GIFT",
       "GIFT-Lite",
       "FNO-2D",
       "FNO-3D"
@@ -76,7 +134,7 @@
     "policy": "crispEdges on QuadMesh groups only",
     "groups_per_svg": {
       "cross_resolution_mean_relative_l2.svg": 0,
-      "traj1150_n128_t6_prediction_fields.svg": 9
+      "traj1150_n128_t6_prediction_fields.svg": 11
     }
   },
   "svg_checks": {
@@ -89,30 +147,30 @@
     "traj1150_n128_t6_prediction_fields.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "505.42677pt",
-      "height": "254.810976pt"
+      "width": "510.410356pt",
+      "height": "249.384258pt"
     }
   },
   "files": [
     {
       "path": "cross_resolution_mean_relative_l2.svg",
-      "bytes": 56523,
-      "sha256": "BCC4A839DD79FF18FDAF3D8CAB6C5012EFDA7777172C1C3F0D1F886067CAACE7"
+      "bytes": 64044,
+      "sha256": "0064C7C7B998C8F84B50DE85F49B5FC327DB45145B007F1A10BA4C023B5B04DE"
     },
     {
       "path": "source_data.csv",
-      "bytes": 28408,
-      "sha256": "2303B639470705386F2BF58E5BDA5982D6217B55CCD64166A38D36C0E8FE8366"
+      "bytes": 45148,
+      "sha256": "ECCDE5AF1FC36F651557B2C00469090F782CDED83A3F6322FE504429560DCA21"
     },
     {
       "path": "source_fields.npz",
-      "bytes": 243622,
-      "sha256": "DC01D89841CCC231F8ADB255F57FED5842074F188A1F256870EAF2B7FFD18441"
+      "bytes": 304522,
+      "sha256": "53E68DEA1A35CF196CD91BBEE4591FC238A44FFA038B218B34E00CC5D9B44B9D"
     },
     {
       "path": "traj1150_n128_t6_prediction_fields.svg",
-      "bytes": 22600747,
-      "sha256": "1FE286E986DA373DB4FE9DA1E99F5C85A88D12BCEE7059DE0E71BD72441F6512"
+      "bytes": 29071979,
+      "sha256": "C899B2AC32DC1736D49D9FE03CAACC8D996FC6EEA31508E18B79AA3FA7E92C6D"
     }
   ]
 }

@@ -11,23 +11,22 @@ experiment name for an explicitly recorded CPU evaluation.
 以下命令彼此独立。使用随项目提供的完整权重可跳过训练；使用自己从零训练得到的
 权重时，显式指定相应路径。输出目录不能与数据、源码或已有结果重叠。
 
-## Evaluate the currently completed prediction models
+## Quick evaluation with the supplied prediction weights
 
-The supplied prediction tables use GIFT-Lite and the applicable baselines.
-Full-data GIFT branches are still training. These commands do not require them:
+Both GIFT regimes and the applicable baselines have supplied trained weights.
+These independent commands perform inference and statistics without training:
 
 ```shell
-python -m scripts.run_experiment M2 --gift-regimes GIFT-Lite --output ../runs/M2_lite --skip-plots
-python -m scripts.run_experiment M3 --gift-regimes GIFT-Lite --output ../runs/M3_lite --skip-plots
-python -m scripts.run_experiment S1 --gift-regime GIFT-Lite --output ../runs/S1_lite
-python -m scripts.run_experiment S2 --gift-regimes GIFT-Lite --output ../runs/S2_lite
-python -m scripts.run_experiment S3 --gift-regime GIFT-Lite --output ../runs/S3_lite
+python -m scripts.run_experiment M2 --output ../runs/M2 --skip-plots
+python -m scripts.run_experiment M3 --output ../runs/M3 --skip-plots
+python -m scripts.run_experiment S2 --output ../runs/S2
 ```
 
-`--gift-regimes` explicitly selects completed regimes for M2/M3/S2; omitting it
-requires both GIFT and GIFT-Lite. S1/S3 run one `--gift-regime` per command.
+M2/M3/S2 require both GIFT and GIFT-Lite by default. For an explicitly limited
+GIFT-Lite-only evaluation, add `--gift-regimes GIFT-Lite` and choose a separate
+output. S1/S3 run one `--gift-regime` per command, as detailed below.
 Selection never silently skips a missing requested model or a failed trajectory.
-当前已完成结果可直接重算，不必等待全数据 GIFT；这些命令只做评价，不启动训练。
+两种 GIFT 的完整权重均可用于重算；这些命令只做评价，不启动训练。
 
 ## M1: equation identification
 

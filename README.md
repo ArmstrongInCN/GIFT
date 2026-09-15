@@ -19,7 +19,7 @@ GIFT 将可解释的生成元、高频学习支路和递归局部修正结合起
 
 [实验报告](EXPERIMENTS.md) · [安装与独立运行](docs/SETUP.md) · [训练协议](docs/TRAINING_PROTOCOL.md) · [计算效率](docs/PERFORMANCE.md) · [实验图像](docs/FIGURES.md)
 
-项目包含六项实验的实测汇总、五幅 SVG 和已完成训练的模型权重。当前预测图表展示 GIFT-Lite（50 条训练轨迹）及四个基线在 180 条独立测试轨迹上的结果；全数据 GIFT 的生成元已完成，高频支路训练中，预测结果尚未纳入。可直接阅读结果、用已完成权重快速重算，或按模型分别从零训练与断点续算。数据包单独提供，不包含在 GitHub 仓库中。
+项目包含六项实验的实测汇总、五幅 SVG 和完整模型权重。预测图表展示 GIFT（1000 条训练轨迹）、GIFT-Lite（50 条训练轨迹）及基线在 180 条独立测试轨迹上的结果。可直接阅读结果、用权重快速重算，或按模型分别从零训练与断点续算。数据包单独提供，不包含在 GitHub 仓库中。
 
 结论及适用范围见[结果说明](docs/RESULTS.md)：相同 epoch 不代表相同计算量，固定种子也不保证跨设备逐比特一致。
 
@@ -31,7 +31,7 @@ Models and experiments have independent entry points. GIFT uses accelerated GPU 
 
 [Experiment report (Chinese)](EXPERIMENTS.md) · [Setup and execution](docs/SETUP.md) · [Training protocol](docs/TRAINING_PROTOCOL.md) · [Performance](docs/PERFORMANCE.md) · [Experiment figures](docs/FIGURES.md)
 
-The project includes measured summaries for six experiments, five SVG figures and weights from completed training. Prediction figures currently show GIFT-Lite (50 training trajectories) and the baselines on 180 independent test trajectories. The full-data GIFT generator is complete; its branches are still training and its predictions are not yet included. Read the results, recompute them with completed weights, or train and resume each model independently. The data package is supplied separately, outside GitHub.
+The project includes measured summaries for six experiments, five SVG figures and complete model weights. Prediction figures show GIFT (1,000 training trajectories), GIFT-Lite (50 training trajectories) and the baselines on 180 independent test trajectories. Read the results, recompute them with the supplied weights, or train and resume each model independently. The data package is supplied separately, outside GitHub.
 
 See the [result notes](docs/RESULTS.md) for findings and evaluation boundaries. Equal epochs do not imply equal compute, and fixed seeds do not guarantee cross-device bitwise equality.
 

@@ -2,20 +2,82 @@
   "status": "complete",
   "evidence": {
     "experiment": "M2",
-    "report_sha256": "940115A867534A2C4744DFAE88177DBDEF56AAEB68F3AD95C0A6CCB2F9D635E9",
+    "report_sha256": "2DE57C3B24D1A43FA055330DA1F97068263BBF159A8FCF3CFDD5951EFA028567",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 6781,
-        "sha256": "354361F6B18116BE82FB5DEAFE922B7414CAF19FA67F5D98E596D431E96B0613"
+        "bytes": 9711,
+        "sha256": "D9F836FB4E126209F3B193E497D0F13C49F392B7ADD4528A1764C988254DE805"
       }
     ],
-    "experiment_inputs": {}
+    "experiment_inputs": {
+      "long_truth": {
+        "bytes": 482521459,
+        "sha256": "DAB35CC550087A8E136443F80F44E96D70C29584037020246B6B34B026F12347"
+      },
+      "fno_test_data": {
+        "bytes": 2080467036,
+        "sha256": "4EC93370765E4D2700F6443AC44C5B103C383DE6973568D0908CB36B944E84C3"
+      },
+      "low_frequency_model": {
+        "bytes": 279268,
+        "sha256": "8C224C873198F844EBCABF1BEF95FFD6ACCA0C922020030A63DC71BF62EAF220"
+      },
+      "gift_models": {
+        "20260820": {
+          "bytes": 11321746,
+          "sha256": "34D9F0D41BB3B1AF7F2EC388B402CA13E8F0E346271D0CECC7423ADD56AB0904"
+        },
+        "20260821": {
+          "bytes": 11319506,
+          "sha256": "98150F51C8F4980866CAAF95B75BA53FE86F05F8948D15DEE75C86CB7704AAC1"
+        },
+        "20260822": {
+          "bytes": 11319506,
+          "sha256": "177E9804BFE5432F0B42DC0787E846EF5F5D692EEF787F65C6459671DC5593BD"
+        }
+      },
+      "fno2d_model": {
+        "bytes": 3724645,
+        "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039"
+      },
+      "fno3d_model": {
+        "bytes": 32679041,
+        "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B"
+      },
+      "uno_model": {
+        "bytes": 654,
+        "sha256": "6CD0072A2563A90F8045689825BB083C518BED1F315CE670BBC0781331FE5D56"
+      },
+      "unet_model": {
+        "bytes": 99937647,
+        "sha256": "5E41BBFA29BB779B8F3D596E5F1DAC9FF0BB526CFF62BD5E89EFF77D75167086"
+      },
+      "gift_lite": {
+        "lite_low_model": {
+          "bytes": 398738,
+          "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B"
+        },
+        "lite_gift_20260820": {
+          "bytes": 11318866,
+          "sha256": "9BA5941EC4B915EB1323117AA9D6A18E7D6BFC3FB8406A7F016497F3F2131B89"
+        },
+        "lite_gift_20260821": {
+          "bytes": 11318866,
+          "sha256": "AFB09D168934FB732E72B5E10D5007101D7BAEADA0480F923936524A165FB76C"
+        },
+        "lite_gift_20260822": {
+          "bytes": 11318866,
+          "sha256": "4C365A7D7AD25EF30AAB5784010D9C3CD843F11142C70C8DE0F66E83EB08A1FA"
+        }
+      }
+    }
   },
   "details": {
     "metric": "mean per-trajectory relative L2",
     "trajectory_count": 180,
     "methods": [
+      "GIFT",
       "GIFT-Lite",
       "FNO-2D",
       "FNO-3D",
@@ -31,7 +93,7 @@
     "curve": "PCHIP visual guide through measured points",
     "y_limits": [
       0.0,
-      1.3047869593093075
+      1.30467742936609
     ],
     "error_bars": "none",
     "hypothesis_tests": "none"
@@ -58,18 +120,18 @@
   "files": [
     {
       "path": "mean_relative_l2_vs_time.svg",
-      "bytes": 26975,
-      "sha256": "0C0F6DB592D6BC4DBFF52E03A9E8478A0537AA6713C0196A4C600640F905DC6E"
+      "bytes": 30043,
+      "sha256": "1F1CFD02EF826346303539B6E0EB5BA94298A69EEA9C6283CE2B83B69D552FBB"
     },
     {
       "path": "source_data.csv",
-      "bytes": 1491,
-      "sha256": "A7DDB0EF9242D5A32501B84ECC44600A569FE403997C0FE383D3C41A898B64E0"
+      "bytes": 1873,
+      "sha256": "4E3060F2831D7569FBAD9A49984E2D159016233DE185FB3048DF5FD95716E756"
     },
     {
       "path": "source_manifest.csv",
       "bytes": 155,
-      "sha256": "C7AF92D76BA02A62EE269FCF2037D3A7A5B51E0317F3B8C4694BD5B2C5839015"
+      "sha256": "B5B3CD6F5CF3547C7220AD9A7A3D60D8AEB46C428FC52BE27C1DE8A2CDDE4672"
     }
   ]
 }
