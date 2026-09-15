@@ -73,7 +73,7 @@ def source_identity():
         "src/gift/model.py", "src/gift/identifiability.py", "src/gift/identified.py",
         "src/gift/__init__.py",
         "experiments/formal/_shared/gift_generator_training.py",
-        "training/gift_acceleration.py", "src/gift/execution.py",
+        "training/gift_acceleration.py", "training/gift_branch_kernels.py", "src/gift/execution.py",
         "experiments/formal/train_gift_branches.py",
         "experiments/formal/_shared/high_frequency.py",
         "experiments/formal/_shared/gift_runtime.py",

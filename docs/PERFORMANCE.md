@@ -53,13 +53,13 @@ These are component benchmarks, **not completed 500-epoch training times**.
 
 | Stage / 阶段 | Eager median / 中位秒数 | Graph median / 中位秒数 | Speedup / 加速比 |
 | --- | ---: | ---: | ---: |
-| Generator gradient training / 生成元梯度训练 | 0.0955 | 0.0283 | 3.38× |
-| Branch derivative training / 支路导数训练 | 0.0580 | 0.0341 | 1.70× |
-| Branch short recursion / 支路短递归训练 | 6.2972 | 1.4037 | 4.49× |
-| Branch long recursion / 支路长递归训练 | 31.1887 | 6.9506 | 4.49× |
+| Generator gradient training / 生成元梯度训练 | 0.0759 | 0.0273 | 2.78× |
+| Branch derivative training / 支路导数训练 | 0.0575 | 0.0338 | 1.70× |
+| Branch short recursion / 支路短递归训练 | 6.1704 | 1.3059 | 4.73× |
+| Branch long recursion / 支路长递归训练 | 31.5045 | 6.4316 | 4.90× |
 
-Graph setup, including two warmups, took approximately 0.24, 0.31, 1.65 and
-7.20 seconds respectively for the measured batch shapes. Results depend on
+Graph setup, including two warmups, took approximately 0.23, 0.32, 1.42 and
+6.30 seconds respectively for the measured batch shapes. Results depend on
 hardware, thermal state, batch shape and runtime; they are not universal ratios.
 Final model parameters and aggregate losses matched bitwise in all repeats.
 
@@ -73,12 +73,12 @@ the eager reference. Artificial failures were also checked: a failure-heavy N128
 case was about 6% slower, illustrating why this backend remains optional.
 
 Additional numerical stress tests covered 1,000 real trajectory inputs per
-training stage (63 generator/derivative updates; 200 short/long updates), comparing
+branch stage (63 derivative updates; 200 short/long updates), comparing
 raw gradients, clipped gradients, model parameters and complete optimizer state
 after each update. The paired stress harness also checked identical controlled
 scheduler states; it is not a newly completed formal epoch. Two further branch
-initialization seeds were checked on 20 trajectories each. All comparisons were
-bitwise equal. Fresh-process continuation was checked separately through the
+initialization seeds were checked on 21 trajectories each, including single-row
+tail batches. All comparisons were bitwise equal. Fresh-process continuation was checked separately through the
 actual training entry points on explicitly marked, short-budget fixtures,
 including phase changes and short final batches. This does not replace a full
 500 + 500 epoch accuracy run.
@@ -90,6 +90,14 @@ including phase changes and short final batches. This does not replace a full
 - Capture forward/backward tensor work separately for each phase/batch shape.
   Gradient clipping, AdamW and scheduler steps remain ordinary PyTorch calls.
   A short final batch has its own graph: no padding or changed sample weighting.
+- For full training batches (16 derivative trajectories or 5 rollout trajectories),
+  pack differentiable spectral-weight layouts once per backward segment, build
+  disjoint Fourier output bands by concatenation, and batch the four coefficient
+  projections. Parameters keep their ordinary storage and checkpoint format.
+  Packed views are rebuilt every segment and never reused across updates. Other
+  batch shapes use the reference graph because layout changes can affect the
+  last bits of gradients. Default prediction and validation do not use these
+  training-only kernels.
 - Use the same local-correction tensor core in training and audited inference.
   Training omits diagnostic reports it does not consume and accumulates safety
   flags on the device. A failed batch is rejected **before** the optimizer step.
@@ -105,6 +113,10 @@ These are not the dominant long-recursion bottleneck. Hash verification, observe
 derivative construction, affine-fit precision and checkpoint durability are not
 weakened for speed. Increasing batch size, reducing RK4 stages, enabling lower
 precision or rewriting external algorithms is deliberately outside this backend.
+
+训练专用布局不减少 RK4 步数、支路调用或反向段数。长递归一批仍包含 50 个 RK4
+时间步、200 次支路前向和 5 段反向。尾批不填充、不丢弃，使用原图执行路径。
+布局副本由普通自动微分连接到原参数；不分离权重，不实现自定义反向算子。
 
 ## Reproduce timing / 重做计时
 

@@ -246,7 +246,7 @@ class HighFrequencyBranch(nn.Module):
         return project(value, self.masks(state)[0])
 
     def forward_with_generator_output(
-        self, state: torch.Tensor, low_rhs: torch.Tensor
+        self, state: torch.Tensor, low_rhs: torch.Tensor, *, _training_kernels=None
     ) -> torch.Tensor:
         if low_rhs.shape != state.shape:
             raise ValueError("low_rhs shape differs from state")
@@ -265,7 +265,7 @@ class HighFrequencyBranch(nn.Module):
         )
         features = self.lift(inputs)
         for block in self.blocks:
-            features = block(features)
+            features = block(features) if _training_kernels is None else _training_kernels.block(block, features)
         decoded = self.decode2(F.gelu(self.decode1(features)))
 
         ky, kx, coefficient_mask = self.transport_grid(state)
@@ -280,10 +280,16 @@ class HighFrequencyBranch(nn.Module):
         laplacian = torch.fft.ifft2(-(kx * kx + ky * ky) * high_hat).real / (
             normalizer * normalizer * self.high_scale
         )
-        rate = torch.tanh(project(decoded[:, 0], coefficient_mask))
-        velocity_x = torch.tanh(project(decoded[:, 1], coefficient_mask))
-        velocity_y = torch.tanh(project(decoded[:, 2], coefficient_mask))
-        diffusivity = torch.sigmoid(project(decoded[:, 3], coefficient_mask))
+        if _training_kernels is None:
+            rate = torch.tanh(project(decoded[:, 0], coefficient_mask))
+            velocity_x = torch.tanh(project(decoded[:, 1], coefficient_mask))
+            velocity_y = torch.tanh(project(decoded[:, 2], coefficient_mask))
+            diffusivity = torch.sigmoid(project(decoded[:, 3], coefficient_mask))
+        else:
+            # Four independent real coefficient fields share one batched FFT.
+            rate, velocity_x, velocity_y, diffusivity = project(decoded[:, :4], coefficient_mask).unbind(1)
+            rate, velocity_x, velocity_y = torch.tanh(rate), torch.tanh(velocity_x), torch.tanh(velocity_y)
+            diffusivity = torch.sigmoid(diffusivity)
         common_source = project(decoded[:, 4] * self.high_rhs_scale, common_mask)
         transported = self.high_rhs_scale * (
             rate * (high_state / self.high_scale)

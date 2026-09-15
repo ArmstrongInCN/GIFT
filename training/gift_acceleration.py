@@ -32,11 +32,31 @@ class TrainingEngine:
         self.frozen_parameters = tuple(frozen_model.parameters()) if frozen_model is not None else ()
         self.frozen_identity = tuple((p.data_ptr(), p._version, p.device, p.dtype) for p in self.frozen_parameters)
         model.enable_static_cache()
+        self.branch_view = None
+        if self.backend == "cuda-graph" and kind != "generator":
+            from experiments.formal._shared.high_frequency import HighFrequencyBranch
+            from training.gift_branch_kernels import BranchTrainingView
+            if isinstance(model, HighFrequencyBranch):
+                self.branch_view = BranchTrainingView(model)
 
     def backward(self, *batch):
         """Return detached loss values and a device-side rejection flag."""
-        model = self.model
+        try:
+            return self._backward(*batch)
+        finally:
+            if self.branch_view is not None:
+                self.branch_view.end_segment()
+
+    def _backward(self, *batch):
+        # Limit layout sharing to the release protocol's verified full batches.
+        # Smaller tails retain the reference graph: changing FFT/accumulation
+        # layouts at batch size one can alter the last bits of raw gradients.
+        expected_batch = 16 if self.kind == "derivative" else 5
+        view = self.branch_view if len(batch[0]) == expected_batch else None
+        model = view if view is not None else self.model
         if self.kind in ("generator", "derivative"):
+            if view is not None:
+                view.begin_segment()
             state, target = batch[:2]
             if self.kind == "generator":
                 loss = (model(state) - target).square().mean() / self.scale
@@ -56,6 +76,8 @@ class TrainingEngine:
         boundaries = (10,) if self.kind == "short" else (10, 20, 30, 40, 50)
         losses, segment = [], []
         for step in range(1, targets[-1] + 1):
+            if view is not None and (step == 1 or step - 1 in boundaries):
+                view.begin_segment()
             low, high = _dual_rk4_step(self.frozen, model, low, high)
             failure = failure | ~torch.isfinite(low).all()
             corrected = correction_tensors(low.detach(), DEFAULT_P21_CORRECTION_POLICY, mask)
@@ -72,6 +94,8 @@ class TrainingEngine:
             if step in boundaries:
                 loss = torch.stack(segment).mean() if self.kind == "short" else torch.stack(segment).sum()
                 loss.backward()
+                if view is not None:
+                    view.end_segment()
                 segment.clear()
                 low, high = low.detach(), high.detach()
         values = torch.stack(losses)
