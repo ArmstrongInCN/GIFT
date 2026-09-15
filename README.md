@@ -17,7 +17,7 @@ GIFT 将可解释的生成元、高频学习支路和递归局部修正结合起
 
 每个模型和实验分别运行。数据与第三方实现位于项目外；第三方代码的固定来源和必要调整见[外部适配说明](docs/EXTERNAL_ADAPTATIONS.md)。数据通过 `GIFT_DATA_ROOT` 指定，外部源码通过 `GIFT_EXTERNAL_ROOT` 指定。
 
-[实验报告](EXPERIMENTS.md) · [安装与独立运行](docs/SETUP.md) · [训练协议](docs/TRAINING_PROTOCOL.md) · [实验图像](docs/FIGURES.md)
+[实验报告](EXPERIMENTS.md) · [安装与独立运行](docs/SETUP.md) · [训练协议](docs/TRAINING_PROTOCOL.md) · [计算效率](docs/PERFORMANCE.md) · [实验图像](docs/FIGURES.md)
 
 项目包含六项实验的实测汇总、五幅 SVG 和已完成训练的模型权重。当前预测图表展示 GIFT-Lite（50 条训练轨迹）及四个基线在 180 条独立测试轨迹上的结果；全数据 GIFT 的生成元已完成，高频支路训练中，预测结果尚未纳入。可直接阅读结果、用已完成权重快速重算，或按模型分别从零训练与断点续算。数据包单独提供，不包含在 GitHub 仓库中。
 
@@ -29,7 +29,7 @@ GIFT combines an interpretable generator, a learned high-frequency branch and lo
 
 Models and experiments have independent entry points. Data and third-party implementations are supplied separately. See the [external adaptation guide](docs/EXTERNAL_ADAPTATIONS.md) for source boundaries and explicit adjustments.
 
-[Experiment report (Chinese)](EXPERIMENTS.md) · [Setup and execution](docs/SETUP.md) · [Training protocol](docs/TRAINING_PROTOCOL.md) · [Experiment figures](docs/FIGURES.md)
+[Experiment report (Chinese)](EXPERIMENTS.md) · [Setup and execution](docs/SETUP.md) · [Training protocol](docs/TRAINING_PROTOCOL.md) · [Performance](docs/PERFORMANCE.md) · [Experiment figures](docs/FIGURES.md)
 
 The project includes measured summaries for six experiments, five SVG figures and weights from completed training. Prediction figures currently show GIFT-Lite (50 training trajectories) and the baselines on 180 independent test trajectories. The full-data GIFT generator is complete; its branches are still training and its predictions are not yet included. Read the results, recompute them with completed weights, or train and resume each model independently. The data package is supplied separately, outside GitHub.
 

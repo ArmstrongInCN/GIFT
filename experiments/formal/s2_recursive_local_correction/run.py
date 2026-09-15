@@ -49,6 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
     add_lite_arguments(parser, allow_subset=True)
+    parser.add_argument("--gift-execution", choices=("eager", "cuda-graph"), default="eager")
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument(
         "--device", default="cuda" if torch.cuda.is_available() else "cpu"
@@ -216,6 +217,7 @@ def main() -> None:
                 audit[audit_key] = {}
                 for arm, correction in (("corrected", True), ("uncorrected", False)):
                     result = session.call(f"{cohort_name}_gift_{seed}_{arm}", rollout_gift,
+                        execution=args.gift_execution,
                         low=low,
                         branch=branch,
                         initial_state=truth[:, 0],

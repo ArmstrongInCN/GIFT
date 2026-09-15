@@ -50,6 +50,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
     add_lite_arguments(parser)
+    parser.add_argument("--gift-execution", choices=("eager", "cuda-graph"), default="eager")
     parser.add_argument("--gift-regime", choices=("GIFT", "GIFT-Lite"), default="GIFT")
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
@@ -197,6 +198,7 @@ def main() -> None:
         )
 
         long_result = session.call(f"N64_gift_{seed}", rollout_gift,
+            execution=args.gift_execution,
             low=low64,
             branch=branch64,
             initial_state=long_truth[:, 0],
@@ -221,6 +223,7 @@ def main() -> None:
             truth = field[:, (9, 19)]
             low, branch, _ = load_gift_models(paths, models[seed], grid, device)
             result = session.call(f"N{grid}_gift_{seed}", rollout_gift,
+                execution=args.gift_execution,
                 low=low,
                 branch=branch,
                 initial_state=truth[:, 0],

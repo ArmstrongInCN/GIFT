@@ -115,6 +115,11 @@ Uncommitted epochs may be repeated after interruption. A published unrelated
 generator or a reduced-data checkpoint is not accepted as the full-data training
 prerequisite.
 
+Both commands optionally accept `--execution cuda-graph`; the default is the
+reference `eager` backend. Keep the chosen backend when resuming. This does not
+change the 500 + 500 epoch budgets or batch/update counts. See
+[execution efficiency and measured scope](PERFORMANCE.md).
+
 Full-data timers sum committed epoch time: sampling, forward/backward,
 parameter updates, generator affine refits / branch frozen-RHS preparation,
 and scheduled validation. They exclude initial input loading/calibration,

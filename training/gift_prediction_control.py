@@ -73,6 +73,11 @@ def source_identity():
         "src/gift/model.py", "src/gift/identifiability.py", "src/gift/identified.py",
         "src/gift/__init__.py",
         "experiments/formal/_shared/gift_generator_training.py",
+        "training/gift_acceleration.py", "src/gift/execution.py",
+        "experiments/formal/train_gift_branches.py",
+        "experiments/formal/_shared/high_frequency.py",
+        "experiments/formal/_shared/gift_runtime.py",
+        "experiments/formal/_shared/common.py", "training/gift_data.py", "src/gift/paths.py",
     )
     return {name: digest_file(ROOT / name) for name in files}
 
@@ -96,7 +101,7 @@ def _open_run(output, identity, resume):
 
 def run_generator(dataset, output, *, device="cuda", resume=False,
                   config=PredictionTrainingConfig(), checkpoint_interval=10,
-                  stop_after_epoch=None, log_interval=10):
+                  stop_after_epoch=None, log_interval=10, execution="eager"):
     """Train native generator factors and affine tables without pretrained weights."""
     config.validate()
     if checkpoint_interval < 1 or log_interval < 1:
@@ -105,12 +110,17 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
     if stop_after_epoch is not None and not 1 <= stop_after_epoch <= total_epochs:
         raise ValueError("stop boundary must be inside the declared budget")
     device = torch.device(device)
+    if execution not in ("eager", "cuda-graph"):
+        raise ValueError("unknown GIFT execution backend")
+    if device.type != "cuda":
+        execution = "eager"  # CPU fallback uses the reference path and identity.
     configure_determinism(config.generator_seed, strict=True)
     bank = ObservationBank(dataset, fixture=config.fixture_only)
     identity = {"role": "gift_prediction_generator", "configuration": asdict(config),
                 "data": bank.binding, "sources": source_identity(), "device": str(device),
                 "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
                 "selection": "terminal_epoch", "budget_unit": "trajectory_epoch"}
+    identity["execution"] = execution if device.type == "cuda" else "eager"
     output, store = _open_run(output, identity, resume)
     saved = store.payload
     if saved is not None and not 0 <= saved["epoch"] <= total_epochs:
@@ -136,6 +146,10 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
     elapsed = 0.0 if saved is None else saved["committed_seconds"]
     batches = math.ceil(len(bank.training) / config.batch_size)
     optimizer = scheduler = None
+    engine = None
+    if execution == "cuda-graph":
+        from training.gift_acceleration import TrainingEngine
+        engine = TrainingEngine(model, kind="generator", scale=target_scale, backend=execution)
     last_phase = None
     final_summary = None if saved is None else saved["affine_summary"]
     for epoch in range(completed + 1, total_epochs + 1):
@@ -159,16 +173,20 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
         for first in range(0, len(states), config.batch_size):
             state = states[first:first + config.batch_size].to(device)
             target = targets[first:first + config.batch_size].to(device)
-            optimizer.zero_grad(set_to_none=True)
-            loss = (model(state) - target).square().mean() / target_scale
-            if not bool(torch.isfinite(loss)):
-                raise FloatingPointError("generator training loss is nonfinite")
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(parameters, 5.0, error_if_nonfinite=True)
-            optimizer.step()
+            if engine is not None:
+                loss = engine.step(optimizer, state, target)
+            else:
+                optimizer.zero_grad(set_to_none=True)
+                loss = (model(state) - target).square().mean() / target_scale
+                if not bool(torch.isfinite(loss)):
+                    raise FloatingPointError("generator training loss is nonfinite")
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(parameters, 5.0, error_if_nonfinite=True)
+                optimizer.step()
+                loss = float(loss.detach())
             scheduler.step()
             update_count += 1
-            weighted_loss += float(loss.detach()) * len(state)
+            weighted_loss += loss * len(state)
         # Reuse this epoch's observed windows; analytic refits are counted
         # separately and are not misrepresented as gradient updates or epochs.
         final_fit = fit_affine_minimum_norm(model, states, targets, device=device,
@@ -216,6 +234,7 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
         "identifiability": final_summary, "selection": "terminal_epoch",
         "fresh_training": {"pretrained_model_loaded": False, "same_attempt_continuation": resume},
         "source_identity": identity["sources"],
+        "execution": identity["execution"],
     }
     with (output / "model.pt").open("xb") as stream:
         torch.save(artifact, stream)
@@ -239,13 +258,15 @@ def main_generator(argv=None):
     parser.add_argument("--device", default="cuda", choices=("cpu", "cuda"))
     parser.add_argument("--checkpoint-interval", type=int, default=10)
     parser.add_argument("--stop-after-epoch", type=int)
+    parser.add_argument("--execution", choices=("eager", "cuda-graph"), default="eager",
+                        help="Opt-in graph replay; CPU executes eager. Resume requires the same backend.")
     args = parser.parse_args(argv)
     if args.dry_run:
         print(json.dumps({"configuration": asdict(PredictionTrainingConfig()),
                           "dataset": str(args.dataset), "output": str(args.output),
-                          "selection": "terminal_epoch", "writes": 0}, indent=2))
+                          "execution": args.execution, "selection": "terminal_epoch", "writes": 0}, indent=2))
     else:
         result = run_generator(args.dataset, args.output, device=args.device, resume=args.resume,
                                checkpoint_interval=args.checkpoint_interval,
-                               stop_after_epoch=args.stop_after_epoch)
+                               stop_after_epoch=args.stop_after_epoch, execution=args.execution)
         print(json.dumps(result, indent=2), flush=True)

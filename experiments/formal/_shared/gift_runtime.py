@@ -92,6 +92,38 @@ def _periodic_neighbor_median(state: torch.Tensor, radius: int) -> torch.Tensor:
 
 
 @torch.inference_mode()
+def correction_tensors(state, policy, selected_mask):
+    """Tensor-only correction shared by audited inference and training.
+
+    The caller validates shape/mask and MUST check finite inputs and returned
+    gates before accepting a state or taking an optimizer step. No host reads
+    here: fixed-shape training may capture these operations in a CUDA graph.
+    Additional intermediates support the unchanged public diagnostic report.
+    """
+    cap = policy.maximum_flagged_points(int(state.shape[-1]))
+    state_hat = torch.fft.fft2(state)
+    selected = torch.fft.ifft2(state_hat * selected_mask).real
+    centered = selected - selected.mean(dim=(-2, -1), keepdim=True)
+    local_median = _periodic_neighbor_median(centered, policy.window_radius)
+    residual = centered - local_median
+    rms = centered.square().mean(dim=(-2, -1), keepdim=True).sqrt()
+    rms = rms.clamp_min(torch.finfo(state.dtype).tiny)
+    limit = policy.score_threshold * rms
+    trigger = (residual.abs() > limit) & (centered.abs() > policy.amplitude_threshold)
+    counts = trigger.flatten(1).sum(1)
+    gate_failed = counts > cap
+    clipped = torch.clamp(residual, min=-limit, max=limit)
+    raw_delta = torch.where(trigger, clipped - residual, torch.zeros_like(residual))
+    raw_delta = torch.where(gate_failed[:, None, None], torch.zeros_like(raw_delta), raw_delta)
+    delta_hat = torch.fft.fft2(raw_delta) * selected_mask
+    delta_hat[..., 0, 0] = 0.0
+    physical_delta = torch.fft.ifft2(delta_hat).real
+    changed = (counts > 0) & ~gate_failed
+    corrected = torch.where(changed[:, None, None], state + physical_delta, state)
+    return corrected, counts, gate_failed, residual, rms, centered, raw_delta, delta_hat
+
+
+@torch.inference_mode()
 def apply_local_correction(
     state: torch.Tensor,
     policy: LocalCorrectionPolicy | None = None,
@@ -131,28 +163,9 @@ def apply_local_correction(
     ):
         raise ValueError("selected_mask must be a boolean N by N tensor on device")
 
-    state_hat = torch.fft.fft2(state)
-    selected = torch.fft.ifft2(state_hat * selected_mask).real
-    centered = selected - selected.mean(dim=(-2, -1), keepdim=True)
-    local_median = _periodic_neighbor_median(centered, policy.window_radius)
-    residual = centered - local_median
-    rms = centered.square().mean(dim=(-2, -1), keepdim=True).sqrt()
-    rms = rms.clamp_min(torch.finfo(state.dtype).tiny)
-    limit = policy.score_threshold * rms
-    trigger = (residual.abs() > limit) & (centered.abs() > policy.amplitude_threshold)
-    counts = trigger.flatten(1).sum(1)
-    gate_failed = counts > cap
-
-    clipped = torch.clamp(residual, min=-limit, max=limit)
-    raw_delta = torch.where(trigger, clipped - residual, torch.zeros_like(residual))
-    raw_delta = torch.where(
-        gate_failed[:, None, None], torch.zeros_like(raw_delta), raw_delta
+    corrected, counts, gate_failed, residual, rms, centered, raw_delta, delta_hat = (
+        correction_tensors(state, policy, selected_mask)
     )
-    delta_hat = torch.fft.fft2(raw_delta) * selected_mask
-    delta_hat[..., 0, 0] = 0.0
-    physical_delta = torch.fft.ifft2(delta_hat).real
-    changed = (counts > 0) & ~gate_failed
-    corrected = torch.where(changed[:, None, None], state + physical_delta, state)
 
     actual_delta = corrected - state
     actual_delta_hat = torch.fft.fft2(actual_delta)
@@ -386,6 +399,7 @@ def rollout_gift(
     correction: bool = True,
     correction_policy: LocalCorrectionPolicy = DEFAULT_P21_CORRECTION_POLICY,
     q21_correction_policy: LocalCorrectionPolicy = DEFAULT_Q21_CORRECTION_POLICY,
+    execution: str = "eager",
 ) -> RolloutResult:
     """Run GIFT recursion with trajectory-local failure isolation.
 
@@ -412,6 +426,16 @@ def rollout_gift(
     if batch_size < 1:
         raise ValueError("batch_size must be positive")
     resolved_device = torch.device(device)
+    if execution not in ("eager", "cuda-graph"):
+        raise ValueError("unknown GIFT execution backend")
+    use_graph = execution == "cuda-graph" and resolved_device.type == "cuda"
+    if use_graph:
+        from gift import FixedBandwidthGridGenerator
+        from gift.execution import StaticTensorCall
+        if not isinstance(low, FixedBandwidthGridGenerator) or (branch is not None and type(branch) is not HighFrequencyBranch):
+            raise TypeError("graph inference requires the standard frozen GIFT generator and branch")
+        if branch is not None:
+            branch.enable_static_cache()
     if resolved_device.type == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("requested accelerator is unavailable")
     for name, value in (
@@ -478,15 +502,14 @@ def rollout_gift(
     maximum_raw_branch_rhs_p21 = 0.0
     maximum_applied_branch_rhs_p21 = 0.0
 
-    def coupled_rhs(
+    def coupled_tensor_rhs(
         low_value: torch.Tensor, high_value: torch.Tensor
-    ) -> tuple[torch.Tensor, torch.Tensor]:
-        nonlocal maximum_raw_branch_rhs_p21
-        nonlocal maximum_applied_branch_rhs_p21
+    ):
         complete = compose(low_value, high_value)
         frozen = low_project(_validate_rhs(low, complete, label="low"))
         if branch is None:
-            return frozen, torch.zeros_like(high_value)
+            zero = torch.zeros((), dtype=high_value.dtype, device=high_value.device)
+            return frozen, torch.zeros_like(high_value), zero, zero
         raw = branch.forward_with_generator_output(complete, frozen)
         if (
             not isinstance(raw, torch.Tensor)
@@ -496,14 +519,54 @@ def rollout_gift(
         ):
             raise ValueError("high RHS must return a tensor with the input shape")
         projected = q21_project(raw)
+        return frozen, projected, low_project(raw).abs().max(), low_project(projected).abs().max()
+
+    def coupled_rhs(low_value, high_value):
+        nonlocal maximum_raw_branch_rhs_p21, maximum_applied_branch_rhs_p21
+        frozen, projected, raw_leak, applied_leak = coupled_tensor_rhs(low_value, high_value)
         maximum_raw_branch_rhs_p21 = max(
-            maximum_raw_branch_rhs_p21, float(low_project(raw).abs().max())
+            maximum_raw_branch_rhs_p21, float(raw_leak)
         )
         maximum_applied_branch_rhs_p21 = max(
             maximum_applied_branch_rhs_p21,
-            float(low_project(projected).abs().max()),
+            float(applied_leak),
         )
         return frozen, projected
+
+    def graph_rk4(formal_current, high_current):
+        # Inference has its own projected stage definition; do not substitute
+        # the training RK4 helper. Keep every projection and all eight audits.
+        low1, high1, r1, a1 = coupled_tensor_rhs(formal_current, high_current)
+        low2, high2, r2, a2 = coupled_tensor_rhs(
+            formal_current + 0.5 * step * low1, high_current + 0.5 * step * high1)
+        low3, high3, r3, a3 = coupled_tensor_rhs(
+            formal_current + 0.5 * step * low2, high_current + 0.5 * step * high2)
+        low4, high4, r4, a4 = coupled_tensor_rhs(
+            formal_current + step * low3, high_current + step * high3)
+        coefficient = step / 6.0
+        formal_updated = low_project(formal_current + coefficient * (low1 + 2.0 * low2 + 2.0 * low3 + low4))
+        high_updated = q21_project(high_current + coefficient * (high1 + 2.0 * high2 + 2.0 * high3 + high4))
+        return formal_updated, high_updated, torch.stack((r1, a1, r2, a2, r3, a3, r4, a4))
+
+    def eager_rk4(formal_current, high_current):
+        low1, high1 = coupled_rhs(formal_current, high_current)
+        formal2 = formal_current + 0.5 * step * low1
+        high2_state = high_current + 0.5 * step * high1
+        low2, high2 = coupled_rhs(formal2, high2_state)
+        formal3 = formal_current + 0.5 * step * low2
+        high3_state = high_current + 0.5 * step * high2
+        low3, high3 = coupled_rhs(formal3, high3_state)
+        formal4 = formal_current + step * low3
+        high4_state = high_current + step * high3
+        low4, high4 = coupled_rhs(formal4, high4_state)
+        coefficient = step / 6.0
+        return (
+            low_project(formal_current + coefficient * (low1 + 2.0 * low2 + 2.0 * low3 + low4)),
+            q21_project(high_current + coefficient * (high1 + 2.0 * high2 + 2.0 * high3 + high4)),
+        )
+
+    graph_calls = {}
+    graph_setup_seconds = 0.0
 
     started = time.perf_counter()
     for begin in range(0, count, batch_size):
@@ -520,29 +583,24 @@ def rollout_gift(
             if len(active_rows):
                 formal_current = formal_state[active_rows]
                 high_current = high_state[active_rows]
-                low1, high1 = coupled_rhs(formal_current, high_current)
-
-                formal2 = formal_current + 0.5 * step * low1
-                high2_state = high_current + 0.5 * step * high1
-                low2, high2 = coupled_rhs(formal2, high2_state)
-
-                formal3 = formal_current + 0.5 * step * low2
-                high3_state = high_current + 0.5 * step * high2
-                low3, high3 = coupled_rhs(formal3, high3_state)
-
-                formal4 = formal_current + step * low3
-                high4_state = high_current + step * high3
-                low4, high4 = coupled_rhs(formal4, high4_state)
-
-                coefficient = step / 6.0
-                formal_updated = low_project(
-                    formal_current
-                    + coefficient * (low1 + 2.0 * low2 + 2.0 * low3 + low4)
-                )
-                high_updated = q21_project(
-                    high_current
-                    + coefficient * (high1 + 2.0 * high2 + 2.0 * high3 + high4)
-                )
+                # Cap retained shapes. Rare additional failure-reduced batch
+                # sizes use the reference path; trajectories are never padded.
+                graph_key = tuple(formal_current.shape)
+                captured = use_graph and (graph_key in graph_calls or len(graph_calls) < 2)
+                if captured:
+                    if graph_key not in graph_calls:
+                        parameters = tuple(low.model.parameters()) + (() if branch is None else tuple(branch.parameters()))
+                        call = StaticTensorCall(graph_rk4, (formal_current, high_current),
+                                                parameters=parameters, frozen=True)
+                        graph_calls[graph_key] = call
+                        graph_setup_seconds += call.setup_seconds
+                    formal_updated, high_updated, audits = graph_calls[graph_key](formal_current, high_current)
+                    values = audits.cpu().tolist()
+                    for raw_leak, applied_leak in zip(values[::2], values[1::2]):
+                        maximum_raw_branch_rhs_p21 = max(maximum_raw_branch_rhs_p21, raw_leak)
+                        maximum_applied_branch_rhs_p21 = max(maximum_applied_branch_rhs_p21, applied_leak)
+                else:
+                    formal_updated, high_updated = eager_rk4(formal_current, high_current)
                 combined_updated = compose(formal_updated, high_updated)
                 global_active = begin + active_rows.detach().cpu().numpy()
                 low_calls[global_active] += 4
@@ -760,6 +818,11 @@ def rollout_gift(
         ),
         "finite_count_by_time": finite_by_time.sum(axis=0).astype(int).tolist(),
     }
+    if execution != "eager":
+        runtime.update(execution="cuda-graph" if use_graph else "eager",
+                       graph_setup_seconds=graph_setup_seconds,
+                       captured_batch_shapes=len(graph_calls),
+                       timing_scope="complete rollout including graph warmup/capture and all diagnostics")
     branch_audit = (
         {
             "enabled": True,

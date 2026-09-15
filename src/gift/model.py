@@ -110,6 +110,17 @@ class GIFTGenerator(nn.Module):
         self.log_left_gain = nn.Parameter(torch.full((rank,), -0.3))
         self.log_right_gain = nn.Parameter(torch.full((rank,), -0.3))
         self.nonlinear_scale = nn.Parameter(torch.full((rank,), 0.25))
+        self._cache_wave_grids = False
+        self._wave_grids = {}
+
+    def enable_static_cache(self, enabled: bool = True) -> None:
+        """Cache geometry only; learned tables are recomputed on every forward.
+
+        This opt-in execution setting is not part of a model checkpoint. The
+        default path remains the reference implementation, including M1.
+        """
+        self._cache_wave_grids = bool(enabled)
+        self._wave_grids.clear()
 
     def configuration(self) -> dict[str, int | float | bool]:
         return {
@@ -120,7 +131,15 @@ class GIFTGenerator(nn.Module):
         }
 
     def prepare(self, n: int, device: torch.device, dtype: torch.dtype) -> dict:
-        grid = make_wave_grid(n, self.cutoff, device, dtype)
+        key = (n, self.cutoff, device, dtype)
+        grid = self._wave_grids.get(key) if self._cache_wave_grids else None
+        if grid is None:
+            # Validation may initialize a cache before training. Ordinary
+            # tensors can subsequently be saved by autograd; inference tensors cannot.
+            with torch.inference_mode(False), torch.no_grad():
+                grid = make_wave_grid(n, self.cutoff, device, dtype)
+            if self._cache_wave_grids:
+                self._wave_grids[key] = grid
         return {
             "grid": grid,
             "linear": self.linear_table(grid),

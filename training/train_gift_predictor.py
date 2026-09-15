@@ -104,7 +104,7 @@ def derivative_epoch(model, loader, optimizer, device, scale):
 
 def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                config=PredictionTrainingConfig(), checkpoint_interval=10,
-               stop_after_epoch=None, log_interval=10):
+               stop_after_epoch=None, log_interval=10, execution="eager"):
     config.validate()
     if seed not in SEEDS or checkpoint_interval < 1 or log_interval < 1:
         raise ValueError("invalid seed or checkpoint/log interval")
@@ -112,6 +112,10 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
     if stop_after_epoch is not None and not 1 <= stop_after_epoch <= total_epochs:
         raise ValueError("stop boundary must be inside the configured budget")
     device = torch.device(device)
+    if execution not in ("eager", "cuda-graph"):
+        raise ValueError("unknown GIFT execution backend")
+    if device.type != "cuda":
+        execution = "eager"  # CPU fallback uses the reference path and identity.
     configure_determinism(seed, strict=False)
     bank = ObservationBank(dataset, fixture=config.fixture_only)
     qualify_generator(low_model, bank, config)
@@ -129,6 +133,7 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                 "sources": branch_sources(), "device": str(device),
                 "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
                 "selection": "terminal_epoch", "budget_unit": "trajectory_epoch"}
+    identity["execution"] = execution if device.type == "cuda" else "eager"
     output, store = _open_run(output, identity, resume)
     saved = store.payload
     if saved is not None:
@@ -142,6 +147,7 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
     valid_derivative, _ = derivative_loader(bank, seed, 0, frozen, device, validation=True)
     valid_rollout = sequence_loader(bank, seed, 0, validation=True, batch_size=10)
     optimizer = scheduler = None
+    engine = None
     previous_phase = None
     names = ("derivative", "short_rollout", "long_rollout_1", "long_rollout_2")
     for epoch in range(completed + 1, total_epochs + 1):
@@ -156,17 +162,23 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                 if scheduler is not None:
                     scheduler.load_state_dict(saved["scheduler"])
             previous_phase = phase
+            if execution == "cuda-graph":
+                from training.gift_acceleration import TrainingEngine
+                engine = TrainingEngine(model, kind=("derivative", "short", "long", "long")[phase],
+                                        frozen=frozen, scale=scales[3], backend=execution)
         if saved is not None and epoch == completed + 1:
             store.restore_random_state()
         synchronize(device)
         started = time.perf_counter()
         if phase == 0:
             loader, _ = derivative_loader(bank, seed, epoch, frozen, device, batch_size=config.batch_size)
-            loss = derivative_epoch(model, loader, optimizer, device, scales[3])
+            loss = (engine.epoch(loader, optimizer, device) if engine is not None
+                    else derivative_epoch(model, loader, optimizer, device, scales[3]))
             scheduler.step()
         else:
             loader = sequence_loader(bank, seed, epoch, batch_size=config.rollout_batch_size)
-            loss = (_short_epoch if phase == 1 else _long_epoch)(model, frozen, loader, optimizer, device)
+            loss = (engine.epoch(loader, optimizer, device) if engine is not None else
+                    (_short_epoch if phase == 1 else _long_epoch)(model, frozen, loader, optimizer, device))
         if not math.isfinite(loss) or any(not bool(torch.isfinite(x).all()) for x in model.state_dict().values()):
             raise FloatingPointError("branch update produced nonfinite loss/parameters")
         updates += len(loader)
@@ -207,7 +219,8 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
             "shared_generator_sha256": digest_file(low_model),
             "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"}
     binding = dict(bank.binding, profile="full_data_prediction", configuration=asdict(config),
-                   selection="terminal_epoch", pretrained_branch_loaded=False, sources=identity["sources"])
+                   selection="terminal_epoch", pretrained_branch_loaded=False, sources=identity["sources"],
+                   execution=identity["execution"])
     _write_checkpoint(output / "model.pt", model, seed=seed, phase="terminal_epoch", epoch=total_epochs,
                       selection_metric=history[-1]["validation"]["lead_1_full_relative_l2"],
                       frozen_generator_sha256=digest_file(low_model).upper(),
@@ -234,15 +247,19 @@ def main(argv=None):
     parser.add_argument("--device", default="cuda", choices=("cpu", "cuda"))
     parser.add_argument("--checkpoint-interval", type=int, default=10)
     parser.add_argument("--stop-after-epoch", type=int)
+    parser.add_argument("--execution", choices=("eager", "cuda-graph"), default="eager",
+                        help="Opt-in graph replay; CPU executes eager. Resume requires the same backend.")
     args = parser.parse_args(argv)
     if args.dry_run:
         result = {"configuration": asdict(PredictionTrainingConfig()), "seed": args.seed,
                   "dataset": str(args.dataset), "generator": str(args.low_model),
-                  "output": str(args.output), "selection": "terminal_epoch", "writes": 0}
+                  "output": str(args.output), "execution": args.execution,
+                  "selection": "terminal_epoch", "writes": 0}
     else:
         result = run_branch(args.dataset, args.low_model, args.output, seed=args.seed,
                             device=args.device, resume=args.resume,
-                            checkpoint_interval=args.checkpoint_interval, stop_after_epoch=args.stop_after_epoch)
+                            checkpoint_interval=args.checkpoint_interval, stop_after_epoch=args.stop_after_epoch,
+                            execution=args.execution)
     print(json.dumps(result, indent=2), flush=True)
 
 

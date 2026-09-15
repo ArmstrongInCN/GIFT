@@ -181,16 +181,17 @@ class HighFrequencyBranch(nn.Module):
         cached = self._mask_cache.get(key)
         if cached is not None:
             return cached
-        low = square_mask(
-            grid, self.config.cutoff, device=state.device, dtype=state.dtype
-        )
-        common = square_mask(
-            grid,
-            self.config.common_source_cutoff,
-            device=state.device,
-            dtype=state.dtype,
-        ) * (1.0 - low)
-        result = (low, 1.0 - low, common)
+        with torch.inference_mode(False), torch.no_grad():
+            low = square_mask(
+                grid, self.config.cutoff, device=state.device, dtype=state.dtype
+            )
+            common = square_mask(
+                grid,
+                self.config.common_source_cutoff,
+                device=state.device,
+                dtype=state.dtype,
+            ) * (1.0 - low)
+            result = (low, 1.0 - low, common)
         self._mask_cache[key] = result
         return result
 
@@ -201,6 +202,31 @@ class HighFrequencyBranch(nn.Module):
             torch.fft.ifft2(state_hat * low_mask).real,
             torch.fft.ifft2(state_hat * high_mask).real,
         )
+
+    def enable_static_cache(self, enabled: bool = True) -> None:
+        """Reuse constant transport grids, never learned coefficient fields."""
+        self._cache_transport_grids = bool(enabled)
+        self._transport_grids = {}
+        # Discard masks possibly created under inference_mode before training.
+        self._mask_cache.clear()
+
+    def transport_grid(self, state: torch.Tensor):
+        grid = int(state.shape[-1])
+        key = (grid, state.device, state.dtype)
+        enabled = getattr(self, "_cache_transport_grids", False)
+        cached = self._transport_grids.get(key) if enabled else None
+        if cached is None:
+            with torch.inference_mode(False), torch.no_grad():
+                frequencies = torch.fft.fftfreq(
+                    grid, d=1.0 / grid, device=state.device, dtype=state.dtype
+                )
+                ky, kx = torch.meshgrid(frequencies, frequencies, indexing="ij")
+                mask = square_mask(grid, self.config.coefficient_cutoff,
+                                   device=state.device, dtype=state.dtype)
+            cached = ky, kx, mask
+            if enabled:
+                self._transport_grids[key] = cached
+        return cached
 
     def project_q21(self, field: torch.Tensor) -> torch.Tensor:
         return project(field, self.masks(field)[1])
@@ -242,11 +268,7 @@ class HighFrequencyBranch(nn.Module):
             features = block(features)
         decoded = self.decode2(F.gelu(self.decode1(features)))
 
-        grid = int(state.shape[-1])
-        frequencies = torch.fft.fftfreq(
-            grid, d=1.0 / grid, device=state.device, dtype=state.dtype
-        )
-        ky, kx = torch.meshgrid(frequencies, frequencies, indexing="ij")
+        ky, kx, coefficient_mask = self.transport_grid(state)
         high_hat = torch.fft.fft2(high_state)
         normalizer = float(self.config.common_source_cutoff)
         gradient_x = torch.fft.ifft2(1j * kx * high_hat).real / (
@@ -257,12 +279,6 @@ class HighFrequencyBranch(nn.Module):
         )
         laplacian = torch.fft.ifft2(-(kx * kx + ky * ky) * high_hat).real / (
             normalizer * normalizer * self.high_scale
-        )
-        coefficient_mask = square_mask(
-            grid,
-            self.config.coefficient_cutoff,
-            device=state.device,
-            dtype=state.dtype,
         )
         rate = torch.tanh(project(decoded[:, 0], coefficient_mask))
         velocity_x = torch.tanh(project(decoded[:, 1], coefficient_mask))
