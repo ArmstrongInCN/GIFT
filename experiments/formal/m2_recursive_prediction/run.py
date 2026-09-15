@@ -429,7 +429,7 @@ def main() -> None:
             "test_trajectory_count": len(ids),
             "training_data": {
                 "GIFT": "1,000 N64 training trajectories; generator and branch each 500 trajectory epochs; terminal weights",
-                "GIFT-Lite": "50 N64 training trajectories and 20 checkpoint-validation trajectories; preserved reduced-data weights",
+                "GIFT-Lite": "50 N64 training trajectories and 20 checkpoint-validation trajectories; reduced-data training weights",
                 "baselines": "1,000 N64 training trajectories, t=0.0 to 10.0, sampled every 0.02",
             },
             "context": {

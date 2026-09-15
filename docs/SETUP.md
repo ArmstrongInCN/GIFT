@@ -85,7 +85,7 @@ Repeat `gift_predictor` independently for seeds `20260821` and `20260822`, each
 in a new output directory. Each exports `model.pt`. The generator and every
 branch each train for 500 trajectory epochs; see [TRAINING_PROTOCOL.md](TRAINING_PROTOCOL.md).
 
-For the preserved reduced-data GIFT-Lite and the unchanged M1 protocol:
+For reduced-data GIFT-Lite and the unchanged M1 protocol:
 
 ```shell
 python -m scripts.run_training gift_low --run-training --condition noise_000 --output ../runs/gift_low

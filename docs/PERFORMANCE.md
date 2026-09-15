@@ -141,6 +141,15 @@ These single-run checks have different timing scopes and are not additional
 rows in the repeated component benchmark above. Tensor equality does not imply
 identical serialized files: timestamps, source records and run metadata differ.
 
+All three reduced-data branches were also trained from scratch for the complete
+5,834-update schedule. Their committed training-plus-validation times were
+205.49, 233.10 and 221.20 seconds for seeds 20260820, 20260821 and 20260822.
+These figures include graph setup and omit shared generator pretraining, initial
+data preparation and checkpoint/export I/O. An independent second full-budget
+run of seed 20260820 matched the first run's selected parameters, optimizer,
+scheduler, RNG and numerical history bitwise, excluding elapsed-time fields.
+The repeat is a reproducibility check, not a fourth statistical seed.
+
 ## What is optimized / 优化范围
 
 - Cache only constant frequency grids, masks and table indices. Learned
