@@ -24,8 +24,6 @@ from experiments.formal._shared.common import (
     default_project_root,
     file_record,
     finish_output,
-    load_cross_resolution,
-    load_n64_long,
     metric_arrays,
     parse_seed_model_specs,
     seed_summary,
@@ -34,7 +32,9 @@ from experiments.formal._shared.common import (
     write_json_new,
     write_npz_new,
 )
-from experiments.formal._shared.equation import evaluate_equation_model
+from experiments.formal._shared.prediction_data import load_cross_resolution, load_n64_long, evaluate_prediction_rhs
+from experiments.formal._shared.gift_regimes import add_lite_arguments, resolve_regimes
+from gift.data_splits import canonical_ids
 from experiments.formal._shared.gift_runtime import load_gift_models, rollout_gift
 from experiments.formal._shared.resume import start_experiment
 from experiments.formal.train_gift_branches import (
@@ -49,6 +49,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
+    add_lite_arguments(parser)
+    parser.add_argument("--gift-regime", choices=("GIFT", "GIFT-Lite"), default="GIFT")
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--rollout-batch-size", type=int, default=8)
@@ -62,6 +64,8 @@ def _validation_anchor_target(
     paths.require("standard_n64")
     with h5py.File(paths.standard_n64, "r") as handle:
         ids = np.asarray(handle["validation/trajectory_index"][:], dtype=np.int64)
+        if handle.attrs.get("trajectory_id_scheme") != "canonical":
+            ids = np.asarray(canonical_ids(ids), dtype=np.int64)
         times = np.asarray(handle["validation/time"][:], dtype=np.float64)
         anchor_columns = np.asarray((0, 100, 200, 300, 400), dtype=np.int64)
         target_columns = anchor_columns + 50
@@ -69,8 +73,8 @@ def _validation_anchor_target(
         selected = np.asarray(
             handle["validation/vorticity"][:, columns], dtype=np.float32
         )
-    if not np.array_equal(ids, np.arange(50, 70, dtype=np.int64)):
-        raise ValueError("S3 validation IDs differ from 50..69")
+    if not np.array_equal(ids, np.arange(1000, 1020, dtype=np.int64)):
+        raise ValueError("S3 validation IDs differ from 1000..1019")
     if not np.allclose(times, np.arange(501) * 0.02, rtol=0.0, atol=2e-12):
         raise ValueError("S3 validation time support differs")
     if selected.shape != (20, 10, 64, 64) or not np.isfinite(selected).all():
@@ -113,7 +117,7 @@ def main() -> None:
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:
         paths = replace(paths, low_model=args.low_model.expanduser().resolve(strict=True))
-    models = parse_seed_model_specs(paths.root, args.gift_model)
+    paths, models = resolve_regimes(args, paths)[args.gift_regime]
     output = args.output or paths.root / "reproduced_results" / "S3_seed_stability"
     session = start_experiment(args, paths, "S3", output, models)
     output = session.output
@@ -151,7 +155,9 @@ def main() -> None:
         training_rows.append(
             {
                 "seed": seed,
+                "training_regime": args.gift_regime,
                 "checkpoint_sha256": sha256_file(models[seed]),
+                "checkpoint_rule": "terminal_epoch" if args.gift_regime == "GIFT" else "validation_selected",
                 "selection_phase": payload["phase"],
                 "selection_epoch": payload["epoch"],
                 "selection_metric": payload["selection_metric"],
@@ -204,12 +210,6 @@ def main() -> None:
         long_metric = metric_arrays(long_result.prediction, long_truth)["full_relative_l2"]
         raw[f"seed_{seed}_N64_t6_full_relative_l2"] = long_metric[:, 2]
         raw[f"seed_{seed}_N64_t8_full_relative_l2"] = long_metric[:, -1]
-        raw[f"seed_{seed}_confirmation_N64_t6_full_relative_l2"] = long_metric[
-            test_ids >= 1100, 2
-        ]
-        raw[f"seed_{seed}_confirmation_N64_t8_full_relative_l2"] = long_metric[
-            test_ids >= 1100, -1
-        ]
         raw[f"seed_{seed}_N64_finite_by_time"] = long_result.finite_by_time
         recursive_prediction_audit = {
             "N64": _compact_rollout_audit(long_result, test_ids),
@@ -235,15 +235,12 @@ def main() -> None:
                 "full_relative_l2"
             ][:, -1]
             raw[f"seed_{seed}_N{grid}_t6_full_relative_l2"] = grid_metric
-            raw[
-                f"seed_{seed}_confirmation_N{grid}_t6_full_relative_l2"
-            ] = grid_metric[grid_ids >= 1100]
             raw[f"seed_{seed}_N{grid}_finite_by_time"] = result.finite_by_time
             recursive_prediction_audit["cross_resolution"][f"N{grid}"] = (
                 _compact_rollout_audit(result, grid_ids)
             )
 
-        equation_arrays, equation_report = session.call(f"equation_seed_{seed}", evaluate_equation_model,
+        equation_arrays, equation_report = session.call(f"equation_seed_{seed}", evaluate_prediction_rhs,
             paths,
             models[seed],
             device=device,
@@ -253,11 +250,6 @@ def main() -> None:
         raw[f"seed_{seed}_equation_full_relative_l2"] = equation_arrays[
             "enabled_vs_reference_full"
         ]
-        raw[f"seed_{seed}_confirmation_equation_full_relative_l2"] = (
-            equation_arrays["enabled_vs_reference_full"][
-                equation_arrays["trajectory_ids"] >= 1100
-            ]
-        )
         selected_metadata = {
             key: payload[key]
             for key in ("phase", "epoch", "selection_metric")
@@ -273,7 +265,7 @@ def main() -> None:
 
     write_npz_new(output / "raw" / "metric_arrays.npz", raw)
     write_csv_new(
-        output / "raw" / "validation_selection_metrics.csv", validation_rows
+        output / "raw" / "validation_metrics.csv", validation_rows
     )
     write_csv_new(output / "raw" / "training_metadata.csv", training_rows)
     quantities = {
@@ -283,13 +275,6 @@ def main() -> None:
         "N128_t6": "N128_t6_full_relative_l2",
         "N64_t8": "N64_t8_full_relative_l2",
         "equation_full_action": "equation_full_relative_l2",
-        "confirmation_N64_t6": "confirmation_N64_t6_full_relative_l2",
-        "confirmation_N96_t6": "confirmation_N96_t6_full_relative_l2",
-        "confirmation_N128_t6": "confirmation_N128_t6_full_relative_l2",
-        "confirmation_N64_t8": "confirmation_N64_t8_full_relative_l2",
-        "confirmation_equation_full_action": (
-            "confirmation_equation_full_relative_l2"
-        ),
     }
     rows = []
     report_summary = {}
@@ -304,6 +289,7 @@ def main() -> None:
             rows.append(
                 {
                     "experiment": "S3",
+                    "training_regime": args.gift_regime,
                     "quantity": quantity,
                     "seed": seed,
                     "within_seed_population": int(values.size),
@@ -322,7 +308,8 @@ def main() -> None:
         {
             "experiment_id": "S3",
             "seeds": list(SEEDS),
-            "confirmation_trajectory_ids": [1100, 1199],
+            "test_trajectory_ids": [int(test_ids[0]), int(test_ids[-1])],
+            "training_regime": args.gift_regime,
             "key_metrics": report_summary,
         },
     )
@@ -331,6 +318,7 @@ def main() -> None:
         "schema": "gift.formal.S3.v3",
         "status": "complete",
         "experiment": "S3",
+        "training_regime": args.gift_regime,
         "title": "random-seed stability",
         "inputs": {
             "raw_N64": file_record(paths.standard_n64, paths.root),
@@ -343,8 +331,10 @@ def main() -> None:
         },
         "summary": report_summary,
         "runtime_audit": runtime,
-        "validation_selection_protocol": {
-            "trajectory_ids": "50..69",
+        "validation_rollout_protocol": {
+            "weights_selected_by_this_evaluation": False,
+            "full_data_training_selection": "terminal_epoch_not_validation",
+            "trajectory_ids": "1000..1019",
             "anchors": [0.0, 2.0, 4.0, 6.0, 8.0],
             "lead_time": 1.0,
             "batch_size": VALIDATION_ROLLOUT_BATCH_SIZE,
@@ -361,8 +351,7 @@ def main() -> None:
             "enabled_by_default": True,
         },
         "scientific_boundary": {
-            "confirmation_trajectory_ids": [1100, 1199],
-            "architecture_selection_trajectory_ids": [1000, 1019],
+            "test_disjoint_from_training_and_validation": True,
         },
     }
     session.finish()

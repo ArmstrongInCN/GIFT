@@ -24,8 +24,6 @@ from experiments.formal._shared.common import (
     default_project_root,
     file_record,
     finish_output,
-    load_correction_holdout,
-    load_n64_long,
     metric_arrays,
     parse_seed_model_specs,
     seed_summary,
@@ -40,6 +38,8 @@ from experiments.formal._shared.gift_runtime import (
     rollout_gift,
 )
 from experiments.formal._shared.resume import start_experiment
+from experiments.formal._shared.prediction_data import load_n64_long
+from experiments.formal._shared.gift_regimes import add_lite_arguments, resolve_regimes, extra_regime_files
 
 
 def parse_args() -> argparse.Namespace:
@@ -48,6 +48,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
+    add_lite_arguments(parser, allow_subset=True)
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument(
         "--device", default="cuda" if torch.cuda.is_available() else "cpu"
@@ -158,11 +159,11 @@ def _summary_row(
     stats = summarize(values)
     return {
         "experiment": "S2",
-        "cohort": cohort,
+        "training_regime": cohort,
         "subject": subject,
-        "method": "GIFT"
+        "method": cohort
         if arm == "corrected"
-        else "GIFT (recursive local correction disabled)",
+        else f"{cohort} (recursive local correction disabled)",
         "seed": seed,
         "absolute_time": float(absolute_time),
         "lead_time": float(absolute_time - 5.0),
@@ -175,25 +176,21 @@ def main() -> None:
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:
         paths = replace(paths, low_model=args.low_model.expanduser().resolve(strict=True))
-    models = parse_seed_model_specs(paths.root, args.gift_model)
+    regimes = resolve_regimes(args, paths)
+    paths, models = next(iter(regimes.values()))
     output = (
         args.output
         or paths.root / "reproduced_results" / "S2_recursive_local_correction"
     )
-    session = start_experiment(args, paths, "S2", output, models)
+    session = start_experiment(args, paths, "S2", output, models, extra_files=extra_regime_files(regimes))
     output = session.output
     (output / "raw").mkdir()
     (output / "summary").mkdir()
     device = torch.device(args.device)
 
     stress_ids, times, stress_truth = load_n64_long(paths)
-    holdout_ids, holdout_times, holdout_truth = load_correction_holdout(paths)
-    if not np.array_equal(times, holdout_times):
-        raise RuntimeError("S2 cohorts use different report times")
-    cohorts = {
-        "benchmark": (stress_ids, stress_truth),
-        "independent_holdout": (holdout_ids, holdout_truth),
-    }
+    # Both training regimes use this one independent test population.
+    cohorts = {family: (stress_ids, stress_truth) for family in regimes}
     rows: list[dict[str, Any]] = []
     audit: dict[str, Any] = {}
     all_metrics: dict[tuple[str, int, str], dict[str, np.ndarray]] = {}
@@ -212,7 +209,8 @@ def main() -> None:
                 shuffle=True,
             )
             for seed in SEEDS:
-                low, branch, _ = load_gift_models(paths, models[seed], 64, device)
+                family_paths, family_models = regimes[cohort_name]
+                low, branch, _ = load_gift_models(family_paths, family_models[seed], 64, device)
                 seed_group = cohort_group.create_group(f"seed_{seed}")
                 audit_key = f"{cohort_name}_seed_{seed}"
                 audit[audit_key] = {}
@@ -414,13 +412,8 @@ def main() -> None:
         {
             "schema": "gift.formal.S2.summary.v3",
             "experiment_id": "S2",
-            "cohorts": {
-                "benchmark": {"trajectory_ids": [1000, 1199], "count": 200},
-                "independent_holdout": {
-                    "trajectory_ids": [1200, 1399],
-                    "count": 200,
-                },
-            },
+            "test_population": {"trajectory_ids": [int(stress_ids[0]), int(stress_ids[-1])], "count": len(stress_ids)},
+            "training_regimes": list(regimes),
             "key_metrics": summary_report,
         },
     )
@@ -432,11 +425,11 @@ def main() -> None:
         "title": "recursive local correction effectiveness",
         "inputs": {
             "benchmark_raw_data": file_record(paths.standard_n64, paths.root),
-            "independent_holdout_raw_data": file_record(paths.fno_training, paths.root),
             "low_frequency_model": file_record(paths.low_model, paths.root),
             "gift_models": {
                 str(seed): file_record(models[seed], paths.root) for seed in SEEDS
             },
+            "gift_lite": {name: file_record(path, paths.root) for name, path in extra_regime_files(regimes).items()},
         },
         "summary": summary_report,
         "failure_and_trigger_audit": audit,
@@ -480,8 +473,9 @@ def main() -> None:
         "scientific_boundary": {
             "failure_avoidance_conclusion_is_data_dependent": True,
             "no_failure_trajectory_or_step_is_preselected": True,
-            "benchmark_architecture_development_trajectory_ids": [1000, 1019],
-            "independent_holdout_trajectory_ids": [1200, 1399],
+            "test_trajectory_ids": [int(stress_ids[0]), int(stress_ids[-1])],
+            "test_trajectory_count": len(stress_ids),
+            "test_disjoint_from_training_and_validation": True,
         },
     }
     session.finish()

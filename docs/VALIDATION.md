@@ -5,6 +5,13 @@ commands from the project root. Tests are separate from the full experiments:
 a small test passing does not establish that a complete training budget or a
 reported scientific conclusion has been reproduced.
 
+The full-data GIFT tests check trajectory-epoch sampling, train/validation/test
+identity separation and exact small CPU generator continuation across phase
+boundaries. Branch-controller tests cover optimizer, scheduler and RNG recovery
+with a bounded surrogate; they are not full native-rollout performance evidence.
+Canonical data tests check lossless row copying, metadata ranges, per-trajectory
+storage chunks, read-only input checks and correct binding of GIFT versus GIFT-Lite.
+
 ## Source and recovery tests
 
 In the prediction/GIFT environment, install the optional test dependencies and

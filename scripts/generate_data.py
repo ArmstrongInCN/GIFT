@@ -75,6 +75,11 @@ def extra_parameters(path):
     value = json.loads(Path(path).read_text(encoding="utf-8"))
     parameters = np.asarray(value["parameters"], dtype=np.float64)
     ids = np.asarray(value["trajectory_ids"], dtype=np.int64)
+    if value.get("trajectory_id_scheme") == "canonical":
+        if not np.array_equal(ids, np.arange(50, 1000)):
+            raise ValueError("canonical Extra-950 identities must be prediction training IDs 50-999")
+        from gift.data_splits import storage_ids
+        ids = np.asarray(storage_ids(ids), dtype=np.int64)
     if (value.get("schema") != "gift.initial-conditions.v1" or
             parameters.shape != (950, 4, 4) or not np.array_equal(ids, np.arange(1200, 2150)) or
             not np.isfinite(parameters).all() or array_hash(parameters) != EXTRA_PARAMETERS_HASH):

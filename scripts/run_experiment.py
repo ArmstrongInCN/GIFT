@@ -27,6 +27,10 @@ def child_environment(experiment, arguments, device, parent=None):
     threads = "1" if experiment == "M1" and method != "GIFT" else "2"
     env.update(OMP_NUM_THREADS=threads, MKL_NUM_THREADS=threads, OPENBLAS_NUM_THREADS="1",
                CUDA_VISIBLE_DEVICES="0" if device == "cuda" else "-1", PYTHONDONTWRITEBYTECODE="1")
+    if experiment != "M1":
+        # Resolve the prediction modules from this checkout, including when a
+        # separately installed package is present in the selected environment.
+        env["PYTHONPATH"] = os.pathsep.join((str(ROOT / "src"), str(ROOT)))
     return env
 
 

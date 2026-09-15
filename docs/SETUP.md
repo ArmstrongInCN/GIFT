@@ -73,16 +73,27 @@ All arguments after the model name go to its independent training entry point.
 Place launcher options (`--python`, `--device`) **before** the model name.
 
 ```shell
-python -m scripts.run_training fno2d --run-training --output ../runs/fno2d
-python -m scripts.run_training fno3d --run-training --output ../runs/fno3d
-python -m scripts.run_training uno --run-training --output ../runs/uno
-python -m scripts.run_training unet --run-training --output ../runs/unet
+python -m scripts.run_training fno2d --run-training --data-profile canonical --output ../runs/fno2d
+python -m scripts.run_training fno3d --run-training --data-profile canonical --output ../runs/fno3d
+python -m scripts.run_training uno --run-training --data-profile canonical --output ../runs/uno
+python -m scripts.run_training unet --run-training --data-profile canonical --output ../runs/unet
+python -m scripts.run_training gift_generator --run-training --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
+python -m scripts.run_training gift_predictor --run-training --dataset ../gift-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --seed 20260820 --low-model ../runs/gift_generator/model.pt --output ../runs/gift_predictor_20260820
+```
+
+Repeat `gift_predictor` independently for seeds `20260821` and `20260822`, each
+in a new output directory. Each exports `model.pt`. The generator and every
+branch each train for 500 trajectory epochs; see [TRAINING_PROTOCOL.md](TRAINING_PROTOCOL.md).
+
+For the preserved reduced-data GIFT-Lite and the unchanged M1 protocol:
+
+```shell
 python -m scripts.run_training gift_low --run-training --condition noise_000 --output ../runs/gift_low
 python -m scripts.run_training gift_branch --run-training --seed 20260820 --low-model ../runs/gift_low/gift_main.pt --output ../runs/gift_branch
 ```
 
 For a complete fresh M1 set, also run `gift_low` independently for `noise_001`
-and `noise_010`, using a separate output for each. For the three-seed prediction
+and `noise_010`, using a separate output for each. For three-seed GIFT-Lite
 experiments, run `gift_branch` independently for seeds `20260821` and `20260822`
 in separate outputs, reusing the same completed clean low generator. A branch
 exports `gift_seed_SEED.pt`; a low generator exports `gift_main.pt` for clean
@@ -98,7 +109,7 @@ python -m scripts.run_training pinn --execute --mode open --condition noise_000 
 
 Repeat the PINN commands separately for `noise_001` and `noise_010`. Add `--resume`
 to a command and retain its output directory to continue that same run. For
-`gift_low`, replace `--run-training` with `--resume` instead of combining them. A fresh
+`gift_low`, `gift_generator` and `gift_predictor`, replace `--run-training` with `--resume` instead of combining them. A fresh
 run requires a new output directory. PINN's L-BFGS recovery is phase-boundary
 recovery, as explained in the adaptation guide. Diagnostic/tiny runs are not
 formal experiment results.
@@ -111,9 +122,11 @@ claim that Torch training uses 24 threads. U-Net's explicit startup settings are
 `training/unet_environment.py`; direct invocation must satisfy the same gate.
 PINN uses float32 with TF32 disabled. U-Net uses cuDNN TF32 and disables matmul
 TF32. These are recorded numerical environments, not changes to the upstream
-network. `--device cpu` before the model selects a CPU run, with a separately
-recorded runtime; it is not advertised as bitwise-identical to GPU training.
-FNO and the GIFT high-branch profile leave `CUBLAS_WORKSPACE_CONFIG` unset;
+network. `--device cpu` before the model selects a CPU runtime. The external
+prediction baselines permit CPU only with an explicit `--tiny` diagnostic budget;
+their formal-budget gate requires CUDA. CPU GIFT runs have separately recorded
+runtime identities and are not advertised as bitwise-identical to GPU training.
+FNO and the GIFT-Lite high-branch profile leave `CUBLAS_WORKSPACE_CONFIG` unset;
 the other training profiles set
 `:4096:8`. These settings are applied before scientific libraries are imported.
 

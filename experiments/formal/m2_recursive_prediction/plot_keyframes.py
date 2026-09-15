@@ -32,6 +32,7 @@ from experiments.formal._shared.figure_evidence import (
 
 METHODS = (
     {"label": "GIFT", "slug": "gift", "group": "GIFT_seed_20260820"},
+    {"label": "GIFT-Lite", "slug": "gift_lite", "group": "GIFT_Lite_seed_20260820"},
     {"label": "FNO-2D", "slug": "fno2d", "group": "FNO_2D"},
     {"label": "FNO-3D", "slug": "fno3d", "group": "FNO_3D"},
     {"label": "U-NO", "slug": "uno", "group": "U_NO"},
@@ -377,9 +378,9 @@ def draw_composite(
     field_norm: TwoSlopeNorm,
     residual_norm: TwoSlopeNorm,
 ) -> None:
-    figure = plt.figure(figsize=(183.0 / 25.4, 134.0 / 25.4))
+    figure = plt.figure(figsize=(183.0 / 25.4, (134.0 * (len(METHODS) + 1) / 6.0) / 25.4))
     grid = figure.add_gridspec(
-        6,
+        len(METHODS) + 1,
         10,
         left=0.018,
         right=0.989,
@@ -593,11 +594,17 @@ def verify_vector_svgs(output: Path, expected_panel_count: int) -> dict[str, Any
 
 
 def main() -> None:
+    global METHODS
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
-    parser.add_argument("--trajectory-id", type=int, default=1005)
+    parser.add_argument("--trajectory-id", type=int, default=1045)
+    parser.add_argument("--gift-regimes", nargs="+", choices=("GIFT", "GIFT-Lite"),
+                        default=["GIFT", "GIFT-Lite"],
+                        help="explicit completed regimes; never substitute an unfinished model")
     args = parser.parse_args()
+    METHODS = tuple(spec for spec in METHODS
+                    if spec["label"] not in ("GIFT", "GIFT-Lite") or spec["label"] in args.gift_regimes)
 
     input_path = args.input.resolve(strict=True)
     if input_path.name != "predictions.h5" or input_path.parent.name != "raw":
@@ -648,7 +655,7 @@ def main() -> None:
         residual_norm=residual_norm,
     )
 
-    vector_qa = verify_vector_svgs(output, expected_panel_count=44)
+    vector_qa = verify_vector_svgs(output, expected_panel_count=len(KEY_TIMES) * (1 + 2 * len(METHODS)))
     project_root = Path(__file__).resolve().parents[3]
     try:
         input_record = input_path.relative_to(project_root).as_posix()
@@ -698,7 +705,7 @@ def main() -> None:
         "layout": {
             "archetype": "image_plate_with_residual_evidence",
             "arrangement": "scalar_left_residual_right",
-            "row_order": ["Reference", "GIFT", "FNO-2D", "FNO-3D", "U-NO", "U-Net"],
+            "row_order": ["Reference", *[spec["label"] for spec in METHODS]],
             "scalar_columns": KEY_TIMES.tolist(),
             "residual_columns": KEY_TIMES.tolist(),
             "scalar_residual_rows_aligned": True,

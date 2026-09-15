@@ -12,7 +12,9 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 MODULES = {name: "training.train_"+name for name in ("fno2d", "fno3d", "uno", "unet", "pinn")}
 MODULES.update(gift_low="experiments.formal.train_low_generator",
-               gift_branch="experiments.formal.train_gift_branches")
+               gift_branch="experiments.formal.train_gift_branches",
+               gift_generator="training.train_gift_generator",
+               gift_predictor="training.train_gift_predictor")
 
 
 def child_environment(model, python, device, parent=None):
@@ -22,6 +24,9 @@ def child_environment(model, python, device, parent=None):
     threads = "1" if model in ("unet", "pinn") else "16"
     env.update(OMP_NUM_THREADS=threads, MKL_NUM_THREADS=threads, OPENBLAS_NUM_THREADS="1",
                PYTHONDONTWRITEBYTECODE="1", CUBLAS_WORKSPACE_CONFIG=":4096:8")
+    if model in ("gift_generator", "gift_predictor"):
+        # Prefer this checkout when an older installed package is also present.
+        env["PYTHONPATH"] = os.pathsep.join((str(ROOT / "src"), str(ROOT)))
     if model not in ("unet", "pinn"):
         env["CUDA_VISIBLE_DEVICES"] = "-1" if device == "cpu" else "0"
     if model in ("fno2d", "fno3d", "gift_branch"):

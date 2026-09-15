@@ -1,181 +1,101 @@
 ﻿experiment,cohort,task,band,method,seed,mean_relative_l2,finite_count,population
-S1,validation_50_69,validation_derivative,full,GIFT,20260820,0.05738207249740099,9940,9940
-S1,validation_50_69,validation_derivative,full,GIFT,20260821,0.05755498387462416,9940,9940
-S1,validation_50_69,validation_derivative,full,GIFT,20260822,0.0575001667944397,9940,9940
-S1,validation_50_69,validation_derivative,full,GIFT (high-frequency branch disabled),fixed,0.09858911614197817,9940,9940
-S1,benchmark_1000_1199,N64_t6,full,GIFT,20260820,0.04038231793137715,200,200
-S1,benchmark_1000_1199,N64_t6,full,GIFT,20260821,0.04030432001948638,200,200
-S1,benchmark_1000_1199,N64_t6,full,GIFT,20260822,0.04050694127414928,200,200
-S1,benchmark_1000_1199,N64_t6,full,GIFT (high-frequency branch disabled),fixed,0.06094158700303336,200,200
-S1,confirmation_1100_1199,N64_t6,full,GIFT,20260820,0.03936888124666246,100,100
-S1,confirmation_1100_1199,N64_t6,full,GIFT,20260821,0.039294554342312146,100,100
-S1,confirmation_1100_1199,N64_t6,full,GIFT,20260822,0.039483463021082806,100,100
-S1,confirmation_1100_1199,N64_t6,full,GIFT (high-frequency branch disabled),fixed,0.06100840348185157,100,100
-S1,benchmark_1000_1199,N96_t6,full,GIFT,20260820,0.03942778126706197,200,200
-S1,benchmark_1000_1199,N96_t6,full,GIFT,20260821,0.03931800075754915,200,200
-S1,benchmark_1000_1199,N96_t6,full,GIFT,20260822,0.0394550969621978,200,200
-S1,benchmark_1000_1199,N96_t6,full,GIFT (high-frequency branch disabled),fixed,0.058021284786587884,200,200
-S1,confirmation_1100_1199,N96_t6,full,GIFT,20260820,0.038446542414347126,100,100
-S1,confirmation_1100_1199,N96_t6,full,GIFT,20260821,0.03839008041351976,100,100
-S1,confirmation_1100_1199,N96_t6,full,GIFT,20260822,0.03853280744559577,100,100
-S1,confirmation_1100_1199,N96_t6,full,GIFT (high-frequency branch disabled),fixed,0.05796001708917673,100,100
-S1,benchmark_1000_1199,N128_t6,full,GIFT,20260820,0.039414217673088225,200,200
-S1,benchmark_1000_1199,N128_t6,full,GIFT,20260821,0.03930522346624349,200,200
-S1,benchmark_1000_1199,N128_t6,full,GIFT,20260822,0.03944460137068102,200,200
-S1,benchmark_1000_1199,N128_t6,full,GIFT (high-frequency branch disabled),fixed,0.058002548749078404,200,200
-S1,confirmation_1100_1199,N128_t6,full,GIFT,20260820,0.03843698322189384,100,100
-S1,confirmation_1100_1199,N128_t6,full,GIFT,20260821,0.038381690418687345,100,100
-S1,confirmation_1100_1199,N128_t6,full,GIFT,20260822,0.03852591663976941,100,100
-S1,confirmation_1100_1199,N128_t6,full,GIFT (high-frequency branch disabled),fixed,0.05794062735685857,100,100
-S1,benchmark_1000_1199,N64_t8,full,GIFT,20260820,0.08748495564575354,200,200
-S1,benchmark_1000_1199,N64_t8,full,GIFT,20260821,0.08756468850544544,200,200
-S1,benchmark_1000_1199,N64_t8,full,GIFT,20260822,0.0875753436814202,200,200
-S1,benchmark_1000_1199,N64_t8,full,GIFT (high-frequency branch disabled),fixed,0.10222816825688891,200,200
-S1,confirmation_1100_1199,N64_t8,full,GIFT,20260820,0.08152362689983567,100,100
-S1,confirmation_1100_1199,N64_t8,full,GIFT,20260821,0.08154706574254135,100,100
-S1,confirmation_1100_1199,N64_t8,full,GIFT,20260822,0.08156837782492275,100,100
-S1,confirmation_1100_1199,N64_t8,full,GIFT (high-frequency branch disabled),fixed,0.09676857713978627,100,100
-S1,validation_50_69,validation_derivative_frequency_band,P21,GIFT,20260820,0.042927991218659145,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P21,GIFT,20260821,0.04292799119262235,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P21,GIFT,20260822,0.04292799122468619,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.04292799121422353,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,Q21,GIFT,20260820,3.673268147313605,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,Q21,GIFT,20260821,3.5356987154808666,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,Q21,GIFT,20260822,3.2335985887422796,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.0000014572175484,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P22-31,GIFT,20260820,3.683107685140613,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P22-31,GIFT,20260821,3.5438566006535694,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P22-31,GIFT,20260822,3.242555352107672,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.0000017929977782,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,outside P31,GIFT,20260820,5.4075795014709005,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,outside P31,GIFT,20260821,5.1075185220060275,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,outside P31,GIFT,20260822,4.318135680522013,9940,9940
-S1,validation_50_69,validation_derivative_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,1.0000201333225542,9940,9940
-S1,benchmark_1000_1199,N64_t6_frequency_band,P21,GIFT,20260820,0.03582428243617011,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,P21,GIFT,20260821,0.03582427113123788,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,P21,GIFT,20260822,0.03582426435398744,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.03582426266060147,200,200
-S1,confirmation_1100_1199,N64_t6_frequency_band,P21,GIFT,20260820,0.0347990407938636,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,P21,GIFT,20260821,0.03479904784978575,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,P21,GIFT,20260822,0.0347990414466529,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.03479902509004011,100,100
-S1,benchmark_1000_1199,N64_t6_frequency_band,Q21,GIFT,20260820,0.6716828217174066,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,Q21,GIFT,20260821,0.6656063944386532,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,Q21,GIFT,20260822,0.6802649005544594,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.810614604122038,200,200
-S1,confirmation_1100_1199,N64_t6_frequency_band,Q21,GIFT,20260820,0.673282014223659,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,Q21,GIFT,20260821,0.6680631035038688,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,Q21,GIFT,20260822,0.6810878678323681,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.8567032506736871,100,100
-S1,benchmark_1000_1199,N64_t6_frequency_band,P22-31,GIFT,20260820,0.6657030786990545,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,P22-31,GIFT,20260821,0.6600411042121541,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,P22-31,GIFT,20260822,0.6744073597533441,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.7994870713348718,200,200
-S1,confirmation_1100_1199,N64_t6_frequency_band,P22-31,GIFT,20260820,0.6653506437452024,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,P22-31,GIFT,20260821,0.6624861540728746,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,P22-31,GIFT,20260822,0.6757417563726698,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.8405178684744905,100,100
-S1,benchmark_1000_1199,N64_t6_frequency_band,outside P31,GIFT,20260820,0.7533842529124829,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,outside P31,GIFT,20260821,0.7409871216195438,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,outside P31,GIFT,20260822,0.7595840046129869,200,200
-S1,benchmark_1000_1199,N64_t6_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,2.013801141058491,200,200
-S1,confirmation_1100_1199,N64_t6_frequency_band,outside P31,GIFT,20260820,0.7559826618344778,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,outside P31,GIFT,20260821,0.7313898412778146,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,outside P31,GIFT,20260822,0.7460264390395348,100,100
-S1,confirmation_1100_1199,N64_t6_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,2.0865304150380886,100,100
-S1,benchmark_1000_1199,N96_t6_frequency_band,P21,GIFT,20260820,0.03568010314294733,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,P21,GIFT,20260821,0.03568009433231783,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,P21,GIFT,20260822,0.03568008808563544,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.03568009427143123,200,200
-S1,confirmation_1100_1199,N96_t6_frequency_band,P21,GIFT,20260820,0.03471760130302011,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,P21,GIFT,20260821,0.03471761067029737,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,P21,GIFT,20260822,0.03471758236609777,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.03471760104292429,100,100
-S1,benchmark_1000_1199,N96_t6_frequency_band,Q21,GIFT,20260820,0.6477769758650317,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,Q21,GIFT,20260821,0.6390301016195735,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,Q21,GIFT,20260822,0.6506503550625722,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.7970410963539922,200,200
-S1,confirmation_1100_1199,N96_t6_frequency_band,Q21,GIFT,20260820,0.6469683339825916,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,Q21,GIFT,20260821,0.6426101155868658,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,Q21,GIFT,20260822,0.6540041825832694,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.8374877910291643,100,100
-S1,benchmark_1000_1199,N96_t6_frequency_band,P22-31,GIFT,20260820,0.6209597357567549,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,P22-31,GIFT,20260821,0.6172795097143124,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,P22-31,GIFT,20260822,0.6293796359408631,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.79092937076263,200,200
-S1,confirmation_1100_1199,N96_t6_frequency_band,P22-31,GIFT,20260820,0.6204144771833069,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,P22-31,GIFT,20260821,0.6212715661778432,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,P22-31,GIFT,20260822,0.6330179546721386,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.8303617127760015,100,100
-S1,benchmark_1000_1199,N96_t6_frequency_band,outside P31,GIFT,20260820,1.0760690007395324,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,outside P31,GIFT,20260821,1.0033460068098023,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,outside P31,GIFT,20260822,1.0103826899465662,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,1.958022643157616,200,200
-S1,confirmation_1100_1199,N96_t6_frequency_band,outside P31,GIFT,20260820,1.0748287101639311,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,outside P31,GIFT,20260821,1.0030109127917513,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,outside P31,GIFT,20260822,1.013219270132856,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,2.0130936925483427,100,100
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT,20260820,1.0736277797831968,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT,20260821,1.0000764782620495,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT,20260822,1.0082015468744188,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT (high-frequency branch disabled),fixed,1.952130739217223,200,200
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT,20260820,1.0725348148199403,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT,20260821,1.0005412094638695,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT,20260822,1.0114266347243395,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 state,GIFT (high-frequency branch disabled),fixed,2.005997298267788,100,100
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260820,0.5714556508091024,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260821,0.5311725604135826,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260822,0.5361980835083459,200,200
-S1,benchmark_1000_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT (high-frequency branch disabled),fixed,0.9999848708656163,200,200
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260820,0.5557759932779218,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260821,0.5162487896790249,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260822,0.5233424457430139,100,100
-S1,confirmation_1100_1199,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT (high-frequency branch disabled),fixed,0.9999846634108532,100,100
-S1,benchmark_1000_1199,N128_t6_frequency_band,P21,GIFT,20260820,0.03568208930373164,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,P21,GIFT,20260821,0.03568208284872769,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,P21,GIFT,20260822,0.035682082751988586,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.035682082256059386,200,200
-S1,confirmation_1100_1199,N128_t6_frequency_band,P21,GIFT,20260820,0.034720339521411,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,P21,GIFT,20260821,0.03472032509451073,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,P21,GIFT,20260822,0.03472032800310285,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,P21,GIFT (high-frequency branch disabled),fixed,0.034720324041083675,100,100
-S1,benchmark_1000_1199,N128_t6_frequency_band,Q21,GIFT,20260820,0.6468013031095393,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,Q21,GIFT,20260821,0.6381182923247641,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,Q21,GIFT,20260822,0.6499326038165543,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.796677201503623,200,200
-S1,confirmation_1100_1199,N128_t6_frequency_band,Q21,GIFT,20260820,0.646135206846741,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,Q21,GIFT,20260821,0.6418830731600338,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,Q21,GIFT,20260822,0.6534236801698426,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,Q21,GIFT (high-frequency branch disabled),fixed,1.8370362724732212,100,100
-S1,benchmark_1000_1199,N128_t6_frequency_band,P22-31,GIFT,20260820,0.620869714827113,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,P22-31,GIFT,20260821,0.6172056883497351,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,P22-31,GIFT,20260822,0.6293058266916531,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.7909161733328687,200,200
-S1,confirmation_1100_1199,N128_t6_frequency_band,P22-31,GIFT,20260820,0.620388674534834,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,P22-31,GIFT,20260821,0.6212248547702819,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,P22-31,GIFT,20260822,0.6329716119963865,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,P22-31,GIFT (high-frequency branch disabled),fixed,1.8303482687316481,100,100
-S1,benchmark_1000_1199,N128_t6_frequency_band,outside P31,GIFT,20260820,1.0695632338516092,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,outside P31,GIFT,20260821,0.9962337490838504,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,outside P31,GIFT,20260822,1.0057602696919574,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,1.9514933956086176,200,200
-S1,confirmation_1100_1199,N128_t6_frequency_band,outside P31,GIFT,20260820,1.0689834723237803,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,outside P31,GIFT,20260821,0.9972859925487402,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,outside P31,GIFT,20260822,1.0095954256152762,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,outside P31,GIFT (high-frequency branch disabled),fixed,2.005268628872789,100,100
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT,20260820,1.0695256999637737,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT,20260821,0.99617933722582,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT,20260822,1.0057310764198486,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT (high-frequency branch disabled),fixed,1.9514102991222717,200,200
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT,20260820,1.0689703915746078,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT,20260821,0.9972646205980902,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT,20260822,1.0095840328565555,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 state,GIFT (high-frequency branch disabled),fixed,2.005155200111416,100,100
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260820,0.5694040864484886,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260821,0.5291056031336413,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260822,0.5349623493916194,200,200
-S1,benchmark_1000_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT (high-frequency branch disabled),fixed,0.9999798009477996,200,200
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260820,0.5541162963705833,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260821,0.5146499344223006,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT,20260822,0.522524401722443,100,100
-S1,confirmation_1100_1199,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT (high-frequency branch disabled),fixed,0.9999791941992652,100,100
+S1,validation_1000_1019,validation_derivative,full,GIFT-Lite,20260820,0.05738207249740099,9940,9940
+S1,validation_1000_1019,validation_derivative,full,GIFT-Lite,20260821,0.05755498387462416,9940,9940
+S1,validation_1000_1019,validation_derivative,full,GIFT-Lite,20260822,0.0575001667944397,9940,9940
+S1,validation_1000_1019,validation_derivative,full,GIFT-Lite (high-frequency branch disabled),fixed,0.09858911614197817,9940,9940
+S1,test_1040_1219,N64_t6,full,GIFT-Lite,20260820,0.04075613995962882,180,180
+S1,test_1040_1219,N64_t6,full,GIFT-Lite,20260821,0.040665495532326706,180,180
+S1,test_1040_1219,N64_t6,full,GIFT-Lite,20260822,0.040868498166837346,180,180
+S1,test_1040_1219,N64_t6,full,GIFT-Lite (high-frequency branch disabled),fixed,0.061416250666291854,180,180
+S1,test_1040_1219,N96_t6,full,GIFT-Lite,20260820,0.03978514810425255,180,180
+S1,test_1040_1219,N96_t6,full,GIFT-Lite,20260821,0.03967561211739414,180,180
+S1,test_1040_1219,N96_t6,full,GIFT-Lite,20260822,0.039802551109885,180,180
+S1,test_1040_1219,N96_t6,full,GIFT-Lite (high-frequency branch disabled),fixed,0.05844466122129879,180,180
+S1,test_1040_1219,N128_t6,full,GIFT-Lite,20260820,0.03977129984451469,180,180
+S1,test_1040_1219,N128_t6,full,GIFT-Lite,20260821,0.039663000461971167,180,180
+S1,test_1040_1219,N128_t6,full,GIFT-Lite,20260822,0.0397915216173867,180,180
+S1,test_1040_1219,N128_t6,full,GIFT-Lite (high-frequency branch disabled),fixed,0.05842543101117355,180,180
+S1,test_1040_1219,N64_t8,full,GIFT-Lite,20260820,0.08812321935817437,180,180
+S1,test_1040_1219,N64_t8,full,GIFT-Lite,20260821,0.08821923413454251,180,180
+S1,test_1040_1219,N64_t8,full,GIFT-Lite,20260822,0.08822821834862335,180,180
+S1,test_1040_1219,N64_t8,full,GIFT-Lite (high-frequency branch disabled),fixed,0.1029758836918809,180,180
+S1,validation_1000_1019,validation_derivative_frequency_band,P21,GIFT-Lite,20260820,0.042927991218659145,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P21,GIFT-Lite,20260821,0.04292799119262235,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P21,GIFT-Lite,20260822,0.04292799122468619,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P21,GIFT-Lite (high-frequency branch disabled),fixed,0.04292799121422353,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,Q21,GIFT-Lite,20260820,3.673268147313605,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,Q21,GIFT-Lite,20260821,3.5356987154808666,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,Q21,GIFT-Lite,20260822,3.2335985887422796,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,Q21,GIFT-Lite (high-frequency branch disabled),fixed,1.0000014572175484,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P22-31,GIFT-Lite,20260820,3.683107685140613,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P22-31,GIFT-Lite,20260821,3.5438566006535694,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P22-31,GIFT-Lite,20260822,3.242555352107672,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,P22-31,GIFT-Lite (high-frequency branch disabled),fixed,1.0000017929977782,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,outside P31,GIFT-Lite,20260820,5.4075795014709005,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,outside P31,GIFT-Lite,20260821,5.1075185220060275,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,outside P31,GIFT-Lite,20260822,4.318135680522013,9940,9940
+S1,validation_1000_1019,validation_derivative_frequency_band,outside P31,GIFT-Lite (high-frequency branch disabled),fixed,1.0000201333225542,9940,9940
+S1,test_1040_1219,N64_t6_frequency_band,P21,GIFT-Lite,20260820,0.03616248469742977,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P21,GIFT-Lite,20260821,0.036162477849444104,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P21,GIFT-Lite,20260822,0.03616247005026171,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P21,GIFT-Lite (high-frequency branch disabled),fixed,0.036162464991945795,180,180
+S1,test_1040_1219,N64_t6_frequency_band,Q21,GIFT-Lite,20260820,0.6754180534082452,180,180
+S1,test_1040_1219,N64_t6_frequency_band,Q21,GIFT-Lite,20260821,0.668815760895665,180,180
+S1,test_1040_1219,N64_t6_frequency_band,Q21,GIFT-Lite,20260822,0.6831005320816456,180,180
+S1,test_1040_1219,N64_t6_frequency_band,Q21,GIFT-Lite (high-frequency branch disabled),fixed,1.8206747376622596,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P22-31,GIFT-Lite,20260820,0.6693483414641518,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P22-31,GIFT-Lite,20260821,0.6632550405712899,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P22-31,GIFT-Lite,20260822,0.6768894853704523,180,180
+S1,test_1040_1219,N64_t6_frequency_band,P22-31,GIFT-Lite (high-frequency branch disabled),fixed,1.8085858526723617,180,180
+S1,test_1040_1219,N64_t6_frequency_band,outside P31,GIFT-Lite,20260820,0.7564439122009999,180,180
+S1,test_1040_1219,N64_t6_frequency_band,outside P31,GIFT-Lite,20260821,0.7422019782763687,180,180
+S1,test_1040_1219,N64_t6_frequency_band,outside P31,GIFT-Lite,20260822,0.7632471707135547,180,180
+S1,test_1040_1219,N64_t6_frequency_band,outside P31,GIFT-Lite (high-frequency branch disabled),fixed,2.026121255635919,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P21,GIFT-Lite,20260820,0.03602182293642657,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P21,GIFT-Lite,20260821,0.03602181844097447,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P21,GIFT-Lite,20260822,0.03602180667054405,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P21,GIFT-Lite (high-frequency branch disabled),fixed,0.036021814533264515,180,180
+S1,test_1040_1219,N96_t6_frequency_band,Q21,GIFT-Lite,20260820,0.6506931112778015,180,180
+S1,test_1040_1219,N96_t6_frequency_band,Q21,GIFT-Lite,20260821,0.6422915750461323,180,180
+S1,test_1040_1219,N96_t6_frequency_band,Q21,GIFT-Lite,20260822,0.6526470925780669,180,180
+S1,test_1040_1219,N96_t6_frequency_band,Q21,GIFT-Lite (high-frequency branch disabled),fixed,1.805929248404492,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P22-31,GIFT-Lite,20260820,0.6237589522340519,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P22-31,GIFT-Lite,20260821,0.6204764739337431,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P22-31,GIFT-Lite,20260822,0.6312214398987378,180,180
+S1,test_1040_1219,N96_t6_frequency_band,P22-31,GIFT-Lite (high-frequency branch disabled),fixed,1.7994690713414117,180,180
+S1,test_1040_1219,N96_t6_frequency_band,outside P31,GIFT-Lite,20260820,1.07782631613858,180,180
+S1,test_1040_1219,N96_t6_frequency_band,outside P31,GIFT-Lite,20260821,1.0053987629716667,180,180
+S1,test_1040_1219,N96_t6_frequency_band,outside P31,GIFT-Lite,20260822,1.0123723324606217,180,180
+S1,test_1040_1219,N96_t6_frequency_band,outside P31,GIFT-Lite (high-frequency branch disabled),fixed,1.9717862891017812,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 state,GIFT-Lite,20260820,1.075206008586433,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 state,GIFT-Lite,20260821,1.0020366408872698,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 state,GIFT-Lite,20260822,1.0100182828654694,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 state,GIFT-Lite (high-frequency branch disabled),fixed,1.9657135359691233,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite,20260820,0.5689995777433738,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite,20260821,0.5287198005728202,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite,20260822,0.5337700542813449,180,180
+S1,test_1040_1219,N96_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite (high-frequency branch disabled),fixed,0.9999849778357967,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P21,GIFT-Lite,20260820,0.03602401067649266,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P21,GIFT-Lite,20260821,0.03602399761577256,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P21,GIFT-Lite,20260822,0.03602399991799254,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P21,GIFT-Lite (high-frequency branch disabled),fixed,0.036023999418377584,180,180
+S1,test_1040_1219,N128_t6_frequency_band,Q21,GIFT-Lite,20260820,0.6497077680768777,180,180
+S1,test_1040_1219,N128_t6_frequency_band,Q21,GIFT-Lite,20260821,0.6413864312270502,180,180
+S1,test_1040_1219,N128_t6_frequency_band,Q21,GIFT-Lite,20260822,0.6518847170627966,180,180
+S1,test_1040_1219,N128_t6_frequency_band,Q21,GIFT-Lite (high-frequency branch disabled),fixed,1.8055490655790347,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P22-31,GIFT-Lite,20260820,0.6236920128705455,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P22-31,GIFT-Lite,20260821,0.620441669464796,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P22-31,GIFT-Lite,20260822,0.6311298907520076,180,180
+S1,test_1040_1219,N128_t6_frequency_band,P22-31,GIFT-Lite (high-frequency branch disabled),fixed,1.7994568730033558,180,180
+S1,test_1040_1219,N128_t6_frequency_band,outside P31,GIFT-Lite,20260820,1.0710654584871206,180,180
+S1,test_1040_1219,N128_t6_frequency_band,outside P31,GIFT-Lite,20260821,0.9980081021906658,180,180
+S1,test_1040_1219,N128_t6_frequency_band,outside P31,GIFT-Lite,20260822,1.007476229334858,180,180
+S1,test_1040_1219,N128_t6_frequency_band,outside P31,GIFT-Lite (high-frequency branch disabled),fixed,1.9650500317985133,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 state,GIFT-Lite,20260820,1.0710250616462762,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 state,GIFT-Lite,20260821,0.997950572227123,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 state,GIFT-Lite,20260822,1.0074448084239362,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 state,GIFT-Lite (high-frequency branch disabled),fixed,1.964961810710707,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite,20260820,0.5669284545712159,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite,20260821,0.526572408827107,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite,20260822,0.5324837783017664,180,180
+S1,test_1040_1219,N128_t6_frequency_band,reliable outside P31 dynamics,GIFT-Lite (high-frequency branch disabled),fixed,0.999979499302629,180,180

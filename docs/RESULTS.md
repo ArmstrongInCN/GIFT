@@ -56,26 +56,38 @@ read together with their finite trajectory counts.
 
 ## Evaluation boundary
 
-In M2, U-NO has the lowest mean error at t=5.5; GIFT has the lowest mean error
-at the five reported times from t=6 to t=8. All five methods retain 200/200
-finite trajectories. In M1, the open PINN-SR library retains 90/90 nonzero
-terms at all three noise levels: its three-coefficient readout is not successful
-sparse-structure recovery. L-BFGS callback counts do not establish convergence.
+The prediction tables and SVGs currently contain completed GIFT-Lite models
+(50 training trajectories) and the completed baselines. Full-data GIFT uses
+1,000 training trajectories and 500 epochs for EACH of its two stages; its
+generator is complete, but branch training and prediction evaluation remain
+pending. No intermediate full-data checkpoint is represented as a final result.
+GIFT-Lite also retains its own training schedule and validation-based selection;
+it is not a data-only ablation of the full-data training protocol.
 
-S2 without local correction includes a non-finite trajectory and a large finite
-error amplification. These cases are retained. Such unstable trajectories can
-amplify small changes in learned weights; small average seed variation for the
-corrected model is not a general numerical stability guarantee.
+Prediction IDs are 0–999 for training, 1000–1039 for validation, and 1040–1219
+for the independent test set. GIFT-Lite uses training IDs 0–49 and full-interval
+validation IDs 1000–1019. The same initial condition has the same ID across
+resolutions. Every test trajectory is retained, regardless of its error or
+numerical stability. M1 keeps its separate local IDs and evaluation protocol.
 
-The experiment metadata identifies trajectories 1000–1019 as used for GIFT
-architecture development. They are included in the reported 1000–1199 cohort,
-although not used for gradient training or validation-based checkpoint selection.
-Consequently, the 200-trajectory cohort is not wholly untouched by method
-development. The additional 1100–1199 summaries are a 100-trajectory subset of
-that cohort, not another independent 200-trajectory sample. S2's 1200–1399 cohort
-is held out from GIFT training, but overlaps the prediction baselines' training
-set; it is used only for the GIFT correction ablation.
+The included prediction summaries were recomputed from completed per-trajectory
+outputs on these 180 test trajectories; no new model inference was performed
+for that aggregation. The manifests bind the measured source outputs, selection
+rule and aggregation code. Independent experiment commands recompute predictions
+with the supplied weights and the same fixed test set.
 
-运行元数据将 1000–1019 标为 GIFT 架构开发轨迹。主表保留完整的 200 条评价结果，
-不将“未参与梯度训练”扩大表述为“从未用于方法开发”。这些边界限制了结果的解释，
-不能由重新初始化模型或增加训练轮数消除。
+In M2, U-NO has the lowest mean error at t=5.5; GIFT-Lite has the lowest mean
+error at the five reported times from t=6 to t=8. All five completed methods
+retain 180/180 finite trajectories. S2 uses only this one independent test set.
+Without local correction, trajectory 1062 becomes non-finite at t=6.74 for all
+three seeds; the later finite-only means use 179 rather than 180 trajectories
+and cannot by themselves establish a precision advantage. Small average seed
+variation is not a general numerical stability guarantee.
+
+In M1, the open PINN-SR library retains 90/90 nonzero terms at all three noise
+levels: its three-coefficient readout is not successful sparse-structure recovery.
+L-BFGS callback counts do not establish convergence.
+
+当前预测结果只包含已完成的 GIFT-Lite 和基线，统一统计独立测试集 1040–1219。
+这些统计由已完成的逐轨迹预测重新汇总，不称为一次新的推理或训练；完整数据 GIFT
+须待训练和评价完成后加入。S2 只保留这一组测试，失稳轨迹及有限样本数均如实记录。

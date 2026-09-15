@@ -50,8 +50,8 @@ def _arguments(model: str, argv=None):
     parser.add_argument("--output", type=Path)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data-file", default=TRAIN_FILE, help="path relative to GIFT_DATA_ROOT")
-    parser.add_argument("--data-profile", choices=("released", "regenerated"), default="released",
-                        help="released: original SHA; regenerated: completed generated collection with provenance")
+    parser.add_argument("--data-profile", choices=("released", "regenerated", "canonical"), default="released",
+                        help="canonical: numbered prediction package; released/regenerated: storage-ID input")
     parser.add_argument("--stop-after-epoch", type=int, help="operational pause; does not change total run budget")
     parser.add_argument("--checkpoint-interval", type=int, default=10, help="save every N completed epochs; default 10")
     parser.add_argument("--tiny", action="store_true", help="explicit NONFORMAL test budget, never a formal artifact")
@@ -192,13 +192,24 @@ def _regenerated_input(base: Path, path: Path, *, full: bool) -> dict:
 
 def _validate_data(path: Path, config: dict, *, hash_bytes: bool, data_base: Path | None = None) -> dict:
     profile = config.get("data_profile", "released")
-    if profile not in ("released", "regenerated"):
+    if profile not in ("released", "regenerated", "canonical"):
         raise ValueError("unknown data profile")
     provenance = None
     if profile == "regenerated":
         if data_base is None:
             raise ValueError("regenerated input requires its explicit collection root")
         provenance = _regenerated_input(data_base, path, full=hash_bytes)
+    elif profile == "canonical":
+        if data_base is None:
+            raise ValueError("canonical input requires its explicit collection root")
+        import sys
+        # Use this checkout's input reader without changing the strict U-Net
+        # startup environment or requiring a PYTHONPATH environment override.
+        local_source = str(ROOT / "src")
+        if local_source not in sys.path:
+            sys.path.insert(0, local_source)
+        from gift.canonical_package import training_input
+        provenance = training_input(data_base, path, full=hash_bytes)
     with h5py.File(path, "r") as handle:
         field = handle["training/vorticity"]
         shape = tuple(field.shape)
@@ -207,7 +218,8 @@ def _validate_data(path: Path, config: dict, *, hash_bytes: bool, data_base: Pat
         if field.dtype != np.dtype("float32") or shape[1] < 46 + config["rollout"]:
             raise ValueError("field dtype or available frames differ")
         if config["formal"]:
-            expected_ids = np.r_[np.arange(50), np.arange(1200, 2150)]
+            expected_ids = (np.arange(1000) if profile == "canonical"
+                            else np.r_[np.arange(50), np.arange(1200, 2150)])
             if shape != (1000, 501, 64, 64) or not np.array_equal(handle["training/trajectory_index"][:], expected_ids):
                 raise ValueError("formal training population/shape differs")
             if not np.allclose(handle["training/time"][:], np.arange(501) * 0.02, rtol=0, atol=2e-12):
@@ -427,6 +439,9 @@ def main(model_name: str, argv=None) -> None:
     if args.data_profile == "regenerated":
         identity["sources"].update({relative: digest_file(ROOT / relative) for relative in (
             "scripts/assemble_generated_data.py", "scripts/generate_data.py", "src/even_full_spectrum_ns.py")})
+    elif args.data_profile == "canonical":
+        identity["sources"].update({relative: digest_file(ROOT / relative) for relative in (
+            "src/gift/canonical_package.py", "src/gift/data_splits.py")})
     network = build_model(model_name, str(device))
     if model_name == "uno":
         _, optimizer_type, criterion_type = uno_components()

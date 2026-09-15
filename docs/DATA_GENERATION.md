@@ -28,9 +28,13 @@ python -m scripts.generate_data --dataset fno-training --initial-conditions ../G
 python -m scripts.generate_data --dataset fno-test --device cuda --output ../generation/fno-test --execute
 ```
 
-The standard run uses 50 training, 20 validation and 200 test trajectories.
+The solver's standard container stores 50 training, 20 validation and 200
+evaluation trajectories. The canonical export below places 20 of the evaluation
+trajectories in validation and keeps 180 independent test trajectories.
 Common prediction training uses the 50 training initial conditions plus 950
-explicit parameter sets, IDs 1200–2149. The extra-950 JSON contains parameters,
+explicit parameter sets, public IDs 50–999. The generation routine translates
+these IDs to its internal storage identities without changing parameters.
+The extra-950 JSON contains parameters,
 not saved vorticity; its original random-draw seed is unspecified. The provided
 parameter values suffice to integrate these trajectories without saved truth.
 
@@ -107,12 +111,34 @@ together. Successful assembly establishes input integrity, not equality of
 downstream experiment results. This generated collection has a different schema
 from the downloadable package checked by `scripts.verify_data`.
 
+## Canonical prediction package
+
+After all jobs have been assembled, export the publication numbering:
+
+```shell
+python -m scripts.prepare_prediction_package --source ../generated-inputs --output ../generated-prediction-data
+python -m scripts.verify_data --root ../generated-prediction-data --full-array-scan
+```
+
+The new package includes README, dictionary, splits, manifest and CC BY 4.0
+notice. Prediction IDs are training 0–999, validation 1000–1039 and test
+1040–1219. All resolutions share the same IDs. Observation arrays are copied
+losslessly; the M1 files retain their separate local IDs and unchanged bytes.
+Generation receipts are preserved. The command rejects incomplete collections,
+existing output directories and already-canonical inputs.
+
 ## Train on regenerated fields
 
-Set `GIFT_DATA_ROOT` to `../generated-inputs`, then add `--data-profile regenerated`
-to an independent FNO-2D, FNO-3D, U-NO, U-Net or GIFT training command. GIFT branch
-training requires the clean low generator trained on that same collection;
-downloaded low-generator weights do not qualify as its fresh prerequisite.
+For prediction, set `GIFT_DATA_ROOT` to `../generated-prediction-data` and use
+`--data-profile canonical` for an independent FNO-2D, FNO-3D, U-NO or U-Net
+training command. Full-data GIFT's `gift_generator` and `gift_predictor` commands
+take the explicit canonical dense `--dataset` path instead. Its branch requires
+the completed full-data generator trained on the same observations; downloaded
+or reduced-data generator weights do not qualify as its fresh prerequisite.
+
+For M1 or GIFT-Lite regeneration, retain `GIFT_DATA_ROOT=../generated-inputs` and
+use the `--data-profile regenerated` route. These consumers keep the original
+identification/small-data protocol and local IDs.
 
 For native PINN training, switch to the separate PINN environment, retain the
 same generated `GIFT_DATA_ROOT`, and choose one condition and library:

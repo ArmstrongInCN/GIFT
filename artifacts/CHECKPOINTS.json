@@ -1,6 +1,6 @@
 {
   "schema": "gift.checkpoints.v1",
-  "collection_complete": true,
+  "collection_complete": false,
   "files": [
     {
       "path": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
@@ -39,21 +39,21 @@
     },
     {
       "path": "artifacts/gift/gift_seed_20260820.pt",
-      "method": "GIFT",
+      "method": "GIFT-Lite",
       "artifact_role": "trained_weights",
       "bytes": 11314322,
       "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A"
     },
     {
       "path": "artifacts/gift/gift_seed_20260821.pt",
-      "method": "GIFT",
+      "method": "GIFT-Lite",
       "artifact_role": "trained_weights",
       "bytes": 11314322,
       "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819"
     },
     {
       "path": "artifacts/gift/gift_seed_20260822.pt",
-      "method": "GIFT",
+      "method": "GIFT-Lite",
       "artifact_role": "trained_weights",
       "bytes": 11314322,
       "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201"
@@ -143,6 +143,26 @@
       "artifact_role": "trained_weights",
       "bytes": 304740,
       "sha256": "1066B4B23081ECA7DEB993C91632F5B5A12BBC325C6C35E633C2BC5EF2936BB5"
+    },
+    {
+      "path": "artifacts/gift_full/generator.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 279268,
+      "sha256": "8C224C873198F844EBCABF1BEF95FFD6ACCA0C922020030A63DC71BF62EAF220",
+      "training_cost": {
+        "epochs": 500,
+        "optimizer_updates": 31500,
+        "affine_fits": 501,
+        "committed_epoch_seconds": 703.8105353003484,
+        "timing_scope": "sampling, gradient updates, affine refits and validation; excludes setup, checkpoint writes and paused time"
+      },
+      "training_regime": "full_data_prediction"
     }
+  ],
+  "pending": [
+    "artifacts/gift_full/gift_seed_20260820.pt",
+    "artifacts/gift_full/gift_seed_20260821.pt",
+    "artifacts/gift_full/gift_seed_20260822.pt"
   ]
 }

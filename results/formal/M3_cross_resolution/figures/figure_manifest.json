@@ -2,62 +2,23 @@
   "status": "complete",
   "evidence": {
     "experiment": "M3",
-    "report_sha256": "8F501B11D0309534917433C2EC634D63F42F5AF5B9BFE9F0B2E7ED1D74443B9E",
+    "report_sha256": "0F7B45CC9571E0026DA7BC855B60C291FD485A5E37CBB00B1BF4252E40E91E40",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 339813,
-        "sha256": "37792F99BB3D898E6DFAE69D86547D969BAE5B52A2EEF5F4B4D9CB96E87B5C29"
+        "bytes": 165319,
+        "sha256": "71A98C6C587D72FA9B33DDC10F60510C720D5E5ABDB400FDCCCD8A3CF07C2A42"
       },
       {
         "path": "raw/predictions.h5",
-        "bytes": 1283965760,
-        "sha256": "395A281512B6D32B6F7B0CE4FF43A7424C4B36F8365A629A7FBDBFD11D79027E"
+        "bytes": 1424020941,
+        "sha256": "6E4DAA05E3415E9EEA14DAC01B2169B4B550688A4E3E26502676D5E3FBC725CD"
       }
     ],
-    "experiment_inputs": {
-      "N64_raw_data": {
-        "bytes": 65511992,
-        "sha256": "55B7DA895481EC4FD832FF82DDFAF02AABCD261762685FAA9C287B1EEE480477"
-      },
-      "N96_N128_raw_data": {
-        "bytes": 385148873,
-        "sha256": "A89CC73170EF4F84FD7AA07776496D40901E485636D11A26C839513AB915FC88"
-      },
-      "fno_test_data": {
-        "bytes": 2259874675,
-        "sha256": "ED57949D16DE9EB118B91621394D08D41B490A3C233EC708292F8326ACF82BC7"
-      },
-      "low_frequency_model": {
-        "bytes": 398482,
-        "sha256": "CBED9B888D5B1BF9C1C4779C845BB5224FADFF0598090A9B793C54F445C0BAE4"
-      },
-      "gift_models": {
-        "20260820": {
-          "bytes": 11313298,
-          "sha256": "CC4104778A89458D3D58FDD0FA192B7037CD0B06975EE16F67018225C3641DBE"
-        },
-        "20260821": {
-          "bytes": 11313298,
-          "sha256": "2170D05FA5217CCBFD72F8B951B05408A623540ADA122F590D7BBD0E5AA0756F"
-        },
-        "20260822": {
-          "bytes": 11313298,
-          "sha256": "8C5271FF2805AE727B10AC660AA91E34EFFC948C924F39659732BF6B2F1B4989"
-        }
-      },
-      "fno2d_model": {
-        "bytes": 3724645,
-        "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039"
-      },
-      "fno3d_model": {
-        "bytes": 32679041,
-        "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B"
-      }
-    }
+    "experiment_inputs": {}
   },
   "details": {
-    "trajectory_id": 1130,
+    "trajectory_id": 1150,
     "gift_seed": 20260820,
     "selection": "prespecified example, not selected from these evaluation errors",
     "field_color_map": "RdBu_r",
@@ -97,30 +58,35 @@
     ],
     "t5_anchor_omitted": true,
     "gift_band": "pointwise min/max across three seed-specific trajectory means",
-    "trajectory_count": 200,
+    "trajectory_count": 180,
     "baseline_seeds": 1,
-    "hypothesis_tests": "none"
+    "hypothesis_tests": "none",
+    "methods": [
+      "GIFT-Lite",
+      "FNO-2D",
+      "FNO-3D"
+    ]
   },
   "renderer": {
     "path": "plot_results.py",
-    "sha256": "2F43A7DBF816520E4F6E8A540A9F6617FD151527DC96E608F7C27E9998642FBE"
+    "sha256": "0E3CC903E7855D2D004B1FB0B77E2C30371F5EA16EBBBAC3ACAA7A1CB496F728"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
     "policy": "crispEdges on QuadMesh groups only",
     "groups_per_svg": {
       "cross_resolution_mean_relative_l2.svg": 0,
-      "traj1130_n128_t6_prediction_fields.svg": 9
+      "traj1150_n128_t6_prediction_fields.svg": 9
     }
   },
   "svg_checks": {
     "cross_resolution_mean_relative_l2.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "524.404701pt",
+      "width": "526.742591pt",
       "height": "189.15721pt"
     },
-    "traj1130_n128_t6_prediction_fields.svg": {
+    "traj1150_n128_t6_prediction_fields.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
       "width": "505.42677pt",
@@ -130,23 +96,23 @@
   "files": [
     {
       "path": "cross_resolution_mean_relative_l2.svg",
-      "bytes": 56134,
-      "sha256": "CC503FB8A04109E88DCD4CA90667735EEBD226F019D4549BCD58EB4507A598F2"
+      "bytes": 56523,
+      "sha256": "BCC4A839DD79FF18FDAF3D8CAB6C5012EFDA7777172C1C3F0D1F886067CAACE7"
     },
     {
       "path": "source_data.csv",
-      "bytes": 29269,
-      "sha256": "27AA809D9F7483AAB9D7190B30BCABB3C17C0886EF5B7B1D549EEC15458F818B"
+      "bytes": 28408,
+      "sha256": "2303B639470705386F2BF58E5BDA5982D6217B55CCD64166A38D36C0E8FE8366"
     },
     {
       "path": "source_fields.npz",
-      "bytes": 243612,
-      "sha256": "B8698D9D12229CD228722DAF48A581B6E077004A25423A0653FE294F2382EE22"
+      "bytes": 243622,
+      "sha256": "DC01D89841CCC231F8ADB255F57FED5842074F188A1F256870EAF2B7FFD18441"
     },
     {
-      "path": "traj1130_n128_t6_prediction_fields.svg",
-      "bytes": 22600742,
-      "sha256": "2FCF75D098DDCC96DE8F3B7C81229D8CF816AE11F6CF6437EE6F57F7162FF82A"
+      "path": "traj1150_n128_t6_prediction_fields.svg",
+      "bytes": 22600747,
+      "sha256": "1FE286E986DA373DB4FE9DA1E99F5C85A88D12BCEE7059DE0E71BD72441F6512"
     }
   ]
 }

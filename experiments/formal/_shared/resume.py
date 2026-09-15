@@ -200,7 +200,7 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
         "M2": ("standard_n64", "fno_test_dt0p02", "low_model", "fno2d_model", "fno3d_model"),
         "M3": ("dense_n64", "cross_resolution", "fno_test_dt0p02", "low_model", "fno2d_model", "fno3d_model"),
         "S1": ("standard_n64", "dense_n64", "cross_resolution", "low_model"),
-        "S2": ("standard_n64", "fno_training", "low_model"),
+        "S2": ("standard_n64", "low_model"),
         "S3": ("standard_n64", "dense_n64", "cross_resolution", "low_model"),
     }[experiment]
     files = {name: Path(getattr(paths, name)) for name in names}
@@ -216,6 +216,8 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
     relative_sources = [f"experiments/formal/{entry}/run.py", "training/checkpoints.py"]
     relative_sources += [f"experiments/formal/_shared/{name}.py"
                          for name in ("common", "gift_runtime", "high_frequency", "resume")]
+    relative_sources += ["experiments/formal/_shared/prediction_data.py",
+                         "experiments/formal/_shared/gift_regimes.py"]
     if experiment == "S3":
         relative_sources += ["experiments/formal/_shared/equation.py",
                              "experiments/formal/train_gift_branches.py"]

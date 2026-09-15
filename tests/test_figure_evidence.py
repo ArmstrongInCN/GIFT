@@ -100,7 +100,7 @@ def test_m2_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):
     assert not (output / "source_data.npz").exists()
     assert not (output / "README.md").exists()
     assert not (output / "plot_keyframes.py").exists()
-    assert len(list((output / "panels").rglob("*.svg"))) == 44
+    assert len(list((output / "panels").rglob("*.svg"))) == len(fields.KEY_TIMES) * (1 + 2 * len(fields.METHODS))
     verify_field_source(output / "source_fields.npz")
     with np.load(output / "source_fields.npz", allow_pickle=False) as archive:
         np.testing.assert_array_equal(archive["truth"], truth)
@@ -166,8 +166,8 @@ def test_m3_no_method_ordering_gate(tmp_path):
     data = {"times": 5 + np.arange(11) * 0.1, "curves": {}, "curve_seeds": {}}
     for grid in m3.RESOLUTIONS:
         seeds = np.stack([np.linspace(0, 2 + index * 0.1, 11) for index in range(3)])
-        data["curve_seeds"][grid] = seeds
-        data["curves"][grid] = {"GIFT": seeds.mean(0), "FNO-2D": np.linspace(0, .2, 11),
+        data["curve_seeds"][grid] = {"GIFT": seeds, "GIFT-Lite": seeds * 0.8}
+        data["curves"][grid] = {"GIFT": seeds.mean(0), "GIFT-Lite": seeds.mean(0) * 0.8, "FNO-2D": np.linspace(0, .2, 11),
                                 "FNO-3D": np.linspace(0, .3, 11)}
     figure = m3.draw_time_curves_only(data)
     assert all(axis.get_ylim()[1] > 2.2 for axis in figure.axes)

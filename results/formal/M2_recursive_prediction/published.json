@@ -4,189 +4,203 @@
   "scope": "summaries_and_selected_figures",
   "full_raw_outputs_included": false,
   "resumable_experiment": false,
+  "training_regimes": [
+    "GIFT-Lite"
+  ],
   "measurement": {
-    "report_sha256": "3D66DCC928054622F533802FD2CDC4188CCEE20E3F3159E05E1365ABDFDB25FA",
-    "result_manifest_sha256": "4E6A57B615F3AC0863F9B326177BF736B7CA4F9AFA092C35E5D29A6B011BACDD",
-    "settings": {
-      "device": "cuda",
-      "fno2d_batch_size": 10,
-      "fno3d_batch_size": 5,
-      "gift_batch_size": 16,
-      "unet_batch_size": 4,
-      "uno_batch_size": 4
-    },
-    "runtime": {
-      "cublas_workspace_config": null,
-      "cuda": "12.6",
-      "cudnn": 91002,
-      "cudnn_benchmark": false,
-      "cudnn_deterministic": false,
-      "cudnn_tf32": true,
-      "deterministic": false,
-      "deterministic_warn_only": false,
-      "machine": "AMD64",
-      "matmul_tf32": false,
-      "numpy": "2.2.6",
-      "os": "Windows-10-10.0.26200-SP0",
-      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
-      "python": "3.10.19",
-      "selected_gpu": {
-        "major": 8,
-        "minor": 6,
-        "multiprocessors": 58,
-        "name": "NVIDIA RTX A5500 Laptop GPU",
-        "total_memory": 17179344896
+    "report_sha256": "940115A867534A2C4744DFAE88177DBDEF56AAEB68F3AD95C0A6CCB2F9D635E9",
+    "aggregation_source_sha256": "2c5f88cbfce93c76e43dc1f0f1b2226f004253e46682b69ecc44836bee0d0796",
+    "source_measurement": {
+      "report_sha256": "3D66DCC928054622F533802FD2CDC4188CCEE20E3F3159E05E1365ABDFDB25FA",
+      "result_manifest_sha256": "4E6A57B615F3AC0863F9B326177BF736B7CA4F9AFA092C35E5D29A6B011BACDD",
+      "settings": {
+        "device": "cuda",
+        "fno2d_batch_size": 10,
+        "fno3d_batch_size": 5,
+        "gift_batch_size": 16,
+        "unet_batch_size": 4,
+        "uno_batch_size": 4
       },
-      "tf32_override": null,
-      "threading": {
-        "environment": {
-          "MKL_DYNAMIC": null,
-          "MKL_NUM_THREADS": "2",
-          "NUMEXPR_NUM_THREADS": null,
-          "OMP_DYNAMIC": null,
-          "OMP_NUM_THREADS": "2",
-          "OPENBLAS_NUM_THREADS": "1",
-          "VECLIB_MAXIMUM_THREADS": null
+      "runtime": {
+        "cublas_workspace_config": null,
+        "cuda": "12.6",
+        "cudnn": 91002,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "cudnn_tf32": true,
+        "deterministic": false,
+        "deterministic_warn_only": false,
+        "machine": "AMD64",
+        "matmul_tf32": false,
+        "numpy": "2.2.6",
+        "os": "Windows-10-10.0.26200-SP0",
+        "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+        "python": "3.10.19",
+        "selected_gpu": {
+          "major": 8,
+          "minor": 6,
+          "multiprocessors": 58,
+          "name": "NVIDIA RTX A5500 Laptop GPU",
+          "total_memory": 17179344896
         },
-        "torch_num_interop_threads": 16,
-        "torch_num_threads": 2
+        "tf32_override": null,
+        "threading": {
+          "environment": {
+            "MKL_DYNAMIC": null,
+            "MKL_NUM_THREADS": "2",
+            "NUMEXPR_NUM_THREADS": null,
+            "OMP_DYNAMIC": null,
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          },
+          "torch_num_interop_threads": 16,
+          "torch_num_threads": 2
+        },
+        "torch": "2.10.0+cu126",
+        "torch_interop_threads": 16,
+        "torch_threads": 2
       },
-      "torch": "2.10.0+cu126",
-      "torch_interop_threads": 16,
-      "torch_threads": 2
-    },
-    "external": {
-      "fno2d": {
-        "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
-        "family": "fno",
-        "repository": "https://github.com/neuraloperator/neuraloperator",
-        "source_sha256": {
-          "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
-          "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
-          "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+      "external": {
+        "fno2d": {
+          "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+          "family": "fno",
+          "repository": "https://github.com/neuraloperator/neuraloperator",
+          "source_sha256": {
+            "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+            "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+            "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+          }
+        },
+        "fno3d": {
+          "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+          "family": "fno",
+          "repository": "https://github.com/neuraloperator/neuraloperator",
+          "source_sha256": {
+            "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+            "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+            "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+          }
+        },
+        "unet": {
+          "commit": "229da3e01acefa6f4dd6c77244da5015c9b965af",
+          "family": "unet",
+          "repository": "https://github.com/Rui1521/Turbulent-Flow-Nets",
+          "source_sha256": {
+            "Baselines/U-net.py": "F7390A41DA24DD8DBC45F80D04ABEA81F4AAC8FFF14C4BCDC982A9EBDF59B237"
+          }
+        },
+        "uno": {
+          "commit": "19462d82729ef64ef7b9e97056ddcaaf3044ad47",
+          "family": "uno",
+          "repository": "https://github.com/ashiq24/UNO",
+          "source_sha256": {
+            "Adam.py": "8F2FD03BF320C32D6D08CE9627845EE8048D34489B967BD6E86A66445330F1BA",
+            "LICENSE": "AB4DD081D7897CD3A440A90A500F872F4B54475C071F7B761B283B0D5475FE9A",
+            "integral_operators.py": "89E5F51D7FC5C5FA1FBE5357C0E2D770B717053B6E25E93F4F2EAF9B04D2DB52",
+            "navier_stokes_uno2d.py": "B66DC6C8215E33D72D31B1DFA29AD041558C967DB77B78A2721D96B02D8B1876",
+            "ns_train_2d.py": "77B905CFB0090E942ACEBF1446395B18AB02015863C875F658520D4627FB8879",
+            "ns_uno2d_main.py": "15DAC20BC540A5E466649B89ACE9D416634DC274735CA78BC79D42E9C29E6CA1",
+            "utilities3.py": "AD92FB260F6D565AD71BB25597A7C7012F06ED6ECB3948D59D1D146E78EE1395"
+          }
         }
       },
-      "fno3d": {
-        "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
-        "family": "fno",
-        "repository": "https://github.com/neuraloperator/neuraloperator",
-        "source_sha256": {
-          "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
-          "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
-          "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
-        }
+      "executed_source_sha256": {
+        "adapters/__init__.py": "69d2591a25fb29f8aaadb36156f7c94aad6339b483781b861a774c4bef290016",
+        "adapters/models.py": "5841b98badb5e5c41735d9d3c1ff63c36498db42885e5df6f529b004594503d9",
+        "adapters/prediction.py": "bbb3439470a1624c5eaa8442f3d00dfb6260bc0ad305b9153c57cc4ef56fe461",
+        "experiments/__init__.py": "93ee043977a7dde15e0759a50f43a9c137229677ccb219b21f6253722412ed80",
+        "experiments/formal/__init__.py": "f7a044c53c6941fcc298120b969af3298666dc4ca5d08cfe67245af71dedd262",
+        "experiments/formal/_shared/__init__.py": "46087dacb1af884b584414db17a5ff2b5249ce51738469f5f02a013715167ce8",
+        "experiments/formal/_shared/common.py": "15dcea7a0ff498cd14803bf4eea26cbf77d4f89a36517e56a119b09f781b6c76",
+        "experiments/formal/_shared/fno_runtime.py": "06c6209dfa7cdec828c2b79b51fd65c255bbc83f4f44ac0aa93656b7fea0d186",
+        "experiments/formal/_shared/gift_runtime.py": "2ceb836b14915592fe6644ca4caa7a567717ee097750bb12a7587c07a25f7d13",
+        "experiments/formal/_shared/high_frequency.py": "0941f76d64860ef6b52850d89dbbd01187087a6beed64d5143d9fd7fd28ca15e",
+        "experiments/formal/_shared/resume.py": "109436e372af1eb9379511b4c79ebee979720baf7530e7dbb89916779a318626",
+        "experiments/formal/m2_recursive_prediction/__init__.py": "397a61747f930184e238bbf696aa2b6cad57a2c6dcfd215e209f20280f071226",
+        "experiments/formal/m2_recursive_prediction/run.py": "d65c739d2fb0529dcbcc52cdcf10d75864b33b3059bae518b763ba070f52e330",
+        "src/even_full_spectrum_ns.py": "c4064b06d940ae05be4904012d125d7fae3300b03f04679748d7f3f538b37a1d",
+        "src/gift/__init__.py": "a2a63bd2e220f15dfd31679ec7512b0ecd408bd697eb8a95f0263eb204c14ee6",
+        "src/gift/identifiability.py": "df2985767976ed9618260ff1bf068afa88849655656013b67eef97d048aa6959",
+        "src/gift/identified.py": "f3efb36a0276def2bbbee1a5be589379d85abbee0082f30cb9d588744ec3df2b",
+        "src/gift/model.py": "c26ace74f419c4f58197bb6d6b7b0625cbbe368d0e4b7fdd443176b0108315b7",
+        "src/gift/paths.py": "a0a4ebc16751512967207419e4fb26a5e7c969b02dd53883f9fc950d985ef7e2",
+        "training/__init__.py": "9860d5327ef144a43867bd5f229738d7e416e964b3dc91590d9d931fcc83bd58",
+        "training/baseline_control.py": "70a60d7975aa4008e1122a57020440a2d5814ac29b4810b3219a2f5610f85039",
+        "training/budgets.py": "b3a8f67e7523468ffc74dfaf7aad8e417b1de0167afcb5acce82970d304b3d05",
+        "training/checkpoints.py": "95dd279522581865b6d2e39b49b2e78cf619b0de45383f2ff4ad357182f06572",
+        "training/weight_files.py": "5479852c6e3c51a33ee03dafbf78cda50587c40012a4b26f4b4c16aa8a2a663f"
       },
-      "unet": {
-        "commit": "229da3e01acefa6f4dd6c77244da5015c9b965af",
-        "family": "unet",
-        "repository": "https://github.com/Rui1521/Turbulent-Flow-Nets",
-        "source_sha256": {
-          "Baselines/U-net.py": "F7390A41DA24DD8DBC45F80D04ABEA81F4AAC8FFF14C4BCDC982A9EBDF59B237"
-        }
-      },
-      "uno": {
-        "commit": "19462d82729ef64ef7b9e97056ddcaaf3044ad47",
-        "family": "uno",
-        "repository": "https://github.com/ashiq24/UNO",
-        "source_sha256": {
-          "Adam.py": "8F2FD03BF320C32D6D08CE9627845EE8048D34489B967BD6E86A66445330F1BA",
-          "LICENSE": "AB4DD081D7897CD3A440A90A500F872F4B54475C071F7B761B283B0D5475FE9A",
-          "integral_operators.py": "89E5F51D7FC5C5FA1FBE5357C0E2D770B717053B6E25E93F4F2EAF9B04D2DB52",
-          "navier_stokes_uno2d.py": "B66DC6C8215E33D72D31B1DFA29AD041558C967DB77B78A2721D96B02D8B1876",
-          "ns_train_2d.py": "77B905CFB0090E942ACEBF1446395B18AB02015863C875F658520D4627FB8879",
-          "ns_uno2d_main.py": "15DAC20BC540A5E466649B89ACE9D416634DC274735CA78BC79D42E9C29E6CA1",
-          "utilities3.py": "AD92FB260F6D565AD71BB25597A7C7012F06ED6ECB3948D59D1D146E78EE1395"
+      "released_input_bindings": {
+        "fno2d_model": {
+          "root": "project",
+          "path": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
+          "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039",
+          "relation": "identical_serialized_bytes"
+        },
+        "fno3d_model": {
+          "root": "project",
+          "path": "artifacts/fno/fno3d_ntrain1000_terminal_epoch500.pt",
+          "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B",
+          "relation": "identical_serialized_bytes"
+        },
+        "fno_test_dt0p02": {
+          "root": "GIFT_DATA_ROOT",
+          "path": "fno/fno_test_n64_n96_n128_dt0p02.h5",
+          "sha256": "ED57949D16DE9EB118B91621394D08D41B490A3C233EC708292F8326ACF82BC7",
+          "relation": "identical_serialized_bytes"
+        },
+        "gift_20260820": {
+          "root": "project",
+          "path": "artifacts/gift/gift_seed_20260820.pt",
+          "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A",
+          "relation": "identical_serialized_bytes"
+        },
+        "gift_20260821": {
+          "root": "project",
+          "path": "artifacts/gift/gift_seed_20260821.pt",
+          "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819",
+          "relation": "identical_serialized_bytes"
+        },
+        "gift_20260822": {
+          "root": "project",
+          "path": "artifacts/gift/gift_seed_20260822.pt",
+          "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201",
+          "relation": "identical_serialized_bytes"
+        },
+        "low_model": {
+          "root": "project",
+          "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
+          "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B",
+          "relation": "identical_serialized_bytes"
+        },
+        "standard_n64": {
+          "root": "GIFT_DATA_ROOT",
+          "path": "standard_ns_n64_full_spectrum.h5",
+          "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5",
+          "relation": "identical_serialized_bytes"
+        },
+        "unet_model": {
+          "root": "project",
+          "path": "artifacts/formal/unet/unet_terminal_epoch500.pt",
+          "sha256": "5E41BBFA29BB779B8F3D596E5F1DAC9FF0BB526CFF62BD5E89EFF77D75167086",
+          "relation": "identical_serialized_bytes"
+        },
+        "uno_model": {
+          "root": "project",
+          "path": "artifacts/formal/uno/weights.json",
+          "sha256": "6CD0072A2563A90F8045689825BB083C518BED1F315CE670BBC0781331FE5D56",
+          "relation": "identical_serialized_bytes"
         }
       }
     },
-    "executed_source_sha256": {
-      "adapters/__init__.py": "69d2591a25fb29f8aaadb36156f7c94aad6339b483781b861a774c4bef290016",
-      "adapters/models.py": "5841b98badb5e5c41735d9d3c1ff63c36498db42885e5df6f529b004594503d9",
-      "adapters/prediction.py": "bbb3439470a1624c5eaa8442f3d00dfb6260bc0ad305b9153c57cc4ef56fe461",
-      "experiments/__init__.py": "93ee043977a7dde15e0759a50f43a9c137229677ccb219b21f6253722412ed80",
-      "experiments/formal/__init__.py": "f7a044c53c6941fcc298120b969af3298666dc4ca5d08cfe67245af71dedd262",
-      "experiments/formal/_shared/__init__.py": "46087dacb1af884b584414db17a5ff2b5249ce51738469f5f02a013715167ce8",
-      "experiments/formal/_shared/common.py": "15dcea7a0ff498cd14803bf4eea26cbf77d4f89a36517e56a119b09f781b6c76",
-      "experiments/formal/_shared/fno_runtime.py": "06c6209dfa7cdec828c2b79b51fd65c255bbc83f4f44ac0aa93656b7fea0d186",
-      "experiments/formal/_shared/gift_runtime.py": "2ceb836b14915592fe6644ca4caa7a567717ee097750bb12a7587c07a25f7d13",
-      "experiments/formal/_shared/high_frequency.py": "0941f76d64860ef6b52850d89dbbd01187087a6beed64d5143d9fd7fd28ca15e",
-      "experiments/formal/_shared/resume.py": "109436e372af1eb9379511b4c79ebee979720baf7530e7dbb89916779a318626",
-      "experiments/formal/m2_recursive_prediction/__init__.py": "397a61747f930184e238bbf696aa2b6cad57a2c6dcfd215e209f20280f071226",
-      "experiments/formal/m2_recursive_prediction/run.py": "d65c739d2fb0529dcbcc52cdcf10d75864b33b3059bae518b763ba070f52e330",
-      "src/even_full_spectrum_ns.py": "c4064b06d940ae05be4904012d125d7fae3300b03f04679748d7f3f538b37a1d",
-      "src/gift/__init__.py": "a2a63bd2e220f15dfd31679ec7512b0ecd408bd697eb8a95f0263eb204c14ee6",
-      "src/gift/identifiability.py": "df2985767976ed9618260ff1bf068afa88849655656013b67eef97d048aa6959",
-      "src/gift/identified.py": "f3efb36a0276def2bbbee1a5be589379d85abbee0082f30cb9d588744ec3df2b",
-      "src/gift/model.py": "c26ace74f419c4f58197bb6d6b7b0625cbbe368d0e4b7fdd443176b0108315b7",
-      "src/gift/paths.py": "a0a4ebc16751512967207419e4fb26a5e7c969b02dd53883f9fc950d985ef7e2",
-      "training/__init__.py": "9860d5327ef144a43867bd5f229738d7e416e964b3dc91590d9d931fcc83bd58",
-      "training/baseline_control.py": "70a60d7975aa4008e1122a57020440a2d5814ac29b4810b3219a2f5610f85039",
-      "training/budgets.py": "b3a8f67e7523468ffc74dfaf7aad8e417b1de0167afcb5acce82970d304b3d05",
-      "training/checkpoints.py": "95dd279522581865b6d2e39b49b2e78cf619b0de45383f2ff4ad357182f06572",
-      "training/weight_files.py": "5479852c6e3c51a33ee03dafbf78cda50587c40012a4b26f4b4c16aa8a2a663f"
-    },
-    "released_input_bindings": {
-      "fno2d_model": {
-        "root": "project",
-        "path": "artifacts/fno/fno2d_ntrain1000_terminal_epoch500.pt",
-        "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039",
-        "relation": "identical_serialized_bytes"
-      },
-      "fno3d_model": {
-        "root": "project",
-        "path": "artifacts/fno/fno3d_ntrain1000_terminal_epoch500.pt",
-        "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B",
-        "relation": "identical_serialized_bytes"
-      },
-      "fno_test_dt0p02": {
-        "root": "GIFT_DATA_ROOT",
-        "path": "fno/fno_test_n64_n96_n128_dt0p02.h5",
-        "sha256": "ED57949D16DE9EB118B91621394D08D41B490A3C233EC708292F8326ACF82BC7",
-        "relation": "identical_serialized_bytes"
-      },
-      "gift_20260820": {
-        "root": "project",
-        "path": "artifacts/gift/gift_seed_20260820.pt",
-        "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A",
-        "relation": "identical_serialized_bytes"
-      },
-      "gift_20260821": {
-        "root": "project",
-        "path": "artifacts/gift/gift_seed_20260821.pt",
-        "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819",
-        "relation": "identical_serialized_bytes"
-      },
-      "gift_20260822": {
-        "root": "project",
-        "path": "artifacts/gift/gift_seed_20260822.pt",
-        "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201",
-        "relation": "identical_serialized_bytes"
-      },
-      "low_model": {
-        "root": "project",
-        "path": "artifacts/fixed_k21_n64_unmasked/gift_main.pt",
-        "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B",
-        "relation": "identical_serialized_bytes"
-      },
-      "standard_n64": {
-        "root": "GIFT_DATA_ROOT",
-        "path": "standard_ns_n64_full_spectrum.h5",
-        "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5",
-        "relation": "identical_serialized_bytes"
-      },
-      "unet_model": {
-        "root": "project",
-        "path": "artifacts/formal/unet/unet_terminal_epoch500.pt",
-        "sha256": "5E41BBFA29BB779B8F3D596E5F1DAC9FF0BB526CFF62BD5E89EFF77D75167086",
-        "relation": "identical_serialized_bytes"
-      },
-      "uno_model": {
-        "root": "project",
-        "path": "artifacts/formal/uno/weights.json",
-        "sha256": "6CD0072A2563A90F8045689825BB083C518BED1F315CE670BBC0781331FE5D56",
-        "relation": "identical_serialized_bytes"
-      }
-    }
+    "selection_rule": "fixed split membership, independent of error and numerical finiteness",
+    "test_trajectory_ids": [
+      1040,
+      1219
+    ],
+    "test_population": 180,
+    "new_inference_performed": false
   },
   "figure_directories": [
     "figures",
@@ -196,283 +210,283 @@
   "files": [
     {
       "path": "summary/metrics.csv",
-      "bytes": 7083,
-      "sha256": "E4CFB9425828D4081AA57110390C990F794694C568899E43C4F4D208B7025629"
+      "bytes": 6781,
+      "sha256": "354361F6B18116BE82FB5DEAFE922B7414CAF19FA67F5D98E596D431E96B0613"
     },
     {
       "path": "summary/summary.json",
-      "bytes": 1713,
-      "sha256": "FA3FC55BB87192A0C65421AE3FB0968FB48F0A1D71CC6C137ABED50EA4C6FE0F"
+      "bytes": 10019,
+      "sha256": "6CFCD2ACED5B4C0C7DCFCC4342E045DAA214099E6A87C23B2448416D70E6F2D4"
     },
     {
       "path": "figures/mean_relative_l2_vs_time.svg",
-      "bytes": 26925,
-      "sha256": "A6C0283A1F4BFA78D123F3F272A102B0B3BCDA0C8579B008E03110F14953BB4C"
+      "bytes": 26975,
+      "sha256": "0C0F6DB592D6BC4DBFF52E03A9E8478A0537AA6713C0196A4C600640F905DC6E"
     },
     {
       "path": "figures/source_data.csv",
-      "bytes": 1464,
-      "sha256": "BBD76B11C6A6770EC7947260FEB8AD474BF0254288344DA644AA5DD0E1E7501E"
+      "bytes": 1491,
+      "sha256": "A7DDB0EF9242D5A32501B84ECC44600A569FE403997C0FE383D3C41A898B64E0"
     },
     {
       "path": "figures/source_manifest.csv",
       "bytes": 155,
-      "sha256": "A678A8F5E7B121BE00BF84B0A4E3F6D75F4ABD90C6ABA727246844F498A70CE1"
+      "sha256": "C7AF92D76BA02A62EE269FCF2037D3A7A5B51E0317F3B8C4694BD5B2C5839015"
     },
     {
       "path": "figures/figure_manifest.json",
-      "bytes": 3318,
-      "sha256": "249E695192C13E1C16F2A9D06E9C216459387AB80801D03A96CB0864E378F4B3"
+      "bytes": 1930,
+      "sha256": "AFF876C4C9351A8EF8AB1F9828030AF2E391804CECA8AA42EB74A9B6F446257C"
     },
     {
       "path": "figures/keyframes/figure_metadata.json",
-      "bytes": 2533,
-      "sha256": "0F439D05C99862F3951B2FB1DA2D3AE15EF1EC5A80FB33E9B5C4E125F3F899E7"
+      "bytes": 2553,
+      "sha256": "1B5FF40C6E19D1CCEACE59DB9D2B5C2846DA8388921A19041C2C3589BB91E30A"
     },
     {
       "path": "figures/keyframes/panel_file_index.csv",
-      "bytes": 3123,
-      "sha256": "D6F0B2648B2763D8F7965596F2C514AEDFD60B1ED1497FDBD43E298DB58042E8"
+      "bytes": 3243,
+      "sha256": "4422F69E4FE8F4E58366D8F033801C139A530E93898B488E66FAB25508313493"
     },
     {
       "path": "figures/keyframes/panel_metrics.csv",
-      "bytes": 2302,
-      "sha256": "B5F8E3DAE59F54DD083AEBCF2ECA101FFEA965B9B62D3466AD1B806AF312877F"
+      "bytes": 2345,
+      "sha256": "C3392DF03E2203AFDB8AF1F4A49A950341C94FB61C93AAF3D0EFE56FB532B878"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_residual_T5p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_residual_T5p0.svg",
       "bytes": 586121,
-      "sha256": "911A92C964C47782E07AB72F0E3DD868DA4BD4902641D7072F0FA0C9C5E7900F"
+      "sha256": "D00F84ADDFBD16A5E2BA369A849577394279D26E6D511065DDD01739E2E54FCC"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_residual_T6p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_residual_T6p0.svg",
       "bytes": 586121,
-      "sha256": "2531A10FB88B915C3B4E489641733DC4848A03911E1013B3294A7C055EE9EB5B"
+      "sha256": "3B65808B929DDB73EE231C0B26467E147BA2CC0318FDA351A1457F15C87525E7"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_residual_T7p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_residual_T7p0.svg",
       "bytes": 586121,
-      "sha256": "5F5E6F1E9A4AEBACAE6366E7C3C50D1E00CC359E23B18CA00E7B717EA25CA5DC"
+      "sha256": "F2A49FAABD2A77A01B270093EC7BFFB0D93EA2B5C9A103BC5FF7400A2DE00534"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_residual_T8p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_residual_T8p0.svg",
       "bytes": 586121,
-      "sha256": "BA256F2BBB1038BECD28217AF5351BE27523C5A56D2DB0B05CFC0EC47D4D0395"
+      "sha256": "A166037D9031485BB657D693B14BC3E9C18921AAD8152DCB2E58A8606874FC9D"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_scalar_T5p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_scalar_T5p0.svg",
       "bytes": 586121,
-      "sha256": "DEA0E0D2C08C813F3154F02898D43CA9AE1DEE110AE6345EFF1007CED25F4235"
+      "sha256": "581059A71EB3B3E34C947471D3EF984F323285B13E2A8D1E4583E5F220BA5D8E"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_scalar_T6p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_scalar_T6p0.svg",
       "bytes": 586121,
-      "sha256": "706C3E74219CC51CE664AA84189960FE5C11AAD2D73A2DB0C51A194CBAA6BE9B"
+      "sha256": "8E7DB48B0E68DCEB3723F27996DB8A03F22E57800CF0780B6BB89BDECBDFD250"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_scalar_T7p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_scalar_T7p0.svg",
       "bytes": 586121,
-      "sha256": "38AE2512C668B3A5FA2E3C889BBCFD19970710928B8FD4D7D6C899930533AB0C"
+      "sha256": "09351C4AB333C2A6BD8F1909A2607D85BCB6A32050EF0359370E9F0FDD769C29"
     },
     {
-      "path": "figures/keyframes/panels/fno2d/traj1005_fno2d_scalar_T8p0.svg",
+      "path": "figures/keyframes/panels/fno2d/traj1045_fno2d_scalar_T8p0.svg",
       "bytes": 586121,
-      "sha256": "0B8FE894227F654FA9BB6767F945F8A4A610DE53889B6EF9D3286461577BD325"
+      "sha256": "546E01575142BF1EA98B89BD085A251DA05AB1DD0D2C55147A12FED0127EA545"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_residual_T5p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_residual_T5p0.svg",
       "bytes": 586121,
-      "sha256": "F962929B4A8EE259C046D2BC7FFA947C681CAFDB1B02104843408BBECD3C2D9F"
+      "sha256": "93E0300A1CB93A9A9EF6AB0B47627D3AFF2DB703A77F33371431159932929E86"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_residual_T6p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_residual_T6p0.svg",
       "bytes": 586121,
-      "sha256": "B01C907C3A0770BEC5F1C9574F7A07B321680C943ED795D43676F0B76EB74645"
+      "sha256": "E2D72847D36270673841CBE70422EFC298FB57BBF608D6A46FE0C21F677D05AF"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_residual_T7p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_residual_T7p0.svg",
       "bytes": 586121,
-      "sha256": "6BFE2E3C9D3A7F7A468B6B75683B463CCC71AA7FB5AB397D08C3F4B338912731"
+      "sha256": "B3715B2FA9AB79A994ED6C0BCFCFD5A9D8C666D91DA71F33ED99B2FCD3013DCA"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_residual_T8p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_residual_T8p0.svg",
       "bytes": 586121,
-      "sha256": "BA158031E3341F7A87D71561E14B84CEEED372B47E7B83B8887895AF642D5AE6"
+      "sha256": "F1FB9E1B52A7BC853CF07FD18FDC4EBF1CF6EE94C563FA2682C4B5AB6955230D"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_scalar_T5p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_scalar_T5p0.svg",
       "bytes": 586121,
-      "sha256": "D50F9805F19E53A7C3815F76201E06080211B5F65F526F0B3D17B74A4560CE3E"
+      "sha256": "E261769E30D516C1137A928CFE4C2FA1FB6F16F63D946BFA64FC69312354DA96"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_scalar_T6p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_scalar_T6p0.svg",
       "bytes": 586121,
-      "sha256": "103AF55D4A11F2AA68CD880B8AD8F37EC287BE96D37C5A3325BAA39ECF276204"
+      "sha256": "41CDA395ABF990CD70FA04A2FFF0EA86CB95351A8C799B2EA20A4444C23E4B3D"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_scalar_T7p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_scalar_T7p0.svg",
       "bytes": 586121,
-      "sha256": "91F023249139600837A61C9070614E65FA7DD07AC47AD546867C8E0F3439A9BD"
+      "sha256": "B906DF86D254042E390F2DB6286888A5E2498523EFE900EAEE1891146EB72D27"
     },
     {
-      "path": "figures/keyframes/panels/fno3d/traj1005_fno3d_scalar_T8p0.svg",
+      "path": "figures/keyframes/panels/fno3d/traj1045_fno3d_scalar_T8p0.svg",
       "bytes": 586121,
-      "sha256": "6C537D08724BA5FA3262B670B1792443686C07B7EE725641FE8BDF9B5FC7F39A"
+      "sha256": "AE3F9882915A9809D4C6F9ED538F667C548CF4AF5265E585C0C64A0F06D8CE7D"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_residual_T5p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_residual_T5p0.svg",
       "bytes": 586121,
-      "sha256": "6CD6D14FF8CD5A7AD95663D434FCCBF6EC8A65457BE4E489B177863E10870046"
+      "sha256": "BE14A533350B338B3449052D75C029C596CD574226489BCA66293FAB786A8553"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_residual_T6p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_residual_T6p0.svg",
       "bytes": 586121,
-      "sha256": "F2E39FAA04C94D4BBE3FD5EC14A034E29CFA647D9CB1E71D9452D9D87C8AABBB"
+      "sha256": "B31E4A4451C9CC715EFB4B3627370044F288C58AC793D75B959192B9B7531F43"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_residual_T7p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_residual_T7p0.svg",
       "bytes": 586121,
-      "sha256": "AF2E6AC2B9AACF2888186DAADB8D1E4E5BAE69A8257706A1F0A3079C0ABA6A52"
+      "sha256": "746E09DE96C41CEBFF5461008A030F7707BD728EB36ACDC1E1D4A3F0C1C1E0ED"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_residual_T8p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_residual_T8p0.svg",
       "bytes": 586121,
-      "sha256": "715CE94559315AAFFD4EC126BB3F2D5A14AE465C253589CC499A5481824FF1A9"
+      "sha256": "95B5EAC6A5694628FFFBD3664127F460F09AFB31F7D59D2C0EF511812DB61BA8"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_scalar_T5p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_scalar_T5p0.svg",
       "bytes": 586121,
-      "sha256": "D7D8D4E2B68F1A63A4B1C104F4B8791E31EC27826F5DC80D1833E51856FAD9E1"
+      "sha256": "1020E286F2EE4F5EACF8DC0E48D1DAE26EE9BB85CB12D5C46FAE6D883A0ABCF2"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_scalar_T6p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_scalar_T6p0.svg",
       "bytes": 586121,
-      "sha256": "EC4F48BBBB8A27B39315431A061806737EAE5442D135429266D70914F58D0F25"
+      "sha256": "084B8906FC0B58EAFAFACD1F1F1A221AA71EB5C164C3C0FC6A84B68313519660"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_scalar_T7p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_scalar_T7p0.svg",
       "bytes": 586121,
-      "sha256": "D819F37F1BCBED6F582E872D2FBAD1811445BB18B57C73646B599E9CDF266113"
+      "sha256": "CEB3E52262CF5DA6C09783CF120896C995C914A64DC6CBCBF4FDDEC7A4A3A8FC"
     },
     {
-      "path": "figures/keyframes/panels/gift/traj1005_gift_scalar_T8p0.svg",
+      "path": "figures/keyframes/panels/gift_lite/traj1045_gift_lite_scalar_T8p0.svg",
       "bytes": 586121,
-      "sha256": "775F0583561E758329C3D08C7158EADFFF5CB3CDB2EB8AE02A5AEB69AFC32134"
+      "sha256": "3A2003926017B4EF6DE0108156850EEF973C9AEB2F6125D3CD345FE9D00AE22C"
     },
     {
-      "path": "figures/keyframes/panels/reference/traj1005_reference_scalar_T5p0.svg",
+      "path": "figures/keyframes/panels/reference/traj1045_reference_scalar_T5p0.svg",
       "bytes": 586121,
-      "sha256": "92FE8235C3B443E7E5EB072DB7F0F51269B861B9640F5BAB0F6724C697D26AE2"
+      "sha256": "7F8BBBA4FA6F82AF2C805E2AF704F13030020E46A87A7A121ECA55BEBEE601A3"
     },
     {
-      "path": "figures/keyframes/panels/reference/traj1005_reference_scalar_T6p0.svg",
+      "path": "figures/keyframes/panels/reference/traj1045_reference_scalar_T6p0.svg",
       "bytes": 586121,
-      "sha256": "180A5C1B6D5483D694F5664C3971D85DFB41234C23895BCDB8AA86EC94EABEE7"
+      "sha256": "80D3E66723037ADEB49E9C6C4902C4589857B2E9BAFCBFA906FE1685DD76D015"
     },
     {
-      "path": "figures/keyframes/panels/reference/traj1005_reference_scalar_T7p0.svg",
+      "path": "figures/keyframes/panels/reference/traj1045_reference_scalar_T7p0.svg",
       "bytes": 586121,
-      "sha256": "CB650942609399EA757E425EA568B35A49F97282238026A294D84FCEAF3CEFB4"
+      "sha256": "F82E589C3DA7FF13EAB70814E282615F9B88921E206EE5DE418FE83AD599D173"
     },
     {
-      "path": "figures/keyframes/panels/reference/traj1005_reference_scalar_T8p0.svg",
+      "path": "figures/keyframes/panels/reference/traj1045_reference_scalar_T8p0.svg",
       "bytes": 586121,
-      "sha256": "7E912BE5D24DCED158C984696EEF3F29C3AD06654AC79B6D1DED8F81DEE89976"
+      "sha256": "7C6701FCEEA88FF773359829661289A8D38E789EB71F5C8D85B87684BBE4D6C5"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_residual_T5p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_residual_T5p0.svg",
       "bytes": 586121,
-      "sha256": "4DA68F46E9B3989CE8E9F78C73DE59EE7CC45612A6AA6AE671D757049470C13B"
+      "sha256": "FA8335B62CA227EDB4A6CCB3004D88CBF072F254FFABB98AB1E71BBA0B6FEA34"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_residual_T6p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_residual_T6p0.svg",
       "bytes": 586121,
-      "sha256": "10522C4B01CF6F4A024A9A70DF528081E83193A906CD0374E18ACC586B6718C1"
+      "sha256": "34D742E4E7A951EAED287989A6752CDED146C9629B60F6B90228BDD4C38F72A7"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_residual_T7p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_residual_T7p0.svg",
       "bytes": 586121,
-      "sha256": "8B8AFAF45A8A70E143A1F927A8A023571F76065244A51BA58EAC7441E3DF8246"
+      "sha256": "EDCF6EBAE1E6E3D7194A0AED8F0D300C63F54D37044E286FE4E98C29AEA488CB"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_residual_T8p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_residual_T8p0.svg",
       "bytes": 586121,
-      "sha256": "CA85EFD402ADEDEA6115AE2E5883B1333B39EEE6DC3DA070561E8A83BC1DE887"
+      "sha256": "B897F3C79548D665FFBA1B83584E1680EF8AB91898DBAB136796947C41C0E371"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_scalar_T5p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_scalar_T5p0.svg",
       "bytes": 586121,
-      "sha256": "956D8E3B9672234C66DBAEB42E11D3DCA25E7875EB1A2D6674AD7BBC4241928C"
+      "sha256": "074DED2A414725A649F5A4BF65CA42CC8BA977617FF9E4D2C6CE982E4CE0C57C"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_scalar_T6p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_scalar_T6p0.svg",
       "bytes": 586121,
-      "sha256": "37440BA28745FA5A772C24AC077826921730C6F41D19CFDC012C7118710A0FE4"
+      "sha256": "40F0038CD2484101B08A369B1133566335139F797B3139D61BE32C25F680C02C"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_scalar_T7p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_scalar_T7p0.svg",
       "bytes": 586121,
-      "sha256": "CBED0EC023F764C35DCD648001AA96DC4AB0795C1F4C524FB57C0FA9783AA8EB"
+      "sha256": "C2841B1DBAC95985A8DAF3317C9E5524A3619F6875A7315ABF1A9C701D34EBAA"
     },
     {
-      "path": "figures/keyframes/panels/unet/traj1005_unet_scalar_T8p0.svg",
+      "path": "figures/keyframes/panels/unet/traj1045_unet_scalar_T8p0.svg",
       "bytes": 586121,
-      "sha256": "2DB04FB9517EAADD0CC655DC641FBD098F03BDDF479B33D5B4F8D7F954062B34"
+      "sha256": "E512FDCC5BBCCC550846809EC625CC4AD2AA0778C921B0C0447A4F3A51FB9681"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_residual_T5p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_residual_T5p0.svg",
       "bytes": 586121,
-      "sha256": "B8DE672C2D569FF0DD99B32D1A2F7AE6E8DC50DF43F858B6FF3C5C4A0AD00105"
+      "sha256": "00F822C194F89736191136CFA03D4841BA167DF009BC1FF8109D8130890E8812"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_residual_T6p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_residual_T6p0.svg",
       "bytes": 586121,
-      "sha256": "E8FFDD1FAD219C9EF455EEF832B19700BAE108A42C21FC5DEE864660641E8122"
+      "sha256": "A8EE683F721EFE45FCB9A74A2CDC146CC0BECA60CD64C7CE7A178AF5EC34AA88"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_residual_T7p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_residual_T7p0.svg",
       "bytes": 586121,
-      "sha256": "C4C2BFCD18B24D2A3C2C1D55B480FCED72B42D2AB3069FCE78599A0DF3247831"
+      "sha256": "FF9921CF8A47B7C00CC31837442BFF0EC1F402E33487988D815EC1487DC2E91C"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_residual_T8p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_residual_T8p0.svg",
       "bytes": 586121,
-      "sha256": "B742C5344567DD3D58633B862BF3D87D95A305BED8FEC61AFA9252446B3AF1CB"
+      "sha256": "4BCDC2749006A95BE805E0C5E20CA8C4535E03EDD3DB35E1A5113066598DC25F"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_scalar_T5p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_scalar_T5p0.svg",
       "bytes": 586121,
-      "sha256": "190054ACF71F901118AC67856F912A4D0ECA83AF4BDAD5D7FCA2143E6C700CCD"
+      "sha256": "1092CDAD1F0650C7000B08EC988BE9716CCBE041EF89BBEF3E1A4AFB76609C0E"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_scalar_T6p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_scalar_T6p0.svg",
       "bytes": 586121,
-      "sha256": "E5C64A7A96C4840B0DD092A36BC2C15B8701EE6F1B7B41D4329C049C6777CE2A"
+      "sha256": "665CFA8A51E6F820AF354E88627C833D2908854B8D538855ECB1EA4102395AAC"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_scalar_T7p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_scalar_T7p0.svg",
       "bytes": 586121,
-      "sha256": "B8A3FACC594D8727D7E77E59D9673F197CAA1DC4ADE98A220920FC14585FFCCF"
+      "sha256": "0346B7ECEC18A066574A5011964C7B50BAC72A78BC37E5AF899EFB80C1DE6884"
     },
     {
-      "path": "figures/keyframes/panels/uno/traj1005_uno_scalar_T8p0.svg",
+      "path": "figures/keyframes/panels/uno/traj1045_uno_scalar_T8p0.svg",
       "bytes": 586121,
-      "sha256": "7F5B8EFCD2644EBF857B439425EAD9686C8AA00EBF3DC27213D53CDAC7928BDF"
+      "sha256": "B0D516650E9FC876AE0063AAFFE159C12B3C3B43EAC5C7ECA5E1398C2962780C"
     },
     {
       "path": "figures/keyframes/source_fields.npz",
-      "bytes": 591207,
-      "sha256": "1E3456D960011EF2AA2B14BE1C39E62A80BE141EE2D6A7E8890781EA7D9839D3"
+      "bytes": 591783,
+      "sha256": "BF8A532D2A69290002AAF62551423CF79D7BBF2796A053D34CCD6304AB0E07CC"
     },
     {
-      "path": "figures/keyframes/traj1005_recursive_keyframes.svg",
-      "bytes": 35624577,
-      "sha256": "224F74D42613D1C561CBBEFC1B4F61B05597AD0AC95CF955ADEDE1F8DD761D5A"
+      "path": "figures/keyframes/traj1045_recursive_keyframes.svg",
+      "bytes": 35624582,
+      "sha256": "D65B0ADF7E62092996240F44F027165F0A973C9B15F6805D447A88E6A086EBCF"
     },
     {
       "path": "figures/keyframes/figure_manifest.json",
-      "bytes": 22268,
-      "sha256": "4855B9EC7F94A2CE04E1654E7E1BF6454892E21BF5BB22376EA20BD5367EE942"
+      "bytes": 21017,
+      "sha256": "26DC45E2481F657B8F2864DCD87379483C4634539AF35F5B1CE8E81AC03070D1"
     }
   ]
 }

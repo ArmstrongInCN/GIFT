@@ -20,6 +20,8 @@ def test_one_independent_child_no_shell(experiment, monkeypatch):
                        "--device", "cpu", "--output", "unit-output", "--resume"]
     assert options.get("shell", False) is False
     assert options["env"]["CUDA_VISIBLE_DEVICES"] == "-1"
+    if experiment != "M1":
+        assert str(launcher.ROOT / "src") in options["env"]["PYTHONPATH"]
 
 
 def test_parent_unchanged_and_recorded_threads():

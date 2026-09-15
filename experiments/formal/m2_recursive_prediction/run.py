@@ -1,4 +1,4 @@
-"""Run M2: five-method N64 autonomous prediction from t=5.0 to t=8.0."""
+"""Run M2: six-method N64 autonomous prediction from t=5.0 to t=8.0."""
 
 from __future__ import annotations
 
@@ -25,8 +25,6 @@ from experiments.formal._shared.common import (  # noqa: E402
     default_project_root,
     file_record,
     finish_output,
-    load_fno_test_dt0p02,
-    load_n64_long,
     metric_arrays,
     parse_seed_model_specs,
     seed_summary,
@@ -46,14 +44,19 @@ from experiments.formal._shared.gift_runtime import (  # noqa: E402
     rollout_gift,
 )
 from experiments.formal._shared.resume import start_experiment  # noqa: E402
+from experiments.formal._shared.prediction_data import load_fno_test_dt0p02, load_n64_long
+from experiments.formal._shared.gift_regimes import add_lite_arguments, resolve_regimes, extra_regime_files, regime_group
 
 
-COHORT = "trajectories_1000_1199"
+COHORT = "test_1040_1219"
 REPORT_TIMES = np.asarray([5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0])
 METHOD_CONFIGS = (
     ("GIFT", "20260820", "GIFT_seed_20260820"),
     ("GIFT", "20260821", "GIFT_seed_20260821"),
     ("GIFT", "20260822", "GIFT_seed_20260822"),
+    ("GIFT-Lite", "20260820", "GIFT_Lite_seed_20260820"),
+    ("GIFT-Lite", "20260821", "GIFT_Lite_seed_20260821"),
+    ("GIFT-Lite", "20260822", "GIFT_Lite_seed_20260822"),
     ("FNO-2D", "fixed", "FNO_2D"),
     ("FNO-3D", "fixed", "FNO_3D"),
     ("U-NO", "0", "U_NO"),
@@ -67,6 +70,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
+    add_lite_arguments(parser, allow_subset=True)
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument(
         "--device", default="cuda" if torch.cuda.is_available() else "cpu"
@@ -159,7 +163,8 @@ def main() -> None:
         selected = getattr(args, name + "_model")
         if selected is not None:
             paths = replace(paths, **{name + "_model": selected.expanduser().resolve(strict=True)})
-    gift_models = parse_seed_model_specs(paths.root, args.gift_model)
+    regimes = resolve_regimes(args, paths)
+    paths, gift_models = next(iter(regimes.values()))
     output = (
         args.output or paths.root / "reproduced_results" / "M2_recursive_prediction"
     )
@@ -174,7 +179,8 @@ def main() -> None:
         "artifacts/formal/unet/unet_terminal_epoch500.pt",
     )
     session = start_experiment(args, paths, "M2", output, gift_models,
-                               extra_files={"uno_model": uno_path, "unet_model": unet_path})
+                               extra_files={"uno_model": uno_path, "unet_model": unet_path,
+                                            **extra_regime_files(regimes)})
     output = session.output
     (output / "raw").mkdir()
     (output / "summary").mkdir()
@@ -196,9 +202,13 @@ def main() -> None:
     full_finite: dict[str, np.ndarray] = {}
     first_nonfinite: dict[str, np.ndarray] = {}
     gift_runtime: dict[str, Any] = {}
-    for seed in SEEDS:
-        low, branch, _ = load_gift_models(paths, gift_models[seed], 64, device)
-        result = session.call(f"gift_{seed}", rollout_gift,
+    for family, seed, group_name in METHOD_CONFIGS:
+        if family not in regimes:
+            continue
+        seed = int(seed)
+        family_paths, family_models = regimes[family]
+        low, branch, _ = load_gift_models(family_paths, family_models[seed], 64, device)
+        result = session.call(group_name, rollout_gift,
             low=low,
             branch=branch,
             initial_state=truth[:, 0],
@@ -209,15 +219,14 @@ def main() -> None:
             batch_size=args.gift_batch_size,
             correction=True,
         )
-        group_name = f"GIFT_seed_{seed}"
         predictions[group_name] = result.prediction
         metrics[group_name] = metric_arrays(result.prediction, truth)
         failures = np.asarray(result.failure_step, dtype=np.int32)
         if not np.all(failures == -1):
-            raise RuntimeError(f"GIFT seed {seed} produced a failed M2 rollout")
+            raise RuntimeError(f"{family} seed {seed} produced a failed M2 rollout")
         full_finite[group_name] = np.ones((len(ids), 150), dtype=bool)
         first_nonfinite[group_name] = failures
-        gift_runtime[str(seed)] = {
+        gift_runtime[group_name] = {
             "finite_count_by_time": result.finite_by_time.sum(axis=0)
             .astype(int)
             .tolist(),
@@ -354,29 +363,29 @@ def main() -> None:
     write_csv_new(output / "raw" / "per_trajectory_metrics.csv", raw_rows)
 
     key_metrics: dict[str, Any] = {
-        "GIFT_t8": seed_summary(
+        f"{family}_t8": seed_summary(
             {
                 seed: float(
-                    metrics[f"GIFT_seed_{seed}"]["full_relative_l2"][:, -1].mean()
+                    metrics[regime_group(family, seed)]["full_relative_l2"][:, -1].mean()
                 )
                 for seed in SEEDS
             }
-        )
+        ) for family in regimes
     }
     for method, _, group_name in METHOD_CONFIGS:
-        if method != "GIFT":
+        if method not in regimes:
             key_metrics[f"{method}_t8"] = summarize(
                 metrics[group_name]["full_relative_l2"][:, -1]
             )
     finite_summary = {
-        method: 200
-        for method in ("GIFT", "FNO-2D", "FNO-3D", "U-NO", "U-Net")
+        method: len(ids)
+        for method in ("GIFT", "GIFT-Lite", "FNO-2D", "FNO-3D", "U-NO", "U-Net")
     }
     write_json_new(
         output / "summary" / "summary.json",
         {
             "experiment_id": "M2",
-            "populations": {COHORT: 200},
+            "populations": {COHORT: len(ids)},
             "key_metrics": {COHORT: key_metrics},
             "complete_prediction_finite_count": finite_summary,
         },
@@ -387,7 +396,7 @@ def main() -> None:
         "status": "complete",
         "experiment": "M2",
         "title": "N64 long-horizon autonomous prediction",
-        "populations": {COHORT: {"trajectory_ids": [1000, 1199], "count": 200}},
+        "populations": {COHORT: {"trajectory_ids": [int(ids[0]), int(ids[-1])], "count": len(ids)}},
         "absolute_times": times.tolist(),
         "inputs": {
             "long_truth": file_record(paths.standard_n64, paths.root),
@@ -400,23 +409,25 @@ def main() -> None:
             "fno3d_model": file_record(paths.fno3d_model, paths.root),
             "uno_model": file_record(uno_path, paths.root),
             "unet_model": file_record(unet_path, paths.root),
+            "gift_lite": {name: file_record(path, paths.root) for name, path in extra_regime_files(regimes).items()},
         },
         "summary": {COHORT: key_metrics},
         "gift_runtime": gift_runtime,
         "fno_inference": {"FNO-2D": fno2d_audit, "FNO-3D": fno3d_audit},
         "baseline_inference": {
             method: {
-                "finite_trajectory_count_by_future_step": [200] * 150,
-                "complete_prediction_finite_count": 200,
+                "finite_trajectory_count_by_future_step": [len(ids)] * 150,
+                "complete_prediction_finite_count": len(ids),
             }
             for method in ("U-NO", "U-Net")
         },
         "protocol": {
             "dt": 0.02,
-            "test_trajectory_ids": [1000, 1199],
-            "test_trajectory_count": 200,
+            "test_trajectory_ids": [int(ids[0]), int(ids[-1])],
+            "test_trajectory_count": len(ids),
             "training_data": {
-                "GIFT": "50 N64 training trajectories and 20 validation trajectories, t=0.0 to 10.0",
+                "GIFT": "1,000 N64 training trajectories; generator and branch each 500 trajectory epochs; terminal weights",
+                "GIFT-Lite": "50 N64 training trajectories and 20 checkpoint-validation trajectories; preserved reduced-data weights",
                 "baselines": "1,000 N64 training trajectories, t=0.0 to 10.0, sampled every 0.02",
             },
             "context": {
@@ -436,6 +447,7 @@ def main() -> None:
             "FNO-3D": "46-frame context; one non-recursive call producing all 150 future frames",
             "methods": {
                 "GIFT": "single state at t=5.0; RK4 recursive prediction with recursive local correction",
+                "GIFT-Lite": "same single-state RK4 prediction; reduced-data training weights",
                 "FNO-2D": "46-frame context; one-step operator called recursively for 150 steps",
                 "FNO-3D": "46-frame context; one non-recursive operator call producing 150 frames",
                 "U-NO": "46-frame context; one-step operator called recursively for 150 steps",
@@ -458,7 +470,7 @@ def main() -> None:
             "curve": "shape-preserving piecewise cubic Hermite interpolation through the evaluated points",
             "interpolation_used_for_metrics": False,
             "keyframes": {
-                "trajectory_id": 1005,
+                "trajectory_id": 1045,
                 "absolute_times": [5.0, 6.0, 7.0, 8.0],
                 "source": "raw/predictions.h5",
                 "output_directory": "figures/keyframes",
@@ -478,6 +490,7 @@ def main() -> None:
             str(output / "summary" / "metrics.csv"),
             "--output-dir",
             str(output / "figures"),
+            "--gift-regimes", *regimes,
         ],
         [
             sys.executable,
@@ -487,7 +500,8 @@ def main() -> None:
             "--output-dir",
             str(output / "figures" / "keyframes"),
             "--trajectory-id",
-            "1005",
+            "1045",
+            "--gift-regimes", *regimes,
         ],
     ]
     session.finish()

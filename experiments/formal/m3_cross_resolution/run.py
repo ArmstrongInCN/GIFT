@@ -21,8 +21,6 @@ from experiments.formal._shared.common import (  # noqa: E402
     ProjectPaths,
     default_project_root,
     file_record,
-    load_cross_resolution,
-    load_fno_test_dt0p02,
     metric_arrays,
     parse_seed_model_specs,
     seed_summary,
@@ -41,6 +39,8 @@ from experiments.formal._shared.fno_runtime import (  # noqa: E402
 )
 from experiments.formal._shared.gift_runtime import load_gift_models, rollout_gift  # noqa: E402
 from experiments.formal._shared.resume import start_experiment  # noqa: E402
+from experiments.formal._shared.prediction_data import load_cross_resolution, load_fno_test_dt0p02
+from experiments.formal._shared.gift_regimes import add_lite_arguments, resolve_regimes, extra_regime_files, regime_group
 
 
 def parse_args() -> argparse.Namespace:
@@ -49,6 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
+    add_lite_arguments(parser, allow_subset=True)
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--gift-batch-size", type=int, default=8)
@@ -69,9 +70,10 @@ def main() -> None:
         selected = getattr(args, name + "_model")
         if selected is not None:
             paths = replace(paths, **{name + "_model": selected.expanduser().resolve(strict=True)})
-    models = parse_seed_model_specs(paths.root, args.gift_model)
+    regimes = resolve_regimes(args, paths)
+    paths, models = next(iter(regimes.values()))
     output = args.output or paths.root / "reproduced_results" / "M3_cross_resolution"
-    session = start_experiment(args, paths, "M3", output, models)
+    session = start_experiment(args, paths, "M3", output, models, extra_files=extra_regime_files(regimes))
     output = session.output
     (output / "raw").mkdir()
     (output / "summary").mkdir()
@@ -109,9 +111,10 @@ def main() -> None:
             grid_group.create_dataset("absolute_times", data=times)
             grid_group.create_dataset("truth", data=truth, compression="gzip", compression_opts=4, shuffle=True)
             grid_metrics: dict[str, dict[str, np.ndarray]] = {}
-            for seed in SEEDS:
-                low, branch, _ = load_gift_models(paths, models[seed], grid, device)
-                result = session.call(f"N{grid}_gift_{seed}", rollout_gift,
+            for family, seed in ((family, seed) for family in regimes for seed in SEEDS):
+                family_paths, family_models = regimes[family]
+                low, branch, _ = load_gift_models(family_paths, family_models[seed], grid, device)
+                result = session.call(f"N{grid}_{regime_group(family, seed)}", rollout_gift,
                     low=low,
                     branch=branch,
                     initial_state=truth[:, 0],
@@ -122,14 +125,14 @@ def main() -> None:
                     batch_size=args.gift_batch_size,
                     correction=True,
                 )
-                method = f"GIFT_seed_{seed}"
+                method = regime_group(family, seed)
                 values = metric_arrays(result.prediction, truth)
                 grid_metrics[method] = values
                 group = grid_group.create_group(method)
                 group.create_dataset("prediction", data=result.prediction, compression="gzip", compression_opts=4, shuffle=True)
                 for name, value in values.items():
                     group.create_dataset(name, data=value)
-                runtime[f"N{grid}_seed_{seed}"] = {
+                runtime[f"N{grid}_{method}"] = {
                     "finite_count_by_time": result.finite_by_time.sum(axis=0).astype(int).tolist(),
                     "failure_step": result.failure_step.tolist(),
                     "failure_reason": list(result.failure_reason),
@@ -175,18 +178,16 @@ def main() -> None:
     for grid in (64, 96, 128):
         grid_ids, times20, _ = raw[grid]
         times = times20[9:20]
-        cohorts = {
-            "trajectories_1000_1199": np.ones(len(grid_ids), dtype=bool),
-            "trajectories_1100_1199": grid_ids >= 1100,
-        }
+        cohorts = {"test_1040_1219": np.ones(len(grid_ids), dtype=bool)}
         for method, values in all_metrics[grid].items():
-            seed: int | str = method.removeprefix("GIFT_seed_") if method.startswith("GIFT_seed_") else "fixed"
+            family = next((name for name in regimes if method.startswith(regime_group(name, ""))), None)
+            seed: int | str = method.removeprefix(regime_group(family, "")) if family else "fixed"
             for metric_name, metric_value in values.items():
                 for cohort, selected in cohorts.items():
                     for row in time_metric_rows(
                         experiment="M3",
                         method=(
-                            "GIFT" if method.startswith("GIFT_seed_") else method
+                            family if family else method
                         ),
                         seed=seed,
                         times=times,
@@ -203,16 +204,16 @@ def main() -> None:
         report_summary[f"N{grid}"] = {}
         for cohort, selected in cohorts.items():
             report_summary[f"N{grid}"][cohort] = {
-                "GIFT_t6": seed_summary(
+                **{f"{family}_t6": seed_summary(
                     {
                         seed: float(
-                            all_metrics[grid][f"GIFT_seed_{seed}"][
+                            all_metrics[grid][regime_group(family, seed)][
                                 "full_relative_l2"
                             ][selected, -1].mean()
                         )
                         for seed in SEEDS
                     }
-                ),
+                ) for family in regimes},
                 "FNO-2D_t6": summarize(
                     all_metrics[grid]["FNO-2D"]["full_relative_l2"][
                         selected, -1
@@ -228,16 +229,16 @@ def main() -> None:
                 report_summary[f"N{grid}"][cohort][
                     "reliable_outer_P31_t6"
                 ] = {
-                    "GIFT": seed_summary(
+                    **{family: seed_summary(
                         {
                             seed: float(
-                                all_metrics[grid][f"GIFT_seed_{seed}"][
+                                all_metrics[grid][regime_group(family, seed)][
                                     "reliable_outer_P31_relative_l2"
                                 ][selected, -1].mean()
                             )
                             for seed in SEEDS
                         }
-                    ),
+                    ) for family in regimes},
                     "FNO-2D": summarize(
                         all_metrics[grid]["FNO-2D"][
                             "reliable_outer_P31_relative_l2"
@@ -255,8 +256,7 @@ def main() -> None:
         {
             "experiment_id": "M3",
             "populations": {
-                "trajectories_1000_1199": 200,
-                "trajectories_1100_1199": 100,
+                "test_1040_1219": len(ids),
             },
             "key_metrics": report_summary,
         },
@@ -267,13 +267,9 @@ def main() -> None:
         "experiment": "M3",
         "title": "cross-resolution prediction",
         "populations": {
-            "trajectories_1000_1199": {
-                "trajectory_ids": [1000, 1199],
-                "count_per_resolution": 200,
-            },
-            "trajectories_1100_1199": {
-                "trajectory_ids": [1100, 1199],
-                "count_per_resolution": 100,
+            "test_1040_1219": {
+                "trajectory_ids": [int(ids[0]), int(ids[-1])],
+                "count_per_resolution": len(ids),
             },
         },
         "inputs": {
@@ -284,6 +280,7 @@ def main() -> None:
             "gift_models": {str(seed): file_record(models[seed], paths.root) for seed in SEEDS},
             "fno2d_model": file_record(paths.fno2d_model, paths.root),
             "fno3d_model": file_record(paths.fno3d_model, paths.root),
+            "gift_lite": {name: file_record(path, paths.root) for name, path in extra_regime_files(regimes).items()},
         },
         "summary": report_summary,
         "gift_runtime": runtime,
@@ -316,16 +313,16 @@ def main() -> None:
             "test_statistics_used": False,
         },
         "evaluation_scope": {
-            "all_reported_trajectory_ids": [1000, 1199],
-            "reported_subset_trajectory_ids": [1100, 1199],
-            "architecture_selection_trajectory_ids": [1000, 1019],
+            "test_trajectory_ids": [int(ids[0]), int(ids[-1])],
+            "test_disjoint_from_training_and_validation": True,
             "high_resolution_values_used_for_weight_updates": False,
         },
     }
     session.finish()
     from experiments.formal._shared.plotting import publish_numeric_then_plot
     command = [sys.executable, str(Path(__file__).with_name("plot_results.py")),
-               "--result-dir", str(output), "--output-dir", str(output / "figures")]
+               "--result-dir", str(output), "--output-dir", str(output / "figures"),
+               "--gift-regimes", *regimes]
     publish_numeric_then_plot(output, report, [] if args.skip_plots else [command])
 
 

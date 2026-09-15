@@ -12,6 +12,24 @@ Downloaded terminal weights are not inserted into an unrelated run's training
 journal. See [SETUP.md](SETUP.md) for each model's independent command and the
 special PINN L-BFGS phase-boundary recovery rule.
 
+## GIFT training regimes
+
+Full-data prediction GIFT uses `artifacts/gift_full/generator.pt` and
+`artifacts/gift_full/gift_seed_SEED.pt`. Its generator and each branch are trained
+on 1,000 trajectories for 500 epochs each; their budgets and times are reported
+separately. Branch metadata bind the exact generator hash and declared seed.
+
+Availability: the full-data generator is complete; its three prediction branches
+are still training. The current prediction tables use completed GIFT-Lite and
+baseline weights. Missing full-data branches are not replaced by intermediate
+states. See the explicit GIFT-Lite-only commands in EXPERIMENT_EXECUTION.md.
+
+GIFT-Lite uses the preserved clean generator in `artifacts/fixed_k21_n64_unmasked/`
+and the three branches in `artifacts/gift/`. It uses 50 training trajectories and
+its own multi-stage schedule, not a smaller network. This is not a data-only
+ablation with identical training budgets. M1 retains its own clean/noisy generator
+weights and parameter-identification protocol.
+
 ## Ordinary and split weight files
 
 `artifacts/CHECKPOINTS.json` records the available weights and SHA-256 hashes.

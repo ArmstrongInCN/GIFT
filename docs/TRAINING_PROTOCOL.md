@@ -22,38 +22,104 @@ dropped. All four schedulers advance once per epoch (StepLR: 100 epochs, factor
 0.0001 for the other three. Test trajectories are never used for updates,
 normalization, scheduling or checkpoint selection.
 
-## GIFT
+## GIFT prediction training / GIFT 预测训练
 
-GIFT retains its generator-pretraining and multi-stage correction design; it is
-not included in the equal-epoch/equal-data comparison. Report its training and
-validation trajectory counts, both pretraining phases, correction stages,
-parameter updates and elapsed training times separately. In particular, the
-low-frequency generator's random-minibatch updates are **steps**, not epochs.
-Shared generator pretraining is reported once and its reuse across the three
-correction-model seeds is explicit. Do not hide pretraining cost or describe
-GIFT and the prediction baselines as compute-matched.
+Two training regimes share the same GIFT architecture. **GIFT** uses all 1,000
+prediction-training trajectories; its generator and high-frequency branch each
+receive 500 trajectory epochs. This is **500 + 500**, not a 500-epoch total and
+not a compute-matched claim. **GIFT-Lite** preserves the independently trained
+50-trajectory models and their original training schedule; Lite denotes reduced
+training data, not a smaller network. M1 identification training and results are
+unchanged and keep their separate protocol below.
 
-GIFT 不需要统一数据量和总 epoch：保留既有多阶段结构，单独完整报告成本。
-低阶生成器的有放回随机小批量训练不能改名为 epoch。共享预训练成本计一次，
-三个校正模型种子的后续训练分别报告；模型选择仍使用指定验证集，不使用测试结果。
+GIFT 的生成元与高频支路各训练 500 epoch，分项报告。每个 epoch 对
+全部 1,000 条训练轨迹各访问一次，从每条轨迹选择一个固定种子控制的时间窗口。
+GIFT-Lite 保留 50 条训练轨迹、20 条验证轨迹及已有训练权重；网络结构不缩小。
+两者的训练预算也不同，因此不能把性能差异仅归因于训练数据数量。
 
-The low generator uses 6,000 + 6,000 random-minibatch updates for each noise
-condition (50 training / 20 validation trajectories). For each high-branch seed,
-18 derivative epochs contain 313 batches each; two short-rollout epochs and two
-single-epoch long-rollout stages each contain 50 batches. The full branch budget
-is therefore 5,834 parameter updates, even when validation selects an earlier
-model. These are budget counts; the completed history and cost records provide
-the execution evidence. Local correction is an inference operation, not another
-unreported training stage.
+### Data and model selection
 
-GIFT generator timing includes training, affine refits, validation, final
-evaluation and intermediate checkpoint IO. Branch costs distinguish per-pass
-training/validation timers from whole-run wall time. The packaged branch runs
-provide whole-run time including data/RHS preparation, training, validation,
-selection and weight export; per-stage times are unavailable. Shared generator
-pretraining is excluded from branch times and reported separately. Each
-`training_cost` states its exact timing scope; do not silently pool it with the
-baselines' epoch timer or replace unavailable timings with estimated measurements.
+Prediction training IDs are 0–999; GIFT-Lite uses 0–49. Validation IDs are
+1000–1039; IDs 1000–1019 contain the complete 0–10 trajectory interval and are
+used for checkpoint-validation measurements. Independent test IDs are
+1040–1219 (180 trajectories), paired across N64/N96/N128. Identity mapping is
+fixed before model evaluation and does not depend on errors or failures.
+The identification dataset used by M1 retains its separate local identifiers.
+
+Full-data GIFT uses **terminal stage states and terminal epoch weights**.
+Validation monitors the declared procedure and does not select a model or
+alter learning rates. Test observations are not used for parameter updates,
+normalization, stage decisions or checkpoint selection.
+
+### Full-data stages and budget
+
+| Component / stage | Trajectory epochs | Physical batch | Parameter updates |
+| --- | ---: | ---: | ---: |
+| Generator, phase 1 | 250 | 16 (final batch 8) | 15,750 |
+| Generator, phase 2 | 250 | 16 (final batch 8) | 15,750 |
+| Branch, derivative supervision | 400 | 16 (final batch 8) | 25,200 |
+| Branch, short rollout | 50 | 5 | 10,000 |
+| Branch, long rollout stage 1 | 25 | 5 | 5,000 |
+| Branch, long rollout stage 2 | 25 | 5 | 5,000 |
+
+The generator has 31,500 gradient updates; each branch has 45,200. Its affine
+constant/linear fit is a separate analytic operation: one initial fit and one
+fit on the same sampled observations at the end of each generator epoch,
+501 fits total. These fits are disclosed, not relabelled as gradient updates.
+The generator is trained once and reused by the three independently initialized
+branches with seeds 20260820, 20260821 and 20260822.
+
+Generator architecture, rank 8, P21 support, four-point centred derivative
+numerator on five observed frames, normalized MSE, gradient clipping at 5,
+rank-aware affine solver and AdamW are unchanged mathematical components.
+The two phase learning rates are 0.01 and 0.003, with within-phase cosine decay
+to 2% of the initial value and weight decay 1e-8. The affine fit and the
+gradient updates use training observations only.
+
+Branch architecture, Q21 derivative loss, dual-track RK4, local correction,
+10-step short rollout, 50-step long rollout with 10-step truncated gradient
+segments, and gradient clipping at 1 remain the GIFT mathematical components.
+Stage learning rates are 0.0015, 0.0002, 0.00008 and 0.00008; AdamW weight decay
+is 1e-6. The derivative stage uses cosine decay to 0.0001. Each new stage
+initializes its own optimizer; continuation within a stage restores that
+optimizer's complete state. No terminal state is replaced by a better test or
+validation checkpoint.
+
+Generator derivative centres are sampled from 2–498. Branch derivative
+centres use the same available observation stencil. Rollout anchors are
+sampled from 0–450 so every 50-step target is a saved observation within 0–10.
+The formulas and normalization rules are unchanged, while the sampling unit
+is now a trajectory epoch rather than a pass over all derivative examples.
+
+### Reduced-data GIFT-Lite
+
+GIFT-Lite retains its completed generator (6,000 + 6,000 random-minibatch
+updates on 50 trajectories, with 20 validation trajectories). These updates
+are steps, not trajectory epochs. Its three branch runs retain 18 derivative
+passes, two short-rollout passes and two single-pass long-rollout stages,
+5,834 updates per seed. Its validation-selected weights are preserved exactly.
+The shared generator cost is reported once, separately from the three branches.
+
+### Independent commands and continuation
+
+```shell
+python -m training.train_gift_generator --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --output ../runs/gift_generator
+python -m training.train_gift_predictor --run-training --dataset ../GIFT-data/fno/fno1000_n64_t0_t10_dt0p02.h5 --low-model ../runs/gift_generator/model.pt --seed 20260820 --output ../runs/gift_branch_20260820
+```
+
+Run the branch command separately for each of the three declared seeds. Replace
+`--run-training` with `--resume` to restore that run's committed model, optimizer,
+scheduler, epoch/stage counters and random state. The default boundary is every
+10 epochs and each stage end; `--stop-after-epoch` commits an explicit boundary.
+Uncommitted epochs may be repeated after interruption. A published unrelated
+generator or a reduced-data checkpoint is not accepted as the full-data training
+prerequisite.
+
+Full-data timers sum committed epoch time: sampling, forward/backward,
+parameter updates, generator affine refits / branch frozen-RHS preparation,
+and scheduled validation. They exclude initial input loading/calibration,
+checkpoint writing, paused time and discarded uncommitted work. Report the
+measured times from each completed run; do not substitute estimated timings.
 
 ## Independent runs, timing and continuation
 

@@ -1,4 +1,4 @@
-"""Draw the five-method M2 mean-error comparison from a metrics CSV.
+"""Draw the explicitly selected M2 comparison from a completed metrics CSV.
 
 Markers are the seven evaluated report times.  The lines are shape-preserving
 piecewise cubic Hermite interpolants (PCHIP) that pass exactly through those
@@ -30,12 +30,13 @@ from experiments.formal._shared.figure_evidence import bind_result, finish_figur
 
 
 REPORT_TIMES = np.asarray([5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0])
-METHOD_ORDER = ("GIFT", "FNO-2D", "FNO-3D", "U-NO", "U-Net")
-COHORT = "trajectories_1000_1199"
-POPULATION = 200
+METHOD_ORDER = ("GIFT", "GIFT-Lite", "FNO-2D", "FNO-3D", "U-NO", "U-Net")
+COHORT = "test_1040_1219"
+POPULATION = 180
 
 STYLES = {
     "GIFT": ("#0F4D92", "o", "-", 2.5, 10),
+    "GIFT-Lite": ("#6CA1C8", "o", "--", 1.8, 9),
     "FNO-2D": ("#7884B4", "s", "--", 1.5, 5),
     "FNO-3D": ("#42949E", "D", "-.", 1.5, 4),
     "U-NO": ("#2E9E44", "^", "-", 1.8, 8),
@@ -65,7 +66,7 @@ def read_source(metrics_path: Path) -> list[dict[str, object]]:
     for method in METHOD_ORDER:
         for absolute_time in REPORT_TIMES:
             matches = grouped[(method, float(absolute_time))]
-            expected = 3 if method == "GIFT" else 1
+            expected = 3 if method in ("GIFT", "GIFT-Lite") else 1
             if len(matches) != expected:
                 raise ValueError(
                     f"{method} at t={absolute_time:g} has {len(matches)} rows; "
@@ -79,7 +80,7 @@ def read_source(metrics_path: Path) -> list[dict[str, object]]:
                 raise ValueError(f"{method} population or finiteness differs")
             values = np.asarray([float(row["mean"]) for row in matches])
             expected_seeds = {"20260820", "20260821", "20260822"}
-            if method == "GIFT" and {row["seed"] for row in matches} != expected_seeds:
+            if method in ("GIFT", "GIFT-Lite") and {row["seed"] for row in matches} != expected_seeds:
                 raise ValueError("GIFT requires one result from each declared training seed")
             if not np.isfinite(values).all() or (values < 0).any():
                 raise ValueError(f"{method} mean errors must be finite and nonnegative")
@@ -89,7 +90,7 @@ def read_source(metrics_path: Path) -> list[dict[str, object]]:
                     "absolute_time": float(absolute_time),
                     "mean_relative_l2": float(values.mean()),
                     "training_seed_sd": (
-                        float(values.std(ddof=1)) if method == "GIFT" else ""
+                        float(values.std(ddof=1)) if method in ("GIFT", "GIFT-Lite") else ""
                     ),
                     "n_training_seeds": expected,
                     "n_test_trajectories": POPULATION,
@@ -134,7 +135,9 @@ def draw(rows: list[dict[str, object]]):
     figure, axis = plt.subplots(figsize=(183.0 / 25.4, 96.0 / 25.4))
     fitted_times = np.linspace(5.0, 8.0, 601)
     handles: dict[str, Line2D] = {}
-    for method in ("FNO-3D", "U-Net", "FNO-2D", "U-NO", "GIFT"):
+    for method in ("FNO-3D", "U-Net", "FNO-2D", "U-NO", "GIFT-Lite", "GIFT"):
+        if method not in METHOD_ORDER:
+            continue
         color, marker, line_style, width, zorder = STYLES[method]
         values = series[method]
         interpolator = PchipInterpolator(REPORT_TIMES, values)
@@ -194,7 +197,7 @@ def draw(rows: list[dict[str, object]]):
         METHOD_ORDER,
         loc="lower center",
         bbox_to_anchor=(0.5, 1.015),
-        ncol=5,
+        ncol=3,
         handlelength=2.5,
         columnspacing=1.6,
         handletextpad=0.55,
@@ -212,11 +215,17 @@ def parse_args() -> argparse.Namespace:
         "--metrics", type=Path, default=result / "summary" / "metrics.csv"
     )
     parser.add_argument("--output-dir", type=Path, default=result / "figures")
+    parser.add_argument("--gift-regimes", nargs="+", choices=("GIFT", "GIFT-Lite"),
+                        default=["GIFT", "GIFT-Lite"],
+                        help="explicit completed regimes to draw; missing selected results are errors")
     return parser.parse_args()
 
 
 def main() -> None:
+    global METHOD_ORDER
     args = parse_args()
+    METHOD_ORDER = tuple(method for method in METHOD_ORDER
+                        if method not in ("GIFT", "GIFT-Lite") or method in args.gift_regimes)
     metrics = args.metrics.resolve(strict=True)
     if metrics.name != "metrics.csv" or metrics.parent.name != "summary":
         raise ValueError("use the completed experiment's summary/metrics.csv")
@@ -253,6 +262,7 @@ def main() -> None:
     plt.close(figure)
     finish_figures(output, evidence, Path(__file__), {
         "metric": "mean per-trajectory relative L2", "trajectory_count": POPULATION,
+        "methods": list(METHOD_ORDER),
         "gift_seeds": [20260820, 20260821, 20260822], "baseline_models_per_method": 1,
         "curve": "PCHIP visual guide through measured points", "y_limits": axis_limits,
         "error_bars": "none", "hypothesis_tests": "none",

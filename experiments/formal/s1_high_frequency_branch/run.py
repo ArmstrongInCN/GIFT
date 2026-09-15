@@ -22,8 +22,6 @@ from experiments.formal._shared.common import (
     default_project_root,
     file_record,
     finish_output,
-    load_cross_resolution,
-    load_n64_long,
     metric_arrays,
     parse_seed_model_specs,
     relative_l2,
@@ -36,6 +34,9 @@ from experiments.formal._shared.common import (
 )
 from experiments.formal._shared.gift_runtime import load_gift_models, rollout_gift
 from experiments.formal._shared.resume import start_experiment
+from experiments.formal._shared.prediction_data import load_cross_resolution, load_n64_long
+from experiments.formal._shared.gift_regimes import add_lite_arguments, resolve_regimes
+from gift.data_splits import canonical_ids
 
 
 def parse_args() -> argparse.Namespace:
@@ -44,6 +45,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--resume", action="store_true", help="reuse completed calls from this same --output run")
     parser.add_argument("--gift-model", action="append", default=[])
+    add_lite_arguments(parser)
+    parser.add_argument("--gift-regime", choices=("GIFT", "GIFT-Lite"), default="GIFT")
     parser.add_argument("--low-model", type=Path, help="explicit frozen P21 prerequisite; default retains published model path")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--derivative-batch-size", type=int, default=64)
@@ -87,8 +90,10 @@ def derivative_validation(
         ids = np.asarray(handle["validation/trajectory_index"][:], dtype=np.int64)
         times = np.asarray(handle["validation/time"][:], dtype=np.float64)
         field = handle["validation/vorticity"]
-        if not np.array_equal(ids, np.arange(50, 70, dtype=np.int64)):
-            raise ValueError("S1 validation IDs differ from 50..69")
+        if handle.attrs.get("trajectory_id_scheme") != "canonical":
+            ids = np.asarray(canonical_ids(ids), dtype=np.int64)
+        if not np.array_equal(ids, np.arange(1000, 1020, dtype=np.int64)):
+            raise ValueError("S1 validation IDs differ from 1000..1019")
         if field.shape != (20, 501, 64, 64):
             raise ValueError("S1 validation field shape differs")
         dt = float(np.mean(np.diff(times)))
@@ -152,7 +157,7 @@ def main() -> None:
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:
         paths = replace(paths, low_model=args.low_model.expanduser().resolve(strict=True))
-    models = parse_seed_model_specs(paths.root, args.gift_model)
+    paths, models = resolve_regimes(args, paths)[args.gift_regime]
     output = args.output or paths.root / "reproduced_results" / "S1_high_frequency_branch"
     session = start_experiment(args, paths, "S1", output, models)
     output = session.output
@@ -286,14 +291,12 @@ def main() -> None:
         "N128_t6": "{}_N128_t6_full_relative_l2",
         "N64_t8": "{}_N64_t8_full_relative_l2",
     }
-    confirmation_mask = raw["test_trajectory_ids"] >= 1100
     for task, template in tasks.items():
         task_cohorts = (
-            {"validation_50_69": slice(None)}
+            {"validation_1000_1019": slice(None)}
             if task == "validation_derivative"
             else {
-                "benchmark_1000_1199": slice(None),
-                "confirmation_1100_1199": confirmation_mask,
+                "test_1040_1219": slice(None),
             }
         )
         summary_report[task] = {}
@@ -314,7 +317,7 @@ def main() -> None:
                         "cohort": cohort,
                         "task": task,
                         "band": "full",
-                        "method": "GIFT",
+                        "method": args.gift_regime,
                         "seed": seed,
                         "mean_relative_l2": enabled_means[seed],
                         "finite_count": int(np.isfinite(values).sum()),
@@ -332,7 +335,7 @@ def main() -> None:
                     "cohort": cohort,
                     "task": task,
                     "band": "full",
-                    "method": "GIFT (high-frequency branch disabled)",
+                    "method": f"{args.gift_regime} (high-frequency branch disabled)",
                     "seed": "fixed",
                     "mean_relative_l2": disabled_mean,
                     "finite_count": int(np.isfinite(disabled_values).sum()),
@@ -340,7 +343,7 @@ def main() -> None:
                 }
             )
             summary_report[task][cohort] = {
-                "GIFT": seed_summary(enabled_means),
+                args.gift_regime: seed_summary(enabled_means),
                 "disabled": summarize(disabled_values),
                 "relative_reduction_percent": float(
                     100.0
@@ -398,11 +401,10 @@ def main() -> None:
 
     for task, band, enabled_template, disabled_key in comparison_keys:
         task_cohorts = (
-            {"validation_50_69": slice(None)}
+            {"validation_1000_1019": slice(None)}
             if task.startswith("validation_derivative")
             else {
-                "benchmark_1000_1199": slice(None),
-                "confirmation_1100_1199": confirmation_mask,
+                "test_1040_1219": slice(None),
             }
         )
         summary_key = f"{task}_{band}"
@@ -418,7 +420,7 @@ def main() -> None:
                         "cohort": cohort,
                         "task": task,
                         "band": band,
-                        "method": "GIFT",
+                        "method": args.gift_regime,
                         "seed": seed,
                         "mean_relative_l2": enabled_means[seed],
                         "finite_count": int(np.isfinite(values).sum()),
@@ -433,7 +435,7 @@ def main() -> None:
                     "cohort": cohort,
                     "task": task,
                     "band": band,
-                    "method": "GIFT (high-frequency branch disabled)",
+                    "method": f"{args.gift_regime} (high-frequency branch disabled)",
                     "seed": "fixed",
                     "mean_relative_l2": disabled_mean,
                     "finite_count": int(np.isfinite(disabled_values).sum()),
@@ -441,7 +443,7 @@ def main() -> None:
                 }
             )
             summary_report[summary_key][cohort] = {
-                "GIFT": seed_summary(enabled_means),
+                args.gift_regime: seed_summary(enabled_means),
                 "disabled": summarize(disabled_values),
                 "relative_reduction_percent": (
                     float(
@@ -461,9 +463,8 @@ def main() -> None:
         {
             "experiment_id": "S1",
             "populations": {
-                "benchmark_1000_1199": 200,
-                "confirmation_1100_1199": 100,
-                "validation_50_69_derivative_states": 9940,
+                "test_1040_1219": len(ids),
+                "validation_1000_1019_derivative_states": 9940,
             },
             "key_metrics": summary_report,
         },
@@ -473,9 +474,11 @@ def main() -> None:
         "schema": "gift.formal.S1.v3",
         "status": "complete",
         "experiment": "S1",
+        "training_regime": args.gift_regime,
         "title": "high-frequency branch effectiveness",
         "inputs": {
             "raw_N64": file_record(paths.standard_n64, paths.root),
+            "raw_N64_dense": file_record(paths.dense_n64, paths.root),
             "raw_cross_resolution": file_record(paths.cross_resolution, paths.root),
             "low_frequency_model": file_record(paths.low_model, paths.root),
             "gift_models": {str(seed): file_record(models[seed], paths.root) for seed in SEEDS},
@@ -485,13 +488,12 @@ def main() -> None:
         "protocol": {
             "only_changed_factor": "high-frequency branch output enabled versus zero",
             "recursive_local_correction": "independent post-step P21/Q21 correction enabled in both arms",
-            "validation_derivative": "fourth-order centred observed difference on IDs 50-69",
-            "prediction_population": "benchmark IDs 1000-1199; confirmation IDs 1100-1199",
+            "validation_derivative": "fourth-order centred observed difference on validation IDs 1000-1019",
+            "prediction_population": "independent test IDs 1040-1219",
             "disabled_high_state": "Q21 right-hand side is zero; the same post-step Q21 local correction remains enabled",
         },
         "scientific_boundary": {
-            "architecture_selection_trajectory_ids": [1000, 1019],
-            "confirmation_trajectory_ids": [1100, 1199],
+            "test_disjoint_from_training_and_validation": True,
             "N64_outside_P31_is_Nyquist_diagnostic": True,
             "cross_resolution_primary_outer_band_excludes_Nyquist_lines": True,
         },

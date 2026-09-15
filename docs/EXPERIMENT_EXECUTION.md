@@ -11,6 +11,24 @@ experiment name for an explicitly recorded CPU evaluation.
 以下命令彼此独立。使用随项目提供的完整权重可跳过训练；使用自己从零训练得到的
 权重时，显式指定相应路径。输出目录不能与数据、源码或已有结果重叠。
 
+## Evaluate the currently completed prediction models
+
+The supplied prediction tables use GIFT-Lite and the applicable baselines.
+Full-data GIFT branches are still training. These commands do not require them:
+
+```shell
+python -m scripts.run_experiment M2 --gift-regimes GIFT-Lite --output ../runs/M2_lite --skip-plots
+python -m scripts.run_experiment M3 --gift-regimes GIFT-Lite --output ../runs/M3_lite --skip-plots
+python -m scripts.run_experiment S1 --gift-regime GIFT-Lite --output ../runs/S1_lite
+python -m scripts.run_experiment S2 --gift-regimes GIFT-Lite --output ../runs/S2_lite
+python -m scripts.run_experiment S3 --gift-regime GIFT-Lite --output ../runs/S3_lite
+```
+
+`--gift-regimes` explicitly selects completed regimes for M2/M3/S2; omitting it
+requires both GIFT and GIFT-Lite. S1/S3 run one `--gift-regime` per command.
+Selection never silently skips a missing requested model or a failed trajectory.
+当前已完成结果可直接重算，不必等待全数据 GIFT；这些命令只做评价，不启动训练。
+
 ## M1: equation identification
 
 Run one method and one condition per command. The packaged GIFT/PINN defaults
@@ -51,9 +69,10 @@ python -m scripts.run_experiment M2 --output ../runs/M2 --skip-plots
 python -m scripts.run_experiment M3 --output ../runs/M3 --skip-plots
 ```
 
-M2 evaluates five methods on 200 trajectories at N64, t = 5–8. M3 evaluates GIFT
-and the two FNO models on the paired 200 trajectories at N64/N96/N128, t = 5–6.
-Both use the three declared GIFT seeds, not one selected seed. These are actual
+M2 evaluates GIFT, GIFT-Lite and four baselines on 180 independent test trajectories
+at N64, t = 5–8. M3 evaluates both GIFT regimes and the two FNO models on the same
+180 paired trajectories at N64/N96/N128, t = 5–6. Public test IDs are 1040–1219.
+Both use all three declared seeds for each GIFT regime, not one selected seed. These are actual
 forward computations from observations and weights, not copies of report tables.
 
 To use newly trained weights, both commands accept `--low-model`, `--fno2d-model`
@@ -61,28 +80,39 @@ and `--fno3d-model`. M2 additionally accepts `--uno-model` (ordinary `.pt` or a
 split `weights.json`) and `--unet-model`. Supply all three GIFT branches using:
 
 ```shell
---gift-model 20260820=/path/to/branch20/gift_seed_20260820.pt --gift-model 20260821=/path/to/branch21/gift_seed_20260821.pt --gift-model 20260822=/path/to/branch22/gift_seed_20260822.pt
+--gift-model 20260820=/path/to/branch20/model.pt --gift-model 20260821=/path/to/branch21/model.pt --gift-model 20260822=/path/to/branch22/model.pt
 ```
 
 The paths must point to the actual completed model exports. The low generator
 must be the prerequisite used to train these branches. Do not mix prerequisites,
 noise conditions, reduced diagnostic budgets or unrelated terminal weights.
+GIFT-Lite defaults to the supplied reduced-data weights. To replace them with
+your own reduced-data training results, use `--lite-low-model` and three repeated
+`--lite-gift-model SEED=PATH` arguments. Full-data defaults live in
+`artifacts/gift_full/`; set `GIFT_CHECKPOINT_ROOT` to use a different checkpoint root.
 
 ## S1, S2 and S3: ablations and seed stability
 
 ```shell
-python -m scripts.run_experiment S1 --output ../runs/S1
+python -m scripts.run_experiment S1 --gift-regime GIFT --output ../runs/S1_GIFT
+python -m scripts.run_experiment S1 --gift-regime GIFT-Lite --output ../runs/S1_GIFT_Lite
+python -m scripts.combine_regime_results --experiment S1 --gift ../runs/S1_GIFT --gift-lite ../runs/S1_GIFT_Lite --output ../runs/S1
 python -m scripts.run_experiment S2 --output ../runs/S2
-python -m scripts.run_experiment S3 --output ../runs/S3
+python -m scripts.run_experiment S3 --gift-regime GIFT --output ../runs/S3_GIFT
+python -m scripts.run_experiment S3 --gift-regime GIFT-Lite --output ../runs/S3_GIFT_Lite
+python -m scripts.combine_regime_results --experiment S3 --gift ../runs/S3_GIFT --gift-lite ../runs/S3_GIFT_Lite --output ../runs/S3
 ```
 
 S1 disables the high-frequency branch of each selected GIFT model; S2 compares
 recursive local correction on/off; S3 reads and evaluates all three trained
 seeds. These commands do not start branch retraining. All accept `--low-model`
-and the same three `--gift-model SEED=PATH` arguments. S2 preserves failures and
+and the same three `--gift-model SEED=PATH` arguments, plus the GIFT-Lite overrides
+above. S1/S3 retain independently resumable runs for each training regime;
+the combination command verifies both completed reports and joins their tables
+without retraining or rerunning inference. S2 evaluates both regimes on one
+common independent test population. It preserves failures and
 reports finite-only summaries separately; a finite-only mean is not a mean over
-the full cohort. Its additional GIFT-only cohort is not held out from the
-prediction baselines' 1,000-trajectory training set.
+the full population. No training trajectories are used as supplementary tests.
 
 ## Recovery, numerical outputs and SVGs
 

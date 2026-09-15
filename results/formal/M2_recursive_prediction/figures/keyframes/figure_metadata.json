@@ -1,7 +1,7 @@
 {
   "schema": "gift.paper-figure.M2.keyframes.v1",
   "status": "complete",
-  "trajectory_id": 1005,
+  "trajectory_id": 1045,
   "absolute_times": [
     5.0,
     6.0,
@@ -10,14 +10,14 @@
   ],
   "input": {
     "record": "raw/predictions.h5",
-    "bytes": 154326238,
-    "sha256": "2C99264E5EE995B18A9A0A215C4997085124C924FB1716D003BFAA0CD43FF5E5"
+    "bytes": 167525309,
+    "sha256": "CD9321210F3F7C313FB9D184E6181DDDC0F567AE4B845748AABACAFA5A1A7755"
   },
   "methods": [
     {
-      "label": "GIFT",
-      "panel_slug": "gift",
-      "formal_group": "GIFT_seed_20260820"
+      "label": "GIFT-Lite",
+      "panel_slug": "gift_lite",
+      "formal_group": "GIFT_Lite_seed_20260820"
     },
     {
       "label": "FNO-2D",
@@ -59,8 +59,8 @@
       "minimum": -21.0,
       "maximum": 21.0
     },
-    "selected_field_maximum_absolute_value": 17.469680786132812,
-    "selected_residual_maximum_absolute_value": 20.178190231323242,
+    "selected_field_maximum_absolute_value": 17.768714904785156,
+    "selected_residual_maximum_absolute_value": 18.389787673950195,
     "field_limit": 19.0,
     "residual_limit": 21.0
   },
@@ -76,7 +76,7 @@
     "arrangement": "scalar_left_residual_right",
     "row_order": [
       "Reference",
-      "GIFT",
+      "GIFT-Lite",
       "FNO-2D",
       "FNO-3D",
       "U-NO",

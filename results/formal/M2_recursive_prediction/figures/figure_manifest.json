@@ -2,62 +2,26 @@
   "status": "complete",
   "evidence": {
     "experiment": "M2",
-    "report_sha256": "3D66DCC928054622F533802FD2CDC4188CCEE20E3F3159E05E1365ABDFDB25FA",
+    "report_sha256": "940115A867534A2C4744DFAE88177DBDEF56AAEB68F3AD95C0A6CCB2F9D635E9",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 7083,
-        "sha256": "E4CFB9425828D4081AA57110390C990F794694C568899E43C4F4D208B7025629"
+        "bytes": 6781,
+        "sha256": "354361F6B18116BE82FB5DEAFE922B7414CAF19FA67F5D98E596D431E96B0613"
       }
     ],
-    "experiment_inputs": {
-      "long_truth": {
-        "bytes": 528835376,
-        "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
-      },
-      "fno_test_data": {
-        "bytes": 2259874675,
-        "sha256": "ED57949D16DE9EB118B91621394D08D41B490A3C233EC708292F8326ACF82BC7"
-      },
-      "low_frequency_model": {
-        "bytes": 398738,
-        "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B"
-      },
-      "gift_models": {
-        "20260820": {
-          "bytes": 11314322,
-          "sha256": "4DA82735537DFFACFC9658DEC6C0F9CA6975F8CA879D8DB75E918C852C6EE93A"
-        },
-        "20260821": {
-          "bytes": 11314322,
-          "sha256": "F684D0293C53A4DC151449E2E6011AF7EBC366D7C5843C852C1A7271E7CB8819"
-        },
-        "20260822": {
-          "bytes": 11314322,
-          "sha256": "4DDBFED318FB40D13E0DAE7F25A3282124C0017C4F2BE04366E570CA9EC87201"
-        }
-      },
-      "fno2d_model": {
-        "bytes": 3724645,
-        "sha256": "D926E22BAE169E51812AB84A21B78D15F4E796BF347B6957CE847F9367692039"
-      },
-      "fno3d_model": {
-        "bytes": 32679041,
-        "sha256": "880708895CF02EE6FBDA11870CADFAFF5B89B2F1D88E483E142E356D73F9DF6B"
-      },
-      "uno_model": {
-        "bytes": 654,
-        "sha256": "6CD0072A2563A90F8045689825BB083C518BED1F315CE670BBC0781331FE5D56"
-      },
-      "unet_model": {
-        "bytes": 99937647,
-        "sha256": "5E41BBFA29BB779B8F3D596E5F1DAC9FF0BB526CFF62BD5E89EFF77D75167086"
-      }
-    }
+    "experiment_inputs": {}
   },
   "details": {
     "metric": "mean per-trajectory relative L2",
-    "trajectory_count": 200,
+    "trajectory_count": 180,
+    "methods": [
+      "GIFT-Lite",
+      "FNO-2D",
+      "FNO-3D",
+      "U-NO",
+      "U-Net"
+    ],
     "gift_seeds": [
       20260820,
       20260821,
@@ -67,14 +31,14 @@
     "curve": "PCHIP visual guide through measured points",
     "y_limits": [
       0.0,
-      1.2995938191371872
+      1.3047869593093075
     ],
     "error_bars": "none",
     "hypothesis_tests": "none"
   },
   "renderer": {
     "path": "plot_mean_error.py",
-    "sha256": "4DB99F8CBA6DE4B3B191CB10EE540983FE320D90F5E8C578F080A65F72D4F097"
+    "sha256": "BCEE31DF4CC624123420FA02BD114AE4E55D540B21A89643D3307A3236B2F053"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -88,24 +52,24 @@
       "editable_text": true,
       "embedded_raster_images": 0,
       "width": "499.186339pt",
-      "height": "232.764907pt"
+      "height": "243.373892pt"
     }
   },
   "files": [
     {
       "path": "mean_relative_l2_vs_time.svg",
-      "bytes": 26925,
-      "sha256": "A6C0283A1F4BFA78D123F3F272A102B0B3BCDA0C8579B008E03110F14953BB4C"
+      "bytes": 26975,
+      "sha256": "0C0F6DB592D6BC4DBFF52E03A9E8478A0537AA6713C0196A4C600640F905DC6E"
     },
     {
       "path": "source_data.csv",
-      "bytes": 1464,
-      "sha256": "BBD76B11C6A6770EC7947260FEB8AD474BF0254288344DA644AA5DD0E1E7501E"
+      "bytes": 1491,
+      "sha256": "A7DDB0EF9242D5A32501B84ECC44600A569FE403997C0FE383D3C41A898B64E0"
     },
     {
       "path": "source_manifest.csv",
       "bytes": 155,
-      "sha256": "A678A8F5E7B121BE00BF84B0A4E3F6D75F4ABD90C6ABA727246844F498A70CE1"
+      "sha256": "C7AF92D76BA02A62EE269FCF2037D3A7A5B51E0317F3B8C4694BD5B2C5839015"
     }
   ]
 }

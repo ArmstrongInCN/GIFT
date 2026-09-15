@@ -32,11 +32,12 @@ plt.rcParams.update({
 })
 SEEDS = (20260820, 20260821, 20260822)
 RESOLUTIONS = (64, 96, 128)
-METHODS = ("GIFT", "FNO-2D", "FNO-3D")
+METHODS = ("GIFT", "GIFT-Lite", "FNO-2D", "FNO-3D")
+GIFT_REGIMES = ("GIFT", "GIFT-Lite")
 H5_GROUP = {"FNO-2D": "FNO_2D", "FNO-3D": "FNO_3D"}
-COLORS = {"GIFT": "#145A96", "FNO-2D": "#737B86", "FNO-3D": "#B66F52", "Truth": "#252525"}
-MARKERS = {"GIFT": "o", "FNO-2D": "s", "FNO-3D": "D"}
-LINESTYLES = {"GIFT": "-", "FNO-2D": (0, (4.0, 2.0)), "FNO-3D": (0, (1.3, 1.5))}
+COLORS = {"GIFT": "#145A96", "GIFT-Lite": "#6CA1C8", "FNO-2D": "#737B86", "FNO-3D": "#B66F52", "Truth": "#252525"}
+MARKERS = {"GIFT": "o", "GIFT-Lite": "o", "FNO-2D": "s", "FNO-3D": "D"}
+LINESTYLES = {"GIFT": "-", "GIFT-Lite": "--", "FNO-2D": (0, (4.0, 2.0)), "FNO-3D": (0, (1.3, 1.5))}
 TEXT_COLOR, NOTE_COLOR, GUIDE_COLOR = "#262626", "#687078", "#E7E9EC"
 
 
@@ -73,12 +74,14 @@ def draw_vector_field(axis, values, *, cmap, vmin, vmax):
 def load_data(result: Path, trajectory_id: int, gift_seed: int) -> dict:
     """Check CSV against raw per-trajectory metrics; do not assert method ranking."""
     frame = pd.read_csv(result / "summary/metrics.csv")
-    frame = frame.loc[(frame["cohort"] == "trajectories_1000_1199") &
+    frame = frame.loc[(frame["cohort"] == "test_1040_1219") &
                       (frame["metric"] == "full_relative_l2")].copy()
     times = 5.0 + np.arange(11) * 0.1
     data = {"times": times, "curves": {}, "curve_seeds": {}, "fields": {},
             "residual_errors": {}, "source_rows": frame}
-    if len(frame) != 3 * 5 * 11 or set(frame["experiment"]) != {"M3"}:
+    frame = frame.loc[frame["method"].isin(METHODS)].copy()
+    data["source_rows"] = frame
+    if len(frame) != 3 * (3 * len(GIFT_REGIMES) + 2) * 11 or set(frame["experiment"]) != {"M3"}:
         raise ValueError("incomplete M3 full-field metric grid")
     with h5py.File(result / "raw/predictions.h5", "r") as handle:
         if handle.attrs.get("schema") != "gift.formal.M3.raw.v2":
@@ -86,24 +89,25 @@ def load_data(result: Path, trajectory_id: int, gift_seed: int) -> dict:
         for resolution in RESOLUTIONS:
             grid = handle[f"N{resolution}"]
             ids = np.asarray(grid["trajectory_ids"], dtype=np.int64)
-            if not np.array_equal(ids, np.arange(1000, 1200)) or not np.allclose(
+            if not np.array_equal(ids, np.arange(1040, 1220)) or not np.allclose(
                 np.asarray(grid["absolute_times"]), times, rtol=0, atol=2e-12
             ):
                 raise ValueError("M3 trajectory IDs or time grid differ")
-            seed_curves = []
+            seed_curves = {name: [] for name in GIFT_REGIMES}
             data["curves"][resolution] = {}
-            groups = [("GIFT", str(seed), f"GIFT_seed_{seed}") for seed in SEEDS]
-            groups += [(method, "fixed", H5_GROUP[method]) for method in METHODS[1:]]
+            groups = [(name, str(seed), f"{name.replace('-', '_')}_seed_{seed}")
+                      for name in GIFT_REGIMES for seed in SEEDS]
+            groups += [(method, "fixed", H5_GROUP[method]) for method in ("FNO-2D", "FNO-3D")]
             for method, seed, name in groups:
                 values = np.asarray(grid[f"{name}/full_relative_l2"], dtype=np.float64)
-                if values.shape != (200, 11) or not np.isfinite(values).all() or (values < 0).any():
+                if values.shape != (180, 11) or not np.isfinite(values).all() or (values < 0).any():
                     raise ValueError("M3 raw metric shape or values differ")
                 subset = frame.loc[(frame["resolution"] == f"N{resolution}") &
                                    (frame["method"] == method) &
                                    (frame["seed"].astype(str) == seed)].sort_values("absolute_time")
                 if len(subset) != 11 or not np.allclose(subset["absolute_time"], times, rtol=0, atol=2e-12):
                     raise ValueError("M3 method/seed/time rows missing or duplicated")
-                if not (subset["population"].eq(200).all() and subset["finite_count"].eq(200).all()):
+                if not (subset["population"].eq(180).all() and subset["finite_count"].eq(180).all()):
                     raise ValueError("M3 population or finiteness differs")
                 statistics = {"mean": values.mean(0), "sample_sd": values.std(0, ddof=1),
                               "median": np.median(values, axis=0), "p95": np.quantile(values, 0.95, axis=0),
@@ -111,12 +115,13 @@ def load_data(result: Path, trajectory_id: int, gift_seed: int) -> dict:
                 for column, calculated in statistics.items():
                     if not np.allclose(subset[column], calculated, rtol=1e-12, atol=1e-12):
                         raise ValueError(f"M3 CSV/raw {column} mismatch")
-                if method == "GIFT":
-                    seed_curves.append(statistics["mean"])
+                if method in seed_curves:
+                    seed_curves[method].append(statistics["mean"])
                 else:
                     data["curves"][resolution][method] = statistics["mean"]
-            data["curve_seeds"][resolution] = np.stack(seed_curves)
-            data["curves"][resolution]["GIFT"] = np.mean(seed_curves, axis=0)
+            data["curve_seeds"][resolution] = {name: np.stack(values) for name, values in seed_curves.items()}
+            for name, values in seed_curves.items():
+                data["curves"][resolution][name] = np.mean(values, axis=0)
         grid = handle["N128"]
         index = np.flatnonzero(np.asarray(grid["trajectory_ids"]) == trajectory_id)
         if len(index) != 1:
@@ -125,7 +130,8 @@ def load_data(result: Path, trajectory_id: int, gift_seed: int) -> dict:
         truth = np.asarray(grid["truth"][row, -1], dtype=np.float32)
         data["fields"]["Reference"] = truth
         for method in METHODS:
-            name = f"GIFT_seed_{gift_seed}" if method == "GIFT" else H5_GROUP[method]
+            name = (f"{method.replace('-', '_')}_seed_{gift_seed}"
+                    if method in ("GIFT", "GIFT-Lite") else H5_GROUP[method])
             field = np.asarray(grid[f"{name}/prediction"][row, -1], dtype=np.float32)
             if field.shape != (128, 128) or not np.isfinite(field).all() or not np.isfinite(truth).all():
                 raise ValueError("M3 example field invalid")
@@ -156,21 +162,15 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
     lead_time = np.asarray(data["times"])[1:] - 5.0
     y_ticks = [0.02, 0.05, 0.1, 0.2, 0.5]
     values = np.concatenate([
-        data["curve_seeds"][grid][:, 1:].ravel() for grid in RESOLUTIONS
+        data["curve_seeds"][grid][name][:, 1:].ravel() for grid in RESOLUTIONS for name in GIFT_REGIMES
     ] + [data["curves"][grid][method][1:] for grid in RESOLUTIONS for method in METHODS])
     scale = error_axis(values, (0.015, 0.55))
 
     for index, (axis, resolution) in enumerate(zip(curve_axes, RESOLUTIONS)):
-        seed_curves = data["curve_seeds"][resolution][:, 1:]
-        axis.fill_between(
-            lead_time,
-            seed_curves.min(axis=0),
-            seed_curves.max(axis=0),
-            color=COLORS["GIFT"],
-            alpha=0.16,
-            linewidth=0,
-            zorder=1,
-        )
+        for name in GIFT_REGIMES:
+            seed_curves = data["curve_seeds"][resolution][name][:, 1:]
+            axis.fill_between(lead_time, seed_curves.min(axis=0), seed_curves.max(axis=0),
+                              color=COLORS[name], alpha=0.16, linewidth=0, zorder=1)
         for method in METHODS:
             values = data["curves"][resolution][method][1:]
             axis.plot(
@@ -237,7 +237,7 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
         0.5,
         0.955,
         r"Trained at $N=64$ only; no target-grid adaptation  ·  "
-        r"$n=200$ paired trajectories  ·  GIFT band, range across three seeds",
+        r"$n=180$ paired trajectories  ·  Shaded bands, range across three seeds",
         ha="center",
         va="top",
         fontsize=6.0,
@@ -273,19 +273,19 @@ def draw_prediction_fields_only(
     fig = plt.figure(figsize=(width_inches, height_inches), facecolor="white")
     grid = fig.add_gridspec(
         2,
-        5,
+        len(METHODS) + 2,
         left=0.052,
         right=0.965,
         bottom=0.115,
         top=0.865,
         height_ratios=(1.0, 1.0),
-        width_ratios=(1.0, 1.0, 1.0, 1.0, 0.045),
+        width_ratios=(*([1.0] * (len(METHODS) + 1)), 0.045),
         hspace=0.10,
         wspace=0.085,
     )
 
     fields = data["fields"]
-    methods = ("GIFT", "FNO-2D", "FNO-3D")
+    methods = METHODS
     residuals = {method: fields[method] - fields["Reference"] for method in methods}
     observed_field_maximum = max(float(np.max(np.abs(value))) for value in fields.values())
     observed_residual_maximum = max(float(np.max(np.abs(value))) for value in residuals.values())
@@ -378,8 +378,8 @@ def draw_prediction_fields_only(
 
     if image_field is None or image_residual is None:
         raise AssertionError("field or residual image was not created")
-    field_color_axis = fig.add_subplot(grid[0, 4])
-    residual_color_axis = fig.add_subplot(grid[1, 4])
+    field_color_axis = fig.add_subplot(grid[0, len(METHODS) + 1])
+    residual_color_axis = fig.add_subplot(grid[1, len(METHODS) + 1])
     colorbar_field = fig.colorbar(image_field, cax=field_color_axis, orientation="vertical")
     colorbar_residual = fig.colorbar(image_residual, cax=residual_color_axis, orientation="vertical")
     for colorbar, limit, title in (
@@ -423,12 +423,18 @@ def draw_prediction_fields_only(
 
 
 def main() -> None:
+    global METHODS, GIFT_REGIMES
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--result-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--trajectory-id", type=int, default=1130)
+    parser.add_argument("--trajectory-id", type=int, default=1150)
     parser.add_argument("--gift-seed", type=int, default=20260820, choices=SEEDS)
+    parser.add_argument("--gift-regimes", nargs="+", choices=("GIFT", "GIFT-Lite"),
+                        default=["GIFT", "GIFT-Lite"],
+                        help="explicit completed regimes; all selected metric rows are required")
     args = parser.parse_args()
+    GIFT_REGIMES = tuple(name for name in GIFT_REGIMES if name in args.gift_regimes)
+    METHODS = (*GIFT_REGIMES, "FNO-2D", "FNO-3D")
     result = args.result_dir.resolve(strict=True)
     evidence = bind_result(result, "M3", ("summary/metrics.csv", "raw/predictions.h5"))
     data = load_data(result, args.trajectory_id, args.gift_seed)
@@ -454,10 +460,10 @@ def main() -> None:
         "smoothing": "none", "grid_cell_display": "vector, upper origin",
         "curve_axes": curve_axes, "t5_anchor_omitted": True,
         "gift_band": "pointwise min/max across three seed-specific trajectory means",
-        "trajectory_count": 200, "baseline_seeds": 1, "hypothesis_tests": "none",
+        "trajectory_count": 180, "baseline_seeds": 1, "hypothesis_tests": "none",
+        "methods": list(METHODS),
     })
 
 
 if __name__ == "__main__":
     main()
-

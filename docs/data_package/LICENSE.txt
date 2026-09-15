@@ -1,0 +1,21 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+知识共享署名 4.0 国际许可协议
+
+Copyright (c) 2026 GIFT dataset contributors.
+
+The project-generated simulation and observation data, sampling designs,
+initial-condition parameters and accompanying metadata in this package are
+licensed under CC BY 4.0:
+https://creativecommons.org/licenses/by/4.0/
+The complete legal terms govern this licence:
+https://creativecommons.org/licenses/by/4.0/legalcode.en
+
+Attribution: GIFT dataset contributors, "GIFT Navier–Stokes input data".
+Provide appropriate credit, retain a link to the licence and indicate changes.
+Use the creator list and DOI of the applicable dataset record when available.
+Software and third-party repositories are distributed separately and remain
+subject to their respective licences; this notice does not relicense them.
+
+本包中的项目生成数据、采样设计、初值参数及配套元数据按 CC BY 4.0 许可。
+复用时应合理署名、提供许可链接并说明修改；以官方完整法律条款为准。
+代码另行分发，第三方软件的许可不因本声明而改变。

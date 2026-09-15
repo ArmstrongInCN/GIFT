@@ -98,12 +98,32 @@ def verify(root, *, full_array_scan=False):
             raise ValueError(f"Size/SHA-256 mismatch: {entry['path']}")
     schema = json.loads((root / "schema.json").read_text(encoding="utf-8"))
     numeric = {name for name in paths if PurePosixPath(name).suffix in (".h5", ".npz")}
-    if set(schema["files"]) != numeric:
+    canonical = manifest.get("data_profile") == "canonical"
+    if canonical:
+        from scripts.prepare_prediction_package import PREDICTION_FILES
+        expected = set(PREDICTION_FILES) | {"prediction/standard_ns_n64_full_spectrum.h5"}
+        if schema.get("schema") != "gift.observation-schema.v1" or set(schema["files"]) != expected or not expected <= numeric:
+            raise ValueError("Canonical observation schema inventory differs")
+    elif set(schema["files"]) != numeric:
         raise ValueError("Numeric schema file inventory differs")
     for relative in sorted(numeric):
         measured = inspect_arrays(root / relative, full=full_array_scan)
-        if measured != schema["files"][relative]:
-            raise ValueError(f"Array shape/dtype inventory mismatch: {relative}")
+        if not canonical:
+            if measured != schema["files"][relative]:
+                raise ValueError(f"Array shape/dtype inventory mismatch: {relative}")
+        elif relative in schema["files"]:
+            import h5py
+            declared = schema["files"][relative]
+            with h5py.File(root / relative, "r") as handle:
+                for name, record in declared.items():
+                    if "trajectory_ids" in record:
+                        if handle[name + "/trajectory_index"][:].tolist() != record["trajectory_ids"]:
+                            raise ValueError("Canonical group trajectory IDs differ")
+                    elif measured.get(name.lstrip("/")) != {key: record[key] for key in ("shape", "dtype")}:
+                        raise ValueError("Canonical scientific array shape/dtype differs")
+            fields = {name for name in measured if name.rsplit("/", 1)[-1] not in ("time", "trajectory_index")}
+            if fields != {name.lstrip("/") for name, record in declared.items() if "shape" in record}:
+                raise ValueError("Canonical scientific array inventory differs")
     total = sum(entry["bytes"] for entry in entries)
     if manifest.get("file_count") != len(entries) or manifest.get("total_bytes") != total:
         raise ValueError("Manifest totals differ")
