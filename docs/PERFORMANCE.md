@@ -31,8 +31,10 @@ state; the checkpoint never depends on a serialized CUDA graph. Changing source
 or switching backends is **not** silently accepted as same-run continuation.
 Existing parameter artifacts remain usable for inference.
 
-断点恢复时保持输出目录、源代码、运行环境及执行后端一致，将 `--run-training`
-替换为 `--resume`。执行图在恢复后重建，不保存设备内存地址。旧源代码产生的
+断点恢复时保持输出目录、源代码、运行环境及执行后端一致。`gift_low`、
+`gift_generator` 和 `gift_predictor` 将 `--run-training` 替换为 `--resume`；
+`gift_branch` 则保留 `--run-training`，另加 `--resume`。
+执行图在恢复后重建，不保存设备内存地址。旧源代码产生的
 训练日志不能通过修改身份校验来冒充当前实现的同次续算；已有模型参数文件
 仍可正常读取。首次图构建计入训练 epoch 耗时，并非免费的训练计算。
 
