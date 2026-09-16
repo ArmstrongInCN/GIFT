@@ -86,7 +86,7 @@ def verify_figures(root, result):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument("--result-dir", type=Path, required=True)
-    parser.add_argument("--experiment", choices=("M1", "M2", "M3", "S1", "S2", "S3"), required=True)
+    parser.add_argument("--experiment", choices=("M1", "M2", "M3", "S1", "S2", "S3", "S4"), required=True)
     parser.add_argument("--figures", type=Path, action="append", default=[])
     args = parser.parse_args(argv)
     result = verify_result(args.result_dir, args.experiment)

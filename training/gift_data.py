@@ -27,7 +27,18 @@ RELEASED_SHA = {
 PROFILE_SOURCES = (
     "training/gift_data.py", "scripts/assemble_generated_data.py",
     "scripts/generate_data.py", "scripts/generate_noise.py", "src/even_full_spectrum_ns.py",
+    "src/gift/prediction_cohorts.py", "src/gift/gaussian_package.py",
+    "src/gift/gaussian_initial.py", "src/gift/canonical_package.py",
 )
+
+
+def input_file(base: Path, condition: str, profile: str) -> Path:
+    """The S4 Lite input has its own IDs and is never an M1 noise condition."""
+    if profile == 'gaussian':
+        if condition != 'noise_000':
+            raise ValueError('S4 contains only clean Gaussian observations, not an M1 noise experiment')
+        return Path(base)/'s4_gaussian/lite.h5'
+    return Path(base)/DATASETS[condition]
 
 
 def validate_input(base: Path, condition: str, profile: str, *, full: bool) -> dict:
@@ -39,6 +50,10 @@ def validate_input(base: Path, condition: str, profile: str, *, full: bool) -> d
     from scripts import generate_data as gen
 
     base = Path(base).resolve(strict=True)
+    if profile == 'gaussian':
+        from gift.gaussian_package import validate_input as validate_gaussian
+        result = validate_gaussian(base, input_file(base, condition, profile), full=full)
+        return dict(result, condition=condition)
     relative = DATASETS[condition]
     path = assembly.checked_file(base, relative)
     if profile == "released":
@@ -136,6 +151,7 @@ def validate_input(base: Path, condition: str, profile: str, *, full: bool) -> d
 def validate_low_prerequisite(payload: dict, training_data: dict, formal_configuration: dict) -> None:
     """Do not let a copied published/tiny/wrong-data low model seed fresh high training."""
     data, config = payload.get("training_data", {}), payload.get("training_configuration", {})
+    expected_ids = list(range(1220, 1270)) if training_data.get('profile') == 'gaussian' else list(range(50))
     def normalize(value):
         return json.loads(json.dumps(value))
     if (payload.get("format_version") != 3 or payload.get("artifact_role") != "trained_generator"
@@ -143,7 +159,7 @@ def validate_low_prerequisite(payload: dict, training_data: dict, formal_configu
             or payload.get("condition", "noise_000") != "noise_000"
             or str(data.get("sha256", "")).lower() != str(training_data.get("sha256", "")).lower()
             or not training_data.get("sha256") or not training_data.get("full_input_checks_performed")
-            or data.get("group") != "training" or data.get("trajectory_ids") != list(range(50))
+            or data.get("group") != "training" or data.get("trajectory_ids") != expected_ids
             or any(normalize(config.get(key)) != normalize(value) for key, value in formal_configuration.items())):
         raise ValueError("low prerequisite is not fresh formal clean training on this exact standard input")
     provenance = data.get("provenance")

@@ -15,6 +15,7 @@ import numpy as np
 import torch
 
 from gift.data_splits import canonical_ids, TRAINING_IDS, CHECKPOINT_VALIDATION_IDS
+from gift.prediction_cohorts import GAUSSIAN, observation_cohort, partitions
 from training.checkpoints import digest_file
 
 DT = 0.02
@@ -58,8 +59,20 @@ class ObservationBank:
             if not fixture and bool(handle.attrs.get("fixture_only", False)):
                 raise ValueError("fixture observations cannot be used for formal training")
             canonical = handle.attrs.get("trajectory_id_scheme") == "canonical"
-            for group, expected in (("training", TRAINING_IDS),
-                                    ("validation", CHECKPOINT_VALIDATION_IDS)):
+            cohort = observation_cohort(handle)
+            selected = partitions(cohort)
+            if cohort == GAUSSIAN and not fixture:
+                from gift.gaussian_package import validate_input
+                provenance = validate_input(path.parent.parent, path, full=False)
+                from gift.canonical_package import _member
+                import json
+                manifest = json.loads(_member(path.parent.parent, "s4_gaussian/manifest.json").read_text(encoding="utf-8"))
+                record = next(row for row in manifest['files'] if row['path'] == path.name)
+                if record['sha256'] != self.binding['sha256']:
+                    raise ValueError("Gaussian observation bytes differ from package")
+                self.binding.update(cohort=cohort, provenance=provenance)
+            for group, expected in (("training", tuple(selected['training'])),
+                                    ("validation", tuple(selected['checkpoint_validation']))):
                 ids = tuple(map(int, handle[f"{group}/trajectory_index"][:]))
                 public = ids if canonical else canonical_ids(ids)
                 raw = handle[f"{group}/vorticity"]

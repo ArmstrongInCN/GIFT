@@ -137,7 +137,7 @@ def save_panel_svg(
 
 
 def load_keyframes(
-    input_path: Path, trajectory_id: int
+    input_path: Path, trajectory_id: int, *, experiment: str = 'M2'
 ) -> tuple[
     np.ndarray,
     dict[str, np.ndarray],
@@ -146,8 +146,8 @@ def load_keyframes(
     list[int],
 ]:
     with h5py.File(input_path, "r") as handle:
-        if handle.attrs.get("schema") != "gift.formal.M2.raw.v2":
-            raise RuntimeError("formal M2 raw-result schema differs")
+        if experiment not in ('M2', 'S4') or handle.attrs.get("schema") != f"gift.formal.{experiment}.raw.v2":
+            raise RuntimeError("formal prediction raw-result schema differs")
         trajectory_ids = np.asarray(handle["trajectory_ids"][:], dtype=np.int64)
         matches = np.flatnonzero(trajectory_ids == trajectory_id)
         if matches.size != 1:
@@ -599,6 +599,7 @@ def main() -> None:
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--trajectory-id", type=int, default=1045)
+    parser.add_argument("--experiment", choices=('M2', 'S4'), default='M2')
     parser.add_argument("--gift-regimes", nargs="+", choices=("GIFT", "GIFT-Lite"),
                         default=["GIFT", "GIFT-Lite"],
                         help="explicit completed regimes; never substitute an unfinished model")
@@ -609,7 +610,7 @@ def main() -> None:
     input_path = args.input.resolve(strict=True)
     if input_path.name != "predictions.h5" or input_path.parent.name != "raw":
         raise ValueError("use the completed experiment's raw/predictions.h5")
-    evidence = bind_result(input_path.parent.parent, "M2", ("raw/predictions.h5", "summary/metrics.csv"))
+    evidence = bind_result(input_path.parent.parent, args.experiment, ("raw/predictions.h5", "summary/metrics.csv"))
     output = args.output_dir.resolve(strict=False)
     if output.exists():
         raise FileExistsError(f"refusing to overwrite output directory: {output}")
@@ -617,7 +618,7 @@ def main() -> None:
     output.mkdir()
 
     truth, predictions, residuals, errors, time_indices = load_keyframes(
-        input_path, args.trajectory_id
+        input_path, args.trajectory_id, experiment=args.experiment
     )
     ranges = verify_color_limits(truth, predictions, residuals)
     field_limit, residual_limit = ranges["field_limit"], ranges["residual_limit"]
@@ -662,7 +663,7 @@ def main() -> None:
     except ValueError:
         input_record = "raw/predictions.h5"
     metadata = {
-        "schema": "gift.paper-figure.M2.keyframes.v1",
+        "schema": f"gift.paper-figure.{args.experiment}.keyframes.v1",
         "status": "complete",
         "trajectory_id": args.trajectory_id,
         "absolute_times": KEY_TIMES.tolist(),

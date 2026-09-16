@@ -74,21 +74,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--seed", type=int, choices=SEEDS)
     parser.add_argument("--low-model", type=Path, help="explicit newly trained frozen P21 prerequisite for this independent branch run")
-    parser.add_argument("--data-profile", choices=("released", "regenerated"), default="released")
+    parser.add_argument("--data-profile", choices=("released", "regenerated", "gaussian"), default="released")
     parser.add_argument("--resume", action="store_true", help="continue only this seed's own saved training run")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--execution", choices=EXECUTION_CHOICES, default="auto", help=EXECUTION_HELP)
     return parser.parse_args()
 
 
+def _expected_lite_ids(handle):
+    from gift.prediction_cohorts import GAUSSIAN, observation_cohort, partitions
+    if observation_cohort(handle) == GAUSSIAN:
+        split = partitions(GAUSSIAN)
+        return [('training', np.asarray(split['gift_lite_training'], dtype=np.int64)),
+                ('validation', np.asarray(split['checkpoint_validation'], dtype=np.int64))]
+    return [('training', np.arange(50, dtype=np.int64)),
+            ('validation', np.arange(50, 70, dtype=np.int64))]
+
+
 def _validate_training_source_metadata(paths: ProjectPaths) -> dict[str, Any]:
     paths.require("standard_n64", "low_model")
     groups: dict[str, Any] = {}
     with h5py.File(paths.standard_n64, "r") as handle:
-        for split, expected_ids in (
-            ("training", np.arange(50, dtype=np.int64)),
-            ("validation", np.arange(50, 70, dtype=np.int64)),
-        ):
+        for split, expected_ids in _expected_lite_ids(handle):
             ids = np.asarray(handle[f"{split}/trajectory_index"][:], dtype=np.int64)
             times = np.asarray(handle[f"{split}/time"][:], dtype=np.float64)
             field = handle[f"{split}/vorticity"]
@@ -182,10 +189,9 @@ def _load_raw_training_data(
 ]:
     paths.require("standard_n64")
     with h5py.File(paths.standard_n64, "r") as handle:
-        training = _build_split(handle, "training", np.arange(50, dtype=np.int64))
-        validation = _build_split(
-            handle, "validation", np.arange(50, 70, dtype=np.int64)
-        )
+        expected = dict(_expected_lite_ids(handle))
+        training = _build_split(handle, "training", expected['training'])
+        validation = _build_split(handle, "validation", expected['validation'])
     return training, validation
 
 
@@ -846,6 +852,10 @@ def branch_training_cost(history):
 def main() -> None:
     args = parse_args()
     paths = ProjectPaths.from_root(args.project_root)
+    if args.data_profile == 'gaussian':
+        from training.gift_data import input_file
+        from gift.paths import data_root
+        paths = replace(paths, standard_n64=input_file(data_root(paths.root), 'noise_000', args.data_profile))
     if paths.root != PROJECT_ROOT:
         raise ValueError("--project-root must identify the code being executed")
     if args.low_model is not None:
@@ -1005,8 +1015,8 @@ def main() -> None:
         },
         "data_protocol": {
             "validated_source_groups": source_groups,
-            "training_ids": [0, 49],
-            "validation_ids": [50, 69],
+            "training_ids": source_groups['training']['trajectory_ids'],
+            "validation_ids": source_groups['validation']['trajectory_ids'],
             "derivative": "fourth-order centred difference, dt=0.02",
             "derivative_centres": "2, 7, ..., 497",
             "training_derivative_samples": 50 * len(DERIVATIVE_CENTRES),

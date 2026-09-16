@@ -20,7 +20,7 @@ for import_root in (PROJECT_ROOT, PROJECT_ROOT / "src"):
         sys.path.insert(0, str(import_root))
 
 from gift.paths import data_root
-from training.gift_data import validate_input
+from training.gift_data import validate_input, input_file
 from training.gift_execution import EXECUTION_CHOICES, EXECUTION_HELP
 from experiments.formal._shared.gift_generator_training import (
     GeneratorTrainingConfig, file_record, inspect_observation_dataset,
@@ -42,7 +42,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     action.add_argument("--resume", action="store_true")
     parser.add_argument("--project-root", type=Path, default=PROJECT_ROOT)
     parser.add_argument("--condition", choices=tuple(DATASETS), default="noise_000")
-    parser.add_argument("--data-profile", choices=("released", "regenerated"), default="released")
+    parser.add_argument("--data-profile", choices=("released", "regenerated", "gaussian"), default="released")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--execution", choices=EXECUTION_CHOICES, default="auto", help=EXECUTION_HELP)
@@ -81,7 +81,7 @@ def _paths(args: argparse.Namespace) -> tuple[Path, Path, Path, str]:
     if root != PROJECT_ROOT:
         raise ValueError("--project-root must identify the code being executed")
     inputs = data_root(root)
-    dataset = inputs / DATASETS[args.condition]
+    dataset = input_file(inputs, args.condition, args.data_profile)
     output = (args.output if args.output is not None else
               root / "runs" / f"gift_low_{args.condition}_seed_{args.seed}").resolve()
     published = root / "artifacts"

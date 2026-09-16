@@ -155,9 +155,40 @@ def adaptation_record() -> dict[str, list[str]]:
     }
 
 
-def main() -> None:
+def gift_endpoint_summary(metrics, family, *, retain_failures=False):
+    """Never present a finite-subset mean as the whole Gaussian test population."""
+    samples = {seed: metrics[regime_group(family, seed)]['full_relative_l2'][:, -1]
+               for seed in SEEDS}
+    if all(np.isfinite(value).all() for value in samples.values()):
+        return seed_summary({seed: float(value.mean()) for seed, value in samples.items()})
+    if not retain_failures:
+        raise ValueError('M2 requires finite endpoint metrics')
+    return {'values': {str(seed): float(value.mean()) if np.isfinite(value).all() else None
+                       for seed, value in samples.items()},
+            'mean': None, 'sample_sd': None, 'coefficient_of_variation_percent': None,
+            'status': 'nonfinite_predictions',
+            'finite_subset_diagnostics': {str(seed): summarize(value) for seed, value in samples.items()}}
+
+
+def main(*, experiment="M2") -> None:
+    if experiment not in ("M2", "S4"):
+        raise ValueError("This numerical protocol supports only M2 and S4")
     args = parse_args()
     paths = ProjectPaths.from_root(args.project_root)
+    gaussian = experiment == "S4"
+    cohort_label = "test_2260_2439" if gaussian else COHORT
+    example_id = 2265 if gaussian else 1045
+    if gaussian:
+        from gift.gaussian_package import DENSE_FILE, validate_input
+        from gift.paths import data_root, checkpoint_root
+        from gift.prediction_cohorts import GAUSSIAN
+        data = data_root(paths.root)
+        observed = data / DENSE_FILE
+        validate_input(data, observed, full=True)
+        artifacts = checkpoint_root(paths.root) / "s4_gaussian"
+        paths = replace(paths, prediction_cohort=GAUSSIAN, standard_n64=observed,
+                        fno_test_dt0p02=observed, fno_training_dt0p02=observed,
+                        fno2d_model=artifacts/'fno2d/model.pt', fno3d_model=artifacts/'fno3d/model.pt')
     if args.low_model is not None:
         paths = replace(paths, low_model=args.low_model.expanduser().resolve(strict=True))
     for name in ("fno2d", "fno3d"):
@@ -166,20 +197,34 @@ def main() -> None:
             paths = replace(paths, **{name + "_model": selected.expanduser().resolve(strict=True)})
     regimes = resolve_regimes(args, paths)
     paths, gift_models = next(iter(regimes.values()))
+    method_configs = tuple(row for row in METHOD_CONFIGS
+                           if row[0] in regimes or row[0] not in ('GIFT','GIFT-Lite'))
     output = (
-        args.output or paths.root / "reproduced_results" / "M2_recursive_prediction"
+        args.output or paths.root / "reproduced_results" / ("S4_initial_distribution" if gaussian else "M2_recursive_prediction")
     )
     device = torch.device(args.device)
 
     uno_path = resolve_input(
-        paths.root, args.uno_model, "artifacts/formal/uno/weights.json"
+        paths.root, args.uno_model, "artifacts/s4_gaussian/uno/weights.json" if gaussian else "artifacts/formal/uno/weights.json"
     )
     unet_path = resolve_input(
         paths.root,
         args.unet_model,
-        "artifacts/formal/unet/unet_terminal_epoch500.pt",
+        "artifacts/s4_gaussian/unet/model.pt" if gaussian else "artifacts/formal/unet/unet_terminal_epoch500.pt",
     )
-    session = start_experiment(args, paths, "M2", output, gift_models,
+    if gaussian:
+        from training.weight_files import load_weights
+        from training.checkpoints import digest_file
+        dense_hash = digest_file(paths.fno_training_dt0p02)
+        for selected in (paths.fno2d_model, paths.fno3d_model, uno_path, unet_path):
+            payload = load_weights(selected)
+            identity = payload.get('run_provenance', {}).get('identity', {})
+            if (payload.get('formal_configuration', {}).get('data_profile') != 'gaussian'
+                    or identity.get('data', {}).get('sha256') != dense_hash
+                    or payload.get('fresh_training') is not True):
+                raise ValueError('S4 requires fresh Gaussian-trained baselines bound to this population')
+            del payload
+    session = start_experiment(args, paths, experiment, output, gift_models,
                                extra_files={"uno_model": uno_path, "unet_model": unet_path,
                                             **extra_regime_files(regimes)})
     output = session.output
@@ -203,7 +248,7 @@ def main() -> None:
     full_finite: dict[str, np.ndarray] = {}
     first_nonfinite: dict[str, np.ndarray] = {}
     gift_runtime: dict[str, Any] = {}
-    for family, seed, group_name in METHOD_CONFIGS:
+    for family, seed, group_name in method_configs:
         if family not in regimes:
             continue
         seed = int(seed)
@@ -224,10 +269,10 @@ def main() -> None:
         predictions[group_name] = result.prediction
         metrics[group_name] = metric_arrays(result.prediction, truth)
         failures = np.asarray(result.failure_step, dtype=np.int32)
-        if not np.all(failures == -1):
+        if not gaussian and not np.all(failures == -1):
             raise RuntimeError(f"{family} seed {seed} produced a failed M2 rollout")
-        full_finite[group_name] = np.ones((len(ids), 150), dtype=bool)
-        first_nonfinite[group_name] = failures
+        full_finite[group_name] = (failures[:,None] < 0) | (np.arange(1,151)[None] < failures[:,None])
+        first_nonfinite[group_name] = np.where(failures < 0, -1, failures-1).astype(np.int32)
         gift_runtime[group_name] = {
             "finite_count_by_time": result.finite_by_time.sum(axis=0)
             .astype(int)
@@ -240,7 +285,8 @@ def main() -> None:
 
     fno2d, fno3d, _, payload3 = load_fno_models(paths, device)
     predictions["FNO_2D"], fno2d_audit = session.call("fno2d", predict_fno2d,
-        fno2d, context, M2_FUTURE_INDICES, device, args.fno2d_batch_size
+        fno2d, context, M2_FUTURE_INDICES, device, args.fno2d_batch_size,
+        **({'trajectory_audit': True} if gaussian else {})
     )
     predictions["FNO_3D"], fno3d_audit, _ = session.call("fno3d", predict_fno3d,
         paths,
@@ -250,17 +296,21 @@ def main() -> None:
         M2_FUTURE_INDICES,
         device,
         args.fno3d_batch_size,
+        **({'trajectory_audit': True} if gaussian else {})
     )
     for method, group_name, audit in (
         ("FNO-2D", "FNO_2D", fno2d_audit),
         ("FNO-3D", "FNO_3D", fno3d_audit),
     ):
         counts = audit["finite_trajectory_count_by_future_step"]
-        if counts != [len(ids)] * 150:
+        if not gaussian and counts != [len(ids)] * 150:
             raise RuntimeError(f"{method} contains a non-finite future field")
         metrics[group_name] = metric_arrays(predictions[group_name], truth)
-        full_finite[group_name] = np.ones((len(ids), 150), dtype=bool)
-        first_nonfinite[group_name] = np.full(len(ids), -1, dtype=np.int32)
+        full_finite[group_name] = (np.asarray(audit['finite_by_trajectory_future_step'],dtype=bool)
+                                   if gaussian else np.ones((len(ids), 150), dtype=bool))
+        first_nonfinite[group_name] = np.asarray([
+            int(np.flatnonzero(~row)[0]) if not row.all() else -1
+            for row in full_finite[group_name]],dtype=np.int32)
     del fno2d, fno3d
     if device.type == "cuda":
         torch.cuda.empty_cache()
@@ -295,20 +345,20 @@ def main() -> None:
     if device.type == "cuda":
         torch.cuda.empty_cache()
 
-    for method, _, group_name in METHOD_CONFIGS:
-        if not full_finite[group_name].all() or not np.all(
+    for method, _, group_name in method_configs:
+        if not gaussian and (not full_finite[group_name].all() or not np.all(
             first_nonfinite[group_name] == -1
-        ):
+        )):
             raise RuntimeError(f"{method} contains a non-finite future field")
 
     with h5py.File(output / "raw" / "predictions.h5", "x") as handle:
-        handle.attrs["schema"] = "gift.formal.M2.raw.v2"
+        handle.attrs["schema"] = f"gift.formal.{experiment}.raw.v2"
         handle.create_dataset("trajectory_ids", data=ids)
         handle.create_dataset("absolute_times", data=times)
         handle.create_dataset(
             "truth", data=truth, compression="gzip", compression_opts=4, shuffle=True
         )
-        for _, _, group_name in METHOD_CONFIGS:
+        for _, _, group_name in method_configs:
             group = handle.create_group(group_name)
             group.create_dataset(
                 "prediction",
@@ -332,11 +382,11 @@ def main() -> None:
 
     metric_rows: list[dict[str, Any]] = []
     raw_rows: list[dict[str, Any]] = []
-    for method, seed, group_name in METHOD_CONFIGS:
+    for method, seed, group_name in method_configs:
         metric_rows.extend(
-            {"cohort": COHORT, **row}
+            {"cohort": cohort_label, **row}
             for row in time_metric_rows(
-                experiment="M2",
+                experiment=experiment,
                 method=method,
                 seed=seed,
                 times=times,
@@ -356,49 +406,44 @@ def main() -> None:
                                 trajectory_index, time_index
                             ]
                         ),
-                        "field_finite": True,
-                        "all_150_future_fields_finite": True,
-                        "first_nonfinite_future_step_zero_based": -1,
+                        "field_finite": bool(np.isfinite(predictions[group_name][trajectory_index,time_index]).all()),
+                        "all_150_future_fields_finite": bool(full_finite[group_name][trajectory_index].all()),
+                        "first_nonfinite_future_step_zero_based": int(first_nonfinite[group_name][trajectory_index]),
                     }
                 )
     write_csv_new(output / "summary" / "metrics.csv", metric_rows)
     write_csv_new(output / "raw" / "per_trajectory_metrics.csv", raw_rows)
 
     key_metrics: dict[str, Any] = {
-        f"{family}_t8": seed_summary(
-            {
-                seed: float(
-                    metrics[regime_group(family, seed)]["full_relative_l2"][:, -1].mean()
-                )
-                for seed in SEEDS
-            }
-        ) for family in regimes
+        f"{family}_t8": gift_endpoint_summary(metrics, family, retain_failures=gaussian)
+        for family in regimes
     }
-    for method, _, group_name in METHOD_CONFIGS:
+    for method, _, group_name in method_configs:
         if method not in regimes:
             key_metrics[f"{method}_t8"] = summarize(
                 metrics[group_name]["full_relative_l2"][:, -1]
             )
     finite_summary = {
-        method: len(ids)
-        for method in ("GIFT", "GIFT-Lite", "FNO-2D", "FNO-3D", "U-NO", "U-Net")
+        method: min(int(full_finite[group].all(axis=1).sum())
+                    for family,_,group in method_configs if family==method)
+        for method in (*regimes, "FNO-2D", "FNO-3D", "U-NO", "U-Net")
     }
     write_json_new(
         output / "summary" / "summary.json",
         {
-            "experiment_id": "M2",
-            "populations": {COHORT: len(ids)},
-            "key_metrics": {COHORT: key_metrics},
+            "experiment_id": experiment,
+            "populations": {cohort_label: len(ids)},
+            "key_metrics": {cohort_label: key_metrics},
             "complete_prediction_finite_count": finite_summary,
         },
     )
 
     report = {
-        "schema": "gift.formal.M2.v5",
+        "schema": f"gift.formal.{experiment}.v5",
         "status": "complete",
-        "experiment": "M2",
+        "experiment": experiment,
         "title": "N64 long-horizon autonomous prediction",
-        "populations": {COHORT: {"trajectory_ids": [int(ids[0]), int(ids[-1])], "count": len(ids)}},
+        "populations": {cohort_label: {"trajectory_ids": [int(ids[0]), int(ids[-1])], "count": len(ids)}},
         "absolute_times": times.tolist(),
         "inputs": {
             "long_truth": file_record(paths.standard_n64, paths.root),
@@ -413,15 +458,15 @@ def main() -> None:
             "unet_model": file_record(unet_path, paths.root),
             "gift_lite": {name: file_record(path, paths.root) for name, path in extra_regime_files(regimes).items()},
         },
-        "summary": {COHORT: key_metrics},
+        "summary": {cohort_label: key_metrics},
         "gift_runtime": gift_runtime,
         "fno_inference": {"FNO-2D": fno2d_audit, "FNO-3D": fno3d_audit},
         "baseline_inference": {
             method: {
-                "finite_trajectory_count_by_future_step": [len(ids)] * 150,
-                "complete_prediction_finite_count": len(ids),
+                "finite_trajectory_count_by_future_step": full_finite[group].sum(axis=0).astype(int).tolist(),
+                "complete_prediction_finite_count": int(full_finite[group].all(axis=1).sum()),
             }
-            for method in ("U-NO", "U-Net")
+            for method,group in (("U-NO","U_NO"),("U-Net","U_Net"))
         },
         "protocol": {
             "dt": 0.02,
@@ -472,7 +517,7 @@ def main() -> None:
             "curve": "shape-preserving piecewise cubic Hermite interpolation through the evaluated points",
             "interpolation_used_for_metrics": False,
             "keyframes": {
-                "trajectory_id": 1045,
+                "trajectory_id": example_id,
                 "absolute_times": [5.0, 6.0, 7.0, 8.0],
                 "source": "raw/predictions.h5",
                 "output_directory": "figures/keyframes",
@@ -507,6 +552,12 @@ def main() -> None:
         ],
     ]
     session.finish()
+    if gaussian:
+        from gift.gaussian_initial import specification
+        report['initial_condition'] = specification()
+        report['comparison_scope'] = 'within each distribution; not cross-distribution generalization'
+        commands = [[sys.executable, '-m', 'experiments.formal.s4_initial_distribution.plot_results',
+                     '--result-dir', str(output), '--output-dir', str(output/'figures')]]
     publish_numeric_then_plot(output, report, [] if args.skip_plots else commands)
 
 

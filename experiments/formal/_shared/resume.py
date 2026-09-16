@@ -198,6 +198,7 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
     """Bind exactly the scientific inputs used by this experiment before reuse."""
     names = {
         "M2": ("standard_n64", "fno_test_dt0p02", "low_model", "fno2d_model", "fno3d_model"),
+        "S4": ("standard_n64", "fno_test_dt0p02", "low_model", "fno2d_model", "fno3d_model"),
         "M3": ("dense_n64", "cross_resolution", "fno_test_dt0p02", "low_model", "fno2d_model", "fno3d_model"),
         "S1": ("standard_n64", "dense_n64", "cross_resolution", "low_model"),
         "S2": ("standard_n64", "low_model"),
@@ -212,7 +213,7 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
     # allows work on M1/PINN without invalidating a completed M2 inference unit.
     entry = {"M2": "m2_recursive_prediction", "M3": "m3_cross_resolution",
              "S1": "s1_high_frequency_branch", "S2": "s2_recursive_local_correction",
-             "S3": "s3_seed_stability"}[experiment]
+             "S3": "s3_seed_stability", "S4": "s4_initial_distribution"}[experiment]
     relative_sources = [f"experiments/formal/{entry}/run.py", "training/checkpoints.py"]
     relative_sources += [f"experiments/formal/_shared/{name}.py"
                          for name in ("common", "gift_runtime", "high_frequency", "resume")]
@@ -221,13 +222,15 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
     if experiment == "S3":
         relative_sources += ["experiments/formal/_shared/equation.py",
                              "experiments/formal/train_gift_branches.py"]
-    if experiment in ("M2", "M3"):
+    if experiment in ("M2", "M3", "S4"):
         relative_sources += ["experiments/formal/_shared/fno_runtime.py",
                              "training/baseline_control.py", "adapters/models.py",
                              "training/budgets.py", "training/weight_files.py",
                              "adapters/__init__.py", "src/even_full_spectrum_ns.py"]
-    if experiment == "M2":
+    if experiment in ("M2", "S4"):
         relative_sources += ["adapters/prediction.py"]
+    if experiment == "S4":
+        relative_sources += ["experiments/formal/m2_recursive_prediction/run.py"]
     source_paths = [paths.root / name for name in relative_sources]
     # Package initializers are executable too, even when currently empty.
     source_paths.extend(path for path in (
@@ -238,9 +241,9 @@ def start_experiment(args: Any, paths: Any, experiment: str, output: Path,
     source_paths.extend(sorted((paths.root / "src" / "gift").rglob("*.py")))
     source = {path.relative_to(paths.root).as_posix(): digest_file(path) for path in source_paths}
     external = {}
-    if experiment in ("M2", "M3"):
+    if experiment in ("M2", "M3", "S4"):
         from adapters.models import source_record
-        for method in (("fno2d", "fno3d", "uno", "unet") if experiment == "M2" else ("fno2d", "fno3d")):
+        for method in (("fno2d", "fno3d", "uno", "unet") if experiment in ("M2", "S4") else ("fno2d", "fno3d")):
             external[method] = source_record(method)
     config = {key: value for key, value in vars(args).items()
               if key not in ("output", "resume", "skip_plots", "project_root")}

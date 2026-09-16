@@ -228,7 +228,7 @@ def runtime_record(torch, device):
     return record
 
 
-def execute(args, plan):
+def execute(args, plan, *, initial_state_builder=None):
     import torch
     from src.even_full_spectrum_ns import (
         EvenFullSpectrumConfiguration, EvenFullSpectrumNSSolver, build_initial_hat,
@@ -275,12 +275,17 @@ def execute(args, plan):
                                 binding_sha256=binding_hash, generated_from="initial_conditions_not_saved_truth",
                                 pilot=plan["pilot"], internal_dt=DT)
             write_generation_metadata(handle, plan, complete=False)
+            if "prediction_cohort" in plan:
+                handle.attrs["prediction_cohort"] = plan["prediction_cohort"]
+                handle.attrs["trajectory_id_scheme"] = "canonical"
+                handle.attrs["initial_condition_json"] = canonical(plan["initial_condition"])
             for group in plan["groups"]:
                 g = handle.create_group(group["name"])
                 g.create_dataset("trajectory_index", data=np.asarray(group["ids"], dtype=np.int64))
                 g.create_dataset("time", data=stored_times(plan, group))
                 parameter_name = "initial_parameters" if group["name"].startswith("N") else "initial_condition_parameters"
-                g.create_dataset(parameter_name, data=np.asarray(group["parameters"], dtype=np.float64))
+                if "parameters" in group:
+                    g.create_dataset(parameter_name, data=np.asarray(group["parameters"], dtype=np.float64))
                 n = group["grid"]
                 g.create_dataset("vorticity", shape=(len(group["ids"]), len(group["steps"]), n, n),
                                  dtype="f4", chunks=(1, 1, n, n), compression="lzf", shuffle=True,
@@ -313,7 +318,8 @@ def execute(args, plan):
                 state = torch.from_numpy(saved_hat).to(device)
                 current = step
             else:
-                state = build_initial_hat(group["parameters"][start:end], grid=n, device=device)
+                state = (build_initial_hat(group["parameters"][start:end], grid=n, device=device)
+                         if initial_state_builder is None else initial_state_builder(group, start, end, device))
                 current = 0
             index = {value: k for k, value in enumerate(group["steps"])}
             while True:

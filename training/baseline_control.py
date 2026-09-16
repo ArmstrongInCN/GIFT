@@ -50,7 +50,7 @@ def _arguments(model: str, argv=None):
     parser.add_argument("--output", type=Path)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--data-file", default=TRAIN_FILE, help="path relative to GIFT_DATA_ROOT")
-    parser.add_argument("--data-profile", choices=("released", "regenerated", "canonical"), default="released",
+    parser.add_argument("--data-profile", choices=("released", "regenerated", "canonical", "gaussian"), default="released",
                         help="canonical: numbered prediction package; released/regenerated: storage-ID input")
     parser.add_argument("--stop-after-epoch", type=int, help="operational pause; does not change total run budget")
     parser.add_argument("--checkpoint-interval", type=int, default=10, help="save every N completed epochs; default 10")
@@ -60,6 +60,8 @@ def _arguments(model: str, argv=None):
     parser.add_argument("--tiny-batch", type=int, default=1)
     parser.add_argument("--tiny-rollout", type=int)
     args = parser.parse_args(argv)
+    if args.data_profile == "gaussian" and args.data_file == TRAIN_FILE:
+        args.data_file = "s4_gaussian/trajectories.h5"
     if args.resume and not args.run_training:
         parser.error("--resume requires --run-training")
     if args.run_training and args.output is None:
@@ -192,14 +194,14 @@ def _regenerated_input(base: Path, path: Path, *, full: bool) -> dict:
 
 def _validate_data(path: Path, config: dict, *, hash_bytes: bool, data_base: Path | None = None) -> dict:
     profile = config.get("data_profile", "released")
-    if profile not in ("released", "regenerated", "canonical"):
+    if profile not in ("released", "regenerated", "canonical", "gaussian"):
         raise ValueError("unknown data profile")
     provenance = None
     if profile == "regenerated":
         if data_base is None:
             raise ValueError("regenerated input requires its explicit collection root")
         provenance = _regenerated_input(data_base, path, full=hash_bytes)
-    elif profile == "canonical":
+    elif profile in ("canonical", "gaussian"):
         if data_base is None:
             raise ValueError("canonical input requires its explicit collection root")
         import sys
@@ -208,7 +210,10 @@ def _validate_data(path: Path, config: dict, *, hash_bytes: bool, data_base: Pat
         local_source = str(ROOT / "src")
         if local_source not in sys.path:
             sys.path.insert(0, local_source)
-        from gift.canonical_package import training_input
+        if profile == "gaussian":
+            from gift.gaussian_package import validate_input as training_input
+        else:
+            from gift.canonical_package import training_input
         provenance = training_input(data_base, path, full=hash_bytes)
     with h5py.File(path, "r") as handle:
         field = handle["training/vorticity"]
@@ -219,12 +224,14 @@ def _validate_data(path: Path, config: dict, *, hash_bytes: bool, data_base: Pat
             raise ValueError("field dtype or available frames differ")
         if config["formal"]:
             expected_ids = (np.arange(1000) if profile == "canonical"
+                            else np.arange(1220, 2220) if profile == "gaussian"
                             else np.r_[np.arange(50), np.arange(1200, 2150)])
             if shape != (1000, 501, 64, 64) or not np.array_equal(handle["training/trajectory_index"][:], expected_ids):
                 raise ValueError("formal training population/shape differs")
             if not np.allclose(handle["training/time"][:], np.arange(501) * 0.02, rtol=0, atol=2e-12):
                 raise ValueError("formal training time axis differs")
-    actual = (provenance["consumed_files"][TRAIN_FILE] if provenance is not None
+    actual = (provenance['sha256'] if profile == 'gaussian' else
+              provenance["consumed_files"][TRAIN_FILE] if provenance is not None
               else digest_file(path)) if hash_bytes else None
     if config["formal"] and profile == "released" and actual is not None and actual != TRAIN_SHA:
         raise ValueError("formal dataset SHA256 differs; no training started")
@@ -442,6 +449,10 @@ def main(model_name: str, argv=None) -> None:
     elif args.data_profile == "canonical":
         identity["sources"].update({relative: digest_file(ROOT / relative) for relative in (
             "src/gift/canonical_package.py", "src/gift/data_splits.py")})
+    elif args.data_profile == "gaussian":
+        identity["sources"].update({relative: digest_file(ROOT / relative) for relative in (
+            "src/gift/gaussian_package.py", "src/gift/gaussian_initial.py",
+            "src/gift/prediction_cohorts.py", "src/gift/canonical_package.py", "src/gift/data_splits.py")})
     network = build_model(model_name, str(device))
     if model_name == "uno":
         _, optimizer_type, criterion_type = uno_components()

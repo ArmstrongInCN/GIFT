@@ -12,7 +12,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 MODULES = dict(M1="m1_equation_identification", M2="m2_recursive_prediction",
                M3="m3_cross_resolution", S1="s1_high_frequency_branch",
-               S2="s2_recursive_local_correction", S3="s3_seed_stability")
+               S2="s2_recursive_local_correction", S3="s3_seed_stability", S4="s4_initial_distribution")
 
 
 def child_environment(experiment, arguments, device, parent=None):

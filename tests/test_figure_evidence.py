@@ -91,7 +91,7 @@ def test_m2_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):
         errors[slug] = (np.linalg.norm(residuals[slug], axis=(1, 2))
                         / np.linalg.norm(truth, axis=(1, 2)))
     monkeypatch.setattr(fields, "load_keyframes",
-        lambda *_: (truth, predictions, residuals, errors, [0, 2, 4, 6]))
+        lambda *_, **__: (truth, predictions, residuals, errors, [0, 2, 4, 6]))
     output = tmp_path / "figures"
     monkeypatch.setattr(sys, "argv", ["plot_keyframes", "--input", str(raw),
                                       "--output-dir", str(output)])

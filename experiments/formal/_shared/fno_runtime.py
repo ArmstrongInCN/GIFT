@@ -95,13 +95,14 @@ def _input_contract(context: np.ndarray, requested, batch_size: int, safe_batche
 
 
 @torch.inference_mode()
-def _predict(model, context, requested, device, batch_size, *, normalizers=None):
+def _predict(model, context, requested, device, batch_size, *, normalizers=None, trajectory_audit=False):
     is3d = normalizers is not None
     population, grid, indices = _input_contract(context, requested, batch_size,
                                                FNO3D_SAFE_BATCH if is3d else FNO2D_SAFE_BATCH)
     output = np.empty((population, len(indices) + 1, grid, grid), dtype=np.float32)
     output[:, 0] = context[:, -1]
     finite_steps = np.zeros(150, dtype=np.int64)
+    trajectory_finite = np.empty((population,150),dtype=bool) if trajectory_audit else None
     finite_values, calls = 0, 0
     for start in range(0, population, batch_size):
         batch = torch.as_tensor(np.ascontiguousarray(np.moveaxis(context[start:start + batch_size], 1, -1)), device=device)
@@ -124,6 +125,8 @@ def _predict(model, context, requested, device, batch_size, *, normalizers=None)
         full = np.moveaxis(prediction.cpu().numpy(), -1, 1)
         finite = np.isfinite(full)
         finite_steps += finite.reshape(len(batch), FUTURE_STEPS, -1).all(2).sum(0)
+        if trajectory_audit:
+            trajectory_finite[start:start+len(batch)] = finite.reshape(len(batch),FUTURE_STEPS,-1).all(2)
         finite_values += int(finite.sum())
         output[start:start + len(batch), 1:] = full[:, indices]
     audit = {"batch_size": batch_size, "batch_count": math.ceil(population / batch_size),
@@ -132,15 +135,17 @@ def _predict(model, context, requested, device, batch_size, *, normalizers=None)
              "finite_value_count": finite_values, "total_value_count": population * FUTURE_STEPS * grid * grid,
              "all_values_finite": bool(np.all(finite_steps == population))}
     audit.update({"non_recursive_calls_per_trajectory": 1, "output_steps_per_call": 150} if is3d else {"recursive_steps_per_trajectory": 150})
+    if trajectory_audit:
+        audit['finite_by_trajectory_future_step'] = trajectory_finite.tolist()
     return output, audit
 
 
-def predict_fno2d(model, context_frames, report_future_indices, device, batch_size):
-    return _predict(model, context_frames, report_future_indices, device, batch_size)
+def predict_fno2d(model, context_frames, report_future_indices, device, batch_size, *, trajectory_audit=False):
+    return _predict(model, context_frames, report_future_indices, device, batch_size, trajectory_audit=trajectory_audit)
 
 
-def predict_fno3d(paths, model, payload, context_frames, report_future_indices, device, batch_size):
+def predict_fno3d(paths, model, payload, context_frames, report_future_indices, device, batch_size, *, trajectory_audit=False):
     first, second, audit = _normalizers(paths, payload, context_frames.shape[-1], device)
     output, inference = _predict(model, context_frames, report_future_indices, device, batch_size,
-                                 normalizers=(first, second))
+                                 normalizers=(first, second), trajectory_audit=trajectory_audit)
     return output, inference, audit

@@ -29,6 +29,7 @@ EXPERIMENTS = {
     "S1": "high_frequency_branch_ablation",
     "S2": "recursive_local_correction_ablation",
     "S3": "random_seed_stability",
+    "S4": "initial_condition_distribution",
 }
 EXPECTED_TEST_IDS = np.arange(1000, 1200, dtype=np.int64)
 
@@ -45,6 +46,7 @@ class ProjectPaths:
     fno_training: Path
     fno_training_dt0p02: Path
     fno_test_dt0p02: Path
+    prediction_cohort: str = "four_vortex"
 
     @classmethod
     def from_root(cls, root: Path) -> ProjectPaths:

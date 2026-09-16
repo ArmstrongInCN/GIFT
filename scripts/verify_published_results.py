@@ -21,6 +21,7 @@ EXPERIMENTS = {
     "M1": "M1_equation_identification", "M2": "M2_recursive_prediction",
     "M3": "M3_cross_resolution", "S1": "S1_high_frequency_branch",
     "S2": "S2_recursive_local_correction", "S3": "S3_seed_stability",
+    "S4": "S4_initial_distribution",
 }
 
 

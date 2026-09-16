@@ -63,6 +63,16 @@
       "result_directory": "results/formal/S3_seed_stability",
       "raw_directory": "results/formal/S3_seed_stability/raw",
       "metrics": "results/formal/S3_seed_stability/summary/metrics.csv"
+    },
+    {
+      "id": "S4",
+      "category": "supporting",
+      "name": "initial_condition_distribution",
+      "title_zh": "初值分布对照",
+      "entrypoint": "experiments/formal/s4_initial_distribution/run.py",
+      "result_directory": "results/formal/S4_initial_distribution",
+      "raw_directory": "results/formal/S4_initial_distribution/raw",
+      "metrics": "results/formal/S4_initial_distribution/summary/metrics.csv"
     }
   ],
   "shared_tools": {
@@ -79,6 +89,7 @@
     "unet_training": "training/train_unet.py",
     "pinn_training": "training/train_pinn.py",
     "m2_mean_error_figure": "experiments/formal/m2_recursive_prediction/plot_mean_error.py",
-    "m2_keyframe_figure": "experiments/formal/m2_recursive_prediction/plot_keyframes.py"
+    "m2_keyframe_figure": "experiments/formal/m2_recursive_prediction/plot_keyframes.py",
+    "s4_figures": "experiments/formal/s4_initial_distribution/plot_results.py"
   }
 }

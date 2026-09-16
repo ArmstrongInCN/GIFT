@@ -52,10 +52,10 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest().upper()
 
 
-def read_source(metrics_path: Path) -> list[dict[str, object]]:
+def read_source(metrics_path: Path, *, cohort: str = COHORT) -> list[dict[str, object]]:
     with metrics_path.open("r", encoding="utf-8-sig", newline="") as stream:
         rows = list(csv.DictReader(stream))
-    selected = [row for row in rows if row["cohort"] == COHORT]
+    selected = [row for row in rows if row["cohort"] == cohort]
     grouped: dict[tuple[str, float], list[dict[str, str]]] = defaultdict(list)
     for row in selected:
         method = row["method"]

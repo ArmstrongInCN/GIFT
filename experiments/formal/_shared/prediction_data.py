@@ -11,10 +11,15 @@ import h5py
 import numpy as np
 
 from gift.data_splits import TEST_IDS, canonical_ids
+from gift.prediction_cohorts import FOUR_VORTEX, GAUSSIAN, observation_cohort, partitions
 
 
-def _observations(path, group, grid):
+def _observations(path, group, grid, *, cohort=FOUR_VORTEX):
     with h5py.File(path, "r") as handle:
+        if observation_cohort(handle) != cohort:
+            raise ValueError("Observation population differs from the declared experiment")
+        if cohort == GAUSSIAN and group == 'N64/test':
+            group = 'test'
         stored = handle[f"{group}/trajectory_index"]
         times = handle[f"{group}/time"]
         raw = handle[f"{group}/vorticity"]
@@ -25,9 +30,10 @@ def _observations(path, group, grid):
             ids = np.asarray(canonical_ids(ids), dtype=np.int64)
         elif len(np.unique(ids)) != len(ids):
             raise ValueError("duplicate canonical prediction identities")
-        rows = np.flatnonzero(np.isin(ids, TEST_IDS))
+        expected_ids = partitions(cohort)['test']
+        rows = np.flatnonzero(np.isin(ids, expected_ids))
         selected = ids[rows]
-        if not np.array_equal(selected, TEST_IDS):
+        if not np.array_equal(selected, expected_ids):
             raise ValueError("independent test population is missing or reordered")
         if raw.dtype != np.dtype("float32") or raw.shape != (len(ids), len(times), grid, grid):
             raise ValueError("prediction observation field schema differs")
@@ -53,7 +59,8 @@ def _positions(times, requested):
 
 
 def load_n64_long(paths):
-    ids, times, fields = _observations(paths.standard_n64, "test", 64)
+    ids, times, fields = _observations(paths.standard_n64, "test", 64,
+                                      cohort=getattr(paths, 'prediction_cohort', FOUR_VORTEX))
     requested = np.arange(5.0, 8.0 + 0.25, 0.5)
     return ids, requested, fields[:, _positions(times, requested)]
 
@@ -81,7 +88,13 @@ def load_cross_resolution(paths):
 def load_fno_test_dt0p02(paths, grid, report_times):
     if grid not in (64, 96, 128):
         raise ValueError("unsupported prediction-test grid")
-    ids, times, fields = _observations(paths.fno_test_dt0p02, f"N{grid}/test", grid)
+    cohort = getattr(paths, 'prediction_cohort', FOUR_VORTEX)
+    ids, times, fields = _observations(paths.fno_test_dt0p02, f"N{grid}/test", grid, cohort=cohort)
+    if cohort == GAUSSIAN:
+        if grid != 64:
+            raise ValueError('S4 defines N64 only, not a new cross-resolution experiment')
+        selected = _positions(times, 4.1 + np.arange(196)*.02)
+        times, fields = times[selected], fields[:,selected]
     frames = 196 if grid == 64 else 96
     if len(times) != frames or not np.allclose(times, 4.1 + np.arange(frames) * 0.02, rtol=0, atol=2e-12):
         raise ValueError("native prediction observation time support differs")

@@ -102,6 +102,24 @@ def verify(root, *, full_array_scan=False):
     if canonical:
         from scripts.prepare_prediction_package import PREDICTION_FILES
         expected = set(PREDICTION_FILES) | {"prediction/standard_ns_n64_full_spectrum.h5"}
+        gaussian_files = {name for name in paths if name.startswith('s4_gaussian/')}
+        if gaussian_files:
+            required_gaussian = {'s4_gaussian/' + name for name in
+                                ('trajectories.h5', 'lite.h5', 'run.json', 'COMPLETE.json', 'manifest.json')}
+            if gaussian_files != required_gaussian:
+                raise ValueError('Gaussian extension inventory differs')
+            from gift.gaussian_package import validate_input
+            from gift.prediction_cohorts import GAUSSIAN, partitions
+            nested = json.loads((root/'s4_gaussian/manifest.json').read_text(encoding='utf-8'))
+            split = json.loads((root/'splits.json').read_text(encoding='utf-8'))
+            if split.get('additional_populations', {}).get(GAUSSIAN) != partitions(GAUSSIAN):
+                raise ValueError('Gaussian extension splits differ')
+            for name in ('trajectories.h5', 'lite.h5'):
+                relative = 's4_gaussian/' + name
+                validate_input(root, root/relative, full=False)
+                if schema['files'].get(relative) != nested['observation_schema'][name]:
+                    raise ValueError('Gaussian extension schema binding differs')
+                expected.add(relative)
         if schema.get("schema") != "gift.observation-schema.v1" or set(schema["files"]) != expected or not expected <= numeric:
             raise ValueError("Canonical observation schema inventory differs")
     elif set(schema["files"]) != numeric:

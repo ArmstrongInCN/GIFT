@@ -113,9 +113,17 @@ common independent test population. It preserves failures and
 reports finite-only summaries separately; a finite-only mean is not a mean over
 the full population. No training trajectories are used as supplementary tests.
 
+## S4: initial-condition distribution
+
+S4 has a separate [initial-condition distribution protocol](S4_PROTOCOL.md),
+Gaussian population and model directory. Use `scripts.run_experiment S4` to
+evaluate those weights; all M2 weight-path overrides apply. Original M2 weights
+are not accepted as Gaussian-trained models. Its paired curve reuses the original
+M2 panel without rerunning M2 inference or training.
+
 ## Recovery, numerical outputs and SVGs
 
-M2/M3/S1/S2/S3 save checksummed numerical calls at method/seed/grid/cohort
+M2/M3/S1/S2/S3/S4 save checksummed numerical calls at method/seed/grid/cohort
 boundaries. Add `--resume` to the identical command with its original output
 directory. Completed calls are verified and reused; an interrupted call repeats.
 Changed source, data, weights or numerical runtime are rejected. Resumption

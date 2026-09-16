@@ -11,12 +11,16 @@ from training.gift_prediction_control import PredictionTrainingConfig, phase_at,
 from training.gift_prediction_data import epoch_indices, observed_pairs, observed_sequences
 
 
-def make_observations(path):
+def make_observations(path, *, gaussian=False):
     rng = np.random.default_rng(881)
     with h5py.File(path, "x") as handle:
         handle.attrs["trajectory_id_scheme"] = "canonical"
         handle.attrs["fixture_only"] = True
-        for name, ids in (("training", [0, 1, 2, 3]), ("validation", [1000, 1001])):
+        if gaussian:
+            handle.attrs['prediction_cohort'] = 'gaussian_s4'
+        groups = (("training", [1220, 1221, 1222, 1223]), ("validation", [2220, 2221])) if gaussian else (
+            ("training", [0, 1, 2, 3]), ("validation", [1000, 1001]))
+        for name, ids in groups:
             group = handle.create_group(name)
             group.create_dataset("trajectory_index", data=np.asarray(ids, dtype=np.int64))
             group.create_dataset("time", data=np.arange(55) * 0.02)
@@ -58,10 +62,11 @@ def test_phase_boundaries_count_total_not_each_phase_twice():
 
 
 @pytest.mark.parametrize("boundary", [1, 2, 3])
-def test_generator_exact_resume_inside_and_across_phases(tmp_path, boundary):
+@pytest.mark.parametrize("gaussian", [False, True])
+def test_generator_exact_resume_inside_and_across_phases(tmp_path, boundary, gaussian):
     torch.set_num_threads(1)
     dataset = tmp_path / "observations.h5"
-    make_observations(dataset)
+    make_observations(dataset, gaussian=gaussian)
     config = PredictionTrainingConfig(generator_phases=(2, 2), branch_phases=(1, 1, 1, 1),
                                       batch_size=3, cutoff=2, rank=2, fixture_only=True)
     full, split = tmp_path / "full", tmp_path / "split"

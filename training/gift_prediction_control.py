@@ -71,6 +71,8 @@ def source_identity():
         "training/gift_prediction_control.py", "training/gift_prediction_data.py",
         "training/train_gift_generator.py",
         "training/checkpoints.py", "src/gift/data_splits.py",
+        "src/gift/prediction_cohorts.py", "src/gift/gaussian_package.py",
+        "src/gift/gaussian_initial.py", "src/gift/canonical_package.py",
         "src/gift/model.py", "src/gift/identifiability.py", "src/gift/identified.py",
         "src/gift/__init__.py",
         "experiments/formal/_shared/gift_generator_training.py",

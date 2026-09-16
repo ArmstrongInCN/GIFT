@@ -161,3 +161,22 @@ inputs retain their own source and numerical identities in each training run.
 
 跨设备不承诺逐比特一致。检验时分别记录文件哈希、数组差异、训练权重和实验指标，
 不能将其中一种核验替代其它层次的验证。
+
+## S4 Gaussian initial-condition population
+
+The independent [S4 protocol](S4_PROTOCOL.md) specifies a smooth Gaussian random
+field and IDs1220–2439, split before training. Generate it with
+`scripts.generate_gaussian_data` and package the completed run with
+`scripts.prepare_gaussian_package`. Neither command reuses model checkpoints.
+To append the verified `s4_gaussian` directory to an existing canonical data
+package, preserve a separate metadata backup:
+
+```shell
+python -m scripts.append_gaussian_package --package ../staging/s4_gaussian --dataset ../gift-data --metadata-backup ../data-metadata-backup
+```
+
+This explicit append copies only new files, updates the root dictionary, splits,
+schema and manifest, and verifies every numeric array. It does not alter any
+existing scientific input. Both destination subdirectory and backup must be new;
+the original license remains CC BY4.0. S4 uses `--data-profile gaussian` for the
+four baselines and GIFT-Lite; full-data GIFT takes the explicit Gaussian dataset.
