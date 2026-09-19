@@ -436,6 +436,15 @@ def draw_composite(
 
     reference_note_axis = figure.add_subplot(grid[0, 6:10])
     reference_note_axis.set_axis_off()
+    reference_note_axis.text(
+        0.50,
+        0.50,
+        "Prediction error is defined for model predictions",
+        ha="center",
+        va="center",
+        fontsize=5.2,
+        color="#777777",
+    )
 
     for row, spec in enumerate(METHODS, start=1):
         slug = str(spec["slug"])
