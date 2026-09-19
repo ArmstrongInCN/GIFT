@@ -146,17 +146,17 @@
     {
       "path": "four_vortex_mean_relative_l2_vs_time.svg",
       "bytes": 28661,
-      "sha256": "534B51390D39479768F7A5FC37B98C1065357410E3C634FD5DFE097F8A061E16"
+      "sha256": "3C6B9C9625DDA5F3C03952AC0EC1E025E0B8D29F0555B8F7EEC5D4D134585B55"
     },
     {
       "path": "gaussian_mean_relative_l2_vs_time.svg",
       "bytes": 28515,
-      "sha256": "EBB6E11E18A107C377825C32D33DC80A3ACA7C338C4C21B1D1421DFA0224A96B"
+      "sha256": "C7D51B25D3491C8C0A708A5190999909F44D4BCFD62166D899AA1403061F52A2"
     },
     {
       "path": "initial_distribution_comparison.svg",
       "bytes": 57750,
-      "sha256": "FA81B2A67F5E3FFC95101B83CE806697016E7F849B7CDEEDC8B43481B5DBD6B1"
+      "sha256": "9A49AF1FB31343061A79683902CB8D2EB3ABF0779868C86C79D4E045EE33DA2C"
     },
     {
       "path": "reference_source_data.csv",

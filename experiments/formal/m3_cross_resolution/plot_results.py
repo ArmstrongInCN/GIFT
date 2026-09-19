@@ -321,7 +321,7 @@ def draw_prediction_fields_only(
     info_axis.text(
         0.50,
         0.60,
-        "Signed residual",
+        "Signed prediction error",
         ha="center",
         va="center",
         fontsize=6.6,

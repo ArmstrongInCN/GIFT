@@ -771,7 +771,7 @@
   },
   "renderer": {
     "path": "plot_parameters.py",
-    "sha256": "5BF53F9CA64807310EF792B092A5F3B37486C24E28A8F94B4BE56ECC565C7AEF"
+    "sha256": "0378E38A3E45C0A47F48231476F7C4C09954ADF4EB4641CB397594544C79DE64"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -784,15 +784,15 @@
     "parameter_identification_ape_vs_noise.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "518.4pt",
-      "height": "208.8pt"
+      "width": "503.947053pt",
+      "height": "190.008pt"
     }
   },
   "files": [
     {
       "path": "parameter_identification_ape_vs_noise.svg",
-      "bytes": 33608,
-      "sha256": "AEE8457AC054BC08FDEC961141E4AB0CCD885E814D30AD44B047A26CDCD0D5E5"
+      "bytes": 33766,
+      "sha256": "62570FF2BB9A3CE8B72C40C4F2A50B0B09E4068CC3F6B6A779B8F4AEDF93EC5F"
     },
     {
       "path": "source_data.csv",

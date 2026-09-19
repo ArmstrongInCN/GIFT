@@ -309,8 +309,10 @@ def main() -> None:
     output.mkdir(parents=True, exist_ok=False)
     frame.to_csv(output / "source_data.csv", index=False)
     figure = draw(frame)
+    # Tight crop, as in the manuscript figure: no surrounding whitespace.
     figure.savefig(output / "parameter_identification_ape_vs_noise.svg", format="svg",
-                   facecolor="white", metadata={"Title": "M1 parameter-identification comparison"})
+                   facecolor="white", bbox_inches="tight", pad_inches=0.0,
+                   metadata={"Title": "M1 parameter-identification comparison"})
     plt.close(figure)
     finish_figures(output, evidence, Path(__file__), {
         "metric": "absolute percentage error", "error_bars": "none",

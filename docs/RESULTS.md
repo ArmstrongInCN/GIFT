@@ -109,7 +109,7 @@ loses 17 of its 180 trajectories to non-finite values after t≈6.9, so its t≥
 values are finite-subset statistics, are marked in the published table, and its
 curve stops at t=6.5. The Gaussian keyframe plate uses a wider ±25 colour scale
 than the ±19 of the four-vortex plate because that trajectory's field and
-residual exceed 19; both scales remain single shared scales per quantity.
+prediction error exceeds 19; both scales remain single shared scales per quantity.
 
 The Gaussian result does not support a claim about an arbitrary initial-condition
 distribution, and the GIFT-Lite loss is reported rather than removed.

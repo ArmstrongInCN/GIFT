@@ -439,7 +439,7 @@ def draw_composite(
     reference_note_axis.text(
         0.50,
         0.50,
-        "Residuals are defined for model predictions",
+        "Prediction error is defined for model predictions",
         ha="center",
         va="center",
         fontsize=5.2,
@@ -494,7 +494,7 @@ def draw_composite(
     figure.text(
         0.5 * (residual_bounds.x0 + residual_bounds.x1),
         0.934,
-        "Residual (prediction − reference)",
+        "Prediction error (prediction − reference)",
         ha="center",
         va="center",
         fontsize=7.0,
@@ -565,7 +565,7 @@ def draw_composite(
         ticks=colour_ticks(residual_norm.vmax),
     )
     residual_bar.set_label(
-        "Residual (prediction − reference)", fontsize=5.4, labelpad=1.3
+        "Prediction error (prediction − reference)", fontsize=5.4, labelpad=1.3
     )
     residual_bar.ax.xaxis.set_label_position("top")
     residual_bar.solids.set_rasterized(False)
@@ -738,7 +738,7 @@ def main() -> None:
             "reference_repeated_in_composite": False,
             "individual_reference_panels_stored_once": True,
             "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",
-            "column_group_titles": ["Scalar field", "Residual (prediction - reference)"],
+            "column_group_titles": ["Scalar field", "Prediction error (prediction - reference)"],
         },
     }
     with (output / "figure_metadata.json").open(
