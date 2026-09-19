@@ -127,7 +127,7 @@
   },
   "renderer": {
     "path": "plot_results.py",
-    "sha256": "0998A4DA73F4C3963E52031FA3FB534417273F64E92296B090720F72BBAC2548"
+    "sha256": "08CFB1487C6EE18EFDF5D79C9F573E2C4BB5716EC99EE349BCAF255D92A9A856"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -142,20 +142,20 @@
       "editable_text": true,
       "embedded_raster_images": 0,
       "width": "526.742591pt",
-      "height": "189.15721pt"
+      "height": "166.501139pt"
     },
     "traj1150_n128_t6_prediction_fields.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "510.410356pt",
+      "width": "499.013608pt",
       "height": "249.384258pt"
     }
   },
   "files": [
     {
       "path": "cross_resolution_mean_relative_l2.svg",
-      "bytes": 64041,
-      "sha256": "1358A013F908C770FE72AE3FFB763255DA3721B70645A88E47D84D37C3889CA2"
+      "bytes": 49486,
+      "sha256": "222865D371D41D03298DB04127CF66383A6AFA821405A383908550E24EB64456"
     },
     {
       "path": "source_data.csv",
@@ -169,8 +169,8 @@
     },
     {
       "path": "traj1150_n128_t6_prediction_fields.svg",
-      "bytes": 29071978,
-      "sha256": "530A76E5EC8035235D908E65452649B5DA5F93AB086DF9A68731212875222BF3"
+      "bytes": 29065522,
+      "sha256": "B9A56DF13DB866A335153E59CF85EF15010D35BF52FCF6D67A10AD85F464713F"
     }
   ]
 }

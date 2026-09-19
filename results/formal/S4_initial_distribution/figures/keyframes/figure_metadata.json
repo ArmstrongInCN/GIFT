@@ -106,7 +106,7 @@
     "individual_reference_panels_stored_once": true,
     "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",
     "column_group_titles": [
-      "Scalar field",
+      "Vorticity field",
       "Prediction error"
     ]
   }

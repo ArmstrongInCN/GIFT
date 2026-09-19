@@ -90,11 +90,11 @@ TRUE_VALUE_LABEL = {
     "gamma": "true value 1",
 }
 
-TEXT_DARK = "#273039"
-TEXT_MID = "#59616A"
-TEXT_LIGHT = "#7A828A"
-GRID = "#D9DEE3"
-SPINE = "#69717A"
+TEXT_DARK = "#262626"
+TEXT_MID = "#262626"
+TEXT_LIGHT = "#262626"
+GRID = "#E7E9EC"
+SPINE = "#262626"
 
 
 def draw(frame: pd.DataFrame) -> plt.Figure:
@@ -186,30 +186,19 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
         ax.spines["bottom"].set_linewidth(0.6)
         ax.spines["left"].set_linewidth(0.6)
 
-        # One editorial header line per panel, as in the manuscript figure:
-        # the italic parameter symbol followed by its true value in parentheses.
+        # One centred header per panel, exactly as in the manuscript figure:
+        # the parameter symbol followed by its true value in parentheses, italic.
         ax.text(
-            0.0,
+            0.5,
             1.055,
-            PARAMETER_SYMBOL[parameter],
+            f"{PARAMETER_SYMBOL[parameter]} ({TRUE_VALUE_LABEL[parameter]})",
             fontstyle="italic",
             transform=ax.transAxes,
-            ha="left",
+            ha="center",
             va="baseline",
             fontsize=9.7,
             fontweight="semibold",
             color=TEXT_DARK,
-            clip_on=False,
-        )
-        ax.text(
-            0.115,
-            1.055,
-            f"({TRUE_VALUE_LABEL[parameter]})",
-            transform=ax.transAxes,
-            ha="left",
-            va="baseline",
-            fontsize=6.3,
-            color=TEXT_LIGHT,
             clip_on=False,
         )
 

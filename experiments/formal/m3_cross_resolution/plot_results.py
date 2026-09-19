@@ -214,35 +214,14 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
             color=TEXT_COLOR,
             clip_on=False,
         )
-        axis.text(
-            0.98,
-            1.04,
-            "in-grid" if resolution == 64 else "zero-shot",
-            transform=axis.transAxes,
-            ha="right",
-            va="bottom",
-            fontsize=5.45,
-            color=NOTE_COLOR,
-            clip_on=False,
-        )
         if index == 0:
-            axis.set_ylabel(r"Mean full-field relative error $L^2$")
+            axis.set_ylabel(r"Mean full-field relative $L^2$ error")
         else:
             axis.tick_params(axis="y", which="both", left=False, labelleft=False)
             axis.spines["left"].set_visible(False)
         clean_axis(axis)
 
     curve_axes[1].set_xlabel(r"Lead time, $\tau=t-5$")
-    fig.text(
-        0.5,
-        0.955,
-        r"Trained at $N=64$ only; no target-grid adaptation  ·  "
-        r"$n=180$ paired trajectories  ·  Shaded bands, range across three seeds",
-        ha="center",
-        va="top",
-        fontsize=6.0,
-        color=NOTE_COLOR,
-    )
     for axis, resolution in zip(curve_axes, RESOLUTIONS):
         for method in METHODS:
             endpoint = float(data["curves"][resolution][method][-1])
@@ -314,7 +293,6 @@ def draw_prediction_fields_only(
         for spine in axis.spines.values():
             spine.set_visible(False)
         field_axes.append(axis)
-    add_panel_label(field_axes[0], "a", x=-0.13, y=1.035)
 
     info_axis = fig.add_subplot(grid[1, 0])
     info_axis.set_axis_off()
@@ -331,22 +309,12 @@ def draw_prediction_fields_only(
     info_axis.text(
         0.50,
         0.43,
-        r"$\Delta\omega=\hat\omega-\omega$",
+        r"$\Delta\omega$",
         ha="center",
         va="center",
         fontsize=6.2,
         color=TEXT_COLOR,
     )
-    info_axis.text(
-        0.50,
-        0.27,
-        "shared scale across methods",
-        ha="center",
-        va="center",
-        fontsize=5.2,
-        color=NOTE_COLOR,
-    )
-    add_panel_label(info_axis, "b", x=-0.05, y=1.035)
 
     residual_axes: list[plt.Axes] = []
     image_residual = None

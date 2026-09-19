@@ -436,15 +436,6 @@ def draw_composite(
 
     reference_note_axis = figure.add_subplot(grid[0, 6:10])
     reference_note_axis.set_axis_off()
-    reference_note_axis.text(
-        0.50,
-        0.50,
-        "Prediction error is defined for model predictions",
-        ha="center",
-        va="center",
-        fontsize=5.2,
-        color="#777777",
-    )
 
     for row, spec in enumerate(METHODS, start=1):
         slug = str(spec["slug"])
@@ -485,7 +476,7 @@ def draw_composite(
     figure.text(
         0.5 * (scalar_bounds.x0 + scalar_bounds.x1),
         0.934,
-        "Scalar field",
+        "Vorticity field",
         ha="center",
         va="center",
         fontsize=7.0,
@@ -543,7 +534,7 @@ def draw_composite(
         orientation="horizontal",
         ticks=colour_ticks(field_norm.vmax),
     )
-    field_bar.set_label("Scalar field, ω", fontsize=5.4, labelpad=1.3)
+    field_bar.set_label("Vorticity field", fontsize=5.4, labelpad=1.3)
     field_bar.ax.xaxis.set_label_position("top")
     field_bar.solids.set_rasterized(False)
     field_bar.ax.tick_params(labelsize=4.6, width=0.5, length=2.0, pad=1.2)
@@ -738,7 +729,7 @@ def main() -> None:
             "reference_repeated_in_composite": False,
             "individual_reference_panels_stored_once": True,
             "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",
-            "column_group_titles": ["Scalar field", "Prediction error"],
+            "column_group_titles": ["Vorticity field", "Prediction error"],
         },
     }
     with (output / "figure_metadata.json").open(

@@ -36,11 +36,11 @@ POPULATION = 180
 
 STYLES = {
     "GIFT": ("#1246D6", "o", "-", 2.5, 10),
-    "GIFT-Lite": ("#19C2F5", "o", "--", 1.8, 9),
-    "FNO-2D": ("#8B3FE0", "s", "--", 1.5, 5),
-    "FNO-3D": ("#00A896", "D", "-.", 1.5, 4),
+    "GIFT-Lite": ("#19C2F5", "o", "-", 1.8, 9),
+    "FNO-2D": ("#8B3FE0", "s", "-", 1.5, 5),
+    "FNO-3D": ("#00A896", "D", "-", 1.5, 4),
     "U-NO": ("#29A82C", "^", "-", 1.8, 8),
-    "U-Net": ("#FF7A00", "v", ":", 1.6, 6),
+    "U-Net": ("#FF7A00", "v", "-", 1.6, 6),
 }
 
 
@@ -214,7 +214,7 @@ def draw(rows: list[dict[str, object]], *, y_limit: float | None = None):
     else:
         axis.yaxis.set_major_locator(MaxNLocator(nbins=6, min_n_ticks=3))
     axis.set_xlabel(r"Time, $t$")
-    axis.set_ylabel(r"Mean relative error $L^2$")
+    axis.set_ylabel(r"Mean relative $L^2$ error")
     axis.tick_params(axis="both", direction="out", length=3.0, width=0.8, pad=2.5)
     axis.spines["left"].set_bounds(0.0, 1.2 if (maximum <= 1.28 and upper <= 1.31) else upper)
     axis.spines["bottom"].set_bounds(5.0, 8.0)
