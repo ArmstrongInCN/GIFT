@@ -58,6 +58,8 @@ PRESET_TICKS = {
 def colour_ticks(limit: float) -> tuple[float, ...]:
     return PRESET_TICKS.get(float(limit), tuple(np.linspace(-limit, limit, 5)))
 FIELD_CMAP = "RdBu_r"
+# Face colour of the tiles that carry no field of their own, as in the manuscript.
+PLACEHOLDER_FACE = "#f6f6f7"
 RESIDUAL_CMAP = "PuOr"
 
 
@@ -434,17 +436,26 @@ def draw_composite(
         axis = figure.add_subplot(grid[0, time_index + 1])
         draw_mesh(axis, truth[time_index], cmap=FIELD_CMAP, norm=field_norm)
 
-    reference_note_axis = figure.add_subplot(grid[0, 6:10])
-    reference_note_axis.set_axis_off()
-    reference_note_axis.text(
-        0.50,
-        0.50,
-        "Prediction error is defined for model predictions",
-        ha="center",
-        va="center",
-        fontsize=5.2,
-        color="#777777",
-    )
+    # The reference row has no prediction error of its own. The manuscript leaves a
+    # placeholder tile in each of that row's prediction-error cells, each carrying
+    # the 0.000 value that a reference-versus-itself comparison would give.
+    for time_index in range(4):
+        placeholder_axis = figure.add_axes(grid[0, time_index + 6].get_position(figure))
+        placeholder_axis.set_xticks([])
+        placeholder_axis.set_yticks([])
+        for spine in placeholder_axis.spines.values():
+            spine.set_visible(False)
+        placeholder_axis.set_facecolor(PLACEHOLDER_FACE)
+        placeholder_axis.text(
+            0.98,
+            0.04,
+            "rel. L2 = 0.000",
+            transform=placeholder_axis.transAxes,
+            ha="right",
+            va="bottom",
+            fontsize=4.6,
+            color="#333333",
+        )
 
     for row, spec in enumerate(METHODS, start=1):
         slug = str(spec["slug"])
