@@ -989,7 +989,768 @@
           "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
         }
       }
-    ]
+    ],
+    "source_measurement": {
+      "experiment": "M1",
+      "status": "numerical_complete",
+      "parameter_rows": 45,
+      "completed_jobs": 15,
+      "numeric_files": [
+        {
+          "path": "summary/metrics.csv",
+          "bytes": 4373,
+          "sha256": "3DDFE74FC088FFF2A0693E8ABD06766C056665A7B249BFF3464CDA5A58527FCB"
+        },
+        {
+          "path": "job_sources.json",
+          "bytes": 30667,
+          "sha256": "6F267378612679D7DB549CC011C3C022451A54478D47A09A551BA73BD4C4175D"
+        }
+      ],
+      "inputs": {
+        "jobs": [
+          {
+            "method": "GIFT",
+            "condition": "noise_000",
+            "identity": {
+              "method": "GIFT",
+              "condition": "noise_000",
+              "data": {
+                "relative_path": "standard_ns_n64_full_spectrum.h5",
+                "bytes": 528835376,
+                "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+              },
+              "checkpoint": {
+                "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B",
+                "bytes": 398738
+              },
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E",
+                "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+                "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+                "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cuda",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "2",
+                  "MKL_NUM_THREADS": "2",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3",
+                "torch": "2.10.0+cu126",
+                "cuda": "12.6",
+                "matmul_tf32": false,
+                "cudnn_tf32": true,
+                "tf32_override": null,
+                "cublas_workspace_config": null,
+                "torch_threads": 2,
+                "gpu": "NVIDIA RTX A5500 Laptop GPU"
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "395BBC83C368AA228975DC18224F38F0B4DAFA0C7D858A6EF623F1F4E67675DE",
+            "files": {
+              "result.json": "E17B874AB898CFC05D3D3A4C4A9C251E2EBD7DBDDC59A1A1B5478958BEA39080",
+              "summary.csv": "66456B60A338993912B9142F024C22421036B770C9642596BA5B6D0C07A45C89",
+              "native_coefficients.csv": "9FC1F48AB51F21515C0710203CC6B8AEBCC54A586D6B3E3753C0E1D1AD04009E"
+            },
+            "readout_or_regression_seconds": 1.9742894999799319
+          },
+          {
+            "method": "PDE-FIND",
+            "condition": "noise_000",
+            "identity": {
+              "method": "PDE-FIND",
+              "condition": "noise_000",
+              "data": {
+                "relative_path": "standard_ns_n64_full_spectrum.h5",
+                "bytes": 528835376,
+                "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+              },
+              "checkpoint": null,
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3"
+              },
+              "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
+            },
+            "completion_sha256": "C49D0C907E5FD3AAE8980D5C062B4AE172FE18C655B793E237946B6DCEB8A380",
+            "files": {
+              "result.json": "6EAC5AEF3F21F8650898C5724F192382FBF4F547F815923F25A892D222220A05",
+              "summary.csv": "E5F21FCF3799FF75A72F1EDE388A5AA1A264CBEADF5657B993396DB263203C13",
+              "native_coefficients.csv": "A9DC3E1F8C61074543C33AB22AA737881147932DB7658BF84AC238F77691A84A"
+            },
+            "readout_or_regression_seconds": 244.70658930001082
+          },
+          {
+            "method": "PDE-FIND-KC",
+            "condition": "noise_000",
+            "identity": {
+              "method": "PDE-FIND-KC",
+              "condition": "noise_000",
+              "data": {
+                "relative_path": "standard_ns_n64_full_spectrum.h5",
+                "bytes": 528835376,
+                "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+              },
+              "checkpoint": null,
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3"
+              },
+              "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
+            },
+            "completion_sha256": "9D2FC0EF9D872F0294A4761A66CE66E75786EB78F507D63758195A3BA2D97EB5",
+            "files": {
+              "result.json": "11A5ED43B6EBBD8AA20D75B8651059ECB0AB301E284F27BBD7A121A96B07A850",
+              "summary.csv": "41691C4D6DEFFFD172769C508A5C68E11DECE918BC89AB44076758A5BAE26720",
+              "native_coefficients.csv": "F976E79519D6A462C1FB91A369E99B8B0F79B6727593E250A6634727C9AE4582"
+            },
+            "readout_or_regression_seconds": 3.3996334000257775
+          },
+          {
+            "method": "PINN-SR",
+            "condition": "noise_000",
+            "identity": {
+              "method": "PINN-SR",
+              "condition": "noise_000",
+              "data": {
+                "relative_path": "standard_ns_n64_full_spectrum.h5",
+                "bytes": 528835376,
+                "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+              },
+              "checkpoint": {
+                "sha256": "22A8EAACDC677E0F25028F23E64376A69D7B460D2927D5CF60E3271BCD18D436",
+                "bytes": 103738,
+                "archive_sha256": "9E57554F94DC11A92F76F035BBB847BC0A9C476183DFB9F870F26D553D57EF07",
+                "mode": "open",
+                "artifact_role": "completed_native_training",
+                "source_data_protocol": {
+                  "data_sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5",
+                  "sampling_sha256": "5D3D0EF4BE9E7DFD03BB23A444BAC837AF3D349D54EF42E20C707D5EF9D0F4C4"
+                }
+              },
+              "sources": {
+                "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                }
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "418224917411F98495309514AF57383798E73B71B76665340DACC1F4CD56EA27",
+            "files": {
+              "result.json": "764376B8AC8A1EAF594AD9EAE4D2092B63BC6E7D71E86AA7491DB19E2AD7EADA",
+              "summary.csv": "8BBC1F2197222748B8480F24B4C69F7C5D6E2F1630B8639150B405E4A73FCEBD",
+              "native_coefficients.csv": "7F74FF2AD6A9C2509941C4A844069EEBCF99A1C800080B2796A4155C6FC03165"
+            },
+            "readout_or_regression_seconds": 1.594623800017871,
+            "training_cost": {
+              "phase_seconds": {
+                "pre_nadam": 792.2768723000049,
+                "pre_lbfgs": 7.145939899999917,
+                "ado_stridge": 243.52697089999992,
+                "ado_nadam": 882.021872999999,
+                "final_mask": 0.0014810000000125,
+                "post_nadam": 3118.2939625999834
+              },
+              "nadam_updates": 31000,
+              "stridge_calls": 6,
+              "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+            }
+          },
+          {
+            "method": "PINN-SR-KC",
+            "condition": "noise_000",
+            "identity": {
+              "method": "PINN-SR-KC",
+              "condition": "noise_000",
+              "data": {
+                "relative_path": "standard_ns_n64_full_spectrum.h5",
+                "bytes": 528835376,
+                "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
+              },
+              "checkpoint": {
+                "sha256": "E89C71A502290C1DD7799A8E1DCCBC40B1ACB6335860C744F992F0F17039CDD2",
+                "bytes": 115265,
+                "archive_sha256": "BEB0016824329C3DFAC5B19CC1411C0346C603222D37B3EBCCFFD06D09C22245",
+                "mode": "known",
+                "artifact_role": "completed_native_training",
+                "source_data_protocol": {
+                  "data_sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5",
+                  "sampling_sha256": "5D3D0EF4BE9E7DFD03BB23A444BAC837AF3D349D54EF42E20C707D5EF9D0F4C4"
+                }
+              },
+              "sources": {
+                "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                }
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "4AF7EC13C09EB04958553B08B2EAA42556AFF1AC37D1234471E4E3FE5A4E30CB",
+            "files": {
+              "result.json": "C2A23915B7DE77560CE6D7B08B5847712F9C60B5C383D86DF0117341403220DC",
+              "summary.csv": "1C1746BC382FFC70CD6B154EB2B355853878A6642D42C5581F6CA6143D99AA7A",
+              "native_coefficients.csv": "502C8AE48206C8853C9EFFFD61A7B0D550C96017D251AB1328F0BED626CAE006"
+            },
+            "readout_or_regression_seconds": 0.9960410000057891,
+            "training_cost": {
+              "phase_seconds": {
+                "pre_nadam": 582.7289616000003,
+                "pre_lbfgs": 4.8869291999999405,
+                "ado_stridge": 15.935116200000039,
+                "ado_nadam": 689.5043372,
+                "final_mask": 0.0017765999998573534,
+                "post_nadam": 2373.8848095000653
+              },
+              "nadam_updates": 31000,
+              "stridge_calls": 6,
+              "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+            }
+          },
+          {
+            "method": "GIFT",
+            "condition": "noise_001",
+            "identity": {
+              "method": "GIFT",
+              "condition": "noise_001",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_001.h5",
+                "bytes": 575065406,
+                "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+              },
+              "checkpoint": {
+                "sha256": "9E3858869EF76F496F7C165EAEA49629EC4990880B21FB0D3C4296B9AE85009C",
+                "bytes": 398034
+              },
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E",
+                "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+                "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+                "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cuda",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "2",
+                  "MKL_NUM_THREADS": "2",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3",
+                "torch": "2.10.0+cu126",
+                "cuda": "12.6",
+                "matmul_tf32": false,
+                "cudnn_tf32": true,
+                "tf32_override": null,
+                "cublas_workspace_config": null,
+                "torch_threads": 2,
+                "gpu": "NVIDIA RTX A5500 Laptop GPU"
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "5C72F2E2F7EB908889CA73A5EB0316A57B8D24022751D6E96831A0492ACB7E65",
+            "files": {
+              "result.json": "AC67DA755351E8C5D748B732FC2661C887D5C36640551DB04D979D81275C0BAC",
+              "summary.csv": "0DC4EE6755A29A8FDD198A967D510657A1582B5A3DB4A41F9BD8E7B9FA97B993",
+              "native_coefficients.csv": "9FC1F48AB51F21515C0710203CC6B8AEBCC54A586D6B3E3753C0E1D1AD04009E"
+            },
+            "readout_or_regression_seconds": 2.029613499995321
+          },
+          {
+            "method": "PDE-FIND",
+            "condition": "noise_001",
+            "identity": {
+              "method": "PDE-FIND",
+              "condition": "noise_001",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_001.h5",
+                "bytes": 575065406,
+                "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+              },
+              "checkpoint": null,
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3"
+              },
+              "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
+            },
+            "completion_sha256": "60EAB1DFCF82B19955FF3635735F77F1D8E447077617B089CC9FD0334AE5594A",
+            "files": {
+              "result.json": "CA8092C416FAE7E835A80415136391C3648D2C63133884B808A469EF76F6BBA4",
+              "summary.csv": "AF7FE785F23D555B423CD408CAB57E953A34D312319BA1FD5A2A2231B6F89E18",
+              "native_coefficients.csv": "D5178A3FC4C4BB21040A9FE75D7F573426182853FA6068EC370F44F53C42B02A"
+            },
+            "readout_or_regression_seconds": 242.83826880005654
+          },
+          {
+            "method": "PDE-FIND-KC",
+            "condition": "noise_001",
+            "identity": {
+              "method": "PDE-FIND-KC",
+              "condition": "noise_001",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_001.h5",
+                "bytes": 575065406,
+                "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+              },
+              "checkpoint": null,
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3"
+              },
+              "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
+            },
+            "completion_sha256": "861FDF47EED05207A5BEAF161EDFE0BF798B02B992B490DB62FAA898DC32012B",
+            "files": {
+              "result.json": "D7079D9D59FFFC69343404935832223C5E33AEA8D87504986BC16CF462E1C0E3",
+              "summary.csv": "B63EFED96F7EDBF9B541BBE9E2F64BDBB7B7B53485492B8F01D8D8286CF2D1D9",
+              "native_coefficients.csv": "CB9E2D93FB4EF65A775699BE319A7CFAC2EDBCBB54903A2F06C3DE9F6B78FAE1"
+            },
+            "readout_or_regression_seconds": 3.6256944000488147
+          },
+          {
+            "method": "PINN-SR",
+            "condition": "noise_001",
+            "identity": {
+              "method": "PINN-SR",
+              "condition": "noise_001",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_001.h5",
+                "bytes": 575065406,
+                "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+              },
+              "checkpoint": {
+                "sha256": "C5F78B8D8FDE40E37E0ECBDC5D8CA11053F063C7DC9D18019F5CC4386131F487",
+                "bytes": 118333,
+                "archive_sha256": "B7837B48300FBE21627CDC176EDCD149AFEDD36D184B93DA598C3C8515BC91FA",
+                "mode": "open",
+                "artifact_role": "completed_native_training",
+                "source_data_protocol": {
+                  "data_sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC",
+                  "sampling_sha256": "091BF97BA7BAB923158B5E5F74DD1469381213EBC169A4BCD2633A52D92D09C3"
+                }
+              },
+              "sources": {
+                "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                }
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "00E1E56117C1DF59F70B9DBB204A50513C3C6BB617820412422905E56220D1EF",
+            "files": {
+              "result.json": "F940825951717BFF990D2B71F1B4B7776F702862C0546F646B1C07247C0952CC",
+              "summary.csv": "DD9D4C554188271718709BCD8DE66A2A68DCC91582BDDC60510CF96483745703",
+              "native_coefficients.csv": "18DE6C5F05ABFD04F1753AA6D8A015EC91B0B5902C6891086BB13733C5353822"
+            },
+            "readout_or_regression_seconds": 1.2760537000140175,
+            "training_cost": {
+              "phase_seconds": {
+                "pre_nadam": 769.897542899998,
+                "pre_lbfgs": 7.885074199999963,
+                "ado_stridge": 314.7411341999998,
+                "ado_nadam": 1456.3404695999957,
+                "final_mask": 0.001497199999903387,
+                "post_nadam": 3096.14208090006
+              },
+              "nadam_updates": 31000,
+              "stridge_calls": 6,
+              "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+            }
+          },
+          {
+            "method": "PINN-SR-KC",
+            "condition": "noise_001",
+            "identity": {
+              "method": "PINN-SR-KC",
+              "condition": "noise_001",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_001.h5",
+                "bytes": 575065406,
+                "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
+              },
+              "checkpoint": {
+                "sha256": "89284AD2E962B6D202FD9514C8E8E1A2200F1F01780BF47A4CEB0CF0849F4ED8",
+                "bytes": 88085,
+                "archive_sha256": "106CADEBCC99C08CA7D4A117186E87A17CF9D46D659E5E266B67ABCCDF1C1F13",
+                "mode": "known",
+                "artifact_role": "completed_native_training",
+                "source_data_protocol": {
+                  "data_sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC",
+                  "sampling_sha256": "091BF97BA7BAB923158B5E5F74DD1469381213EBC169A4BCD2633A52D92D09C3"
+                }
+              },
+              "sources": {
+                "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                }
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "23B7B4ADA26ED5DB6761BCB8C830AA0D679F4429404A3BF867C3864D3FD968EA",
+            "files": {
+              "result.json": "9BA6A1C5847D5E54D72878B460FC0E29BEB8BCA9E5ED8D28F38924C75CA9D174",
+              "summary.csv": "47A86B8B7137D08A1AAF6273273DF9708F2E757B5B2F58A5479163B66BF1EB5C",
+              "native_coefficients.csv": "DB98169681DA69FA331A7D98D863DE2A5AE63B739E4461EBD0793F4F85207D21"
+            },
+            "readout_or_regression_seconds": 1.4298283999669366,
+            "training_cost": {
+              "phase_seconds": {
+                "pre_nadam": 998.0543975999985,
+                "pre_lbfgs": 7.699575999999979,
+                "ado_stridge": 22.74679480000077,
+                "ado_nadam": 1197.2940986999965,
+                "final_mask": 0.0014705000003232271,
+                "post_nadam": 3316.6929633000054
+              },
+              "nadam_updates": 31000,
+              "stridge_calls": 6,
+              "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+            }
+          },
+          {
+            "method": "GIFT",
+            "condition": "noise_010",
+            "identity": {
+              "method": "GIFT",
+              "condition": "noise_010",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_010.h5",
+                "bytes": 575065354,
+                "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
+              },
+              "checkpoint": {
+                "sha256": "7E59BA53E0688D60F8CED0BC885CE84E57848925FAB7EFB1BDE5814FDDCCFC0F",
+                "bytes": 392978
+              },
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E",
+                "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+                "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
+                "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cuda",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "2",
+                  "MKL_NUM_THREADS": "2",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3",
+                "torch": "2.10.0+cu126",
+                "cuda": "12.6",
+                "matmul_tf32": false,
+                "cudnn_tf32": true,
+                "tf32_override": null,
+                "cublas_workspace_config": null,
+                "torch_threads": 2,
+                "gpu": "NVIDIA RTX A5500 Laptop GPU"
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "54785622BE5BFA92A37F78AB717383ACE9ADA207C69E76B48432DF23C1164200",
+            "files": {
+              "result.json": "C9E0C634F0F3C4C231213F62B82A7EF489D50418C52AA1E4B1BBB9DFEE5AB54D",
+              "summary.csv": "1265E1EAE3612FE70B127DA5DBE447729FAFE727FB931A26FDEAC09E55601412",
+              "native_coefficients.csv": "9FC1F48AB51F21515C0710203CC6B8AEBCC54A586D6B3E3753C0E1D1AD04009E"
+            },
+            "readout_or_regression_seconds": 2.0202720999950543
+          },
+          {
+            "method": "PDE-FIND",
+            "condition": "noise_010",
+            "identity": {
+              "method": "PDE-FIND",
+              "condition": "noise_010",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_010.h5",
+                "bytes": 575065354,
+                "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
+              },
+              "checkpoint": null,
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3"
+              },
+              "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
+            },
+            "completion_sha256": "B5B2993FF31B5F760EA8BD1FB497C1A2FC100C498AEF891C9C480677EB4B538B",
+            "files": {
+              "result.json": "A30D59C11CAF0F15E6985EEA5CB0D5DCE9E7A709FB4FA325D8B1EE2F0FD80C9A",
+              "summary.csv": "0A6EE5F88300D78A4B702E9D83B2B15EBAD0D1A3A862E9BDF5AF88CC559919B9",
+              "native_coefficients.csv": "12837419892998BDE0B961F6A2AE2A0DB58B102BECC710702CCF10B8822C05B1"
+            },
+            "readout_or_regression_seconds": 243.38909259997308
+          },
+          {
+            "method": "PDE-FIND-KC",
+            "condition": "noise_010",
+            "identity": {
+              "method": "PDE-FIND-KC",
+              "condition": "noise_010",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_010.h5",
+                "bytes": 575065354,
+                "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
+              },
+              "checkpoint": null,
+              "sources": {
+                "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                },
+                "scipy": "1.15.3"
+              },
+              "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
+            },
+            "completion_sha256": "04A7CC26C753DD1FEA2800C77CF8E83A43DD65605217210172E7475DD4A36083",
+            "files": {
+              "result.json": "2772FDC83EEB1E14EA37D4D396CE020BF30871CB6CA2907528104730D57BD66B",
+              "summary.csv": "FE00E77AB5C1965D655F2E5A5CC0A963C1B814D77042B439D0EC6C0D917DF857",
+              "native_coefficients.csv": "FF976EA179FBEADF65AAFC8E99D3351ACB3C41229816FDE6E50926BB60FED5A2"
+            },
+            "readout_or_regression_seconds": 3.8610048000118695
+          },
+          {
+            "method": "PINN-SR",
+            "condition": "noise_010",
+            "identity": {
+              "method": "PINN-SR",
+              "condition": "noise_010",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_010.h5",
+                "bytes": 575065354,
+                "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
+              },
+              "checkpoint": {
+                "sha256": "905F2D922C6FC20AB8AF783BF22A0F668B7C58A30D7AA8CE7691C1F5B540D259",
+                "bytes": 84225,
+                "archive_sha256": "1066B4B23081ECA7DEB993C91632F5B5A12BBC325C6C35E633C2BC5EF2936BB5",
+                "mode": "open",
+                "artifact_role": "completed_native_training",
+                "source_data_protocol": {
+                  "data_sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC",
+                  "sampling_sha256": "86E993B6F70F11401F1BB40DEC11F6AC1BCC76CB62613F6F382FB4C8DB8B0D76"
+                }
+              },
+              "sources": {
+                "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                }
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "DBB4AAFE2A12C00C3DE0715AC42A0C2FCEFABB7DF53E65566DEC743E66A0E228",
+            "files": {
+              "result.json": "64403CF0664438909A2173F09C65D05B22D78A939C8CF6FE64131E1C78B7CCD2",
+              "summary.csv": "C1DF3C6C0DD9F39777C23702645F6EADF87E7F5B88406AEC35AFDDDA37992279",
+              "native_coefficients.csv": "D275E9C910844AE79E8709E6E4037B5C5E0CF2AD076EDBD3C32ADFA6F624993E"
+            },
+            "readout_or_regression_seconds": 1.243435500015039,
+            "training_cost": {
+              "phase_seconds": {
+                "pre_nadam": 767.7414743999997,
+                "pre_lbfgs": 7.270984699999985,
+                "ado_stridge": 233.6667603999997,
+                "ado_nadam": 883.2465414999976,
+                "final_mask": 0.0014922999998816522,
+                "post_nadam": 3067.885450900022
+              },
+              "nadam_updates": 31000,
+              "stridge_calls": 6,
+              "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+            }
+          },
+          {
+            "method": "PINN-SR-KC",
+            "condition": "noise_010",
+            "identity": {
+              "method": "PINN-SR-KC",
+              "condition": "noise_010",
+              "data": {
+                "relative_path": "m1_parameter_identification/noise_010.h5",
+                "bytes": 575065354,
+                "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
+              },
+              "checkpoint": {
+                "sha256": "1CD1456E4E11C9102C6AE817AC86EE260B4315C575BE660D5BB46CA138056A99",
+                "bytes": 88089,
+                "archive_sha256": "3ECA9A97588FC6E472F1FBEE99D8C6D4B165BC94F26DC1533EAE8848EBEBECC9",
+                "mode": "known",
+                "artifact_role": "completed_native_training",
+                "source_data_protocol": {
+                  "data_sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC",
+                  "sampling_sha256": "86E993B6F70F11401F1BB40DEC11F6AC1BCC76CB62613F6F382FB4C8DB8B0D76"
+                }
+              },
+              "sources": {
+                "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
+                "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              },
+              "runtime": {
+                "python": "3.10.19",
+                "numpy": "2.2.6",
+                "device": "cpu",
+                "thread_environment": {
+                  "OMP_NUM_THREADS": "1",
+                  "MKL_NUM_THREADS": "1",
+                  "OPENBLAS_NUM_THREADS": "1"
+                }
+              },
+              "upstream_sha256": null
+            },
+            "completion_sha256": "1B0AB7FDC3B231EA339710869DE78C4C2385AEAC3CEC03C67DB41A10AC726E42",
+            "files": {
+              "result.json": "9A8BA7CCB7F6BA800F4CE6CEBC13EA63D37D212E2DDC6F666B4B8D6EB2EF9D64",
+              "summary.csv": "9EF6B921C4794CADCA637506C84906F19F7A34EB9162F808D422AE5E721CA0DF",
+              "native_coefficients.csv": "F74EAE5EE9A080F405884E15CB1BB25EE7C244020B78D399EAD00E01BC145E0D"
+            },
+            "readout_or_regression_seconds": 1.239120299986098,
+            "training_cost": {
+              "phase_seconds": {
+                "pre_nadam": 562.1634105000069,
+                "pre_lbfgs": 5.062512699999957,
+                "ado_stridge": 19.159864199999674,
+                "ado_nadam": 665.0252588999999,
+                "final_mask": 0.001470599999947808,
+                "post_nadam": 2274.5778518999914
+              },
+              "nadam_updates": 31000,
+              "stridge_calls": 6,
+              "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+            }
+          }
+        ]
+      },
+      "aggregation_source_sha256": "90EA3FA6162AAEE180F5EB2DF6BD9FCD18DB593A3E8DEC7FFA8DB11465092F6D",
+      "training_executed": false,
+      "inference_executed": false,
+      "reference": {
+        "nu": 0.01,
+        "beta": 1.0,
+        "gamma": 1.0
+      },
+      "statistic": "one estimate per method/condition; absolute percentage error",
+      "method_ranking_required": false
+    }
   },
   "figure_directories": [
     "figures"
@@ -1004,7 +1765,7 @@
     {
       "path": "figures/parameter_identification_ape_vs_noise.svg",
       "bytes": 33608,
-      "sha256": "DAF66D49B884286E75C1772F06272C2071A0FC5E703FA564C2C9D0C6E4588A49"
+      "sha256": "AEE8457AC054BC08FDEC961141E4AB0CCD885E814D30AD44B047A26CDCD0D5E5"
     },
     {
       "path": "figures/source_data.csv",
@@ -1014,7 +1775,7 @@
     {
       "path": "figures/figure_manifest.json",
       "bytes": 35338,
-      "sha256": "AB1E41741CBA1FBBCD2D841B6338813E43F9B958E6C7D6D2D200AD9CC5732F88"
+      "sha256": "01AFF551B51538847D4B341474DBD06F1D3F5250D0F7CB81537FBDE1FE5ACB58"
     }
   ]
 }

@@ -37,7 +37,7 @@ def pair_vectors(left: Path, right: Path, output: Path):
                           viewBox=f'0 0 {width} {height}', version='1.1')
     x = 0.
     for index, (panel, box, title) in enumerate(zip(panels, boxes,
-            ('a  Four-vortex initial conditions (M2)', 'b  Gaussian random-field initial conditions (S4)'))):
+            ('a  Four-vortex initial conditions', 'b  Gaussian random-field initial conditions'))):
         label = ET.SubElement(document, f'{{{SVG}}}text', x=str(x + 8), y='13',
                               style='font-family:Arial,sans-serif;font-size:9px;font-weight:bold')
         label.text = title
@@ -58,8 +58,9 @@ def pair_vectors(left: Path, right: Path, output: Path):
     with output.open('xb') as stream:
         ET.ElementTree(document).write(stream, encoding='utf-8', xml_declaration=True)
     verify_svg(output)
-    return {'width_pt': width, 'height_pt': height, 'reference_panel_modified': False,
-            'operation': 'vector translation and unique ID prefixes only'}
+    return {'width_pt': width, 'height_pt': height,
+            'operation': 'both panels drawn by the same renderer with one shared '
+                         'vertical range, then placed by vector translation with unique ID prefixes'}
 
 
 def incomplete_population_note(source):
@@ -102,8 +103,14 @@ def main(argv=None):
     curve_dir = output/'curves'
     curve_dir.mkdir()
     source = read_source(args.result_dir/'summary/metrics.csv', cohort='test_2260_2439')
+    reference_source = read_source(reference/'summary/metrics.csv')
     write_source(curve_dir/'source_data.csv', source)
-    figure = draw(source)
+    # One shared vertical range for both distributions, taken from whichever panel
+    # needs the most room, so neither is clipped and the two read on one scale.
+    peak = max(float(row['mean_relative_l2']) for row in (*source, *reference_source))
+    shared_limit = max(1.28, 1.08 * peak)
+    import matplotlib.pyplot as plt
+    figure = draw(source, y_limit=shared_limit)
     notes, detail = incomplete_population_note(source)
     if notes:
         figure.axes[0].text(0.03, 0.97, '\n'.join(notes + ['finite counts ' + '; '.join(detail)]),
@@ -112,16 +119,25 @@ def main(argv=None):
     right = curve_dir/'gaussian_mean_relative_l2_vs_time.svg'
     figure.savefig(right, bbox_inches='tight')
     limits = list(figure.axes[0].get_ylim())
-    import matplotlib.pyplot as plt
     plt.close(figure)
-    left = reference/'figures/mean_relative_l2_vs_time.svg'
+    # The four-vortex panel is redrawn from the published M2 metrics by the same
+    # renderer on the shared range. No M2 value is changed or recomputed; only the
+    # vertical extent and the panel heading differ from the published M2 figure.
+    reference_figure = draw(reference_source, y_limit=shared_limit)
+    left = curve_dir/'four_vortex_mean_relative_l2_vs_time.svg'
+    reference_figure.savefig(left, bbox_inches='tight')
+    plt.close(reference_figure)
     layout = pair_vectors(left, right, curve_dir/'initial_distribution_comparison.svg')
     # Include exact original numbers, not a new measurement or a refitted model.
-    write_source(curve_dir/'reference_source_data.csv', read_source(reference/'summary/metrics.csv'))
+    write_source(curve_dir/'reference_source_data.csv', reference_source)
     finish_figures(curve_dir, evidence, Path(__file__), {
-        'reference': {'experiment': 'M2', 'published_manifest_sha256': sha256(reference/'published.json'),
-                      'curve_sha256': sha256(left), 'reuse': 'left panel, unchanged scientific content'},
-        'layout': layout, 'gaussian_y_limits': limits, 'population_per_distribution': 180,
+        'reference': {'experiment': 'M2',
+                      'published_manifest_sha256': sha256(reference/'published.json'),
+                      'published_metrics_sha256': sha256(reference/'summary/metrics.csv'),
+                      'reuse': 'left panel redrawn from the published M2 metrics with the same '
+                               'renderer and the shared vertical range; M2 numbers unchanged '
+                               'and M2 not recomputed'},
+        'layout': layout, 'shared_y_limits': limits, 'population_per_distribution': 180,
         'training_seeds_per_gift_regime': 3, 'baseline_models_per_method': 1,
         'comparison': 'within-distribution training and testing; not distribution transfer',
         'failed_trajectories_omitted': False, 'error_bars': 'none', 'hypothesis_tests': 'none',

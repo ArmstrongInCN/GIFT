@@ -39,7 +39,10 @@ def test_vector_composition_preserves_sources_and_separates_ids(tmp_path):
     root = ET.parse(target).getroot()
     ids = [item.get('id') for item in root.iter() if item.get('id')]
     assert ids == ['panel0_clip', 'panel1_clip']
-    assert len(ids) == len(set(ids)) and not result['reference_panel_modified']
+    # Both panels are placed by vector translation with unique ID prefixes, so the
+    # sources are never redrawn or rewritten by composition.
+    assert len(ids) == len(set(ids))
+    assert 'translation' in result['operation'] and 'vector' in result['operation']
     with pytest.raises(FileExistsError):
         pair_vectors(left, right, target)
 

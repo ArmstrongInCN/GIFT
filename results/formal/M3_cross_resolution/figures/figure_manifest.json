@@ -2,7 +2,7 @@
   "status": "complete",
   "evidence": {
     "experiment": "M3",
-    "report_sha256": "8DDECC67DB48B5E444B6880248E815AED0312AFC7413295BA21340FED6845715",
+    "report_sha256": "0C36BBB5940F3FDFDF8A4B345C9956BCC59197DA4B5400C6EE3D5BF6C2C0CD06",
     "sources": [
       {
         "path": "summary/metrics.csv",
@@ -127,7 +127,7 @@
   },
   "renderer": {
     "path": "plot_results.py",
-    "sha256": "0E3CC903E7855D2D004B1FB0B77E2C30371F5EA16EBBBAC3ACAA7A1CB496F728"
+    "sha256": "1772CF9B8E4E779499214CA344DD539E152526F38EFD7FD424889036045880EE"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -155,7 +155,7 @@
     {
       "path": "cross_resolution_mean_relative_l2.svg",
       "bytes": 64044,
-      "sha256": "0064C7C7B998C8F84B50DE85F49B5FC327DB45145B007F1A10BA4C023B5B04DE"
+      "sha256": "404A73989591CC491964BDE77C3BF34D23617917E9065A472CADEE81FB948AD7"
     },
     {
       "path": "source_data.csv",
@@ -170,7 +170,7 @@
     {
       "path": "traj1150_n128_t6_prediction_fields.svg",
       "bytes": 29071979,
-      "sha256": "C899B2AC32DC1736D49D9FE03CAACC8D996FC6EEA31508E18B79AA3FA7E92C6D"
+      "sha256": "13E214CF83244DE86FE6A1AE835A2E736256234A6CEFE459EFF574F13D5E33B1"
     }
   ]
 }

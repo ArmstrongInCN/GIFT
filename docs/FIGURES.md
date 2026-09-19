@@ -2,7 +2,7 @@
 
 All eight figure placements referenced by the experiment document are generated from numerical results using Python/matplotlib and exported as SVG; they resolve to seven published files because the S4 section reuses the published M2 keyframe plate unchanged. Plotting does not train a model or select a checkpoint. It can be rerun independently after numerical experiments finish.
 
-实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节直接引用已发布的 M2 场图原文件，未重新生成。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。扩大共享色限时必须在正文中说明，S4 高斯场图即为实例。若某个方法在部分报告时刻不再具备完整测试总体，其曲线应在最后一个完整时刻收住并在图内注明，不得用有限子集数值冒充全体。M1 图像不变。
+实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节左幅改用同一作图程序按已发布的 M2 汇总数据重绘（M2 数值不变、不重算），以便与右幅共用同一纵轴。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。色限是按初值分布预设的固定常数：四涡旋沿用正文图所用的 ±19 / ±21，高斯分布预设为 ±25；预设范围会裁切所选关键帧时渲染器直接拒绝出图，不伸缩色标，也不在正文中事后改口。M1 图像不变。
 
 | Figure | Evidence and layout | Statistics / selection |
 | --- | --- | --- |
@@ -11,8 +11,8 @@ All eight figure placements referenced by the experiment document are generated 
 | M2 keyframes | Scalar fields and signed residuals in aligned blocks, with separate GIFT and GIFT-Lite rows | Prespecified test trajectory 1045, seed 20260820, t = 5, 6, 7, 8; no averaging of prediction fields |
 | M3 mean error | Three temporal-error panels for N64, N96 and N128, 183 × 72 mm nominal canvas | Same 180 paired trajectories; each GIFT band's pointwise range spans three seed means, not a confidence interval; each baseline uses one model |
 | M3 fields | Reference/prediction row and aligned signed residuals, with separate GIFT and GIFT-Lite columns | Prespecified test trajectory 1150, seed 20260820, N128, t = 6; not selected by the newly measured errors |
-| S4 initial-distribution comparison | Two M2-style curve panels side by side; the left panel is the published M2 SVG reused by vector translation and ID de-duplication only, the right panel is the new Gaussian measurement | 180 trajectories per distribution; each GIFT regime averages three seed-specific trajectory means; one model per baseline; the GIFT-Lite curve stops at t=6.5 because later report times retain fewer than 180 finite trajectories, and that is annotated on the panel |
-| S4 keyframes | Same block layout as the M2 keyframe plate; prespecified Gaussian test trajectory 2265 | Prespecified trajectory 2265, seed 20260820, t = 5, 6, 7, 8; one shared colour scale per quantity at ±25, wider than the ±19 that sufficed for trajectory 1045, disclosed in the caption and recorded in `figure_manifest.json` |
+| S4 initial-distribution comparison | Two panels drawn by the same renderer on one shared vertical range, then placed side by side | 180 trajectories per distribution; each GIFT regime averages three seed-specific trajectory means; one model per baseline; the left panel is redrawn from the published M2 summary values with M2 numbers unchanged and M2 not recomputed; the GIFT-Lite curve stops at t=6.5 because later report times retain fewer than 180 finite trajectories, and that is annotated on the panel |
+| S4 keyframes | Same block layout as the M2 keyframe plate; prespecified Gaussian test trajectory 2265 | Prespecified trajectory 2265, seed 20260820, t = 5, 6, 7, 8; one shared colour scale per quantity at the prespecified ±25 for this population, wider than the paper's ±19 because trajectory 2265 reaches about 24.06, recorded in `figure_manifest.json` |
 
 ## Data and image integrity
 
@@ -20,7 +20,7 @@ All eight figure placements referenced by the experiment document are generated 
 - Keep CSV/NPZ source data and SHA-256 provenance with each figure. Record the rendering script and experiment's model/data identities; do not mix runs when assembling a document.
 - Selected field arrays use `source_fields.npz`. Figure folders contain SVG, numeric CSV/NPZ and JSON records; plotting code and instructions remain in the project's source and documentation directories. `figure_manifest.json` binds the final exported bytes after SVG display hints are applied.
 - Reject missing or duplicate method/seed/time combinations and non-finite values. Do not drop a failed method or a difficult trajectory to obtain a figure.
-- Keep existing axis/color limits when all values fit. If needed, expand a shared limit for all methods; never clip, normalize each method separately or change the underlying arrays to preserve appearance.
+- Colour limits are prespecified constants, one pair per initial-condition population, and are never fitted to the plotted trajectory. Keep an existing shared limit when all values fit; a prespecified range the selected keyframe would exceed makes the renderer refuse the figure. Never clip, normalize each method separately or change the underlying arrays to preserve appearance.
 - Residuals are prediction minus reference. Fields cover the complete spatial grid, without cropping, smoothing or selective contrast changes. Use vector cells, not embedded raster images; keep text editable in SVG.
 - SVG QuadMesh groups use `shape-rendering="crispEdges"` to prevent viewer-dependent white seams between adjacent cells. This display hint does not change cell geometry, colors or numerical arrays.
 - M1 parameter labels use editable Unicode Greek letters, avoiding font-specific private-use glyphs that can display as unrelated symbols on another device.

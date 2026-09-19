@@ -2,12 +2,12 @@
   "status": "complete",
   "evidence": {
     "experiment": "M2",
-    "report_sha256": "2DE57C3B24D1A43FA055330DA1F97068263BBF159A8FCF3CFDD5951EFA028567",
+    "report_sha256": "106B7332DAB16F69932A94DA8442BFA02587C3F45C01C4A8A13D7CB3FFB6CA17",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 9711,
-        "sha256": "D9F836FB4E126209F3B193E497D0F13C49F392B7ADD4528A1764C988254DE805"
+        "bytes": 9710,
+        "sha256": "9CBBBB90AA2AEFF79191E8C9C5DABFAA6269731556F8AAE1CE80003E264D1C8D"
       }
     ],
     "experiment_inputs": {
@@ -93,14 +93,14 @@
     "curve": "PCHIP visual guide through measured points",
     "y_limits": [
       0.0,
-      1.30467742936609
+      1.3046967952048332
     ],
     "error_bars": "none",
     "hypothesis_tests": "none"
   },
   "renderer": {
     "path": "plot_mean_error.py",
-    "sha256": "BCEE31DF4CC624123420FA02BD114AE4E55D540B21A89643D3307A3236B2F053"
+    "sha256": "5C9649F7D6935D31672848BC3543CACD537F29EC51189C7FD6FA7C0175CFF650"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -113,25 +113,25 @@
     "mean_relative_l2_vs_time.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "499.186339pt",
+      "width": "503.357042pt",
       "height": "243.373892pt"
     }
   },
   "files": [
     {
       "path": "mean_relative_l2_vs_time.svg",
-      "bytes": 30043,
-      "sha256": "1F1CFD02EF826346303539B6E0EB5BA94298A69EEA9C6283CE2B83B69D552FBB"
+      "bytes": 29706,
+      "sha256": "65E6EE2F02CEDFBBC32B021BEA972C0805559F94EB1CFB942CCB56E6E7B5F568"
     },
     {
       "path": "source_data.csv",
-      "bytes": 1873,
-      "sha256": "4E3060F2831D7569FBAD9A49984E2D159016233DE185FB3048DF5FD95716E756"
+      "bytes": 2285,
+      "sha256": "2F9379EBF48FB5A6DB7C529B723166C2B5032844905670C6B8CA78177FF1C94C"
     },
     {
       "path": "source_manifest.csv",
       "bytes": 155,
-      "sha256": "B5B3CD6F5CF3547C7220AD9A7A3D60D8AEB46C428FC52BE27C1DE8A2CDDE4672"
+      "sha256": "A2FF3A0C554C697158FDD36DA9976FB36B7E45BEB270DA604D7D04164B60946D"
     }
   ]
 }

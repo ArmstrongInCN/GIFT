@@ -60,11 +60,11 @@ mpl.rcParams.update(
 # Restrained method-family palette: one blue anchor, a warm PDE family,
 # and a muted violet PINN family. Marker shape remains the independent cue.
 METHOD_STYLE = {
-    "GIFT": {"color": "#31688E", "marker": "o"},
-    "PDE-FIND": {"color": "#D9A441", "marker": "s"},
-    "PDE-FIND-KC": {"color": "#A96B32", "marker": "D"},
-    "PINN-SR": {"color": "#B07AA1", "marker": "^"},
-    "PINN-SR-KC": {"color": "#74527F", "marker": "v"},
+    "GIFT": {"color": "#1246D6", "marker": "o"},
+    "PDE-FIND": {"color": "#FF7A00", "marker": "s"},
+    "PDE-FIND-KC": {"color": "#29A82C", "marker": "D"},
+    "PINN-SR": {"color": "#8B3FE0", "marker": "^"},
+    "PINN-SR-KC": {"color": "#00A896", "marker": "v"},
 }
 
 # A sub-marker-width categorical dodge prevents near-identical APE values from

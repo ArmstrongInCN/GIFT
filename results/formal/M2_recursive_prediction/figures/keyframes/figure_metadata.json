@@ -10,8 +10,8 @@
   ],
   "input": {
     "record": "raw/predictions.h5",
-    "bytes": 190720004,
-    "sha256": "D1CC867165194CCD5271BFACF13E8A899A4DFB46099773E034AD7C5B5D3174F8"
+    "bytes": 190720265,
+    "sha256": "D23AB2F38882DA3BC3904594CB93D0202E38006DD72448BE0D7F071B3EA8D2D3"
   },
   "methods": [
     {
@@ -64,8 +64,8 @@
       "minimum": -21.0,
       "maximum": 21.0
     },
-    "selected_field_maximum_absolute_value": 17.76512336730957,
-    "selected_residual_maximum_absolute_value": 18.397104263305664,
+    "selected_field_maximum_absolute_value": 17.763385772705078,
+    "selected_residual_maximum_absolute_value": 18.374235153198242,
     "field_limit": 19.0,
     "residual_limit": 21.0
   },

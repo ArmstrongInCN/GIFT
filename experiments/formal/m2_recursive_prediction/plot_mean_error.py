@@ -35,12 +35,12 @@ COHORT = "test_1040_1219"
 POPULATION = 180
 
 STYLES = {
-    "GIFT": ("#0F4D92", "o", "-", 2.5, 10),
-    "GIFT-Lite": ("#6CA1C8", "o", "--", 1.8, 9),
-    "FNO-2D": ("#7884B4", "s", "--", 1.5, 5),
-    "FNO-3D": ("#42949E", "D", "-.", 1.5, 4),
-    "U-NO": ("#2E9E44", "^", "-", 1.8, 8),
-    "U-Net": ("#E28E2C", "v", ":", 1.6, 6),
+    "GIFT": ("#1246D6", "o", "-", 2.5, 10),
+    "GIFT-Lite": ("#19C2F5", "o", "--", 1.8, 9),
+    "FNO-2D": ("#8B3FE0", "s", "--", 1.5, 5),
+    "FNO-3D": ("#00A896", "D", "-.", 1.5, 4),
+    "U-NO": ("#29A82C", "^", "-", 1.8, 8),
+    "U-Net": ("#FF7A00", "v", ":", 1.6, 6),
 }
 
 
@@ -115,7 +115,13 @@ def write_source(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
-def draw(rows: list[dict[str, object]]):
+def draw(rows: list[dict[str, object]], *, y_limit: float | None = None):
+    """Draw the mean-error curves.
+
+    ``y_limit`` forces one shared vertical range, used to place two distributions
+    on comparable axes. It is only ever raised, never lowered, so a caller-supplied
+    value can never clip a measurement.
+    """
     plt.rcParams.update(
         {
             "font.family": "sans-serif",
@@ -199,16 +205,18 @@ def draw(rows: list[dict[str, object]]):
     # Keep the specified design unless the data need more room. Errors need not
     # increase monotonically; neither ordering nor a target value is imposed.
     maximum = max(float(np.max(values)) for values in series.values())
-    axis.set_ylim(0.0, max(1.28, 1.08 * maximum))
+    required = max(1.28, 1.08 * maximum)
+    upper = required if y_limit is None else max(float(y_limit), required)
+    axis.set_ylim(0.0, upper)
     axis.set_xticks(REPORT_TIMES)
-    if maximum <= 1.28:
+    if maximum <= 1.28 and upper <= 1.28:
         axis.set_yticks(np.arange(0.0, 1.21, 0.2))
     else:
         axis.yaxis.set_major_locator(MaxNLocator(nbins=6, min_n_ticks=3))
     axis.set_xlabel(r"Time, $t$")
     axis.set_ylabel(r"Mean relative $L^2$ error")
     axis.tick_params(axis="both", direction="out", length=3.0, width=0.8, pad=2.5)
-    axis.spines["left"].set_bounds(0.0, 1.2 if maximum <= 1.28 else axis.get_ylim()[1])
+    axis.spines["left"].set_bounds(0.0, 1.2 if (maximum <= 1.28 and upper <= 1.28) else upper)
     axis.spines["bottom"].set_bounds(5.0, 8.0)
     axis.legend(
         [handles[method] for method in METHOD_ORDER],

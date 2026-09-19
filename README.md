@@ -19,7 +19,7 @@
 Traditional surrogates predict the field a fixed time lag ahead; GIFT changes the object of learning. It learns the **continuous-time generator** that governs the flow's *instantaneous* evolution:
 
 ```
-G(ω) = C + A(ω) + Q(ω, ω)
+G(ω<sub>K</sub>) = C + A(ω) + Q(ω, ω)
 ```
 
 A state a finite lag later is merely the time integral of that generator, and the generator *is* the governing law. Prediction and explicit PDE-parameter identification therefore share one mathematical object: the surrogate's mechanism is no longer a black-box map hidden in network weights, but a continuous dynamical object whose physical correctness can be checked.
@@ -66,11 +66,11 @@ GIFT and GIFT-Lite start from the true state at `t` = 5.0 and integrate recursiv
 | Time | GIFT | GIFT-Lite | FNO-2D | FNO-3D | U-NO | U-Net |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 5.5 | **0.021901** | 0.036061 | 0.221038 | 0.315175 | 0.030129 | 0.233574 |
-| 6.0 | **0.021058** | 0.040763 | 0.271467 | 0.450682 | 0.041116 | 0.500918 |
-| 6.5 | **0.021651** | 0.046963 | 0.335630 | 0.595549 | 0.060576 | 0.730157 |
-| 7.0 | **0.024000** | 0.054451 | 0.413802 | 0.725142 | 0.086921 | 0.927827 |
-| 7.5 | **0.028859** | 0.067797 | 0.515927 | 0.832534 | 0.122484 | 1.091212 |
-| 8.0 | **0.036488** | 0.088190 | 0.624730 | 0.915958 | 0.165307 | 1.208035 |
+| 6.0 | **0.021058** | 0.040763 | 0.271467 | 0.450682 | 0.041116 | 0.500927 |
+| 6.5 | **0.021651** | 0.046963 | 0.335630 | 0.595549 | 0.060576 | 0.730189 |
+| 7.0 | **0.024000** | 0.054451 | 0.413802 | 0.725142 | 0.086921 | 0.927862 |
+| 7.5 | **0.028859** | 0.067797 | 0.515927 | 0.832534 | 0.122484 | 1.091225 |
+| 8.0 | **0.036488** | 0.088190 | 0.624730 | 0.915958 | 0.165307 | 1.208053 |
 
 GIFT has the lowest mean full-field relative error at all six reported times, and all six methods stay finite on 180/180 trajectories over the full interval; no failed sample is excluded from the statistics.
 
@@ -182,7 +182,7 @@ GIFT software and documentation are released under the [MIT licence](LICENSE). D
 传统代理模型直接预测固定时间间隔后的流场；GIFT 换一个对象——它学习决定流场**瞬时演化**的**连续时间生成元**：
 
 ```
-G(ω) = C + A(ω) + Q(ω, ω)
+G(ω<sub>K</sub>) = C + A(ω) + Q(ω, ω)
 ```
 
 有限时间间隔后的状态只是生成元的时间积分结果，而生成元本身对应系统的控制规律。因此代理模型的预测与显式 PDE 参数识别共享同一个数学对象：预测机制不再是藏在网络权重里的黑盒映射，而是一个可以被检验物理正确性的连续动力学对象。
@@ -229,11 +229,11 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
 | 时间 | GIFT | GIFT-Lite | FNO-2D | FNO-3D | U-NO | U-Net |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 5.5 | **0.021901** | 0.036061 | 0.221038 | 0.315175 | 0.030129 | 0.233574 |
-| 6.0 | **0.021058** | 0.040763 | 0.271467 | 0.450682 | 0.041116 | 0.500918 |
-| 6.5 | **0.021651** | 0.046963 | 0.335630 | 0.595549 | 0.060576 | 0.730157 |
-| 7.0 | **0.024000** | 0.054451 | 0.413802 | 0.725142 | 0.086921 | 0.927827 |
-| 7.5 | **0.028859** | 0.067797 | 0.515927 | 0.832534 | 0.122484 | 1.091212 |
-| 8.0 | **0.036488** | 0.088190 | 0.624730 | 0.915958 | 0.165307 | 1.208035 |
+| 6.0 | **0.021058** | 0.040763 | 0.271467 | 0.450682 | 0.041116 | 0.500927 |
+| 6.5 | **0.021651** | 0.046963 | 0.335630 | 0.595549 | 0.060576 | 0.730189 |
+| 7.0 | **0.024000** | 0.054451 | 0.413802 | 0.725142 | 0.086921 | 0.927862 |
+| 7.5 | **0.028859** | 0.067797 | 0.515927 | 0.832534 | 0.122484 | 1.091225 |
+| 8.0 | **0.036488** | 0.088190 | 0.624730 | 0.915958 | 0.165307 | 1.208053 |
 
 六个报告时刻中 GIFT 的平均全场相对误差均最低；六种方法在完整预测区间都保持 180/180 条轨迹有限，统计未剔除失败样本。
 

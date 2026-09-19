@@ -98,11 +98,21 @@ def test_draw_requires_declared_population_completeness():
         m2.draw(rows)
 
 
-def test_m2_field_limits_shared_and_outward_only():
-    limits = fields.verify_color_limits(np.asarray([23.1]), {"a": np.asarray([-24.2])},
-                                        {"a": np.asarray([-25.5])})
-    assert limits["field_limit"] == 25
-    assert limits["residual_limit"] == 26
+def test_m2_field_limits_are_prespecified_and_refuse_to_clip():
+    """The colour range is fixed per population; a clipping keyframe is refused."""
+    truth = np.asarray([23.1])
+    residual = {"a": np.asarray([-20.4])}
+    limits = fields.verify_color_limits(truth, {"a": np.asarray([-19.2])}, residual,
+                                        field_limit=25.0, residual_limit=21.0)
+    assert limits["field_limit"] == 25.0
+    assert limits["residual_limit"] == 21.0
+    with pytest.raises(RuntimeError):
+        fields.verify_color_limits(truth, {"a": np.asarray([-19.2])}, residual,
+                                   field_limit=19.0, residual_limit=21.0)
+    # The paper's own tick tuples survive for its constants, and any other
+    # prespecified range gets five evenly spaced ticks on the same symmetric scale.
+    assert fields.colour_ticks(19.0) == (-19.0, -10.0, 0.0, 10.0, 19.0)
+    assert fields.colour_ticks(25.0) == (-25.0, -12.5, 0.0, 12.5, 25.0)
 
 
 def test_m2_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):

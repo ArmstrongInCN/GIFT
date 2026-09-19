@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from experiments.formal._shared.figure_evidence import (
-    bind_result, finish_figures, symmetric_limit,
+    bind_result, finish_figures,
 )
 
 
@@ -39,8 +39,24 @@ METHODS = (
     {"label": "U-Net", "slug": "unet", "group": "U_Net"},
 )
 KEY_TIMES = np.asarray([5.0, 6.0, 7.0, 8.0], dtype=np.float64)
-FIELD_LIMIT = 19.0
-RESIDUAL_LIMIT = 21.0
+# Prespecified, fixed colour limits, one pair per initial-condition population.
+# The four-vortex pair is the paper's constant. The Gaussian pair is declared in
+# S4_PROTOCOL.md because that population's reference field genuinely exceeds 19.
+# Neither pair is fitted to the plotted data: a keyframe the prespecified range
+# would clip is refused, exactly as in the paper's renderer, instead of the range
+# being widened to fit whatever trajectory was selected.
+COLOUR_LIMITS = {'M2': (19.0, 21.0), 'S4': (25.0, 25.0)}
+FIELD_LIMIT, RESIDUAL_LIMIT = COLOUR_LIMITS['M2']
+# The paper's own tick tuples are kept verbatim for its constants; any other
+# prespecified range uses five evenly spaced ticks on the same symmetric scale.
+PRESET_TICKS = {
+    19.0: (-19.0, -10.0, 0.0, 10.0, 19.0),
+    21.0: (-21.0, -10.0, 0.0, 10.0, 21.0),
+}
+
+
+def colour_ticks(limit: float) -> tuple[float, ...]:
+    return PRESET_TICKS.get(float(limit), tuple(np.linspace(-limit, limit, 5)))
 FIELD_CMAP = "RdBu_r"
 RESIDUAL_CMAP = "PuOr"
 
@@ -207,17 +223,25 @@ def verify_color_limits(
     truth: np.ndarray,
     predictions: dict[str, np.ndarray],
     residuals: dict[str, np.ndarray],
+    *,
+    field_limit: float,
+    residual_limit: float,
 ) -> dict[str, float]:
+    """Refuse a keyframe that the prespecified colour limits would clip."""
     field_maximum = max(
         [float(np.max(np.abs(truth)))]
         + [float(np.max(np.abs(value))) for value in predictions.values()]
     )
     residual_maximum = max(float(np.max(np.abs(value))) for value in residuals.values())
+    if field_maximum > field_limit:
+        raise RuntimeError("field color limit would clip a selected keyframe")
+    if residual_maximum > residual_limit:
+        raise RuntimeError("residual color limit would clip a selected keyframe")
     return {
         "selected_field_maximum_absolute_value": field_maximum,
         "selected_residual_maximum_absolute_value": residual_maximum,
-        "field_limit": symmetric_limit(field_maximum, FIELD_LIMIT),
-        "residual_limit": symmetric_limit(residual_maximum, RESIDUAL_LIMIT),
+        "field_limit": float(field_limit),
+        "residual_limit": float(residual_limit),
     }
 
 
@@ -517,8 +541,7 @@ def draw_composite(
         ScalarMappable(norm=field_norm, cmap=FIELD_CMAP),
         cax=field_bar_axis,
         orientation="horizontal",
-        ticks=((-19, -10, 0, 10, 19) if field_norm.vmax == FIELD_LIMIT
-               else np.linspace(field_norm.vmin, field_norm.vmax, 5)),
+        ticks=colour_ticks(field_norm.vmax),
     )
     field_bar.set_label("Scalar field, ω", fontsize=5.4, labelpad=1.3)
     field_bar.ax.xaxis.set_label_position("top")
@@ -539,8 +562,7 @@ def draw_composite(
         ScalarMappable(norm=residual_norm, cmap=RESIDUAL_CMAP),
         cax=residual_bar_axis,
         orientation="horizontal",
-        ticks=((-21, -10, 0, 10, 21) if residual_norm.vmax == RESIDUAL_LIMIT
-               else np.linspace(residual_norm.vmin, residual_norm.vmax, 5)),
+        ticks=colour_ticks(residual_norm.vmax),
     )
     residual_bar.set_label(
         "Residual (prediction − reference)", fontsize=5.4, labelpad=1.3
@@ -620,7 +642,9 @@ def main() -> None:
     truth, predictions, residuals, errors, time_indices = load_keyframes(
         input_path, args.trajectory_id, experiment=args.experiment
     )
-    ranges = verify_color_limits(truth, predictions, residuals)
+    field_limit, residual_limit = COLOUR_LIMITS[args.experiment]
+    ranges = verify_color_limits(truth, predictions, residuals,
+                                field_limit=field_limit, residual_limit=residual_limit)
     field_limit, residual_limit = ranges["field_limit"], ranges["residual_limit"]
     field_norm = TwoSlopeNorm(vmin=-field_limit, vcenter=0.0, vmax=field_limit)
     residual_norm = TwoSlopeNorm(

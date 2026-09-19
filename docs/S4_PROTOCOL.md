@@ -110,3 +110,11 @@ drawn from a finite subset, its per-time `finite_count` is carried in
 `summary/metrics.csv`, and the endpoint summary records
 `status: nonfinite_predictions` instead of a full-population mean. Do not read a
 finite-subset mean as the whole-population result.
+
+Keyframe colour limits are prespecified constants and are never fitted to the
+plotted trajectory. The four-vortex plate keeps the paper's ±19 (scalar field) and
+±21 (signed residual). The Gaussian population declares its own prespecified pair,
+**±25 for both quantities**, because its reference field genuinely exceeds ±19: the
+prespecified example trajectory 2265 reaches about 24.06. A prespecified range the
+selected keyframe would exceed makes the renderer refuse the figure rather than
+widen the scale, and the two limits are recorded in `figure_manifest.json`.

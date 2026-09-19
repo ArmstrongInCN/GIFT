@@ -81,17 +81,16 @@
   "details": {
     "reference": {
       "experiment": "M2",
-      "published_manifest_sha256": "F4DDA2C0B8C37875F7B2C6B24AF158BFC325F7A12FE4C1313089E8D693E1B6CC",
-      "curve_sha256": "1F1CFD02EF826346303539B6E0EB5BA94298A69EEA9C6283CE2B83B69D552FBB",
-      "reuse": "left panel, unchanged scientific content"
+      "published_manifest_sha256": "FE2CF3AE48B732204B921841A93E82F2D31E26E2DFE4798191CF8A7AAD659505",
+      "published_metrics_sha256": "9CBBBB90AA2AEFF79191E8C9C5DABFAA6269731556F8AAE1CE80003E264D1C8D",
+      "reuse": "left panel redrawn from the published M2 metrics with the same renderer and the shared vertical range; M2 numbers unchanged and M2 not recomputed"
     },
     "layout": {
       "width_pt": 1016.372678,
       "height_pt": 265.373892,
-      "reference_panel_modified": false,
-      "operation": "vector translation and unique ID prefixes only"
+      "operation": "both panels drawn by the same renderer with one shared vertical range, then placed by vector translation with unique ID prefixes"
     },
-    "gaussian_y_limits": [
+    "shared_y_limits": [
       0.0,
       1.8877744649835284
     ],
@@ -108,21 +107,28 @@
     "finite_counts_after_truncation": [
       "GIFT-Lite at t=7.0 179, t=7.5 172, t=8.0 163 of 180"
     ],
-    "curve_renderer_sha256": "E4C079B1E5DBBDDFB114D5DEBDCF0A1D89855FDB9FEC2D6B7DA07AB00DBA52A6"
+    "curve_renderer_sha256": "5C9649F7D6935D31672848BC3543CACD537F29EC51189C7FD6FA7C0175CFF650"
   },
   "renderer": {
     "path": "plot_results.py",
-    "sha256": "EAB44E4C5DEFBDFFC5C8BAD14555359C54A8F2925A1A90F3AAF4608C04DE9F90"
+    "sha256": "6F5B20060C7EDA0782C6BD7F520F9E116E4BDD3647A99BDA67D07B86D97C1E20"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
     "policy": "crispEdges on QuadMesh groups only",
     "groups_per_svg": {
+      "four_vortex_mean_relative_l2_vs_time.svg": 0,
       "gaussian_mean_relative_l2_vs_time.svg": 0,
       "initial_distribution_comparison.svg": 0
     }
   },
   "svg_checks": {
+    "four_vortex_mean_relative_l2_vs_time.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "499.186339pt",
+      "height": "243.373892pt"
+    },
     "gaussian_mean_relative_l2_vs_time.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
@@ -138,19 +144,24 @@
   },
   "files": [
     {
+      "path": "four_vortex_mean_relative_l2_vs_time.svg",
+      "bytes": 28661,
+      "sha256": "534B51390D39479768F7A5FC37B98C1065357410E3C634FD5DFE097F8A061E16"
+    },
+    {
       "path": "gaussian_mean_relative_l2_vs_time.svg",
       "bytes": 28515,
-      "sha256": "DEDE7A8C8F6DFD09D9035FE74BFD1ACE2574A0CCCC2D4628AA5ED85EF72EFC11"
+      "sha256": "EBB6E11E18A107C377825C32D33DC80A3ACA7C338C4C21B1D1421DFA0224A96B"
     },
     {
       "path": "initial_distribution_comparison.svg",
-      "bytes": 59155,
-      "sha256": "9459034663F6C69D42B8B65FC779E7C1E943CDF5DDAE63A89CC1D6DE0F6B64C8"
+      "bytes": 57750,
+      "sha256": "FA81B2A67F5E3FFC95101B83CE806697016E7F849B7CDEEDC8B43481B5DBD6B1"
     },
     {
       "path": "reference_source_data.csv",
-      "bytes": 2288,
-      "sha256": "AD56E4A38974C03C78864526D96EC7AD02253EDF93EF31A6DDBEDE61610CAAA8"
+      "bytes": 2285,
+      "sha256": "2F9379EBF48FB5A6DB7C529B723166C2B5032844905670C6B8CA78177FF1C94C"
     },
     {
       "path": "source_data.csv",
