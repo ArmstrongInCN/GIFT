@@ -94,3 +94,19 @@ unchanged; a separate Gaussian plate uses prespecified ID2265 and GIFT seed20260
 matching the sixth test-row position of the original ID1045. All report figures
 are SVG. Axis/color ranges expand only when necessary; no outcome-dependent
 trajectory selection or method-specific color scaling is allowed.
+
+## Completed run and its limits
+
+The completed S4 run is published in compact form at
+`results/formal/S4_initial_distribution/`: summary tables, the paired curve, the
+Gaussian keyframe plate and their source arrays, with `published.json` binding the
+measurement, executed sources and released inputs. The measured comparison and its
+limitations are reported in [EXPERIMENTS.md](../EXPERIMENTS.md) section 5.4.
+
+Every test trajectory is retained. If a method's later report times no longer
+cover all 180 test trajectories because some predictions became non-finite, its
+curve is stopped at the last complete time and annotated on the panel rather than
+drawn from a finite subset, its per-time `finite_count` is carried in
+`summary/metrics.csv`, and the endpoint summary records
+`status: nonfinite_predictions` instead of a full-population mean. Do not read a
+finite-subset mean as the whole-population result.

@@ -107,13 +107,14 @@ The learned generator is grid-invariant: on every grid and at every reported tim
 
 <p align="center"><sub>Mean full-field relative <i>L</i><sup>2</sup> error of four methods trained on <i>N</i> = 64 only, on three native grids (180 paired trajectories).</sub></p>
 
-#### Side experiments S1–S3
+#### Side experiments S1–S4
 
 | Experiment | Result |
 | --- | --- |
 | **S1 High-frequency branch** | At `t` = 6.0 it reduces the GIFT full-field error by 60.04%, 57.54% and 57.55% on `N` = 64, 96 and 128, and the GIFT-Lite error by 33.63%, 31.98% and 31.98%. |
 | **S2 Recursive local correction** | On the held-out test set it keeps trajectory 1062 of GIFT-Lite finite. Full-data GIFT never triggered the correction. |
 | **S3 Random-seed stability** | With the generator fixed and the high-frequency branch trained under three seeds, the largest coefficient of variation on the main metrics is about 0.321% for GIFT and 0.313% for GIFT-Lite. |
+| **S4 Initial-condition distribution** | Repeating the comparison on a smooth Gaussian random-field population, full-data GIFT still has the lowest mean error at every reported time (`t` = 8.0: 0.021035) and U-NO is the closest baseline (0.173805). Full-data GIFT and all four baselines stay finite on 180/180 test trajectories; GIFT-Lite loses 17 of 180 after `t` ≈ 6.9, so its later values are finite-subset statistics and are reported as such. |
 
 > **Scope.** Conclusions are limited to this project's data distribution, training protocol and the `N` = 64, 96, 128 grids; they are not an error guarantee or a numerical-stability theorem at arbitrary resolution, and equal epochs do not mean equal parameter-update counts or equal compute. Full detail in [EXPERIMENTS.md](EXPERIMENTS.md) and [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md).
 
@@ -145,7 +146,7 @@ python -m scripts.run_training uno --data-profile canonical --run-training --out
 python -m scripts.verify_published_results --experiment M3 --result-dir results/formal/M3_cross_resolution
 ```
 
-Layout: `src/gift/` (generator model, band decomposition, data splits), `training/` (one training entry point per model), `experiments/formal/` (launchers and evaluation for M1–M3 and S1–S3), `results/formal/` (summary CSV/JSON and SVG figures), `artifacts/` (weights and checkpoints), `tests/` (data contract, checkpoint identity and result-integrity tests). Further documentation is under [docs/](docs/).
+Layout: `src/gift/` (generator model, band decomposition, data splits), `training/` (one training entry point per model), `experiments/formal/` (launchers and evaluation for M1–M3 and S1–S4), `results/formal/` (summary CSV/JSON and SVG figures), `artifacts/` (weights and checkpoints), `tests/` (data contract, checkpoint identity and result-integrity tests). Further documentation is under [docs/](docs/).
 
 ### External code and acknowledgements
 
@@ -269,13 +270,14 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
 
 <p align="center"><sub>仅在 <i>N</i> = 64 训练的四种方法在三个原生网格上的平均全场相对 <i>L</i><sup>2</sup> 误差（180 条配对轨迹）。</sub></p>
 
-#### 支线实验 S1–S3
+#### 支线实验 S1–S4
 
 | 实验 | 结论 |
 | --- | --- |
 | **S1 高频支路** | `N` = 64、96、128 的 `t` = 6.0 处分别降低 GIFT 全场误差 60.04%、57.54%、57.55%，降低 GIFT-Lite 33.63%、31.98%、31.98%。 |
 | **S2 递归局部修正** | 在独立测试集上避免 GIFT-Lite 的轨迹 1062 出现非有限值；全数据 GIFT 未触发修正。 |
 | **S3 随机种子稳定性** | 固定生成元、独立训练高频支路三个种子，GIFT 与 GIFT-Lite 主要指标的最大变异系数约 0.321% 与 0.313%。 |
+| **S4 初值分布对照** | 在平滑高斯随机场初值分布上重复同一比较，全数据 GIFT 的报告时刻平均误差仍为最低（`t` = 8.0 为 0.021035），U-NO 为最接近的基线（0.173805）。全数据 GIFT 与四个基线均保持 180/180 条测试轨迹有限；GIFT-Lite 有 17/180 条在 `t` ≈ 6.9 之后失稳，其后续数值为有限子集统计并已如实标注。 |
 
 > **适用范围。** 结论限于本项目的数据分布、训练协议与 `N` = 64、96、128 网格，不构成任意分辨率上的误差保证或数值稳定性定理；相同 epoch 不代表相同参数更新次数或计算量。完整口径见 [EXPERIMENTS.md](EXPERIMENTS.md) 与 [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)。
 
@@ -307,7 +309,7 @@ python -m scripts.run_training uno --data-profile canonical --run-training --out
 python -m scripts.verify_published_results --experiment M3 --result-dir results/formal/M3_cross_resolution
 ```
 
-代码组织：`src/gift/`（生成元模型、频带分解、数据划分）、`training/`（各模型独立训练入口）、`experiments/formal/`（M1–M3、S1–S3 启动与评价）、`results/formal/`（汇总 CSV/JSON 与 SVG 图像）、`artifacts/`（权重与检查点）、`tests/`（数据契约、检查点身份与结果完整性测试）。其余文档见 [docs/](docs/)。
+代码组织：`src/gift/`（生成元模型、频带分解、数据划分）、`training/`（各模型独立训练入口）、`experiments/formal/`（M1–M3、S1–S4 启动与评价）、`results/formal/`（汇总 CSV/JSON 与 SVG 图像）、`artifacts/`（权重与检查点）、`tests/`（数据契约、检查点身份与结果完整性测试）。其余文档见 [docs/](docs/)。
 
 ### 外部代码与致谢
 

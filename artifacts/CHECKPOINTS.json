@@ -683,6 +683,114 @@
       },
       "training_regime": "full_data_prediction",
       "seed": 20260822
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_full/generator.pt",
+      "method": "gift_generator",
+      "artifact_role": "trained_weights",
+      "bytes": 284644,
+      "sha256": "5460303D0666D1A09AA3568EFA054B7B5508F9BDA2D6FBFA3CBFACACA61C32A5"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_lite/generator.pt",
+      "method": "gift_low",
+      "artifact_role": "trained_weights",
+      "bytes": 405138,
+      "sha256": "88E7850E50842365E638359A262D0DE3E4D0DFA5C60E53A263281B1C3B6E3E94"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_lite/gift_seed_20260820.pt",
+      "method": "gift_branch",
+      "artifact_role": "trained_weights",
+      "bytes": 11315410,
+      "sha256": "5EA538AEB034FC0AF4BD953B7896FEB8A20D2D1494094E877AB5D1BBC944F87A"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_lite/gift_seed_20260821.pt",
+      "method": "gift_branch",
+      "artifact_role": "trained_weights",
+      "bytes": 11315410,
+      "sha256": "A4F61C461543660E228C57BD34BBAE396E3EEDFA4C2242A89538B6E54A9A4A7B"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_lite/gift_seed_20260822.pt",
+      "method": "gift_branch",
+      "artifact_role": "trained_weights",
+      "bytes": 11315410,
+      "sha256": "B88705C7E9AA7BEB6C9FDB19EF917A7F3017CF39855855EB9F7D01256CDAAD86"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_full/gift_seed_20260820.pt",
+      "method": "gift_predictor",
+      "artifact_role": "trained_weights",
+      "bytes": 11323666,
+      "sha256": "E0EAEBC16A9357484382D434972B68B913A905BC49F50890258C9FAB0A094ABA"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_full/gift_seed_20260821.pt",
+      "method": "gift_predictor",
+      "artifact_role": "trained_weights",
+      "bytes": 11323666,
+      "sha256": "96C858B645039E9A7B3B0D7D89A2B6614BA61F21CE85FF3CA5EEBDD383ADA2E3"
+    },
+    {
+      "path": "artifacts/s4_gaussian/gift_full/gift_seed_20260822.pt",
+      "method": "gift_predictor",
+      "artifact_role": "trained_weights",
+      "bytes": 11323666,
+      "sha256": "7C9A756A113A77A8AA33624BB33EC67E0072C37CDDD917774923FE8E13D74030"
+    },
+    {
+      "path": "artifacts/s4_gaussian/unet/model.pt",
+      "method": "unet",
+      "artifact_role": "trained_weights",
+      "bytes": 99941807,
+      "sha256": "C10D0C0E82E582B5B17806C259A1482B2C304BD77D3512DF1E30B6CDC777DB38"
+    },
+    {
+      "path": "artifacts/s4_gaussian/uno/weights-0001.part",
+      "method": "uno",
+      "artifact_role": "trained_weights_part",
+      "bytes": 41943040,
+      "sha256": "256CC4955CCD03D1BFCD80667223EF5D62E83B6F71AE536DAED87DE802BFBE6E",
+      "checkpoint_index": "artifacts/s4_gaussian/uno/weights.json"
+    },
+    {
+      "path": "artifacts/s4_gaussian/uno/weights-0002.part",
+      "method": "uno",
+      "artifact_role": "trained_weights_part",
+      "bytes": 41943040,
+      "sha256": "73ABAC414E52707D823CDB84283E8A0A94BD2853A4BE3B05917834D17E6655DB",
+      "checkpoint_index": "artifacts/s4_gaussian/uno/weights.json"
+    },
+    {
+      "path": "artifacts/s4_gaussian/uno/weights-0003.part",
+      "method": "uno",
+      "artifact_role": "trained_weights_part",
+      "bytes": 38047287,
+      "sha256": "2E8D50BF2234E3EDA945505F53B87BA945AE4A6AE8200B25E7EDEFD9972163F6",
+      "checkpoint_index": "artifacts/s4_gaussian/uno/weights.json"
+    },
+    {
+      "path": "artifacts/s4_gaussian/uno/weights.json",
+      "method": "uno",
+      "artifact_role": "trained_weights_index",
+      "bytes": 654,
+      "sha256": "E8912264850E58BE00A62DBE9C70E7C72951F480C71DCA46227BD093AF93DC32"
+    },
+    {
+      "path": "artifacts/s4_gaussian/fno3d/model.pt",
+      "method": "fno3d",
+      "artifact_role": "trained_weights",
+      "bytes": 32683713,
+      "sha256": "047F95C548E9C573E48AF98AD1566894CF3D3699D8741CF83FC80E9F7DA0D791"
+    },
+    {
+      "path": "artifacts/s4_gaussian/fno2d/model.pt",
+      "method": "fno2d",
+      "artifact_role": "trained_weights",
+      "bytes": 3729317,
+      "sha256": "4806281FC7992C691EAE9F23E16560DCE764F8AE613EB6B6425BF40668A3973A"
     }
   ],
   "pending": []

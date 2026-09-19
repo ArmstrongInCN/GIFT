@@ -53,7 +53,8 @@ def test_range_kept_or_expanded_without_clipping():
 
 
 def test_m2_nonmonotonic_large_errors_are_not_hidden(tmp_path):
-    rows = [{"method": method, "absolute_time": float(time), "mean_relative_l2": value}
+    rows = [{"method": method, "absolute_time": float(time), "mean_relative_l2": value,
+             "complete_population": True}
             for method in m2.METHOD_ORDER
             for time, value in zip(m2.REPORT_TIMES, [0, 0.7, 0.3, 0.5, 1, 2, 1.8])]
     figure = m2.draw(rows)
@@ -62,6 +63,39 @@ def test_m2_nonmonotonic_large_errors_are_not_hidden(tmp_path):
     figure.savefig(output)
     plt.close(figure)
     assert verify_svg(output)["editable_text"]
+
+
+def test_curve_stops_at_last_complete_population():
+    """A finite-subset mean is never drawn in place of the full population."""
+    rows = []
+    for method in m2.METHOD_ORDER:
+        for index, time in enumerate(m2.REPORT_TIMES):
+            complete = method != "GIFT-Lite" or time <= 6.5
+            rows.append({"method": method, "absolute_time": float(time),
+                         "mean_relative_l2": 0.01 * (index + 1),
+                         "complete_population": complete})
+    figure = m2.draw(rows)
+    axis = figure.axes[0]
+
+    def reach(method):
+        colour = m2.STYLES[method][0]
+        lines = [line for line in axis.get_lines() if line.get_color() == colour]
+        assert lines, f"{method} series missing from the axis"
+        return max(float(np.max(line.get_xdata())) for line in lines)
+
+    assert reach("GIFT-Lite") == pytest.approx(6.5)
+    for method in ("GIFT", "FNO-2D", "FNO-3D", "U-NO", "U-Net"):
+        assert reach(method) == pytest.approx(8.0)
+    plt.close(figure)
+
+
+def test_draw_requires_declared_population_completeness():
+    """Rows without the declared flag are rejected rather than silently drawn."""
+    rows = [{"method": method, "absolute_time": float(time), "mean_relative_l2": value}
+            for method in m2.METHOD_ORDER
+            for time, value in zip(m2.REPORT_TIMES, [0, 0.7, 0.3, 0.5, 1, 2, 1.8])]
+    with pytest.raises(KeyError):
+        m2.draw(rows)
 
 
 def test_m2_field_limits_shared_and_outward_only():

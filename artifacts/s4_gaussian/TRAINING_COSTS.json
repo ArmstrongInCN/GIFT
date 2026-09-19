@@ -1,0 +1,602 @@
+{
+  "schema": "gift.training-costs.v1",
+  "cohort": "gaussian_s4",
+  "shared_generator_cost_counted_once_per_regime": true,
+  "runs": [
+    {
+      "run": "gift_generator",
+      "training_artifact_sha256": "5460303d0666d1a09aa3568efa054b7b5508f9bda2d6fbfa3cbfacaca61c32a5",
+      "exported_artifact_sha256": "5460303d0666d1a09aa3568efa054b7b5508f9bda2d6fbfa3cbfacaca61c32a5",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "epochs": 500,
+        "optimizer_updates": 31500,
+        "affine_fits": 501,
+        "committed_epoch_seconds": 279.8987970002927,
+        "timing_scope": "sampling, gradient updates, affine refits and validation; excludes setup, checkpoint writes and paused time"
+      }
+    },
+    {
+      "run": "gift_lite_generator",
+      "training_artifact_sha256": "030ec3e14acbe1376c45e5e1c8a769e01315d024f4bdc7a69be6980d4ab680f1",
+      "exported_artifact_sha256": "88e7850e50842365e638359a262d0de3e4d0dfa5c60e53a263281b1c3b6e3e94",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 126.88099490001332,
+        "timing_scope": "all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial data preparation, initial affine fit, paused and discarded uncommitted work, terminal export",
+        "budget_unit": "random-minibatch parameter updates, not epochs"
+      }
+    },
+    {
+      "run": "gift_lite_20260820",
+      "training_artifact_sha256": "15ba76b19a3d72e1bc632ff252d039f4695c0d6f7a3c51d1b7b07f5e38cea25a",
+      "exported_artifact_sha256": "5ea538aeb034fc0af4bd953b7896feb8a20d2d1494094e877ab5d1bbc944f87a",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "optimizer_updates": 5834,
+        "committed_training_validation_seconds": 218.24596980027854,
+        "phases": [
+          {
+            "phase": "derivative",
+            "epoch": 1,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.076353800017387
+          },
+          {
+            "phase": "derivative",
+            "epoch": 2,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.847575000021607
+          },
+          {
+            "phase": "derivative",
+            "epoch": 3,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.578800700022839
+          },
+          {
+            "phase": "derivative",
+            "epoch": 4,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.481284300098196
+          },
+          {
+            "phase": "derivative",
+            "epoch": 5,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.46208279998973
+          },
+          {
+            "phase": "derivative",
+            "epoch": 6,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.475407499936409
+          },
+          {
+            "phase": "derivative",
+            "epoch": 7,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.653409199905582
+          },
+          {
+            "phase": "derivative",
+            "epoch": 8,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.537732299999334
+          },
+          {
+            "phase": "derivative",
+            "epoch": 9,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.908320700051263
+          },
+          {
+            "phase": "derivative",
+            "epoch": 10,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.635261900024489
+          },
+          {
+            "phase": "derivative",
+            "epoch": 11,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.682226300006732
+          },
+          {
+            "phase": "derivative",
+            "epoch": 12,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.00168460002169
+          },
+          {
+            "phase": "derivative",
+            "epoch": 13,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.728532499982975
+          },
+          {
+            "phase": "derivative",
+            "epoch": 14,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.016167800058611
+          },
+          {
+            "phase": "derivative",
+            "epoch": 15,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.50541310000699
+          },
+          {
+            "phase": "derivative",
+            "epoch": 16,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.568095099995844
+          },
+          {
+            "phase": "derivative",
+            "epoch": 17,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.427567500039004
+          },
+          {
+            "phase": "derivative",
+            "epoch": 18,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.4126208000816405
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 22.251889200066216
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 2,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 19.603966600028798
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_1",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 48.34547159995418
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_2",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 44.04610649996903
+          }
+        ],
+        "timing_scope": "training passes and their validation, including data transfers",
+        "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+        "shared_generator_pretraining_included": false
+      }
+    },
+    {
+      "run": "gift_lite_20260821",
+      "training_artifact_sha256": "bcaa6f94e9959db08461526c6e530d31653190b0122b4889d973beab1539703d",
+      "exported_artifact_sha256": "a4f61c461543660e228c57bd34bbae396e3eedfa4c2242a89538b6e54a9a4a7b",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "optimizer_updates": 5834,
+        "committed_training_validation_seconds": 226.67861279996578,
+        "phases": [
+          {
+            "phase": "derivative",
+            "epoch": 1,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.519050600007176
+          },
+          {
+            "phase": "derivative",
+            "epoch": 2,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.165319700026885
+          },
+          {
+            "phase": "derivative",
+            "epoch": 3,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.93122490006499
+          },
+          {
+            "phase": "derivative",
+            "epoch": 4,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.833591799950227
+          },
+          {
+            "phase": "derivative",
+            "epoch": 5,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.076338400016539
+          },
+          {
+            "phase": "derivative",
+            "epoch": 6,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.236591699998826
+          },
+          {
+            "phase": "derivative",
+            "epoch": 7,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.968454199959524
+          },
+          {
+            "phase": "derivative",
+            "epoch": 8,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.304331000079401
+          },
+          {
+            "phase": "derivative",
+            "epoch": 9,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.05221829994116
+          },
+          {
+            "phase": "derivative",
+            "epoch": 10,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.979740199982189
+          },
+          {
+            "phase": "derivative",
+            "epoch": 11,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.826220299932174
+          },
+          {
+            "phase": "derivative",
+            "epoch": 12,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.841916800010949
+          },
+          {
+            "phase": "derivative",
+            "epoch": 13,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.842453700024635
+          },
+          {
+            "phase": "derivative",
+            "epoch": 14,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.727799499989487
+          },
+          {
+            "phase": "derivative",
+            "epoch": 15,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.946946199983358
+          },
+          {
+            "phase": "derivative",
+            "epoch": 16,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.188176200026646
+          },
+          {
+            "phase": "derivative",
+            "epoch": 17,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.446764799999073
+          },
+          {
+            "phase": "derivative",
+            "epoch": 18,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.333390300045721
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 24.141734799952246
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 2,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 24.394733800087124
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_1",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 47.882907199906185
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_2",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 39.03870839998126
+          }
+        ],
+        "timing_scope": "training passes and their validation, including data transfers",
+        "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+        "shared_generator_pretraining_included": false
+      }
+    },
+    {
+      "run": "gift_lite_20260822",
+      "training_artifact_sha256": "53aa884c6d15b6088af6151cc27f5c0fb70a0caef2536c9b30f90451eb3107e9",
+      "exported_artifact_sha256": "b88705c7e9aa7beb6c9fdb19ef917a7f3017cf39855855eb9f7d01256cdaad86",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "optimizer_updates": 5834,
+        "committed_training_validation_seconds": 217.78493390011135,
+        "phases": [
+          {
+            "phase": "derivative",
+            "epoch": 1,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.655673800036311
+          },
+          {
+            "phase": "derivative",
+            "epoch": 2,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.831467899959534
+          },
+          {
+            "phase": "derivative",
+            "epoch": 3,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.906345599913038
+          },
+          {
+            "phase": "derivative",
+            "epoch": 4,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.825682700029574
+          },
+          {
+            "phase": "derivative",
+            "epoch": 5,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.938769200001843
+          },
+          {
+            "phase": "derivative",
+            "epoch": 6,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.485501900082454
+          },
+          {
+            "phase": "derivative",
+            "epoch": 7,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.176352300099097
+          },
+          {
+            "phase": "derivative",
+            "epoch": 8,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.863762299995869
+          },
+          {
+            "phase": "derivative",
+            "epoch": 9,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.701044299989007
+          },
+          {
+            "phase": "derivative",
+            "epoch": 10,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.835576200042851
+          },
+          {
+            "phase": "derivative",
+            "epoch": 11,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.732624999945983
+          },
+          {
+            "phase": "derivative",
+            "epoch": 12,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.988834499963559
+          },
+          {
+            "phase": "derivative",
+            "epoch": 13,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.980324600008316
+          },
+          {
+            "phase": "derivative",
+            "epoch": 14,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.76429730001837
+          },
+          {
+            "phase": "derivative",
+            "epoch": 15,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.9620739000383765
+          },
+          {
+            "phase": "derivative",
+            "epoch": 16,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 5.241105200024322
+          },
+          {
+            "phase": "derivative",
+            "epoch": 17,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.987746299942955
+          },
+          {
+            "phase": "derivative",
+            "epoch": 18,
+            "optimizer_updates": 313,
+            "training_validation_seconds": 4.780920600052923
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 23.14286549994722
+          },
+          {
+            "phase": "short_free_rollout",
+            "epoch": 2,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 20.990518299979158
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_1",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 46.37911310000345
+          },
+          {
+            "phase": "lead_1_truncated_rollout_stage_2",
+            "epoch": 1,
+            "optimizer_updates": 50,
+            "training_validation_seconds": 37.61433340003714
+          }
+        ],
+        "timing_scope": "training passes and their validation, including data transfers",
+        "timing_excludes": "shared generator pretraining, data preparation, model selection snapshots, checkpoint IO, paused and discarded work",
+        "shared_generator_pretraining_included": false
+      }
+    },
+    {
+      "run": "gift_full_20260820",
+      "training_artifact_sha256": "e0eaebc16a9357484382d434972b68b913a905bc49f50890258c9fab0a094aba",
+      "exported_artifact_sha256": "e0eaebc16a9357484382d434972b68b913a905bc49f50890258c9fab0a094aba",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "epochs": 500,
+        "phase_epochs": [
+          400,
+          50,
+          25,
+          25
+        ],
+        "optimizer_updates": 45200,
+        "committed_epoch_seconds": 10422.329843801679,
+        "shared_generator_epochs": 500,
+        "shared_generator_sha256": "5460303d0666d1a09aa3568efa054b7b5508f9bda2d6fbfa3cbfacaca61c32a5",
+        "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"
+      }
+    },
+    {
+      "run": "gift_full_20260821",
+      "training_artifact_sha256": "96c858b645039e9a7b3b0d7d89a2b6614ba61f21ce85ff3ca5eebdd383ada2e3",
+      "exported_artifact_sha256": "96c858b645039e9a7b3b0d7d89a2b6614ba61f21ce85ff3ca5eebdd383ada2e3",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "epochs": 500,
+        "phase_epochs": [
+          400,
+          50,
+          25,
+          25
+        ],
+        "optimizer_updates": 45200,
+        "committed_epoch_seconds": 7369.298169999616,
+        "shared_generator_epochs": 500,
+        "shared_generator_sha256": "5460303d0666d1a09aa3568efa054b7b5508f9bda2d6fbfa3cbfacaca61c32a5",
+        "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"
+      }
+    },
+    {
+      "run": "gift_full_20260822",
+      "training_artifact_sha256": "7c9a756a113a77a8aa33624bb33ec67e0072c37cddd917774923fe8e13d74030",
+      "exported_artifact_sha256": "7c9a756a113a77a8aa33624bb33ec67e0072c37cddd917774923fe8e13d74030",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "epochs": 500,
+        "phase_epochs": [
+          400,
+          50,
+          25,
+          25
+        ],
+        "optimizer_updates": 45200,
+        "committed_epoch_seconds": 9230.64380209928,
+        "shared_generator_epochs": 500,
+        "shared_generator_sha256": "5460303d0666d1a09aa3568efa054b7b5508f9bda2d6fbfa3cbfacaca61c32a5",
+        "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"
+      }
+    },
+    {
+      "run": "unet",
+      "training_artifact_sha256": "c10d0c0e82e582b5b17806c259a1482b2c304bd77d3512df1e30b6cdc777db38",
+      "exported_artifact_sha256": "c10d0c0e82e582b5b17806c259a1482b2c304bd77d3512df1e30b6cdc777db38",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "completed_epochs": 500,
+        "optimizer_updates": 25000,
+        "committed_epoch_seconds": 2458.0492140004644,
+        "timing_scope": "epoch input loading, forward/backward, updates and CUDA synchronization",
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      }
+    },
+    {
+      "run": "uno",
+      "training_artifact_sha256": "81dc730a43c2893942a181d9078ac044f6d0ecf31661883dc78597bc13d51c8c",
+      "exported_artifact_sha256": "81dc730a43c2893942a181d9078ac044f6d0ecf31661883dc78597bc13d51c8c",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "completed_epochs": 500,
+        "optimizer_updates": 31500,
+        "committed_epoch_seconds": 29553.271751001244,
+        "timing_scope": "epoch input loading, forward/backward, updates and CUDA synchronization",
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      }
+    },
+    {
+      "run": "fno3d",
+      "training_artifact_sha256": "047f95c548e9c573e48af98ad1566894cf3d3699d8741cf83fc80e9f7da0d791",
+      "exported_artifact_sha256": "047f95c548e9c573e48af98ad1566894cf3d3699d8741cf83fc80e9f7da0d791",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "completed_epochs": 500,
+        "optimizer_updates": 50000,
+        "committed_epoch_seconds": 43538.146735500195,
+        "timing_scope": "epoch input loading, forward/backward, updates and CUDA synchronization",
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      }
+    },
+    {
+      "run": "fno2d",
+      "training_artifact_sha256": "4806281fc7992c691eae9f23e16560dce764f8ae613eb6b6425bf40668a3973a",
+      "exported_artifact_sha256": "4806281fc7992c691eae9f23e16560dce764f8ae613eb6b6425bf40668a3973a",
+      "all_tensors_unchanged": true,
+      "computational_configuration_unchanged": true,
+      "training_cost": {
+        "completed_epochs": 500,
+        "optimizer_updates": 25000,
+        "committed_epoch_seconds": 137921.7810061999,
+        "timing_scope": "epoch input loading, forward/backward, updates and CUDA synchronization",
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      }
+    }
+  ]
+}

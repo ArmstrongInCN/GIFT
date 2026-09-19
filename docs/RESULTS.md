@@ -99,7 +99,30 @@ In M1, the open PINN-SR library retains 90/90 nonzero terms at all three noise
 levels: its three-coefficient readout is not successful sparse-structure recovery.
 L-BFGS callback counts do not establish convergence.
 
+S4 repeats the M2 comparison under a separate smooth Gaussian random-field
+initial-condition population (training 1220–2219, test 2260–2439). This is a
+within-distribution comparison for each population, not a transfer experiment.
+Full-data GIFT has the lowest mean error at all seven reported times, with a t=8
+mean of 0.021035, and U-NO is the closest baseline at 0.173805. Full-data GIFT,
+U-NO, FNO-2D, FNO-3D and U-Net retain 180/180 finite trajectories; GIFT-Lite
+loses 17 of its 180 trajectories to non-finite values after t≈6.9, so its t≥7.0
+values are finite-subset statistics, are marked in the published table, and its
+curve stops at t=6.5. The Gaussian keyframe plate uses a wider ±25 colour scale
+than the ±19 of the four-vortex plate because that trajectory's field and
+residual exceed 19; both scales remain single shared scales per quantity.
+
+The Gaussian result does not support a claim about an arbitrary initial-condition
+distribution, and the GIFT-Lite loss is reported rather than removed.
+
 预测结果同时展示 GIFT、GIFT-Lite 和相应基线，统一统计独立测试集 1040–1219。
 实测推理由各实验独立完成，精简发布包的整理不另行训练或推理。S2 仅使用这组测试：
 修正在 GIFT-Lite 上避免一条轨迹失稳，但全数据 GIFT 未触发修正，不能把保护效果
 概括到两个训练设置。瞬时 Q21 方程右端的长尾误差也完整保留，不只报告有利指标。
+
+S4 在平滑高斯随机场初值分布上重复同一比较，训练 1220–2219、测试 2260–2439，
+两种分布各自做分布内比较，不是跨分布迁移。全数据 GIFT 在七个报告时刻的平均误差
+均为最低（$t=8.0$ 为 0.021035），U-NO 为最接近的基线（0.173805）。全数据 GIFT、
+U-NO、FNO-2D、FNO-3D 和 U-Net 均保持 180/180 条测试轨迹有限；GIFT-Lite 有
+17/180 条轨迹在 $t\approx 6.9$ 之后失稳，其在 $t\ge 7.0$ 的数值只是有限子集统计，
+已在发布表格中标出，其曲线在 $t=6.5$ 收住。该结果不支持关于任意初值分布的结论，
+失败样本被报告而非剔除。

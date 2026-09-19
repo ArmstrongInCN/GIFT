@@ -16,7 +16,8 @@ import sys
 from xml.etree import ElementTree as ET
 
 from experiments.formal._shared.figure_evidence import bind_result, finish_figures, sha256, verify_svg
-from experiments.formal.m2_recursive_prediction.plot_mean_error import draw, read_source, write_source
+from experiments.formal.m2_recursive_prediction.plot_mean_error import (
+    POPULATION, draw, read_source, write_source)
 from scripts.verify_published_results import verify_package
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -61,6 +62,32 @@ def pair_vectors(left: Path, right: Path, output: Path):
             'operation': 'vector translation and unique ID prefixes only'}
 
 
+def incomplete_population_note(source):
+    """Disclose, inside the figure, every curve that stops early and why.
+
+    A method whose later report times no longer carry the full test population is
+    drawn only where that population is complete. The omission is stated on the
+    panel rather than left implicit, so a truncated curve cannot read as a
+    complete-population result.
+    """
+    notes = []
+    detail = []
+    for method in dict.fromkeys(row['method'] for row in source):
+        rows = [row for row in source if row['method'] == method]
+        complete = [row for row in rows if row['complete_population']]
+        later = sorted((float(row['absolute_time']), int(row['finite_count_min']))
+                       for row in rows if not row['complete_population'])
+        if not later:
+            continue
+        last = max(float(row['absolute_time']) for row in complete)
+        worst = min(count for _, count in later)
+        notes.append('%s ends at t=%.1f: %d of %d trajectories become non-finite later'
+                     % (method, last, POPULATION - worst, POPULATION))
+        detail.append('%s at %s of %d' % (
+            method, ', '.join('t=%.1f %d' % (time, count) for time, count in later), POPULATION))
+    return notes, detail
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--result-dir', type=Path, required=True)
@@ -77,6 +104,11 @@ def main(argv=None):
     source = read_source(args.result_dir/'summary/metrics.csv', cohort='test_2260_2439')
     write_source(curve_dir/'source_data.csv', source)
     figure = draw(source)
+    notes, detail = incomplete_population_note(source)
+    if notes:
+        figure.axes[0].text(0.03, 0.97, '\n'.join(notes + ['finite counts ' + '; '.join(detail)]),
+                            transform=figure.axes[0].transAxes, ha='left', va='top',
+                            fontsize=5.0, color='#3A3A3A', linespacing=1.45, zorder=20)
     right = curve_dir/'gaussian_mean_relative_l2_vs_time.svg'
     figure.savefig(right, bbox_inches='tight')
     limits = list(figure.axes[0].get_ylim())
@@ -93,6 +125,8 @@ def main(argv=None):
         'training_seeds_per_gift_regime': 3, 'baseline_models_per_method': 1,
         'comparison': 'within-distribution training and testing; not distribution transfer',
         'failed_trajectories_omitted': False, 'error_bars': 'none', 'hypothesis_tests': 'none',
+        'curves_truncated_at_last_complete_population': notes,
+        'finite_counts_after_truncation': detail,
         'curve_renderer_sha256': sha256(ROOT/'experiments/formal/m2_recursive_prediction/plot_mean_error.py')})
     subprocess.run([sys.executable, '-B', '-m', 'experiments.formal.m2_recursive_prediction.plot_keyframes',
         '--experiment', 'S4', '--input', str(args.result_dir/'raw/predictions.h5'),

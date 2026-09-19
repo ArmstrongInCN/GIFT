@@ -1,0 +1,776 @@
+{
+  "status": "complete",
+  "evidence": {
+    "experiment": "S4",
+    "report_sha256": "47BEA8D1EC81E90C7965BE3363E97C801099BBF6BE6979E996DE7FFD293B7B66",
+    "sources": [
+      {
+        "path": "raw/predictions.h5",
+        "bytes": 189868223,
+        "sha256": "D06A8EB6D731EC533CE34A3C00C67CFF3028F6456A9BC699AC5C23093335A1EC"
+      },
+      {
+        "path": "summary/metrics.csv",
+        "bytes": 9718,
+        "sha256": "ECBAF9C98E5CBBF9D23388478AF6B14A152457B38BD6ABE0002D9AA5C90EC5D9"
+      }
+    ],
+    "experiment_inputs": {
+      "long_truth": {
+        "bytes": 8890853234,
+        "sha256": "8868C616C697D65B60FC58E8E1BBF69CAB8D7B369D23CA8742B8DF1E748F8431"
+      },
+      "fno_test_data": {
+        "bytes": 8890853234,
+        "sha256": "8868C616C697D65B60FC58E8E1BBF69CAB8D7B369D23CA8742B8DF1E748F8431"
+      },
+      "low_frequency_model": {
+        "bytes": 284644,
+        "sha256": "5460303D0666D1A09AA3568EFA054B7B5508F9BDA2D6FBFA3CBFACACA61C32A5"
+      },
+      "gift_models": {
+        "20260820": {
+          "bytes": 11323666,
+          "sha256": "E0EAEBC16A9357484382D434972B68B913A905BC49F50890258C9FAB0A094ABA"
+        },
+        "20260821": {
+          "bytes": 11323666,
+          "sha256": "96C858B645039E9A7B3B0D7D89A2B6614BA61F21CE85FF3CA5EEBDD383ADA2E3"
+        },
+        "20260822": {
+          "bytes": 11323666,
+          "sha256": "7C9A756A113A77A8AA33624BB33EC67E0072C37CDDD917774923FE8E13D74030"
+        }
+      },
+      "fno2d_model": {
+        "bytes": 3729317,
+        "sha256": "4806281FC7992C691EAE9F23E16560DCE764F8AE613EB6B6425BF40668A3973A"
+      },
+      "fno3d_model": {
+        "bytes": 32683713,
+        "sha256": "047F95C548E9C573E48AF98AD1566894CF3D3699D8741CF83FC80E9F7DA0D791"
+      },
+      "uno_model": {
+        "bytes": 654,
+        "sha256": "E8912264850E58BE00A62DBE9C70E7C72951F480C71DCA46227BD093AF93DC32"
+      },
+      "unet_model": {
+        "bytes": 99941807,
+        "sha256": "C10D0C0E82E582B5B17806C259A1482B2C304BD77D3512DF1E30B6CDC777DB38"
+      },
+      "gift_lite": {
+        "lite_low_model": {
+          "bytes": 405138,
+          "sha256": "88E7850E50842365E638359A262D0DE3E4D0DFA5C60E53A263281B1C3B6E3E94"
+        },
+        "lite_gift_20260820": {
+          "bytes": 11315410,
+          "sha256": "5EA538AEB034FC0AF4BD953B7896FEB8A20D2D1494094E877AB5D1BBC944F87A"
+        },
+        "lite_gift_20260821": {
+          "bytes": 11315410,
+          "sha256": "A4F61C461543660E228C57BD34BBAE396E3EEDFA4C2242A89538B6E54A9A4A7B"
+        },
+        "lite_gift_20260822": {
+          "bytes": 11315410,
+          "sha256": "B88705C7E9AA7BEB6C9FDB19EF917A7F3017CF39855855EB9F7D01256CDAAD86"
+        }
+      }
+    }
+  },
+  "details": {
+    "trajectory_id": 2265,
+    "gift_seed": 20260820,
+    "selection": "prespecified trajectory and training seed",
+    "color_scales": {
+      "scalar_field": {
+        "colormap": "RdBu_r",
+        "normalization": "linear_centered_at_zero",
+        "minimum": -25.0,
+        "maximum": 25.0
+      },
+      "signed_residual": {
+        "colormap": "PuOr",
+        "normalization": "linear_centered_at_zero",
+        "minimum": -25.0,
+        "maximum": 25.0
+      },
+      "selected_field_maximum_absolute_value": 24.060277938842773,
+      "selected_residual_maximum_absolute_value": 24.0401668548584,
+      "field_limit": 25.0,
+      "residual_limit": 25.0
+    },
+    "crop": "none",
+    "smoothing": "none"
+  },
+  "renderer": {
+    "path": "plot_keyframes.py",
+    "sha256": "91C1C5EAFDE16173007B4C71D1971381AC62071607288E2B35C3B0B10177F51D"
+  },
+  "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
+  "vector_cell_rendering": {
+    "policy": "crispEdges on QuadMesh groups only",
+    "groups_per_svg": {
+      "panels/fno2d/traj2265_fno2d_residual_T5p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_residual_T6p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_residual_T7p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_residual_T8p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_scalar_T5p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_scalar_T6p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_scalar_T7p0.svg": 1,
+      "panels/fno2d/traj2265_fno2d_scalar_T8p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_residual_T5p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_residual_T6p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_residual_T7p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_residual_T8p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_scalar_T5p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_scalar_T6p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_scalar_T7p0.svg": 1,
+      "panels/fno3d/traj2265_fno3d_scalar_T8p0.svg": 1,
+      "panels/gift/traj2265_gift_residual_T5p0.svg": 1,
+      "panels/gift/traj2265_gift_residual_T6p0.svg": 1,
+      "panels/gift/traj2265_gift_residual_T7p0.svg": 1,
+      "panels/gift/traj2265_gift_residual_T8p0.svg": 1,
+      "panels/gift/traj2265_gift_scalar_T5p0.svg": 1,
+      "panels/gift/traj2265_gift_scalar_T6p0.svg": 1,
+      "panels/gift/traj2265_gift_scalar_T7p0.svg": 1,
+      "panels/gift/traj2265_gift_scalar_T8p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_residual_T5p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_residual_T6p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_residual_T7p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_residual_T8p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_scalar_T5p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_scalar_T6p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_scalar_T7p0.svg": 1,
+      "panels/gift_lite/traj2265_gift_lite_scalar_T8p0.svg": 1,
+      "panels/reference/traj2265_reference_scalar_T5p0.svg": 1,
+      "panels/reference/traj2265_reference_scalar_T6p0.svg": 1,
+      "panels/reference/traj2265_reference_scalar_T7p0.svg": 1,
+      "panels/reference/traj2265_reference_scalar_T8p0.svg": 1,
+      "panels/unet/traj2265_unet_residual_T5p0.svg": 1,
+      "panels/unet/traj2265_unet_residual_T6p0.svg": 1,
+      "panels/unet/traj2265_unet_residual_T7p0.svg": 1,
+      "panels/unet/traj2265_unet_residual_T8p0.svg": 1,
+      "panels/unet/traj2265_unet_scalar_T5p0.svg": 1,
+      "panels/unet/traj2265_unet_scalar_T6p0.svg": 1,
+      "panels/unet/traj2265_unet_scalar_T7p0.svg": 1,
+      "panels/unet/traj2265_unet_scalar_T8p0.svg": 1,
+      "panels/uno/traj2265_uno_residual_T5p0.svg": 1,
+      "panels/uno/traj2265_uno_residual_T6p0.svg": 1,
+      "panels/uno/traj2265_uno_residual_T7p0.svg": 1,
+      "panels/uno/traj2265_uno_residual_T8p0.svg": 1,
+      "panels/uno/traj2265_uno_scalar_T5p0.svg": 1,
+      "panels/uno/traj2265_uno_scalar_T6p0.svg": 1,
+      "panels/uno/traj2265_uno_scalar_T7p0.svg": 1,
+      "panels/uno/traj2265_uno_scalar_T8p0.svg": 1,
+      "traj2265_recursive_keyframes.svg": 54
+    }
+  },
+  "svg_checks": {
+    "panels/fno2d/traj2265_fno2d_residual_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_residual_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_residual_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_residual_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno2d/traj2265_fno2d_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_residual_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_residual_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_residual_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_residual_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/fno3d/traj2265_fno3d_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_residual_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_residual_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_residual_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_residual_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift/traj2265_gift_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_residual_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_residual_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_residual_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_residual_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/gift_lite/traj2265_gift_lite_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/reference/traj2265_reference_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/reference/traj2265_reference_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/reference/traj2265_reference_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/reference/traj2265_reference_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_residual_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_residual_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_residual_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_residual_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/unet/traj2265_unet_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_residual_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_residual_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_residual_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_residual_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_scalar_T5p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_scalar_T6p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_scalar_T7p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "panels/uno/traj2265_uno_scalar_T8p0.svg": {
+      "editable_text": false,
+      "embedded_raster_images": 0,
+      "width": "86.4pt",
+      "height": "86.4pt"
+    },
+    "traj2265_recursive_keyframes.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "518.740157pt",
+      "height": "443.149606pt"
+    }
+  },
+  "files": [
+    {
+      "path": "figure_metadata.json",
+      "bytes": 2672,
+      "sha256": "639C85D7CD4BF242881FA34C4EAD18E576431BE92AECCC110996FFFD73FF9E58"
+    },
+    {
+      "path": "panel_file_index.csv",
+      "bytes": 3783,
+      "sha256": "FD3F0A022918EEDF7BFE955F03FC987AE45EF1874A4FE20FC08C32CCE66458B1"
+    },
+    {
+      "path": "panel_metrics.csv",
+      "bytes": 2824,
+      "sha256": "D1297E80BDC2384D3E61BAF36CFC383E3B9C365B4734CC5235E0C61BF09AC0DF"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "8C85D990A08CD4043442A5A4EA49DCE1506276EA5AA5EEDF68D69C8812B0D4F5"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "3476401AD55802333C15F34E1DCFA18E96043D56C778F6EAAC5AC2227115ADD9"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "AA581A1BC4319EEAB478EF7E67EE7F463EB51B8EE6BB695DB287F2F983C23002"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "41BB23E0C74D6A1E2858CE073759DD1DF4FC45A681FE954FFA3684A7F7546071"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "CC07AD55BD3A146D63CA0A4A26BEDF1CF75A218D625A401D3B82A040609057EC"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "FC02257C1BAA8CC5DC4CA6F0B1C7BE51CBD2C159B137EE8B3C18C1791B84A2CC"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "DB80D833C8E6A42FC7285CDD9FE116A2E781D06ED387674A62134BFD645B4E28"
+    },
+    {
+      "path": "panels/fno2d/traj2265_fno2d_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "C3B72636C413A9B4C0F8FB77707A120D7542DE5445303498435C4A1157E645D2"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "1E09953EDAB8AE8BC73ADE0F053D05A7F6B08EFED6F26417192BC5EA1D0A31F8"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "4238B4CC4F21AE70DFF7ADAB47FA8371F1D51DE5598E922950A73B3B3FD384D8"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "2CE5670FB2A709DECC3D0C960CD7D9FEC4CF514ABA16CF306EF0C1EFAD57066B"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "D6B833E8790AF7271F65177BADFD98D3B9F79806E47C9203623DAB8161BBBB84"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "8C6EA9D76730CA9FD257F8A32816BC41ED8B93DFB80F7982AE93ED04E09BD523"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "02CF7BB8C3F537A3D385F3A7D1CE76C409E8E742808096AB2CDD1D5786A982D7"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "F0B04407D80FE50EFC45A1C8D160211234DB8BA02AC4269983203F6599680D71"
+    },
+    {
+      "path": "panels/fno3d/traj2265_fno3d_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "E1E2DC4158486E3E522C6D39A85C3D925ECFA77BE2DF0F364797A33F4220FC89"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "3AE6CF095AFDA2FCA5B3772E435AA496D84BD8BB602C580E0FB0C7817BEFF547"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "3EF880B0FC7D5A07ED579FDEFA4D9A2CEA96EEC69CC61DBC5B6DAD1BDD58338C"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "2B47EF8F5D66CDA59D997F67DAEC77649AB8C5BAC0CCB0007B91524799C241C9"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "32A92307EE61DADF517FFB873671D10D9B37DB7DF70A41CDEFB57E8055D388A0"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "BEB265E809964C841BE247CE7C7BDAD06FF7257E424E5910FC02DC0733979B5E"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "A173AFCF82A89536C9E0FCA327AE6F41AB8FDAB70C49A8C3C42EBAEBC9E6C94E"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "37C4C326F0029BB3999D8A16C3441035529AC35B97FC0262C986E7DC9A6FF2C3"
+    },
+    {
+      "path": "panels/gift/traj2265_gift_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "DDFE2D8BAE99832BDC8CD5FC7121095E6D39891D2EBF70AB06A5D8389E03DBAC"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "5D68B76186DC791B3092136BB707878C9DA641A93B50C95027A66B5F323546A8"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "FEB9625B0B2A01BCBB7F85D0B8B3A401145EECEEB0C88226AF9461D454F900CD"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "FD644A43ED9FB439FE876211900F258E5DB83FF0F39F866D402C6F02FD418775"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "27BCD7048CA1D0714EC1FE8D0F8E1186266D958ADBD3CF16AB5424CD3FB73287"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "64D93F605195C396E466CF61351AE05A8E1CF53A1710A116DC6066EB3C2892E3"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "8312CFE76C087B7D1616519AE501EB98D4A3FFFAD965C1320FA13A13735C1350"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "EF7ADE8F118190A02386677327E75D478F7EDF8763A2C90B2C78DA757103762F"
+    },
+    {
+      "path": "panels/gift_lite/traj2265_gift_lite_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "62AF6AD04AD73BF79BA33B69BFD46F0ABD20BD27DB639B3FF4521997BC0E7E43"
+    },
+    {
+      "path": "panels/reference/traj2265_reference_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "C4921B149766E732148FCCF5163EA6040F23E38703BA76D68D2DF9AEB469720F"
+    },
+    {
+      "path": "panels/reference/traj2265_reference_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "5007A8F9526451AEBA0F62F0BADF7E6B3542191570D3D7F2BE0565A5ECAF278A"
+    },
+    {
+      "path": "panels/reference/traj2265_reference_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "39EC1796D0D5C1364F9048BB152875018A99B58EF76DFB1DB5956CC6E608E3E8"
+    },
+    {
+      "path": "panels/reference/traj2265_reference_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "E0C37AC5A9DEEBF688847B078F4B5E67FA6F93344D49F1213B9878C9834B8F0C"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "62080311C0017E2FED2D8D26A379BDC951AA98735393DBC022054B17B457B30E"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "BDDD6D64BA6F6AEB201C6042B0E78AA83BB9E0AB09EC1622330DC1B83B3094AE"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "87FD2F93C60AA275E63A411CDF54751966B7A452136B2462019A6C427037C523"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "C87D8D7DE777805F987F1C2002A1719A50BAEEFABEA0457D98830AF943E7F791"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "76EEC5421AA9AEDD9D6A4974B37540EA45CDDC222CE9E90FC09EB3B66548F872"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "C81C7B13875252DF9934F5017CC3A2EE0855EB03952C40FC87EEC9E044B29C2F"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "A26C40FCE938E1AAFD3CF09391D09E0236DE92B6D683AF82EE1201E10331C00B"
+    },
+    {
+      "path": "panels/unet/traj2265_unet_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "E5DD5D641358460A001589572A7344E4EC2B211E1635E2EC22B92A709D173349"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "FE08BB4B9BA7C218DEE81392D2634FFDB808BA59B5A83EF11DB29DE0A3380D7B"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "B1690E26E292AC659F18AA47FD05DB7355C058B59EBECBF0292519F4EFC7CB19"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "3E50AA0E03E8BAFE5022BC23B7CE30F9DFD58F461ED9A72F1074C76A0ABB96FE"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "FC49F9FDA1C5DC28B7796D0485806479BD2BBDEA1437440C08DAC963BB15E669"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "32B075745B1C501D97695B97C3EB500085ACA9A66B77C611E096D54C81DE48C2"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "F3903B3117CBC445170FA6B5DE9F1523ECA0D316ADC10DF33E07E233E3BD5FBD"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "F0D4AA350CDFBC1F7B8A27CAFB5A953355A3E5295E36BB294FDD2DBE45376D2F"
+    },
+    {
+      "path": "panels/uno/traj2265_uno_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "D73B3B7F9F54BD714A47AA2971F56B20DF42058C4A689B9151ECA1DB992B94D5"
+    },
+    {
+      "path": "source_fields.npz",
+      "bytes": 697779,
+      "sha256": "E0065687BF516788706C40FAB3042249227E147973800907A6D02DB23DD4803F"
+    },
+    {
+      "path": "traj2265_recursive_keyframes.svg",
+      "bytes": 42299050,
+      "sha256": "B539A50F11FB09D6D6E167A6185947F96250D842FF33EB4990F72E777AEFD2D1"
+    }
+  ]
+}

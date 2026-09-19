@@ -1,0 +1,113 @@
+{
+  "schema": "gift.paper-figure.S4.keyframes.v1",
+  "status": "complete",
+  "trajectory_id": 2265,
+  "absolute_times": [
+    5.0,
+    6.0,
+    7.0,
+    8.0
+  ],
+  "input": {
+    "record": "raw/predictions.h5",
+    "bytes": 189868223,
+    "sha256": "D06A8EB6D731EC533CE34A3C00C67CFF3028F6456A9BC699AC5C23093335A1EC"
+  },
+  "methods": [
+    {
+      "label": "GIFT",
+      "panel_slug": "gift",
+      "formal_group": "GIFT_seed_20260820"
+    },
+    {
+      "label": "GIFT-Lite",
+      "panel_slug": "gift_lite",
+      "formal_group": "GIFT_Lite_seed_20260820"
+    },
+    {
+      "label": "FNO-2D",
+      "panel_slug": "fno2d",
+      "formal_group": "FNO_2D"
+    },
+    {
+      "label": "FNO-3D",
+      "panel_slug": "fno3d",
+      "formal_group": "FNO_3D"
+    },
+    {
+      "label": "U-NO",
+      "panel_slug": "uno",
+      "formal_group": "U_NO"
+    },
+    {
+      "label": "U-Net",
+      "panel_slug": "unet",
+      "formal_group": "U_Net"
+    }
+  ],
+  "gift_visualization": {
+    "training_seed": 20260820,
+    "selection": "prespecified training seed; not selected from evaluation errors",
+    "field_level_seed_averaging": false
+  },
+  "residual_definition": "prediction_minus_reference",
+  "color_scales": {
+    "scalar_field": {
+      "colormap": "RdBu_r",
+      "normalization": "linear_centered_at_zero",
+      "minimum": -25.0,
+      "maximum": 25.0
+    },
+    "signed_residual": {
+      "colormap": "PuOr",
+      "normalization": "linear_centered_at_zero",
+      "minimum": -25.0,
+      "maximum": 25.0
+    },
+    "selected_field_maximum_absolute_value": 24.060277938842773,
+    "selected_residual_maximum_absolute_value": 24.0401668548584,
+    "field_limit": 25.0,
+    "residual_limit": 25.0
+  },
+  "panel_count": 52,
+  "vector_qa": {
+    "individual_svg_count": 52,
+    "composite_svg_count": 1,
+    "embedded_raster_image_count": 0,
+    "composite_has_editable_text_nodes": true
+  },
+  "layout": {
+    "archetype": "image_plate_with_residual_evidence",
+    "arrangement": "scalar_left_residual_right",
+    "row_order": [
+      "Reference",
+      "GIFT",
+      "GIFT-Lite",
+      "FNO-2D",
+      "FNO-3D",
+      "U-NO",
+      "U-Net"
+    ],
+    "scalar_columns": [
+      5.0,
+      6.0,
+      7.0,
+      8.0
+    ],
+    "residual_columns": [
+      5.0,
+      6.0,
+      7.0,
+      8.0
+    ],
+    "scalar_residual_rows_aligned": true,
+    "reference_residual_displayed": false,
+    "reference_repeated_in_composite": false,
+    "individual_reference_panels_stored_once": true,
+    "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",
+    "column_group_titles": [
+      "Scalar field",
+      "Residual (prediction - reference)"
+    ]
+  }
+}

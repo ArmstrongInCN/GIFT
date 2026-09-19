@@ -7,6 +7,8 @@
 /work/
 /build/
 /dist/
+# Local assistant/work notes are development diaries, not part of the delivery.
+/.workbuddy/
 .env
 .env.*
 __pycache__/

@@ -1,0 +1,161 @@
+{
+  "status": "complete",
+  "evidence": {
+    "experiment": "S4",
+    "report_sha256": "47BEA8D1EC81E90C7965BE3363E97C801099BBF6BE6979E996DE7FFD293B7B66",
+    "sources": [
+      {
+        "path": "summary/metrics.csv",
+        "bytes": 9718,
+        "sha256": "ECBAF9C98E5CBBF9D23388478AF6B14A152457B38BD6ABE0002D9AA5C90EC5D9"
+      },
+      {
+        "path": "raw/predictions.h5",
+        "bytes": 189868223,
+        "sha256": "D06A8EB6D731EC533CE34A3C00C67CFF3028F6456A9BC699AC5C23093335A1EC"
+      }
+    ],
+    "experiment_inputs": {
+      "long_truth": {
+        "bytes": 8890853234,
+        "sha256": "8868C616C697D65B60FC58E8E1BBF69CAB8D7B369D23CA8742B8DF1E748F8431"
+      },
+      "fno_test_data": {
+        "bytes": 8890853234,
+        "sha256": "8868C616C697D65B60FC58E8E1BBF69CAB8D7B369D23CA8742B8DF1E748F8431"
+      },
+      "low_frequency_model": {
+        "bytes": 284644,
+        "sha256": "5460303D0666D1A09AA3568EFA054B7B5508F9BDA2D6FBFA3CBFACACA61C32A5"
+      },
+      "gift_models": {
+        "20260820": {
+          "bytes": 11323666,
+          "sha256": "E0EAEBC16A9357484382D434972B68B913A905BC49F50890258C9FAB0A094ABA"
+        },
+        "20260821": {
+          "bytes": 11323666,
+          "sha256": "96C858B645039E9A7B3B0D7D89A2B6614BA61F21CE85FF3CA5EEBDD383ADA2E3"
+        },
+        "20260822": {
+          "bytes": 11323666,
+          "sha256": "7C9A756A113A77A8AA33624BB33EC67E0072C37CDDD917774923FE8E13D74030"
+        }
+      },
+      "fno2d_model": {
+        "bytes": 3729317,
+        "sha256": "4806281FC7992C691EAE9F23E16560DCE764F8AE613EB6B6425BF40668A3973A"
+      },
+      "fno3d_model": {
+        "bytes": 32683713,
+        "sha256": "047F95C548E9C573E48AF98AD1566894CF3D3699D8741CF83FC80E9F7DA0D791"
+      },
+      "uno_model": {
+        "bytes": 654,
+        "sha256": "E8912264850E58BE00A62DBE9C70E7C72951F480C71DCA46227BD093AF93DC32"
+      },
+      "unet_model": {
+        "bytes": 99941807,
+        "sha256": "C10D0C0E82E582B5B17806C259A1482B2C304BD77D3512DF1E30B6CDC777DB38"
+      },
+      "gift_lite": {
+        "lite_low_model": {
+          "bytes": 405138,
+          "sha256": "88E7850E50842365E638359A262D0DE3E4D0DFA5C60E53A263281B1C3B6E3E94"
+        },
+        "lite_gift_20260820": {
+          "bytes": 11315410,
+          "sha256": "5EA538AEB034FC0AF4BD953B7896FEB8A20D2D1494094E877AB5D1BBC944F87A"
+        },
+        "lite_gift_20260821": {
+          "bytes": 11315410,
+          "sha256": "A4F61C461543660E228C57BD34BBAE396E3EEDFA4C2242A89538B6E54A9A4A7B"
+        },
+        "lite_gift_20260822": {
+          "bytes": 11315410,
+          "sha256": "B88705C7E9AA7BEB6C9FDB19EF917A7F3017CF39855855EB9F7D01256CDAAD86"
+        }
+      }
+    }
+  },
+  "details": {
+    "reference": {
+      "experiment": "M2",
+      "published_manifest_sha256": "F4DDA2C0B8C37875F7B2C6B24AF158BFC325F7A12FE4C1313089E8D693E1B6CC",
+      "curve_sha256": "1F1CFD02EF826346303539B6E0EB5BA94298A69EEA9C6283CE2B83B69D552FBB",
+      "reuse": "left panel, unchanged scientific content"
+    },
+    "layout": {
+      "width_pt": 1016.372678,
+      "height_pt": 265.373892,
+      "reference_panel_modified": false,
+      "operation": "vector translation and unique ID prefixes only"
+    },
+    "gaussian_y_limits": [
+      0.0,
+      1.8877744649835284
+    ],
+    "population_per_distribution": 180,
+    "training_seeds_per_gift_regime": 3,
+    "baseline_models_per_method": 1,
+    "comparison": "within-distribution training and testing; not distribution transfer",
+    "failed_trajectories_omitted": false,
+    "error_bars": "none",
+    "hypothesis_tests": "none",
+    "curves_truncated_at_last_complete_population": [
+      "GIFT-Lite ends at t=6.5: 17 of 180 trajectories become non-finite later"
+    ],
+    "finite_counts_after_truncation": [
+      "GIFT-Lite at t=7.0 179, t=7.5 172, t=8.0 163 of 180"
+    ],
+    "curve_renderer_sha256": "E4C079B1E5DBBDDFB114D5DEBDCF0A1D89855FDB9FEC2D6B7DA07AB00DBA52A6"
+  },
+  "renderer": {
+    "path": "plot_results.py",
+    "sha256": "EAB44E4C5DEFBDFFC5C8BAD14555359C54A8F2925A1A90F3AAF4608C04DE9F90"
+  },
+  "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
+  "vector_cell_rendering": {
+    "policy": "crispEdges on QuadMesh groups only",
+    "groups_per_svg": {
+      "gaussian_mean_relative_l2_vs_time.svg": 0,
+      "initial_distribution_comparison.svg": 0
+    }
+  },
+  "svg_checks": {
+    "gaussian_mean_relative_l2_vs_time.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "499.186339pt",
+      "height": "243.373892pt"
+    },
+    "initial_distribution_comparison.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "1016.372678pt",
+      "height": "265.373892pt"
+    }
+  },
+  "files": [
+    {
+      "path": "gaussian_mean_relative_l2_vs_time.svg",
+      "bytes": 28515,
+      "sha256": "DEDE7A8C8F6DFD09D9035FE74BFD1ACE2574A0CCCC2D4628AA5ED85EF72EFC11"
+    },
+    {
+      "path": "initial_distribution_comparison.svg",
+      "bytes": 59155,
+      "sha256": "9459034663F6C69D42B8B65FC779E7C1E943CDF5DDAE63A89CC1D6DE0F6B64C8"
+    },
+    {
+      "path": "reference_source_data.csv",
+      "bytes": 2288,
+      "sha256": "AD56E4A38974C03C78864526D96EC7AD02253EDF93EF31A6DDBEDE61610CAAA8"
+    },
+    {
+      "path": "source_data.csv",
+      "bytes": 2293,
+      "sha256": "6A1BF7D7737E87180CDB7D0FA9EE1D59ED9D0BD9C3F2F26A7824D5E5213E6623"
+    }
+  ]
+}

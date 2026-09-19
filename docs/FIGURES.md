@@ -1,8 +1,8 @@
 # Experiment figures / 实验图像
 
-All five figures referenced by the experiment document are regenerated from numerical results using Python/matplotlib and exported as SVG. Plotting does not train a model or select a checkpoint. It can be rerun independently after numerical experiments finish.
+All eight figure placements referenced by the experiment document are generated from numerical results using Python/matplotlib and exported as SVG; they resolve to seven published files because the S4 section reuses the published M2 keyframe plate unchanged. Plotting does not train a model or select a checkpoint. It can be rerun independently after numerical experiments finish.
 
-实验文档的五幅图均由数值结果生成，只导出 SVG。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。M1 图像不变。
+实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节直接引用已发布的 M2 场图原文件，未重新生成。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。扩大共享色限时必须在正文中说明，S4 高斯场图即为实例。若某个方法在部分报告时刻不再具备完整测试总体，其曲线应在最后一个完整时刻收住并在图内注明，不得用有限子集数值冒充全体。M1 图像不变。
 
 | Figure | Evidence and layout | Statistics / selection |
 | --- | --- | --- |
@@ -11,6 +11,8 @@ All five figures referenced by the experiment document are regenerated from nume
 | M2 keyframes | Scalar fields and signed residuals in aligned blocks, with separate GIFT and GIFT-Lite rows | Prespecified test trajectory 1045, seed 20260820, t = 5, 6, 7, 8; no averaging of prediction fields |
 | M3 mean error | Three temporal-error panels for N64, N96 and N128, 183 × 72 mm nominal canvas | Same 180 paired trajectories; each GIFT band's pointwise range spans three seed means, not a confidence interval; each baseline uses one model |
 | M3 fields | Reference/prediction row and aligned signed residuals, with separate GIFT and GIFT-Lite columns | Prespecified test trajectory 1150, seed 20260820, N128, t = 6; not selected by the newly measured errors |
+| S4 initial-distribution comparison | Two M2-style curve panels side by side; the left panel is the published M2 SVG reused by vector translation and ID de-duplication only, the right panel is the new Gaussian measurement | 180 trajectories per distribution; each GIFT regime averages three seed-specific trajectory means; one model per baseline; the GIFT-Lite curve stops at t=6.5 because later report times retain fewer than 180 finite trajectories, and that is annotated on the panel |
+| S4 keyframes | Same block layout as the M2 keyframe plate; prespecified Gaussian test trajectory 2265 | Prespecified trajectory 2265, seed 20260820, t = 5, 6, 7, 8; one shared colour scale per quantity at ±25, wider than the ±19 that sufficed for trajectory 1045, disclosed in the caption and recorded in `figure_manifest.json` |
 
 ## Data and image integrity
 
@@ -38,7 +40,12 @@ python -m experiments.formal.m1_equation_identification.plot_parameters --result
 python -m experiments.formal.m2_recursive_prediction.plot_mean_error --metrics runs/M2/summary/metrics.csv --output-dir runs/figures_M2_curve
 python -m experiments.formal.m2_recursive_prediction.plot_keyframes --input runs/M2/raw/predictions.h5 --output-dir runs/figures_M2_keyframes
 python -m experiments.formal.m3_cross_resolution.plot_results --result-dir runs/M3 --output-dir runs/figures_M3
+python -m experiments.formal.s4_initial_distribution.plot_results --result-dir runs/S4 --output-dir runs/figures_S4
 ```
+
+The S4 command writes `curves/` and `keyframes/` under its output directory and
+requires the published M2 package as the unchanged left-hand reference; it fails
+rather than drawing if an input is missing. Its output directory must be new.
 
 The default requires both GIFT regimes. Add `--gift-regimes GIFT-Lite` only for
 an explicitly limited Lite-only figure in a separate directory. An absent

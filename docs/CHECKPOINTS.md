@@ -30,11 +30,29 @@ its own multi-stage schedule, not a smaller network. This is not a data-only
 ablation with identical training budgets. M1 retains its own clean/noisy generator
 weights and parameter-identification protocol.
 
+## Gaussian initial-condition regime (S4)
+
+S4 repeats the same protocol on a separate smooth Gaussian random-field population
+and has its own weights under `artifacts/s4_gaussian/`: `gift_full/generator.pt`
+and `gift_full/gift_seed_SEED.pt` for full-data GIFT, `gift_lite/generator.pt` and
+`gift_lite/gift_seed_SEED.pt` for GIFT-Lite, plus `fno2d/`, `fno3d/`, `unet/` and
+`uno/` for the baselines. These are terminal models trained from scratch on the
+Gaussian trajectories, not the four-vortex weights. The S4 evaluation rejects any
+model whose recorded input population, freshness or frozen-generator binding
+differs, so an M2 model cannot silently stand in for an S4 model.
+
+`artifacts/s4_gaussian/TRAINING_COSTS.json` reports each run's declared budget and
+its measured committed interval with an explicit timing scope; those scopes differ
+between model families and are not pooled into a single comparable measurement.
+
 ## Ordinary and split weight files
 
 `artifacts/CHECKPOINTS.json` records the available weights and SHA-256 hashes.
 Most models use ordinary `.pt` or `.npz` files. U-NO uses `weights.json` and
-numbered `.part` files in `artifacts/formal/uno/`; keep that folder together.
+numbered `.part` files in `artifacts/formal/uno/` and in
+`artifacts/s4_gaussian/uno/`; keep each of those folders together. U-Net is
+95.31 MiB in both regimes and stays a single ordinary file. Only checkpoints that
+cannot be distributed as one file within GitHub's per-file limit are split.
 
 The parts contain the **exact bytes of one normal trained PyTorch checkpoint**,
 not quantized or altered weights. The loader checks each part and the complete

@@ -1,6 +1,6 @@
 # GIFT 数值实验记录
 
-本文记录 GIFT 在二维不可压缩流动状态建模中的六项数值实验。三项主线实验研究方程参数识别、递归预测和跨分辨率预测，三项支线实验研究高频支路、递归局部修正和训练随机种子的影响。GIFT 由冻结生成元、高频支路和递归局部修正组成。
+本文记录 GIFT 在二维不可压缩流动状态建模中的七项数值实验。三项主线实验研究方程参数识别、递归预测和跨分辨率预测，四项支线实验研究高频支路、递归局部修正、训练随机种子和初值分布的影响。GIFT 由冻结生成元、高频支路和递归局部修正组成。
 
 预测实验比较全数据 GIFT（1000 条训练轨迹）、GIFT-Lite（50 条训练轨迹）和相应基线。全数据 GIFT 的生成元与高频支路各训练 500 个轨迹 epoch，预算分项报告。M1 保持独立的参数识别设置。
 
@@ -16,6 +16,7 @@
 | S1 | 支线实验 | 高频支路有效性 | 评价高频支路对瞬时方程右端和递归状态的整体作用 | GIFT、GIFT-Lite 及各自的高频支路关闭配置 | `experiments/formal/s1_high_frequency_branch/run.py` | `results/formal/S1_high_frequency_branch/` |
 | S2 | 支线实验 | 递归局部修正有效性 | 评价递归局部修正对非有限结果和局部误差放大的抑制作用 | GIFT、GIFT-Lite 及各自的递归局部修正关闭配置 | `experiments/formal/s2_recursive_local_correction/run.py` | `results/formal/S2_recursive_local_correction/` |
 | S3 | 支线实验 | 随机种子稳定性 | 评价三次独立训练得到的主要指标差异 | 随机种子 20260820、20260821、20260822 | `experiments/formal/s3_seed_stability/run.py` | `results/formal/S3_seed_stability/` |
+| S4 | 支线实验 | 初值分布对照 | 在平滑高斯随机场初值分布上重复 M2 的分布内比较 | GIFT、GIFT-Lite、FNO-2D、FNO-3D、U-NO、U-Net | `experiments/formal/s4_initial_distribution/run.py` | `results/formal/S4_initial_distribution/` |
 
 ## 2. 研究对象、数据和统一设置
 
@@ -628,6 +629,104 @@ S3 分别在 GIFT 和 GIFT-Lite 各自固定的训练数据和超参数下独立
 
 GIFT 和 GIFT-Lite 的最大 $\mathrm{CV}$ 分别约为 0.321% 和 0.313%。在所测试的三个随机种子下，方程右端、递归预测和跨分辨率预测结果的种子间差异较小；该描述性结果不构成任意随机种子下的稳定性保证。
 
+### 5.4 S4：初值分布对照
+
+#### 目的与设计
+
+S4 用同一套预测协议在第二种初值分布上重复 M2 的方法比较。新增一批空间相关的平滑高斯随机场初值轨迹，统一生成后按固定编号划分为互不重叠的训练、验证和测试集。这是「四涡旋训练/四涡旋测试」与「高斯训练/高斯测试」的分布内对照，不是跨分布迁移测试：两种分布各自拥有完整的训练与测试数据，同一编号在两种分布之间不表示逐条配对的初值。
+
+PDE、求解器、网络结构、损失、优化器、batch size、rollout 长度、随机种子和模型选择规则均与 M2 相同，只改变初值分布及相应轨迹数据。全数据 GIFT 的生成元和高频支路各训练 500 个轨迹 epoch，分项报告；GIFT-Lite 保持 M2 的减量预算（50 条训练轨迹）；四个基线各 500 epoch。全部 S4 模型都在本分布数据上重新训练，不使用 M2 权重初始化，也没有为 S4 增加外部算法适配。
+
+平滑高斯随机场按固定协方差律生成：独立标准正态实场经 $h(k)=\exp(-0.4^2|k|^2/4)$ 过滤、零 Fourier 模态置零，再乘以仅由原 1000 条训练轨迹初值确定的固定总体振幅。不对单个实现做归一化、裁剪或拒绝采样，也不使用测试结果选择任何参数。周期域、黏性、forcing、全谱 ETDRK4、内部 $\mathrm{d}t=0.005$、$N=64$、padding 99、float32/complex64 与存储间隔 0.02 均与 M2 相同。
+
+#### 数据与评价范围
+
+| 用途 | 轨迹编号 | 数量 |
+| --- | --- | ---: |
+| 训练 | 1220–2219 | 1000 |
+| 检查点验证 | 2220–2239 | 20 |
+| 其余验证 | 2240–2259 | 20 |
+| 测试 | 2260–2439 | 180 |
+| GIFT-Lite 训练子集 | 1220–1269 | 50 |
+
+评价协议与 M2 相同：GIFT 使用 $t=5.0$ 的单状态锚点递归预测，基线使用 $t=4.1$ 至 $5.0$ 的 46 帧历史并预测 150 步至 $t=8.0$，不使用真值重启或测试期 teacher forcing。误差在 180 条测试轨迹的 $t=5.0,5.5,\ldots,8.0$ 七个报告时刻分别计算全场相对 $L^2$，不合并不同预测时刻。
+
+#### 预测结果
+
+| 时间 | GIFT 均值 | GIFT 种子 SD | GIFT-Lite 均值 | GIFT-Lite 种子 SD | FNO-2D | FNO-3D | U-NO | U-Net |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 5.0 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
+| 5.5 | 0.012096 | 0.000022 | 0.026262 | 0.000188 | 0.153684 | 0.207809 | 0.019265 | 0.194416 |
+| 6.0 | 0.012146 | 0.000020 | 0.052106 | 0.000098 | 0.202785 | 0.268217 | 0.031640 | 0.511831 |
+| 6.5 | 0.012966 | 0.000022 | 0.104042 | 0.000544 | 0.253992 | 0.375029 | 0.052118 | 0.846970 |
+| 7.0 | 0.014544 | 0.000027 | 0.209092 ※ | 0.003451 | 0.317946 | 0.513983 | 0.081786 | 1.178375 |
+| 7.5 | 0.017203 | 0.000017 | 0.322797 ※ | 0.002862 | 0.393208 | 0.653637 | 0.122768 | 1.483534 |
+| 8.0 | 0.021035 | 0.000012 | 0.464696 ※ | 0.007239 | 0.475368 | 0.770688 | 0.173805 | 1.747939 |
+
+※ 这三个数值只是 180 条测试轨迹中保持有限的那一部分的均值，不是完整总体的均值；对应样本数见下节。GIFT-Lite 在 $t=7.0$ 及以后不再具备完整总体，因此该方法的曲线在 $t=6.5$ 收住，未向 $t>6.5$ 外推，也未用有限子集数值替代全体数值。
+
+![两种初值分布下六种方法的平均相对误差对比](results/formal/S4_initial_distribution/figures/curves/initial_distribution_comparison.svg)
+
+*图 S4-1｜左、右两幅分别是四涡旋初值（M2）和高斯随机场初值（S4）下的平均全场相对误差随时间变化。两幅使用相同的作图程序、方法配色、报告时刻和相对 $L^2$ 定义。左图为已发布的 M2 结果，只做矢量平移和标识符去重，科学内容与数值均未改变，M2 也没有被重新计算。右图中 GIFT-Lite 的有限子集区间以图内注记标出。*
+
+图中标记是七个报告时刻的实际样本均值，曲线是严格通过这些样本点的 PCHIP 拟合曲线，仅用于显示趋势。$t=5.0$ 对应给定的初始状态，不是预测结果。种子 SD 描述高频支路训练的种子间差异，不含生成元训练随机性。
+
+在 $t=6.5$（全部六种方法都具备完整总体的最后一个报告时刻），GIFT 平均误差 0.012966 最低，其后依次为 U-NO 0.052118、GIFT-Lite 0.104042、FNO-2D 0.253992、FNO-3D 0.375029 和 U-Net 0.846970。在 $t=8.0$，GIFT 为 0.021035，U-NO 为 0.173805；GIFT 在全部七个报告时刻的平均误差均为六种方法中最低。这是一组固定训练协议下的描述性比较，不表示各方法使用了相同计算量。
+
+#### 示例轨迹的预测场与残差
+
+![M2 原示例轨迹 1045 的预测场与残差](results/formal/M2_recursive_prediction/figures/keyframes/traj1045_recursive_keyframes.svg)
+
+*图 S4-2｜M2 已发布的示例轨迹 1045 场图，在此直接引用以作并排对照，未重新生成或修改。*
+
+![S4 示例轨迹 2265 的预测场与残差](results/formal/S4_initial_distribution/figures/keyframes/traj2265_recursive_keyframes.svg)
+
+*图 S4-3｜高斯随机场初值下预先指定的测试轨迹 2265 在 $t=5.0,6.0,7.0,8.0$ 的涡量场与有符号残差，版面与图 S4-2 相同。行列顺序、对齐方式、色标独立性和种子约定均与 M2 一致。*
+
+两条示例轨迹分别是各自测试集内预先指定的第 6 条轨迹（1045 和 2265），GIFT 与 GIFT-Lite 图像固定使用随机种子 20260820，不根据本次数值结果挑选，也不做跨种子平均。
+
+色标说明：图 S4-3 的涡量场与残差色标为 $\pm 25$，比图 S4-2 的 $\pm 19$ 更宽。原因是该轨迹上真值场与残差的最大绝对值约为 24.06 和 24.04，超过 M2 使用的色标上限；按「只在数据需要时扩大并说明」的规则扩大，具体数值记录在图的 `figure_manifest.json` 中。每种量仍各用一个色标、六种方法共用，未按方法分别缩放，也未裁剪或过滤任何场。
+
+#### 数值有限性与结果分析
+
+| 方法 | 预测组织方式 | 完整预测区间保持有限的轨迹数 | 七个报告时刻均保持有限的轨迹数 |
+| --- | --- | ---: | ---: |
+| GIFT | 递归 150 步 | 180/180 | 180/180 |
+| GIFT-Lite | 递归 150 步 | 163/180 | 163/180 |
+| FNO-2D | 递归 150 步 | 180/180 | 180/180 |
+| FNO-3D | 一次直接输出 150 帧 | 180/180 | 180/180 |
+| U-NO | 递归 150 步 | 180/180 | 180/180 |
+| U-Net | 递归 150 步 | 180/180 | 180/180 |
+
+GIFT-Lite 有 17 条测试轨迹在递归过程中出现非有限值，轨迹编号为 2260、2272、2275、2285、2310、2317、2368、2377、2381、2388、2402、2406、2411、2421、2425、2428 和 2435；三个训练种子得到完全相同的失败轨迹集合。首次出现非有限的预测步落在第 94 至第 148 步之间，即 $t\approx 6.86$ 至 $t\approx 7.94$。按报告时刻统计，保持有限的轨迹数在 $t=7.0$ 为 179、$t=7.5$ 为 173/172/173（三种子）、$t=8.0$ 为 163。
+
+这些失败样本保留在数值记录中，未被剔除：`summary/metrics.csv` 逐行记录 `finite_count`，均值和分位数只在保持有限的子集上计算，`summary/summary.json` 对 $t=8.0$ 的 GIFT-Lite 记录 `status: nonfinite_predictions` 并把有限子集统计单列为诊断量，`published.json` 的 `failed_trajectories_omitted` 为 `false`。因此上表中带 ※ 的 GIFT-Lite 数值不能与其余方法的全体数值直接排名；GIFT-Lite 在 $t=7.0$ 及以后的精度表现不能由这些有限子集均值代表。
+
+在 M2 的四涡旋分布下，六种方法都保持 180/180 条轨迹有限；在高斯随机场分布下，全数据 GIFT、U-NO、FNO-2D、FNO-3D 和 U-Net 仍保持 180/180，只有减量训练的 GIFT-Lite 出现上述失稳。这一差异是两种初值分布下都可复核的实测结果，不用于推断任意分布下的稳定性。
+
+#### 训练成本
+
+| 训练 | 预算 | 实测提交区间（秒） | 折合小时 |
+| --- | --- | ---: | ---: |
+| 全数据生成元 | 500 epoch，31500 次更新 | 279.9 | 0.08 |
+| GIFT-Lite 生成元 | 12000 次更新 | 126.9 | 0.04 |
+| GIFT-Lite 支路（三种子） | 各 5834 次更新 | 218.2 / 226.7 / 217.8 | 0.06 / 0.06 / 0.06 |
+| 全数据支路（三种子） | 各 500 epoch，45200 次更新 | 10422.3 / 7369.3 / 9230.6 | 2.90 / 2.05 / 2.56 |
+| U-Net | 500 epoch，25000 次更新 | 2458.0 | 0.68 |
+| U-NO | 500 epoch，31500 次更新 | 29553.3 | 8.21 |
+| FNO-3D | 500 epoch，50000 次更新 | 43538.1 | 12.09 |
+| FNO-2D | 500 epoch，25000 次更新 | 137921.8 | 38.31 |
+
+上表是 12 次独立训练各自由训练器提交的时间区间之和（约 67.1 小时），不是墙钟时间：它不含环境准备、检查点写入、暂停和未提交的重算，各模型的计时口径也不完全相同，逐项口径记录在 `artifacts/s4_gaussian/TRAINING_COSTS.json` 的 `timing_scope` 中。相同的轨迹 epoch 数或相同的更新次数不等于相同的总计算量；FNO-2D 的实测时间明显高于同一模型在四涡旋数据上的规划参考值，本实验不对该差异给出硬件结论。
+
+#### 运行入口与结果文件
+
+- 六种方法的统一评价入口：`experiments/formal/s4_initial_distribution/run.py`，它与 M2 共用同一套数值流程。
+- 绘图入口：`experiments/formal/s4_initial_distribution/plot_results.py`。
+- 已发布权重：`artifacts/s4_gaussian/`，逐文件哈希记录在 `artifacts/CHECKPOINTS.json`。
+- 已发布汇总与图像：`results/formal/S4_initial_distribution/`。独立重算时，`raw/predictions.h5` 保存报告时刻的预测场、逐轨迹相对误差和完整预测区间的有限性标志，`raw/per_trajectory_metrics.csv` 保存逐轨迹指标；大型原始数组不随 GitHub 项目打包。
+- 数据、训练、评价、续算与绘图命令见 [S4_PROTOCOL.md](docs/S4_PROTOCOL.md)；高斯数据位于独立数据包的 `s4_gaussian/`，划分和逐文件哈希见 `splits.json` 与 `manifest.json`。
+
 ## 6. 结论与适用范围
 
 1. 在 0% 和 1% 噪声下，GIFT 对 $\nu$、$\beta$ 和 $\gamma$ 的 APE 均为五种配置中最低；在 10% 噪声下，三个参数分别由 PDE-FIND-KC、PDE-FIND 和 GIFT 取得最低 APE，KC 不保证逐参数改善。
@@ -636,20 +735,22 @@ GIFT 和 GIFT-Lite 的最大 $\mathrm{CV}$ 分别约为 0.321% 和 0.313%。在�
 4. 高频支路在 $N=64$、$N=96$ 和 $N=128$ 的 $t=6.0$ 分别降低 GIFT 全场误差 60.04%、57.54%、57.55%，降低 GIFT-Lite 全场误差 33.63%、31.98%、31.98%；两者均改善所报告的递归 Q21 状态误差，但瞬时 Q21 方程右端逐状态均值并未改善，须结合其小分母与长尾分布解读。
 5. 递归局部修正在独立测试集上避免 GIFT-Lite 的轨迹 1062 出现非有限值；关闭修正后的有限样本均值不能单独作为精度优势的依据。全数据 GIFT 开关修正均保持全部轨迹有限，且未触发修正，本实验未显示修正对它的额外收益。
 6. 在各自固定生成元、独立训练高频支路的三个种子下，GIFT 和 GIFT-Lite 主要指标的最大 $\mathrm{CV}$ 分别约为 0.321% 和 0.313%；这一范围只描述所测种子，不包含生成元训练随机性。
+7. 在平滑高斯随机场初值分布上重复 M2 的分布内比较后，GIFT 在各报告时刻的平均误差仍是六种方法中最低（$t=8.0$ 为 0.021035），U-NO 是误差最接近的基线（0.173805）。全数据 GIFT、U-NO、FNO-2D、FNO-3D 和 U-Net 均保持 180/180 条测试轨迹有限；减量训练的 GIFT-Lite 有 17/180 条轨迹在 $t\approx 6.9$ 之后出现非有限值，其在 $t\ge 7.0$ 的数值只是有限子集统计，不能按完整总体解读，也不能与其余方法的全体数值直接排名。
 
-M1 结论还限于单一方程、单个配对噪声实现、单一随机种子和固定计算预算，不构成统计显著性或跨方程优越性结论。其余结论限于本文的数据分布、训练协议以及 $N=64$、$N=96$ 和 $N=128$ 网格，不构成任意分辨率上的误差保证或数值稳定性定理。
+M1 结论还限于单一方程、单个配对噪声实现、单一随机种子和固定计算预算，不构成统计显著性或跨方程优越性结论。其余结论限于本文的数据分布、训练协议以及 $N=64$、$N=96$ 和 $N=128$ 网格，不构成任意分辨率上的误差保证或数值稳定性定理。S4 的结论限于所测的四涡旋和高斯随机场两种初值分布，是两种分布各自的分布内比较，不构成跨分布迁移结论，也不构成其他初值分布下的数值稳定性保证。
 
 ## 7. 复现与数据归档
 
 实验编号、入口脚本和结果目录的一一对应关系记录在 `experiments/EXPERIMENT_INDEX.json`。数据目录通过 `GIFT_DATA_ROOT` 指定，固定上游源码目录通过 `GIFT_EXTERNAL_ROOT` 指定，两者均在 GitHub 项目外。安装方式见 [SETUP.md](docs/SETUP.md)。
 
-预测数据的训练、验证和测试轨迹分别编号为 0–999、1000–1039 和 1040–1219；精确文件和数组定义见独立数据包的 `DATA_DICTIONARY.md`、`splits.json` 和 `manifest.json`。M1 使用独立的局部编号空间。
+预测数据的训练、验证和测试轨迹分别编号为 0–999、1000–1039 和 1040–1219；精确文件和数组定义见独立数据包的 `DATA_DICTIONARY.md`、`splits.json` 和 `manifest.json`。高斯随机场数据位于同一数据包的 `s4_gaussian/`，其编号接在原总体之后，划分见第 8 节，逐文件哈希见上述两个元数据文件。M1 使用独立的局部编号空间。
 
 每个模型单独训练，每个实验单独运行；不要求一次命令完成全部工作。使用已发布权重可跳过训练并直接计算结果，使用自己从零训练的权重时显式指定路径。模型训练与实验运行均有明确的提交边界；断点续算只恢复同一次运行的完整状态，不等于把不相关的已有模型当作初始化。
 
 ```shell
 python -m scripts.run_training uno --data-profile canonical --run-training --output ../runs/uno
 python -m scripts.run_experiment M2 --output ../runs/M2 --skip-plots
+python -m scripts.run_experiment S4 --output ../runs/S4 --skip-plots
 python -m scripts.run_experiment M3 --output ../runs/M3 --skip-plots
 python -m scripts.run_experiment S1 --gift-regime GIFT --output ../runs/S1_GIFT
 python -m scripts.run_experiment S1 --gift-regime GIFT-Lite --output ../runs/S1_GIFT_Lite
@@ -660,12 +761,13 @@ python -m scripts.run_experiment S3 --gift-regime GIFT-Lite --output ../runs/S3_
 python -m scripts.combine_regime_results --experiment S3 --gift ../runs/S3_GIFT --gift-lite ../runs/S3_GIFT_Lite --output ../runs/S3
 ```
 
-上例第一行是独立 U-NO 训练示例，后续命令评价 GIFT、GIFT-Lite 及适用的基线，默认使用随项目提供的权重，并不自动选用该行输出。S1 和 S3 分别评价两种训练设置，再汇总各自完成的记录，不重复训练或推理。M1 每次指定一种方法和一个噪声条件；15 个任务完成后单独汇总。完整命令、权重覆盖参数和恢复边界见 [EXPERIMENT_EXECUTION.md](docs/EXPERIMENT_EXECUTION.md) 与 [CHECKPOINTS.md](docs/CHECKPOINTS.md)。重新生成数据见 [DATA_GENERATION.md](docs/DATA_GENERATION.md)，重新生成 SVG 见 [FIGURES.md](docs/FIGURES.md)。
+上例第一行是独立 U-NO 训练示例，后续命令评价 GIFT、GIFT-Lite 及适用的基线，默认使用随项目提供的权重，并不自动选用该行输出。S1 和 S3 分别评价两种训练设置，再汇总各自完成的记录，不重复训练或推理。M1 每次指定一种方法和一个噪声条件；15 个任务完成后单独汇总。S4 评价高斯随机场分布，需要把 `GIFT_DATA_ROOT` 指向含 `s4_gaussian/` 的数据包，其数据生成、训练、评价和绘图命令见 [S4_PROTOCOL.md](docs/S4_PROTOCOL.md)。完整命令、权重覆盖参数和恢复边界见 [EXPERIMENT_EXECUTION.md](docs/EXPERIMENT_EXECUTION.md) 与 [CHECKPOINTS.md](docs/CHECKPOINTS.md)。重新生成数据见 [DATA_GENERATION.md](docs/DATA_GENERATION.md)，重新生成 SVG 见 [FIGURES.md](docs/FIGURES.md)。
 
 GitHub 内的精简结果包含汇总 CSV/JSON、SVG、选定图像的少量源数值及 `published.json` 校验清单，不包含完整预测 HDF5 或运行日志。完整实验输出另含 `raw/`、完成记录和文件清单，可用于按相同来源重新作图。读取表格、用权重重新推理和从零训练是三种不同操作，见 [RESULTS.md](docs/RESULTS.md)。
 
 ```shell
 python -m scripts.verify_published_results --experiment M3 --result-dir results/formal/M3_cross_resolution
+python -m scripts.verify_published_results --experiment S4 --result-dir results/formal/S4_initial_distribution
 python -m scripts.verify_results --experiment M3 --result-dir ../runs/M3
 python -m scripts.audit_repository
 ```

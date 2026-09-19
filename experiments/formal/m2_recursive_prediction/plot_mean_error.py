@@ -72,12 +72,17 @@ def read_source(metrics_path: Path, *, cohort: str = COHORT) -> list[dict[str, o
                     f"{method} at t={absolute_time:g} has {len(matches)} rows; "
                     f"expected {expected}"
                 )
-            if any(
-                int(row["population"]) != POPULATION
-                or int(row["finite_count"]) != POPULATION
-                for row in matches
-            ):
-                raise ValueError(f"{method} population or finiteness differs")
+            if any(int(row["population"]) != POPULATION for row in matches):
+                raise ValueError(f"{method} population differs")
+            # A method may lose trajectories to non-finite predictions. That loss
+            # is recorded and carried into the figure source instead of being
+            # silently dropped, and no value is ever invented for a time whose
+            # population is incomplete. M2 has a complete population everywhere,
+            # so this leaves the published M2 curve byte-identical.
+            finite_counts = [int(row["finite_count"]) for row in matches]
+            if any(count < 0 or count > POPULATION for count in finite_counts):
+                raise ValueError(f"{method} finite count is out of range")
+            complete_population = all(count == POPULATION for count in finite_counts)
             values = np.asarray([float(row["mean"]) for row in matches])
             expected_seeds = {"20260820", "20260821", "20260822"}
             if method in ("GIFT", "GIFT-Lite") and {row["seed"] for row in matches} != expected_seeds:
@@ -94,6 +99,8 @@ def read_source(metrics_path: Path, *, cohort: str = COHORT) -> list[dict[str, o
                     ),
                     "n_training_seeds": expected,
                     "n_test_trajectories": POPULATION,
+                    "finite_count_min": min(finite_counts),
+                    "complete_population": complete_population,
                 }
             )
     return source
@@ -126,12 +133,21 @@ def draw(rows: list[dict[str, object]]):
             "legend.frameon": False,
         }
     )
-    series = {
-        method: np.asarray(
-            [float(row["mean_relative_l2"]) for row in rows if row["method"] == method]
-        )
-        for method in METHOD_ORDER
-    }
+    # Only times carrying the complete test population are drawn. A method that
+    # loses trajectories to non-finite predictions ends at its last complete time
+    # rather than showing a finite-subset mean in place of the full population,
+    # and the fitted guide is never extrapolated past that boundary.
+    method_times: dict[str, np.ndarray] = {}
+    series: dict[str, np.ndarray] = {}
+    for method in METHOD_ORDER:
+        kept = [row for row in rows if row["method"] == method and row["complete_population"]]
+        method_times[method] = np.asarray([float(row["absolute_time"]) for row in kept])
+        series[method] = np.asarray([float(row["mean_relative_l2"]) for row in kept])
+        if len(kept) < 2:
+            raise ValueError(
+                f"{method} has {len(kept)} complete-population report times; "
+                "a curve needs at least two"
+            )
     figure, axis = plt.subplots(figsize=(183.0 / 25.4, 96.0 / 25.4))
     fitted_times = np.linspace(5.0, 8.0, 601)
     handles: dict[str, Line2D] = {}
@@ -139,15 +155,17 @@ def draw(rows: list[dict[str, object]]):
         if method not in METHOD_ORDER:
             continue
         color, marker, line_style, width, zorder = STYLES[method]
+        times = method_times[method]
         values = series[method]
-        interpolator = PchipInterpolator(REPORT_TIMES, values)
-        fitted = interpolator(fitted_times)
-        if not np.allclose(interpolator(REPORT_TIMES), values, rtol=0.0, atol=1.0e-12):
+        interpolator = PchipInterpolator(times, values)
+        span = fitted_times[(fitted_times >= times[0] - 1.0e-9) & (fitted_times <= times[-1] + 1.0e-9)]
+        fitted = interpolator(span)
+        if not np.allclose(interpolator(times), values, rtol=0.0, atol=1.0e-12):
             raise AssertionError(f"{method} fitted curve misses a sample point")
         if np.min(fitted) < -1.0e-12:
             raise AssertionError(f"{method} interpolation produces a negative error")
         axis.plot(
-            fitted_times,
+            span,
             fitted,
             color=color,
             linestyle=line_style,
@@ -156,7 +174,7 @@ def draw(rows: list[dict[str, object]]):
             zorder=zorder,
         )
         axis.plot(
-            REPORT_TIMES,
+            times,
             values,
             linestyle="none",
             color=color,
