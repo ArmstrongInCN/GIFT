@@ -226,7 +226,7 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
             clip_on=False,
         )
         if index == 0:
-            axis.set_ylabel(r"Mean full-field relative $L^2$ error")
+            axis.set_ylabel(r"Mean full-field relative error $L^2$")
         else:
             axis.tick_params(axis="y", which="both", left=False, labelleft=False)
             axis.spines["left"].set_visible(False)
@@ -321,7 +321,7 @@ def draw_prediction_fields_only(
     info_axis.text(
         0.50,
         0.60,
-        "Signed prediction error",
+        "Prediction error",
         ha="center",
         va="center",
         fontsize=6.6,

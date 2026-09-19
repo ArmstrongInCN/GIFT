@@ -35,7 +35,7 @@ PARAMETERS = ["nu", "beta", "gamma"]
 mpl.rcParams.update(
     {
         "font.family": "sans-serif",
-        "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans", "sans-serif"],
+        "font.sans-serif": ["Arial", "DejaVu Sans", "Liberation Sans", "sans-serif"],
         "svg.fonttype": "none",
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
@@ -186,19 +186,8 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
         ax.spines["bottom"].set_linewidth(0.6)
         ax.spines["left"].set_linewidth(0.6)
 
-        # One editorial header line instead of a centered, heavy subplot title.
-        ax.text(
-            -0.125,
-            1.055,
-            chr(ord("a") + panel_index),
-            transform=ax.transAxes,
-            ha="left",
-            va="baseline",
-            fontsize=8.5,
-            fontweight="bold",
-            color=TEXT_DARK,
-            clip_on=False,
-        )
+        # One editorial header line per panel, as in the manuscript figure:
+        # the italic parameter symbol followed by its true value in parentheses.
         ax.text(
             0.0,
             1.055,
@@ -215,11 +204,11 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
         ax.text(
             0.115,
             1.055,
-            TRUE_VALUE_LABEL[parameter],
+            f"({TRUE_VALUE_LABEL[parameter]})",
             transform=ax.transAxes,
             ha="left",
             va="baseline",
-            fontsize=5.95,
+            fontsize=6.3,
             color=TEXT_LIGHT,
             clip_on=False,
         )

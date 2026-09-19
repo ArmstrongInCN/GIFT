@@ -1764,8 +1764,8 @@
     },
     {
       "path": "figures/parameter_identification_ape_vs_noise.svg",
-      "bytes": 33766,
-      "sha256": "62570FF2BB9A3CE8B72C40C4F2A50B0B09E4068CC3F6B6A779B8F4AEDF93EC5F"
+      "bytes": 33150,
+      "sha256": "D8EC0C2DBF1155504B8FBFF7ABDD1D353068C01D57D6C33D0838BDD0A67C5521"
     },
     {
       "path": "figures/source_data.csv",
@@ -1775,7 +1775,7 @@
     {
       "path": "figures/figure_manifest.json",
       "bytes": 35345,
-      "sha256": "E3F2EE00982837F4F6B55A7E1A0EBD5450E80C5FDD088DC4E174DE2D2CA75987"
+      "sha256": "2CF511C2126C5B21EED6198C4948026F4F4F962ECA688824712012EBD2F6C889"
     }
   ]
 }

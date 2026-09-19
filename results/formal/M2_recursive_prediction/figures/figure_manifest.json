@@ -100,7 +100,7 @@
   },
   "renderer": {
     "path": "plot_mean_error.py",
-    "sha256": "5C9649F7D6935D31672848BC3543CACD537F29EC51189C7FD6FA7C0175CFF650"
+    "sha256": "4A20D1210FE144CC7ECF98344C073AA1A2E306678B657AB863C71A71CC5E4904"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -113,15 +113,15 @@
     "mean_relative_l2_vs_time.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "503.357042pt",
+      "width": "499.186339pt",
       "height": "243.373892pt"
     }
   },
   "files": [
     {
       "path": "mean_relative_l2_vs_time.svg",
-      "bytes": 29706,
-      "sha256": "65E6EE2F02CEDFBBC32B021BEA972C0805559F94EB1CFB942CCB56E6E7B5F568"
+      "bytes": 30055,
+      "sha256": "E20AA1574DF8C0B25CBFC291C0261055567311E3D282A66AA385F8F9F5DCD26C"
     },
     {
       "path": "source_data.csv",

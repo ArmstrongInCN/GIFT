@@ -107,7 +107,7 @@
     "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",
     "column_group_titles": [
       "Scalar field",
-      "Prediction error (prediction - reference)"
+      "Prediction error"
     ]
   }
 }

@@ -209,14 +209,14 @@ def draw(rows: list[dict[str, object]], *, y_limit: float | None = None):
     upper = required if y_limit is None else max(float(y_limit), required)
     axis.set_ylim(0.0, upper)
     axis.set_xticks(REPORT_TIMES)
-    if maximum <= 1.28 and upper <= 1.28:
+    if maximum <= 1.28 and upper <= 1.31:
         axis.set_yticks(np.arange(0.0, 1.21, 0.2))
     else:
         axis.yaxis.set_major_locator(MaxNLocator(nbins=6, min_n_ticks=3))
     axis.set_xlabel(r"Time, $t$")
-    axis.set_ylabel(r"Mean relative $L^2$ error")
+    axis.set_ylabel(r"Mean relative error $L^2$")
     axis.tick_params(axis="both", direction="out", length=3.0, width=0.8, pad=2.5)
-    axis.spines["left"].set_bounds(0.0, 1.2 if (maximum <= 1.28 and upper <= 1.28) else upper)
+    axis.spines["left"].set_bounds(0.0, 1.2 if (maximum <= 1.28 and upper <= 1.31) else upper)
     axis.spines["bottom"].set_bounds(5.0, 8.0)
     axis.legend(
         [handles[method] for method in METHOD_ORDER],
