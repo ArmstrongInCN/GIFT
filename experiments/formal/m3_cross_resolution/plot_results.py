@@ -296,12 +296,8 @@ def draw_prediction_fields_only(
             spine.set_visible(False)
         field_axes.append(axis)
 
-    # The reference column carries no prediction error of its own. The manuscript
-    # renders that cell as a flat zero tile on the residual colour scale, with the
-    # column labels drawn on top of it.
     info_axis = fig.add_subplot(grid[1, 0])
-    draw_vector_field(info_axis, np.zeros((128, 128)), cmap="PuOr",
-                      vmin=-residual_limit, vmax=residual_limit)
+    info_axis.set_axis_off()
     info_axis.text(
         0.50,
         0.60,

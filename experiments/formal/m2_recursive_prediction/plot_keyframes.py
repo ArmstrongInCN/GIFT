@@ -436,23 +436,19 @@ def draw_composite(
         axis = figure.add_subplot(grid[0, time_index + 1])
         draw_mesh(axis, truth[time_index], cmap=FIELD_CMAP, norm=field_norm)
 
-    # The reference row has no prediction error of its own. The manuscript renders a
-    # flat zero tile in each of that row's prediction-error cells on the same colour
-    # scale, labelled with the 0.000 value the reference gives against itself.
-    for time_index in range(4):
-        placeholder_axis = figure.add_subplot(grid[0, time_index + 6])
-        draw_mesh(placeholder_axis, np.zeros_like(truth[0]), cmap=RESIDUAL_CMAP,
-                  norm=residual_norm)
-        placeholder_axis.text(
-            0.98,
-            0.04,
-            "rel. L2 = 0.000",
-            transform=placeholder_axis.transAxes,
-            ha="right",
-            va="bottom",
-            fontsize=4.6,
-            color="#333333",
-        )
+    # The reference row has no prediction error of its own, as the manuscript notes
+    # in that block.
+    reference_note_axis = figure.add_subplot(grid[0, 6:10])
+    reference_note_axis.set_axis_off()
+    reference_note_axis.text(
+        0.50,
+        0.50,
+        "Prediction error is defined for model predictions",
+        ha="center",
+        va="center",
+        fontsize=5.2,
+        color="#777777",
+    )
 
     for row, spec in enumerate(METHODS, start=1):
         slug = str(spec["slug"])

@@ -127,14 +127,14 @@
   },
   "renderer": {
     "path": "plot_results.py",
-    "sha256": "1E9CB2F96E9BEB5864A7567BEA095477887200A8D8B84FD7012303529A420F08"
+    "sha256": "B30D4928DCEA0DFD134A803ACC2471297F71DE0A5EF14DE187E8263BD18E9E34"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
     "policy": "crispEdges on QuadMesh groups only",
     "groups_per_svg": {
       "cross_resolution_mean_relative_l2.svg": 0,
-      "traj1150_n128_t6_prediction_fields.svg": 12
+      "traj1150_n128_t6_prediction_fields.svg": 11
     }
   },
   "svg_checks": {
@@ -147,15 +147,15 @@
     "traj1150_n128_t6_prediction_fields.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "523.084379pt",
-      "height": "251.352907pt"
+      "width": "499.013608pt",
+      "height": "249.384258pt"
     }
   },
   "files": [
     {
       "path": "cross_resolution_mean_relative_l2.svg",
       "bytes": 48520,
-      "sha256": "F61109E9D1D7B485C714A294C5AE44CEEF62B3D0517C29E22A84F7E7E51C9BDB"
+      "sha256": "2D09DE2687B1F81141B1A7F0800B1FBB73175C66E570B4EB43EA82719BEB1944"
     },
     {
       "path": "source_data.csv",
@@ -169,8 +169,8 @@
     },
     {
       "path": "traj1150_n128_t6_prediction_fields.svg",
-      "bytes": 32291153,
-      "sha256": "66709F52C506BDABD0AC248277A6B692A6405A6A01A4CC28EA9C62EA3118B2E4"
+      "bytes": 29065522,
+      "sha256": "0F423EFFD442DD96FDA2A1A583A1029F526E4123F65BE4EAEE779BEB9B845C50"
     }
   ]
 }
