@@ -16,11 +16,11 @@
 
 ### In one sentence
 
-Traditional surrogates predict the field a fixed time lag ahead; GIFT changes the object of learning. It learns the **continuous-time generator** that governs the flow's *instantaneous* evolution:
+Traditional surrogates predict the field a fixed time lag ahead; GIFT changes the object of learning. It learns the **continuous-time generator** that maps a state to its instantaneous rate of change:
 
-```
-G(ω<sub>K</sub>) = C + A(ω) + Q(ω, ω)
-```
+$$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega)$$
+
+where $\omega$ is the vorticity field, $G^{\dagger}$ is the true generator to be identified (the dagger only distinguishes the true object from the learned approximation; it does not denote an adjoint or a pseudoinverse), and $C$, $A$, $Q$ are the bias-field, linear and nonlinear channels. The channels differ in amplitude response — $A(\lambda\omega) = \lambda A(\omega)$ and $Q(\lambda\omega,\lambda\omega) = \lambda^{2}Q(\omega,\omega)$ — and that difference is what field tomography separates.
 
 A state a finite lag later is merely the time integral of that generator, and the generator *is* the governing law. Prediction and explicit PDE-parameter identification therefore share one mathematical object: the surrogate's mechanism is no longer a black-box map hidden in network weights, but a continuous dynamical object whose physical correctness can be checked.
 
@@ -35,11 +35,11 @@ A state a finite lag later is merely the time integral of that generator, and th
 | Recursive local correction | A fixed, gradient-free rule applied after each complete RK4 step: local median residuals of the de-meaned field are clipped at an amplitude scale of `ℓ` = 2.1`σ`, under an anomalous-grid-point safety cap `K`<sub>N</sub> (40, 90, 160 for `N` = 64, 96, 128). |
 | Physical interpretability check | With the generator frozen, known N–S equation terms are fitted to each path's output and the recovered coefficients are compared with the true ones — a quantitative test of whether the surrogate learned the correct physics. |
 
-<p align="center">
+<div align="center">
   <img src="assets/figures/gift_architecture.png" alt="GIFT architecture and prediction process" width="100%">
-</p>
+</div>
 
-<p align="center"><sub><b>Figure 1 | GIFT architecture and prediction process.</b> (A) Densely sampled continuous flow trajectories. (B) Fourier transform and fixed-band decomposition build the training data: components inside the <i>P</i><sub>21</sub> band enter the main path, <i>Q</i><sub>21</sub> high-frequency components enter the high-frequency branch. (C) Field tomography: differing amplitude responses separate the quadratic, linear and bias-field paths, which are learned alternately. (D) High-frequency branch. (E) Quadratic field-interaction unit. (F) The generator is advanced to the next instant by fourth-order Runge–Kutta integration.</sub></p>
+<div align="center"><sub><b>Figure 1 | GIFT architecture and prediction process.</b> (A) Densely sampled continuous flow trajectories. (B) Fourier transform and fixed-band decomposition build the training data: the band-limited state ω<sub>K</sub> = <i>P</i><sub>21</sub>ω enters the main path, while the complement ω<sub>Q</sub> = <i>Q</i><sub>21</sub>ω enters the high-frequency branch. (C) Field tomography: differing amplitude responses separate the quadratic, linear and bias-field paths, which are learned alternately. (D) High-frequency branch. (E) Quadratic field-interaction unit. (F) The generator is advanced to the next instant by fourth-order Runge–Kutta integration.</sub></div>
 
 ### Results
 
@@ -59,6 +59,12 @@ At 0% and 1% noise GIFT attains the lowest absolute percentage error (APE) on al
 
 > ⚠️ This capability is **parameter identification under a known governing-equation structure**, not discovery of an arbitrary PDE from an unknown candidate library, and it does not replace the "structure and parameters both unknown" setting that PDE-FIND or PINN-SR address.
 
+<div align="center">
+  <img src="results/formal/M1_equation_identification/figures/parameter_identification_ape_vs_noise.svg" alt="Absolute percentage error of the identified coefficients" width="72%">
+</div>
+
+<div align="center"><sub>Absolute percentage error of the identified $\nu$, $\beta$ and $\gamma$ for the five configurations at 0%, 1% and 10% noise; the three panels share one logarithmic vertical axis.</sub></div>
+
 #### M2 | Recursive prediction (`N` = 64, `t` = 5.0 → 8.0)
 
 GIFT and GIFT-Lite start from the true state at `t` = 5.0 and integrate recursively with Δ`t` = 0.02; the two FNO baselines take the 46 historical states from `t` = 4.1–5.0 as input.
@@ -74,19 +80,19 @@ GIFT and GIFT-Lite start from the true state at `t` = 5.0 and integrate recursiv
 
 GIFT has the lowest mean full-field relative error at all six reported times, and all six methods stay finite on 180/180 trajectories over the full interval; no failed sample is excluded from the statistics.
 
-<p align="center">
+<div align="center">
   <img src="results/formal/M2_recursive_prediction/figures/mean_relative_l2_vs_time.svg" alt="Mean relative L2 error vs time" width="72%">
-</p>
+</div>
 
-<p align="center"><sub>Mean full-field relative <i>L</i><sup>2</sup> error of the six methods over 180 test trajectories. Curves are PCHIP interpolants through exactly the seven reported sample points, shown for trend only.</sub></p>
+<div align="center"><sub>Mean full-field relative <i>L</i><sup>2</sup> error of the six methods over 180 test trajectories. Curves are PCHIP interpolants through exactly the seven reported sample points, shown for trend only.</sub></div>
 
-<p align="center">
+<div align="center">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/panels/reference/traj1045_reference_scalar_T8p0.svg" alt="Reference vorticity at t=8.0" width="24%">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/panels/gift/traj1045_gift_scalar_T8p0.svg" alt="GIFT prediction at t=8.0" width="24%">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/panels/uno/traj1045_uno_scalar_T8p0.svg" alt="U-NO prediction at t=8.0" width="24%">
-</p>
+</div>
 
-<p align="center"><sub>Vorticity of trajectory 1045 at <i>t</i> = 8.0: numerical reference (left), GIFT (centre), and the strongest baseline U-NO (right; full-field relative error 0.036488 / 0.165307). All three panels share one colour scale.</sub></p>
+<div align="center"><sub>Vorticity of trajectory 1045 at <i>t</i> = 8.0: numerical reference (left), GIFT (centre), and the strongest baseline U-NO (right; full-field relative error 0.036488 / 0.165307). All three panels share one colour scale.</sub></div>
 
 #### M3 | Cross-resolution prediction (zero-shot)
 
@@ -101,11 +107,11 @@ Trained on `N` = 64 only, with network parameters and Fourier modes unchanged, t
 
 The learned generator is grid-invariant: on every grid and at every reported time `t` > 5.0, GIFT and GIFT-Lite stay below both FNO baselines. The experiment measures direct applicability on the discrete grids tested and **does not imply recovery of arbitrarily high frequencies**.
 
-<p align="center">
+<div align="center">
   <img src="results/formal/M3_cross_resolution/figures/cross_resolution_mean_relative_l2.svg" alt="Cross-resolution mean relative L2 error" width="72%">
-</p>
+</div>
 
-<p align="center"><sub>Mean full-field relative <i>L</i><sup>2</sup> error of four methods trained on <i>N</i> = 64 only, on three native grids (180 paired trajectories).</sub></p>
+<div align="center"><sub>Mean full-field relative <i>L</i><sup>2</sup> error of four methods trained on <i>N</i> = 64 only, on three native grids (180 paired trajectories).</sub></div>
 
 #### Side experiments S1–S4
 
@@ -114,7 +120,7 @@ The learned generator is grid-invariant: on every grid and at every reported tim
 | **S1 High-frequency branch** | At `t` = 6.0 it reduces the GIFT full-field error by 60.04%, 57.54% and 57.55% on `N` = 64, 96 and 128, and the GIFT-Lite error by 33.63%, 31.98% and 31.98%. |
 | **S2 Recursive local correction** | On the held-out test set it keeps trajectory 1062 of GIFT-Lite finite. Full-data GIFT never triggered the correction. |
 | **S3 Random-seed stability** | With the generator fixed and the high-frequency branch trained under three seeds, the largest coefficient of variation on the main metrics is about 0.321% for GIFT and 0.313% for GIFT-Lite. |
-| **S4 Initial-condition distribution** | Repeating the comparison on a smooth Gaussian random-field population, full-data GIFT still has the lowest mean error at every reported time (`t` = 8.0: 0.021035) and U-NO is the closest baseline (0.173805). Full-data GIFT and all four baselines stay finite on 180/180 test trajectories; GIFT-Lite loses 17 of 180 after `t` ≈ 6.9, so its later values are finite-subset statistics and are reported as such. |
+| **S4 Initial-condition distribution** | Repeating the comparison on a separate smooth Gaussian random-field population (training 1220–2219, test 2260–2439), full-data GIFT still has the lowest mean error at every reported time (`t` = 8.0: 0.021035) and U-NO is the closest baseline (0.173805). Full-data GIFT and all four baselines stay finite on 180/180 test trajectories; GIFT-Lite loses 17 of 180 after `t` ≈ 6.9, so its later values are finite-subset statistics and are reported as such. |
 
 > **Scope.** Conclusions are limited to this project's data distribution, training protocol and the `N` = 64, 96, 128 grids; they are not an error guarantee or a numerical-stability theorem at arbitrary resolution, and equal epochs do not mean equal parameter-update counts or equal compute. Full detail in [EXPERIMENTS.md](EXPERIMENTS.md) and [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md).
 
@@ -179,11 +185,11 @@ GIFT software and documentation are released under the [MIT licence](LICENSE). D
 
 ### 一句话概括
 
-传统代理模型直接预测固定时间间隔后的流场；GIFT 换一个对象——它学习决定流场**瞬时演化**的**连续时间生成元**：
+传统代理模型直接预测固定时间间隔后的流场；GIFT 换一个对象——它学习把当前状态映射为**瞬时变化率**的**连续时间生成元**：
 
-```
-G(ω<sub>K</sub>) = C + A(ω) + Q(ω, ω)
-```
+$$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega)$$
+
+其中 $\omega$ 为涡量场，$G^{\dagger}$ 是待辨识的真实生成元（上标 † 只用于区分真实对象与学习到的近似，不表示伴随或伪逆），$C$、$A$、$Q$ 分别是偏置场通道、线性通道与非线性通道。三个通道的振幅响应规律不同——$A(\lambda\omega) = \lambda A(\omega)$，$Q(\lambda\omega,\lambda\omega) = \lambda^{2}Q(\omega,\omega)$——场层析正是依据这一差异把它们分离。
 
 有限时间间隔后的状态只是生成元的时间积分结果，而生成元本身对应系统的控制规律。因此代理模型的预测与显式 PDE 参数识别共享同一个数学对象：预测机制不再是藏在网络权重里的黑盒映射，而是一个可以被检验物理正确性的连续动力学对象。
 
@@ -198,11 +204,11 @@ G(ω<sub>K</sub>) = C + A(ω) + Q(ω, ω)
 | 递归局部修正 | 每个完整 RK4 步后执行的固定规则：按幅值尺度 `ℓ` = 2.1`σ` 裁剪去均值场的局部中值残差，并设异常网格点安全上限 `K`<sub>N</sub>（`N` = 64、96、128 时分别为 40、90、160）。 |
 | 物理可解释性检验 | 生成元冻结后，用已知 N–S 方程项拟合各通道输出，将读出系数与真实控制方程系数对比——对「是否学到正确物理」的可量化检验。 |
 
-<p align="center">
+<div align="center">
   <img src="assets/figures/gift_architecture.png" alt="GIFT 架构与预测过程" width="100%">
-</p>
+</div>
 
-<p align="center"><sub><b>图 1｜GIFT 架构与预测过程。</b>(A) 稠密采样的连续流场轨迹。(B) 傅里叶变换与固定频带分解构造训练数据：<i>P</i><sub>21</sub> 分量进入主路径，<i>Q</i><sub>21</sub> 高频分量进入高频支路。(C) 场层析：利用各通道振幅响应差异，交替学习二次通道、线性通道与偏置场通道。(D) 高频支路。(E) 二次场相互作用单元。(F) 生成元经四阶 Runge–Kutta 积分推进至下一时刻。</sub></p>
+<div align="center"><sub><b>图 1｜GIFT 架构与预测过程。</b>(A) 稠密采样的连续流场轨迹。(B) 傅里叶变换与固定频带分解构造训练数据：带限状态 ω<sub>K</sub> = <i>P</i><sub>21</sub>ω 进入主路径，补状态 ω<sub>Q</sub> = <i>Q</i><sub>21</sub>ω 进入高频支路。(C) 场层析：利用各通道振幅响应差异，交替学习二次通道、线性通道与偏置场通道。(D) 高频支路。(E) 二次场相互作用单元。(F) 生成元经四阶 Runge–Kutta 积分推进至下一时刻。</sub></div>
 
 ### 主要结果
 
@@ -222,6 +228,12 @@ G(ω<sub>K</sub>) = C + A(ω) + Q(ω, ω)
 
 > ⚠️ 该能力属于**已知控制方程结构下的参数识别**，不是在未知候选结构中从头发现任意 PDE，不能替代 PDE-FIND 或 PINN-SR 所面向的「结构与参数均未知」任务。
 
+<div align="center">
+  <img src="results/formal/M1_equation_identification/figures/parameter_identification_ape_vs_noise.svg" alt="参数识别的绝对百分比误差" width="72%">
+</div>
+
+<div align="center"><sub>0%、1% 与 10% 观测噪声下五种配置识别出的 $\nu$、$\beta$、$\gamma$ 的绝对百分比误差；三个面板使用统一的对数纵轴。</sub></div>
+
 #### M2｜递归预测（`N` = 64，`t` = 5.0 → 8.0）
 
 GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积分；两个 FNO 基线使用 `t` = 4.1–5.0 的 46 帧历史状态。
@@ -237,19 +249,19 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
 
 六个报告时刻中 GIFT 的平均全场相对误差均最低；六种方法在完整预测区间都保持 180/180 条轨迹有限，统计未剔除失败样本。
 
-<p align="center">
+<div align="center">
   <img src="results/formal/M2_recursive_prediction/figures/mean_relative_l2_vs_time.svg" alt="平均全场相对 L2 误差随时间的变化" width="72%">
-</p>
+</div>
 
-<p align="center"><sub>六种方法在 180 条测试轨迹上的平均全场相对 <i>L</i><sup>2</sup> 误差随时间的变化；曲线为严格通过 7 个报告样本点的 PCHIP 插值，仅用于显示趋势。</sub></p>
+<div align="center"><sub>六种方法在 180 条测试轨迹上的平均全场相对 <i>L</i><sup>2</sup> 误差随时间的变化；曲线为严格通过 7 个报告样本点的 PCHIP 插值，仅用于显示趋势。</sub></div>
 
-<p align="center">
+<div align="center">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/panels/reference/traj1045_reference_scalar_T8p0.svg" alt="t=8.0 的数值真值涡量场" width="24%">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/panels/gift/traj1045_gift_scalar_T8p0.svg" alt="t=8.0 的 GIFT 预测涡量场" width="24%">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/panels/uno/traj1045_uno_scalar_T8p0.svg" alt="t=8.0 的 U-NO 预测涡量场" width="24%">
-</p>
+</div>
 
-<p align="center"><sub>轨迹 1045 在 <i>t</i> = 8.0 的涡量场：左为数值真值，中为 GIFT，右为表现最好的基线 U-NO（全场相对误差 0.036488 / 0.165307），三面板共用同一色标。</sub></p>
+<div align="center"><sub>轨迹 1045 在 <i>t</i> = 8.0 的涡量场：左为数值真值，中为 GIFT，右为表现最好的基线 U-NO（全场相对误差 0.036488 / 0.165307），三面板共用同一色标。</sub></div>
 
 #### M3｜跨分辨率预测（zero-shot）
 
@@ -264,11 +276,11 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
 
 学习到的生成元是网格不变的：每个网格、每个 `t` > 5.0 的报告时刻，GIFT 与 GIFT-Lite 均低于两个 FNO 基线。跨分辨率实验评价的是模型在所测离散网格上的直接适用性，**不表示可以恢复无限高的频率**。
 
-<p align="center">
+<div align="center">
   <img src="results/formal/M3_cross_resolution/figures/cross_resolution_mean_relative_l2.svg" alt="跨分辨率平均全场相对 L2 误差" width="72%">
-</p>
+</div>
 
-<p align="center"><sub>仅在 <i>N</i> = 64 训练的四种方法在三个原生网格上的平均全场相对 <i>L</i><sup>2</sup> 误差（180 条配对轨迹）。</sub></p>
+<div align="center"><sub>仅在 <i>N</i> = 64 训练的四种方法在三个原生网格上的平均全场相对 <i>L</i><sup>2</sup> 误差（180 条配对轨迹）。</sub></div>
 
 #### 支线实验 S1–S4
 
@@ -277,7 +289,7 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
 | **S1 高频支路** | `N` = 64、96、128 的 `t` = 6.0 处分别降低 GIFT 全场误差 60.04%、57.54%、57.55%，降低 GIFT-Lite 33.63%、31.98%、31.98%。 |
 | **S2 递归局部修正** | 在独立测试集上避免 GIFT-Lite 的轨迹 1062 出现非有限值；全数据 GIFT 未触发修正。 |
 | **S3 随机种子稳定性** | 固定生成元、独立训练高频支路三个种子，GIFT 与 GIFT-Lite 主要指标的最大变异系数约 0.321% 与 0.313%。 |
-| **S4 初值分布对照** | 在平滑高斯随机场初值分布上重复同一比较，全数据 GIFT 的报告时刻平均误差仍为最低（`t` = 8.0 为 0.021035），U-NO 为最接近的基线（0.173805）。全数据 GIFT 与四个基线均保持 180/180 条测试轨迹有限；GIFT-Lite 有 17/180 条在 `t` ≈ 6.9 之后失稳，其后续数值为有限子集统计并已如实标注。 |
+| **S4 初值分布对照** | 在另一组平滑高斯随机场初值分布上重复同一比较（训练 1220–2219、测试 2260–2439），全数据 GIFT 的报告时刻平均误差仍为最低（`t` = 8.0 为 0.021035），U-NO 为最接近的基线（0.173805）。全数据 GIFT 与四个基线均保持 180/180 条测试轨迹有限；GIFT-Lite 有 17/180 条在 `t` ≈ 6.9 之后失稳，其后续数值为有限子集统计并已如实标注。 |
 
 > **适用范围。** 结论限于本项目的数据分布、训练协议与 `N` = 64、96、128 网格，不构成任意分辨率上的误差保证或数值稳定性定理；相同 epoch 不代表相同参数更新次数或计算量。完整口径见 [EXPERIMENTS.md](EXPERIMENTS.md) 与 [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)。
 
