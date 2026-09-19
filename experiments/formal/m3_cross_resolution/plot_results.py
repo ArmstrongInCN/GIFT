@@ -39,6 +39,8 @@ COLORS = {"GIFT": "#1246D6", "GIFT-Lite": "#19C2F5", "FNO-2D": "#8B3FE0", "FNO-3
 MARKERS = {"GIFT": "o", "GIFT-Lite": "o", "FNO-2D": "s", "FNO-3D": "D"}
 LINESTYLES = {"GIFT": "-", "GIFT-Lite": "--", "FNO-2D": (0, (4.0, 2.0)), "FNO-3D": (0, (1.3, 1.5))}
 TEXT_COLOR, NOTE_COLOR, GUIDE_COLOR = "#262626", "#687078", "#E7E9EC"
+# Face colour of tiles that carry no field of their own, as in the manuscript.
+PLACEHOLDER_FACE = "#f6f6f7"
 
 
 def add_panel_label(ax, label, x=-0.14, y=1.08):
@@ -159,7 +161,7 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
         wspace=0.15,
     )
     curve_axes = [fig.add_subplot(curve_grid[0, index]) for index in range(3)]
-    lead_time = np.asarray(data["times"])[1:] - 5.0
+    absolute_time = np.asarray(data["times"])[1:]
     y_ticks = [0.02, 0.05, 0.1, 0.2, 0.5]
     values = np.concatenate([
         data["curve_seeds"][grid][name][:, 1:].ravel() for grid in RESOLUTIONS for name in GIFT_REGIMES
@@ -169,12 +171,12 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
     for index, (axis, resolution) in enumerate(zip(curve_axes, RESOLUTIONS)):
         for name in GIFT_REGIMES:
             seed_curves = data["curve_seeds"][resolution][name][:, 1:]
-            axis.fill_between(lead_time, seed_curves.min(axis=0), seed_curves.max(axis=0),
+            axis.fill_between(absolute_time, seed_curves.min(axis=0), seed_curves.max(axis=0),
                               color=COLORS[name], alpha=0.16, linewidth=0, zorder=1)
         for method in METHODS:
             values = data["curves"][resolution][method][1:]
             axis.plot(
-                lead_time,
+                absolute_time,
                 values,
                 color=COLORS[method],
                 linestyle=LINESTYLES[method],
@@ -191,9 +193,9 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
         ))
         # Reserve a right-hand label lane inside every panel so all three
         # resolutions can use the same "method + endpoint value" labels.
-        axis.set_xlim(0.075, 1.20)
+        axis.set_xlim(5.075, 6.20)
         axis.set_ylim(*scale["limits"])
-        axis.set_xticks([0.1, 0.4, 0.7, 1.0])
+        axis.set_xticks([5.1, 5.4, 5.7, 6.0])
         axis.yaxis.set_major_locator(FixedLocator(y_ticks))
         axis.yaxis.set_major_formatter(FuncFormatter(format_plain))
         if scale["expanded"]:
@@ -221,14 +223,14 @@ def draw_time_curves_only(data: dict[str, Any]) -> plt.Figure:
             axis.spines["left"].set_visible(False)
         clean_axis(axis)
 
-    curve_axes[1].set_xlabel(r"Lead time, $\tau=t-5$")
+    curve_axes[1].set_xlabel(r"Time, $t$")
     for axis, resolution in zip(curve_axes, RESOLUTIONS):
         for method in METHODS:
             endpoint = float(data["curves"][resolution][method][-1])
             label = f"{method}  {endpoint:.3f}"
             annotation = axis.annotate(
                 label,
-                xy=(1.0, endpoint),
+                xy=(float(absolute_time[-1]), endpoint),
                 xytext=(3.0, 0.0),
                 textcoords="offset points",
                 color=COLORS[method],
@@ -294,8 +296,12 @@ def draw_prediction_fields_only(
             spine.set_visible(False)
         field_axes.append(axis)
 
+    # The reference column carries no prediction error of its own. The manuscript
+    # renders that cell as a flat zero tile on the residual colour scale, with the
+    # column labels drawn on top of it.
     info_axis = fig.add_subplot(grid[1, 0])
-    info_axis.set_axis_off()
+    draw_vector_field(info_axis, np.zeros((128, 128)), cmap="PuOr",
+                      vmin=-residual_limit, vmax=residual_limit)
     info_axis.text(
         0.50,
         0.60,

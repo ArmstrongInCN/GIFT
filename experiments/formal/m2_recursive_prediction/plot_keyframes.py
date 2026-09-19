@@ -436,16 +436,13 @@ def draw_composite(
         axis = figure.add_subplot(grid[0, time_index + 1])
         draw_mesh(axis, truth[time_index], cmap=FIELD_CMAP, norm=field_norm)
 
-    # The reference row has no prediction error of its own. The manuscript leaves a
-    # placeholder tile in each of that row's prediction-error cells, each carrying
-    # the 0.000 value that a reference-versus-itself comparison would give.
+    # The reference row has no prediction error of its own. The manuscript renders a
+    # flat zero tile in each of that row's prediction-error cells on the same colour
+    # scale, labelled with the 0.000 value the reference gives against itself.
     for time_index in range(4):
-        placeholder_axis = figure.add_axes(grid[0, time_index + 6].get_position(figure))
-        placeholder_axis.set_xticks([])
-        placeholder_axis.set_yticks([])
-        for spine in placeholder_axis.spines.values():
-            spine.set_visible(False)
-        placeholder_axis.set_facecolor(PLACEHOLDER_FACE)
+        placeholder_axis = figure.add_subplot(grid[0, time_index + 6])
+        draw_mesh(placeholder_axis, np.zeros_like(truth[0]), cmap=RESIDUAL_CMAP,
+                  norm=residual_norm)
         placeholder_axis.text(
             0.98,
             0.04,
