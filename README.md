@@ -124,6 +124,25 @@ The learned generator is grid-invariant: on every grid and at every reported tim
 
 > **Scope.** Conclusions are limited to this project's data distribution, training protocol and the `N` = 64, 96, 128 grids; they are not an error guarantee or a numerical-stability theorem at arbitrary resolution, and equal epochs do not mean equal parameter-update counts or equal compute. Full detail in [EXPERIMENTS.md](EXPERIMENTS.md) and [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md).
 
+### Cross-domain applicability
+
+The method's core — learning a constant + linear + quadratic spectral right-hand side from observed field sequences and integrating it with RK4 — is not specific to the Navier–Stokes equations. Transfer was tested on three first-order scalar systems from other disciplines, each trained from scratch as a diagnostic `fixture` run with the unchanged full-data generator (500 trajectory epochs, 250 training trajectories, generator component only):
+
+| Equation | Setting | Potential application areas | Recursive rollout, mean relative L² at lead 3.0 s (persistence baseline) |
+| --- | --- | --- | ---: |
+| `u_t = kappa * Lap(u)` | Linear diffusion | Heat conduction; mass diffusion (Fick) and contaminant transport; groundwater flow; heat-kernel smoothing | **0.0239** (0.4211) |
+| `u_t = -c·grad(u)` | Linear advection | Pollutant and tracer transport; advection stages of weather and climate models; linear acoustic propagation in characteristic form | **0.0245** (1.4020) |
+| `u_t = 0.02 * Lap(u) + r u (1 - u)` | Nonlinear reaction–diffusion | Population dynamics and epidemic invasion fronts (Fisher–KPP); chemical waves; combustion fronts; tumour growth | **0.0051** (0.0064) |
+
+Rollouts start from the frame at `t` = 5.0 and predict 150 steps (`dt` = 0.02) through `t` = 8.0, averaged over 20 held-out trajectories. Data generation, training and evaluation are new, additive entry points:
+
+```shell
+python -m scripts.generate_crossdomain_data --kind heat --output ../crossdomain/heat --execute
+python -m scripts.run_crossdomain --kind heat --data ../crossdomain/heat/heat.h5 --output ../runs/crossdomain_heat --execute
+```
+
+> **Scope of the transfer claim.** These are diagnostic `fixture` measurements, not formal project experiments: one fixed parameter set per equation (a single autonomous system with varying initial conditions), a single scalar field per problem, and the generator component without the high-frequency branch. Mixing physical parameters across trajectories makes the state-to-derivative map ill-posed; second-order systems such as the full acoustic wave equation need an augmented state; non-periodic domains need another basis. See [EXPERIMENTS.md](EXPERIMENTS.md) section 9.
+
 ### Manuscript provenance
 
 The repository's published results use a **different protocol from the manuscript** and the two are not directly comparable:
@@ -292,6 +311,25 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
 | **S4 初值分布对照** | 在另一组平滑高斯随机场初值分布上重复同一比较（训练 1220–2219、测试 2260–2439），全数据 GIFT 的报告时刻平均误差仍为最低（`t` = 8.0 为 0.021035），U-NO 为最接近的基线（0.173805）。全数据 GIFT 与四个基线均保持 180/180 条测试轨迹有限；GIFT-Lite 有 17/180 条在 `t` ≈ 6.9 之后失稳，其后续数值为有限子集统计并已如实标注。 |
 
 > **适用范围。** 结论限于本项目的数据分布、训练协议与 `N` = 64、96、128 网格，不构成任意分辨率上的误差保证或数值稳定性定理；相同 epoch 不代表相同参数更新次数或计算量。完整口径见 [EXPERIMENTS.md](EXPERIMENTS.md) 与 [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)。
+
+### 跨学科适用性
+
+方法核心——从观测场序列学习"常数 + 线性 + 二次"的谱右端项并用 RK4 积分——并不专属于 Navier–Stokes 方程。我们在三个其它学科的一阶标量系统上做了迁移验证：各自以诊断性 `fixture` 运行从零训练，使用未经改动的全数据生成元（500 轨迹 epoch、250 条训练轨迹、仅生成元组件）。
+
+| 方程 | 物理背景 | 潜在应用场景 | 递归预测领先 3.0 s 的平均相对 $L^2$（持续性基线） |
+| --- | --- | --- | ---: |
+| `u_t = kappa * Lap(u)` | 线性扩散 | 热传导；质量扩散（Fick 定律）与污染物迁移；地下水渗流；热核平滑 | **0.0239**（0.4211） |
+| `u_t = -c·grad(u)` | 线性平流 | 污染物与示踪剂输运；天气与气候模式的平流阶段；特征形式下的线性声传播 | **0.0245**（1.4020） |
+| `u_t = 0.02 * Lap(u) + r u (1 - u)` | 非线性反应扩散 | 种群动力学与传染病入侵波前（Fisher–KPP）；化学波；燃烧火焰面；肿瘤生长 | **0.0051**（0.0064） |
+
+递归预测自 $t$ = 5.0 的观测帧起，向前积分 150 步（`dt` = 0.02）至 $t$ = 8.0，统计 20 条独立测试轨迹的平均值。数据生成、训练与评估为新增的独立入口：
+
+```shell
+python -m scripts.generate_crossdomain_data --kind heat --output ../crossdomain/heat --execute
+python -m scripts.run_crossdomain --kind heat --data ../crossdomain/heat/heat.h5 --output ../runs/crossdomain_heat --execute
+```
+
+> **迁移结论的适用范围。** 上述为诊断性 `fixture` 测量，不属于项目正式实验：每个方程固定一组物理参数（单一自治系统、仅变化初值）、单一标量场观测，且只使用生成元组件、未启用高频支路。物理参数随轨迹变化会使"状态到导数"的映射不适定；完整声波方程等二阶系统需要状态增广；非周期区域需要更换基底。详见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 9 节。
 
 ### 论文口径说明
 

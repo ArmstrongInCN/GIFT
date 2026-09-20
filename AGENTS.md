@@ -15,3 +15,5 @@
 - All experiment-document images are SVG. Preserve the existing visual design; regenerate arrays from the selected model runs and figures from their numerical outputs. Check table/figure provenance together. Never enforce a preferred method ranking in plotting code.
 - GitHub visibility must remain private until explicitly authorized otherwise. Do not rewrite remote history or enable paid services automatically.
 - 禁止直接运行批量删除命令；任何批量删除操作必须先向用户申请。不得覆盖现有训练或实验输出。
+- 跨学科工作只能通过新增入口进行，不得改动既有模块：`scripts/generate_crossdomain_data.py` 生成 `fixture_only` 诊断观测，`scripts/run_crossdomain.py` 以项目自带的 `PredictionTrainingConfig(fixture_only=True)` 训练生成元并用 `gift.identified` 做递归评估。fixture 产物不得表述为正式实验结果，也不得与已发布表格混排；引用其数值时须与对应 `summary/summary.json` 的模型与数据哈希绑定。
+- 跨学科运行同样遵守既有约定：每次一个新输出目录、默认只读计划、`--execute` 才落盘、输出位于仓库与 `GIFT_DATA_ROOT` 之外；一个方程对应一个固定参数集（单一自治系统），参数随轨迹变化、二阶系统或非周期区域都不在已验证范围内。
