@@ -7,6 +7,16 @@
     {
       "id": "M1",
       "category": "main",
+      "name": "equation_parameter_identification",
+      "title_zh": "方程参数识别",
+      "entrypoint": "experiments/formal/m1_equation_identification/run.py",
+      "result_directory": "results/formal/M1_equation_identification",
+      "raw_directory": "results/formal/M1_equation_identification/raw",
+      "metrics": "results/formal/M1_equation_identification/summary/metrics.csv"
+    },
+    {
+      "id": "M2",
+      "category": "main",
       "name": "recursive_prediction",
       "title_zh": "递归预测",
       "entrypoint": "experiments/formal/m2_recursive_prediction/run.py",
@@ -15,7 +25,7 @@
       "metrics": "results/formal/M2_recursive_prediction/summary/metrics.csv"
     },
     {
-      "id": "M2",
+      "id": "M3",
       "category": "main",
       "name": "cross_resolution_prediction",
       "title_zh": "跨分辨率预测",
@@ -23,16 +33,6 @@
       "result_directory": "results/formal/M3_cross_resolution",
       "raw_directory": "results/formal/M3_cross_resolution/raw",
       "metrics": "results/formal/M3_cross_resolution/summary/metrics.csv"
-    },
-    {
-      "id": "M3",
-      "category": "main",
-      "name": "equation_parameter_identification",
-      "title_zh": "方程参数识别",
-      "entrypoint": "experiments/formal/m1_equation_identification/run.py",
-      "result_directory": "results/formal/M1_equation_identification",
-      "raw_directory": "results/formal/M1_equation_identification/raw",
-      "metrics": "results/formal/M1_equation_identification/summary/metrics.csv"
     },
     {
       "id": "S1",

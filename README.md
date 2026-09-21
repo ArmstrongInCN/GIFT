@@ -45,9 +45,9 @@ Section, figure, table and equation numbering throughout this README follow [EXP
 
 ### 4. Main experiments
 
-Every number below is a completed and published measurement under the protocol recorded in [EXPERIMENTS.md](EXPERIMENTS.md) sections 2–3: 1,000 `N` = 64 training trajectories (`t` = 0.0–10.0, spacing 0.02), of which GIFT-Lite retains the first 50 (Lite denotes reduced training data, not a smaller network). The test set is **180 trajectories** (1040–1219) that took part in no method's training, and each prediction time is scored separately. The experiment numbers follow the narrative order of the main text: M1 recursive prediction, M2 cross-resolution prediction, M3 equation-parameter identification. Entry points, result directories and verification commands keep the identifiers they were published with (M1 equation-parameter identification, M2 recursive prediction, M3 cross-resolution prediction); the correspondence is listed in [EXPERIMENTS.md](EXPERIMENTS.md) section 1.
+Every number below is a completed and published measurement under the protocol recorded in [EXPERIMENTS.md](EXPERIMENTS.md) sections 2–3: 1,000 `N` = 64 training trajectories (`t` = 0.0–10.0, spacing 0.02), of which GIFT-Lite retains the first 50 (Lite denotes reduced training data, not a smaller network). The test set is **180 trajectories** (1040–1219) that took part in no method's training, and each prediction time is scored separately. This project numbers its experiments with the M series (M1 equation-parameter identification, M2 recursive prediction, M3 cross-resolution prediction); the supplementary materials use a separate W series, ordered as the main text reports the experiments: W1 recursive prediction (= M2), W2 cross-resolution prediction (= M3), W3 equation-parameter identification (= M1).
 
-#### 4.1 M1 | Recursive prediction (`N` = 64, `t` = 5.0 → 8.0)
+#### 4.1 M2 | Recursive prediction (`N` = 64, `t` = 5.0 → 8.0)
 
 GIFT and GIFT-Lite start from the true state at `t` = 5.0 and integrate recursively with Δ`t` = 0.02; the two FNO baselines take the 46 historical states from `t` = 4.1–5.0 as input.
 
@@ -66,15 +66,15 @@ GIFT has the lowest mean full-field relative error at all six reported times, an
   <img src="results/formal/M2_recursive_prediction/figures/mean_relative_l2_vs_time.svg" alt="Mean relative L2 error vs time" width="72%">
 </div>
 
-<div align="center"><sub><b>Figure M1-1 |</b> Mean full-field relative <i>L</i><sup>2</sup> error of the six methods over 180 test trajectories; GIFT and GIFT-Lite are averaged over three training seeds, whose seed SD is tabulated in EXPERIMENTS.md. Curves are PCHIP interpolants through exactly the seven reported sample points, shown for trend only.</sub></div>
+<div align="center"><sub><b>Figure M2-1 |</b> Mean full-field relative <i>L</i><sup>2</sup> error of the six methods over 180 test trajectories; GIFT and GIFT-Lite are averaged over three training seeds, whose seed SD is tabulated in EXPERIMENTS.md. Curves are PCHIP interpolants through exactly the seven reported sample points, shown for trend only.</sub></div>
 
 <div align="center">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/traj1045_recursive_keyframes.svg" alt="Predicted vorticity fields and signed prediction errors of trajectory 1045 at four key times" width="100%">
 </div>
 
-<div align="center"><sub><b>Figure M1-2 |</b> Prespecified evaluation trajectory 1045 at <i>t</i> = 5.0, 6.0, 7.0, 8.0: the numerical reference and the six methods' predicted vorticity fields (left), each with the signed prediction error of the same row (right); a numerical reference does not define a prediction error, so its error cells are the flat zero tile. Every method's field and prediction error are aligned strictly by row. All vorticity fields share one colour scale and all prediction errors share a second, independent one. GIFT and GIFT-Lite use the prespecified training seed 20260820, fixed before this evaluation and not reselected from these numbers; no field-level cross-seed averaging is applied. The trajectory belongs to the held-out test set.</sub></div>
+<div align="center"><sub><b>Figure M2-2 |</b> Prespecified evaluation trajectory 1045 at <i>t</i> = 5.0, 6.0, 7.0, 8.0: the numerical reference and the six methods' predicted vorticity fields (left), each with the signed prediction error of the same row (right); a numerical reference does not define a prediction error, so its error cells are the flat zero tile. Every method's field and prediction error are aligned strictly by row. All vorticity fields share one colour scale and all prediction errors share a second, independent one. GIFT and GIFT-Lite use the prespecified training seed 20260820, fixed before this evaluation and not reselected from these numbers; no field-level cross-seed averaging is applied. The trajectory belongs to the held-out test set.</sub></div>
 
-#### 4.2 M2 | Cross-resolution prediction (zero-shot)
+#### 4.2 M3 | Cross-resolution prediction (zero-shot)
 
 Trained on `N` = 64 only, with network parameters and Fourier modes unchanged, then evaluated directly on `N` = 96 and `N` = 128 grids from `t` = 5.0; the target resolution takes no part in training or model selection.
 
@@ -91,15 +91,15 @@ The learned generator is grid-invariant: on every grid and at every reported tim
   <img src="results/formal/M3_cross_resolution/figures/cross_resolution_mean_relative_l2.svg" alt="Cross-resolution mean relative L2 error" width="72%">
 </div>
 
-<div align="center"><sub><b>Figure M2-1 |</b> Mean full-field relative <i>L</i><sup>2</sup> error of four methods trained on <i>N</i> = 64 only, on three native grids (180 paired trajectories). The solid dark-blue and dashed light-blue lines are the means over three training seeds for GIFT and GIFT-Lite; the band spans the range of those seed means, not a confidence interval. <i>t</i> = 5.0 is the zero-error truth anchor and is not included in the logarithmic vertical axis.</sub></div>
+<div align="center"><sub><b>Figure M3-1 |</b> Mean full-field relative <i>L</i><sup>2</sup> error of four methods trained on <i>N</i> = 64 only, on three native grids (180 paired trajectories). The solid dark-blue and dashed light-blue lines are the means over three training seeds for GIFT and GIFT-Lite; the band spans the range of those seed means, not a confidence interval. <i>t</i> = 5.0 is the zero-error truth anchor and is not included in the logarithmic vertical axis.</sub></div>
 
 <div align="center">
   <img src="results/formal/M3_cross_resolution/figures/traj1150_n128_t6_prediction_fields.svg" alt="Reference field, four methods' predicted vorticity fields and signed prediction errors at N=128, t=6.0" width="100%">
 </div>
 
-<div align="center"><sub><b>Figure M2-2 |</b> Prespecified trajectory 1150 at <i>N</i> = 128, <i>t</i> = 6.0: vorticity prediction and prediction error. The trajectory and the GIFT training seed 20260820 were fixed before this figure was drawn. (a) The reference field and the predictions of GIFT, GIFT-Lite, FNO-2D and FNO-3D, sharing the symmetric `RdBu_r` limits [−13, 13]. (b) The signed prediction error, prediction minus reference, Δ<i>ω</i> = <i>ω̂</i> − <i>ω</i>; the four methods share `PuOr` zero-centred symmetric limits [−7, 7], and the number under each error panel is the full-field relative <i>L</i><sup>2</sup> error. All field panels cover exactly the same spatial extent and grid, with no colour clipping, cropping or smoothing.</sub></div>
+<div align="center"><sub><b>Figure M3-2 |</b> Prespecified trajectory 1150 at <i>N</i> = 128, <i>t</i> = 6.0: vorticity prediction and prediction error. The trajectory and the GIFT training seed 20260820 were fixed before this figure was drawn. (a) The reference field and the predictions of GIFT, GIFT-Lite, FNO-2D and FNO-3D, sharing the symmetric `RdBu_r` limits [−13, 13]. (b) The signed prediction error, prediction minus reference, Δ<i>ω</i> = <i>ω̂</i> − <i>ω</i>; the four methods share `PuOr` zero-centred symmetric limits [−7, 7], and the number under each error panel is the full-field relative <i>L</i><sup>2</sup> error. All field panels cover exactly the same spatial extent and grid, with no colour clipping, cropping or smoothing.</sub></div>
 
-#### 4.3 M3 | Equation-parameter identification
+#### 4.3 M1 | Equation-parameter identification
 
 True coefficients `(ν, β, γ)` = (0.01, 1, 1), excluded from training. All five configurations identify those parameters from the same single local training trajectory (trajectory 0): GIFT's generator is trained on it and the frozen generator is read out from it, exactly as PDE-FIND and PINN-SR consume that one trajectory.
 
@@ -117,7 +117,7 @@ At 0% and 1% noise GIFT attains the lowest absolute percentage error (APE) on al
   <img src="results/formal/M1_equation_identification/figures/parameter_identification_ape_vs_noise.svg" alt="Absolute percentage error of the identified coefficients" width="72%">
 </div>
 
-<div align="center"><sub><b>Figure M3-1 |</b> Absolute percentage error of the identified $\nu$, $\beta$ and $\gamma$ for the five configurations at 0%, 1% and 10% noise. The three panels share one vertical axis: linear up to 20% and logarithmic above it, with labelled ticks.</sub></div>
+<div align="center"><sub><b>Figure M1-1 |</b> Absolute percentage error of the identified $\nu$, $\beta$ and $\gamma$ for the five configurations at 0%, 1% and 10% noise. The three panels share one vertical axis: linear up to 20% and logarithmic above it, with labelled ticks.</sub></div>
 
 ### 5. Side experiments (S1–S4)
 
@@ -132,19 +132,19 @@ At 0% and 1% noise GIFT attains the lowest absolute percentage error (APE) on al
   <img src="results/formal/S4_initial_distribution/figures/curves/initial_distribution_comparison.svg" alt="Mean relative error against time for two initial-condition populations" width="100%">
 </div>
 
-<div align="center"><sub><b>Figure S4-1 |</b> Mean full-field relative error against time for the four-vortex (left) and Gaussian random-field (right) initial-condition populations. Both panels come from one plotting program and use the same vertical range and ticks, method colours, reported times and relative-<i>L</i><sup>2</sup> definition. The left panel is redrawn from the published M1 summary data; no M1 value or reported time changed, and M1 was not recomputed. The finite-subset interval for GIFT-Lite is marked inside the right panel.</sub></div>
+<div align="center"><sub><b>Figure S4-1 |</b> Mean full-field relative error against time for the four-vortex (left) and Gaussian random-field (right) initial-condition populations. Both panels come from one plotting program and use the same vertical range and ticks, method colours, reported times and relative-<i>L</i><sup>2</sup> definition. The left panel is redrawn from the published M2 summary data; no M2 value or reported time changed, and M2 was not recomputed. The finite-subset interval for GIFT-Lite is marked inside the right panel.</sub></div>
 
 <div align="center">
   <img src="results/formal/S4_initial_distribution/figures/keyframes/traj2265_recursive_keyframes.svg" alt="Predicted vorticity fields and signed prediction errors of trajectory 2265 at four key times" width="100%">
 </div>
 
-<div align="center"><sub><b>Figure S4-3 |</b> Prespecified test trajectory 2265 under Gaussian random-field initial conditions at <i>t</i> = 5.0, 6.0, 7.0, 8.0: vorticity fields and signed prediction error, on the same plate layout as Figure S4-2. Row and column order, alignment, colour-scale independence and the seed convention all follow M1.</sub></div>
+<div align="center"><sub><b>Figure S4-3 |</b> Prespecified test trajectory 2265 under Gaussian random-field initial conditions at <i>t</i> = 5.0, 6.0, 7.0, 8.0: vorticity fields and signed prediction error, on the same plate layout as Figure S4-2. Row and column order, alignment, colour-scale independence and the seed convention all follow M2.</sub></div>
 
-Figure S4-2 is the published M1 example-trajectory plate, cited in the experiment document for side-by-side comparison; it is the same file as Figure M1-2 above and is not repeated here.
+Figure S4-2 is the published M2 example-trajectory plate, cited in the experiment document for side-by-side comparison; it is the same file as Figure M2-2 above and is not repeated here.
 
 ### 6. Conclusion and scope
 
-On the protocol above, GIFT has the lowest mean full-field relative error at every reported positive prediction time, on all three native grids and under both initial-condition populations, and the identified generator is the object that carries that performance: it is read out as an explicit PDE for parameter identification (M3), applied unchanged to grids it was not trained on (M2), and reused on a different initial-condition population (S4).
+On the protocol above, GIFT has the lowest mean full-field relative error at every reported positive prediction time, on all three native grids and under both initial-condition populations, and the identified generator is the object that carries that performance: it is read out as an explicit PDE for parameter identification (M1), applied unchanged to grids it was not trained on (M3), and reused on a different initial-condition population (S4).
 
 > **Scope.** Conclusions are limited to this project's data distribution, training protocol and the `N` = 64, 96, 128 grids; they are not an error guarantee or a numerical-stability theorem at arbitrary resolution, and equal epochs do not mean equal parameter-update counts or equal compute. Full detail in [EXPERIMENTS.md](EXPERIMENTS.md) section 6 and [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md).
 
@@ -174,7 +174,7 @@ The prediction data form two independent populations. Within each population the
 | Four-vortex | 0–999 (1000) | 1000–1039 (40) | 1040–1219 (180) | 0–49 (50) |
 | Smooth Gaussian random field | 1220–2219 (1000) | 2220–2259 (40) | 2260–2439 (180) | 1220–1269 (50) |
 
-M3 uses its own local numbering (training 0–49, validation 50–69) and is not mixed with the prediction populations. Training, validation and test do not overlap; the GIFT-Lite subset is drawn from the corresponding training set, and validation or test data never update parameters. The per-experiment split table is in [EXPERIMENTS.md](EXPERIMENTS.md) section 8.
+M1 uses its own local numbering (training 0–49, validation 50–69) and is not mixed with the prediction populations. Training, validation and test do not overlap; the GIFT-Lite subset is drawn from the corresponding training set, and validation or test data never update parameters. The per-experiment split table is in [EXPERIMENTS.md](EXPERIMENTS.md) section 8.
 
 ### 9. Cross-domain applicability (diagnostic experiments)
 
@@ -255,9 +255,9 @@ $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = 
 
 ### 4. 主线实验
 
-以下均为 [EXPERIMENTS.md](EXPERIMENTS.md) 第 2、3 节所记录协议下**完成并发布**的实测结果：1,000 条 `N` = 64 训练轨迹（`t` = 0.0–10.0，间隔 0.02），另保留使用其中前 50 条的 GIFT-Lite（Lite 表示训练数据减少，不表示网络更小）；测试集为未参与任何方法训练的 **180 条轨迹**（1040–1219），每个预测时刻单独评价。 实验编号按正文的叙述顺序给出：M1 递归预测、M2 跨分辨率预测、M3 方程参数识别。运行入口、结果目录与校验命令沿用发布标识（M1 方程参数识别、M2 递归预测、M3 跨分辨率预测），对应关系见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 1 节。
+以下均为 [EXPERIMENTS.md](EXPERIMENTS.md) 第 2、3 节所记录协议下**完成并发布**的实测结果：1,000 条 `N` = 64 训练轨迹（`t` = 0.0–10.0，间隔 0.02），另保留使用其中前 50 条的 GIFT-Lite（Lite 表示训练数据减少，不表示网络更小）；测试集为未参与任何方法训练的 **180 条轨迹**（1040–1219），每个预测时刻单独评价。 本项目使用 M 系列编号（M1 方程参数识别、M2 递归预测、M3 跨分辨率预测）；论文附加材料使用另一套按正文叙述顺序排列的 W 系列：W1 递归预测（= M2）、W2 跨分辨率预测（= M3）、W3 方程参数识别（= M1）。
 
-#### 4.1 M1｜递归预测（`N` = 64，`t` = 5.0 → 8.0）
+#### 4.1 M2｜递归预测（`N` = 64，`t` = 5.0 → 8.0）
 
 GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积分；两个 FNO 基线使用 `t` = 4.1–5.0 的 46 帧历史状态。
 
@@ -276,15 +276,15 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
   <img src="results/formal/M2_recursive_prediction/figures/mean_relative_l2_vs_time.svg" alt="平均全场相对 L2 误差随时间的变化" width="72%">
 </div>
 
-<div align="center"><sub><b>图 M1-1｜</b>六种方法在 180 条测试轨迹上的平均全场相对误差随时间的变化；GIFT 和 GIFT-Lite 各对三个种子均值取平均，其种子 SD 见表。曲线为严格通过 7 个报告样本点的形状保持分段三次 Hermite（PCHIP）插值，仅用于显示趋势。</sub></div>
+<div align="center"><sub><b>图 M2-1｜</b>六种方法在 180 条测试轨迹上的平均全场相对误差随时间的变化；GIFT 和 GIFT-Lite 各对三个种子均值取平均，其种子 SD 见表。曲线为严格通过 7 个报告样本点的形状保持分段三次 Hermite（PCHIP）插值，仅用于显示趋势。</sub></div>
 
 <div align="center">
   <img src="results/formal/M2_recursive_prediction/figures/keyframes/traj1045_recursive_keyframes.svg" alt="测试轨迹 1045 在四个关键时刻的预测涡量场与有符号预测误差" width="100%">
 </div>
 
-<div align="center"><sub><b>图 M1-2｜</b>预先指定的评价轨迹 1045 在 $t=5.0,6.0,7.0,8.0$ 的涡量场与有符号预测误差。左侧按行给出数值真值与六种方法的预测涡量场，右侧在相同行给出对应方法的预测值减去真值的预测误差；数值真值不定义预测误差，其误差格为零误差浅灰块。每种方法的预测场与预测误差严格按行对齐。全部涡量场使用同一色标，全部预测误差使用另一独立色标。GIFT 和 GIFT-Lite 图像均采用预先指定的随机种子 20260820，不根据本次数值重新挑选，也不对场变量进行跨种子平均。该轨迹属于独立测试集。</sub></div>
+<div align="center"><sub><b>图 M2-2｜</b>预先指定的评价轨迹 1045 在 $t=5.0,6.0,7.0,8.0$ 的涡量场与有符号预测误差。左侧按行给出数值真值与六种方法的预测涡量场，右侧在相同行给出对应方法的预测值减去真值的预测误差；数值真值不定义预测误差，其误差格为零误差浅灰块。每种方法的预测场与预测误差严格按行对齐。全部涡量场使用同一色标，全部预测误差使用另一独立色标。GIFT 和 GIFT-Lite 图像均采用预先指定的随机种子 20260820，不根据本次数值重新挑选，也不对场变量进行跨种子平均。该轨迹属于独立测试集。</sub></div>
 
-#### 4.2 M2｜跨分辨率预测（zero-shot）
+#### 4.2 M3｜跨分辨率预测（zero-shot）
 
 仅用 `N` = 64 数据训练，网络参数与 Fourier 模态数保持不变，直接在 `N` = 96、128 网格上从 `t` = 5.0 开始预测；目标分辨率不参与训练或模型选择。
 
@@ -301,15 +301,15 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
   <img src="results/formal/M3_cross_resolution/figures/cross_resolution_mean_relative_l2.svg" alt="跨分辨率平均全场相对 L2 误差" width="72%">
 </div>
 
-<div align="center"><sub><b>图 M2-1｜</b>仅在 $N=64$ 训练的 GIFT、GIFT-Lite、FNO-2D 和 FNO-3D 在三个原生网格上的平均全场相对 $L^2$ 误差。曲线统计 180 条配对基准轨迹；深蓝实线和浅蓝虚线分别为 GIFT 和 GIFT-Lite 三个训练种子的均值，对应色带覆盖三个种子均值的范围，不是置信区间；两个 FNO 基线各使用一组固定模型参数。$t=5.0$ 是零误差真值锚点，未纳入对数纵轴。</sub></div>
+<div align="center"><sub><b>图 M3-1｜</b>仅在 $N=64$ 训练的 GIFT、GIFT-Lite、FNO-2D 和 FNO-3D 在三个原生网格上的平均全场相对 $L^2$ 误差。曲线统计 180 条配对基准轨迹；深蓝实线和浅蓝虚线分别为 GIFT 和 GIFT-Lite 三个训练种子的均值，对应色带覆盖三个种子均值的范围，不是置信区间；两个 FNO 基线各使用一组固定模型参数。$t=5.0$ 是零误差真值锚点，未纳入对数纵轴。</sub></div>
 
 <div align="center">
   <img src="results/formal/M3_cross_resolution/figures/traj1150_n128_t6_prediction_fields.svg" alt="N=128、t=6.0 的真值场、四种方法预测场及有符号预测误差" width="100%">
 </div>
 
-<div align="center"><sub><b>图 M2-2｜</b>预先指定的轨迹 1150 在 $N=128$、$t=6.0$ 的涡量预测与预测误差。轨迹 1150 和两种 GIFT 的随机种子 20260820 在本次作图前固定，不根据本次数值重新挑选。a，真值场以及 GIFT、GIFT-Lite、FNO-2D 和 FNO-3D 的预测场，共用 `RdBu_r` 对称色限 $[-13,13]$。b，有符号预测误差，定义为预测值减去真值，即 $\Delta\omega=\hat\omega-\omega$；四种方法共用区别于标量场的 `PuOr` 零中心对称色限 $[-7,7]$，预测误差图下方数值为全场相对 $L^2$ 误差。全部场图的空间范围与网格尺寸完全一致，未发生色彩裁切，也未进行图像裁剪或平滑。</sub></div>
+<div align="center"><sub><b>图 M3-2｜</b>预先指定的轨迹 1150 在 $N=128$、$t=6.0$ 的涡量预测与预测误差。轨迹 1150 和两种 GIFT 的随机种子 20260820 在本次作图前固定，不根据本次数值重新挑选。a，真值场以及 GIFT、GIFT-Lite、FNO-2D 和 FNO-3D 的预测场，共用 `RdBu_r` 对称色限 $[-13,13]$。b，有符号预测误差，定义为预测值减去真值，即 $\Delta\omega=\hat\omega-\omega$；四种方法共用区别于标量场的 `PuOr` 零中心对称色限 $[-7,7]$，预测误差图下方数值为全场相对 $L^2$ 误差。全部场图的空间范围与网格尺寸完全一致，未发生色彩裁切，也未进行图像裁剪或平滑。</sub></div>
 
-#### 4.3 M3｜方程参数识别
+#### 4.3 M1｜方程参数识别
 
 真实系数 `(ν, β, γ)` = (0.01, 1, 1)，真实系数不参与训练。五种配置都从同一条局部训练轨迹（轨迹 0）识别这些参数：GIFT 的生成元在该轨迹上训练，冻结后也在该轨迹上读出系数，与 PDE-FIND、PINN-SR 消费同一条轨迹的方式一致。
 
@@ -327,7 +327,7 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
   <img src="results/formal/M1_equation_identification/figures/parameter_identification_ape_vs_noise.svg" alt="参数识别的绝对百分比误差" width="72%">
 </div>
 
-<div align="center"><sub><b>图 M3-1｜</b>五种配置在 0%、1% 和 10% 噪声条件下对 $\nu$、$\beta$ 和 $\gamma$ 的绝对百分比误差。三个面板共用一条纵轴：20% 及以下为线性、以上为对数，刻度已标注。</sub></div>
+<div align="center"><sub><b>图 M1-1｜</b>五种配置在 0%、1% 和 10% 噪声条件下对 $\nu$、$\beta$ 和 $\gamma$ 的绝对百分比误差。三个面板共用一条纵轴：20% 及以下为线性、以上为对数，刻度已标注。</sub></div>
 
 ### 5. 支线实验（S1–S4）
 
@@ -342,19 +342,19 @@ GIFT 与 GIFT-Lite 从 `t` = 5.0 的真值状态出发以 Δ`t` = 0.02 递归积
   <img src="results/formal/S4_initial_distribution/figures/curves/initial_distribution_comparison.svg" alt="两种初值分布下的平均全场相对误差随时间变化" width="100%">
 </div>
 
-<div align="center"><sub><b>图 S4-1｜</b>左、右两幅分别是四涡旋初值和高斯随机场初值下的平均全场相对误差随时间变化。两幅由同一作图程序绘制、使用相同的纵轴范围与刻度、方法配色、报告时刻和相对 $L^2$ 定义。左幅按已发布的 M1 汇总数据重绘，M1 的数值与报告时刻均未改变，M1 也没有被重新计算。右图中 GIFT-Lite 的有限子集区间以图内注记标出。</sub></div>
+<div align="center"><sub><b>图 S4-1｜</b>左、右两幅分别是四涡旋初值和高斯随机场初值下的平均全场相对误差随时间变化。两幅由同一作图程序绘制、使用相同的纵轴范围与刻度、方法配色、报告时刻和相对 $L^2$ 定义。左幅按已发布的 M2 汇总数据重绘，M2 的数值与报告时刻均未改变，M2 也没有被重新计算。右图中 GIFT-Lite 的有限子集区间以图内注记标出。</sub></div>
 
 <div align="center">
   <img src="results/formal/S4_initial_distribution/figures/keyframes/traj2265_recursive_keyframes.svg" alt="测试轨迹 2265 在四个关键时刻的预测涡量场与有符号预测误差" width="100%">
 </div>
 
-<div align="center"><sub><b>图 S4-3｜</b>高斯随机场初值下预先指定的测试轨迹 2265 在 $t=5.0,6.0,7.0,8.0$ 的涡量场与有符号预测误差，版面与图 S4-2 相同。行列顺序、对齐方式、色标独立性和种子约定均与 M1 一致。</sub></div>
+<div align="center"><sub><b>图 S4-3｜</b>高斯随机场初值下预先指定的测试轨迹 2265 在 $t=5.0,6.0,7.0,8.0$ 的涡量场与有符号预测误差，版面与图 S4-2 相同。行列顺序、对齐方式、色标独立性和种子约定均与 M2 一致。</sub></div>
 
-图 S4-2 为 M1 已发布的示例轨迹 1045 场图，实验文档中直接引用以作并排对照；它与上文的图 M1-2 是同一文件，此处不重复嵌入。
+图 S4-2 为 M2 已发布的示例轨迹 1045 场图，实验文档中直接引用以作并排对照；它与上文的图 M2-2 是同一文件，此处不重复嵌入。
 
 ### 6. 结论与适用范围
 
-在上述协议下，GIFT 在所有正预测时刻、三个原生网格以及两组初值分布上的平均全场相对误差均为最低；而且承担这一性能的正是被识别出的生成元本身：它可被读出为显式 PDE 用于参数识别（M3），可原样应用到未参与训练的网格（M2），也可在另一组初值分布上复用（S4）。
+在上述协议下，GIFT 在所有正预测时刻、三个原生网格以及两组初值分布上的平均全场相对误差均为最低；而且承担这一性能的正是被识别出的生成元本身：它可被读出为显式 PDE 用于参数识别（M1），可原样应用到未参与训练的网格（M3），也可在另一组初值分布上复用（S4）。
 
 > **适用范围。** 结论限于本项目的数据分布、训练协议与 `N` = 64、96、128 网格，不构成任意分辨率上的误差保证或数值稳定性定理；相同 epoch 不代表相同参数更新次数或计算量。完整口径见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 6 节与 [TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)。
 
@@ -384,7 +384,7 @@ python -m scripts.verify_published_results --experiment M3 --result-dir results/
 | 四涡旋 | 0–999（1000 条） | 1000–1039（40 条） | 1040–1219（180 条） | 0–49（50 条） |
 | 平滑高斯随机场 | 1220–2219（1000 条） | 2220–2259（40 条） | 2260–2439（180 条） | 1220–1269（50 条） |
 
-M3 使用其独立的局部编号（训练 0–49、验证 50–69），不与预测总体编号混用。训练、验证与测试互不重叠；GIFT-Lite 子集取自对应训练集，验证或测试数据不参与参数更新。各实验的划分见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 8 节。
+M1 使用其独立的局部编号（训练 0–49、验证 50–69），不与预测总体编号混用。训练、验证与测试互不重叠；GIFT-Lite 子集取自对应训练集，验证或测试数据不参与参数更新。各实验的划分见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 8 节。
 
 ### 9. 跨学科应用（诊断实验）
 
