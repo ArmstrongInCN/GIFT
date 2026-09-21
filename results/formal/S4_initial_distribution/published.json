@@ -5,8 +5,8 @@
   "full_raw_outputs_included": false,
   "resumable_experiment": false,
   "measurement": {
-    "report_sha256": "47BEA8D1EC81E90C7965BE3363E97C801099BBF6BE6979E996DE7FFD293B7B66",
-    "result_manifest_sha256": "17A9BC182983E0FFA2A50B4B0608C6375FFF50817CFD5B49E63799BD3A7F7EAC",
+    "report_sha256": "6BB31F1B4679EB5C88D5CD3138178981453B258A0BEF18885C2F4BFBD1CBB17F",
+    "result_manifest_sha256": "2E83ADA34DCEF211E5441C238C68700E646A7614156F54CB9962D2E53DAF4FB7",
     "settings": {
       "device": "cuda",
       "fno2d_batch_size": 10,
@@ -111,7 +111,7 @@
       "adapters/models.py": "5841b98badb5e5c41735d9d3c1ff63c36498db42885e5df6f529b004594503d9",
       "adapters/prediction.py": "bbb3439470a1624c5eaa8442f3d00dfb6260bc0ad305b9153c57cc4ef56fe461",
       "experiments/__init__.py": "93ee043977a7dde15e0759a50f43a9c137229677ccb219b21f6253722412ed80",
-      "experiments/formal/__init__.py": "f7a044c53c6941fcc298120b969af3298666dc4ca5d08cfe67245af71dedd262",
+      "experiments/formal/__init__.py": "18815e60557c4cdb061723ab8d8aec6bbfb1411c409de9d9f55114596c509957",
       "experiments/formal/_shared/__init__.py": "46087dacb1af884b584414db17a5ff2b5249ce51738469f5f02a013715167ce8",
       "experiments/formal/_shared/common.py": "63c71ca2e9fad6fdedeac6c28ca8f4bd4342db32729015691619f3fe8fa9786e",
       "experiments/formal/_shared/fno_runtime.py": "cd4865adeac34a02d29aaf9696f201609d7409f8a2d7d4790c98876f91f7cb6c",
@@ -245,9 +245,9 @@
         "U_NO": 180,
         "U_Net": 180
       },
-      "report_sha256": "47bea8d1ec81e90c7965be3363e97c801099bbf6be6979e996de7ffd293b7b66",
-      "raw_prediction_sha256": "d06a8eb6d731ec533ce34a3c00c67cff3028f6456a9bc699ac5c23093335a1ec",
-      "metrics_sha256": "ecbaf9c98e5cbbf9d23388478af6b14a152457b38bd6abe0002d9aa5c90ec5d9",
+      "report_sha256": "6bb31f1b4679eb5c88d5cd3138178981453b258a0bef18885c2f4bfbd1cbb17f",
+      "raw_prediction_sha256": "4191481874f6a00b879f5de693941f5aac9e9e9077d7b6d971009c48e02064f0",
+      "metrics_sha256": "adaec6d212bca5de13f0e17e9f4e616b137b728b5bd4be740f445565990c0e76",
       "metric_arithmetic": "float32 field subtraction followed by float64 squared-sum norms",
       "finite_subset_statistics_checked_without_hiding_failure_counts": true,
       "training_reexecuted": false
@@ -280,7 +280,7 @@
     "comparison_scope": "within each distribution; not cross-distribution generalization",
     "reference": {
       "experiment": "M2",
-      "published_manifest_sha256": "95EF136916B7704FE6527D108263CB48BF27D681C5C3E18911E795F8C2229391",
+      "published_manifest_sha256": "6134D138411366DC538EF558B13B5A8AA65B8A3DC4BD9E726D1ABA1F55B919B1",
       "original_results_recomputed": false
     }
   },
@@ -292,13 +292,13 @@
   "files": [
     {
       "path": "summary/metrics.csv",
-      "bytes": 9718,
-      "sha256": "ECBAF9C98E5CBBF9D23388478AF6B14A152457B38BD6ABE0002D9AA5C90EC5D9"
+      "bytes": 9710,
+      "sha256": "ADAEC6D212BCA5DE13F0E17E9F4E616B137B728B5BD4BE740F445565990C0E76"
     },
     {
       "path": "summary/summary.json",
-      "bytes": 2990,
-      "sha256": "995928A41EC2FDD3739AAB03F855B801AA144041B18BA6EA0BA0015F252B256B"
+      "bytes": 2987,
+      "sha256": "EDCF70C0FBACE0F20136C979C9D080E29E81CF4D8486F2F479746097B88D7F35"
     },
     {
       "path": "figures/curves/four_vortex_mean_relative_l2_vs_time.svg",
@@ -328,7 +328,7 @@
     {
       "path": "figures/curves/figure_manifest.json",
       "bytes": 5995,
-      "sha256": "25912BA6A9C01A0E47AF7008DDB46AAF21033529CE5D93D1FD7157A6E3187213"
+      "sha256": "02E52A72B9A6A90B2EC2154627899F7202C5B3C27C065B974AD2FD6CD840836E"
     },
     {
       "path": "figures/keyframes/figure_metadata.json",
@@ -618,7 +618,7 @@
     {
       "path": "figures/keyframes/figure_manifest.json",
       "bytes": 26431,
-      "sha256": "A235183BD293AE0413659F60E72D1C2A8943DCE221280C9CA03E42F3CA4293E7"
+      "sha256": "881B976601D479DDF32D8F2956B68486668E324829836B53CD46DCB1E46C711A"
     }
   ]
 }

@@ -2,17 +2,17 @@
   "status": "complete",
   "evidence": {
     "experiment": "M2",
-    "report_sha256": "106B7332DAB16F69932A94DA8442BFA02587C3F45C01C4A8A13D7CB3FFB6CA17",
+    "report_sha256": "3DC75E01E1CD362D27D1FD69AE5320195F06D8ECC6E357B58FE1984616A56988",
     "sources": [
       {
         "path": "raw/predictions.h5",
-        "bytes": 190720265,
-        "sha256": "D23AB2F38882DA3BC3904594CB93D0202E38006DD72448BE0D7F071B3EA8D2D3"
+        "bytes": 190720276,
+        "sha256": "1AE2BEC26BB140DF2CACB7EF64CE930E6C4BF6CA2FD300C98EC0DB523EBFFE20"
       },
       {
         "path": "summary/metrics.csv",
-        "bytes": 9710,
-        "sha256": "9CBBBB90AA2AEFF79191E8C9C5DABFAA6269731556F8AAE1CE80003E264D1C8D"
+        "bytes": 9712,
+        "sha256": "347AA712FBA4361F291743550ACC064453EEF0F681FB7FB0EF30CDCBEE702ACE"
       }
     ],
     "experiment_inputs": {

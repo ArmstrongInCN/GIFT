@@ -2,17 +2,17 @@
   "status": "complete",
   "evidence": {
     "experiment": "S4",
-    "report_sha256": "47BEA8D1EC81E90C7965BE3363E97C801099BBF6BE6979E996DE7FFD293B7B66",
+    "report_sha256": "6BB31F1B4679EB5C88D5CD3138178981453B258A0BEF18885C2F4BFBD1CBB17F",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 9718,
-        "sha256": "ECBAF9C98E5CBBF9D23388478AF6B14A152457B38BD6ABE0002D9AA5C90EC5D9"
+        "bytes": 9710,
+        "sha256": "ADAEC6D212BCA5DE13F0E17E9F4E616B137B728B5BD4BE740F445565990C0E76"
       },
       {
         "path": "raw/predictions.h5",
-        "bytes": 189868223,
-        "sha256": "D06A8EB6D731EC533CE34A3C00C67CFF3028F6456A9BC699AC5C23093335A1EC"
+        "bytes": 189868202,
+        "sha256": "4191481874F6A00B879F5DE693941F5AAC9E9E9077D7B6D971009C48E02064F0"
       }
     ],
     "experiment_inputs": {

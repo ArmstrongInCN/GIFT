@@ -2,7 +2,7 @@
   "status": "complete",
   "evidence": {
     "experiment": "M3",
-    "report_sha256": "0C36BBB5940F3FDFDF8A4B345C9956BCC59197DA4B5400C6EE3D5BF6C2C0CD06",
+    "report_sha256": "E6F569347A68B96D0D98FC4FA05E2B3EE277CC212E370B8BF3C867BDE43A600A",
     "sources": [
       {
         "path": "summary/metrics.csv",
