@@ -2,12 +2,12 @@
   "status": "complete",
   "evidence": {
     "experiment": "M1",
-    "report_sha256": "8D23F76A61095902E4D4065EF7AAD50D0EF94127569486D050B3307B28964D29",
+    "report_sha256": "2E5267D6C6B4422A04E45BBCF7848AAAA058B6711A0C608295C9A19AEB5478AA",
     "sources": [
       {
         "path": "summary/metrics.csv",
-        "bytes": 4373,
-        "sha256": "3DDFE74FC088FFF2A0693E8ABD06766C056665A7B249BFF3464CDA5A58527FCB"
+        "bytes": 4365,
+        "sha256": "C27ACDB2F140DB799923D405D3B4DDAA69BEEEED74D30FBC2424CF5347FA3470"
       }
     ],
     "experiment_inputs": {
@@ -24,18 +24,18 @@
               "sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5"
             },
             "checkpoint": {
-              "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B",
-              "bytes": 398738
+              "sha256": "B6529A2267ACE02AB77290A5A8445A9EF802C837A2E1896043515D7DAA64AA84",
+              "bytes": 393234
             },
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E",
-              "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2",
+              "src/gift/model.py": "29E3C49044C000EE1AE8319E7AAC6F934A317E46B6A790A32D343FA62B9EE90A",
               "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
               "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cuda",
               "thread_environment": {
@@ -44,24 +44,24 @@
                 "OPENBLAS_NUM_THREADS": "1"
               },
               "scipy": "1.15.3",
-              "torch": "2.10.0+cu126",
-              "cuda": "12.6",
+              "torch": "2.10.0+cu128",
+              "cuda": "12.8",
               "matmul_tf32": false,
               "cudnn_tf32": true,
               "tf32_override": null,
               "cublas_workspace_config": null,
               "torch_threads": 2,
-              "gpu": "NVIDIA RTX A5500 Laptop GPU"
+              "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "395BBC83C368AA228975DC18224F38F0B4DAFA0C7D858A6EF623F1F4E67675DE",
+          "completion_sha256": "5A481439627A9AE587E583A4C9D4CD5CD38D4B3E561C47F2D74CAB3D6E84A4DA",
           "files": {
-            "result.json": "E17B874AB898CFC05D3D3A4C4A9C251E2EBD7DBDDC59A1A1B5478958BEA39080",
-            "summary.csv": "66456B60A338993912B9142F024C22421036B770C9642596BA5B6D0C07A45C89",
+            "result.json": "B40F82928AB47EE5E581119A0E7A1FB7EC8A6515E5F3F43E259DFC9C13D2E78C",
+            "summary.csv": "4146FCA4F0FF1A7E45D1C5C5BA235F20CEDE7A7751815282837200A000AE56D4",
             "native_coefficients.csv": "9FC1F48AB51F21515C0710203CC6B8AEBCC54A586D6B3E3753C0E1D1AD04009E"
           },
-          "readout_or_regression_seconds": 1.9742894999799319
+          "readout_or_regression_seconds": 3.1001216997392476
         },
         {
           "method": "PDE-FIND",
@@ -77,10 +77,10 @@
             "checkpoint": null,
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -92,13 +92,13 @@
             },
             "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
           },
-          "completion_sha256": "C49D0C907E5FD3AAE8980D5C062B4AE172FE18C655B793E237946B6DCEB8A380",
+          "completion_sha256": "E1235726F6F0F9D55649C2167C2B4A4448642A14C6480C6CBE2852D5DD27DBB7",
           "files": {
-            "result.json": "6EAC5AEF3F21F8650898C5724F192382FBF4F547F815923F25A892D222220A05",
-            "summary.csv": "E5F21FCF3799FF75A72F1EDE388A5AA1A264CBEADF5657B993396DB263203C13",
-            "native_coefficients.csv": "A9DC3E1F8C61074543C33AB22AA737881147932DB7658BF84AC238F77691A84A"
+            "result.json": "DE4ADA7BE81978A16825388207E4BDF3D2881AEEA95EE22B0E8B3742D76A28EB",
+            "summary.csv": "8E096CC3F086E9F0E46D04B7914BD09EC9CF808C6D75DDA6BE7015E36EA505C7",
+            "native_coefficients.csv": "42BFF6D459A5C8E5AECE99C87BDD15B7C4AC020AE90927C6A769D8C0F257E150"
           },
-          "readout_or_regression_seconds": 244.70658930001082
+          "readout_or_regression_seconds": 220.6438517998904
         },
         {
           "method": "PDE-FIND-KC",
@@ -114,10 +114,10 @@
             "checkpoint": null,
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -129,13 +129,13 @@
             },
             "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
           },
-          "completion_sha256": "9D2FC0EF9D872F0294A4761A66CE66E75786EB78F507D63758195A3BA2D97EB5",
+          "completion_sha256": "0E045EC4CF649986E2B9BA5B3334FA7A7E15BE868A3EFCA9CB2A3E22C3448437",
           "files": {
-            "result.json": "11A5ED43B6EBBD8AA20D75B8651059ECB0AB301E284F27BBD7A121A96B07A850",
-            "summary.csv": "41691C4D6DEFFFD172769C508A5C68E11DECE918BC89AB44076758A5BAE26720",
-            "native_coefficients.csv": "F976E79519D6A462C1FB91A369E99B8B0F79B6727593E250A6634727C9AE4582"
+            "result.json": "791B4DBF08209F6CD55001741E87F187D265337E1B883C6DAB9122CCABF80AC6",
+            "summary.csv": "2F89F8BCDEE12564CA7D27FA95C721C570A4F02B1CB29A0F6BF8969821370D4F",
+            "native_coefficients.csv": "4B6FEAFB68630C6FC5955F1C853F6F3B915BA1DBDA7A28611468E55A9A9CBB23"
           },
-          "readout_or_regression_seconds": 3.3996334000257775
+          "readout_or_regression_seconds": 2.7756793000735343
         },
         {
           "method": "PINN-SR",
@@ -161,10 +161,10 @@
             },
             "sources": {
               "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -175,13 +175,13 @@
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "418224917411F98495309514AF57383798E73B71B76665340DACC1F4CD56EA27",
+          "completion_sha256": "FFE336F017DD7FF1AE2D7B2EEAAC9E38EB7691D2D5341BE89C681D4EA77998AD",
           "files": {
-            "result.json": "764376B8AC8A1EAF594AD9EAE4D2092B63BC6E7D71E86AA7491DB19E2AD7EADA",
+            "result.json": "65565EC7D3BA45B35E01391820E5AA067BA63C00984DB10CC7612E129531C442",
             "summary.csv": "8BBC1F2197222748B8480F24B4C69F7C5D6E2F1630B8639150B405E4A73FCEBD",
             "native_coefficients.csv": "7F74FF2AD6A9C2509941C4A844069EEBCF99A1C800080B2796A4155C6FC03165"
           },
-          "readout_or_regression_seconds": 1.594623800017871,
+          "readout_or_regression_seconds": 1.6188443000428379,
           "training_cost": {
             "phase_seconds": {
               "pre_nadam": 792.2768723000049,
@@ -220,10 +220,10 @@
             },
             "sources": {
               "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -234,13 +234,13 @@
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "4AF7EC13C09EB04958553B08B2EAA42556AFF1AC37D1234471E4E3FE5A4E30CB",
+          "completion_sha256": "16F4509F20432489D20594686F653659D82A4788EE21BDDDEB863D5E79FD2F07",
           "files": {
-            "result.json": "C2A23915B7DE77560CE6D7B08B5847712F9C60B5C383D86DF0117341403220DC",
+            "result.json": "F829D5A6E43447DF07405248D7818B8D80361665B492C3A7D7F5B4CB12CC593B",
             "summary.csv": "1C1746BC382FFC70CD6B154EB2B355853878A6642D42C5581F6CA6143D99AA7A",
             "native_coefficients.csv": "502C8AE48206C8853C9EFFFD61A7B0D550C96017D251AB1328F0BED626CAE006"
           },
-          "readout_or_regression_seconds": 0.9960410000057891,
+          "readout_or_regression_seconds": 1.6159196998924017,
           "training_cost": {
             "phase_seconds": {
               "pre_nadam": 582.7289616000003,
@@ -267,18 +267,18 @@
               "sha256": "97C5773290B5C50393FF64B7B42C021FD54F2BB429FC6D57CD4599F09F9818BC"
             },
             "checkpoint": {
-              "sha256": "9E3858869EF76F496F7C165EAEA49629EC4990880B21FB0D3C4296B9AE85009C",
-              "bytes": 398034
+              "sha256": "29A825F3CC7247017B009D9C5E22643AFCFD592A1EF65252CD7CD4BF37E126FD",
+              "bytes": 393042
             },
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E",
-              "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2",
+              "src/gift/model.py": "29E3C49044C000EE1AE8319E7AAC6F934A317E46B6A790A32D343FA62B9EE90A",
               "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
               "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cuda",
               "thread_environment": {
@@ -287,24 +287,24 @@
                 "OPENBLAS_NUM_THREADS": "1"
               },
               "scipy": "1.15.3",
-              "torch": "2.10.0+cu126",
-              "cuda": "12.6",
+              "torch": "2.10.0+cu128",
+              "cuda": "12.8",
               "matmul_tf32": false,
               "cudnn_tf32": true,
               "tf32_override": null,
               "cublas_workspace_config": null,
               "torch_threads": 2,
-              "gpu": "NVIDIA RTX A5500 Laptop GPU"
+              "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "5C72F2E2F7EB908889CA73A5EB0316A57B8D24022751D6E96831A0492ACB7E65",
+          "completion_sha256": "604985DBFD6211329E87E586789975F1F677FDB29568798FD42E1C1D268F7B19",
           "files": {
-            "result.json": "AC67DA755351E8C5D748B732FC2661C887D5C36640551DB04D979D81275C0BAC",
-            "summary.csv": "0DC4EE6755A29A8FDD198A967D510657A1582B5A3DB4A41F9BD8E7B9FA97B993",
+            "result.json": "536FB3B6D3A788E1203146E0D290D0CAA32A75EA75B36B73825E79FAE952730B",
+            "summary.csv": "A3411612F55249DD8E974E620FCC4C5864D78E3FE467BA0D06BB451D08E36B32",
             "native_coefficients.csv": "9FC1F48AB51F21515C0710203CC6B8AEBCC54A586D6B3E3753C0E1D1AD04009E"
           },
-          "readout_or_regression_seconds": 2.029613499995321
+          "readout_or_regression_seconds": 3.076288199983537
         },
         {
           "method": "PDE-FIND",
@@ -320,10 +320,10 @@
             "checkpoint": null,
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -335,13 +335,13 @@
             },
             "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
           },
-          "completion_sha256": "60EAB1DFCF82B19955FF3635735F77F1D8E447077617B089CC9FD0334AE5594A",
+          "completion_sha256": "35DBFCFE1E295835304DAFA5873441C7782B24814C06B497765EB8B762DD93A0",
           "files": {
-            "result.json": "CA8092C416FAE7E835A80415136391C3648D2C63133884B808A469EF76F6BBA4",
-            "summary.csv": "AF7FE785F23D555B423CD408CAB57E953A34D312319BA1FD5A2A2231B6F89E18",
-            "native_coefficients.csv": "D5178A3FC4C4BB21040A9FE75D7F573426182853FA6068EC370F44F53C42B02A"
+            "result.json": "C345011893459BB7EE7CA8A5960CB1E2BE95EF031EE526571ED284656D596956",
+            "summary.csv": "353B96823CC9F18FA3A80D2AF4E13DD246F337EF02977221912FB70718F36F3E",
+            "native_coefficients.csv": "6CFF3DA5522D47EF19B55CFDF332F63A5A0476E514605DC913F7FA1615E59DF6"
           },
-          "readout_or_regression_seconds": 242.83826880005654
+          "readout_or_regression_seconds": 225.13067890005186
         },
         {
           "method": "PDE-FIND-KC",
@@ -357,10 +357,10 @@
             "checkpoint": null,
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -372,13 +372,13 @@
             },
             "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
           },
-          "completion_sha256": "861FDF47EED05207A5BEAF161EDFE0BF798B02B992B490DB62FAA898DC32012B",
+          "completion_sha256": "BC73791CBE79DA4F5D06D9F9052525D5A112537C313384ECA042AA27F765FE86",
           "files": {
-            "result.json": "D7079D9D59FFFC69343404935832223C5E33AEA8D87504986BC16CF462E1C0E3",
-            "summary.csv": "B63EFED96F7EDBF9B541BBE9E2F64BDBB7B7B53485492B8F01D8D8286CF2D1D9",
-            "native_coefficients.csv": "CB9E2D93FB4EF65A775699BE319A7CFAC2EDBCBB54903A2F06C3DE9F6B78FAE1"
+            "result.json": "9B17712A3C42D5EC71254FE3D14CE7A4B551319D6EFEB6FCCCCE6AE88C852801",
+            "summary.csv": "3EFCFBCE81541069AA2CE25B7CE5F28247F82FD4CC547C01B1FA9FE42F11C340",
+            "native_coefficients.csv": "D2C1031D9CED4E15B63F75D845BE2381AEC02EB2A665A9763B78994792215177"
           },
-          "readout_or_regression_seconds": 3.6256944000488147
+          "readout_or_regression_seconds": 3.5763824000023305
         },
         {
           "method": "PINN-SR",
@@ -404,10 +404,10 @@
             },
             "sources": {
               "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -418,13 +418,13 @@
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "00E1E56117C1DF59F70B9DBB204A50513C3C6BB617820412422905E56220D1EF",
+          "completion_sha256": "E5B7ED83097EF3636DEB04FE5DCB056D15A819266B7D6B162CA42AC152C0B683",
           "files": {
-            "result.json": "F940825951717BFF990D2B71F1B4B7776F702862C0546F646B1C07247C0952CC",
+            "result.json": "2BB4FF5D4360C322867A5A859941A44D7028576789A2E2B10BA78DEE31860B4D",
             "summary.csv": "DD9D4C554188271718709BCD8DE66A2A68DCC91582BDDC60510CF96483745703",
             "native_coefficients.csv": "18DE6C5F05ABFD04F1753AA6D8A015EC91B0B5902C6891086BB13733C5353822"
           },
-          "readout_or_regression_seconds": 1.2760537000140175,
+          "readout_or_regression_seconds": 1.7505289996042848,
           "training_cost": {
             "phase_seconds": {
               "pre_nadam": 769.897542899998,
@@ -463,10 +463,10 @@
             },
             "sources": {
               "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -477,13 +477,13 @@
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "23B7B4ADA26ED5DB6761BCB8C830AA0D679F4429404A3BF867C3864D3FD968EA",
+          "completion_sha256": "727F28D0AD19BD0C6E96E2FB9BCB17C8047A8C00FFF103FC585A233893C709CF",
           "files": {
-            "result.json": "9BA6A1C5847D5E54D72878B460FC0E29BEB8BCA9E5ED8D28F38924C75CA9D174",
+            "result.json": "1526629A9FA6E4397745399E3BFD63B11D48D4DC624E4823135404C6F2E863FD",
             "summary.csv": "47A86B8B7137D08A1AAF6273273DF9708F2E757B5B2F58A5479163B66BF1EB5C",
             "native_coefficients.csv": "DB98169681DA69FA331A7D98D863DE2A5AE63B739E4461EBD0793F4F85207D21"
           },
-          "readout_or_regression_seconds": 1.4298283999669366,
+          "readout_or_regression_seconds": 1.733653400093317,
           "training_cost": {
             "phase_seconds": {
               "pre_nadam": 998.0543975999985,
@@ -510,18 +510,18 @@
               "sha256": "87661D4EC2844FD2EEC4256D4DCF2C2FEA1B948ACB39ADDE454E95E855DDD3BC"
             },
             "checkpoint": {
-              "sha256": "7E59BA53E0688D60F8CED0BC885CE84E57848925FAB7EFB1BDE5814FDDCCFC0F",
-              "bytes": 392978
+              "sha256": "CEA1C7DDC6F416A31487615FA7D6B2AE15A6AFA1519A11D2C253AA764359F758",
+              "bytes": 393042
             },
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E",
-              "src/gift/model.py": "C26ACE74F419C4F58197BB6D6B7B0625CBBE368D0E4B7FDD443176B0108315B7",
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2",
+              "src/gift/model.py": "29E3C49044C000EE1AE8319E7AAC6F934A317E46B6A790A32D343FA62B9EE90A",
               "src/gift/identified.py": "F3EFB36A0276DEF2BBBEE1A5BE589379D85ABBEE0082F30CB9D588744EC3DF2B",
               "src/even_full_spectrum_ns.py": "C4064B06D940AE05BE4904012D125D7FAE3300B03F04679748D7F3F538B37A1D"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cuda",
               "thread_environment": {
@@ -530,24 +530,24 @@
                 "OPENBLAS_NUM_THREADS": "1"
               },
               "scipy": "1.15.3",
-              "torch": "2.10.0+cu126",
-              "cuda": "12.6",
+              "torch": "2.10.0+cu128",
+              "cuda": "12.8",
               "matmul_tf32": false,
               "cudnn_tf32": true,
               "tf32_override": null,
               "cublas_workspace_config": null,
               "torch_threads": 2,
-              "gpu": "NVIDIA RTX A5500 Laptop GPU"
+              "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "54785622BE5BFA92A37F78AB717383ACE9ADA207C69E76B48432DF23C1164200",
+          "completion_sha256": "400693E2ABF8D254F5A4469B37193103F7A07F848A99024BBC034EF811787EDD",
           "files": {
-            "result.json": "C9E0C634F0F3C4C231213F62B82A7EF489D50418C52AA1E4B1BBB9DFEE5AB54D",
-            "summary.csv": "1265E1EAE3612FE70B127DA5DBE447729FAFE727FB931A26FDEAC09E55601412",
+            "result.json": "ADA2F1ABDD4F7DC9D2EDDAA38E0C21B7C3B49949F975B408A1E8013806B47DCA",
+            "summary.csv": "FECC892D581D378CBF5A72D062987C8F8CBCA62F7B45C006FC96E6FD56E25EFF",
             "native_coefficients.csv": "9FC1F48AB51F21515C0710203CC6B8AEBCC54A586D6B3E3753C0E1D1AD04009E"
           },
-          "readout_or_regression_seconds": 2.0202720999950543
+          "readout_or_regression_seconds": 3.075981200207025
         },
         {
           "method": "PDE-FIND",
@@ -563,10 +563,10 @@
             "checkpoint": null,
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -578,13 +578,13 @@
             },
             "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
           },
-          "completion_sha256": "B5B2993FF31B5F760EA8BD1FB497C1A2FC100C498AEF891C9C480677EB4B538B",
+          "completion_sha256": "5716842CD957026E1909B038D1540126F5D1C05CB8472FF7638E24E63D7B9689",
           "files": {
-            "result.json": "A30D59C11CAF0F15E6985EEA5CB0D5DCE9E7A709FB4FA325D8B1EE2F0FD80C9A",
-            "summary.csv": "0A6EE5F88300D78A4B702E9D83B2B15EBAD0D1A3A862E9BDF5AF88CC559919B9",
-            "native_coefficients.csv": "12837419892998BDE0B961F6A2AE2A0DB58B102BECC710702CCF10B8822C05B1"
+            "result.json": "8EC51C2E3CFE24BDDF425D735FBBAC297AC586BE9287201AFCF3257FE919DDE6",
+            "summary.csv": "BE3E0CF350226C2DE3BC8996A7340055622863AE3D103831EBF7CF0920F03671",
+            "native_coefficients.csv": "74843C80904CFC204A49C4AAFCA86AE3DF9DB90AB756C34344D00B3434E6E8CA"
           },
-          "readout_or_regression_seconds": 243.38909259997308
+          "readout_or_regression_seconds": 221.06636680010706
         },
         {
           "method": "PDE-FIND-KC",
@@ -600,10 +600,10 @@
             "checkpoint": null,
             "sources": {
               "adapters/pde_find.py": "B1D0137362B040012ACD8A9304A5C117BF6A7DE9D260441FD45E0A925718B975",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -615,13 +615,13 @@
             },
             "upstream_sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A"
           },
-          "completion_sha256": "04A7CC26C753DD1FEA2800C77CF8E83A43DD65605217210172E7475DD4A36083",
+          "completion_sha256": "48B2FE574BEFA382C971E9B08EC9CCDA220269A774A7FD95574C5AA8308720B4",
           "files": {
-            "result.json": "2772FDC83EEB1E14EA37D4D396CE020BF30871CB6CA2907528104730D57BD66B",
-            "summary.csv": "FE00E77AB5C1965D655F2E5A5CC0A963C1B814D77042B439D0EC6C0D917DF857",
-            "native_coefficients.csv": "FF976EA179FBEADF65AAFC8E99D3351ACB3C41229816FDE6E50926BB60FED5A2"
+            "result.json": "E72F1AAD6137F0AE02B64A46F5F019EEE603E5156E73CD8C9788CE8A0FEEADAF",
+            "summary.csv": "A06441B7B272D1486508BE055FA2C791FD856FFF45B7B099574A8A86DC14557D",
+            "native_coefficients.csv": "F3C4357F4D71B4B1A53DCC40796D6CE02E54687E7017F8ECAF8A858357C6B8E4"
           },
-          "readout_or_regression_seconds": 3.8610048000118695
+          "readout_or_regression_seconds": 3.612959699705243
         },
         {
           "method": "PINN-SR",
@@ -647,10 +647,10 @@
             },
             "sources": {
               "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -661,13 +661,13 @@
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "DBB4AAFE2A12C00C3DE0715AC42A0C2FCEFABB7DF53E65566DEC743E66A0E228",
+          "completion_sha256": "950AE57567800B1D1FCFB1A46777C339C9500F64BBA53DD330D6F3E35972FFCB",
           "files": {
-            "result.json": "64403CF0664438909A2173F09C65D05B22D78A939C8CF6FE64131E1C78B7CCD2",
+            "result.json": "6A10FF040FA4E67CBFE053B91B68A0293596F4689D9BA6A843E64A1279DAED4E",
             "summary.csv": "C1DF3C6C0DD9F39777C23702645F6EADF87E7F5B88406AEC35AFDDDA37992279",
             "native_coefficients.csv": "D275E9C910844AE79E8709E6E4037B5C5E0CF2AD076EDBD3C32ADFA6F624993E"
           },
-          "readout_or_regression_seconds": 1.243435500015039,
+          "readout_or_regression_seconds": 1.7741763000376523,
           "training_cost": {
             "phase_seconds": {
               "pre_nadam": 767.7414743999997,
@@ -706,10 +706,10 @@
             },
             "sources": {
               "adapters/pinn_reference.py": "A4590BE2D3BBA40C2F3CF06699F210AC75067CE973A3B0C8A02A95B76DD8F3A2",
-              "experiments/formal/m1_equation_identification/run.py": "A26BBE5018B21FEFE9957853C5486CAE182DA5D99B36902C0D72E5302DBE537E"
+              "experiments/formal/m1_equation_identification/run.py": "A258CD543DB01798B0B2919B61FA6E1BD021F6661D2B0AC2B8910F1C95210DC2"
             },
             "runtime": {
-              "python": "3.10.19",
+              "python": "3.13.14",
               "numpy": "2.2.6",
               "device": "cpu",
               "thread_environment": {
@@ -720,13 +720,13 @@
             },
             "upstream_sha256": null
           },
-          "completion_sha256": "1B0AB7FDC3B231EA339710869DE78C4C2385AEAC3CEC03C67DB41A10AC726E42",
+          "completion_sha256": "70266E62E086C8005FCFF305757036F90591C68294E83430872986488694B3CD",
           "files": {
-            "result.json": "9A8BA7CCB7F6BA800F4CE6CEBC13EA63D37D212E2DDC6F666B4B8D6EB2EF9D64",
+            "result.json": "DACF0CF8B482721A4649BD5D63CF3C8F2C0C8F8AA0A14C9F95E04EDEEC1215A4",
             "summary.csv": "9EF6B921C4794CADCA637506C84906F19F7A34EB9162F808D422AE5E721CA0DF",
             "native_coefficients.csv": "F74EAE5EE9A080F405884E15CB1BB25EE7C244020B78D399EAD00E01BC145E0D"
           },
-          "readout_or_regression_seconds": 1.239120299986098,
+          "readout_or_regression_seconds": 1.7569833998568356,
           "training_cost": {
             "phase_seconds": {
               "pre_nadam": 562.1634105000069,
@@ -748,10 +748,21 @@
     "metric": "absolute percentage error",
     "error_bars": "none",
     "axis": {
-      "scale": "log",
+      "scale": "symlog",
       "limits": [
-        0.02,
-        300.0
+        0.0,
+        250.0
+      ],
+      "linthresh": 20.0,
+      "ticks": [
+        0.0,
+        5.0,
+        10.0,
+        15.0,
+        20.0,
+        50.0,
+        100.0,
+        200.0
       ],
       "expanded": false
     },
@@ -771,7 +782,7 @@
   },
   "renderer": {
     "path": "plot_parameters.py",
-    "sha256": "196024C2B4C516F47416FE3CE7E4FC29097AB02D9A275BECC1DE74480FE0FDFB"
+    "sha256": "66FCEEFA2C9184BE5566715BCFD731AF4492403063D9A5321E9C407B0B257A0A"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -784,20 +795,20 @@
     "parameter_identification_ape_vs_noise.svg": {
       "editable_text": true,
       "embedded_raster_images": 0,
-      "width": "503.947053pt",
+      "width": "502.196834pt",
       "height": "190.008pt"
     }
   },
   "files": [
     {
       "path": "parameter_identification_ape_vs_noise.svg",
-      "bytes": 32418,
-      "sha256": "0860B10B54FB4F0AA3FDF0930931E0D6C342982CCE4F43CDF3453AFF8CDF9192"
+      "bytes": 35594,
+      "sha256": "0F7177963FE597BB409A5AB712D3EF193D317309A60FB98F5141E808162C419A"
     },
     {
       "path": "source_data.csv",
-      "bytes": 4278,
-      "sha256": "A0E3B6886F774DAA07CEF9FEA04C43EF7E53130371AD53B350B3E8337F68147C"
+      "bytes": 4273,
+      "sha256": "4B37C61FD11DF28D5E90B3AE5FBC5412D7B4DD80664DA4BF8D919D59F22B4426"
     }
   ]
 }

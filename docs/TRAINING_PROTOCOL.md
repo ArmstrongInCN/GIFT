@@ -29,8 +29,9 @@ prediction-training trajectories; its generator and high-frequency branch each
 receive 500 trajectory epochs. This is **500 + 500**, not a 500-epoch total and
 not a compute-matched claim. **GIFT-Lite** uses independently trained
 50-trajectory models and its own multi-stage schedule; Lite denotes reduced
-training data, not a smaller network. M1 identification training and results are
-unchanged and keep their separate protocol below.
+training data, not a smaller network. M1 identification keeps its separate
+protocol below: its generator is trained on, and its coefficients are read from,
+the single local training trajectory 0 that the four baselines also use.
 
 GIFT 的生成元与高频支路各训练 500 epoch，分项报告。每个 epoch 对
 全部 1,000 条训练轨迹各访问一次，从每条轨迹选择一个固定种子控制的时间窗口。
@@ -44,7 +45,8 @@ Prediction training IDs are 0–999; GIFT-Lite uses 0–49. Validation IDs are
 used for checkpoint-validation measurements. Independent test IDs are
 1040–1219 (180 trajectories), paired across N64/N96/N128. Identity mapping is
 fixed before model evaluation and does not depend on errors or failures.
-The identification dataset used by M1 retains its separate local identifiers.
+The identification dataset used by M1 retains its separate local identifiers; all
+five M1 configurations identify their parameters from local training trajectory 0.
 
 Full-data GIFT uses **terminal stage states and terminal epoch weights**.
 Validation monitors the declared procedure and does not select a model or

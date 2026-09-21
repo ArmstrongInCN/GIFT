@@ -4,6 +4,11 @@ Set GIFT_DATA_ROOT to the separately downloaded input package. --dry-run writes
 nothing; --run-training requires a new output directory; --resume requires the
 same output directory and unchanged source/data/config/numerical environment.
 Published terminal weights are never accepted as resume inputs.
+
+The prediction regimes keep the declared 50-trajectory population. The three M1
+generators are the 1-trajectory configuration (--training-trajectories 1), so
+that parameter identification uses the same single training trajectory as the
+baselines; their checkpoints are bound in artifacts/m1_parameter_identification.
 """
 
 from __future__ import annotations
@@ -54,6 +59,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--validation-interval", type=int, default=250)
     parser.add_argument("--checkpoint-interval", type=int, default=250)
     parser.add_argument("--rank-rcond", type=float)
+    parser.add_argument("--training-trajectories", type=int,
+                        help="override the training population of this generator; the "
+                             "prediction regimes keep the 50-trajectory default, the M1 "
+                             "generators use 1 (local training trajectory 0)")
     parser.add_argument("--allow-nondeterministic", action="store_true",
                         help="diagnostic only; not the formal deterministic protocol")
     args = parser.parse_args(argv)
@@ -65,13 +74,16 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def _configuration(args: argparse.Namespace) -> GeneratorTrainingConfig:
-    config = GeneratorTrainingConfig(
-        phase_steps=tuple(args.phase_steps),
-        phase_learning_rates=tuple(args.phase_learning_rates),
-        batch_size=args.batch_size, affine_refit_interval=args.affine_refit_interval,
-        validation_interval=args.validation_interval, rank_rcond=args.rank_rcond,
-        seed=args.seed, strict_determinism=not args.allow_nondeterministic,
-    )
+    fields: dict[str, Any] = {
+        "phase_steps": tuple(args.phase_steps),
+        "phase_learning_rates": tuple(args.phase_learning_rates),
+        "batch_size": args.batch_size, "affine_refit_interval": args.affine_refit_interval,
+        "validation_interval": args.validation_interval, "rank_rcond": args.rank_rcond,
+        "seed": args.seed, "strict_determinism": not args.allow_nondeterministic,
+    }
+    if args.training_trajectories is not None:
+        fields["training_trajectories"] = args.training_trajectories
+    config = GeneratorTrainingConfig(**fields)
     config.validate()
     return config
 

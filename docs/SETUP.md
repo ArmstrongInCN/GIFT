@@ -85,19 +85,22 @@ Repeat `gift_predictor` independently for seeds `20260821` and `20260822`, each
 in a new output directory. Each exports `model.pt`. The generator and every
 branch each train for 500 trajectory epochs; see [TRAINING_PROTOCOL.md](TRAINING_PROTOCOL.md).
 
-For reduced-data GIFT-Lite and the unchanged M1 protocol:
+For reduced-data GIFT-Lite (50 training trajectories) and the M1 generators
+(single training trajectory):
 
 ```shell
 python -m scripts.run_training gift_low --run-training --condition noise_000 --output ../runs/gift_low
+python -m scripts.run_training gift_low --run-training --condition noise_000 --training-trajectories 1 --output ../runs/m1_noise_000
 python -m scripts.run_training gift_branch --run-training --seed 20260820 --low-model ../runs/gift_low/gift_main.pt --output ../runs/gift_branch
 ```
 
-For a complete fresh M1 set, also run `gift_low` independently for `noise_001`
-and `noise_010`, using a separate output for each. For three-seed GIFT-Lite
-experiments, run `gift_branch` independently for seeds `20260821` and `20260822`
-in separate outputs, reusing the same completed clean low generator. A branch
-exports `gift_seed_SEED.pt`; a low generator exports `gift_main.pt` for clean
-data or `gift_noise_001.pt` / `gift_noise_010.pt` for the noisy conditions.
+For a complete fresh M1 set, run `gift_low` with `--training-trajectories 1` for
+`noise_000`, `noise_001` and `noise_010`, each in a separate output; the clean M1
+generator is a separate artifact from the GIFT-Lite clean generator. For three-seed
+GIFT-Lite experiments, run `gift_branch` independently for seeds `20260821` and
+`20260822` in separate outputs, reusing the same completed clean low generator. A
+branch exports `gift_seed_SEED.pt`; a low generator exports `gift_main.pt` for
+clean data or `gift_noise_001.pt` / `gift_noise_010.pt` for the noisy conditions.
 
 Use the PINN Python environment for the following independent command (one noise
 condition and one library):

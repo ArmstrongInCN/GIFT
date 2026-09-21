@@ -24,7 +24,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from experiments.formal._shared.figure_evidence import (
-    bind_result, error_axis, finish_figures,
+    bind_result, finish_figures,
 )
 
 METHODS = ["GIFT", "PDE-FIND", "PDE-FIND-KC", "PINN-SR", "PINN-SR-KC"]
@@ -96,6 +96,34 @@ TEXT_LIGHT = "#262626"
 GRID = "#E7E9EC"
 SPINE = "#262626"
 
+# One shared vertical axis for the three panels, with a true zero baseline.
+# Absolute error spans more than two orders of magnitude across configurations, so
+# a uniform linear axis wastes most of the panel height outside the low-error
+# region, while a plain logarithmic axis spreads those low errors too flatly to
+# compare. Measured errors are therefore drawn linearly at or below
+# AXIS_LINTHRESH, where the low-error configurations differ, and logarithmically
+# above it, where the largest baselines are compressed instead of stretching the
+# frame. Every labelled tick lies inside the frame and no measured value is
+# clipped or floored.
+AXIS_LINTHRESH = 20.0
+AXIS_LIMITS = (0.0, 250.0)
+AXIS_TICKS = (0.0, 5.0, 10.0, 15.0, 20.0, 50.0, 100.0, 200.0)
+
+
+def percentage_axis(values) -> dict:
+    """Shared APE axis: zero baseline, linear below the threshold, log above it."""
+    values = np.asarray(values, dtype=float)
+    if not values.size or not np.isfinite(values).all() or (values < 0).any():
+        raise ValueError("plotted errors must be finite and nonnegative")
+    low, high = AXIS_LIMITS
+    observed_max = float(values.max())
+    expanded = observed_max > high
+    if expanded:
+        high = float(np.ceil(observed_max / 50.0) * 50.0)
+    return {"scale": "symlog", "limits": (float(low), high), "linthresh": AXIS_LINTHRESH,
+            "ticks": [float(value) for value in AXIS_TICKS if value <= high],
+            "expanded": expanded}
+
 
 def draw(frame: pd.DataFrame) -> plt.Figure:
     # 183 mm wide, compact double-column height.
@@ -107,7 +135,7 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
         gridspec_kw={"wspace": 0.115},
     )
     x = np.arange(len(NOISE_LEVELS), dtype=float)
-    scale = error_axis(frame["relative_error_percent"], (0.02, 300.0))
+    axis = percentage_axis(frame["relative_error_percent"])
 
     for panel_index, (ax, parameter) in enumerate(zip(axes, PARAMETERS)):
         parameter_frame = frame.loc[frame["parameter"] == parameter]
@@ -134,26 +162,17 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
                 zorder=3,
             )
 
-        ax.set_yscale(scale["scale"], **(
-            {"linthresh": scale["linthresh"]} if scale["scale"] == "symlog" else {}
-        ))
-        ax.set_ylim(*scale["limits"])
+        ax.set_yscale(axis["scale"], linthresh=axis["linthresh"])
+        ax.set_ylim(*axis["limits"])
         ax.set_xlim(-0.20, 2.20)
         ax.set_xticks(x, ["0%", "1%", "10%"])
-        ax.yaxis.set_major_locator(FixedLocator([0.03, 0.1, 1.0, 10.0, 100.0]))
+        ax.yaxis.set_major_locator(FixedLocator(axis["ticks"]))
         ax.yaxis.set_major_formatter(
-            FixedFormatter(["0.03", "0.1", "1", "10", "100"])
+            FixedFormatter([f"{value:g}" for value in axis["ticks"]])
         )
-        if scale["expanded"]:
-            from matplotlib.ticker import LogLocator, SymmetricalLogLocator
-            locator = (SymmetricalLogLocator(base=10, linthresh=scale["linthresh"])
-                       if scale["scale"] == "symlog" else LogLocator(base=10))
-            ax.yaxis.set_major_locator(locator)
-            from matplotlib.ticker import LogFormatterSciNotation
-            ax.yaxis.set_major_formatter(LogFormatterSciNotation(base=10))
         ax.yaxis.set_minor_locator(NullLocator())
 
-        for grid_value in (0.1, 1.0, 10.0, 100.0):
+        for grid_value in axis["ticks"][1:]:
             ax.axhline(
                 grid_value,
                 color=GRID,
@@ -294,7 +313,7 @@ def main() -> None:
     plt.close(figure)
     finish_figures(output, evidence, Path(__file__), {
         "metric": "absolute percentage error", "error_bars": "none",
-        "axis": error_axis(frame["relative_error_percent"], (0.02, 300.0)),
+        "axis": percentage_axis(frame["relative_error_percent"]),
         "method_order": METHODS, "noise_percent": NOISE_LEVELS,
         "source_data": "source_data.csv",
     })

@@ -4,6 +4,11 @@ PDE-FIND uses the user's pinned external source. GIFT reads one bound trained
 generator. PINN methods evaluate an explicitly bound completed native training checkpoint.
 A completed job can be
 read without inference, or verified/reused by repeating its execution command.
+
+GIFT is identified from the same single training trajectory as the other four
+configurations: its generator is trained on local trajectory 0 (see
+artifacts/m1_parameter_identification/manifest.json) and the coefficient readout
+projects the frozen generator onto that same trajectory.
 """
 from __future__ import annotations
 
@@ -32,6 +37,9 @@ METHODS = {"GIFT": "gift", "PDE-FIND": "pde_find", "PDE-FIND-KC": "pde_find_kc",
 DATASETS = {"noise_000": "standard_ns_n64_full_spectrum.h5",
             "noise_001": "m1_parameter_identification/noise_001.h5",
             "noise_010": "m1_parameter_identification/noise_010.h5"}
+# The five configurations share one training trajectory: PDE-FIND and PINN-SR
+# read local trajectory 0, and GIFT is both trained on and read out from it.
+GIFT_TRAJECTORY_COUNT = 1
 
 
 def digest(path):
@@ -333,7 +341,7 @@ def gift_readout(
     )
 
     with h5py.File(dataset, "r") as handle:
-        ids = np.asarray(handle["training/trajectory_index"][:], dtype=np.int64)
+        ids = np.asarray(handle["training/trajectory_index"][:GIFT_TRAJECTORY_COUNT], dtype=np.int64)
         times = np.asarray(handle["training/time"][:], dtype=np.float64)
         target_times = np.round(5.0 + 0.1 * np.arange(11), 12)
         selected = np.asarray(
@@ -343,10 +351,10 @@ def gift_readout(
             ],
             dtype=np.int64,
         )
-        if not np.array_equal(ids, np.arange(50, dtype=np.int64)):
+        if not np.array_equal(ids, np.arange(GIFT_TRAJECTORY_COUNT, dtype=np.int64)):
             raise ValueError("GIFT M1 training trajectory IDs differ")
-        states = np.asarray(handle["training/vorticity"][:, selected], dtype=np.float32)
-    if states.shape != (50, 11, 64, 64) or not np.isfinite(states).all():
+        states = np.asarray(handle["training/vorticity"][:GIFT_TRAJECTORY_COUNT, selected], dtype=np.float32)
+    if states.shape != (GIFT_TRAJECTORY_COUNT, 11, 64, 64) or not np.isfinite(states).all():
         raise ValueError("GIFT M1 readout states differ")
 
     device = torch.device(device_name)

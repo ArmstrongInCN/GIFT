@@ -2,11 +2,11 @@
 
 All eight figure placements referenced by the experiment document are generated from numerical results using Python/matplotlib and exported as SVG; they resolve to seven published files because the S4 section reuses the published M2 keyframe plate unchanged. Plotting does not train a model or select a checkpoint. It can be rerun independently after numerical experiments finish.
 
-实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节左幅改用同一作图程序按已发布的 M2 汇总数据重绘（M2 数值不变、不重算），以便与右幅共用同一纵轴。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。色限是按初值分布预设的固定常数：四涡旋沿用正文图所用的 ±19 / ±21，高斯分布预设为 ±25；预设范围会裁切所选关键帧时渲染器直接拒绝出图，不伸缩色标，也不在正文中事后改口。M1 图像不变。
+实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节左幅改用同一作图程序按已发布的 M2 汇总数据重绘（M2 数值不变、不重算），以便与右幅共用同一纵轴。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。色限是按初值分布预设的固定常数：四涡旋沿用正文图所用的 ±19 / ±21，高斯分布预设为 ±25；预设范围会裁切所选关键帧时渲染器直接拒绝出图，不伸缩色标，也不在正文中事后改口。M1 的三个面板共用一条带零基线的纵轴：20% 及以下为线性、以上为对数，刻度逐条标注；该轴只改变同一组已发布数值的显示方式，数值本身不重算，零误差落在轴上且不下限。
 
 | Figure | Evidence and layout | Statistics / selection |
 | --- | --- | --- |
-| M1 parameter identification | Three side-by-side parameter panels; five methods and three noise conditions; absolute percentage error | One estimate per method, condition and parameter; error recomputed from estimate and true parameter; no error bars or significance test |
+| M1 parameter identification | Three side-by-side parameter panels; five methods and three noise conditions; absolute percentage error; one shared vertical axis with a zero baseline, linear to 20% and logarithmic above it | One estimate per method, condition and parameter; error recomputed from estimate and true parameter; no error bars or significance test |
 | M2 mean error | Six methods, 183 × 96 mm nominal canvas | 180 trajectories; each GIFT regime averages three seed-specific trajectory means; one model for each baseline; markers are measured times, PCHIP is only a visual guide |
 | M2 keyframes | Scalar fields and signed prediction errors in aligned blocks, with separate GIFT and GIFT-Lite rows | Prespecified test trajectory 1045, seed 20260820, t = 5, 6, 7, 8; no averaging of prediction fields |
 | M3 mean error | Three temporal-error panels for N64, N96 and N128, 183 × 72 mm nominal canvas | Same 180 paired trajectories; each GIFT band's pointwise range spans three seed means, not a confidence interval; each baseline uses one model |

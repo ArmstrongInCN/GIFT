@@ -47,13 +47,13 @@ Every number below is a measured result completed and published under the reposi
 
 #### M1 | Equation-parameter identification
 
-True coefficients `(ν, β, γ)` = (0.01, 1, 1), excluded from training.
+True coefficients `(ν, β, γ)` = (0.01, 1, 1), excluded from training. All five configurations identify those parameters from the same single local training trajectory (trajectory 0): GIFT's generator is trained on it and the frozen generator is read out from it, exactly as PDE-FIND and PINN-SR consume that one trajectory.
 
 | Noise | GIFT ν APE | GIFT β APE | GIFT γ APE |
 | --- | ---: | ---: | ---: |
-| 0% | **0.484%** | **0.466%** | **0.030%** |
-| 1% | **4.361%** | **0.877%** | **0.040%** |
-| 10% | 64.852% | 19.778% | **0.783%** |
+| 0% | **4.343%** | **1.619%** | **4.121%** |
+| 1% | **11.890%** | **2.209%** | **4.958%** |
+| 10% | 69.791% | 21.702% | **11.482%** |
 
 At 0% and 1% noise GIFT attains the lowest absolute percentage error (APE) on all three parameters among the five configurations; at 10% noise `ν` degrades sharply — the current field-tomography procedure cannot separate the nonlinear term accurately under high noise.
 
@@ -63,7 +63,7 @@ At 0% and 1% noise GIFT attains the lowest absolute percentage error (APE) on al
   <img src="results/formal/M1_equation_identification/figures/parameter_identification_ape_vs_noise.svg" alt="Absolute percentage error of the identified coefficients" width="72%">
 </div>
 
-<div align="center"><sub>Absolute percentage error of the identified $\nu$, $\beta$ and $\gamma$ for the five configurations at 0%, 1% and 10% noise; the three panels share one logarithmic vertical axis.</sub></div>
+<div align="center"><sub>Absolute percentage error of the identified $\nu$, $\beta$ and $\gamma$ for the five configurations at 0%, 1% and 10% noise; the three panels share one vertical axis, linear up to 20% and logarithmic above it, with labelled ticks.</sub></div>
 
 #### M2 | Recursive prediction (`N` = 64, `t` = 5.0 → 8.0)
 
@@ -235,13 +235,13 @@ $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = 
 
 #### M1｜方程参数识别
 
-真实系数 `(ν, β, γ)` = (0.01, 1, 1)，真实系数不参与训练。
+真实系数 `(ν, β, γ)` = (0.01, 1, 1)，真实系数不参与训练。五种配置都从同一条局部训练轨迹（轨迹 0）识别这些参数：GIFT 的生成元在该轨迹上训练，冻结后也在该轨迹上读出系数，与 PDE-FIND、PINN-SR 消费同一条轨迹的方式一致。
 
 | 噪声 | GIFT ν APE | GIFT β APE | GIFT γ APE |
 | --- | ---: | ---: | ---: |
-| 0% | **0.484%** | **0.466%** | **0.030%** |
-| 1% | **4.361%** | **0.877%** | **0.040%** |
-| 10% | 64.852% | 19.778% | **0.783%** |
+| 0% | **4.343%** | **1.619%** | **4.121%** |
+| 1% | **11.890%** | **2.209%** | **4.958%** |
+| 10% | 69.791% | 21.702% | **11.482%** |
 
 0% 与 1% 噪声下，GIFT 对三个参数的绝对百分比误差（APE）均为五种配置中最低；10% 噪声下 `ν` 显著退化——当前场层析过程无法在高噪声下准确分离非线性项。
 
@@ -251,7 +251,7 @@ $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = 
   <img src="results/formal/M1_equation_identification/figures/parameter_identification_ape_vs_noise.svg" alt="参数识别的绝对百分比误差" width="72%">
 </div>
 
-<div align="center"><sub>0%、1% 与 10% 观测噪声下五种配置识别出的 $\nu$、$\beta$、$\gamma$ 的绝对百分比误差；三个面板使用统一的对数纵轴。</sub></div>
+<div align="center"><sub>0%、1% 与 10% 观测噪声下五种配置识别出的 $\nu$、$\beta$、$\gamma$ 的绝对百分比误差；三个面板共用一条纵轴：20% 及以下为线性、以上为对数，刻度已标注。</sub></div>
 
 #### M2｜递归预测（`N` = 64，`t` = 5.0 → 8.0）
 

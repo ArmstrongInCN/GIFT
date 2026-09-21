@@ -28,7 +28,9 @@ GIFT-Lite uses the preserved clean generator in `artifacts/fixed_k21_n64_unmaske
 and the three branches in `artifacts/gift/`. It uses 50 training trajectories and
 its own multi-stage schedule, not a smaller network. This is not a data-only
 ablation with identical training budgets. M1 retains its own clean/noisy generator
-weights and parameter-identification protocol.
+weights and parameter-identification protocol: each of the three M1 generators in
+`artifacts/m1_parameter_identification/` is trained on the single local training
+trajectory 0, the same trajectory the four baselines identify their parameters from.
 
 ## Gaussian initial-condition regime (S4)
 

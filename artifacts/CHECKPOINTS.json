@@ -24,18 +24,25 @@
       "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B"
     },
     {
+      "path": "artifacts/m1_parameter_identification/gift_noise_000.pt",
+      "method": "GIFT",
+      "artifact_role": "trained_weights",
+      "bytes": 393234,
+      "sha256": "B6529A2267ACE02AB77290A5A8445A9EF802C837A2E1896043515D7DAA64AA84"
+    },
+    {
       "path": "artifacts/m1_parameter_identification/gift_noise_001.pt",
       "method": "GIFT",
       "artifact_role": "trained_weights",
-      "bytes": 398034,
-      "sha256": "9E3858869EF76F496F7C165EAEA49629EC4990880B21FB0D3C4296B9AE85009C"
+      "bytes": 393042,
+      "sha256": "29A825F3CC7247017B009D9C5E22643AFCFD592A1EF65252CD7CD4BF37E126FD"
     },
     {
       "path": "artifacts/m1_parameter_identification/gift_noise_010.pt",
       "method": "GIFT",
       "artifact_role": "trained_weights",
-      "bytes": 392978,
-      "sha256": "7E59BA53E0688D60F8CED0BC885CE84E57848925FAB7EFB1BDE5814FDDCCFC0F"
+      "bytes": 393042,
+      "sha256": "CEA1C7DDC6F416A31487615FA7D6B2AE15A6AFA1519A11D2C253AA764359F758"
     },
     {
       "path": "artifacts/gift/gift_seed_20260820.pt",
