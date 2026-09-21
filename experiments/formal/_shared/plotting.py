@@ -18,6 +18,8 @@ def publish_numeric_then_plot(output: Path, report: dict[str, Any], commands: Se
     """
     numeric_files = [file_record(path, output) for directory in ("raw", "summary")
                      for path in sorted((output / directory).rglob("*")) if path.is_file()]
+    # Write the numeric report before the first plot command runs, so the
+    # evidence on disk never depends on a plotting subprocess succeeding.
     numeric_report = {**report, "status": "numerical_complete", "plots": "not_run",
                       "numeric_files": numeric_files}
     write_json_new(output / "numeric_report.json", numeric_report)
@@ -27,6 +29,8 @@ def publish_numeric_then_plot(output: Path, report: dict[str, Any], commands: Se
             subprocess.run(list(command), check=True)
             completed += 1
     except (OSError, subprocess.CalledProcessError) as error:
+        # The failure record names how many plot commands had already run, so a
+        # half-rendered figure set is distinguishable from no figures at all.
         failed_report = {**report, "status": "numerical_complete_plot_failed",
                          "plot_execution": {"completed_commands": completed,
                                             "error": str(error)}}

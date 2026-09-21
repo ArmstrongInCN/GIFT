@@ -19,6 +19,8 @@ import numpy as np
 from gift.data_splits import canonical_ids, prediction_split_manifest, split_name
 from training.checkpoints import digest_file
 
+# The five released prediction HDF5 inputs that every experiment reads; these
+# exact relative paths must be present in the source package.
 PREDICTION_FILES = (
     "fno/fno1000_n64_t0_t10_dt0p02.h5",
     "fair_short_horizon/fno1000_n64_t0_t10_dt0p1.h5",
@@ -105,6 +107,8 @@ def _walk(source, destination, records):
         if {"trajectory_index", "time", "vorticity"}.issubset(value):
             ids = np.asarray(canonical_ids(value["trajectory_index"][:]), dtype=np.int64)
             if name == "test":
+                # The released test group carries both validation_aux and test rows;
+                # split them by canonical identity so neither leaks into training.
                 for split, group_name in (("validation", "validation_aux"), ("test", "test")):
                     rows = np.asarray([i for i, identifier in enumerate(ids) if split_name(identifier) == split], dtype=np.int64)
                     if len(rows):
@@ -121,6 +125,8 @@ def _walk(source, destination, records):
             _walk(value, child, records)
 
 
+# Re-emit each prediction HDF5 under the canonical trajectory-ID scheme, applying
+# the identity-defined validation/test partition before any model result is read.
 def canonical_hdf5(source, destination):
     destination.parent.mkdir(parents=True, exist_ok=True)
     records = {}
@@ -162,6 +168,8 @@ def prepare(source_root, output_root):
     if manifest.get("schema") not in ("gift.data-package-manifest.v1", "gift.generated-data-collection.v1"):
         raise ValueError("expected a complete source package or generated collection manifest")
     if manifest.get("data_profile") == "canonical":
+        # Re-running on an already-canonical package would double-remap IDs and
+        # corrupt the trajectory identity, so the export refuses.
         raise ValueError("input is already canonical; do not remap its IDs again")
     if generated:
         from scripts import assemble_generated_data as assembly

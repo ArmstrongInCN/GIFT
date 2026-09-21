@@ -154,6 +154,8 @@ def test_raw_h5_cannot_select_regenerated_without_collection(collection):
         control._validate_data(data, config, hash_bytes=False)
 
 
+# The released formal dataset is identified by a fixed SHA-256; a freshly written
+# file cannot match it, and a tiny (nonformal) run must never be treated as released.
 def test_released_formal_hash_gate_unchanged_and_tiny_not_released(tmp_path):
     path = tmp_path / "metadata_only.h5"
     with h5py.File(path, "x") as handle:

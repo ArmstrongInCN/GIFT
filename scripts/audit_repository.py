@@ -17,6 +17,8 @@ import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
+# Directories that must never appear in the published Git file list; the audit
+# rejects any tracked file whose top-level path falls in this set.
 FORBIDDEN = {"data", "external", "vendor", "third_party", "benchmarks", "backup", "论文写作"}
 
 
@@ -36,6 +38,9 @@ def staged_byte_failures(root, files):
     stage zero, supporting either repository object format. Never check out,
     renormalize, rewrite the index, or print file contents in this checker.
     """
+    # Recompute each staged file's raw Git blob hash (header plus unfiltered bytes)
+    # and compare it to the index, so a renormalized CSV/JSON cannot diverge from
+    # what the audit already checked in the working tree.
     root = Path(root).resolve(strict=True)
     algorithm = subprocess.check_output(
         ["git", "-C", str(root), "rev-parse", "--show-object-format"], text=True).strip()
@@ -198,10 +203,14 @@ def main():
         if allowed_npz and (path.stat().st_size != record["bytes"]
                             or digest(path) != record["sha256"].lower()):
             failures.append(f"Numeric artifact integrity differs: {relative}")
+        # Raw data, external sources and large binary artifacts may never enter the
+        # repository; only the catalogued checkpoint/figure artifacts are permitted.
         if (Path(relative).parts[0] in FORBIDDEN or path.suffix.lower() in {".h5", ".hdf5"}
                 or (path.suffix.lower() in {".npz", ".pt", ".pth", ".part"} and not allowed_npz)):
             failures.append(f"Data or external source in Git file list: {relative}")
         if path.stat().st_size > 100 * 1024 * 1024:
+            # GitHub refuses ordinary Git objects above 100 MiB, so such files must
+            # be split (see split_checkpoint.py) or distributed another way.
             failures.append(f"File exceeds GitHub's 100 MiB ordinary Git limit: {relative}")
         if path.suffix == ".py":
             if function_fingerprints(path) & external_fingerprints:

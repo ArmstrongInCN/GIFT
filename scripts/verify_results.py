@@ -39,6 +39,9 @@ def verify_result(root, experiment):
     S2 may contain recorded nonfinite predictions; integrity checking neither
     removes those values nor treats their presence as successful prediction.
     """
+    # Bind the run to a completed numerical report (numeric_report.json or
+    # report.json) and, when present, a final manifest; both must declare the same
+    # experiment and a completion status before any file hash is trusted.
     root = Path(root).resolve(strict=True)
     numeric = root / "numeric_report.json"
     path = numeric if numeric.is_file() else root / "report.json"
@@ -58,6 +61,7 @@ def verify_result(root, experiment):
     elif not numeric.is_file():
         raise ValueError("Missing result completion manifest")
     if "summary/metrics.csv" not in verified:
+        # Every result must bind its summary metrics, the file the paper quotes.
         raise ValueError("Result does not bind summary metrics")
     return dict(experiment=experiment, files_verified=len(set(verified)),
                 report_sha256=sha256(path), status="PASS_INTEGRITY_ONLY",

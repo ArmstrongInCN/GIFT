@@ -58,6 +58,9 @@ def test_original_noise_first_two_blocks(tmp_path):
     noise.main(common + ["--resume"])
     with (output / "run.json").open(encoding="utf-8") as stream:
         run = json.load(stream)
+    # Noise is scaled by the population standard deviation of the clean group
+    # (ddof=0), matching the published preprocessing exactly so oracle comparison
+    # is bit-exact.
     assert run["binding"]["scaling"] == "std(clean_group,ddof=0)"
     assert not (output / "COMPLETE.json").exists()
     for condition in noise.FRACTIONS:
@@ -78,6 +81,9 @@ def test_sampling_against_original_and_own_resume(tmp_path, condition):
     sampling.main(common + ["--stop-after-design"])
     assert not (output / "sampling.npz").exists()
     sampling.main(common + ["--resume"])
+    # Resumed design output must bit-match the original sampled arrays; the
+    # comparison uses assert_array_equal (exact), so any drift in the seeded
+    # design is caught rather than merely approximated.
     with np.load(output / "sampling.npz", allow_pickle=False) as actual, np.load(data / "auxiliary/pinn_sampling" / (condition + "_seed1234.npz"), allow_pickle=False) as reference:
         assert set(actual.files) == set(reference.files)
         for name in reference.files:

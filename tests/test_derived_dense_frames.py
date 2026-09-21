@@ -41,6 +41,9 @@ def mock_parent(tmp_path, name="fno-test"):
     plan = {**canonical, "dataset": name, "groups": groups,
             "initial_conditions_file_sha256": "a" * 64 if name == "fno-training" else None,
             "extra950_origin": "specified_initial_conditions_seed_unknown" if name == "fno-training" else None}
+    # The runtime block records the exact interpreter and library versions so a
+    # derivation can be reproduced and audited; "torch": "not imported" is asserted
+    # later to prove the copy engine never pulls in a model framework.
     binding = {"plan": plan, "runtime": {"test_fixture_only": True, "python": "mock", "numpy": "mock",
                "h5py": "mock", "torch": "not imported", "device": "cpu", "threads": 1, "interop_threads": 1}}
     run = {"attempt_id": str(uuid.uuid4()), "binding": binding, "binding_sha256": derive.digest_json(binding)}
@@ -84,6 +87,8 @@ def mock_group_boundary(monkeypatch, parent):
 
 
 def refreshed_receipt(parent):
+    # The parent receipt binds its own data file by hash, so a fixture edit must
+    # refresh the receipt before the parent is readable again.
     parent["receipt"]["data_sha256"] = gen.sha256(parent["root"] / "data.h5")
     gen.atomic_json(parent["root"] / "COMPLETE.json", parent["receipt"])
 
@@ -108,6 +113,8 @@ def test_three_integer_mappings_signed_zero_and_reader_metadata(tmp_path, monkey
             assert np.array_equal(dst["time"][:], expected_times)
             for row in range(2):
                 assert derive.bits_equal(dst["vorticity"][row], src["vorticity"][row, expected_columns])
+            # The fixture writes -0.0 and +0.0 into two neighbouring cells, so
+            # the sign bit proves the copy is bit-exact rather than merely equal.
             assert np.signbit(dst["vorticity"][:, :, 0, 0]).all()
             assert not np.signbit(dst["vorticity"][:, :, 0, 1]).any()
             assert dst[derive.parameter_name(group["name"])][:].tobytes() == src[derive.parameter_name(group["parent_group"])][:].tobytes()

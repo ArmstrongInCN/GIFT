@@ -29,6 +29,8 @@ def test_completed_result_binds_numeric_files(tmp_path):
     evidence = bind_result(tmp_path, "M2", ("summary/metrics.csv",))
     assert evidence["sources"] == [file_record(path, tmp_path)]
     assert evidence["experiment_inputs"]["model"] == {"sha256": "ABC"}
+    # Editing a bound source after the fact must be detected, which is the whole
+    # point of binding figures to the measurement they came from.
     path.write_text("mean\n0.1\n")
     with pytest.raises(ValueError, match="differs"):
         bind_result(tmp_path, "M2", ("summary/metrics.csv",))
@@ -41,6 +43,9 @@ def test_unfinished_result_rejected(tmp_path):
 
 
 def test_range_kept_or_expanded_without_clipping():
+    # A prespecified range is kept when it already contains the data, expanded
+    # when it would clip it, and refused outright for values that cannot be
+    # plotted on a relative-error axis.
     assert error_axis([0.02, 0.5], (0.015, 0.55))["limits"] == (0.015, 0.55)
     axis = error_axis([0.001, 20.0], (0.015, 0.55))
     assert axis["limits"][0] < 0.001 and axis["limits"][1] > 20

@@ -1,3 +1,12 @@
+"""Unit tests for the high-frequency branch.
+
+The branch predicts the complementary spectral band and is coupled with the
+frozen generator inside one RK4 integration. These tests cover the released
+configuration and its loader guards, the requirement that the branch output
+lives in the complementary band on every supported grid, the state-dependent
+action above the retained mode count, preservation of the anchor when the branch
+is disabled, and reuse of the generator output within one stage.
+"""
 from __future__ import annotations
 
 import numpy as np

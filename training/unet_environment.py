@@ -45,6 +45,8 @@ def validate_environment(environment: Mapping[str, str] | None = None) -> None:
     environment = os.environ if environment is None else environment
     names: dict[str, list[str]] = {}
     for key in environment:
+        # Fold every variable to its canonical uppercase spelling so a
+        # case-variant key (which some shells accept) is treated as present.
         names.setdefault(key.upper(), []).append(key)
     present = [key for key in ABSENT_ENVIRONMENT if key in names]
     mismatched = [key for key, value in FIXED_ENVIRONMENT.items()
@@ -98,6 +100,8 @@ def preflight(argv: list[str]) -> bool:
               "  [--tiny-trajectories N] [--tiny-batch N] [--tiny-rollout N].\n"
               "Long-option abbreviations are not accepted. No runtime/data is loaded by --help.")
         return False
+    # Only the explicit --tiny self-test opts out of the formal environment
+    # gate; every formal launch is checked before any scientific import.
     if not selected.tiny:
         validate_before_import()
     return True

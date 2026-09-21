@@ -18,6 +18,8 @@ from gift.data_splits import canonical_ids, TRAINING_IDS, CHECKPOINT_VALIDATION_
 from gift.prediction_cohorts import GAUSSIAN, observation_cohort, partitions
 from training.checkpoints import digest_file
 
+# Fixed physical time step; rollout windows sample these frame offsets (in DT
+# units) from each sampled anchor, up to 50 steps of trajectory.
 DT = 0.02
 ROLLOUT_OFFSETS = np.asarray((0, 5, 10, 20, 25, 30, 40, 50), dtype=np.int64)
 
@@ -26,6 +28,8 @@ def epoch_indices(population: int, frames: int, seed: int, epoch: int, *, rollou
     """Index arrays address trajectory rows; each row appears exactly once."""
     if population < 1 or frames < (51 if rollout else 5) or epoch < 0:
         raise ValueError("invalid epoch sampling dimensions")
+    # A distinct RNG stream per (seed, epoch, rollout) gives every epoch an
+    # independent, reproducible trajectory ordering without shared state.
     rng = np.random.default_rng(np.random.SeedSequence([seed, epoch, int(rollout)]))
     order = rng.permutation(population)
     centres = (rng.integers(0, frames - 50, population, dtype=np.int64) if rollout
@@ -37,6 +41,8 @@ def observed_pairs(raw: np.ndarray, order: np.ndarray, centres: np.ndarray):
     """Apply the original five-frame derivative stencil to sampled observations."""
     rows, times = order, centres[order]
     state = np.ascontiguousarray(raw[rows, times], dtype=np.float32)
+    # Fourth-order central difference of vorticity over five frames gives the
+    # time derivative that the generator must learn to reproduce.
     target = (raw[rows, times - 2] - 8.0 * raw[rows, times - 1]
               + 8.0 * raw[rows, times + 1] - raw[rows, times + 2]) / (12.0 * DT)
     return torch.from_numpy(state), torch.from_numpy(np.ascontiguousarray(target))
@@ -75,6 +81,8 @@ class ObservationBank:
                                     ("validation", tuple(selected['checkpoint_validation']))):
                 ids = tuple(map(int, handle[f"{group}/trajectory_index"][:]))
                 public = ids if canonical else canonical_ids(ids)
+                # Observed vorticity is (trajectory, frame, 64, 64); time must be
+                # an exact multiple of DT so frames map to physical steps.
                 raw = handle[f"{group}/vorticity"]
                 times = np.asarray(handle[f"{group}/time"][:], dtype=np.float64)
                 if (raw.ndim != 4 or raw.shape[-1] != raw.shape[-2]
@@ -100,6 +108,8 @@ class ObservationBank:
                 setattr(self, group, value)
                 self.binding[group + "_ids"] = list(public)
                 if group == "training":
+                    # RMS vorticity over training trajectories normalizes the
+                    # generator's input and output scales.
                     self.state_scale = float(np.sqrt(square_sum / value.size))
         if set(self.binding["training_ids"]) & set(self.binding["validation_ids"]):
             raise ValueError("training/validation identity overlap")

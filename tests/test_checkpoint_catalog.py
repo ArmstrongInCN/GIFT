@@ -28,6 +28,8 @@ def package(tmp_path, monkeypatch):
 
 def test_complete_part_catalog(tmp_path, monkeypatch):
     _, records = package(tmp_path, monkeypatch)
+    # The allowlist must list exactly the files the catalog declares; a missing
+    # or orphaned part is rejected by the inconsistent-catalog test below.
     assert set(audit.numeric_checkpoint_allowlist()) == {r["path"] for r in records}
 
 

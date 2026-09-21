@@ -18,6 +18,8 @@ def git(directory, *arguments):
 
 
 def verify(directory, record):
+    # An upstream checkout is accepted only if its HEAD commit and every recorded
+    # source file's SHA-256 match the pinned registry entry.
     if git(directory, "rev-parse", "HEAD") != record["commit"]:
         raise ValueError("upstream commit differs: " + directory.name)
     for name, expected in record["files"].items():
@@ -29,6 +31,8 @@ def verify(directory, record):
 
 
 def prepare(root, sources=None, verify_only=False):
+    # Resolve the external source root outside the project and data folders, then
+    # fetch only the pinned upstream checkouts that are not already present.
     root = Path(root).expanduser().resolve()
     protected = [ROOT]
     if os.environ.get("GIFT_DATA_ROOT"):
@@ -55,6 +59,7 @@ def prepare(root, sources=None, verify_only=False):
             git(directory, "config", "core.autocrlf", "false")
             git(directory, "remote", "add", "origin", record["repository"])
             git(directory, "fetch", "--depth", "1", "origin", record["commit"])
+            # Detach at the exact pinned commit so a later tag move cannot change it.
             git(directory, "checkout", "--detach", record["commit"])
         verify(directory, record)
         results.append({"source": name, "commit": record["commit"], "verified": True,

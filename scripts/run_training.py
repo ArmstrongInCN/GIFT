@@ -10,6 +10,8 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+# Maps each baseline/GIFT model to its training module so this wrapper launches
+# the right run with the recorded child environment and no checkpoint selection.
 MODULES = {name: "training.train_"+name for name in ("fno2d", "fno3d", "uno", "unet", "pinn")}
 MODULES.update(gift_low="experiments.formal.train_low_generator",
                gift_branch="experiments.formal.train_gift_branches",
@@ -21,6 +23,7 @@ def child_environment(model, python, device, parent=None):
     env = dict(os.environ if parent is None else parent)
     for name in ("PYTHONPATH", "PYTHONHOME", "NVIDIA_TF32_OVERRIDE", "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE"):
         env.pop(name, None)
+    # unet and pinn are single-threaded friendly; the CNN/FNO baselines use 16.
     threads = "1" if model in ("unet", "pinn") else "16"
     env.update(OMP_NUM_THREADS=threads, MKL_NUM_THREADS=threads, OPENBLAS_NUM_THREADS="1",
                PYTHONDONTWRITEBYTECODE="1", CUBLAS_WORKSPACE_CONFIG=":4096:8")
@@ -32,7 +35,8 @@ def child_environment(model, python, device, parent=None):
     if model in ("fno2d", "fno3d"):
         env.pop("CUBLAS_WORKSPACE_CONFIG", None)
     if model == "uno":
-        # Match the recorded native launch; train_uno sets Torch intra-op=1.
+        # Match the recorded native launch: train_uno fixes Torch intra-op threads
+        # to 1 and drops the BLAS/MKL thread overrides, so its timing is reproducible.
         absent = {"MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"}
         env = {key: value for key, value in env.items() if key.upper() not in absent | {"OMP_NUM_THREADS"}}
         env["OMP_NUM_THREADS"] = "24"

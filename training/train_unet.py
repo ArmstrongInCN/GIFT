@@ -2,6 +2,8 @@
 from pathlib import Path
 import sys
 
+# Script execution has no package context, so add the repo root to the path
+# before the stdlib-only preflight import.
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from training.unet_environment import preflight

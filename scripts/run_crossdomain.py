@@ -45,6 +45,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from scripts.generate_data import safe_output, sha256, write_json_new  # noqa: E402
 
+# Rollout settings shared by every fixture kind: anchor at frame 250 (t=5.0),
+# 150 steps of dt 0.02 (to t=8.0), one reported frame every 10 steps. REFERENCE
+# holds the measured final mean relative L2 on the verification machine.
 DT = 0.02
 ANCHOR = 250
 STEPS = 150
@@ -64,6 +67,8 @@ def resolve_device(name):
 def train_stage(dataset, output, device):
     from training.gift_prediction_control import PredictionTrainingConfig, run_generator
 
+    # fixture_only relaxes the formal population/identity checks and marks every
+    # artifact fixture_only, so a diagnostic run can never be read as formal output.
     config = PredictionTrainingConfig(fixture_only=True)
     report = run_generator(dataset, output / "generator", device=str(device),
                            config=config, execution="auto")
@@ -78,6 +83,10 @@ def relative_l2(prediction, truth):
 
 def evaluate_stage(dataset, output, device, grid):
     from gift.identified import FixedBandwidthGridGenerator, load_generator, rollout_rk4
+
+    # Load the exported generator, roll it out from the anchor frame with the
+    # project's own RK4 integrator, and score against a held-constant persistence
+    # baseline so the fixture transferability is measured relatively.
 
     model_path = output / "generator" / "model.pt"
     model = load_generator(model_path, device=device)

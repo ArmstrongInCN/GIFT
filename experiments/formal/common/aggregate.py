@@ -21,6 +21,10 @@ from experiments.formal._shared.common import (
 
 
 RESULT_NAMES = (
+    # The six experiments whose summary CSV files live under results/formal and
+    # share the same column family. S4 is absent on purpose: it is evaluated on
+    # a second initial-condition population and is summarised in its own
+    # directory, so folding it in here would mix two populations in one table.
     ("M1", "M1_equation_identification"),
     ("M2", "M2_recursive_prediction"),
     ("M3", "M3_cross_resolution"),
@@ -47,6 +51,9 @@ def main() -> None:
     (output / "summary").mkdir()
     source_records = {}
     source_rows = []
+    # Column set is the union over experiments rather than a fixed schema, so a
+    # column that only one experiment reports survives; the order below is the
+    # order in which the experiments contribute their columns.
     fields = ["experiment_id"]
     for experiment_id, directory in RESULT_NAMES:
         path = results / directory / "summary" / "metrics.csv"
@@ -61,6 +68,7 @@ def main() -> None:
             for field in normalized:
                 if field not in fields:
                     fields.append(field)
+    # Rows that do not carry a column get an empty string; no value is imputed.
     union = [{field: row.get(field, "") for field in fields} for row in source_rows]
     write_csv_new(output / "summary" / "metrics.csv", union)
     report = {

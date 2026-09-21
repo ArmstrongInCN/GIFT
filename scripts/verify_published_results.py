@@ -17,6 +17,8 @@ import numpy as np
 from scripts.verify_results import verify_figures, verify_files
 
 
+# Each experiment's formal result directory name under results/formal; the checker
+# only accepts a package whose published.json names one of these experiments.
 EXPERIMENTS = {
     "M1": "M1_equation_identification", "M2": "M2_recursive_prediction",
     "M3": "M3_cross_resolution", "S1": "S1_high_frequency_branch",
@@ -53,6 +55,9 @@ def verify_field_source(path):
 
 def verify_package(root, experiment):
     """Verify every included byte and figure binding; omitted raw files stay omitted."""
+    # A published package is scoped to summaries and selected figures only: it must
+    # declare full_raw_outputs_included False and resumable_experiment False, so a
+    # compact archive can never masquerade as a complete resumable run.
     root = Path(root).resolve(strict=True)
     manifest = json.loads((root / "published.json").read_text(encoding="utf-8"))
     if (manifest.get("schema") != "gift.published-results.v1"

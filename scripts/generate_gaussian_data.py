@@ -20,7 +20,10 @@ from scripts import generate_data as generation
 
 
 def make_plan(args):
+    # S4 partitions the Gaussian cohort into the formal disjoint splits.
     split = partitions(GAUSSIAN)
+    # validation_aux holds checkpoint-validation IDs 2220-2239 (the last 20
+    # validation rows), kept separate so neither validation nor test trains.
     ids_by_group = {"training": split['training'],
                    "validation": split['checkpoint_validation'],
                    "validation_aux": split['validation'][20:], "test": split['test']}
@@ -37,6 +40,9 @@ def make_plan(args):
                            steps=steps, ids=ids))
     if not groups or (chosen is not None and found != chosen):
         raise ValueError("Subset contains IDs outside the prespecified S4 population")
+    # prediction_cohort and initial_condition record the Gaussian law and cohort,
+    # so the later package and append steps can bind the exact initial-condition
+    # distribution without re-deriving it from the raw fields.
     return dict(schema='gift.gaussian-generation.v1', dataset='s4-gaussian',
         prediction_cohort=GAUSSIAN, initial_condition=specification(),
         pilot=args.pilot_steps is not None or args.subset is not None,
@@ -52,6 +58,8 @@ def make_plan(args):
             'src/gift/data_splits.py', 'src/even_full_spectrum_ns.py')})
 
 
+# Build the spectral initial state for a batch directly from the Gaussian
+# initial-condition law; no reference solution or trained weights are consulted.
 def build_state(group, start, end, device):
     import torch
     return torch.from_numpy(initial_hat(group['ids'][start:end])).to(device)

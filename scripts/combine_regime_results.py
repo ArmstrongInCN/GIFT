@@ -15,6 +15,8 @@ from scripts.verify_results import verify_result
 
 def combine(experiment, full, lite, output):
     if experiment not in ("S1", "S3"):
+        # Only S1 (high-frequency branch) and S3 (seed stability) run both the full
+        # GIFT and GIFT-Lite regimes as independently resumable experiments.
         raise ValueError("only S1 and S3 use separate regime measurements")
     output = Path(output).resolve()
     if output.exists():
@@ -23,6 +25,8 @@ def combine(experiment, full, lite, output):
     inputs = {}
     for regime, directory in (("GIFT", full), ("GIFT-Lite", lite)):
         directory = Path(directory).resolve(strict=True)
+        # Each regime is re-verified as a completed run that used the independent
+        # prediction test partition before its measured table is merged.
         if directory == output or directory in output.parents or output in directory.parents:
             raise ValueError("combined output must remain separate from source runs")
         checked = verify_result(directory, experiment)
@@ -31,6 +35,9 @@ def combine(experiment, full, lite, output):
             raise ValueError("source run has the wrong regime or is incomplete")
         if report.get("scientific_boundary", {}).get("test_disjoint_from_training_and_validation") is not True:
             raise ValueError("source run does not use the independent prediction test partition")
+        # The dense observation input differs by experiment (S1 uses the raw N64
+        # dense frames, S3 the dense N64 equation data); both regimes must bind the
+        # same test observations so the combined table is comparable.
         dense_key = "raw_N64_dense" if experiment == "S1" else "dense_N64_equation_data"
         common = {name: report["inputs"][name]["sha256"]
                   for name in ("raw_N64", "raw_cross_resolution", dense_key)}
@@ -59,6 +66,8 @@ def combine(experiment, full, lite, output):
     write_csv_new(output / "summary/metrics.csv", all_rows)
     write_json_new(output / "summary/summary.json", {
         "experiment_id": experiment, "training_regimes": ["GIFT", "GIFT-Lite"],
+        # The four-vortex test split (IDs 1040-1219) is the common held-out set
+        # both regimes were measured against.
         "test_trajectory_ids": [1040, 1219], "key_metrics": summaries})
     finish_output(output, {"schema": "gift.regime-summary.v1", "experiment": experiment,
         "status": "complete", "scope": "aggregation_of_completed_regime_runs",

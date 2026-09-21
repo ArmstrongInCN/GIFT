@@ -27,6 +27,8 @@ def package(tmp_path):
             # Unwritten NaN fields deliberately fail full scientific validation.
             handle.create_dataset(f"{name}/vorticity", shape=shape, dtype="f4", fillvalue=np.nan,
                                   chunks=(1, 1, 64, 64))
+            # The decoded field hash is a placeholder; only the metadata contract
+            # is checked, never the (unwritten NaN) scientific contents.
             fields[f"/{name}/vorticity"] = {"shape": list(shape), "dtype": "float32", "decoded_sha256": "0" * 64}
     (root / "splits.json").write_text(json.dumps(prediction_split_manifest()), encoding="utf-8")
     (root / "schema.json").write_text(json.dumps({"schema": "gift.observation-schema.v1", "files": {relative: fields}}), encoding="utf-8")

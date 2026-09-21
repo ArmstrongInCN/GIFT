@@ -32,8 +32,13 @@ ROOT = Path(__file__).resolve().parents[1]
 class PredictionTrainingConfig:
     """Prespecified budgets; fixture configurations cannot qualify as formal runs."""
 
+    # Generator: two 250-epoch phases (500 trajectory-epochs total). Branch: four
+    # stages of 400/50/25/25 trajectory-epochs, ordered from the cheap derivative
+    # fit to the longer rollout horizons.
     generator_phases: tuple[int, int] = (250, 250)
     branch_phases: tuple[int, int, int, int] = (400, 50, 25, 25)
+    # The second generator phase resumes at a lower rate to fine-tune after the
+    # first phase has set the coarse factors.
     generator_learning_rates: tuple[float, float] = (0.01, 0.003)
     generator_seed: int = 2026072301
     batch_size: int = 16
@@ -49,6 +54,8 @@ class PredictionTrainingConfig:
                 or len(self.generator_learning_rates) != 2
                 or min(self.generator_learning_rates) <= 0):
             raise ValueError("invalid GIFT epoch training configuration")
+        # Formal runs must use the prespecified protocol exactly; only fixture
+        # builds may deviate, and fixtures never count as formal evidence.
         if not self.fixture_only and self != PredictionTrainingConfig():
             raise ValueError("formal GIFT prediction settings must match the prespecified protocol")
 
@@ -118,6 +125,9 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
                                   checkpoint_directory=Path(output)/"checkpoints")
     configure_determinism(config.generator_seed, strict=True)
     bank = ObservationBank(dataset, fixture=config.fixture_only)
+    # The identity record binds role, configuration, data hash, source hashes and
+    # device; it is the control record that later resume/continuation checks
+    # must match before any checkpoint is trusted.
     identity = {"role": "gift_prediction_generator", "configuration": asdict(config),
                 "data": bank.binding, "sources": source_identity(), "device": str(device),
                 "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
@@ -132,6 +142,8 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
     model = GIFTGenerator(config.cutoff, config.rank, bank.state_scale, False).to(device)
     parameters = configure_variable_projection_parameters(model)
     scale_state, scale_target = bank.pairs(config.generator_seed, 0)
+    # Normalize losses by the target energy so the MSE is unitless; the clamp
+    # guards a degenerate zero-target window.
     target_scale = float(scale_target.square().mean().clamp_min(1e-20))
     valid_state, valid_target = bank.pairs(config.generator_seed, 0, validation=True)
     if saved is None:
@@ -159,6 +171,8 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
         if phase != last_phase:
             lr = config.generator_learning_rates[phase]
             optimizer = torch.optim.AdamW(parameters, lr=lr, weight_decay=1e-8)
+            # Cosine decay spans the whole phase; eta_min keeps a small floor so
+            # the tail of training still moves.
             scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
                 optimizer, T_max=config.generator_phases[phase] * batches, eta_min=lr * 0.02)
             if saved is not None and epoch == completed + 1 and saved["phase"] == phase:
@@ -208,6 +222,8 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
         history.append(row)
         if epoch == 1 or epoch % log_interval == 0 or epoch == total_epochs:
             print(json.dumps(row, allow_nan=False), flush=True)
+        # A checkpoint is written at every interval, at each phase boundary, and
+        # at the final epoch; terminal_epoch selection keeps only the last.
         final = epoch == total_epochs
         if (epoch % checkpoint_interval == 0 or phase_epoch == config.generator_phases[phase]
                 or final or epoch == stop_after_epoch):
@@ -223,6 +239,8 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
             })
         if epoch == stop_after_epoch and not final:
             return {"status": "paused_at_committed_epoch", "epoch": epoch, "output": str(output)}
+    # Guard against a partial journal: every budgeted epoch must have produced
+    # one update batch per trajectory window and one history row.
     if update_count != total_epochs * batches or len(history) != total_epochs:
         raise RuntimeError("completed generator budget is inconsistent")
     artifact = {

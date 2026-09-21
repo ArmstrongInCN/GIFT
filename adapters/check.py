@@ -19,6 +19,8 @@ def main() -> None:
     started = time.perf_counter()
     import torch
 
+    # One thread and a fixed seed keep this smoke check cheap and repeatable; it
+    # measures nothing and must never be quoted as a timing.
     torch.set_num_threads(1)
     torch.manual_seed(0)
     if args.checkpoint:
@@ -32,6 +34,9 @@ def main() -> None:
               "strict_state_load": bool(args.checkpoint), "device": "cpu",
               "training_performed": False, "reproduction_claim": False}
     if args.forward:
+        # Input and output layouts differ per model and follow each upstream
+        # implementation: (batch, x, y, channels) for fno2d and uno, an extra
+        # time axis for fno3d, channels-first for unet.
         shape = {"fno2d": (1, 24, 24, 46), "fno3d": (1, 16, 16, 16, 49),
                  "uno": (1, 64, 64, 46), "unet": (1, 46, 64, 64)}[args.model]
         expected = {"fno2d": (1, 24, 24, 1), "fno3d": (1, 16, 16, 16, 1),

@@ -24,12 +24,18 @@ class TrainingEngine:
         if backend not in ("eager", "cuda-graph"):
             raise ValueError("unknown execution backend")
         self.model, self.kind, self.frozen, self.scale = model, kind, frozen, scale
+        # Only trainable parameters enter the captured graph; frozen generator
+        # weights stay out of the update and out of the replay.
         self.parameters = tuple(p for p in model.parameters() if p.requires_grad)
+        # CUDA graphs replay a captured CUDA stream; on CPU the engine falls
+        # back to eager execution, which the budget counts identically.
         self.backend = backend if self.parameters[0].device.type == "cuda" else "eager"
         self.graphs = {}
         self.masks = {}
         frozen_model = getattr(frozen, "model", None)
         self.frozen_parameters = tuple(frozen_model.parameters()) if frozen_model is not None else ()
+        # Snapshot the frozen generator's tensor identity so a later in-place
+        # change is caught before it corrupts a replayed graph.
         self.frozen_identity = tuple((p.data_ptr(), p._version, p.device, p.dtype) for p in self.frozen_parameters)
         model.enable_static_cache()
         self.branch_view = None
@@ -51,6 +57,9 @@ class TrainingEngine:
         # Limit layout sharing to the release protocol's verified full batches.
         # Smaller tails retain the reference graph: changing FFT/accumulation
         # layouts at batch size one can alter the last bits of raw gradients.
+        # The captured high-frequency graph assumes a fixed full batch (16 for
+        # the derivative phase, 5 for rollout); any other size uses the
+        # reference eager path so layouts stay bit-stable.
         expected_batch = 16 if self.kind == "derivative" else 5
         view = self.branch_view if len(batch[0]) == expected_batch else None
         model = view if view is not None else self.model
@@ -72,12 +81,17 @@ class TrainingEngine:
             self.masks[key] = mask
         low, high = _initialize_tracks(model, sequence[:, 0])
         failure = torch.zeros((), dtype=torch.bool, device=sequence.device)
+        # Rollout horizons in RK4 steps (each step is one DT of physical time).
+        # The short phase checks two mid-horizon frames; the long phase spreads
+        # loss across six horizons and segments the backward at each boundary.
         targets = (5, 10) if self.kind == "short" else (10, 20, 25, 30, 40, 50)
         boundaries = (10,) if self.kind == "short" else (10, 20, 30, 40, 50)
         losses, segment = [], []
         for step in range(1, targets[-1] + 1):
             if view is not None and (step == 1 or step - 1 in boundaries):
                 view.begin_segment()
+            # Advance both the low-frequency truth and the high-frequency
+            # residual one RK4 step against the frozen generator.
             low, high = _dual_rk4_step(self.frozen, model, low, high)
             failure = failure | ~torch.isfinite(low).all()
             corrected = correction_tensors(low.detach(), DEFAULT_P21_CORRECTION_POLICY, mask)
@@ -103,6 +117,8 @@ class TrainingEngine:
 
     def gradients(self, *batch):
         """Compute raw gradients without clipping or updating parameters."""
+        # Re-verify the frozen generator has not moved since capture; a changed
+        # tensor identity would replay a graph against different weights.
         if tuple((p.data_ptr(), p._version, p.device, p.dtype) for p in self.frozen_parameters) != self.frozen_identity:
             raise RuntimeError("frozen generator changed; rebuild its adapter and training engine")
         if self.backend == "cuda-graph":
@@ -118,12 +134,16 @@ class TrainingEngine:
         else:
             self.model.zero_grad(set_to_none=True)
             values, failure = self.backward(*batch)
+        # Reject the whole batch before any update: a nonfinite state or a
+        # failed local-correction gate must never advance the parameters.
         if bool(failure):
             raise FloatingPointError("GIFT batch rejected: nonfinite loss/state or local correction gate; no optimizer update")
         return values
 
     def step(self, optimizer, *batch):
         values = self.gradients(*batch)
+        # Generator gradients use a looser 5.0 clip; branch/rollout phases share
+        # the 1.0 clip that matches the derivative reference.
         torch.nn.utils.clip_grad_norm_(self.parameters, 5.0 if self.kind == "generator" else 1.0,
                                        error_if_nonfinite=True)
         optimizer.step()

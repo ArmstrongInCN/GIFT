@@ -40,6 +40,8 @@ def test_independent_completed_sources_bind_one_combined_table(tmp_path):
         combine("S3", full, lite, output)
 
 
+# Two sources that disagree on the raw test-observation hash must be refused
+# rather than silently merged into one summary table.
 def test_different_test_inputs_cannot_be_combined(tmp_path):
     full, lite = source(tmp_path, "GIFT"), source(tmp_path, "GIFT-Lite", raw_hash="2" * 64)
     with pytest.raises(ValueError, match="different test observations"):

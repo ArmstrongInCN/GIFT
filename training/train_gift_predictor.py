@@ -32,6 +32,7 @@ from training.gift_prediction_control import (
 from training.gift_prediction_data import ObservationBank
 from training.gift_execution import EXECUTION_CHOICES, EXECUTION_HELP, resolve_execution
 
+# The three formal training seeds; each branch run is one of these.
 SEEDS = (20260820, 20260821, 20260822)
 
 
@@ -72,6 +73,8 @@ def qualify_generator(path, bank, config):
 
 def derivative_loader(bank, seed, epoch, frozen, device, *, validation=False, batch_size=16):
     states, targets = bank.pairs(seed, epoch, validation=validation)
+    # Project the derivative target onto the complementary high band (modes
+    # outside the Q21 low-frequency cutoff) and precompute the frozen low RHS.
     targets = torch.from_numpy(_project(targets.numpy(), ~_square_mask(21)))
     low = torch.from_numpy(_compute_low_rhs(frozen, states.numpy(), device))
     # The sampler already permuted trajectory rows; a second shuffle would
@@ -153,6 +156,9 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
     optimizer = scheduler = None
     engine = None
     previous_phase = None
+    # Phases run derivative fit, short rollout, then two long-rollout stages with
+    # descending learning rates; the derivative stage warms the band before the
+    # costlier rollout horizons train it.
     names = ("derivative", "short_rollout", "long_rollout_1", "long_rollout_2")
     for epoch in range(completed + 1, total_epochs + 1):
         phase, phase_epoch = phase_at(epoch, config.branch_phases)
@@ -213,6 +219,8 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
             })
         if epoch == stop_after_epoch and not final:
             return {"status": "paused_at_committed_epoch", "epoch": epoch, "output": str(output)}
+    # The derivative phase batches 16 trajectories; rollout phases batch 5, so
+    # the per-epoch update count differs between stage groups.
     expected = (config.branch_phases[0] * math.ceil(len(bank.training) / config.batch_size)
                 + sum(config.branch_phases[1:]) * math.ceil(len(bank.training) / config.rollout_batch_size))
     if updates != expected or len(history) != total_epochs:

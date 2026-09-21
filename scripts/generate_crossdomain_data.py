@@ -35,6 +35,8 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.generate_data import ROOT, safe_output, sha256, write_json_new  # noqa: E402
 
+# Observation dt of 0.02 matches the project's stored frame spacing, so these
+# fixtures reuse the training/evaluation readers unchanged.
 DT = 0.02
 TRAIN_IDS = tuple(range(250))
 VALIDATION_IDS = tuple(range(1000, 1020))
@@ -120,6 +122,8 @@ def populations(kind, seed, grid, frames, counts):
 
 def write_dataset(path, kind, fields, ids, frames):
     with h5py.File(path, "x") as handle:
+        # fixture_only marks these as diagnostic inputs that can never qualify as
+        # a formal experiment; canonical IDs keep the reader's identity logic simple.
         handle.attrs["fixture_only"] = True
         handle.attrs["trajectory_id_scheme"] = "canonical"
         handle.attrs["equation"] = EQUATIONS[kind]
@@ -150,6 +154,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     if args.grid < 43 or args.grid % 2:
+        # The model cutoff is 21 modes, so the grid needs at least 2*21+1 = 43
+        # points and must be even for the real FFT/spectral Laplacian.
         parser.error("grid must be an even size of at least 43 (model cutoff 21)")
     if args.frames < 51:
         parser.error("frames must be at least 51 (5-frame stencil plus 50-step rollout window)")

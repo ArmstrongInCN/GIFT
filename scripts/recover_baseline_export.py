@@ -15,6 +15,9 @@ import uuid
 
 # Metadata contract only; no architecture, solver, objective or optimizer code.
 # epochs, rollout, physical batch, accumulation, weight decay, group IDs, states
+# The four independent baseline training budgets: (epochs, rollout, physical
+# batch, accumulation, weight decay, optimizer param-groups, optimizer states).
+# These are the only accepted terminal boundaries for a recovered baseline export.
 BUDGETS = {"uno": (500, 20, 16, 1, 1e-5, 36, 36),
            "fno2d": (500, 150, 10, 2, 1e-4, 30, 30),
            "fno3d": (500, 150, 5, 2, 1e-4, 38, 30),
@@ -34,6 +37,9 @@ def record(path):
     return dict(file=Path(path).name, bytes=Path(path).stat().st_size, sha256=digest.hexdigest())
 
 
+# Verify the immutable training journal against the ATTEMPT record: identity,
+# runtime, the unchanged formal budget, recorded input binding and the complete
+# terminal-epoch boundary. Any mismatch rejects the export as unverified.
 def validate_metadata(saved, attempt):
     require(saved["schema"] == "gift.training-boundary.v1"
         and attempt["schema"] == "gift.training-attempt.v1", "unsupported journal schema")
@@ -142,6 +148,8 @@ def atomic_create(destination, writer, verify):
     Failure leaves the uniquely named sibling for inspection; never overwrites.
     Local same-filesystem hard-link support is required (e.g. Windows NTFS).
     """
+    # Write to a uniquely named sibling, verify the roundtrip, then publish by
+    # hard link which fails if the destination already exists (create-only).
     require(not destination.exists(), "destination already exists")
     temporary = destination.parent / ("." + destination.name + ".recovery-" + uuid.uuid4().hex + ".tmp")
     with temporary.open("xb") as stream:
@@ -179,6 +187,8 @@ def main(argv=None):
     before = [record(checkpoint), record(attempt_path)]
     require(before[0]["sha256"] == args.checkpoint_sha256.lower() and before[1]["sha256"] == args.attempt_sha256.lower(), "input SHA mismatch")
     attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    # Force CPU-only recovery so the export never depends on GPU availability or a
+    # CUDA context; the weights are copied, not recomputed.
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     for key in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
         os.environ[key] = "1"

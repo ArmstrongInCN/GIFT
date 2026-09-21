@@ -25,6 +25,8 @@ from scripts import generate_data as gen
 SCHEMA = "gift.dense-frame-derivation.v1"
 STATUS = "COMPLETE_DERIVATION"
 ORIGIN = "integer_frames_of_new_generation"
+# Each dense target reuses a complete native generation as its only parent: the
+# coarse/fair-horizon/cross-resolution views are exact sub-selections of it.
 PARENTS = {"fno-training-coarse": "fno-training", "short-test": "fno-test",
            "cross-resolution": "fno-test"}
 BLOCK_FRAMES = 16
@@ -50,6 +52,8 @@ def local_storage(handle):
     Inspect links before dereferencing them. Hard links within the file are safe;
     object addresses prevent recursion through hard-linked group cycles.
     """
+    # Only data stored inside the hashed H5 may be a derivation input or output;
+    # external/soft/virtual storage would escape the byte-hash the receipt binds.
     visited = set()
 
     def visit(group):
@@ -72,6 +76,7 @@ def local_storage(handle):
 def reject_fixture(runtime, handle=None):
     # Public acceptance has no reduced-size/mock override. Tests patch boundaries
     # explicitly instead of introducing an undocumented production bypass.
+    # Fixture/mock receipts are never accepted as scientific generation evidence.
     if any(marker in gen.canonical(runtime).lower() for marker in ("fixture", "mock")):
         raise ValueError("Fixture/mock receipts are not scientific generation evidence")
     if handle is not None and any(marker in key.lower() for key in handle.attrs
@@ -167,6 +172,8 @@ def make_plan(target, parent):
                        "parent_columns": [lookup[step] for step in steps],
                        "parameters": source["parameters"], "parameters_sha256": parameters_hash})
     return {"schema": SCHEMA, "dataset": target, "pilot": False, "subset": None,
+            # Dense derivation copies exact integer solver frames with no
+            # interpolation; stored_dt is 0.1 (every 20th native step at dt 0.005).
             "operation": "integer_frame_selection", "interpolation_used": False,
             "field_copy": "float32_bitwise_no_cast", "dt": gen.DT, "stored_dt": .1,
             "physical_protocol": parent["scientific"]["physical_protocol"],
@@ -188,6 +195,8 @@ def chunks(plan):
 
 def bits_equal(left, right):
     """Numerical equality alone would silently consider +0 and -0 equal."""
+    # Compare raw little-endian bytes, so a derived frame is accepted only if it is
+    # bitwise identical to its parent; floating-point equivalence is not enough.
     return (left.dtype == right.dtype == np.dtype("float32") and left.shape == right.shape
             and left.tobytes(order="C") == right.tobytes(order="C"))
 
@@ -296,6 +305,8 @@ def publish_completion(output, receipt):
     ones from interrupted writes. Unsupported filesystems fail closed; never fall
     back to a direct write or replace another completion receipt.
     """
+    # Stage to a uniquely named file, sync it, then publish via a same-directory
+    # hard link that fails if COMPLETE.json already exists (create-only guarantee).
     stage = output / ("COMPLETE." + uuid.uuid4().hex + ".staging.json")
     write_completion_stage(stage, receipt)
     os.link(stage, output / "COMPLETE.json")

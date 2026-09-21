@@ -33,6 +33,8 @@ from experiments.formal._shared.gift_generator_training import (
 )
 
 DATASETS = {
+    # The clean condition reuses the shared full-spectrum dataset; the two noisy
+    # conditions read the paired-noise package used by M1.
     "noise_000": "standard_ns_n64_full_spectrum.h5",
     "noise_001": "m1_parameter_identification/noise_001.h5",
     "noise_010": "m1_parameter_identification/noise_010.h5",
@@ -97,6 +99,8 @@ def _paths(args: argparse.Namespace) -> tuple[Path, Path, Path, str]:
     output = (args.output if args.output is not None else
               root / "runs" / f"gift_low_{args.condition}_seed_{args.seed}").resolve()
     published = root / "artifacts"
+    # A run may only write to a new directory of its own: never into the input
+    # package, the code root or the published artifact tree.
     if (output == inputs or inputs in output.parents or output == root or
             output == published or published in output.parents):
         raise ValueError("training output must not overwrite input or published artifacts")
@@ -130,6 +134,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     root, dataset, output, name = _paths(args)
     config = _configuration(args)
     if args.resume:
+        # Resuming needs a boundary saved by this attempt, and refuses a
+        # directory that already holds published outputs.
         if not (output / "checkpoints" / "LATEST.json").is_file():
             raise FileNotFoundError("no own-attempt saved boundary in --output")
         if any((output / item).exists() for item in
@@ -153,6 +159,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     manifest = {
         "schema": "gift.generator.independent-attempt.v1", "status": "complete",
         "mode": report["mode"], "condition": args.condition,
+        # True only when every default of this script was used, so a reader can
+        # tell a formal-protocol run from a diagnostic one.
         "formal_protocol_defaults_used": config == GeneratorTrainingConfig(),
         "freshness_contract": report["freshness_contract"], "dataset_layout": dataset_layout,
         "files": [file_record(output / item, output)

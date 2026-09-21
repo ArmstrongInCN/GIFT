@@ -14,11 +14,15 @@ import h5py
 
 from training.checkpoints import digest_file
 
+# Released input files keyed by noise condition; noise_000 is the clean
+# full-spectrum dataset, noise_001/010 are the M1 identification experiments.
 DATASETS = {
     "noise_000": "standard_ns_n64_full_spectrum.h5",
     "noise_001": "m1_parameter_identification/noise_001.h5",
     "noise_010": "m1_parameter_identification/noise_010.h5",
 }
+# Published byte identities (SHA-256) of the released inputs; a mismatch aborts
+# formal training before any parameter is initialized.
 RELEASED_SHA = {
     "noise_000": "c3f21ef13d0c81713f2770fc67547c91bd5a793fa34a9eecc5c46537237fa8a5",
     "noise_001": "97c5773290b5c50393ff64b7b42c021fd54f2bb429fc6d57cd4599f09f9818bc",
@@ -34,6 +38,8 @@ PROFILE_SOURCES = (
 
 def input_file(base: Path, condition: str, profile: str) -> Path:
     """The S4 Lite input has its own IDs and is never an M1 noise condition."""
+    # S4 Gaussian lite input is keyed separately and must not be confused with
+    # an M1 noise condition.
     if profile == 'gaussian':
         if condition != 'noise_000':
             raise ValueError('S4 contains only clean Gaussian observations, not an M1 noise experiment')
@@ -67,6 +73,9 @@ def validate_input(base: Path, condition: str, profile: str, *, full: bool) -> d
         raise ValueError("unknown GIFT data profile")
     raw = assembly.checked_file(base, "manifest.json").read_bytes()
     manifest = json.loads(raw)
+    # The regenerated path requires the assembler's own signed manifest: no
+    # modified arrays, no released truth patching gaps, and the assembler byte
+    # identity recorded so the collection is reproducible from source.
     if (manifest.get("schema") != "gift.generated-data-collection.v1"
             or manifest.get("data_profile") != profile
             or manifest.get("status") != "ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED"
@@ -151,6 +160,9 @@ def validate_input(base: Path, condition: str, profile: str, *, full: bool) -> d
 def validate_low_prerequisite(payload: dict, training_data: dict, formal_configuration: dict) -> None:
     """Do not let a copied published/tiny/wrong-data low model seed fresh high training."""
     data, config = payload.get("training_data", {}), payload.get("training_configuration", {})
+    # A fresh low model for Gaussian work uses trajectory ids 1220-1269; the
+    # standard clean run uses the first 50 trajectories. Any other id set means
+    # the prerequisite was trained on the wrong data.
     expected_ids = list(range(1220, 1270)) if training_data.get('profile') == 'gaussian' else list(range(50))
     def normalize(value):
         return json.loads(json.dumps(value))

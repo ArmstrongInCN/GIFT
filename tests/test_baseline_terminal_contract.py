@@ -100,6 +100,8 @@ def test_export_is_create_only(tmp_path):
                                  {"purpose": "METADATA_ONLY_MOCK_NOT_TRAINING"}, resumed=True)
 
 
+# A 150-epoch uno export is below the 500-epoch formal budget and must be
+# refused for formal prediction even though every other declared field matches.
 def test_uno_short_budget_cannot_supply_formal_predictions(tmp_path, monkeypatch):
     output, payload, _ = export_fixture(tmp_path, "uno")
     short = dict(payload, terminal_epoch=150)

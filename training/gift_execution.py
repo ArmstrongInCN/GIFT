@@ -32,6 +32,8 @@ def configure_training_runtime(*, strict):
     The journal records these flags; incompatible old runtime states are not
     silently resumed. Strictness remains specific to each scientific trainer.
     """
+    # Force a deterministic cuBLAS workspace and disable benchmark/cudnn
+    # nondeterminism; a seed alone does not make backward passes reproducible.
     os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
@@ -48,6 +50,8 @@ def resolve_execution(requested, device, *, resume=False, checkpoint_directory=N
     if requested not in EXECUTION_CHOICES:
         raise ValueError("unknown GIFT training execution backend")
     device = torch.device(device)
+    # On auto-resume, inherit the backend recorded in the journal rather than
+    # re-deriving it; the source/data/runtime checks still run independently.
     if requested == "auto" and resume:
         if checkpoint_directory is None:
             raise ValueError("automatic resume needs its own checkpoint directory")

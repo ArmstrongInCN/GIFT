@@ -26,6 +26,9 @@ from experiments.formal._shared.gift_generator_training import configure_determi
 
 
 def main(argv=None):
+    # Paired eager-vs-graph timing on observed training windows. Every optimizer
+    # update is disposable (AdamW with a throwaway schedule); nothing is saved or
+    # counted toward a scientific training budget, and it requires CUDA.
     p = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     p.add_argument('--dataset', type=Path, required=True)
     p.add_argument('--generator', type=Path, required=True)
@@ -113,6 +116,8 @@ def main(argv=None):
                 torch.cuda.synchronize(); started = time.perf_counter()
                 losses[i] = run(i, optimizer)
                 torch.cuda.synchronize(); timings[i].append(time.perf_counter() - started)
+            # The eager and graph paths must land on bitwise-identical state and
+            # loss, otherwise the reported speedup would compare two different runs.
             if losses[0] != losses[1] or any(not torch.equal(v, models[1].state_dict()[k]) for k, v in models[0].state_dict().items()):
                 raise AssertionError(f'{kind}: final state/loss differs; do not claim equivalent speed')
         result = {'eager_seconds': timings[0], 'graph_seconds': timings[1],

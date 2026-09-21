@@ -52,6 +52,9 @@ The root manifest also covers all five files. License: CC BY 4.0, unchanged.
 
 
 def append(package, dataset, backup):
+    # Extend an existing Zenodo-style data package with the S4 Gaussian population.
+    # Every original numeric file is preserved byte-for-byte; only metadata are
+    # rewritten, and a mandatory backup of those metadata stays outside the package.
     package, dataset = Path(package).resolve(strict=True), Path(dataset).resolve(strict=True)
     backup = Path(backup).resolve()
     destination = dataset/'s4_gaussian'
@@ -85,6 +88,8 @@ def append(package, dataset, backup):
         if record['path'] in metadata:
             record.update(bytes=file.stat().st_size, sha256=sha256(file))
         elif file.stat().st_size != record['bytes'] or sha256(file) != record['sha256'].lower():
+            # Any change to an original numeric file would break the published
+            # package's byte hashes, so the append refuses rather than silently rewrite.
             raise ValueError('An original data file changed during append')
         records.append(record)
     for file in sorted(destination.iterdir()):

@@ -129,6 +129,9 @@ class RealModelContinuationTests(unittest.TestCase):
             self.assertEqual(exported["same_run_resume_used"], resumed)
             self.assertNotIn("optimizer_state_dict", exported)
             _assert_tree_equal(self, exported["model_state_dict"], left["payload"]["model_state_dict"])
+        # Resuming within one run must reproduce the continuous run exactly, so
+        # per-epoch history is compared entry by entry, ignoring only the
+        # wall-clock epoch_seconds, rather than approximately.
         for first, second in zip(left["payload"]["history"], right["payload"]["history"]):
             _assert_tree_equal(self, {k: v for k, v in first.items() if k != "epoch_seconds"},
                                {k: v for k, v in second.items() if k != "epoch_seconds"})

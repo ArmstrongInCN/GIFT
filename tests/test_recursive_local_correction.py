@@ -1,3 +1,12 @@
+"""Unit tests for the recursive local correction.
+
+The correction is a fixed, gradient-free rule applied after each complete RK4
+step, once per spectral band. These tests pin the parts that must not drift:
+the per-band policy constants, containment of the correction inside the band it
+belongs to, the mask built when only a band name is given, the aggregate report,
+the fact that exceeding the safety cap stops only the offending trajectory, and
+the audit text recorded when the correction is switched off.
+"""
 from __future__ import annotations
 
 import numpy as np

@@ -10,6 +10,8 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+# Maps each experiment code to its formal module so this wrapper launches the
+# correct independent numerical entry point without selecting checkpoints.
 MODULES = dict(M1="m1_equation_identification", M2="m2_recursive_prediction",
                M3="m3_cross_resolution", S1="s1_high_frequency_branch",
                S2="s2_recursive_local_correction", S3="s3_seed_stability", S4="s4_initial_distribution")
@@ -24,6 +26,8 @@ def child_environment(experiment, arguments, device, parent=None):
     method = next((item.split("=", 1)[1] for item in arguments if item.startswith("--method=")), None)
     if "--method" in arguments and arguments.index("--method") + 1 < len(arguments):
         method = arguments[arguments.index("--method") + 1]
+    # M1 in non-GIFT mode is single-threaded to keep its reference numerics
+    # reproducible; other experiments use two threads for the data pipeline.
     threads = "1" if experiment == "M1" and method != "GIFT" else "2"
     env.update(OMP_NUM_THREADS=threads, MKL_NUM_THREADS=threads, OPENBLAS_NUM_THREADS="1",
                CUDA_VISIBLE_DEVICES="0" if device == "cuda" else "-1", PYTHONDONTWRITEBYTECODE="1")

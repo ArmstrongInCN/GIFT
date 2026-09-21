@@ -121,6 +121,8 @@ def full_plan(dataset):
         subset=None, split="all", pilot_steps=None, batch_size=None, device="cpu"))
 
 
+# Short-test and cross-resolution time labels are derived from a fixed formula and
+# must match the reader exactly; rounding drift would misalign frames downstream.
 def test_formal_short_time_labels_match_reader_exactly():
     for dataset in ("short-test", "cross-resolution"):
         plan = full_plan(dataset)

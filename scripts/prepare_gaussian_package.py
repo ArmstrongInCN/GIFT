@@ -19,6 +19,9 @@ from scripts.generate_data import sha256, canonical, write_json_new, safe_output
 
 
 def prepare(generation,output):
+    # Package one completed S4 Gaussian generation into the released s4_gaussian
+    # directory; no interpolation or new integration, and every source hash must
+    # still match the generation plan's recorded generator/solver sources.
     generation=Path(generation).resolve(strict=True)
     output=safe_output(output)
     if output.name!='s4_gaussian' or output.exists():
@@ -66,6 +69,8 @@ def prepare(generation,output):
         for key,value in original.attrs.items():
             lite.attrs[key]=value
         lite.attrs['parent_sha256']=receipt['data_sha256']
+        # GIFT-Lite is an exact row sub-selection: the first 50 training IDs and
+        # the 20 checkpoint-validation IDs, with no test fields copied.
         lite.attrs['derivation']='exact first 50 training and 20 checkpoint-validation rows'
         for name,ids in group_ids(lite=True).items():
             group=lite.create_group(name)
@@ -82,6 +87,8 @@ def prepare(generation,output):
                 digest.update(values.tobytes())
             lite_schema['/'+name]={'trajectory_ids':ids}
             lite_schema['/'+name+'/vorticity']=dict(shape=list(field.shape),dtype=str(field.dtype),decoded_sha256=digest.hexdigest())
+    # The package manifest binds every file by byte hash and records the decoded
+    # vorticity hash per group, so the released artifact is fully self-verifying.
     manifest=dict(schema='gift.gaussian-data-package.v1',status='complete',
         initial_condition=specification(),partitions=partitions(GAUSSIAN),
         physical_protocol=plan['physical_protocol'],

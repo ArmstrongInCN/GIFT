@@ -43,8 +43,12 @@ class BranchTrainingView:
         spectral = block.spectral
         ny, nx = field.shape[-2:]
         modes = spectral.modes
+        # Guard the spectral block against a grid smaller than twice the modes;
+        # rfft2 leaves only nx//2+1 positive frequency columns per row.
         if 2 * modes > ny or modes > nx // 2 + 1:
             raise ValueError("configured spectral modes exceed the incoming grid")
+        # Real-input FFT yields a Hermitian spectrum; the branch reads the lower
+        # and upper mode blocks separately and stitches them back below.
         spectrum = torch.fft.rfft2(field)
         positive_weight, negative_weight = self.packed[id(spectral)]
         positive = spectral.multiply(spectrum[:, :, :modes, :modes], positive_weight)

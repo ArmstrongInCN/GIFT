@@ -78,6 +78,9 @@ def inspect_arrays(path, *, full=False):
 
 
 def verify(root, *, full_array_scan=False):
+    # Read-only check of a separately downloaded input package: every file's byte
+    # hash, the numeric array inventory, and (optionally) every stored value's
+    # finiteness. It never reruns experiments or accepts a summary as a full run.
     root = Path(root).resolve(strict=True)
     manifest = json.loads(package_path(root, "manifest.json").read_text(encoding="utf-8"))
     if manifest.get("schema") != "gift.data-package-manifest.v1":
@@ -98,12 +101,16 @@ def verify(root, *, full_array_scan=False):
             raise ValueError(f"Size/SHA-256 mismatch: {entry['path']}")
     schema = json.loads((root / "schema.json").read_text(encoding="utf-8"))
     numeric = {name for name in paths if PurePosixPath(name).suffix in (".h5", ".npz")}
+    # Canonical packages carry remapped prediction IDs and a richer observation
+    # schema, so their group IDs and array inventory are checked beyond hashes.
     canonical = manifest.get("data_profile") == "canonical"
     if canonical:
         from scripts.prepare_prediction_package import PREDICTION_FILES
         expected = set(PREDICTION_FILES) | {"prediction/standard_ns_n64_full_spectrum.h5"}
         gaussian_files = {name for name in paths if name.startswith('s4_gaussian/')}
         if gaussian_files:
+            # A Gaussian extension must ship exactly its five S4 files and bind the
+            # same cohort partitions and observation schema the append step recorded.
             required_gaussian = {'s4_gaussian/' + name for name in
                                 ('trajectories.h5', 'lite.h5', 'run.json', 'COMPLETE.json', 'manifest.json')}
             if gaussian_files != required_gaussian:
