@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.cm import ScalarMappable  # noqa: E402
 from matplotlib.colors import TwoSlopeNorm  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
+from matplotlib.ticker import FuncFormatter  # noqa: E402
 import numpy as np  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -57,6 +58,28 @@ PRESET_TICKS = {
 
 def colour_ticks(limit: float) -> tuple[float, ...]:
     return PRESET_TICKS.get(float(limit), tuple(np.linspace(-limit, limit, 5)))
+
+
+def _tick_text(value: float) -> str:
+    """Integer tick label with the manuscript's typographic minus sign."""
+    return f"{value:g}".replace("-", "\N{MINUS SIGN}")
+
+
+def style_colorbar(bar: Any, title: str) -> None:
+    """One colour bar style for both plates.
+
+    The numbers are enlarged and emboldened and printed without a redundant
+    trailing ``.0``, so the integer ticks of the four-vortex plate and the
+    half-integer ticks of the Gaussian plate read the same way.
+    """
+    bar.set_label(title, fontsize=6.0, fontweight="semibold", labelpad=1.3)
+    bar.ax.xaxis.set_label_position("top")
+    bar.solids.set_rasterized(False)
+    bar.ax.tick_params(labelsize=5.2, width=0.5, length=2.0, pad=1.2)
+    bar.ax.xaxis.set_major_formatter(FuncFormatter(lambda value, _: _tick_text(value)))
+    for tick_label in bar.ax.get_xticklabels():
+        tick_label.set_fontweight("semibold")
+    bar.outline.set_linewidth(0.5)
 FIELD_CMAP = "RdBu_r"
 # Face colour of the tiles that carry no field of their own, as in the manuscript.
 PLACEHOLDER_FACE = "#f6f6f7"
@@ -70,6 +93,10 @@ mpl.rcParams.update(
         "svg.fonttype": "none",
         "pdf.fonttype": 42,
         "font.size": 6.0,
+        "mathtext.fontset": "dejavusans",
+        # Upright math glyphs, so `rel. L$^2$` keeps an upright L and only the
+        # exponent is raised, matching the manuscript's residual label.
+        "mathtext.default": "regular",
         "axes.linewidth": 0.6,
         "axes.spines.right": False,
         "axes.spines.top": False,
@@ -152,6 +179,37 @@ def save_panel_svg(
     draw_mesh(axis, values, cmap=cmap, norm=norm)
     figure.savefig(path, format="svg", bbox_inches=None, pad_inches=0.0)
     plt.close(figure)
+
+
+def draw_placeholder_tile(axis: Any) -> None:
+    """A tile for a cell that carries no field of its own.
+
+    The manuscript fills the reference row's prediction-error cells with the
+    same light grey the zero-error tiles carry, instead of leaving them blank.
+    Leaving ``axison`` on keeps the axes patch, which is what draws the tile.
+    """
+    axis.set_facecolor(PLACEHOLDER_FACE)
+    style_field_axis(axis)
+
+
+def add_prediction_error_label(axis: Any, value: float) -> None:
+    """The manuscript's residual caption; the exponent is a superscript."""
+    axis.text(
+        0.035,
+        0.035,
+        rf"rel. L$^2$ = {value:.3f}",
+        transform=axis.transAxes,
+        ha="left",
+        va="bottom",
+        fontsize=3.75,
+        color="#171717",
+        bbox={
+            "facecolor": "white",
+            "edgecolor": "none",
+            "alpha": 0.80,
+            "pad": 0.40,
+        },
+    )
 
 
 def load_keyframes(
@@ -436,19 +494,13 @@ def draw_composite(
         axis = figure.add_subplot(grid[0, time_index + 1])
         draw_mesh(axis, truth[time_index], cmap=FIELD_CMAP, norm=field_norm)
 
-    # The reference row has no prediction error of its own, as the manuscript notes
-    # in that block.
-    reference_note_axis = figure.add_subplot(grid[0, 6:10])
-    reference_note_axis.set_axis_off()
-    reference_note_axis.text(
-        0.50,
-        0.50,
-        "Prediction error is defined for model predictions",
-        ha="center",
-        va="center",
-        fontsize=5.2,
-        color="#777777",
-    )
+    # The reference row has no prediction error of its own; the manuscript
+    # fills those four cells with the light grey zero tile and the 0.000 value
+    # a reference-versus-itself comparison gives, rather than a prose note.
+    for time_index in range(4):
+        placeholder_axis = figure.add_subplot(grid[0, time_index + 6])
+        draw_placeholder_tile(placeholder_axis)
+        add_prediction_error_label(placeholder_axis, 0.0)
 
     for row, spec in enumerate(METHODS, start=1):
         slug = str(spec["slug"])
@@ -467,22 +519,7 @@ def draw_composite(
                 cmap=RESIDUAL_CMAP,
                 norm=residual_norm,
             )
-            residual_axis.text(
-                0.035,
-                0.035,
-                f"rel. L2 = {errors[slug][time_index]:.3f}",
-                transform=residual_axis.transAxes,
-                ha="left",
-                va="bottom",
-                fontsize=3.75,
-                color="#171717",
-                bbox={
-                    "facecolor": "white",
-                    "edgecolor": "none",
-                    "alpha": 0.80,
-                    "pad": 0.40,
-                },
-            )
+            add_prediction_error_label(residual_axis, float(errors[slug][time_index]))
 
     scalar_bounds = _grid_group_bounds(figure, grid, 1, 5)
     residual_bounds = _grid_group_bounds(figure, grid, 6, 10)
@@ -514,7 +551,7 @@ def draw_composite(
                 f"t = {KEY_TIMES[time_index]:.1f}",
                 ha="center",
                 va="center",
-                fontsize=5.7,
+                fontsize=8.0,
                 color="#333333",
             )
 
@@ -547,11 +584,7 @@ def draw_composite(
         orientation="horizontal",
         ticks=colour_ticks(field_norm.vmax),
     )
-    field_bar.set_label("Vorticity field", fontsize=5.4, labelpad=1.3)
-    field_bar.ax.xaxis.set_label_position("top")
-    field_bar.solids.set_rasterized(False)
-    field_bar.ax.tick_params(labelsize=4.6, width=0.5, length=2.0, pad=1.2)
-    field_bar.outline.set_linewidth(0.5)
+    style_colorbar(field_bar, "Vorticity field")
 
     residual_bar_width = 0.66 * residual_bounds.width
     residual_bar_axis = figure.add_axes(
@@ -568,13 +601,7 @@ def draw_composite(
         orientation="horizontal",
         ticks=colour_ticks(residual_norm.vmax),
     )
-    residual_bar.set_label(
-        "Prediction error", fontsize=5.4, labelpad=1.3
-    )
-    residual_bar.ax.xaxis.set_label_position("top")
-    residual_bar.solids.set_rasterized(False)
-    residual_bar.ax.tick_params(labelsize=4.6, width=0.5, length=2.0, pad=1.2)
-    residual_bar.outline.set_linewidth(0.5)
+    style_colorbar(residual_bar, "Prediction error")
 
     figure.suptitle(
         f"Recursive prediction keyframes — trajectory {trajectory_id}",
@@ -738,7 +765,8 @@ def main() -> None:
             "scalar_columns": KEY_TIMES.tolist(),
             "residual_columns": KEY_TIMES.tolist(),
             "scalar_residual_rows_aligned": True,
-            "reference_residual_displayed": False,
+            "reference_residual_displayed": True,
+            "reference_residual_rendering": "flat placeholder tile with the 0.000 rel. L2 label",
             "reference_repeated_in_composite": False,
             "individual_reference_panels_stored_once": True,
             "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",

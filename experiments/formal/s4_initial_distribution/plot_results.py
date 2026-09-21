@@ -23,6 +23,12 @@ from scripts.verify_published_results import verify_package
 ROOT = Path(__file__).resolve().parents[3]
 SVG = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', SVG)
+# Panel headings and the truncation note follow the project's own figure
+# conventions: the shared sans-serif stack, the near-black text colour, and the
+# shared secondary-annotation grey.
+HEADING_STYLE = ("font-family:'Arial','DejaVu Sans','Liberation Sans',sans-serif;"
+                 "font-size:9px;font-weight:600;fill:#262626")
+NOTE_COLOR = '#687078'
 
 
 def pair_vectors(left: Path, right: Path, output: Path):
@@ -39,7 +45,7 @@ def pair_vectors(left: Path, right: Path, output: Path):
     for index, (panel, box, title) in enumerate(zip(panels, boxes,
             ('a  Four-vortex initial conditions', 'b  Gaussian random-field initial conditions'))):
         label = ET.SubElement(document, f'{{{SVG}}}text', x=str(x + 8), y='13',
-                              style='font-family:Arial,sans-serif;font-size:9px;font-weight:bold')
+                              style=HEADING_STYLE)
         label.text = title
         group = ET.SubElement(document, f'{{{SVG}}}g', transform=f'translate({x},{heading})')
         prefix = f'panel{index}_'
@@ -115,7 +121,7 @@ def main(argv=None):
     if notes:
         figure.axes[0].text(0.03, 0.97, '\n'.join(notes + ['finite counts ' + '; '.join(detail)]),
                             transform=figure.axes[0].transAxes, ha='left', va='top',
-                            fontsize=5.0, color='#3A3A3A', linespacing=1.45, zorder=20)
+                            fontsize=5.0, color=NOTE_COLOR, linespacing=1.45, zorder=20)
     right = curve_dir/'gaussian_mean_relative_l2_vs_time.svg'
     figure.savefig(right, bbox_inches='tight')
     limits = list(figure.axes[0].get_ylim())

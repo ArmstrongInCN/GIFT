@@ -48,6 +48,37 @@ def add_panel_label(ax, label, x=-0.14, y=1.08):
             fontsize=8.5, fontweight="bold", clip_on=False)
 
 
+def add_prediction_error_label(axis: Any, value: float) -> None:
+    """The manuscript's residual caption under a prediction-error panel."""
+    axis.text(
+        0.50,
+        -0.070,
+        rf"rel. $L^2$ = {value:.3f}",
+        transform=axis.transAxes,
+        ha="center",
+        va="top",
+        fontsize=5.4,
+        color="#3F454B",
+        fontweight="normal",
+        clip_on=False,
+    )
+
+
+def draw_placeholder_tile(axis: Any) -> None:
+    """A tile for the reference column's prediction-error cell.
+
+    The manuscript fills it with the light grey the zero-error tiles carry,
+    rather than leaving it blank or putting a prose note in it. Leaving
+    ``axison`` on keeps the axes patch, which is what draws the tile.
+    """
+    axis.set_facecolor(PLACEHOLDER_FACE)
+    axis.set_aspect("equal", adjustable="box")
+    axis.set_xticks([])
+    axis.set_yticks([])
+    for spine in axis.spines.values():
+        spine.set_visible(False)
+
+
 def clean_axis(ax):
     ax.tick_params(axis="both", which="major", direction="out", length=2.7, width=0.7, pad=2.0)
     ax.tick_params(axis="both", which="minor", direction="out", length=1.6, width=0.55)
@@ -249,18 +280,21 @@ def draw_prediction_fields_only(
     gift_seed: int,
 ) -> tuple[plt.Figure, dict[str, float]]:
     """N128 reference/prediction row with aligned signed residual evidence."""
-    width_inches = 183.0 / 25.4
+    # The manuscript's plate carries a left label column as wide as its longest
+    # row name, so its canvas is 205.17 mm rather than the 183.0 mm the curves
+    # use. The panels themselves keep the manuscript's 87.667 pt cell size.
+    width_inches = 205.17 / 25.4
     height_inches = 96.0 / 25.4
     fig = plt.figure(figsize=(width_inches, height_inches), facecolor="white")
     grid = fig.add_gridspec(
         2,
-        len(METHODS) + 2,
+        len(METHODS) + 3,
         left=0.052,
         right=0.965,
         bottom=0.115,
         top=0.865,
         height_ratios=(1.0, 1.0),
-        width_ratios=(*([1.0] * (len(METHODS) + 1)), 0.045),
+        width_ratios=(0.6006, *([1.0] * (len(METHODS) + 1)), 0.045),
         hspace=0.10,
         wspace=0.085,
     )
@@ -275,7 +309,7 @@ def draw_prediction_fields_only(
 
     field_axes: list[plt.Axes] = []
     image_field = None
-    for column, label in enumerate(("Reference", *methods)):
+    for column, label in enumerate(("Reference", *methods), start=1):
         axis = fig.add_subplot(grid[0, column])
         image_field = draw_vector_field(axis,
             fields[label],
@@ -283,12 +317,14 @@ def draw_prediction_fields_only(
             vmin=-field_limit,
             vmax=field_limit,
         )
+        # Every method name is black in the manuscript; the colour coding is
+        # carried by the curves, not by the plate's row and column names.
         axis.set_title(
             label,
             pad=2.8,
             fontsize=7.2,
             fontweight="semibold",
-            color=COLORS["GIFT"] if label == "GIFT" else TEXT_COLOR,
+            color=TEXT_COLOR,
         )
         axis.set_xticks([])
         axis.set_yticks([])
@@ -296,31 +332,32 @@ def draw_prediction_fields_only(
             spine.set_visible(False)
         field_axes.append(axis)
 
-    info_axis = fig.add_subplot(grid[1, 0])
-    info_axis.set_axis_off()
-    info_axis.text(
-        0.50,
-        0.60,
-        "Prediction error",
-        ha="center",
-        va="center",
-        fontsize=6.6,
-        fontweight="semibold",
-        color=TEXT_COLOR,
-    )
-    info_axis.text(
-        0.50,
-        0.43,
-        r"$\Delta\omega$",
-        ha="center",
-        va="center",
-        fontsize=6.2,
-        color=TEXT_COLOR,
-    )
+    # Left label column: the row names, right aligned seven points before the
+    # first panel, centred on their own row, as in the manuscript.
+    title_anchor = field_axes[0].get_position(fig).x0 - 7.0 / (width_inches * 72.0)
+    for row, row_name in enumerate(("Vorticity field", "Prediction error")):
+        row_position = grid[row, 1].get_position(fig)
+        fig.text(
+            title_anchor,
+            0.5 * (row_position.y0 + row_position.y1),
+            row_name,
+            ha="right",
+            va="center",
+            fontsize=7.0,
+            fontweight="semibold",
+            color="#171717",
+        )
+
+    # The reference column has no prediction error of its own; the manuscript
+    # fills that cell with the light grey zero tile and the 0.000 value a
+    # reference-versus-itself comparison gives.
+    placeholder_axis = fig.add_subplot(grid[1, 1])
+    draw_placeholder_tile(placeholder_axis)
+    add_prediction_error_label(placeholder_axis, 0.0)
 
     residual_axes: list[plt.Axes] = []
     image_residual = None
-    for column, method in enumerate(methods, start=1):
+    for column, method in enumerate(methods, start=2):
         axis = fig.add_subplot(grid[1, column])
         image_residual = draw_vector_field(axis,
             residuals[method],
@@ -328,18 +365,7 @@ def draw_prediction_fields_only(
             vmin=-residual_limit,
             vmax=residual_limit,
         )
-        axis.text(
-            0.50,
-            -0.070,
-            rf"rel. $L^2$ = {float(data['residual_errors'][method]):.3f}",
-            transform=axis.transAxes,
-            ha="center",
-            va="top",
-            fontsize=5.4,
-            color="#3F454B",
-            fontweight="normal",
-            clip_on=False,
-        )
+        add_prediction_error_label(axis, float(data["residual_errors"][method]))
         axis.set_xticks([])
         axis.set_yticks([])
         for spine in axis.spines.values():
@@ -348,8 +374,8 @@ def draw_prediction_fields_only(
 
     if image_field is None or image_residual is None:
         raise AssertionError("field or residual image was not created")
-    field_color_axis = fig.add_subplot(grid[0, len(METHODS) + 1])
-    residual_color_axis = fig.add_subplot(grid[1, len(METHODS) + 1])
+    field_color_axis = fig.add_subplot(grid[0, len(METHODS) + 2])
+    residual_color_axis = fig.add_subplot(grid[1, len(METHODS) + 2])
     colorbar_field = fig.colorbar(image_field, cax=field_color_axis, orientation="vertical")
     colorbar_residual = fig.colorbar(image_residual, cax=residual_color_axis, orientation="vertical")
     for colorbar, limit, title in (
@@ -359,15 +385,18 @@ def draw_prediction_fields_only(
         colorbar.solids.set_rasterized(False)
         colorbar.set_ticks([-limit, 0.0, limit])
         colorbar.ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:.0f}"))
-        colorbar.ax.tick_params(length=1.8, width=0.45, pad=1.4, labelsize=5.4)
+        colorbar.ax.tick_params(length=1.8, width=0.45, pad=1.4, labelsize=6.0)
+        for tick_label in colorbar.ax.get_yticklabels():
+            tick_label.set_fontweight("semibold")
         # Keep the row variable beside the continuous colour ramp.  Titles
         # above the two stacked bars read as a glyph interrupting the scale.
         colorbar.ax.yaxis.set_label_position("left")
         colorbar.ax.set_ylabel(
             title,
-            fontsize=6.2,
-            rotation=90,
+            fontsize=6.5,
+            rotation=0,
             labelpad=3.0,
+            fontweight="semibold",
             color=TEXT_COLOR,
         )
         colorbar.outline.set_linewidth(0.35)

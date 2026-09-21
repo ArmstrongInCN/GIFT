@@ -81,7 +81,7 @@
   "details": {
     "reference": {
       "experiment": "M2",
-      "published_manifest_sha256": "3FEC68B182029312E5A2999D04D8FEE2FF7B77894C0579C5CCD26749DCCA4B4A",
+      "published_manifest_sha256": "6DC4367336CC8486864C06AC94B436EBE6629F2BFC9A794ED45C42310499BFE7",
       "published_metrics_sha256": "9CBBBB90AA2AEFF79191E8C9C5DABFAA6269731556F8AAE1CE80003E264D1C8D",
       "reuse": "left panel redrawn from the published M2 metrics with the same renderer and the shared vertical range; M2 numbers unchanged and M2 not recomputed"
     },
@@ -111,7 +111,7 @@
   },
   "renderer": {
     "path": "plot_results.py",
-    "sha256": "6F5B20060C7EDA0782C6BD7F520F9E116E4BDD3647A99BDA67D07B86D97C1E20"
+    "sha256": "C76BB23F0F6DEB676EAF7C9D9141E11C866EAD2E2D96D78A69B5EE6072024CDB"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -146,17 +146,17 @@
     {
       "path": "four_vortex_mean_relative_l2_vs_time.svg",
       "bytes": 28433,
-      "sha256": "C32CFB11DFFE77BD3520577960C7867FA5373E7FFE6C0C639B819FCD13D26D56"
+      "sha256": "1E9629FFBEFE1E45EBE622B38E91BBC4EE17673CB8365259F99D458EAB05BF16"
     },
     {
       "path": "gaussian_mean_relative_l2_vs_time.svg",
       "bytes": 28287,
-      "sha256": "B6ECB294486A3DC6FA8D9CF647063E42C87BE023D1452DFE99B3A0F96B30FA2E"
+      "sha256": "308E8AEE44D013035499FB8FD111CF7AE8A621DEDDC34D853B0BD9DB44A6830C"
     },
     {
       "path": "initial_distribution_comparison.svg",
-      "bytes": 57294,
-      "sha256": "5E67675D7D60B2C8453BFFF5886051C433CC0C9486586E81A4A07816747D5736"
+      "bytes": 57386,
+      "sha256": "B11115B2BC2A7B4E2435BC0D45AC9E9F898B5F6D1CD591ACD25A7E81B4AD7C29"
     },
     {
       "path": "reference_source_data.csv",

@@ -59,12 +59,16 @@ mpl.rcParams.update(
 
 # Restrained method-family palette: one blue anchor, a warm PDE family,
 # and a muted violet PINN family. Marker shape remains the independent cue.
+# The paper emphasises the method under study: GIFT is drawn heavier than the
+# four baselines, in the panels and in the legend handles alike. Both widths are
+# taken from the manuscript figure so the published panel matches it stroke for
+# stroke (4 heavy strokes = 3 panels + 1 legend entry; 16 light ones).
 METHOD_STYLE = {
-    "GIFT": {"color": "#1246D6", "marker": "o"},
-    "PDE-FIND": {"color": "#FF7A00", "marker": "s"},
-    "PDE-FIND-KC": {"color": "#29A82C", "marker": "D"},
-    "PINN-SR": {"color": "#8B3FE0", "marker": "^"},
-    "PINN-SR-KC": {"color": "#00A896", "marker": "v"},
+    "GIFT": {"color": "#1246D6", "marker": "o", "linewidth": 1.9},
+    "PDE-FIND": {"color": "#FF7A00", "marker": "s", "linewidth": 1.35},
+    "PDE-FIND-KC": {"color": "#29A82C", "marker": "D", "linewidth": 1.35},
+    "PINN-SR": {"color": "#8B3FE0", "marker": "^", "linewidth": 1.35},
+    "PINN-SR-KC": {"color": "#00A896", "marker": "v", "linewidth": 1.35},
 }
 
 # A sub-marker-width categorical dodge prevents near-identical APE values from
@@ -157,7 +161,7 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
                 markeredgecolor="white",
                 markeredgewidth=0.45,
                 markersize=4.15,
-                linewidth=1.18,
+                linewidth=style["linewidth"],
                 alpha=0.96,
                 zorder=3,
             )
@@ -176,7 +180,7 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
             ax.axhline(
                 grid_value,
                 color=GRID,
-                linewidth=0.38,
+                linewidth=0.48,
                 alpha=0.78,
                 zorder=0,
             )
@@ -238,7 +242,7 @@ def draw(frame: pd.DataFrame) -> plt.Figure:
             markeredgecolor="white",
             markeredgewidth=0.45,
             markersize=4.0,
-            linewidth=1.18,
+            linewidth=METHOD_STYLE[method]["linewidth"],
             label=method,
         )
         for method in METHODS

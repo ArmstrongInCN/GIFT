@@ -2,7 +2,7 @@
 
 All eight figure placements referenced by the experiment document are generated from numerical results using Python/matplotlib and exported as SVG; they resolve to seven published files because the S4 section reuses the published M2 keyframe plate unchanged. Plotting does not train a model or select a checkpoint. It can be rerun independently after numerical experiments finish.
 
-实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节左幅改用同一作图程序按已发布的 M2 汇总数据重绘（M2 数值不变、不重算），以便与右幅共用同一纵轴。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。色限是按初值分布预设的固定常数：四涡旋沿用正文图所用的 ±19 / ±21，高斯分布预设为 ±25；预设范围会裁切所选关键帧时渲染器直接拒绝出图，不伸缩色标，也不在正文中事后改口。M1 的三个面板共用一条带零基线的纵轴：20% 及以下为线性、以上为对数，刻度逐条标注；该轴只改变同一组已发布数值的显示方式，数值本身不重算，零误差落在轴上且不下限。
+实验文档的八处图像引用对应七幅已发布 SVG，均由数值结果生成，只导出 SVG；S4 小节左幅改用同一作图程序按已发布的 M2 汇总数据重绘（M2 数值不变、不重算），以便与右幅共用同一纵轴。预测图同时展示 GIFT、GIFT-Lite 和相应基线。保留既定字体、布局和报告时刻，示例轨迹预先固定在独立测试集内。只作容纳数据、标签和方法所需的布局、轴范围及色限调整，不以方法排名作为绘图通过条件。色限是按初值分布预设的固定常数：四涡旋沿用正文图所用的 ±19 / ±21，高斯分布预设为 ±25；预设范围会裁切所选关键帧时渲染器直接拒绝出图，不伸缩色标，也不在正文中事后改口。M1 的三个面板共用一条带零基线的纵轴：20% 及以下为线性、以上为对数，刻度逐条标注；该轴只改变同一组已发布数值的显示方式，数值本身不重算，零误差落在轴上且不下限。关键帧与场图用浅灰块加 `rel. L² = 0.000` 明示参考行“真值减真值”的零误差，避免这一格被读成漏测；该块不带坐标轴刻度或轴线。
 
 | Figure | Evidence and layout | Statistics / selection |
 | --- | --- | --- |
@@ -22,6 +22,7 @@ All eight figure placements referenced by the experiment document are generated 
 - Reject missing or duplicate method/seed/time combinations and non-finite values. Do not drop a failed method or a difficult trajectory to obtain a figure.
 - Colour limits are prespecified constants, one pair per initial-condition population, and are never fitted to the plotted trajectory. Keep an existing shared limit when all values fit; a prespecified range the selected keyframe would exceed makes the renderer refuse the figure. Never clip, normalize each method separately or change the underlying arrays to preserve appearance.
 - Prediction error is prediction minus reference. Fields cover the complete spatial grid, without cropping, smoothing or selective contrast changes. Use vector cells, not embedded raster images; keep text editable in SVG.
+- A keyframe or field plate states the reference-versus-itself error explicitly: the reference row's prediction-error cell is a flat light-grey tile captioned `rel. L² = 0.000`, so a cell that carries no residual cannot be read as a missing measurement. The tile carries no axis ticks or spines, and any near-zero residual uses the same grey and caption.
 - SVG QuadMesh groups use `shape-rendering="crispEdges"` to prevent viewer-dependent white seams between adjacent cells. This display hint does not change cell geometry, colors or numerical arrays.
 - M1 parameter labels use editable Unicode Greek letters, avoiding font-specific private-use glyphs that can display as unrelated symbols on another device.
 - Zero error is a valid measurement. A logarithmic figure must either display it explicitly with a documented scale adjustment or stop with a clear message; never replace zero with a fabricated positive error.

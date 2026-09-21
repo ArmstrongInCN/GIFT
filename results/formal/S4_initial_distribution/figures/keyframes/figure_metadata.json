@@ -101,7 +101,8 @@
       8.0
     ],
     "scalar_residual_rows_aligned": true,
-    "reference_residual_displayed": false,
+    "reference_residual_displayed": true,
+    "reference_residual_rendering": "flat placeholder tile with the 0.000 rel. L2 label",
     "reference_repeated_in_composite": false,
     "individual_reference_panels_stored_once": true,
     "method_name_position": "far_left_centered_on_aligned_scalar_residual_row",

@@ -782,7 +782,7 @@
   },
   "renderer": {
     "path": "plot_parameters.py",
-    "sha256": "66FCEEFA2C9184BE5566715BCFD731AF4492403063D9A5321E9C407B0B257A0A"
+    "sha256": "A1DD1B2143DD7F951E01FFFEB4516BD1F966A17B986BF129EDA19A71ABB4BE99"
   },
   "shared_renderer_sha256": "E1EB0D190408596C7049CA6186A31A1B2A2C3A476425BF5FE82A4D6168DEB6E9",
   "vector_cell_rendering": {
@@ -802,8 +802,8 @@
   "files": [
     {
       "path": "parameter_identification_ape_vs_noise.svg",
-      "bytes": 35594,
-      "sha256": "0F7177963FE597BB409A5AB712D3EF193D317309A60FB98F5141E808162C419A"
+      "bytes": 35590,
+      "sha256": "F296CDFA2A24510405B2624272633135964333386D9F803CB21FB33E7A691D94"
     },
     {
       "path": "source_data.csv",

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:ns4="http://www.w3.org/1999/xlink" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="1016.372678pt" height="265.373892pt" viewBox="0 0 1016.372678 265.373892" version="1.1"><text x="8.0" y="13" style="font-family:Arial,sans-serif;font-size:9px;font-weight:bold">a  Four-vortex initial conditions</text><g transform="translate(0.0,22.0)"><metadata>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:ns4="http://www.w3.org/1999/xlink" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="1016.372678pt" height="265.373892pt" viewBox="0 0 1016.372678 265.373892" version="1.1"><text x="8.0" y="13" style="font-family:'Arial','DejaVu Sans','Liberation Sans',sans-serif;font-size:9px;font-weight:600;fill:#262626">a  Four-vortex initial conditions</text><g transform="translate(0.0,22.0)"><metadata>
   <rdf:RDF>
    <ns2:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-    <dc:date>2026-09-19T20:41:20.724397</dc:date>
+    <dc:date>2026-09-19T22:02:00.399730</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <ns2:Agent>
@@ -28,10 +28,10 @@
     <g id="panel0_xtick_1">
      <g id="panel0_line2d_1">
       <defs>
-       <path id="panel0_m587b3a50c7" d="M 0 0  L 0 3  " style="stroke: #000000; stroke-width: 0.8" />
+       <path id="panel0_mc45192ba88" d="M 0 0  L 0 3  " style="stroke: #000000; stroke-width: 0.8" />
       </defs>
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="41.423459" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="41.423459" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_1">
@@ -41,7 +41,7 @@
     <g id="panel0_xtick_2">
      <g id="panel0_line2d_2">
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="115.529196" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="115.529196" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_2">
@@ -51,7 +51,7 @@
     <g id="panel0_xtick_3">
      <g id="panel0_line2d_3">
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="189.634933" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="189.634933" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_3">
@@ -61,7 +61,7 @@
     <g id="panel0_xtick_4">
      <g id="panel0_line2d_4">
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="263.740669" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="263.740669" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_4">
@@ -71,7 +71,7 @@
     <g id="panel0_xtick_5">
      <g id="panel0_line2d_5">
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="337.846406" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="337.846406" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_5">
@@ -81,7 +81,7 @@
     <g id="panel0_xtick_6">
      <g id="panel0_line2d_6">
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="411.952143" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="411.952143" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_6">
@@ -91,7 +91,7 @@
     <g id="panel0_xtick_7">
      <g id="panel0_line2d_7">
       <g>
-       <use ns4:href="#panel0_m587b3a50c7" x="486.05788" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mc45192ba88" x="486.05788" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_7">
@@ -117,10 +117,10 @@
     <g id="panel0_ytick_1">
      <g id="panel0_line2d_8">
       <defs>
-       <path id="panel0_m87dd3162d1" d="M 0 0  L -3 0  " style="stroke: #000000; stroke-width: 0.8" />
+       <path id="panel0_mea882fd5a5" d="M 0 0  L -3 0  " style="stroke: #000000; stroke-width: 0.8" />
       </defs>
       <g>
-       <use ns4:href="#panel0_m87dd3162d1" x="35.495" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mea882fd5a5" x="35.495" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_9">
@@ -130,7 +130,7 @@
     <g id="panel0_ytick_2">
      <g id="panel0_line2d_9">
       <g>
-       <use ns4:href="#panel0_m87dd3162d1" x="35.495" y="173.816369" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mea882fd5a5" x="35.495" y="173.816369" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_10">
@@ -140,7 +140,7 @@
     <g id="panel0_ytick_3">
      <g id="panel0_line2d_10">
       <g>
-       <use ns4:href="#panel0_m87dd3162d1" x="35.495" y="136.048612" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mea882fd5a5" x="35.495" y="136.048612" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_11">
@@ -150,7 +150,7 @@
     <g id="panel0_ytick_4">
      <g id="panel0_line2d_11">
       <g>
-       <use ns4:href="#panel0_m87dd3162d1" x="35.495" y="98.280854" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mea882fd5a5" x="35.495" y="98.280854" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_12">
@@ -160,7 +160,7 @@
     <g id="panel0_ytick_5">
      <g id="panel0_line2d_12">
       <g>
-       <use ns4:href="#panel0_m87dd3162d1" x="35.495" y="60.513097" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel0_mea882fd5a5" x="35.495" y="60.513097" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel0_text_13">
@@ -204,33 +204,33 @@
     <path d="M 41.423459 211.584126  L 486.05788 211.584126  " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
    </g>
    <g id="panel0_line2d_13">
-    <path d="M 41.423459 211.584126  L 52.539319 205.9742  L 62.173065 201.350853  L 71.065754 197.320364  L 79.217385 193.8566  L 87.369016 190.641472  L 94.779589 187.95711  L 102.190163 185.520838  L 108.859679 183.55708  L 115.529196 181.825499  L 123.680827 179.97828  L 132.573515 178.204601  L 142.948318 176.379323  L 156.287351 174.278574  L 185.188588 169.804041  L 198.527621 167.422389  L 227.428858 162.014013  L 257.071153 156.53047  L 282.267103 152.144266  L 311.168341 147.296133  L 333.400062 143.787715  L 358.596012 140.067678  L 383.050906 136.658335  L 404.541569 133.879028  L 426.77329 131.238545  L 451.969241 128.458452  L 475.683076 126.068868  L 486.05788 125.099956  L 486.05788 125.099956  " clip-path="url(#panel0_p04b5ee8dad)" style="fill: none; stroke: #00a896; stroke-width: 1.5; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 52.539319 205.9742  L 62.173065 201.350853  L 71.065754 197.320364  L 79.217385 193.8566  L 87.369016 190.641472  L 94.779589 187.95711  L 102.190163 185.520838  L 108.859679 183.55708  L 115.529196 181.825499  L 123.680827 179.97828  L 132.573515 178.204601  L 142.948318 176.379323  L 156.287351 174.278574  L 185.188588 169.804041  L 198.527621 167.422389  L 227.428858 162.014013  L 257.071153 156.53047  L 282.267103 152.144266  L 311.168341 147.296133  L 333.400062 143.787715  L 358.596012 140.067678  L 383.050906 136.658335  L 404.541569 133.879028  L 426.77329 131.238545  L 451.969241 128.458452  L 475.683076 126.068868  L 486.05788 125.099956  L 486.05788 125.099956  " clip-path="url(#panel0_p794f481bf4)" style="fill: none; stroke: #00a896; stroke-width: 1.5; stroke-linecap: round" />
    </g>
    <g id="panel0_line2d_14">
     <defs>
-     <path id="panel0_md3d99d31ae" d="M 0 2.969848  L 2.969848 0  L 0 -2.969848  L -2.969848 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel0_m3e9222fa9c" d="M 0 2.969848  L 2.969848 0  L 0 -2.969848  L -2.969848 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel0_p04b5ee8dad)">
-     <use ns4:href="#panel0_md3d99d31ae" x="41.423459" y="211.584126" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_md3d99d31ae" x="115.529196" y="181.825499" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_md3d99d31ae" x="189.634933" y="169.030988" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_md3d99d31ae" x="263.740669" y="155.352793" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_md3d99d31ae" x="337.846406" y="143.116624" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_md3d99d31ae" x="411.952143" y="132.976757" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_md3d99d31ae" x="486.05788" y="125.099956" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel0_p794f481bf4)">
+     <use ns4:href="#panel0_m3e9222fa9c" x="41.423459" y="211.584126" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3e9222fa9c" x="115.529196" y="181.825499" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3e9222fa9c" x="189.634933" y="169.030988" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3e9222fa9c" x="263.740669" y="155.352793" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3e9222fa9c" x="337.846406" y="143.116624" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3e9222fa9c" x="411.952143" y="132.976757" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3e9222fa9c" x="486.05788" y="125.099956" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel0_line2d_15">
-    <path d="M 41.423459 211.584126  L 54.021434 206.778286  L 64.396237 203.055858  L 73.288926 200.102289  L 81.440557 197.634484  L 88.85113 195.625011  L 95.520647 194.032984  L 102.190163 192.669022  L 108.118622 191.665971  L 114.047081 190.876165  L 122.198712 190.0665  L 133.314573 189.181247  L 146.653605 188.349608  L 194.822334 185.574948  L 222.982514 183.391396  L 254.106924 180.751049  L 288.195562 177.637588  L 315.614685 174.917393  L 339.328521 172.34507  L 357.113898 170.203779  L 380.086676 167.194563  L 453.451355 157.196405  L 486.05788 152.597497  L 486.05788 152.597497  " clip-path="url(#panel0_p04b5ee8dad)" style="fill: none; stroke: #8b3fe0; stroke-width: 1.5; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 54.021434 206.778286  L 64.396237 203.055858  L 73.288926 200.102289  L 81.440557 197.634484  L 88.85113 195.625011  L 95.520647 194.032984  L 102.190163 192.669022  L 108.118622 191.665971  L 114.047081 190.876165  L 122.198712 190.0665  L 133.314573 189.181247  L 146.653605 188.349608  L 194.822334 185.574948  L 222.982514 183.391396  L 254.106924 180.751049  L 288.195562 177.637588  L 315.614685 174.917393  L 339.328521 172.34507  L 357.113898 170.203779  L 380.086676 167.194563  L 453.451355 157.196405  L 486.05788 152.597497  L 486.05788 152.597497  " clip-path="url(#panel0_p794f481bf4)" style="fill: none; stroke: #8b3fe0; stroke-width: 1.5; stroke-linecap: round" />
    </g>
    <g id="panel0_legend_1">
     <g id="panel0_line2d_16">
      <path d="M 178.050826 12.943359  L 187.425826 12.943359  L 196.800826 12.943359  " style="fill: none; stroke: #1246d6; stroke-width: 2.5; stroke-linecap: square" />
      <defs>
-      <path id="panel0_m01f0b2dafe" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
+      <path id="panel0_mcf3b78e134" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
      </defs>
      <g>
-      <use ns4:href="#panel0_m01f0b2dafe" x="187.425826" y="12.943359" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+      <use ns4:href="#panel0_mcf3b78e134" x="187.425826" y="12.943359" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
      </g>
     </g>
     <g id="panel0_text_15">
@@ -239,10 +239,10 @@
     <g id="panel0_line2d_17">
      <path d="M 178.050826 23.552344  L 187.425826 23.552344  L 196.800826 23.552344  " style="fill: none; stroke: #19c2f5; stroke-width: 1.8; stroke-linecap: square" />
      <defs>
-      <path id="panel0_m23dc55186f" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
+      <path id="panel0_mdda2710ed5" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
      </defs>
      <g>
-      <use ns4:href="#panel0_m23dc55186f" x="187.425826" y="23.552344" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+      <use ns4:href="#panel0_mdda2710ed5" x="187.425826" y="23.552344" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
      </g>
     </g>
     <g id="panel0_text_16">
@@ -251,10 +251,10 @@
     <g id="panel0_line2d_18">
      <path d="M 244.180904 12.943359  L 253.555904 12.943359  L 262.930904 12.943359  " style="fill: none; stroke: #8b3fe0; stroke-width: 1.5; stroke-linecap: square" />
      <defs>
-      <path id="panel0_m341f0b870f" d="M -2.25 2.25  L 2.25 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel0_mc29722aa3d" d="M -2.25 2.25  L 2.25 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel0_m341f0b870f" x="253.555904" y="12.943359" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel0_mc29722aa3d" x="253.555904" y="12.943359" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel0_text_17">
@@ -263,10 +263,10 @@
     <g id="panel0_line2d_19">
      <path d="M 244.180904 23.552344  L 253.555904 23.552344  L 262.930904 23.552344  " style="fill: none; stroke: #00a896; stroke-width: 1.5; stroke-linecap: square" />
      <defs>
-      <path id="panel0_m99d7c70664" d="M 0 3.181981  L 3.181981 0  L 0 -3.181981  L -3.181981 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel0_m01d1951e97" d="M 0 3.181981  L 3.181981 0  L 0 -3.181981  L -3.181981 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel0_m99d7c70664" x="253.555904" y="23.552344" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel0_m01d1951e97" x="253.555904" y="23.552344" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel0_text_18">
@@ -275,10 +275,10 @@
     <g id="panel0_line2d_20">
      <path d="M 306.971138 12.943359  L 316.346138 12.943359  L 325.721138 12.943359  " style="fill: none; stroke: #29a82c; stroke-width: 1.8; stroke-linecap: square" />
      <defs>
-      <path id="panel0_m7cf338f8c3" d="M 0 -2.25  L -2.25 2.25  L 2.25 2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel0_m54c16262db" d="M 0 -2.25  L -2.25 2.25  L 2.25 2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel0_m7cf338f8c3" x="316.346138" y="12.943359" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel0_m54c16262db" x="316.346138" y="12.943359" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel0_text_19">
@@ -287,10 +287,10 @@
     <g id="panel0_line2d_21">
      <path d="M 306.971138 23.552344  L 316.346138 23.552344  L 325.721138 23.552344  " style="fill: none; stroke: #ff7a00; stroke-width: 1.6; stroke-linecap: square" />
      <defs>
-      <path id="panel0_m3141fdbbc4" d="M -0 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel0_m11c3f882d0" d="M -0 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel0_m3141fdbbc4" x="316.346138" y="23.552344" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel0_m11c3f882d0" x="316.346138" y="23.552344" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel0_text_20">
@@ -299,98 +299,98 @@
    </g>
    <g id="panel0_line2d_22">
     <defs>
-     <path id="panel0_m8826fcc204" d="M -2.1 2.1  L 2.1 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel0_m25a85ab488" d="M -2.1 2.1  L 2.1 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel0_p04b5ee8dad)">
-     <use ns4:href="#panel0_m8826fcc204" x="41.423459" y="211.584126" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m8826fcc204" x="115.529196" y="190.713855" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m8826fcc204" x="189.634933" y="185.952348" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m8826fcc204" x="263.740669" y="179.894135" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m8826fcc204" x="337.846406" y="172.513196" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m8826fcc204" x="411.952143" y="162.870573" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m8826fcc204" x="486.05788" y="152.597497" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel0_p794f481bf4)">
+     <use ns4:href="#panel0_m25a85ab488" x="41.423459" y="211.584126" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m25a85ab488" x="115.529196" y="190.713855" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m25a85ab488" x="189.634933" y="185.952348" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m25a85ab488" x="263.740669" y="179.894135" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m25a85ab488" x="337.846406" y="172.513196" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m25a85ab488" x="411.952143" y="162.870573" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m25a85ab488" x="486.05788" y="152.597497" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel0_line2d_23">
-    <path d="M 41.423459 211.584126  L 60.690951 206.151527  L 80.699499 200.278557  L 101.449106 193.952432  L 120.716597 187.857375  L 133.314573 183.623  L 152.582064 176.879311  L 174.813785 169.142234  L 187.41176 164.991076  L 203.715022 159.920245  L 222.982514 154.141485  L 242.991063 148.375033  L 262.999612 142.840739  L 286.713448 136.532821  L 307.463054 131.238193  L 325.989488 126.732326  L 344.515922 122.459646  L 368.970816 117.028412  L 386.756192 113.304434  L 401.57734 110.420776  L 415.65743 107.911863  L 434.924921 104.715678  L 452.710298 101.981263  L 469.754618 99.584075  L 486.05788 97.520534  L 486.05788 97.520534  " clip-path="url(#panel0_p04b5ee8dad)" style="fill: none; stroke: #ff7a00; stroke-width: 1.6; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 60.690951 206.151527  L 80.699499 200.278557  L 101.449106 193.952432  L 120.716597 187.857375  L 133.314573 183.623  L 152.582064 176.879311  L 174.813785 169.142234  L 187.41176 164.991076  L 203.715022 159.920245  L 222.982514 154.141485  L 242.991063 148.375033  L 262.999612 142.840739  L 286.713448 136.532821  L 307.463054 131.238193  L 325.989488 126.732326  L 344.515922 122.459646  L 368.970816 117.028412  L 386.756192 113.304434  L 401.57734 110.420776  L 415.65743 107.911863  L 434.924921 104.715678  L 452.710298 101.981263  L 469.754618 99.584075  L 486.05788 97.520534  L 486.05788 97.520534  " clip-path="url(#panel0_p794f481bf4)" style="fill: none; stroke: #ff7a00; stroke-width: 1.6; stroke-linecap: round" />
    </g>
    <g id="panel0_line2d_24">
     <defs>
-     <path id="panel0_mfe9175d6ca" d="M -0 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel0_m3f86cd128e" d="M -0 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel0_p04b5ee8dad)">
-     <use ns4:href="#panel0_mfe9175d6ca" x="41.423459" y="211.584126" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_mfe9175d6ca" x="115.529196" y="189.53017" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_mfe9175d6ca" x="189.634933" y="164.286944" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_mfe9175d6ca" x="263.740669" y="142.640133" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_mfe9175d6ca" x="337.846406" y="123.975997" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_mfe9175d6ca" x="411.952143" y="108.551291" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_mfe9175d6ca" x="486.05788" y="97.520534" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel0_p794f481bf4)">
+     <use ns4:href="#panel0_m3f86cd128e" x="41.423459" y="211.584126" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3f86cd128e" x="115.529196" y="189.53017" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3f86cd128e" x="189.634933" y="164.286944" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3f86cd128e" x="263.740669" y="142.640133" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3f86cd128e" x="337.846406" y="123.975997" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3f86cd128e" x="411.952143" y="108.551291" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m3f86cd128e" x="486.05788" y="97.520534" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel0_line2d_25">
-    <path d="M 41.423459 211.584126  L 71.806811 210.157417  L 94.779589 209.292604  L 114.788138 208.7547  L 139.243031 208.356007  L 203.715022 207.424678  L 238.544719 206.569189  L 290.418735 205.054936  L 331.17689 203.631367  L 365.265529 202.234968  L 406.023684 200.311872  L 449.005011 198.087242  L 486.05788 195.975966  L 486.05788 195.975966  " clip-path="url(#panel0_p04b5ee8dad)" style="fill: none; stroke: #29a82c; stroke-width: 1.8; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 71.806811 210.157417  L 94.779589 209.292604  L 114.788138 208.7547  L 139.243031 208.356007  L 203.715022 207.424678  L 238.544719 206.569189  L 290.418735 205.054936  L 331.17689 203.631367  L 365.265529 202.234968  L 406.023684 200.311872  L 449.005011 198.087242  L 486.05788 195.975966  L 486.05788 195.975966  " clip-path="url(#panel0_p794f481bf4)" style="fill: none; stroke: #29a82c; stroke-width: 1.8; stroke-linecap: round" />
    </g>
    <g id="panel0_line2d_26">
     <defs>
-     <path id="panel0_m738061b18a" d="M 0 -2.1  L -2.1 2.1  L 2.1 2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel0_m587d402d43" d="M 0 -2.1  L -2.1 2.1  L 2.1 2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel0_p04b5ee8dad)">
-     <use ns4:href="#panel0_m738061b18a" x="41.423459" y="211.584126" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m738061b18a" x="115.529196" y="208.739323" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m738061b18a" x="189.634933" y="207.701966" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m738061b18a" x="263.740669" y="205.864556" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m738061b18a" x="337.846406" y="203.377136" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m738061b18a" x="411.952143" y="200.01924" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel0_m738061b18a" x="486.05788" y="195.975966" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel0_p794f481bf4)">
+     <use ns4:href="#panel0_m587d402d43" x="41.423459" y="211.584126" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m587d402d43" x="115.529196" y="208.739323" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m587d402d43" x="189.634933" y="207.701966" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m587d402d43" x="263.740669" y="205.864556" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m587d402d43" x="337.846406" y="203.377136" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m587d402d43" x="411.952143" y="200.01924" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel0_m587d402d43" x="486.05788" y="195.975966" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel0_line2d_27">
-    <path d="M 41.423459 211.584126  L 69.583639 209.839561  L 87.369016 208.958012  L 102.190163 208.435838  L 115.529196 208.179309  L 148.876777 207.939785  L 228.910973 207.441706  L 334.882177 206.478573  L 374.158217 205.902783  L 422.326946 204.960418  L 460.861929 203.991874  L 486.05788 203.257257  L 486.05788 203.257257  " clip-path="url(#panel0_p04b5ee8dad)" style="fill: none; stroke: #19c2f5; stroke-width: 1.8; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 69.583639 209.839561  L 87.369016 208.958012  L 102.190163 208.435838  L 115.529196 208.179309  L 148.876777 207.939785  L 228.910973 207.441706  L 334.882177 206.478573  L 374.158217 205.902783  L 422.326946 204.960418  L 460.861929 203.991874  L 486.05788 203.257257  L 486.05788 203.257257  " clip-path="url(#panel0_p794f481bf4)" style="fill: none; stroke: #19c2f5; stroke-width: 1.8; stroke-linecap: round" />
    </g>
    <g id="panel0_line2d_28">
     <defs>
-     <path id="panel0_m09856905b0" d="M 0 2.1  C 0.556927 2.1 1.091118 1.878731 1.484924 1.484924  C 1.878731 1.091118 2.1 0.556927 2.1 0  C 2.1 -0.556927 1.878731 -1.091118 1.484924 -1.484924  C 1.091118 -1.878731 0.556927 -2.1 0 -2.1  C -0.556927 -2.1 -1.091118 -1.878731 -1.484924 -1.484924  C -1.878731 -1.091118 -2.1 -0.556927 -2.1 0  C -2.1 0.556927 -1.878731 1.091118 -1.484924 1.484924  C -1.091118 1.878731 -0.556927 2.1 0 2.1  z " style="stroke: #ffffff; stroke-width: 0.55" />
+     <path id="panel0_m679307a06a" d="M 0 2.1  C 0.556927 2.1 1.091118 1.878731 1.484924 1.484924  C 1.878731 1.091118 2.1 0.556927 2.1 0  C 2.1 -0.556927 1.878731 -1.091118 1.484924 -1.484924  C 1.091118 -1.878731 0.556927 -2.1 0 -2.1  C -0.556927 -2.1 -1.091118 -1.878731 -1.484924 -1.484924  C -1.878731 -1.091118 -2.1 -0.556927 -2.1 0  C -2.1 0.556927 -1.878731 1.091118 -1.484924 1.484924  C -1.091118 1.878731 -0.556927 2.1 0 2.1  z " style="stroke: #ffffff; stroke-width: 0.55" />
     </defs>
-    <g clip-path="url(#panel0_p04b5ee8dad)">
-     <use ns4:href="#panel0_m09856905b0" x="41.423459" y="211.584126" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_m09856905b0" x="115.529196" y="208.179309" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_m09856905b0" x="189.634933" y="207.735272" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_m09856905b0" x="263.740669" y="207.149894" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_m09856905b0" x="337.846406" y="206.442861" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_m09856905b0" x="411.952143" y="205.182736" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_m09856905b0" x="486.05788" y="203.257257" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+    <g clip-path="url(#panel0_p794f481bf4)">
+     <use ns4:href="#panel0_m679307a06a" x="41.423459" y="211.584126" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_m679307a06a" x="115.529196" y="208.179309" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_m679307a06a" x="189.634933" y="207.735272" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_m679307a06a" x="263.740669" y="207.149894" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_m679307a06a" x="337.846406" y="206.442861" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_m679307a06a" x="411.952143" y="205.182736" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_m679307a06a" x="486.05788" y="203.257257" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
     </g>
    </g>
    <g id="panel0_line2d_29">
-    <path d="M 41.423459 211.584126  L 74.77104 210.277139  L 94.038532 209.749558  L 109.600737 209.535379  L 129.609286 209.523816  L 259.294325 209.545181  L 329.694775 209.350635  L 395.648881 208.979833  L 465.308273 208.368627  L 486.05788 208.138963  L 486.05788 208.138963  " clip-path="url(#panel0_p04b5ee8dad)" style="fill: none; stroke: #1246d6; stroke-width: 2.5; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 74.77104 210.277139  L 94.038532 209.749558  L 109.600737 209.535379  L 129.609286 209.523816  L 259.294325 209.545181  L 329.694775 209.350635  L 395.648881 208.979833  L 465.308273 208.368627  L 486.05788 208.138963  L 486.05788 208.138963  " clip-path="url(#panel0_p794f481bf4)" style="fill: none; stroke: #1246d6; stroke-width: 2.5; stroke-linecap: round" />
    </g>
    <g id="panel0_line2d_30">
     <defs>
-     <path id="panel0_mf43ae21e66" d="M 0 2.4  C 0.636487 2.4 1.246992 2.147121 1.697056 1.697056  C 2.147121 1.246992 2.4 0.636487 2.4 0  C 2.4 -0.636487 2.147121 -1.246992 1.697056 -1.697056  C 1.246992 -2.147121 0.636487 -2.4 0 -2.4  C -0.636487 -2.4 -1.246992 -2.147121 -1.697056 -1.697056  C -2.147121 -1.246992 -2.4 -0.636487 -2.4 0  C -2.4 0.636487 -2.147121 1.246992 -1.697056 1.697056  C -1.246992 2.147121 -0.636487 2.4 0 2.4  z " style="stroke: #ffffff; stroke-width: 0.55" />
+     <path id="panel0_mab9d159977" d="M 0 2.4  C 0.636487 2.4 1.246992 2.147121 1.697056 1.697056  C 2.147121 1.246992 2.4 0.636487 2.4 0  C 2.4 -0.636487 2.147121 -1.246992 1.697056 -1.697056  C 1.246992 -2.147121 0.636487 -2.4 0 -2.4  C -0.636487 -2.4 -1.246992 -2.147121 -1.697056 -1.697056  C -2.147121 -1.246992 -2.4 -0.636487 -2.4 0  C -2.4 0.636487 -2.147121 1.246992 -1.697056 1.697056  C -1.246992 2.147121 -0.636487 2.4 0 2.4  z " style="stroke: #ffffff; stroke-width: 0.55" />
     </defs>
-    <g clip-path="url(#panel0_p04b5ee8dad)">
-     <use ns4:href="#panel0_mf43ae21e66" x="41.423459" y="211.584126" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_mf43ae21e66" x="115.529196" y="209.516292" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_mf43ae21e66" x="189.634933" y="209.595845" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_mf43ae21e66" x="263.740669" y="209.53986" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_mf43ae21e66" x="337.846406" y="209.318084" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_mf43ae21e66" x="411.952143" y="208.859236" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel0_mf43ae21e66" x="486.05788" y="208.138963" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+    <g clip-path="url(#panel0_p794f481bf4)">
+     <use ns4:href="#panel0_mab9d159977" x="41.423459" y="211.584126" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_mab9d159977" x="115.529196" y="209.516292" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_mab9d159977" x="189.634933" y="209.595845" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_mab9d159977" x="263.740669" y="209.53986" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_mab9d159977" x="337.846406" y="209.318084" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_mab9d159977" x="411.952143" y="208.859236" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel0_mab9d159977" x="486.05788" y="208.138963" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
     </g>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="panel0_p04b5ee8dad">
+  <clipPath id="panel0_p794f481bf4">
    <rect x="35.495" y="33.341607" width="456.491339" height="178.24252" />
   </clipPath>
  </defs>
-</g><text x="525.186339" y="13" style="font-family:Arial,sans-serif;font-size:9px;font-weight:bold">b  Gaussian random-field initial conditions</text><g transform="translate(517.186339,22.0)"><metadata>
+</g><text x="525.186339" y="13" style="font-family:'Arial','DejaVu Sans','Liberation Sans',sans-serif;font-size:9px;font-weight:600;fill:#262626">b  Gaussian random-field initial conditions</text><g transform="translate(517.186339,22.0)"><metadata>
   <rdf:RDF>
    <ns2:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-    <dc:date>2026-09-19T20:41:20.645810</dc:date>
+    <dc:date>2026-09-19T22:02:00.315839</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <ns2:Agent>
@@ -415,10 +415,10 @@
     <g id="panel1_xtick_1">
      <g id="panel1_line2d_1">
       <defs>
-       <path id="panel1_m349ec28e91" d="M 0 0  L 0 3  " style="stroke: #000000; stroke-width: 0.8" />
+       <path id="panel1_m59df219819" d="M 0 0  L 0 3  " style="stroke: #000000; stroke-width: 0.8" />
       </defs>
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="41.423459" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="41.423459" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_1">
@@ -428,7 +428,7 @@
     <g id="panel1_xtick_2">
      <g id="panel1_line2d_2">
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="115.529196" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="115.529196" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_2">
@@ -438,7 +438,7 @@
     <g id="panel1_xtick_3">
      <g id="panel1_line2d_3">
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="189.634933" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="189.634933" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_3">
@@ -448,7 +448,7 @@
     <g id="panel1_xtick_4">
      <g id="panel1_line2d_4">
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="263.740669" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="263.740669" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_4">
@@ -458,7 +458,7 @@
     <g id="panel1_xtick_5">
      <g id="panel1_line2d_5">
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="337.846406" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="337.846406" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_5">
@@ -468,7 +468,7 @@
     <g id="panel1_xtick_6">
      <g id="panel1_line2d_6">
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="411.952143" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="411.952143" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_6">
@@ -478,7 +478,7 @@
     <g id="panel1_xtick_7">
      <g id="panel1_line2d_7">
       <g>
-       <use ns4:href="#panel1_m349ec28e91" x="486.05788" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m59df219819" x="486.05788" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_7">
@@ -504,10 +504,10 @@
     <g id="panel1_ytick_1">
      <g id="panel1_line2d_8">
       <defs>
-       <path id="panel1_m96334e7c00" d="M 0 0  L -3 0  " style="stroke: #000000; stroke-width: 0.8" />
+       <path id="panel1_m38695e7ca6" d="M 0 0  L -3 0  " style="stroke: #000000; stroke-width: 0.8" />
       </defs>
       <g>
-       <use ns4:href="#panel1_m96334e7c00" x="35.495" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m38695e7ca6" x="35.495" y="211.584126" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_9">
@@ -517,7 +517,7 @@
     <g id="panel1_ytick_2">
      <g id="panel1_line2d_9">
       <g>
-       <use ns4:href="#panel1_m96334e7c00" x="35.495" y="173.816369" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m38695e7ca6" x="35.495" y="173.816369" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_10">
@@ -527,7 +527,7 @@
     <g id="panel1_ytick_3">
      <g id="panel1_line2d_10">
       <g>
-       <use ns4:href="#panel1_m96334e7c00" x="35.495" y="136.048612" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m38695e7ca6" x="35.495" y="136.048612" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_11">
@@ -537,7 +537,7 @@
     <g id="panel1_ytick_4">
      <g id="panel1_line2d_11">
       <g>
-       <use ns4:href="#panel1_m96334e7c00" x="35.495" y="98.280854" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m38695e7ca6" x="35.495" y="98.280854" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_12">
@@ -547,7 +547,7 @@
     <g id="panel1_ytick_5">
      <g id="panel1_line2d_12">
       <g>
-       <use ns4:href="#panel1_m96334e7c00" x="35.495" y="60.513097" style="stroke: #000000; stroke-width: 0.8" />
+       <use ns4:href="#panel1_m38695e7ca6" x="35.495" y="60.513097" style="stroke: #000000; stroke-width: 0.8" />
       </g>
      </g>
      <g id="panel1_text_13">
@@ -591,33 +591,33 @@
     <path d="M 41.423459 211.584126  L 486.05788 211.584126  " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
    </g>
    <g id="panel1_line2d_13">
-    <path d="M 41.423459 211.584126  L 54.021434 207.174899  L 64.396237 203.759476  L 74.029983 200.821526  L 82.922672 198.353901  L 91.074303 196.332794  L 98.484876 194.721867  L 105.89545 193.350312  L 112.564966 192.339539  L 119.97554 191.45984  L 129.609286 190.53472  L 141.466204 189.629105  L 161.474753 188.377169  L 178.519072 187.226334  L 189.634933 186.259197  L 202.232908 184.90413  L 216.312998 183.150656  L 232.61626 180.882565  L 254.847981 177.5424  L 277.079702 174.021115  L 294.124021 171.043118  L 328.953718 164.653343  L 398.61311 152.101951  L 416.398487 149.149792  L 442.335495 145.092115  L 466.790388 141.489098  L 486.05788 138.816208  L 486.05788 138.816208  " clip-path="url(#panel1_ped43024a56)" style="fill: none; stroke: #00a896; stroke-width: 1.5; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 54.021434 207.174899  L 64.396237 203.759476  L 74.029983 200.821526  L 82.922672 198.353901  L 91.074303 196.332794  L 98.484876 194.721867  L 105.89545 193.350312  L 112.564966 192.339539  L 119.97554 191.45984  L 129.609286 190.53472  L 141.466204 189.629105  L 161.474753 188.377169  L 178.519072 187.226334  L 189.634933 186.259197  L 202.232908 184.90413  L 216.312998 183.150656  L 232.61626 180.882565  L 254.847981 177.5424  L 277.079702 174.021115  L 294.124021 171.043118  L 328.953718 164.653343  L 398.61311 152.101951  L 416.398487 149.149792  L 442.335495 145.092115  L 466.790388 141.489098  L 486.05788 138.816208  L 486.05788 138.816208  " clip-path="url(#panel1_p0dce5e52e0)" style="fill: none; stroke: #00a896; stroke-width: 1.5; stroke-linecap: round" />
    </g>
    <g id="panel1_line2d_14">
     <defs>
-     <path id="panel1_m73baa6d4b3" d="M 0 2.969848  L 2.969848 0  L 0 -2.969848  L -2.969848 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel1_m34ccdd396f" d="M 0 2.969848  L 2.969848 0  L 0 -2.969848  L -2.969848 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel1_ped43024a56)">
-     <use ns4:href="#panel1_m73baa6d4b3" x="41.423459" y="211.584126" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m73baa6d4b3" x="115.529196" y="191.962884" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m73baa6d4b3" x="189.634933" y="186.259197" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m73baa6d4b3" x="263.740669" y="176.174158" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m73baa6d4b3" x="337.846406" y="163.054137" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m73baa6d4b3" x="411.952143" y="149.868107" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m73baa6d4b3" x="486.05788" y="138.816208" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel1_p0dce5e52e0)">
+     <use ns4:href="#panel1_m34ccdd396f" x="41.423459" y="211.584126" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m34ccdd396f" x="115.529196" y="191.962884" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m34ccdd396f" x="189.634933" y="186.259197" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m34ccdd396f" x="263.740669" y="176.174158" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m34ccdd396f" x="337.846406" y="163.054137" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m34ccdd396f" x="411.952143" y="149.868107" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m34ccdd396f" x="486.05788" y="138.816208" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel1_line2d_15">
-    <path d="M 41.423459 211.584126  L 56.244606 207.810512  L 68.101524 205.011477  L 78.476327 202.776107  L 88.110073 200.917503  L 97.002762 199.417214  L 105.89545 198.15079  L 114.047081 197.217894  L 124.421884 196.296081  L 137.760917 195.337207  L 154.805236 194.349181  L 194.081277 192.154412  L 260.035382 187.868519  L 287.454505 185.803101  L 319.319972 183.17377  L 354.890726 180.020796  L 388.979364 176.744786  L 440.112323 171.588615  L 483.09365 167.02302  L 486.05788 166.700196  L 486.05788 166.700196  " clip-path="url(#panel1_ped43024a56)" style="fill: none; stroke: #8b3fe0; stroke-width: 1.5; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 56.244606 207.810512  L 68.101524 205.011477  L 78.476327 202.776107  L 88.110073 200.917503  L 97.002762 199.417214  L 105.89545 198.15079  L 114.047081 197.217894  L 124.421884 196.296081  L 137.760917 195.337207  L 154.805236 194.349181  L 194.081277 192.154412  L 260.035382 187.868519  L 287.454505 185.803101  L 319.319972 183.17377  L 354.890726 180.020796  L 388.979364 176.744786  L 440.112323 171.588615  L 483.09365 167.02302  L 486.05788 166.700196  L 486.05788 166.700196  " clip-path="url(#panel1_p0dce5e52e0)" style="fill: none; stroke: #8b3fe0; stroke-width: 1.5; stroke-linecap: round" />
    </g>
    <g id="panel1_legend_1">
     <g id="panel1_line2d_16">
      <path d="M 178.050826 12.943359  L 187.425826 12.943359  L 196.800826 12.943359  " style="fill: none; stroke: #1246d6; stroke-width: 2.5; stroke-linecap: square" />
      <defs>
-      <path id="panel1_m3b7593db2c" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
+      <path id="panel1_m80e71b836b" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
      </defs>
      <g>
-      <use ns4:href="#panel1_m3b7593db2c" x="187.425826" y="12.943359" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+      <use ns4:href="#panel1_m80e71b836b" x="187.425826" y="12.943359" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
      </g>
     </g>
     <g id="panel1_text_15">
@@ -626,10 +626,10 @@
     <g id="panel1_line2d_17">
      <path d="M 178.050826 23.552344  L 187.425826 23.552344  L 196.800826 23.552344  " style="fill: none; stroke: #19c2f5; stroke-width: 1.8; stroke-linecap: square" />
      <defs>
-      <path id="panel1_m77bc7d6142" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
+      <path id="panel1_m58ee8b3790" d="M 0 2.25  C 0.596707 2.25 1.169055 2.012926 1.59099 1.59099  C 2.012926 1.169055 2.25 0.596707 2.25 0  C 2.25 -0.596707 2.012926 -1.169055 1.59099 -1.59099  C 1.169055 -2.012926 0.596707 -2.25 0 -2.25  C -0.596707 -2.25 -1.169055 -2.012926 -1.59099 -1.59099  C -2.012926 -1.169055 -2.25 -0.596707 -2.25 0  C -2.25 0.596707 -2.012926 1.169055 -1.59099 1.59099  C -1.169055 2.012926 -0.596707 2.25 0 2.25  z " style="stroke: #ffffff; stroke-width: 0.55" />
      </defs>
      <g>
-      <use ns4:href="#panel1_m77bc7d6142" x="187.425826" y="23.552344" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+      <use ns4:href="#panel1_m58ee8b3790" x="187.425826" y="23.552344" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
      </g>
     </g>
     <g id="panel1_text_16">
@@ -638,10 +638,10 @@
     <g id="panel1_line2d_18">
      <path d="M 244.180904 12.943359  L 253.555904 12.943359  L 262.930904 12.943359  " style="fill: none; stroke: #8b3fe0; stroke-width: 1.5; stroke-linecap: square" />
      <defs>
-      <path id="panel1_m0b0e952181" d="M -2.25 2.25  L 2.25 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel1_m0bfa80499f" d="M -2.25 2.25  L 2.25 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel1_m0b0e952181" x="253.555904" y="12.943359" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel1_m0bfa80499f" x="253.555904" y="12.943359" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel1_text_17">
@@ -650,10 +650,10 @@
     <g id="panel1_line2d_19">
      <path d="M 244.180904 23.552344  L 253.555904 23.552344  L 262.930904 23.552344  " style="fill: none; stroke: #00a896; stroke-width: 1.5; stroke-linecap: square" />
      <defs>
-      <path id="panel1_mc298063d96" d="M 0 3.181981  L 3.181981 0  L 0 -3.181981  L -3.181981 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel1_m9a412b91d7" d="M 0 3.181981  L 3.181981 0  L 0 -3.181981  L -3.181981 0  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel1_mc298063d96" x="253.555904" y="23.552344" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel1_m9a412b91d7" x="253.555904" y="23.552344" style="fill: #00a896; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel1_text_18">
@@ -662,10 +662,10 @@
     <g id="panel1_line2d_20">
      <path d="M 306.971138 12.943359  L 316.346138 12.943359  L 325.721138 12.943359  " style="fill: none; stroke: #29a82c; stroke-width: 1.8; stroke-linecap: square" />
      <defs>
-      <path id="panel1_m2d2149adb6" d="M 0 -2.25  L -2.25 2.25  L 2.25 2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel1_m5d18ed44f6" d="M 0 -2.25  L -2.25 2.25  L 2.25 2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel1_m2d2149adb6" x="316.346138" y="12.943359" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel1_m5d18ed44f6" x="316.346138" y="12.943359" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel1_text_19">
@@ -674,10 +674,10 @@
     <g id="panel1_line2d_21">
      <path d="M 306.971138 23.552344  L 316.346138 23.552344  L 325.721138 23.552344  " style="fill: none; stroke: #ff7a00; stroke-width: 1.6; stroke-linecap: square" />
      <defs>
-      <path id="panel1_m9ee4304902" d="M -0 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <path id="panel1_m63d136f03b" d="M -0 2.25  L 2.25 -2.25  L -2.25 -2.25  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </defs>
      <g>
-      <use ns4:href="#panel1_m9ee4304902" x="316.346138" y="23.552344" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+      <use ns4:href="#panel1_m63d136f03b" x="316.346138" y="23.552344" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
      </g>
     </g>
     <g id="panel1_text_20">
@@ -686,91 +686,91 @@
    </g>
    <g id="panel1_line2d_22">
     <defs>
-     <path id="panel1_m4407a21c4b" d="M -2.1 2.1  L 2.1 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel1_mca3c0eee09" d="M -2.1 2.1  L 2.1 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel1_ped43024a56)">
-     <use ns4:href="#panel1_m4407a21c4b" x="41.423459" y="211.584126" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m4407a21c4b" x="115.529196" y="197.073362" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m4407a21c4b" x="189.634933" y="192.437314" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m4407a21c4b" x="263.740669" y="187.602381" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m4407a21c4b" x="337.846406" y="181.563828" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m4407a21c4b" x="411.952143" y="174.457642" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_m4407a21c4b" x="486.05788" y="166.700196" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel1_p0dce5e52e0)">
+     <use ns4:href="#panel1_mca3c0eee09" x="41.423459" y="211.584126" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_mca3c0eee09" x="115.529196" y="197.073362" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_mca3c0eee09" x="189.634933" y="192.437314" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_mca3c0eee09" x="263.740669" y="187.602381" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_mca3c0eee09" x="337.846406" y="181.563828" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_mca3c0eee09" x="411.952143" y="174.457642" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_mca3c0eee09" x="486.05788" y="166.700196" style="fill: #8b3fe0; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel1_line2d_23">
-    <path d="M 41.423459 211.584126  L 51.057205 209.83398  L 60.690951 207.858796  L 71.065754 205.501106  L 82.181614 202.735164  L 94.038532 199.542494  L 106.636507 195.913768  L 119.234483 192.055877  L 126.645056 189.528038  L 134.796687 186.501362  L 143.689376 182.963731  L 154.805236 178.293988  L 175.554843 169.263766  L 189.634933 163.257374  L 209.643481 154.82782  L 243.73212 140.177728  L 285.97239 122.119349  L 319.319972 107.955797  L 337.846406 100.322687  L 368.970816 87.842493  L 388.979364 80.058733  L 406.023684 73.668222  L 423.068003 67.534642  L 442.335495 60.828365  L 460.861929 54.611634  L 478.647306 48.869343  L 486.05788 46.544756  L 486.05788 46.544756  " clip-path="url(#panel1_ped43024a56)" style="fill: none; stroke: #ff7a00; stroke-width: 1.6; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 51.057205 209.83398  L 60.690951 207.858796  L 71.065754 205.501106  L 82.181614 202.735164  L 94.038532 199.542494  L 106.636507 195.913768  L 119.234483 192.055877  L 126.645056 189.528038  L 134.796687 186.501362  L 143.689376 182.963731  L 154.805236 178.293988  L 175.554843 169.263766  L 189.634933 163.257374  L 209.643481 154.82782  L 243.73212 140.177728  L 285.97239 122.119349  L 319.319972 107.955797  L 337.846406 100.322687  L 368.970816 87.842493  L 388.979364 80.058733  L 406.023684 73.668222  L 423.068003 67.534642  L 442.335495 60.828365  L 460.861929 54.611634  L 478.647306 48.869343  L 486.05788 46.544756  L 486.05788 46.544756  " clip-path="url(#panel1_p0dce5e52e0)" style="fill: none; stroke: #ff7a00; stroke-width: 1.6; stroke-linecap: round" />
    </g>
    <g id="panel1_line2d_24">
     <defs>
-     <path id="panel1_mf16866f5c6" d="M -0 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel1_m01138ab292" d="M -0 2.1  L 2.1 -2.1  L -2.1 -2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel1_ped43024a56)">
-     <use ns4:href="#panel1_mf16866f5c6" x="41.423459" y="211.584126" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf16866f5c6" x="115.529196" y="193.227452" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf16866f5c6" x="189.634933" y="163.257374" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf16866f5c6" x="263.740669" y="131.613709" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf16866f5c6" x="337.846406" y="100.322687" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf16866f5c6" x="411.952143" y="71.509779" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf16866f5c6" x="486.05788" y="46.544756" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel1_p0dce5e52e0)">
+     <use ns4:href="#panel1_m01138ab292" x="41.423459" y="211.584126" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m01138ab292" x="115.529196" y="193.227452" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m01138ab292" x="189.634933" y="163.257374" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m01138ab292" x="263.740669" y="131.613709" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m01138ab292" x="337.846406" y="100.322687" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m01138ab292" x="411.952143" y="71.509779" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m01138ab292" x="486.05788" y="46.544756" style="fill: #ff7a00; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel1_line2d_25">
-    <path d="M 41.423459 211.584126  L 86.627958 210.386908  L 124.421884 209.604957  L 222.241457 207.850157  L 262.999612 206.686031  L 296.347193 205.550123  L 332.659004 204.08757  L 363.783414 202.632966  L 397.872053 200.798515  L 437.148093 198.46825  L 471.97779 196.163723  L 486.05788 195.173553  L 486.05788 195.173553  " clip-path="url(#panel1_ped43024a56)" style="fill: none; stroke: #29a82c; stroke-width: 1.8; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 86.627958 210.386908  L 124.421884 209.604957  L 222.241457 207.850157  L 262.999612 206.686031  L 296.347193 205.550123  L 332.659004 204.08757  L 363.783414 202.632966  L 397.872053 200.798515  L 437.148093 198.46825  L 471.97779 196.163723  L 486.05788 195.173553  L 486.05788 195.173553  " clip-path="url(#panel1_p0dce5e52e0)" style="fill: none; stroke: #29a82c; stroke-width: 1.8; stroke-linecap: round" />
    </g>
    <g id="panel1_line2d_26">
     <defs>
-     <path id="panel1_mf5b0c5f5d6" d="M 0 -2.1  L -2.1 2.1  L 2.1 2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <path id="panel1_m605b7035a5" d="M 0 -2.1  L -2.1 2.1  L 2.1 2.1  z " style="stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </defs>
-    <g clip-path="url(#panel1_ped43024a56)">
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="41.423459" y="211.584126" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="115.529196" y="209.765165" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="189.634933" y="208.596688" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="263.740669" y="206.663176" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="337.846406" y="203.861987" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="411.952143" y="199.992477" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
-     <use ns4:href="#panel1_mf5b0c5f5d6" x="486.05788" y="195.173553" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+    <g clip-path="url(#panel1_p0dce5e52e0)">
+     <use ns4:href="#panel1_m605b7035a5" x="41.423459" y="211.584126" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m605b7035a5" x="115.529196" y="209.765165" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m605b7035a5" x="189.634933" y="208.596688" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m605b7035a5" x="263.740669" y="206.663176" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m605b7035a5" x="337.846406" y="203.861987" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m605b7035a5" x="411.952143" y="199.992477" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
+     <use ns4:href="#panel1_m605b7035a5" x="486.05788" y="195.173553" style="fill: #29a82c; stroke: #ffffff; stroke-width: 0.55; stroke-linejoin: miter" />
     </g>
    </g>
    <g id="panel1_line2d_27">
-    <path d="M 41.423459 211.584126  L 142.948318 208.269349  L 178.519072 207.118702  L 198.527621 206.244369  L 217.054055 205.19776  L 237.062604 203.843994  L 260.035382 202.065214  L 263.740669 201.76053  L 263.740669 201.76053  " clip-path="url(#panel1_ped43024a56)" style="fill: none; stroke: #19c2f5; stroke-width: 1.8; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 142.948318 208.269349  L 178.519072 207.118702  L 198.527621 206.244369  L 217.054055 205.19776  L 237.062604 203.843994  L 260.035382 202.065214  L 263.740669 201.76053  L 263.740669 201.76053  " clip-path="url(#panel1_p0dce5e52e0)" style="fill: none; stroke: #19c2f5; stroke-width: 1.8; stroke-linecap: round" />
    </g>
    <g id="panel1_line2d_28">
     <defs>
-     <path id="panel1_m9cd53c28fa" d="M 0 2.1  C 0.556927 2.1 1.091118 1.878731 1.484924 1.484924  C 1.878731 1.091118 2.1 0.556927 2.1 0  C 2.1 -0.556927 1.878731 -1.091118 1.484924 -1.484924  C 1.091118 -1.878731 0.556927 -2.1 0 -2.1  C -0.556927 -2.1 -1.091118 -1.878731 -1.484924 -1.484924  C -1.878731 -1.091118 -2.1 -0.556927 -2.1 0  C -2.1 0.556927 -1.878731 1.091118 -1.484924 1.484924  C -1.091118 1.878731 -0.556927 2.1 0 2.1  z " style="stroke: #ffffff; stroke-width: 0.55" />
+     <path id="panel1_m44e4c17223" d="M 0 2.1  C 0.556927 2.1 1.091118 1.878731 1.484924 1.484924  C 1.878731 1.091118 2.1 0.556927 2.1 0  C 2.1 -0.556927 1.878731 -1.091118 1.484924 -1.484924  C 1.091118 -1.878731 0.556927 -2.1 0 -2.1  C -0.556927 -2.1 -1.091118 -1.878731 -1.484924 -1.484924  C -1.878731 -1.091118 -2.1 -0.556927 -2.1 0  C -2.1 0.556927 -1.878731 1.091118 -1.484924 1.484924  C -1.091118 1.878731 -0.556927 2.1 0 2.1  z " style="stroke: #ffffff; stroke-width: 0.55" />
     </defs>
-    <g clip-path="url(#panel1_ped43024a56)">
-     <use ns4:href="#panel1_m9cd53c28fa" x="41.423459" y="211.584126" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m9cd53c28fa" x="115.529196" y="209.104476" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m9cd53c28fa" x="189.634933" y="206.664342" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m9cd53c28fa" x="263.740669" y="201.76053" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+    <g clip-path="url(#panel1_p0dce5e52e0)">
+     <use ns4:href="#panel1_m44e4c17223" x="41.423459" y="211.584126" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m44e4c17223" x="115.529196" y="209.104476" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m44e4c17223" x="189.634933" y="206.664342" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m44e4c17223" x="263.740669" y="201.76053" style="fill: #19c2f5; stroke: #ffffff; stroke-width: 0.55" />
     </g>
    </g>
    <g id="panel1_line2d_29">
-    <path d="M 41.423459 211.584126  L 83.663729 210.714911  L 106.636507 210.466573  L 133.314573 210.440404  L 288.195562 210.320444  L 401.57734 210.000793  L 486.05788 209.598056  L 486.05788 209.598056  " clip-path="url(#panel1_ped43024a56)" style="fill: none; stroke: #1246d6; stroke-width: 2.5; stroke-linecap: round" />
+    <path d="M 41.423459 211.584126  L 83.663729 210.714911  L 106.636507 210.466573  L 133.314573 210.440404  L 288.195562 210.320444  L 401.57734 210.000793  L 486.05788 209.598056  L 486.05788 209.598056  " clip-path="url(#panel1_p0dce5e52e0)" style="fill: none; stroke: #1246d6; stroke-width: 2.5; stroke-linecap: round" />
    </g>
    <g id="panel1_line2d_30">
     <defs>
-     <path id="panel1_m34289ffe7b" d="M 0 2.4  C 0.636487 2.4 1.246992 2.147121 1.697056 1.697056  C 2.147121 1.246992 2.4 0.636487 2.4 0  C 2.4 -0.636487 2.147121 -1.246992 1.697056 -1.697056  C 1.246992 -2.147121 0.636487 -2.4 0 -2.4  C -0.636487 -2.4 -1.246992 -2.147121 -1.697056 -1.697056  C -2.147121 -1.246992 -2.4 -0.636487 -2.4 0  C -2.4 0.636487 -2.147121 1.246992 -1.697056 1.697056  C -1.246992 2.147121 -0.636487 2.4 0 2.4  z " style="stroke: #ffffff; stroke-width: 0.55" />
+     <path id="panel1_m6a7998cc29" d="M 0 2.4  C 0.636487 2.4 1.246992 2.147121 1.697056 1.697056  C 2.147121 1.246992 2.4 0.636487 2.4 0  C 2.4 -0.636487 2.147121 -1.246992 1.697056 -1.697056  C 1.246992 -2.147121 0.636487 -2.4 0 -2.4  C -0.636487 -2.4 -1.246992 -2.147121 -1.697056 -1.697056  C -2.147121 -1.246992 -2.4 -0.636487 -2.4 0  C -2.4 0.636487 -2.147121 1.246992 -1.697056 1.697056  C -1.246992 2.147121 -0.636487 2.4 0 2.4  z " style="stroke: #ffffff; stroke-width: 0.55" />
     </defs>
-    <g clip-path="url(#panel1_ped43024a56)">
-     <use ns4:href="#panel1_m34289ffe7b" x="41.423459" y="211.584126" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m34289ffe7b" x="115.529196" y="210.441992" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m34289ffe7b" x="189.634933" y="210.437304" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m34289ffe7b" x="263.740669" y="210.359852" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m34289ffe7b" x="337.846406" y="210.210917" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m34289ffe7b" x="411.952143" y="209.959868" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
-     <use ns4:href="#panel1_m34289ffe7b" x="486.05788" y="209.598056" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+    <g clip-path="url(#panel1_p0dce5e52e0)">
+     <use ns4:href="#panel1_m6a7998cc29" x="41.423459" y="211.584126" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m6a7998cc29" x="115.529196" y="210.441992" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m6a7998cc29" x="189.634933" y="210.437304" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m6a7998cc29" x="263.740669" y="210.359852" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m6a7998cc29" x="337.846406" y="210.210917" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m6a7998cc29" x="411.952143" y="209.959868" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
+     <use ns4:href="#panel1_m6a7998cc29" x="486.05788" y="209.598056" style="fill: #1246d6; stroke: #ffffff; stroke-width: 0.55" />
     </g>
    </g>
    <g id="panel1_text_21">
-    <text style="font-size: 5px; font-family: 'Arial', 'DejaVu Sans', 'Liberation Sans', sans-serif; fill: #3a3a3a" transform="translate(49.18974 42.328726)">GIFT-Lite ends at t=6.5: 17 of 180 trajectories become non-finite later</text>
-    <text style="font-size: 5px; font-family: 'Arial', 'DejaVu Sans', 'Liberation Sans', sans-serif; fill: #3a3a3a" transform="translate(49.18974 48.570484)">finite counts GIFT-Lite at t=7.0 179, t=7.5 172, t=8.0 163 of 180</text>
+    <text style="font-size: 5px; font-family: 'Arial', 'DejaVu Sans', 'Liberation Sans', sans-serif; fill: #687078" transform="translate(49.18974 42.328726)">GIFT-Lite ends at t=6.5: 17 of 180 trajectories become non-finite later</text>
+    <text style="font-size: 5px; font-family: 'Arial', 'DejaVu Sans', 'Liberation Sans', sans-serif; fill: #687078" transform="translate(49.18974 48.570484)">finite counts GIFT-Lite at t=7.0 179, t=7.5 172, t=8.0 163 of 180</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="panel1_ped43024a56">
+  <clipPath id="panel1_p0dce5e52e0">
    <rect x="35.495" y="33.341607" width="456.491339" height="178.24252" />
   </clipPath>
  </defs>
