@@ -1,56 +1,46 @@
-<div align="center">
-
 # GIFT
 
-**Generator Identification via Field Tomography**
+**Generator Identification via Field Tomography** — learning the continuous-time generator of a flow directly from trajectories, and reading the surrogate's prediction mechanism back out as an explicit, checkable PDE.
 
-<sub>Learning the continuous-time generator of a flow directly from trajectories, and reading the surrogate's prediction mechanism back out as an explicit, checkable PDE</sub>
-
-[English](#english) &nbsp;·&nbsp; [中文](#中文) &nbsp;·&nbsp; [Algorithm](docs/ALGORITHM.md) &nbsp;·&nbsp; [Experiments](EXPERIMENTS.md) &nbsp;·&nbsp; [Setup](docs/SETUP.md)
+[English](#english) · [中文](#中文) · [Setup](docs/SETUP.md) · [Experiments](EXPERIMENTS.md)
 
 [![GIFT architecture and prediction process](assets/figures/gift_architecture.png)](docs/ALGORITHM.md)
 
-<sub><b>GIFT architecture and prediction process</b> (panels A&ndash;F). <b>Click the plate for the algorithm</b> &mdash; what the generator decomposes into, why the amplitude responses separate the paths, and what each component does.</sub>
+[![Figure M2-2: the numerical reference and the six methods' predicted vorticity fields with signed prediction errors for held-out trajectory 1045](assets/figures/m2_2_traj1045_keyframes.png)](EXPERIMENTS.md)
 
-[![Figure M2-2: reference and six methods' vorticity fields with signed prediction errors for held-out trajectory 1045](assets/figures/m2_2_traj1045_keyframes.png)](EXPERIMENTS.md)
-
-<sub><b>Figure M2-2 |</b> Held-out trajectory 1045 at <i>t</i> = 5.0, 6.0, 7.0, 8.0: the numerical reference and the six methods' predicted vorticity fields (left), each with that method's signed prediction error (right). <b>Click the figure for the experiment record.</b></sub>
-
-</div>
+*Both plates are links. The first opens the [algorithm description](docs/ALGORITHM.md); the second, figure M2-2 for held-out trajectory 1045 at t = 5.0, 6.0, 7.0, 8.0, opens the [experiment record](EXPERIMENTS.md).*
 
 ## English
 
-### What GIFT learns
+### What does GIFT learn?
 
 Instead of predicting the field a fixed time lag ahead, GIFT identifies the **continuous-time generator** that maps a state to its instantaneous rate of change,
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-where $\omega$ is the vorticity field of two-dimensional incompressible flow, $C$ a bias field, $A$ a translation-equivariant linear operator and $Q$ a homogeneous-quadratic operator. The three channels differ in amplitude response &mdash; $A(\lambda\omega)=\lambda A(\omega)$, $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$ &mdash; and field tomography is what separates them from data. A state one lag later is only the time integral of the generator, so the surrogate's mechanism is not a black-box map hidden in network weights but a continuous dynamical object that can be checked against the governing law.
+where $\omega$ is the vorticity field of two-dimensional incompressible flow, $C$ a bias field, $A$ a translation-equivariant linear operator and $Q$ a homogeneous-quadratic operator. The three channels differ in amplitude response — $A(\lambda\omega)=\lambda A(\omega)$, $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$ — and field tomography is what separates them from data. A state one lag later is only the time integral of the generator, so the surrogate's mechanism is not a black-box map hidden in network weights but a continuous dynamical object that can be checked against the governing law. The component-by-component description is in [docs/ALGORITHM.md](docs/ALGORITHM.md).
 
-Component-by-component description: [docs/ALGORITHM.md](docs/ALGORITHM.md).
+### How does it work?
 
-### How it works
+- **Generator decomposition** — bias field $C$, translation-equivariant linear operator $A(\omega)$ and homogeneous-quadratic operator $Q(\omega,\omega)$, acting on the vorticity field of two-dimensional incompressible flow.
+- **Field tomography** — the quadratic path is trained alternately with the linear and bias paths, so the paths separate from data by their differing amplitude responses, with no homogeneity identity written down explicitly.
+- **Quadratic field-interaction unit** — nonlinearity is a structured field operator rather than an activation function: two learnable spectral filters act on the same input field, their outputs multiply pointwise, and the units are summed with weights.
+- **High-frequency branch** — the complementary band $Q_{21}\omega$ is predicted by a separately trained branch, then coupled with the generator in a single fourth-order Runge–Kutta integration.
+- **Recursive local correction** — a fixed, gradient-free rule applied after each complete RK4 step, under a safety cap on anomalous grid points (40, 90 and 160 for $N$ = 64, 96 and 128).
+- **Interpretability readout** — with the generator frozen, known Navier–Stokes terms are fitted to each channel's output and the recovered coefficients are compared with the true ones.
 
-- **Generator decomposition** &mdash; bias field $C$, translation-equivariant linear operator $A(\omega)$ and homogeneous-quadratic operator $Q(\omega,\omega)$, acting on the vorticity field of two-dimensional incompressible flow.
-- **Field tomography** &mdash; the quadratic path is trained alternately with the linear and bias paths, so the paths separate from data by their differing amplitude responses, with no homogeneity identity written down explicitly.
-- **Quadratic field-interaction unit** &mdash; nonlinearity is a structured field operator rather than an activation function: two learnable spectral filters act on the same input field, their outputs multiply pointwise, and the units are summed with weights.
-- **High-frequency branch** &mdash; the complementary band $Q_{21}\omega$ is predicted by a separately trained branch, then coupled with the generator in a single fourth-order Runge&ndash;Kutta integration.
-- **Recursive local correction** &mdash; a fixed, gradient-free rule applied after each complete RK4 step, under a safety cap on anomalous grid points (40, 90 and 160 for $N$ = 64, 96 and 128).
-- **Interpretability readout** &mdash; with the generator frozen, known Navier&ndash;Stokes terms are fitted to each channel's output and the recovered coefficients are compared with the true ones.
-
-### Results at a glance
+### How well does it work?
 
 Every number below is a completed, published measurement under the protocol recorded in [EXPERIMENTS.md](EXPERIMENTS.md). Per-time tables, seed standard deviations, finiteness counts and run entry points are there too; this section is a pointer, not the record.
 
 - **M2, recursive prediction** ($N$ = 64, 180 held-out trajectories): GIFT has the lowest mean full-field relative $L^{2}$ error of the six methods at all six reported times, from 0.021901 at $t$ = 5.5 to 0.036488 at $t$ = 8.0, and all six methods stay finite on 180/180 trajectories.
 - **M3, cross-resolution prediction** (zero-shot): trained on $N$ = 64 only, GIFT reaches 0.020947 on $N$ = 96 and 0.020933 on $N$ = 128 at $t$ = 6.0, against 0.021058 on $N$ = 64, and stays below both FNO baselines on every grid tested.
 - **M1, equation-parameter identification**: at 0% and 1% noise GIFT attains the lowest absolute percentage error on all three coefficients (0%: 4.343%, 1.619% and 4.121% against the true 0.01, 1 and 1).
-- **S1&ndash;S4, side experiments**: the high-frequency branch lowers GIFT's full-field error by about 58&ndash;60%; recursive local correction keeps GIFT-Lite trajectory 1062 finite; the largest seed-to-seed coefficient of variation is 0.321%; and on a separate Gaussian random-field population GIFT still has the lowest mean error at every reported time ($t$ = 8.0: 0.021035, against 0.173805 for the closest baseline), with GIFT-Lite's 17 of 180 non-finite trajectories reported rather than removed.
+- **S1–S4, side experiments**: the high-frequency branch lowers GIFT's full-field error by about 58–60%; recursive local correction keeps GIFT-Lite trajectory 1062 finite; the largest seed-to-seed coefficient of variation is 0.321%; and on a separate Gaussian random-field population GIFT still has the lowest mean error at every reported time ($t$ = 8.0: 0.021035, against 0.173805 for the closest baseline), with GIFT-Lite's 17 of 180 non-finite trajectories reported rather than removed.
 
 These conclusions are limited to this project's data distribution, training protocol and the $N$ = 64, 96 and 128 grids, and are not an error guarantee or a numerical-stability theorem at arbitrary resolution. Equal epoch counts do not mean equal parameter-update counts or equal compute: GIFT starts from a single state at $t$ = 5.0 while the FNO baselines consume 46 historical frames, and GIFT's generator and high-frequency branch are trained under separate budgets. The full statement, with seed SDs, finiteness counts and per-job timings, is in [EXPERIMENTS.md](EXPERIMENTS.md) section 6 and [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md).
 
-### Quick start
+### How to get started?
 
 Run everything from the repository root. The data package and the fixed upstream sources live outside this repository and are addressed by `GIFT_DATA_ROOT` and `GIFT_EXTERNAL_ROOT`.
 
@@ -83,24 +73,24 @@ CPU is supported by the GIFT entry points; the external prediction baselines acc
 
 ### Documentation
 
-- [docs/ALGORITHM.md](docs/ALGORITHM.md) &mdash; the generator, field tomography, the quadratic field-interaction unit, the high-frequency branch and the local correction.
-- [EXPERIMENTS.md](EXPERIMENTS.md) &mdash; the numerical experiment record: protocols, per-time tables, seed SDs, finiteness counts, run entry points.
-- [docs/SETUP.md](docs/SETUP.md) &mdash; environments, data package, external sources, one model per command.
-- [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md) &mdash; training budgets, data splits, model selection.
-- [docs/RESULTS.md](docs/RESULTS.md) &mdash; how to read the published results, and why reading a table, recomputing inference and training from scratch are different operations.
-- [docs/FIGURES.md](docs/FIGURES.md) &mdash; how each published SVG is regenerated from its numerical output.
-- [docs/EXPERIMENT_EXECUTION.md](docs/EXPERIMENT_EXECUTION.md) &middot; [docs/CHECKPOINTS.md](docs/CHECKPOINTS.md) &middot; [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md) &middot; [docs/VALIDATION.md](docs/VALIDATION.md) &middot; [docs/PERFORMANCE.md](docs/PERFORMANCE.md) &middot; [docs/S4_PROTOCOL.md](docs/S4_PROTOCOL.md) &middot; [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md)
+- [docs/ALGORITHM.md](docs/ALGORITHM.md) — the generator, field tomography, the quadratic field-interaction unit, the high-frequency branch and the local correction.
+- [EXPERIMENTS.md](EXPERIMENTS.md) — the numerical experiment record: protocols, per-time tables, seed SDs, finiteness counts, run entry points.
+- [docs/SETUP.md](docs/SETUP.md) — environments, data package, external sources, one model per command.
+- [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md) — training budgets, data splits, model selection.
+- [docs/RESULTS.md](docs/RESULTS.md) — how to read the published results, and why reading a table, recomputing inference and training from scratch are different operations.
+- [docs/FIGURES.md](docs/FIGURES.md) — how each published SVG is regenerated from its numerical output.
+- [docs/EXPERIMENT_EXECUTION.md](docs/EXPERIMENT_EXECUTION.md) · [docs/CHECKPOINTS.md](docs/CHECKPOINTS.md) · [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md) · [docs/VALIDATION.md](docs/VALIDATION.md) · [docs/PERFORMANCE.md](docs/PERFORMANCE.md) · [docs/S4_PROTOCOL.md](docs/S4_PROTOCOL.md) · [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md)
 
 ### Repository layout
 
-- `src/gift/` &mdash; generator model, band decomposition, data splits, the identified-generator readout.
-- `training/` &mdash; one training entry point per model.
-- `experiments/formal/` &mdash; launchers and evaluation for M1&ndash;M3 and S1&ndash;S4.
-- `results/formal/` &mdash; published summaries, CSV/JSON records and SVG figures with their manifests.
-- `artifacts/` &mdash; weights and checkpoints with their recorded identities.
-- `scripts/` &mdash; data preparation, verification, packaging and figure rendering.
-- `tests/` &mdash; data contract, checkpoint identity and result-integrity tests.
-- `docs/` &mdash; setup, protocol, execution and validation documentation.
+- `src/gift/` — generator model, band decomposition, data splits, the identified-generator readout.
+- `training/` — one training entry point per model.
+- `experiments/formal/` — launchers and evaluation for M1–M3 and S1–S4.
+- `results/formal/` — published summaries, CSV/JSON records and SVG figures with their manifests.
+- `artifacts/` — weights and checkpoints with their recorded identities.
+- `scripts/` — data preparation, verification, packaging and figure rendering.
+- `tests/` — data contract, checkpoint identity and result-integrity tests.
+- `docs/` — setup, protocol, execution and validation documentation.
 
 ### Data, code and licence
 
@@ -117,45 +107,41 @@ The comparison experiments use the upstream open-source implementations below. U
 | [snagcliffs/PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | PDE-FIND configurations | `86911349` | Not declared upstream |
 | [tensorflow/tensorflow](https://github.com/tensorflow/tensorflow) (tag `v1.15.0`) | NAdam and L-BFGS optimizer implementations | `590d6eef` | Apache-2.0 |
 
----
-
 <a id="中文"></a>
 
 ## 中文
 
-**基于场层析的生成元识别：具备物理可解释性的流体动力学代理模型**
+**基于场层析的生成元识别：具备物理可解释性的流体动力学代理模型** — 从流场轨迹中直接学习连续时间生成元，并把代理模型的预测机制还原为可检验的偏微分控制方程。
 
-### GIFT 学的是什么
+### GIFT 学的是什么？
 
 传统代理模型直接预测固定时间间隔后的流场；GIFT 换一个对象——它辨识把当前状态映射为**瞬时变化率**的**连续时间生成元**：
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-其中 $\omega$ 为二维不可压缩流动的涡量场，$C$ 是偏置场，$A$ 是平移等变线性算子，$Q$ 是二次齐次算子。三个通道的振幅响应规律不同——$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$——场层析正是依据这一差异把它们从数据中分离。有限时间间隔后的状态只是生成元的时间积分结果，因此预测机制不再是藏在网络权重里的黑盒映射，而是一个可以对照控制规律进行检验的连续动力学对象。
+其中 $\omega$ 为二维不可压缩流动的涡量场，$C$ 是偏置场，$A$ 是平移等变线性算子，$Q$ 是二次齐次算子。三个通道的振幅响应规律不同——$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$——场层析正是依据这一差异把它们从数据中分离。有限时间间隔后的状态只是生成元的时间积分结果，因此预测机制不再是藏在网络权重里的黑盒映射，而是一个可以对照控制规律进行检验的连续动力学对象。逐部件说明见 [docs/ALGORITHM.md](docs/ALGORITHM.md)。
 
-逐部件说明见 [docs/ALGORITHM.md](docs/ALGORITHM.md)。
-
-### 工作方式
+### 它是怎么工作的？
 
 - **生成元分解**——生成元拆为偏置场 $C$、平移等变线性算子 $A(\omega)$ 与二次齐次算子 $Q(\omega,\omega)$；状态取二维不可压缩流动的涡量场。
 - **场层析**——二次通道与线性、偏置场通道交替训练，依据各通道振幅响应的差异把它们从数据中分离，训练中无需显式构造齐次特征式。
 - **二次场相互作用单元**——非线性由结构化场算子而非激活函数提供：同一输入场经两个可学习谱滤波器后逐点相乘，再对各单元加权求和。
-- **高频支路**——补频带 $Q_{21}\omega$ 交由单独训练的支路预测，并与生成元耦合在同一个四阶 Runge&ndash;Kutta 积分中推进。
+- **高频支路**——补频带 $Q_{21}\omega$ 交由单独训练的支路预测，并与生成元耦合在同一个四阶 Runge–Kutta 积分中推进。
 - **递归局部修正**——每个完整 RK4 步后执行的固定规则，并设异常网格点安全上限（$N$ = 64、96、128 时分别为 40、90、160）。
-- **可解释性读出**——生成元冻结后，用已知 Navier&ndash;Stokes 方程项拟合各通道输出，将读出系数与真实控制方程系数对比。
+- **可解释性读出**——生成元冻结后，用已知 Navier–Stokes 方程项拟合各通道输出，将读出系数与真实控制方程系数对比。
 
-### 结果速览
+### 效果如何？
 
 以下均为 [EXPERIMENTS.md](EXPERIMENTS.md) 所记录协议下完成并发布的实测结果。逐时刻数据表、种子标准差、有限性计数与运行入口均在该记录中，本节只作指引。
 
 - **M2 递归预测**（$N$ = 64，180 条独立测试轨迹）：六个报告时刻中 GIFT 的平均全场相对 $L^{2}$ 误差均为六种方法中最低，从 $t$ = 5.5 的 0.021901 增至 $t$ = 8.0 的 0.036488；六种方法均保持 180/180 条轨迹有限。
 - **M3 跨分辨率预测**（zero-shot）：仅用 $N$ = 64 数据训练，$t$ = 6.0 时在 $N$ = 96、128 网格上的误差为 0.020947 与 0.020933，对应 $N$ = 64 为 0.021058；所测每个网格上均低于两个 FNO 基线。
 - **M1 方程参数识别**：0% 与 1% 噪声下 GIFT 对三个参数的绝对百分比误差均为五种配置中最低（0% 噪声下为 4.343%、1.619%、4.121%，真值为 0.01、1、1）。
-- **S1&ndash;S4 支线实验**：高频支路使 GIFT 的全场误差降低约 58&ndash;60%；递归局部修正在独立测试集上避免 GIFT-Lite 轨迹 1062 失稳；种子间最大变异系数为 0.321%；在另一组平滑高斯随机场初值分布上，GIFT 的报告时刻平均误差仍为最低（$t$ = 8.0 为 0.021035，最接近的基线为 0.173805），GIFT-Lite 有 17/180 条轨迹失稳，该结果如实保留而非剔除。
+- **S1–S4 支线实验**：高频支路使 GIFT 的全场误差降低约 58–60%；递归局部修正在独立测试集上避免 GIFT-Lite 轨迹 1062 失稳；种子间最大变异系数为 0.321%；在另一组平滑高斯随机场初值分布上，GIFT 的报告时刻平均误差仍为最低（$t$ = 8.0 为 0.021035，最接近的基线为 0.173805），GIFT-Lite 有 17/180 条轨迹失稳，该结果如实保留而非剔除。
 
 以上结论限于本项目的数据分布、训练协议与 $N$ = 64、96、128 网格，不构成任意分辨率上的误差保证或数值稳定性定理；相同 epoch 也不代表相同参数更新次数或计算量：GIFT 从 $t$ = 5.0 的单状态出发，而 FNO 基线使用 46 帧历史状态，且 GIFT 的生成元与高频支路分项训练。完整口径（含种子标准差、有限性计数与逐任务计时）见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 6 节与 [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)。
 
-### 快速开始
+### 如何开始？
 
 命令均在项目根目录运行。数据包与固定上游源码位于本仓库之外，分别通过 `GIFT_DATA_ROOT` 与 `GIFT_EXTERNAL_ROOT` 指定。
 
@@ -194,13 +180,13 @@ GIFT 各训练入口支持 CPU；外部预测基线只在显式指定 `--tiny` �
 - [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)——训练预算、数据划分与模型选择。
 - [docs/RESULTS.md](docs/RESULTS.md)——如何阅读已发布结果，以及读表、重新推理与从零训练为何是三种不同操作。
 - [docs/FIGURES.md](docs/FIGURES.md)——每幅已发布 SVG 如何由其数值输出重新生成。
-- [docs/EXPERIMENT_EXECUTION.md](docs/EXPERIMENT_EXECUTION.md) &middot; [docs/CHECKPOINTS.md](docs/CHECKPOINTS.md) &middot; [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md) &middot; [docs/VALIDATION.md](docs/VALIDATION.md) &middot; [docs/PERFORMANCE.md](docs/PERFORMANCE.md) &middot; [docs/S4_PROTOCOL.md](docs/S4_PROTOCOL.md) &middot; [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md)
+- [docs/EXPERIMENT_EXECUTION.md](docs/EXPERIMENT_EXECUTION.md) · [docs/CHECKPOINTS.md](docs/CHECKPOINTS.md) · [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md) · [docs/VALIDATION.md](docs/VALIDATION.md) · [docs/PERFORMANCE.md](docs/PERFORMANCE.md) · [docs/S4_PROTOCOL.md](docs/S4_PROTOCOL.md) · [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md)
 
 ### 代码组织
 
 - `src/gift/`——生成元模型、频带分解、数据划分与生成元读出。
 - `training/`——各模型独立训练入口。
-- `experiments/formal/`——M1&ndash;M3 与 S1&ndash;S4 的启动与评价。
+- `experiments/formal/`——M1–M3 与 S1–S4 的启动与评价。
 - `results/formal/`——已发布汇总、CSV/JSON 记录、SVG 图像及其清单。
 - `artifacts/`——权重与检查点及其身份记录。
 - `scripts/`——数据准备、校验、打包与图像渲染。

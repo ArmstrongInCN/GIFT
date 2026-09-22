@@ -9,11 +9,9 @@ this page contains no measurements of its own.
 实测数值、数据划分、训练预算与运行命令不在此处，见 [EXPERIMENTS.md](../EXPERIMENTS.md) 与 [SETUP.md](SETUP.md)；
 本页不含独立的测量结果。
 
----
-
 ## English
 
-### What GIFT learns
+### What does GIFT learn?
 
 Surrogates usually predict the field a fixed time lag ahead. GIFT changes the object of learning: it identifies the **continuous-time generator** that maps a state to its instantaneous rate of change,
 
@@ -36,9 +34,9 @@ A state one finite lag later is merely the time integral of the generator, and t
 
 ### Architecture and prediction process
 
-<p align="center"><img src="../assets/figures/gift_architecture.png" alt="GIFT architecture and prediction process" width="100%"></p>
+![GIFT architecture and prediction process](../assets/figures/gift_architecture.png)
 
-<p align="center"><b>GIFT architecture and prediction process.</b> (A) Densely sampled continuous flow trajectories. (B) Fourier transform and fixed-band decomposition build the training data: the band-limited state enters the main path, the complementary band enters the high-frequency branch. (C) Field tomography: differing amplitude responses separate the quadratic, linear and bias-field paths, which are learned alternately. (D) High-frequency branch. (E) Quadratic field-interaction unit. (F) The generator is advanced to the next instant by fourth-order Runge&ndash;Kutta integration.</p>
+**GIFT architecture and prediction process.** (A) Densely sampled continuous flow trajectories. (B) Fourier transform and fixed-band decomposition build the training data: the band-limited state enters the main path, the complementary band enters the high-frequency branch. (C) Field tomography: differing amplitude responses separate the quadratic, linear and bias-field paths, which are learned alternately. (D) High-frequency branch. (E) Quadratic field-interaction unit. (F) The generator is advanced to the next instant by fourth-order Runge–Kutta integration.
 
 ### Where the exact definitions are recorded
 
@@ -52,7 +50,7 @@ A state one finite lag later is merely the time integral of the generator, and t
 
 ## 中文
 
-### GIFT 学的是什么
+### GIFT 学的是什么？
 
 传统代理模型直接预测固定时间间隔后的流场；GIFT 换一个对象——它辨识把当前状态映射为**瞬时变化率**的**连续时间生成元**：
 
@@ -75,9 +73,9 @@ $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = 
 
 ### 架构与预测过程
 
-<p align="center"><img src="../assets/figures/gift_architecture.png" alt="GIFT 架构与预测过程" width="100%"></p>
+![GIFT 架构与预测过程](../assets/figures/gift_architecture.png)
 
-<p align="center"><b>GIFT 架构与预测过程。</b>(A) 稠密采样的连续流场轨迹。(B) 傅里叶变换与固定频带分解构造训练数据：带限状态进入主路径，补频带状态进入高频支路。(C) 场层析：利用各通道振幅响应差异，交替学习二次通道、线性通道与偏置场通道。(D) 高频支路。(E) 二次场相互作用单元。(F) 生成元经四阶 Runge&ndash;Kutta 积分推进至下一时刻。</p>
+**GIFT 架构与预测过程。**(A) 稠密采样的连续流场轨迹。(B) 傅里叶变换与固定频带分解构造训练数据：带限状态进入主路径，补频带状态进入高频支路。(C) 场层析：利用各通道振幅响应差异，交替学习二次通道、线性通道与偏置场通道。(D) 高频支路。(E) 二次场相互作用单元。(F) 生成元经四阶 Runge–Kutta 积分推进至下一时刻。
 
 ### 精确定义的记录位置
 
