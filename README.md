@@ -1,6 +1,8 @@
 # GIFT
 
-**Generator Identification via Field Tomography** — learning the continuous-time generator of a flow directly from trajectories, and reading the surrogate's prediction mechanism back out as an explicit, checkable PDE.
+**Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness**
+
+A data-driven framework for learning continuous-time generators from flow-field trajectories. Identifying the continuous-time generator that governs instantaneous flow-field evolution yields a model that can also be mapped back to testable governing physical laws without extensive parameter search.
 
 [English](#english) · [中文](#中文) · [Setup](docs/SETUP.md) · [Experiments](EXPERIMENTS.md)
 
@@ -14,29 +16,32 @@
 
 ### What does GIFT learn?
 
-Instead of predicting the field a fixed time lag ahead, GIFT identifies the **continuous-time generator** that maps a state to its instantaneous rate of change,
+For a system whose instantaneous evolution is determined solely by its current state, the **continuous-time generator** is the dynamical operator that maps the current state field to its instantaneous time derivative,
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-where $\omega$ is the vorticity field of two-dimensional incompressible flow, $C$ a bias field, $A$ a translation-equivariant linear operator and $Q$ a homogeneous-quadratic operator. The three channels differ in amplitude response — $A(\lambda\omega)=\lambda A(\omega)$, $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$ — and field tomography is what separates them from data. A state one lag later is only the time integral of the generator, so the surrogate's mechanism is not a black-box map hidden in network weights but a continuous dynamical object that can be checked against the governing law. The component-by-component description is in [docs/ALGORITHM.md](docs/ALGORITHM.md).
+where $\omega$ is the vorticity field of two-dimensional incompressible flow. GIFT decomposes the generator model into a bias-field channel, a linear channel and a nonlinear channel, each containing a learnable operator. The superscript $\dagger$ distinguishes the true system generator from the approximate model obtained through learning. GIFT uses field tomography to separate these three components from flow-field trajectories by exploiting differences in amplitude responses among them: $A(\lambda\omega)=\lambda A(\omega)$ and $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$.
+
+Because a state one finite lag later is only the time integral of the generator, GIFT thereby transforms the surrogate model's prediction mechanism from a black-box mapping hidden in neural network weights into an explicitly parameterized continuous-time generator, which can also be mapped back to testable governing physical laws. The component-by-component description is in [docs/ALGORITHM.md](docs/ALGORITHM.md).
 
 ### How does it work?
 
-- **Generator decomposition** — bias field $C$, translation-equivariant linear operator $A(\omega)$ and homogeneous-quadratic operator $Q(\omega,\omega)$, acting on the vorticity field of two-dimensional incompressible flow.
-- **Field tomography** — the quadratic path is trained alternately with the linear and bias paths, so the paths separate from data by their differing amplitude responses, with no homogeneity identity written down explicitly.
-- **Quadratic field-interaction unit** — nonlinearity is a structured field operator rather than an activation function: two learnable spectral filters act on the same input field, their outputs multiply pointwise, and the units are summed with weights.
-- **High-frequency branch** — the complementary band $Q_{21}\omega$ is predicted by a separately trained branch, then coupled with the generator in a single fourth-order Runge–Kutta integration.
-- **Recursive local correction** — a fixed, gradient-free rule applied after each complete RK4 step, under a safety cap on anomalous grid points (40, 90 and 160 for $N$ = 64, 96 and 128).
-- **Interpretability readout** — with the generator frozen, known Navier–Stokes terms are fitted to each channel's output and the recovered coefficients are compared with the true ones.
+- **Generator model** — a parameterized model fitted to flow-field trajectories to approximate the continuous-time generator, organized into bias-field, linear and nonlinear channels.
+- **Field tomography** — separating and learning different components of the generator from flow-field trajectories by exploiting differences in amplitude responses among the bias-field, linear and nonlinear channels.
+- **Quadratic field-interaction unit** — a unit that applies two learnable spectral filters to the same input field and then multiplies the resulting fields pointwise to produce a quadratic nonlinear output.
+- **Learnable spectral filter** — a linear operator that applies learnable weights to individual spatial wavenumber components in the Fourier domain.
+- **High-frequency branch** — a separately trained branch that takes the current state and predicts the complementary band, then coupled with the generator in a single fourth-order Runge–Kutta integration.
+- **Recursive local correction** — a fixed rule applied after each complete Runge–Kutta step during recursive rollouts, under a safety cap on anomalous grid points (40, 90 and 160 for $N$ = 64, 96 and 128).
+- **Physical interpretability** — with the generator frozen, the Navier–Stokes equation terms are fitted to the output of each channel, reading out equation parameters with physical meaning.
 
 ### How well does it work?
 
 Every number below is a completed, published measurement under the protocol recorded in [EXPERIMENTS.md](EXPERIMENTS.md). Per-time tables, seed standard deviations, finiteness counts and run entry points are there too; this section is a pointer, not the record.
 
-- **M2, recursive prediction** ($N$ = 64, 180 held-out trajectories): GIFT has the lowest mean full-field relative $L^{2}$ error of the six methods at all six reported times, from 0.021901 at $t$ = 5.5 to 0.036488 at $t$ = 8.0, and all six methods stay finite on 180/180 trajectories.
-- **M3, cross-resolution prediction** (zero-shot): trained on $N$ = 64 only, GIFT reaches 0.020947 on $N$ = 96 and 0.020933 on $N$ = 128 at $t$ = 6.0, against 0.021058 on $N$ = 64, and stays below both FNO baselines on every grid tested.
-- **M1, equation-parameter identification**: at 0% and 1% noise GIFT attains the lowest absolute percentage error on all three coefficients (0%: 4.343%, 1.619% and 4.121% against the true 0.01, 1 and 1).
-- **S1–S4, side experiments**: the high-frequency branch lowers GIFT's full-field error by about 58–60%; recursive local correction keeps GIFT-Lite trajectory 1062 finite; the largest seed-to-seed coefficient of variation is 0.321%; and on a separate Gaussian random-field population GIFT still has the lowest mean error at every reported time ($t$ = 8.0: 0.021035, against 0.173805 for the closest baseline), with GIFT-Lite's 17 of 180 non-finite trajectories reported rather than removed.
+- **Prediction of flow evolution** (M2): on 180 held-out trajectories, GIFT has the lowest mean full-field relative $L^{2}$ error of the six methods at all six reported times, from 0.021901 at $t$ = 5.5 to 0.036488 at $t$ = 8.0, and all six methods stay finite on 180/180 trajectories.
+- **Cross-resolution prediction** (M3, zero-shot): trained on $N$ = 64 only, GIFT reaches 0.020947 on $N$ = 96 and 0.020933 on $N$ = 128 at $t$ = 6.0, against 0.021058 on $N$ = 64, and stays below both FNO baselines on every grid tested.
+- **PDE parameter identification** (M1): at 0% and 1% noise GIFT attains the lowest absolute percentage error on all three equation parameters (0%: 4.343%, 1.619% and 4.121% against the true 0.01, 1 and 1).
+- **High-frequency branch, recursive local correction, seed stability and initial-condition distribution** (S1–S4, Supplementary Materials): the high-frequency branch lowers GIFT's full-field error by about 58–60%; recursive local correction keeps GIFT-Lite trajectory 1062 finite; the largest seed-to-seed coefficient of variation is 0.321%; and on a separate Gaussian random-field population GIFT still has the lowest mean error at every reported time ($t$ = 8.0: 0.021035, against 0.173805 for the closest baseline), with GIFT-Lite's 17 of 180 non-finite trajectories reported rather than removed.
 
 These conclusions are limited to this project's data distribution, training protocol and the $N$ = 64, 96 and 128 grids, and are not an error guarantee or a numerical-stability theorem at arbitrary resolution. Equal epoch counts do not mean equal parameter-update counts or equal compute: GIFT starts from a single state at $t$ = 5.0 while the FNO baselines consume 46 historical frames, and GIFT's generator and high-frequency branch are trained under separate budgets. The full statement, with seed SDs, finiteness counts and per-job timings, is in [EXPERIMENTS.md](EXPERIMENTS.md) section 6 and [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md).
 
@@ -73,7 +78,7 @@ CPU is supported by the GIFT entry points; the external prediction baselines acc
 
 ### Documentation
 
-- [docs/ALGORITHM.md](docs/ALGORITHM.md) — the generator, field tomography, the quadratic field-interaction unit, the high-frequency branch and the local correction.
+- [docs/ALGORITHM.md](docs/ALGORITHM.md) — the generator model, field tomography, the quadratic field-interaction unit, the high-frequency branch and the recursive local correction.
 - [EXPERIMENTS.md](EXPERIMENTS.md) — the numerical experiment record: protocols, per-time tables, seed SDs, finiteness counts, run entry points.
 - [docs/SETUP.md](docs/SETUP.md) — environments, data package, external sources, one model per command.
 - [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md) — training budgets, data splits, model selection.
@@ -111,33 +116,38 @@ The comparison experiments use the upstream open-source implementations below. U
 
 ## 中文
 
-**基于场层析的生成元识别：具备物理可解释性的流体动力学代理模型** — 从流场轨迹中直接学习连续时间生成元，并把代理模型的预测机制还原为可检验的偏微分控制方程。
+**基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型**
+
+从流场轨迹中直接学习连续时间生成元的数据驱动框架。辨识支配瞬时流场演化的连续时间生成元，所得到的模型还能够被还原为可检验的物理控制规律，而无需大规模参数搜索。
 
 ### GIFT 学的是什么？
 
-传统代理模型直接预测固定时间间隔后的流场；GIFT 换一个对象——它辨识把当前状态映射为**瞬时变化率**的**连续时间生成元**：
+对于瞬时演化只由当前状态决定的系统，**连续时间生成元**是把当前状态场映射为其瞬时时间导数的动力学算子：
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-其中 $\omega$ 为二维不可压缩流动的涡量场，$C$ 是偏置场，$A$ 是平移等变线性算子，$Q$ 是二次齐次算子。三个通道的振幅响应规律不同——$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$——场层析正是依据这一差异把它们从数据中分离。有限时间间隔后的状态只是生成元的时间积分结果，因此预测机制不再是藏在网络权重里的黑盒映射，而是一个可以对照控制规律进行检验的连续动力学对象。逐部件说明见 [docs/ALGORITHM.md](docs/ALGORITHM.md)。
+其中 $\omega$ 为二维不可压缩流动的涡量场。GIFT 把生成元模型分解为偏置场通道、线性通道与非线性通道，每个通道各含一个可学习算子；上标 $\dagger$ 用于区分真实系统生成元与通过学习得到的近似模型。GIFT 用场层析，依据偏置场、线性与非线性通道在振幅响应上的差异，从流场轨迹中分离出这三个组成部分：$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$。
+
+有限时间间隔后的状态只是生成元的时间积分结果，因此 GIFT 把代理模型的预测机制从隐藏在神经网络权重中的黑箱映射转变为可还原为可检验物理控制规律的连续时间模型。逐部件说明见 [docs/ALGORITHM.md](docs/ALGORITHM.md)。
 
 ### 它是怎么工作的？
 
-- **生成元分解**——生成元拆为偏置场 $C$、平移等变线性算子 $A(\omega)$ 与二次齐次算子 $Q(\omega,\omega)$；状态取二维不可压缩流动的涡量场。
-- **场层析**——二次通道与线性、偏置场通道交替训练，依据各通道振幅响应的差异把它们从数据中分离，训练中无需显式构造齐次特征式。
-- **二次场相互作用单元**——非线性由结构化场算子而非激活函数提供：同一输入场经两个可学习谱滤波器后逐点相乘，再对各单元加权求和。
-- **高频支路**——补频带 $Q_{21}\omega$ 交由单独训练的支路预测，并与生成元耦合在同一个四阶 Runge–Kutta 积分中推进。
-- **递归局部修正**——每个完整 RK4 步后执行的固定规则，并设异常网格点安全上限（$N$ = 64、96、128 时分别为 40、90、160）。
-- **可解释性读出**——生成元冻结后，用已知 Navier–Stokes 方程项拟合各通道输出，将读出系数与真实控制方程系数对比。
+- **生成元模型**——拟合流场轨迹以逼近连续时间生成元的参数化模型，组织为偏置场通道、线性通道与非线性通道。
+- **场层析**——利用偏置场、线性与非线性通道振幅响应的差异，从流场轨迹中分离并学习生成元的不同组成部分。
+- **二次场相互作用单元**——对同一输入场施加两个可学习谱滤波器，再把所得场逐点相乘，产生二次非线性输出。
+- **可学习谱滤波器**——在傅里叶域对各个空间波数分量施加可学习权重的线性算子。
+- **高频支路**——单独训练、读取当前状态并预测补频带的支路，与生成元耦合在同一个四阶 Runge–Kutta 积分中推进。
+- **递归局部修正**——递归推演过程中每个完整 Runge–Kutta 步后执行的固定规则，并设异常网格点安全上限（$N$ = 64、96、128 时分别为 40、90、160）。
+- **物理可解释性**——生成元冻结后，用 Navier–Stokes 方程项拟合各通道输出，读出具有物理意义的方程参数。
 
 ### 效果如何？
 
 以下均为 [EXPERIMENTS.md](EXPERIMENTS.md) 所记录协议下完成并发布的实测结果。逐时刻数据表、种子标准差、有限性计数与运行入口均在该记录中，本节只作指引。
 
-- **M2 递归预测**（$N$ = 64，180 条独立测试轨迹）：六个报告时刻中 GIFT 的平均全场相对 $L^{2}$ 误差均为六种方法中最低，从 $t$ = 5.5 的 0.021901 增至 $t$ = 8.0 的 0.036488；六种方法均保持 180/180 条轨迹有限。
-- **M3 跨分辨率预测**（zero-shot）：仅用 $N$ = 64 数据训练，$t$ = 6.0 时在 $N$ = 96、128 网格上的误差为 0.020947 与 0.020933，对应 $N$ = 64 为 0.021058；所测每个网格上均低于两个 FNO 基线。
-- **M1 方程参数识别**：0% 与 1% 噪声下 GIFT 对三个参数的绝对百分比误差均为五种配置中最低（0% 噪声下为 4.343%、1.619%、4.121%，真值为 0.01、1、1）。
-- **S1–S4 支线实验**：高频支路使 GIFT 的全场误差降低约 58–60%；递归局部修正在独立测试集上避免 GIFT-Lite 轨迹 1062 失稳；种子间最大变异系数为 0.321%；在另一组平滑高斯随机场初值分布上，GIFT 的报告时刻平均误差仍为最低（$t$ = 8.0 为 0.021035，最接近的基线为 0.173805），GIFT-Lite 有 17/180 条轨迹失稳，该结果如实保留而非剔除。
+- **流场演化预测**（M2）：在 180 条独立测试轨迹上，六个报告时刻中 GIFT 的平均全场相对 $L^{2}$ 误差均为六种方法中最低，从 $t$ = 5.5 的 0.021901 增至 $t$ = 8.0 的 0.036488；六种方法均保持 180/180 条轨迹有限。
+- **跨分辨率预测**（M3，zero-shot）：仅用 $N$ = 64 数据训练，$t$ = 6.0 时在 $N$ = 96、128 网格上的误差为 0.020947 与 0.020933，对应 $N$ = 64 为 0.021058；所测每个网格上均低于两个 FNO 基线。
+- **PDE 参数识别**（M1）：0% 与 1% 噪声下 GIFT 对三个方程参数的绝对百分比误差均为五种配置中最低（0% 噪声下为 4.343%、1.619%、4.121%，真值为 0.01、1、1）。
+- **高频支路、递归局部修正、种子稳定性与初值分布**（S1–S4，附加材料）：高频支路使 GIFT 的全场误差降低约 58–60%；递归局部修正在独立测试集上避免 GIFT-Lite 轨迹 1062 失稳；种子间最大变异系数为 0.321%；在另一组平滑高斯随机场初值分布上，GIFT 的报告时刻平均误差仍为最低（$t$ = 8.0 为 0.021035，最接近的基线为 0.173805），GIFT-Lite 有 17/180 条轨迹失稳，该结果如实保留而非剔除。
 
 以上结论限于本项目的数据分布、训练协议与 $N$ = 64、96、128 网格，不构成任意分辨率上的误差保证或数值稳定性定理；相同 epoch 也不代表相同参数更新次数或计算量：GIFT 从 $t$ = 5.0 的单状态出发，而 FNO 基线使用 46 帧历史状态，且 GIFT 的生成元与高频支路分项训练。完整口径（含种子标准差、有限性计数与逐任务计时）见 [EXPERIMENTS.md](EXPERIMENTS.md) 第 6 节与 [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)。
 
@@ -174,7 +184,7 @@ GIFT 各训练入口支持 CPU；外部预测基线只在显式指定 `--tiny` �
 
 ### 文档
 
-- [docs/ALGORITHM.md](docs/ALGORITHM.md)——生成元、场层析、二次场相互作用单元、高频支路与递归局部修正。
+- [docs/ALGORITHM.md](docs/ALGORITHM.md)——生成元模型、场层析、二次场相互作用单元、高频支路与递归局部修正。
 - [EXPERIMENTS.md](EXPERIMENTS.md)——数值实验记录：协议、逐时刻数据表、种子标准差、有限性计数与运行入口。
 - [docs/SETUP.md](docs/SETUP.md)——环境、数据包、外部源码与「每个模型一条命令」。
 - [docs/TRAINING_PROTOCOL.md](docs/TRAINING_PROTOCOL.md)——训练预算、数据划分与模型选择。
