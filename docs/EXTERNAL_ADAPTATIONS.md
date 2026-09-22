@@ -75,4 +75,4 @@ See the [TensorFlow graph-mode API](https://www.tensorflow.org/api_docs/python/t
 
 ## Attribution / 致谢
 
-We thank the authors of NeuralOperator, U-NO, Turbulent-Flow-Nets, EQDiscovery, PDE-FIND, TensorFlow and SciPy. Please cite the corresponding research and respect each upstream project's terms. This project's license does not grant additional rights over external code.
+We thank the authors of NeuralOperator, U-NO, Turbulent-Flow-Nets, EQDiscovery, PDE-FIND, TensorFlow and SciPy. Please cite the corresponding research and respect each upstream project's terms. This project's license does not grant additional rights over external code. The exact references, together with each upstream project's licence status at the pinned commit, are listed in [README.md](../README.md) under Citation.

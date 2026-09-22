@@ -89,6 +89,7 @@ CPU is supported by the GIFT entry points; the external prediction baselines acc
 ### Repository layout
 
 - `src/gift/` — generator model, band decomposition, data splits, the identified-generator readout.
+- `adapters/` — in-memory loaders that verify the pinned upstream sources and apply the itemised adaptations.
 - `training/` — one training entry point per model.
 - `experiments/formal/` — launchers and evaluation for M1–M3 and S1–S4.
 - `results/formal/` — published summaries, CSV/JSON records and SVG figures with their manifests.
@@ -96,6 +97,9 @@ CPU is supported by the GIFT entry points; the external prediction baselines acc
 - `scripts/` — data preparation, verification, packaging and figure rendering.
 - `tests/` — data contract, checkpoint identity and result-integrity tests.
 - `docs/` — setup, protocol, execution and validation documentation.
+- `assets/figures/` — the two plates shown above, with the vector original of the architecture plate.
+
+The root also holds the numerical experiment record [`EXPERIMENTS.md`](EXPERIMENTS.md), the pinned upstream identities [`external_sources.json`](external_sources.json) and the working conventions [`AGENTS.md`](AGENTS.md).
 
 ### Data, code and licence
 
@@ -105,12 +109,26 @@ The comparison experiments use the upstream open-source implementations below. U
 
 | Upstream project | Used for | Pinned version | Licence |
 | --- | --- | --- | --- |
-| [neuraloperator/neuraloperator](https://github.com/neuraloperator/neuraloperator) | FNO-2D and FNO-3D baselines | `01d2aeca` | See upstream (not declared in this project) |
+| [neuraloperator/neuraloperator](https://github.com/neuraloperator/neuraloperator) | FNO-2D and FNO-3D baselines | `01d2aeca` | MIT |
 | [ashiq24/UNO](https://github.com/ashiq24/UNO) | U-NO baseline | `19462d82` | BSD-2-Clause |
-| [Rui1521/Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets) | U-Net baseline | `229da3e0` | Not declared upstream; **do not redistribute** |
-| [isds-neu/EQDiscovery](https://github.com/isds-neu/EQDiscovery) | PINN-SR configurations | `9a20ebe6` | Not declared upstream |
-| [snagcliffs/PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | PDE-FIND configurations | `86911349` | Not declared upstream |
+| [Rui1521/Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets) | U-Net baseline | `229da3e0` | No licence declared upstream; **do not redistribute** |
+| [isds-neu/EQDiscovery](https://github.com/isds-neu/EQDiscovery) | PINN-SR configurations | `9a20ebe6` | No licence declared upstream |
+| [snagcliffs/PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | PDE-FIND configurations | `86911349` | No licence declared upstream |
 | [tensorflow/tensorflow](https://github.com/tensorflow/tensorflow) (tag `v1.15.0`) | NAdam and L-BFGS optimizer implementations | `590d6eef` | Apache-2.0 |
+
+Each licence entry above was read from the upstream repository **at the pinned commit**. Three of the six declare no licence, so no rights over their code are granted or implied here: obtain those sources from their owners and use them at your own discretion and risk. Apache-2.0 requires the retained notices only on redistribution, and no TensorFlow source is redistributed here.
+
+### Citation
+
+The comparison methods have primary references, and two upstream repositories publish an explicit citation request. Please cite the GIFT manuscript and the upstream work you use.
+
+- **GIFT** — *Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness* (manuscript; the Chinese version is titled 基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型). A DOI will be listed here once one is assigned.
+- **FNO-2D / FNO-3D** — Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895). Cited by the upstream repository.
+- **U-NO** — M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023.
+- **U-Net baseline** — R. Wang, K. Kashinath, M. Mustafa, A. Albert, R. Yu, "Towards physics-informed deep learning for turbulent flow prediction", KDD 2020. Cited by the upstream repository.
+- **PINN-SR** — Z. Chen, Y. Liu, H. Sun, "Physics-informed learning of governing equations from scarce data", Nat. Commun. 12, 6136 (2021).
+- **PDE-FIND** — S. H. Rudy, S. L. Brunton, J. L. Proctor, J. N. Kutz, "Data-driven discovery of partial differential equations", Sci. Adv. 3, e1602614 (2017).
+- **TensorFlow optimizers** — Apache-2.0 software; the upstream project requests no citation.
 
 <a id="中文"></a>
 
@@ -195,6 +213,7 @@ GIFT 各训练入口支持 CPU；外部预测基线只在显式指定 `--tiny` �
 ### 代码组织
 
 - `src/gift/`——生成元模型、频带分解、数据划分与生成元读出。
+- `adapters/`——在内存中校验固定上游源码并施加逐项适配的加载层。
 - `training/`——各模型独立训练入口。
 - `experiments/formal/`——M1–M3 与 S1–S4 的启动与评价。
 - `results/formal/`——已发布汇总、CSV/JSON 记录、SVG 图像及其清单。
@@ -202,6 +221,9 @@ GIFT 各训练入口支持 CPU；外部预测基线只在显式指定 `--tiny` �
 - `scripts/`——数据准备、校验、打包与图像渲染。
 - `tests/`——数据契约、检查点身份与结果完整性测试。
 - `docs/`——安装、协议、执行与验证文档。
+- `assets/figures/`——上文两幅图，以及结构图的矢量原件。
+
+根目录另置数值实验记录 [`EXPERIMENTS.md`](EXPERIMENTS.md)、固定上游身份 [`external_sources.json`](external_sources.json) 与工作约定 [`AGENTS.md`](AGENTS.md)。
 
 ### 数据、代码与许可
 
@@ -211,9 +233,24 @@ GIFT 软件与文档使用 [MIT 许可](LICENSE)；数据包使用 CC BY 4.0；�
 
 | 上游项目 | 用途 | 固定版本 | 许可状态 |
 | --- | --- | --- | --- |
-| [neuraloperator/neuraloperator](https://github.com/neuraloperator/neuraloperator) | FNO-2D 与 FNO-3D 基线 | `01d2aeca` | 见上游（本项目内未声明） |
+| [neuraloperator/neuraloperator](https://github.com/neuraloperator/neuraloperator) | FNO-2D 与 FNO-3D 基线 | `01d2aeca` | MIT |
 | [ashiq24/UNO](https://github.com/ashiq24/UNO) | U-NO 基线 | `19462d82` | BSD-2-Clause |
 | [Rui1521/Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets) | U-Net 基线 | `229da3e0` | 上游未声明许可，**不得再分发** |
 | [isds-neu/EQDiscovery](https://github.com/isds-neu/EQDiscovery) | PINN-SR 两种配置 | `9a20ebe6` | 上游未声明许可 |
 | [snagcliffs/PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | PDE-FIND 两种配置 | `86911349` | 上游未声明许可 |
 | [tensorflow/tensorflow](https://github.com/tensorflow/tensorflow)（tag `v1.15.0`） | NAdam 与 L-BFGS 优化器实现 | `590d6eef` | Apache-2.0 |
+
+表中许可状态均在上述**固定提交**处读取。六个上游项目中有三个未声明许可，本项目因此不主张也不暗示对其代码的任何权利：这些源码须自行从上游获取并按各自条款使用，风险自担。Apache-2.0 仅在再分发时才要求保留声明，而本仓库未再分发任何 TensorFlow 源码。
+
+### 引用
+
+对比方法各有原始文献，其中两个上游仓库明确提出了引用请求。使用本项目时请引用 GIFT 手稿以及所使用的外部工作。
+
+- **GIFT**——*Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness*（手稿；中文版题为「基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型」）。DOI 分配后将在此补上。
+- **FNO-2D / FNO-3D**——Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895)。上游仓库明确要求引用。
+- **U-NO**——M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023。
+- **U-Net 基线**——R. Wang, K. Kashinath, M. Mustafa, A. Albert, R. Yu, "Towards physics-informed deep learning for turbulent flow prediction", KDD 2020。上游仓库明确要求引用。
+- **PINN-SR**——Z. Chen, Y. Liu, H. Sun, "Physics-informed learning of governing equations from scarce data", Nat. Commun. 12, 6136 (2021)。
+- **PDE-FIND**——S. H. Rudy, S. L. Brunton, J. L. Proctor, J. N. Kutz, "Data-driven discovery of partial differential equations", Sci. Adv. 3, e1602614 (2017)。
+- **TensorFlow 优化器**——Apache-2.0 软件，上游未提出引用要求。
+
