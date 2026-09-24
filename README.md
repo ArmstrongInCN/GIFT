@@ -1,6 +1,6 @@
 # GIFT
 
-**Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness**
+**Generator identification by field tomography: Flow prediction with testable physical correctness**
 
 A data-driven framework for learning continuous-time generators from flow-field trajectories. Identifying the continuous-time generator that governs instantaneous flow-field evolution yields a model that can also be mapped back to testable governing physical laws without extensive parameter search.
 
