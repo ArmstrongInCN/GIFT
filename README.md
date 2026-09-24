@@ -78,9 +78,9 @@ CPU is supported by the GIFT entry points; the external prediction baselines acc
 
 ### Where does the data come from?
 
-The observation data are a separate, separately citable package, and downloading it is not the only way to run this code.
+The observation data are published as a separate dataset; downloading it is optional, because the same fields can be regenerated from this repository.
 
-- **Dataset record** — *GIFT Navier–Stokes input data*, ScienceDB, DOI `10.57760/sciencedb.013lo` (CSTR `31253.11.sciencedb.013lo`), licensed CC BY 4.0. The record is under review at the repository, so the identifier is assigned but does not resolve yet; it becomes active once the record is published. Only this public DOI is given here — no private or limited-access link.
+- **Dataset record** — *GIFT Navier–Stokes input data*, ScienceDB, DOI `10.57760/sciencedb.013lo` (CSTR `31253.11.sciencedb.013lo`), licensed CC BY 4.0.
 - **Generating it locally instead** — the repository holds the complete data-generation chain, so the same fields can be produced on your own device: `scripts/generate_data` (clean fields), `generate_noise` and `generate_sampling` (M1 inputs), `derive_dense_frames` (coarse and cross-resolution frames), `generate_gaussian_data` (S4), then `assemble_generated_data`, `prepare_prediction_package` and `verify_data` to assemble and check the result. Commands, recorded parameters and continuation boundaries are in [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md); regeneration starts from initial-condition parameters and does not promise bitwise identity across devices.
 
 ### Documentation
@@ -129,8 +129,8 @@ Each licence entry above was read from the upstream repository **at the pinned c
 
 The comparison methods have primary references, and two upstream repositories publish an explicit citation request. Please cite the GIFT manuscript and the upstream work you use.
 
-- **GIFT** — *Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness* (manuscript; the Chinese version is titled 基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型). A DOI will be listed here once one is assigned.
-- **GIFT data** — *GIFT Navier–Stokes input data*, ScienceDB (CC BY 4.0), DOI `10.57760/sciencedb.013lo`. Cite this record when reusing the observation data; the identifier is assigned and resolves once the record is published.
+- **GIFT** — *Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness* (manuscript; the Chinese version is titled 基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型).
+- **GIFT data** — *GIFT Navier–Stokes input data*, ScienceDB (CC BY 4.0), DOI `10.57760/sciencedb.013lo`. Cite this record when reusing the observation data.
 - **FNO-2D / FNO-3D** — Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895). Cited by the upstream repository.
 - **U-NO** — M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023.
 - **U-Net baseline** — R. Wang, K. Kashinath, M. Mustafa, A. Albert, R. Yu, "Towards physics-informed deep learning for turbulent flow prediction", KDD 2020. Cited by the upstream repository.
@@ -210,9 +210,9 @@ GIFT 各训练入口支持 CPU；外部预测基线只在显式指定 `--tiny` �
 
 ### 数据从哪里来？
 
-观测数据是独立、可单独引用的数据包，但不下载它同样能运行本仓库的代码。
+观测数据以独立数据集发布；下载是可选的，因为同样的场也可以由本仓库重新生成。
 
-- **数据集记录**——*GIFT Navier–Stokes input data*，ScienceDB，DOI `10.57760/sciencedb.013lo`（CSTR `31253.11.sciencedb.013lo`），许可 CC BY 4.0。该记录正在仓储方审核，标识已分配但暂不可解析，记录发布后即生效。此处只给这一公开 DOI，不使用任何私有或限时访问链接。
+- **数据集记录**——*GIFT Navier–Stokes input data*，ScienceDB，DOI `10.57760/sciencedb.013lo`（CSTR `31253.11.sciencedb.013lo`），许可 CC BY 4.0。
 - **也可以用本地生成代替下载**——仓库包含完整的数据生成链路，可在自己的设备上生成同样的场：`scripts/generate_data`（干净场）、`generate_noise` 与 `generate_sampling`（M1 输入）、`derive_dense_frames`（粗帧与跨分辨率帧）、`generate_gaussian_data`（S4），再由 `assemble_generated_data`、`prepare_prediction_package` 与 `verify_data` 汇总与校验。命令、记录参数与断点边界见 [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md)；再生从初值参数出发，不承诺跨设备逐比特一致。
 
 ### 文档
@@ -261,8 +261,8 @@ GIFT 软件与文档使用 [MIT 许可](LICENSE)；数据包使用 CC BY 4.0；�
 
 对比方法各有原始文献，其中两个上游仓库明确提出了引用请求。使用本项目时请引用 GIFT 手稿以及所使用的外部工作。
 
-- **GIFT**——*Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness*（手稿；中文版题为「基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型」）。DOI 分配后将在此补上。
-- **GIFT 数据**——*GIFT Navier–Stokes input data*，ScienceDB（CC BY 4.0），DOI `10.57760/sciencedb.013lo`。使用观测数据时请引用该记录；标识已分配，记录发布后即可解析。
+- **GIFT**——*Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness*（手稿；中文版题为「基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型」）。
+- **GIFT 数据**——*GIFT Navier–Stokes input data*，ScienceDB（CC BY 4.0），DOI `10.57760/sciencedb.013lo`。使用观测数据时请引用该记录。
 - **FNO-2D / FNO-3D**——Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895)。上游仓库明确要求引用。
 - **U-NO**——M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023。
 - **U-Net 基线**——R. Wang, K. Kashinath, M. Mustafa, A. Albert, R. Yu, "Towards physics-informed deep learning for turbulent flow prediction", KDD 2020。上游仓库明确要求引用。
