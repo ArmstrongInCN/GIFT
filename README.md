@@ -2,7 +2,7 @@
 
 **Generator identification by field tomography: Flow prediction with testable physical correctness**
 
-A data-driven framework for learning continuous-time generators from flow-field trajectories. Identifying the continuous-time generator that governs instantaneous flow-field evolution yields a model that can also be mapped back to testable governing physical laws without extensive parameter search.
+A data-driven framework for learning continuous-time generator models from time series of flow fields. Identifying the continuous-time generator that governs instantaneous flow-field evolution yields a model that can also be mapped back to testable governing physical laws without extensive parameter search.
 
 [English](#english) · [中文](#中文) · [Setup](docs/SETUP.md) · [Experiments](EXPERIMENTS.md)
 
@@ -20,16 +20,17 @@ For a system whose instantaneous evolution is determined solely by its current s
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-where $\omega$ is the vorticity field of two-dimensional incompressible flow. GIFT decomposes the generator model into a bias-field channel, a linear channel and a nonlinear channel, each containing a learnable operator. The superscript $\dagger$ distinguishes the true system generator from the approximate model obtained through learning. GIFT uses field tomography to separate these three components from flow-field trajectories by exploiting differences in amplitude responses among them: $A(\lambda\omega)=\lambda A(\omega)$ and $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$.
+where $\omega$ is the vorticity field of two-dimensional incompressible flow. GIFT decomposes the generator model into a bias-field channel, a linear channel and a nonlinear channel, each containing a learnable operator. The superscript $\dagger$ distinguishes the true system generator from the approximate model obtained through learning. GIFT learns through field tomography, which exploits differences in amplitude responses among the bias-field, linear and nonlinear channels to separate and learn different components of the generator: $A(\lambda\omega)=\lambda A(\omega)$ and $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$, where $\lambda$ is a scalar amplitude-scaling factor.
 
 Because a state one finite lag later is only the time integral of the generator, GIFT thereby transforms the surrogate model's prediction mechanism from a black-box mapping hidden in neural network weights into an explicitly parameterized continuous-time generator, which can also be mapped back to testable governing physical laws. The component-by-component description is in [docs/ALGORITHM.md](docs/ALGORITHM.md).
 
 ### How does it work?
 
-- **Generator model** — a parameterized model fitted to flow-field trajectories to approximate the continuous-time generator, organized into bias-field, linear and nonlinear channels.
+- **Generator model** — a parameterized model learned from scalar-field data to approximate the continuous-time generator, organized into bias-field, linear and nonlinear channels.
 - **Field tomography** — separating and learning different components of the generator from flow-field trajectories by exploiting differences in amplitude responses among the bias-field, linear and nonlinear channels.
 - **Quadratic field-interaction unit** — a unit that applies two learnable spectral filters to the same input field and then multiplies the resulting fields pointwise to produce a quadratic nonlinear output.
 - **Learnable spectral filter** — a linear operator that applies learnable weights to individual spatial wavenumber components in the Fourier domain.
+- **Flow-field trajectory** — a time series of flow fields obtained for a given governing equation and initial field distribution.
 - **High-frequency branch** — a separately trained branch that takes the current state and predicts the complementary band, then coupled with the generator in a single fourth-order Runge–Kutta integration.
 - **Recursive local correction** — a fixed rule applied after each complete Runge–Kutta step during recursive rollouts, under a safety cap on anomalous grid points (40, 90 and 160 for $N$ = 64, 96 and 128).
 - **Physical interpretability** — with the generator frozen, the Navier–Stokes equation terms are fitted to the output of each channel, reading out equation parameters with physical meaning.
@@ -129,7 +130,7 @@ Each licence entry above was read from the upstream repository **at the pinned c
 
 The comparison methods have primary references, and two upstream repositories publish an explicit citation request. Please cite the GIFT manuscript and the upstream work you use.
 
-- **GIFT** — *Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness* (manuscript; the Chinese version is titled 基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型).
+- **GIFT** — *Generator identification by field tomography: Flow prediction with testable physical correctness* (manuscript; the Chinese version is titled 基于场层析的生成元识别：可检验物理正确性的流场预测).
 - **GIFT data** — *GIFT Navier–Stokes input data*, ScienceDB (CC BY 4.0), DOI `10.57760/sciencedb.013lo`. Cite this record when reusing the observation data.
 - **FNO-2D / FNO-3D** — Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895). Cited by the upstream repository.
 - **U-NO** — M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023.
@@ -142,9 +143,9 @@ The comparison methods have primary references, and two upstream repositories pu
 
 ## 中文
 
-**基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型**
+**基于场层析的生成元识别：可检验物理正确性的流场预测**
 
-从流场轨迹中直接学习连续时间生成元的数据驱动框架。辨识支配瞬时流场演化的连续时间生成元，所得到的模型还能够被还原为可检验的物理控制规律，而无需大规模参数搜索。
+从流场时间序列中学习生成元模型的数据驱动框架。辨识支配瞬时流场演化的连续时间生成元，所得到的模型还能够被还原为可检验的物理控制规律，而无需大规模参数搜索。
 
 ### GIFT 学的是什么？
 
@@ -152,16 +153,17 @@ The comparison methods have primary references, and two upstream repositories pu
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-其中 $\omega$ 为二维不可压缩流动的涡量场。GIFT 把生成元模型分解为偏置场通道、线性通道与非线性通道，每个通道各含一个可学习算子；上标 $\dagger$ 用于区分真实系统生成元与通过学习得到的近似模型。GIFT 用场层析，依据偏置场、线性与非线性通道在振幅响应上的差异，从流场轨迹中分离出这三个组成部分：$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$。
+其中 $\omega$ 为二维不可压缩流动的涡量场。GIFT 把生成元模型分解为偏置场通道、线性通道与非线性通道，每个通道各含一个可学习算子；上标 $\dagger$ 用于区分真实系统生成元与通过学习得到的近似模型。GIFT 的学习过程通过场层析实现，即利用偏置场、线性和非线性通道的振幅响应差异，分离并学习生成元的不同分量：$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$，其中 $\lambda$ 是标量振幅缩放因子。
 
 有限时间间隔后的状态只是生成元的时间积分结果，因此 GIFT 把代理模型的预测机制从隐藏在神经网络权重中的黑箱映射转变为可还原为可检验物理控制规律的连续时间模型。逐部件说明见 [docs/ALGORITHM.md](docs/ALGORITHM.md)。
 
 ### 它是怎么工作的？
 
-- **生成元模型**——拟合流场轨迹以逼近连续时间生成元的参数化模型，组织为偏置场通道、线性通道与非线性通道。
+- **生成元模型**——从标量场数据中学习、用于近似连续时间生成元的参数化模型，组织为偏置场通道、线性通道与非线性通道。
 - **场层析**——利用偏置场、线性与非线性通道振幅响应的差异，从流场轨迹中分离并学习生成元的不同组成部分。
 - **二次场相互作用单元**——对同一输入场施加两个可学习谱滤波器，再把所得场逐点相乘，产生二次非线性输出。
 - **可学习谱滤波器**——在傅里叶域对各个空间波数分量施加可学习权重的线性算子。
+- **流场轨迹**——给定控制方程和初始分布后得到的流场时间序列数据。
 - **高频支路**——单独训练、读取当前状态并预测补频带的支路，与生成元耦合在同一个四阶 Runge–Kutta 积分中推进。
 - **递归局部修正**——递归推演过程中每个完整 Runge–Kutta 步后执行的固定规则，并设异常网格点安全上限（$N$ = 64、96、128 时分别为 40、90、160）。
 - **物理可解释性**——生成元冻结后，用 Navier–Stokes 方程项拟合各通道输出，读出具有物理意义的方程参数。
@@ -261,7 +263,7 @@ GIFT 软件与文档使用 [MIT 许可](LICENSE)；数据包使用 CC BY 4.0；�
 
 对比方法各有原始文献，其中两个上游仓库明确提出了引用请求。使用本项目时请引用 GIFT 手稿以及所使用的外部工作。
 
-- **GIFT**——*Generator identification via field tomography: A fluid dynamics surrogate model with testable physical correctness*（手稿；中文版题为「基于场层析的生成元识别：具备可检验物理正确性的流体动力学代理模型」）。
+- **GIFT**——*Generator identification by field tomography: Flow prediction with testable physical correctness*（手稿；中文版题为「基于场层析的生成元识别：可检验物理正确性的流场预测」）。
 - **GIFT 数据**——*GIFT Navier–Stokes input data*，ScienceDB（CC BY 4.0），DOI `10.57760/sciencedb.013lo`。使用观测数据时请引用该记录。
 - **FNO-2D / FNO-3D**——Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895)。上游仓库明确要求引用。
 - **U-NO**——M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023。

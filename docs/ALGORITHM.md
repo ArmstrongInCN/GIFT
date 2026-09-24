@@ -17,7 +17,7 @@ Surrogates usually predict the field a fixed time lag ahead. GIFT changes the ob
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-where $\omega$ is the vorticity field of two-dimensional incompressible flow and $G^{\dagger}$ is the true system generator. The superscript distinguishes the true system generator from the approximate model obtained through learning; it is not an adjoint or a pseudoinverse. GIFT decomposes the generator model into a bias-field channel $C$, a linear channel $A(\omega)$ and a nonlinear channel $Q(\omega,\omega)$, each containing a learnable operator. The three channels differ in amplitude response — $A(\lambda\omega)=\lambda A(\omega)$ and $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$ — and field tomography separates and learns them from flow-field trajectories by exploiting that difference.
+where $\omega$ is the vorticity field of two-dimensional incompressible flow and $G^{\dagger}$ is the true system generator. The superscript distinguishes the true system generator from the approximate model obtained through learning; it is not an adjoint or a pseudoinverse. GIFT decomposes the generator model into a bias-field channel $C$, a linear channel $A(\omega)$ and a nonlinear channel $Q(\omega,\omega)$, each containing a learnable operator. The three channels differ in amplitude response — $A(\lambda\omega)=\lambda A(\omega)$ and $Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$, with $\lambda$ a scalar amplitude-scaling factor — and field tomography separates and learns them from flow-field trajectories by exploiting that difference.
 
 A state one finite lag later is merely the time integral of the generator, and the generator *is* the governing law. One mathematical object therefore serves both purposes at once. GIFT thereby transforms the surrogate model's prediction mechanism from a black-box mapping hidden in neural network weights into an explicitly parameterized continuous-time generator, which can also be mapped back to testable governing physical laws.
 
@@ -25,7 +25,7 @@ A state one finite lag later is merely the time integral of the generator, and t
 
 | Component | In one line |
 | --- | --- |
-| Generator model | A parameterized model fitted to flow-field trajectories to approximate the continuous-time generator: a bias-field channel $C$, a linear channel $A(\omega)$ and a nonlinear channel $Q(\omega,\omega)$, each containing a learnable operator. |
+| Generator model | A parameterized model learned from scalar-field data to approximate the continuous-time generator: a bias-field channel $C$, a linear channel $A(\omega)$ and a nonlinear channel $Q(\omega,\omega)$, each containing a learnable operator. |
 | Field tomography | Separating and learning different components of the generator from flow-field trajectories by exploiting differences in amplitude responses among the bias-field, linear and nonlinear channels, which are trained **alternately**, with no homogeneity identity written down explicitly. |
 | Quadratic field-interaction unit | Nonlinearity comes from a structured field operator rather than an activation function: two learnable spectral filters act on the same input field, their outputs multiply pointwise, and the units are summed with weights (panel E). |
 | Learnable spectral filter | A linear operator that applies learnable weights to individual spatial wavenumber components in the Fourier domain. |
@@ -55,7 +55,7 @@ A state one finite lag later is merely the time integral of the generator, and t
 
 $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = C + A(\omega) + Q(\omega,\omega),$$
 
-其中 $\omega$ 为二维不可压缩流动的涡量场，$G^{\dagger}$ 是真实系统生成元；上标用于区分真实系统生成元与通过学习得到的近似模型，不表示伴随或伪逆。GIFT 把生成元模型分解为偏置场通道 $C$、线性通道 $A(\omega)$ 与非线性通道 $Q(\omega,\omega)$，每个通道各含一个可学习算子。三个通道的振幅响应规律不同——$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$——场层析正是依据这一差异从流场轨迹中把它们分离并学习。
+其中 $\omega$ 为二维不可压缩流动的涡量场，$G^{\dagger}$ 是真实系统生成元；上标用于区分真实系统生成元与通过学习得到的近似模型，不表示伴随或伪逆。GIFT 把生成元模型分解为偏置场通道 $C$、线性通道 $A(\omega)$ 与非线性通道 $Q(\omega,\omega)$，每个通道各含一个可学习算子。三个通道的振幅响应规律不同（$\lambda$ 为标量振幅缩放因子）——$A(\lambda\omega)=\lambda A(\omega)$、$Q(\lambda\omega,\lambda\omega)=\lambda^{2}Q(\omega,\omega)$——场层析正是依据这一差异从流场轨迹中把它们分离并学习。
 
 有限时间间隔后的状态只是生成元的时间积分结果，而生成元本身对应系统的控制规律，因此同一个数学对象可以同时承担两件事：GIFT 把代理模型的预测机制从隐藏在神经网络权重中的黑箱映射转变为可还原为可检验物理控制规律的连续时间模型。
 
@@ -63,7 +63,7 @@ $$\frac{\mathrm{d}\omega}{\mathrm{d}t} = G^{\dagger}(\omega),\qquad G(\omega) = 
 
 | 环节 | 一句话说明 |
 | --- | --- |
-| 生成元模型 | 拟合流场轨迹以逼近连续时间生成元的参数化模型：偏置场通道 $C$、线性通道 $A(\omega)$ 与非线性通道 $Q(\omega,\omega)$，每个通道各含一个可学习算子。 |
+| 生成元模型 | 从标量场数据中学习、用于近似连续时间生成元的参数化模型：偏置场通道 $C$、线性通道 $A(\omega)$ 与非线性通道 $Q(\omega,\omega)$，每个通道各含一个可学习算子。 |
 | 场层析 | 利用偏置场、线性与非线性通道振幅响应的差异，从流场轨迹中分离并学习生成元的不同组成部分；各通道**交替训练**，训练中无需显式构造齐次特征式。 |
 | 二次场相互作用单元 | 非线性由结构化场算子而非激活函数提供：同一输入场经两个可学习谱滤波器后逐点相乘，再对各单元加权求和（面板 E）。 |
 | 可学习谱滤波器 | 在傅里叶域对各个空间波数分量施加可学习权重的线性算子。 |
