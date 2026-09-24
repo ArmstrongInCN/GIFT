@@ -38,7 +38,16 @@ python -m pip install -r requirements-pinn.txt
 
 ## Data and upstream sources
 
-Download the separate data package. In PowerShell, for example:
+The observation data are published as a separate dataset: *GIFT Navier–Stokes
+input data*, ScienceDB, DOI `10.57760/sciencedb.013lo` (CC BY 4.0). The record is
+under review at the repository, so the identifier is assigned but resolves only
+once the record is published. The same fields can also be regenerated on your own
+device from the recorded initial-condition parameters using the commands in
+[DATA_GENERATION.md](DATA_GENERATION.md), so downloading this package is not
+required.
+
+If you do download it, point `GIFT_DATA_ROOT` at the downloaded folder. In
+PowerShell, for example:
 
 ```powershell
 $env:GIFT_DATA_ROOT = (Resolve-Path '../gift-data').Path

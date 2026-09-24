@@ -31,5 +31,9 @@ M1 is not an equal-epoch prediction comparison. See the data dictionary for path
 ## License and citation / 许可与引用
 
 Data are licensed under CC BY 4.0; see `LICENSE.txt`. Cite the GIFT project and
-the dataset's Zenodo record when a DOI has been assigned. No DOI is claimed here.
-The GitHub repository contains code and checkpoints, not this data directory.
+the dataset record when reusing these fields. The DOI of the published record is
+recorded in the repository README (`10.57760/sciencedb.013lo`), not inside this
+package, whose bytes are hash-bound by `manifest.json`. The GitHub repository
+contains code and checkpoints, not this data directory. The same fields can also
+be regenerated from the recorded initial-condition parameters; see
+`docs/DATA_GENERATION.md` in the repository.
