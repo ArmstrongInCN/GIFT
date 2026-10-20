@@ -1,8 +1,8 @@
 # 外部算法来源与必要适配
 
-**GIFT 仓库不包含外部算法实现、自动源码改写器或可执行补丁。** 本文与[手工适配操作说明](EXTERNAL_MANUAL_ADAPTATION.md)只记录官方仓库、固定版本、需要实施的操作和外部接口。使用者须在 GIFT 仓库文件夹之外下载、适配和保存外部算法，不能因目录已被 Git 忽略就把代码放在仓库内。
+**当前工作树仅保留外部算法的来源、文字适配步骤和通用接口。** 本文与[手工适配操作说明](EXTERNAL_MANUAL_ADAPTATION.md)只记录官方仓库、固定版本、需要实施的操作和外部接口。使用者须在 GIFT 仓库文件夹之外下载、适配和保存外部算法，不能因目录已被 Git 忽略就把代码放在仓库内。[新模型发布](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free)清理了公开副本的源码元数据，取代旧包；旧附件仍保留，Git 历史和旧标签也未改写，范围见[外部算法边界说明](EXTERNAL_REPOSITORY_POLICY.md)。
 
-GIFT 的 `adapters/` 只连接使用者准备的仓库外运行接口。`GIFT_EXTERNAL_ADAPTER_ROOT` 指向包含外部 `adapters/` 模块的根目录，缺省为相邻 `gift-external-runtime/`；`GIFT_EXTERNAL_ROOT` 指向官方 checkout 父目录；`GIFT_ANIE_SOURCE_ROOT` 指向 ANIE checkout。本机现有接口保存于 `D:/2_GIFT/gift-external-runtime`，原官方 checkout 保持只读。这些本地依赖不属于 GIFT Git 仓库，也不随 GIFT 发布。新使用者需自行按文字步骤提供接口；纯下载工具不执行算法适配。
+GIFT 的 `adapters/` 只连接使用者准备的仓库外运行接口。`GIFT_EXTERNAL_ADAPTER_ROOT` 指向包含外部 `adapters/` 模块的根目录，缺省为相邻 `gift-external-runtime/`；`GIFT_EXTERNAL_ROOT` 指向官方 checkout 父目录；`GIFT_ANIE_SOURCE_ROOT` 指向 ANIE checkout。原官方 checkout 保持只读，必要适配在仓库外实施并保存。这些本地依赖不属于 GIFT Git 仓库，也不随 GIFT 发布。新使用者需自行按文字步骤提供接口；纯下载工具不执行算法适配。
 
 ## 官方来源
 
@@ -16,7 +16,7 @@ GIFT 的 `adapters/` 只连接使用者准备的仓库外运行接口。`GIFT_EX
 | PINN-SR | [EQDiscovery](https://github.com/isds-neu/EQDiscovery) | `9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496` |
 | PINN 原生优化器 | [TensorFlow](https://github.com/tensorflow/tensorflow)，tag `v1.15.0` | `590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b` |
 
-仓库内 `external_sources.json` 与 `anie_sources.json` 仅保存来源、版本、选定文件和文字操作标识。固定 commit 与散列用于来源记录，不能代替上游许可。许可状态和原始研究引用见 [README](../README.md)；安装、独立命令及目录设置见 [SETUP.md](SETUP.md)。
+仓库内 `external_sources.json` 与 `anie_sources.json` 仅保存来源、版本、选定文件和文字操作标识。固定 commit 与散列用于来源记录，不能代替上游许可。ANIE 的固定版本未找到明确许可，当前也未取得额外书面授权；文字说明、论文引用及公开副本元数据清理均不能替代授权。全部许可状态和原始研究引用见 [README](../README.md)；安装、独立命令及目录设置见 [SETUP.md](SETUP.md)。
 
 ## 当前单初态 W1/W2
 

@@ -1,6 +1,8 @@
 # Checkpoints: train, read or resume / 检查点使用
 
-当前七方法推理模型与两份配套生成元已可通过 `scripts.package_current_models` 无损导出、全量校验并在新机器激活，流程见 [CURRENT_REPRODUCTION.md](CURRENT_REPRODUCTION.md)。[当前协议 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020)提供独立模型包，[归档清单](CURRENT_MODEL_BUNDLE.json)记录下载地址、文件大小和 SHA256。模型文件保留当前实际字节，原测量文件的历史哈希另作来源证据，不互相改写。当前W3可由正式输入包新建自己的运行gate并从零训练，见 [W3_REPRODUCTION.md](W3_REPRODUCTION.md)。
+当前七方法推理模型与两份配套生成元可通过 `scripts.package_current_models` 导出独立公开副本、全量校验并在新机器激活，流程见 [CURRENT_REPRODUCTION.md](CURRENT_REPRODUCTION.md)。[源码元数据清理版 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free)提供[参考模型包](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip)，[归档清单](CURRENT_MODEL_BUNDLE.json)记录其下载地址、文件大小和 SHA256。此前[旧 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020)的包仍含 ANIE 的四段源码元数据（441字符），现已由新包取代，旧附件作为来源记录保留。公开副本清理源码元数据，并逐张量验证数值完全不变；原权重保持只读，原测量文件、当前来源文件与公开副本各自保存文件哈希。当前W3可由正式输入包新建自己的运行gate并从零训练，见 [W3_REPRODUCTION.md](W3_REPRODUCTION.md)。
+
+元数据清理会改变 ANIE 公开副本的序列化字节及 SHA256，不能宣称它与原文件逐字节相同，也不能据此取得 ANIE 的使用、修改或权重分发授权。许可状态和原始研究引用见 [README](../README.md#data-code-and-licence)。下表保留当前来源文件身份，不以公开副本的新哈希覆盖历史科学结果的来源绑定。
 
 ## W1/W2 模型文件与来源
 
@@ -42,8 +44,8 @@ special PINN L-BFGS phase-boundary recovery rule.
 ## External implementation location
 
 External-baseline loading requires the user-prepared runtime outside GIFT. Set
-`GIFT_EXTERNAL_ADAPTER_ROOT` to its root; the experiment machine uses
-`D:/2_GIFT/gift-external-runtime`. Official source locations remain as recorded
+`GIFT_EXTERNAL_ADAPTER_ROOT` to its root, such as a sibling
+`gift-external-runtime` directory. Official source locations remain as recorded
 in the weights and run metadata. Moving the connecting implementation outside
 the repository does not change model state keys, architecture, profile or
 checkpoint-selection rules. Follow [EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md)
@@ -57,7 +59,9 @@ Use the original output directory with `--resume`. Resume restores the model,
 optimizer, scheduler, RNG and committed progress, then checks actual model,
 data and schedule compatibility. Source hashes, library patch versions, paths,
 thread settings and checkpoint intervals do not prevent compatible recovery.
-Old checkpoints retain their original metadata and remain readable.
+Original checkpoints remain read-only and readable. Publication copies may omit
+source-snippet metadata; their separate hashes and exact tensor-equivalence
+records distinguish that cleanup from a change to a scientific model.
 
 A complete final checkpoint can also finish an interrupted weights export.
 This does not repeat optimization steps. Existing different weights are never
@@ -92,7 +96,7 @@ ablation with identical training budgets. The current W3 numerical sweep has 50 
 
 当前W3数值包包含50组不同真值、每组一条ID0轨迹和五种方法各50次拟合。它按case保存系数读出、完整系数/支持、真实耗时与输入/来源SHA，不将某一case伪装为所有参数组合的单一默认模型。公开包见[逐例数值](../results/formal/W3_single_trajectory_20261010/README.md)。
 
-W3结果包不包含训练用checkpoint。50组参数各自对应一份GIFT终态与两种PINN终态，共150份正式神经模型；实际检查点、优化器、随机状态与阶段记录保存在 `D:/2_GIFT/runs/w3_single_trajectory_20261010/training/parameter_*/`，并由逐case输入与模型身份清单绑定，不随GIFT项目仓库分发。
+W3结果包不包含训练用checkpoint。50组参数各自对应一份GIFT终态与两种PINN终态，共150份正式神经模型；实际检查点、优化器、随机状态与阶段记录保存在仓库外的 `w3_single_trajectory_20261010/training/parameter_*/` 运行目录，并由逐case输入与模型身份清单绑定，不随GIFT项目仓库分发。
 
 外部 PINN-SR、PDE-FIND 与其它上游实现仍由使用者从[登记的外部仓库](EXTERNAL_REPOSITORY_POLICY.md)下载并在项目外适配。仓库内只保留说明、接口和引用，不含这些外部算法实现。
 
@@ -108,7 +112,7 @@ Gaussian trajectories, not the four-vortex weights. The S3 evaluation rejects an
 model whose recorded input population, freshness or frozen-generator binding
 differs, so an W1 model cannot silently stand in for an S3 model.
 
-S3 uses `GIFT_DATA_ROOT=D:/2_GIFT/canonical_data` on the experiment machine and the current `gaussian_s3` cohort identity. Its released model identity metadata is paired to that observation mirror. All learned tensors, optimizer/RNG values and observation arrays retain their original values. `artifacts/CHECKPOINTS.json` lists the actual released file bytes and hashes; the measurement checkpoint hashes in the scientific result provenance still identify the original measured files. The two are separate evidence identities, with equivalence proved outside the repository in `S3_CANONICAL_DATA_MIRROR.json` and `S3_PACKAGED_METADATA_NORMALIZATION.json`.
+S3 uses the current `gaussian_s3` cohort identity in the separate observation package selected by `GIFT_DATA_ROOT`. Its released model identity metadata is paired to that observation mirror. All learned tensors, optimizer/RNG values and observation arrays retain their original values. `artifacts/CHECKPOINTS.json` lists the actual released file bytes and hashes; the measurement checkpoint hashes in the scientific result provenance still identify the original measured files. The two are separate evidence identities, with equivalence proved outside the repository in `S3_CANONICAL_DATA_MIRROR.json` and `S3_PACKAGED_METADATA_NORMALIZATION.json`.
 
 `artifacts/s3_gaussian/TRAINING_COSTS.json` reports each run's declared budget and
 its measured committed interval with an explicit timing scope; those scopes differ

@@ -1,21 +1,25 @@
-"""Export immutable current W1/W2 models and activate a verified portable bundle.
+"""Export source-free current W1/W2 models and activate a verified bundle.
 
 No training observations, external algorithm source or optimizer journals are
-distributed. Weight files are copied byte-for-byte; derived runtime lock paths
-are written only into a separate new activation directory.
+distributed. Original checkpoints stay read-only. Public copies omit source-text
+metadata when necessary and retain every tensor byte; runtime paths are derived
+only in a separate activation directory.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import shutil
 
 from gift.paths import package_member
+from gift.publication_metadata import public_metadata, source_metadata_findings
 from scripts.run_w1_single import fixed_json, file_hash
 from scripts.reproduce_prediction import METHODS, ROOT, output_root
 
-SCHEMA = "gift.current-model-bundle.v1"
+SCHEMA = "gift.current-model-bundle.v2"
+METADATA_POLICY = "source-free-provenance-v1"
 
 
 def read(path):
@@ -28,6 +32,87 @@ def record(path, root):
     return dict(path=path.relative_to(root).as_posix(), bytes=path.stat().st_size, sha256=file_hash(path))
 
 
+def tensor_identity(payload):
+    """Hash all nested tensor names, dtypes, shapes and exact logical bytes.
+
+    Inspect CPU views without changing parameters, gradients or the input
+    containers. Byte comparison includes signed zero and nonfinite bit patterns;
+    it does not replace the model/recipe checks used before export.
+    """
+    import torch
+    digest = hashlib.sha256()
+    count = 0
+
+    def visit(value, path):
+        nonlocal count
+        if isinstance(value, torch.Tensor):
+            tensor = value.detach().cpu().contiguous()
+            header = json.dumps([path, str(tensor.dtype), list(tensor.shape)],
+                                ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+            digest.update(len(header).to_bytes(8, "little"))
+            digest.update(header)
+            raw = tensor.reshape(-1).view(torch.uint8).numpy()
+            digest.update(memoryview(raw))
+            count += 1
+        elif isinstance(value, dict):
+            for key in sorted(value, key=str):
+                visit(value[key], path + "/" + str(key))
+        elif isinstance(value, (list, tuple)):
+            for index, item in enumerate(value):
+                visit(item, path + "/" + str(index))
+
+    visit(payload, "")
+    return dict(tensor_count=count, tensor_sha256=digest.hexdigest())
+
+
+def export_public_checkpoint(source, destination):
+    """Write a new source-free inference copy, proving tensors are unchanged.
+
+    A clean checkpoint retains its original file bytes. A checkpoint containing
+    source metadata is safely loaded, filtered, and saved only to the new
+    destination. Unknown pickle globals are never allowed for export.
+    """
+    import torch
+    source, destination = Path(source), Path(destination)
+    if destination.exists():
+        raise FileExistsError("Public checkpoint destination already exists")
+    before_hash = file_hash(source)
+    payload = torch.load(source, map_location="cpu", weights_only=True)
+    before_tensors = tensor_identity(payload)
+    removed = source_metadata_findings(payload)
+    if removed:
+        cleaned = public_metadata(payload)
+        if source_metadata_findings(cleaned):
+            raise ValueError("Source text remains after public checkpoint filtering")
+        torch.save(cleaned, destination)
+        restored = torch.load(destination, map_location="cpu", weights_only=True)
+        if tensor_identity(restored) != before_tensors:
+            raise ValueError("Public checkpoint tensors differ; retain incomplete export for inspection")
+    else:
+        shutil.copy2(source, destination)
+        if file_hash(destination) != before_hash:
+            raise ValueError("Copied clean checkpoint bytes differ")
+    if file_hash(source) != before_hash:
+        raise ValueError("Original checkpoint changed during read-only export")
+    return dict(source=str(source), source_bytes=source.stat().st_size,
+                source_sha256=before_hash, public_bytes=destination.stat().st_size,
+                public_sha256=file_hash(destination), removed_source_fields=removed,
+                tensor_values_unchanged=True, **before_tensors)
+
+
+def export_public_json(source, destination):
+    """Copy metadata without source text and record original/public identities."""
+    source, destination = Path(source), Path(destination)
+    payload = read(source)
+    removed = source_metadata_findings(payload)
+    if removed:
+        fixed_json(destination, public_metadata(payload))
+    else:
+        shutil.copy2(source, destination)
+    return dict(source=str(source), source_sha256=file_hash(source),
+                public_sha256=file_hash(destination), removed_source_fields=removed)
+
+
 def validate_gift_pairs(models):
     """Verify both branch architectures and their actual frozen generator tensors."""
     import torch
@@ -38,7 +123,7 @@ def validate_gift_pairs(models):
 
 
 def export_bundle(output, *, native_root=None, extension_root=None, aligned_root=None):
-    """Copy the nine current model files and necessary lock/status evidence once."""
+    """Export nine tensor-identical public models and source-free lock evidence."""
     from experiments.provenance import external_source
     from experiments.additional.w1_current_evaluate import fixed_sources
     from experiments.additional.w1_extended_evaluate import checkpoint_metadata
@@ -67,62 +152,68 @@ def export_bundle(output, *, native_root=None, extension_root=None, aligned_root
     for method, (path, relative) in selected.items():
         destination = output / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
-        original_hash = file_hash(path)
-        shutil.copy2(path, destination)
-        if file_hash(destination) != original_hash:
-            raise ValueError("Copied model bytes differ; preserve this incomplete export")
-        originals[relative] = dict(source=str(path), bytes=path.stat().st_size, sha256=original_hash)
+        originals[relative] = export_public_checkpoint(path, destination)
         if method in METHODS:
             models[method] = relative
     metadata = output / "metadata"
     metadata.mkdir()
     for name, source in (("base_lock.json", roots[2] / "PROTOCOL_LOCK.json"),
                          ("extension_lock.json", roots[1] / "EXTENSION_LOCK.json"),
-                         ("anie_STATUS.original.json", paths["anie_ns"].parent / "STATUS.json")):
-        shutil.copy2(source, metadata / name)
-        originals["metadata/" + name] = dict(source=str(source), sha256=file_hash(source))
+                         ("anie_STATUS.source.json", paths["anie_ns"].parent / "STATUS.json")):
+        originals["metadata/" + name] = export_public_json(source, metadata / name)
     # A relative pointer is a derived operational record. The original receipt
-    # remains a separate byte-identical member, never rewritten in its source.
-    status = read(metadata / "anie_STATUS.original.json")
+    # remains read-only at its source; the public snapshot is separately bound.
+    status = read(metadata / "anie_STATUS.source.json")
     status.update(selected_checkpoint=Path(models["anie_ns"]).name,
-                  original_status_file="../../metadata/anie_STATUS.original.json")
+                  source_status_snapshot="../../metadata/anie_STATUS.source.json")
     fixed_json((output / models["anie_ns"]).parent / "STATUS.json", status)
-    fixed_json(output / "ORIGINS.json", dict(schema="gift.model-bundle-origins.v1", files=originals,
-                tensor_or_weight_metadata_changes=False, observations_included=False,
+    fixed_json(output / "ORIGINS.json", dict(schema="gift.model-bundle-origins.v2", files=originals,
+                tensor_values_changed=False,
+                source_metadata_removed=any(row["removed_source_fields"] for row in originals.values()),
+                original_sources_read_only=True, observations_included=False,
                 complete_training_resume_state_included=False))
     files = [record(path, output) for path in sorted(output.rglob("*")) if path.is_file()]
     manifest = dict(schema=SCHEMA, scope="current_W1_W2_inference_models_and_lock_metadata",
                     models=models, files=files, observations_included=False,
-                    external_algorithm_source_included=False, complete_training_resume_state_included=False)
+                    external_algorithm_source_included=False, complete_training_resume_state_included=False,
+                    source_metadata_policy=METADATA_POLICY)
     fixed_json(output / "manifest.json", manifest)
+    verify_bundle(output)
     return dict(status="exported_not_uploaded", root=str(output), models=len(models),
                 model_files=len(selected), bytes=sum(row["bytes"] for row in files),
                 manifest_sha256=file_hash(output / "manifest.json"))
 
 
 def verify_bundle(bundle):
-    """Check the entire flat inventory before using any model or mutable output."""
+    """Check inventory and actual nested contents before trusting a public bundle."""
+    from gift.publication_files import audit_public_files
     bundle = Path(bundle).expanduser().resolve(strict=True)
     manifest = read(package_member(bundle, "manifest.json"))
     if (manifest.get("schema") != SCHEMA or set(manifest.get("models", {})) != set(METHODS)
             or manifest.get("observations_included") is not False
             or manifest.get("external_algorithm_source_included") is not False
-            or manifest.get("complete_training_resume_state_included") is not False):
+            or manifest.get("complete_training_resume_state_included") is not False
+            or manifest.get("source_metadata_policy") != METADATA_POLICY):
         raise ValueError("Expected an explicitly scoped current inference-model bundle")
     names = set()
     for row in manifest["files"]:
         relative = row["path"]
         path = package_member(bundle, relative)
-        if relative.casefold() in names or not path.is_file():
+        if (relative.casefold() in names or not path.is_file() or path.is_symlink()
+                or path.suffix.lower() not in {".pt", ".json"}):
             raise ValueError("Duplicate/non-file model bundle member")
         names.add(relative.casefold())
         if path.stat().st_size != row["bytes"] or file_hash(path) != row["sha256"]:
             raise ValueError("Model bundle member hash differs: " + relative)
-    actual = {path.relative_to(bundle).as_posix().casefold() for path in bundle.rglob("*") if path.is_file()}
+    actual_paths = [path for path in bundle.rglob("*") if path.is_file()]
+    actual = {path.relative_to(bundle).as_posix().casefold() for path in actual_paths}
     if actual != names | {"manifest.json"}:
         raise ValueError("Model bundle inventory differs from its directory")
     if any(relative.casefold() not in names for relative in manifest["models"].values()):
         raise ValueError("A model role is absent from the bound inventory")
+    problems = audit_public_files(actual_paths)
+    if problems:
+        raise ValueError("Public bundle contains forbidden or unsafe contents: " + "; ".join(problems))
     return manifest
 
 

@@ -2,7 +2,7 @@
 
 The current prediction protocol uses N300/N50, 76 real observation nodes and one true initial field. ANIE uses `aligned_ns_single_v1`. W3 uses 50 parameter cases, one training trajectory and zero independent validation trajectories per case, with fixed terminal GIFT checkpoints. The following entry points prepare these protocols without the experiment machine's old run folders or cost forecasts. They never update the supplied observations, reference weights or published numerical records.
 
-Install the environments in [SETUP.md](SETUP.md), then prepare the pinned upstream sources and external interfaces using [EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md). The external algorithm implementations remain outside GIFT. The commands below run from the repository root and use new output directories.
+Install the environments in [SETUP.md](SETUP.md), then prepare the pinned upstream sources and external interfaces using [EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md). The external algorithm implementations remain outside GIFT. Source availability and recorded hashes do not grant a licence: the [licence table](../README.md#data-code-and-licence) includes ANIE's unresolved authorization status. The commands below run from the repository root and use new output directories.
 
 ## Inputs and environment
 
@@ -54,7 +54,9 @@ Repeat with `--cohort old_test` and new output directories for the separately re
 
 ## Reference model bundle
 
-The [reference model bundle](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020/GIFT-current-models-20261020.zip), `GIFT-current-models-20261020.zip`, contains seven current inference models and the two paired GIFT generators. It contains no observations, upstream algorithm source or complete optimizer journals. Its archive and model-file identities are recorded in [CURRENT_MODEL_BUNDLE.json](CURRENT_MODEL_BUNDLE.json). Download it from the [current-protocol release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020) and verify the recorded SHA256 before extraction.
+The [reference bundle](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip), `GIFT-current-models-20261020-source-free.zip`, contains seven current inference models and the two paired GIFT generators. It is available from the [source-free release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free). Its archive and model-file identities are recorded in [CURRENT_MODEL_BUNDLE.json](CURRENT_MODEL_BUNDLE.json). It contains no observations or complete optimizer journals, and its checkpoint metadata are checked for source snippets as well as executable payloads. Verify the recorded SHA256 before extraction.
+
+The earlier `GIFT-current-models-20261020.zip` at the [superseded release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020) contains four ANIE `before`/`after` source strings (441 characters) in checkpoint metadata. It remains available for provenance and must not be described as containing no upstream source. The new release supersedes that bundle with a separate publication copy that removes those strings and verifies every tensor exactly against its original. The original weights remain read-only; metadata cleanup changes the ANIE file's serialized bytes and hash. It neither retrains the model nor resolves ANIE's outstanding authorization.
 
 After extracting a supplied bundle into a new directory:
 
@@ -67,7 +69,7 @@ python -B -m scripts.reproduce_prediction evaluate --root $Active --dataset-root
 python -B -m scripts.reproduce_prediction evaluate --root $Active --dataset-root $env:GIFT_DATA_ROOT --experiment W2 --cohort confirmation --output 'D:\evaluations\reference_w2' --device cuda
 ```
 
-Activation checks every bundle member and both GIFT branch/generator tensor pairs, retains all weight bytes and scientific model specifications, and writes current-machine lock pointers separately. A copied ANIE operational receipt uses a relative best-checkpoint pointer; its original receipt is retained byte-for-byte in the bundle. GIFT resolves its sibling generator and still verifies the generator tensor binding. External model construction and forward operations use the user's current source roots without rewriting the recorded model metadata. Current distribution file hashes may differ from historical measurement hashes after earlier descriptive-metadata normalization; these byte identities remain separately recorded, and this export does not rewrite either weight file.
+Activation checks every bundle member and both GIFT branch/generator tensor pairs, retains the verified publication-copy bytes and scientific model specifications, and writes current-machine lock pointers separately. A copied ANIE operational receipt uses a relative best-checkpoint pointer; a separately bound source-receipt snapshot is also checked for source metadata during export. GIFT resolves its sibling generator and still verifies the generator tensor binding. External model construction and forward operations use the user's current source roots. The original measurement-file hashes, current source-file hashes and publication-copy hashes are distinct provenance identities. The exporter keeps originals unchanged and records the publication-copy identity separately; activation does not serialize the weights again.
 
 To prepare another reference bundle from completed source runs, use explicit roots or the external source registry:
 
@@ -75,7 +77,7 @@ To prepare another reference bundle from completed source runs, use explicit roo
 python -B -m scripts.package_current_models export --native-root /runs/native --extension-root /runs/extension --aligned-root /runs/aligned --output /exports/gift-current-models
 ```
 
-The exporter validates all fixed slots before copying the nine model files. It refuses an existing destination. Exporting or activating a bundle does not publish it, and reference inference weights cannot be used as the resume journal for an unrelated training run.
+The exporter validates all fixed slots, creates the nine publication files and checks their metadata and exact tensor equivalence. It refuses an existing destination. Exporting or activating a bundle does not publish it, and reference inference weights cannot be used as the resume journal for an unrelated training run.
 
 ## Current W3
 
@@ -92,4 +94,4 @@ python -B -m pytest -q -p no:cacheprovider
 python -B -m scripts.audit_repository
 ```
 
-Native CPU continuation tests are opt-in through a new `GIFT_BASELINE_TEST_ROOT`; TensorFlow and CUDA tests use their documented separate environments. Skips are reported separately. Result-package and dataset hash verification do not replace full-budget training or inference. After staging the intended local file selection, audit that selection again before a later upload.
+Native CPU continuation tests are opt-in through a new `GIFT_BASELINE_TEST_ROOT`; TensorFlow and CUDA tests use their documented separate environments. Skips are reported separately. Result-package and dataset hash verification do not replace full-budget training or inference. Audit the intended publication selection and attachment after any change. Current-file and model-bundle checks do not certify Git history: old adapters remain in earlier `main` commits and the `reference-checkpoints-20260913` tag. This release provides the replacement attachment without rewriting Git history or removing the superseded attachment; see [EXTERNAL_REPOSITORY_POLICY.md](EXTERNAL_REPOSITORY_POLICY.md) and the final checks in [VALIDATION.md](VALIDATION.md).

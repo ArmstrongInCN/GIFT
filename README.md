@@ -53,12 +53,12 @@ U-NO supervises 20 steps through t = 5.80 and U-Net four steps through t = 5.16.
 
 ### How to get started?
 
-For a new machine, follow [the current reproduction workflow](docs/CURRENT_REPRODUCTION.md). It prepares the N300/N50 recipes directly from the observation package, trains aligned ANIE and the other fixed methods, and evaluates separate complete populations. Download the nine-file reference model bundle from the [current-protocol release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020); its [archive identity and direct download URL](docs/CURRENT_MODEL_BUNDLE.json) are recorded for verification. Historical experiment directories are not required for the fresh workflow.
+For a new machine, follow [the current reproduction workflow](docs/CURRENT_REPRODUCTION.md). It prepares the N300/N50 recipes directly from the observation package, trains aligned ANIE and the other fixed methods, and evaluates separate complete populations. Download the [nine-file reference model bundle](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip) from the [source-free release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free) and verify its [archive identity](docs/CURRENT_MODEL_BUNDLE.json). The new bundle removes ANIE source-text metadata while preserving every model tensor exactly; it supersedes the earlier model package. Historical experiment directories are not required for the fresh workflow.
 
-Run from the repository root. The [training protocol](docs/W1_W2_PROTOCOL.md) gives the W1/W2 configurations and checkpoint bindings. Their weights and full predictions are stored in the declared external experiment directories; the repository contains result summaries and figure evidence. Set `GIFT_DATA_ROOT` for data. External baselines require user-prepared code outside this repository: `GIFT_EXTERNAL_ROOT` selects the pinned upstream checkouts, `GIFT_ANIE_SOURCE_ROOT` selects ANIE, and `GIFT_EXTERNAL_ADAPTER_ROOT` selects their external runtime interfaces. Follow the written [manual adaptation instructions](docs/EXTERNAL_MANUAL_ADAPTATION.md); this repository contains no external algorithm implementation or automatic source patcher.
+Run from the repository root. The [training protocol](docs/W1_W2_PROTOCOL.md) gives the W1/W2 configurations and checkpoint bindings. Their weights and full predictions are stored in the declared external experiment directories; the repository contains result summaries and figure evidence. Set `GIFT_DATA_ROOT` for data. External baselines require user-prepared code outside this repository: `GIFT_EXTERNAL_ROOT` selects the pinned upstream checkouts, `GIFT_ANIE_SOURCE_ROOT` selects ANIE, and `GIFT_EXTERNAL_ADAPTER_ROOT` selects their external runtime interfaces. Follow the written [manual adaptation instructions](docs/EXTERNAL_MANUAL_ADAPTATION.md); the current working-tree code contains no external algorithm implementation or automatic source patcher.
 
 ```shell
-# Install the tested environment: Python 3.10.19, PyTorch 2.10.0, CUDA 12.6
+# Recorded reference training environment: Python 3.10.19, PyTorch 2.10.0, CUDA 12.6
 python -m venv ../gift-env            # activate it with your shell's command
 python -m pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cu126
 python -m pip install -r requirements-reproduction.txt
@@ -86,7 +86,7 @@ GIFT and the prediction baselines support CPU and CUDA. Hardware, numerical libr
 
 ### Where does the data come from?
 
-The separate dataset has an existing ScienceDB record; downloading observations is optional because they can be regenerated. The local package reorganized on 2026-10-20 is `D:/GIFT/GIFT-dataset`; it has not been uploaded as a new ScienceDB version. Its [README and layout](docs/data_package/README.md) distinguish current W1/W2 N300/N50 inputs, independent N1000 auxiliary data, 50 current W3 cases, S3 Gaussian data and numerical source data for all six formal experiments. It includes no trained weights or full prediction archive.
+The separate dataset has an existing ScienceDB record; downloading observations is optional because they can be regenerated. The package reorganized on 2026-10-20 has not been uploaded as a new ScienceDB version. Its [README and layout](docs/data_package/README.md) distinguish current W1/W2 N300/N50 inputs, independent N1000 auxiliary data, 50 current W3 cases, S3 Gaussian data and numerical source data for all six formal experiments. It includes no trained weights or full prediction archive. Set `GIFT_DATA_ROOT` to the extracted dataset directory outside GIFT.
 
 - **Dataset record** — *GIFT Navier–Stokes input data*, ScienceDB, DOI `10.57760/sciencedb.013lo` (CSTR `31253.11.sciencedb.013lo`), licensed CC BY 4.0.
 - **Generating observations locally instead** — `scripts/generate_data` integrates clean fields, `generate_sampling` prepares protocol-specific inputs, `derive_dense_frames` selects exact coarse/cross-resolution frames, and `generate_gaussian_data` generates S3. `assemble_generated_data` and `prepare_prediction_package` build their declared generated collections; they do not recreate the complete six-experiment publication package. Optional `generate_noise` supports the separate historical noisy protocol. Commands and continuation boundaries are in [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md); regeneration starts from recorded initial conditions and does not promise bitwise identity across devices.
@@ -121,12 +121,13 @@ The root also holds the numerical experiment record [`EXPERIMENTS.md`](EXPERIMEN
 
 GIFT software and documentation are released under the [MIT licence](LICENSE). The data package uses CC BY 4.0; external projects are governed by their own terms.
 
-The comparison experiments use the upstream open-source implementations below. Upstream sources are **not distributed with this repository** and must be obtained from their owners under their own terms; only pinned commits and source hashes are recorded here, in [`external_sources.json`](external_sources.json). Only written adaptation instructions and source references are retained in GIFT. Users download the official code and perform the stated adaptations outside the repository; see [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md) and the detailed [manual procedure](docs/EXTERNAL_MANUAL_ADAPTATION.md). The external runtime used on the experiment machine is a separate local dependency and is not part of the GIFT distribution. We thank the authors and contributors of these projects, and ask that the original research be cited when using these methods.
+The comparison experiments use the upstream implementations below. The current working tree retains source references, pinned metadata, written adaptation instructions and generic interfaces; external algorithm implementations and executable source patches must remain outside GIFT. Users obtain the official code under its own terms and perform the stated adaptations outside the repository; see [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md) and the detailed [manual procedure](docs/EXTERNAL_MANUAL_ADAPTATION.md). The external runtime used on the experiment machine is a separate local dependency. Earlier Git history and the `reference-checkpoints-20260913` tag retain old executable adapters; a normal new commit does not remove them. The superseded model attachment retains four ANIE source-text metadata strings (441 characters); it remains available for provenance, and the new release provides the cleaned publication copy. This release does not rewrite Git history; [the boundary policy](docs/EXTERNAL_REPOSITORY_POLICY.md) distinguishes these scopes. We thank the authors and contributors of these projects, and ask that the original research be cited when using these methods.
 
 | Upstream project | Used for | Pinned version | Licence |
 | --- | --- | --- | --- |
 | [neuraloperator/neuraloperator](https://github.com/neuraloperator/neuraloperator) | FNO-2D and FNO-3D baselines | `01d2aeca` | MIT |
 | [ashiq24/UNO](https://github.com/ashiq24/UNO) | U-NO baseline | `19462d82` | BSD-2-Clause |
+| [emazap7/ANIE](https://github.com/emazap7/ANIE) | ANIE baseline | `2071ad70` | No explicit licence found at the pinned commit; no additional written authorization obtained |
 | [Rui1521/Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets) | U-Net baseline | `229da3e0` | No licence declared upstream; **do not redistribute** |
 | [isds-neu/EQDiscovery](https://github.com/isds-neu/EQDiscovery) | PINN-SR configurations | `9a20ebe6` | No licence declared upstream |
 | [snagcliffs/PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | PDE-FIND configurations | `86911349` | No licence declared upstream |
@@ -134,7 +135,7 @@ The comparison experiments use the upstream open-source implementations below. U
 
 The ANIE baseline uses [emazap7/ANIE](https://github.com/emazap7/ANIE) at commit `2071ad709b260a6c305450affcf7168fd825f692`; its selected source metadata are recorded in [anie_sources.json](anie_sources.json), and the necessary coordinate/dropout operations are described in [the manual adaptation guide](docs/EXTERNAL_MANUAL_ADAPTATION.md). The JSON contains no executable patch text.
 
-Each licence entry above was read from the upstream repository **at the pinned commit**. Three of the six declare no licence, so no rights over their code are granted or implied here: obtain those sources from their owners and use them at your own discretion and risk. Apache-2.0 requires the retained notices only on redistribution, and no TensorFlow source is redistributed here.
+Each licence entry above refers to the upstream repository **at the pinned commit**. Four of the seven have no explicit licence identified, so GIFT grants no rights over their code. ANIE usage, modification and weight-distribution authorization remain unresolved; adding attribution or removing source metadata does not provide that authorization. ANIE attributes its Galerkin attention to [Galerkin Transformer](https://github.com/scaomath/galerkin-transformer), which has an MIT licence; that licence does not automatically cover ANIE's other code. TensorFlow is Apache-2.0; any redistribution of covered source must preserve the applicable notices.
 
 ### Citation
 
@@ -145,6 +146,7 @@ The comparison methods have primary references, and two upstream repositories pu
 - **FNO-2D / FNO-3D** — Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895). Cited by the upstream repository.
 - **U-NO** — M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023.
 - **U-Net baseline** — R. Wang, K. Kashinath, M. Mustafa, A. Albert, R. Yu, "Towards physics-informed deep learning for turbulent flow prediction", KDD 2020. Cited by the upstream repository.
+- **ANIE** — E. Zappala et al., "Learning integral operators via neural integral equations", Nat. Mach. Intell. 6, 1046–1062 (2024), [doi:10.1038/s42256-024-00886-8](https://doi.org/10.1038/s42256-024-00886-8).
 - **PINN-SR** — Z. Chen, Y. Liu, H. Sun, "Physics-informed learning of governing equations from scarce data", Nat. Commun. 12, 6136 (2021).
 - **PDE-FIND** — S. H. Rudy, S. L. Brunton, J. L. Proctor, J. N. Kutz, "Data-driven discovery of partial differential equations", Sci. Adv. 3, e1602614 (2017).
 - **TensorFlow optimizers** — Apache-2.0 software; the upstream project requests no citation.
@@ -188,18 +190,18 @@ W1/W2使用300条训练轨迹、76个真实观测时间点（dt = 0.04）和每�
 - **W2仅N64训练、原生跨网格：** GIFT在N64／N96／N128的未来25点误差为 **2.1098%／2.0633%／2.0610%**，六种方法每个网格各180/180条预测有限，没有目标网格训练。ANIE仅参加W1。
 - **W3**在50组无噪声方程参数组合上评估五种方法；每组各使用对应的一条ID0轨迹，共250个方法/参数槽位、750个参数读出。全部数值、APE汇总与实测成本见[实验记录](EXPERIMENTS.md#43-w3-50组无噪声方程参数识别)及[W3结果包](results/formal/W3_single_trajectory_20261010/README.md)。**S1–S3**保留各自独立N1000协议和既有结果。
 
-W3两种PINN采用论文Methods交替子问题`paper_ado_v1`、原生float32及完整观测/物理人口。各方法保留各自采样与预算，真实成本和运行来源分别报告，见[W3协议](docs/W3_PROTOCOL.md)。
+W3两种PINN采用论文Methods交替子问题`paper_ado_v1`、原生float32及全部观测点和物理约束点。各方法保留各自采样与预算，真实成本和运行来源分别报告，见[W3协议](docs/W3_PROTOCOL.md)。
 
 U-NO监督20步至t5.80，U-Net监督4步至t5.16。GIFT-Lite（来源键`GIFT-N50`）取有序N300名单前50条，沿用GIFT阶段epoch，因此样本量与总更新数同时减少。确认集与训练、验证集独立，但其中部分方法的结果此前已被查看，故不视为盲测；另一180条轨迹仅作探索性评价。GIFT采用0.08/0.48秒监督时距、内部RK4 dt = 0.02，每0.04秒保存一次。结果反映固定配方的单模型表现，不能单独归因于架构，也不提供等计算预算或跨训练种子变异的证据。
 
 ### 如何开始？
 
-新机器请按[当前协议复现流程](docs/CURRENT_REPRODUCTION.md)从观测包直接准备N300/N50配方、训练时空对齐ANIE及其余固定方法，再评价完整人口。参考模型已整理为独立的九文件无损模型包，可从[当前协议 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020)下载，[归档身份与直接下载地址](docs/CURRENT_MODEL_BUNDLE.json)用于核验。从零训练不依赖作者的历史实验目录。当前W3的准备、单轨迹再生、训练和250槽汇总见[专用流程](docs/W3_REPRODUCTION.md)。
+新机器请按[当前协议复现流程](docs/CURRENT_REPRODUCTION.md)从观测包直接准备N300/N50配方、训练时空对齐ANIE及其余固定方法，再评估各组完整轨迹集。从[源码元数据清理版 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free)下载[九文件参考模型包](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip)，并按[归档身份](docs/CURRENT_MODEL_BUNDLE.json)校验。新包移除了 ANIE 源码文本元数据，全部模型张量逐位不变，取代此前的模型包。从零训练不依赖作者的历史实验目录。当前W3的准备、单轨迹再生、训练和250槽汇总见[专用流程](docs/W3_REPRODUCTION.md)。
 
-命令均在项目根目录运行。[训练协议](docs/W1_W2_PROTOCOL.md) 给出W1/W2配置和权重绑定；其权重与完整预测保存在声明的外部实验目录，仓库提供结果汇总及图像证据。数据包由 `GIFT_DATA_ROOT` 指定。外部基线须由使用者在 GIFT 仓库外准备：`GIFT_EXTERNAL_ROOT` 指定固定官方 checkout，`GIFT_ANIE_SOURCE_ROOT` 指定 ANIE，`GIFT_EXTERNAL_ADAPTER_ROOT` 指定外部运行接口。具体步骤见[手工适配说明](docs/EXTERNAL_MANUAL_ADAPTATION.md)；GIFT 仓库不包含外部算法实现或自动源码修改器。
+命令均在项目根目录运行。[训练协议](docs/W1_W2_PROTOCOL.md) 给出W1/W2配置和权重绑定；其权重与完整预测保存在声明的外部实验目录，仓库提供结果汇总及图像证据。数据包由 `GIFT_DATA_ROOT` 指定。外部基线须由使用者在 GIFT 仓库外准备：`GIFT_EXTERNAL_ROOT` 指定固定官方 checkout，`GIFT_ANIE_SOURCE_ROOT` 指定 ANIE，`GIFT_EXTERNAL_ADAPTER_ROOT` 指定外部运行接口。具体步骤见[手工适配说明](docs/EXTERNAL_MANUAL_ADAPTATION.md)；当前工作树代码不包含外部算法实现或自动源码修改器。
 
 ```shell
-# 安装验证环境：Python 3.10.19、PyTorch 2.10.0、CUDA 12.6
+# 原记录训练参考环境：Python 3.10.19、PyTorch 2.10.0、CUDA 12.6
 python -m venv ../gift-env            # 再用所在shell的命令激活
 python -m pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cu126
 python -m pip install -r requirements-reproduction.txt
@@ -214,7 +216,7 @@ python -m scripts.verify_data --root "$GIFT_DATA_ROOT"
 python -m scripts.prepare_external --root "$GIFT_EXTERNAL_ROOT"
 # 单独下载固定版本ANIE，按文字步骤在仓库外适配并准备运行接口。
 
-# 指定模型和评价人口的参数接口
+# 指定模型和评估样本集的参数接口
 python -m experiments.additional.w1_current_evaluate --help
 python -m experiments.additional.w2_single_evaluate --help
 
@@ -226,7 +228,7 @@ GIFT与预测基线支持CPU和CUDA，硬件、数学库及上游GPU算子可能
 
 ### 数据从哪里来？
 
-数据已有独立 ScienceDB 记录；观测也可从初值重新生成。2026年10月20日重整的本地包位于 `D:/GIFT/GIFT-dataset`，尚未作为新版本上传 ScienceDB。[包说明与目录](docs/data_package/README.md) 分别列出当前 W1/W2 的 N300/N50 输入、独立 N1000 辅助数据、当前 W3 的 50 个 case、S3 Gaussian 数据和六个正式实验的数值源数据。模型权重和完整预测场不在本包内。
+数据已有独立 ScienceDB 记录；观测也可从初值重新生成。2026年10月20日重整的数据包尚未作为新版本上传 ScienceDB。[包说明与目录](docs/data_package/README.md) 分别列出当前 W1/W2 的 N300/N50 输入、独立 N1000 辅助数据、当前 W3 的 50 个 case、S3 Gaussian 数据和六个正式实验的数值源数据。模型权重和完整预测场不在本包内。请将 `GIFT_DATA_ROOT` 指向 GIFT 仓库外的数据包解压目录。
 
 - **数据集记录**——*GIFT Navier–Stokes input data*，ScienceDB，DOI `10.57760/sciencedb.013lo`（CSTR `31253.11.sciencedb.013lo`），许可 CC BY 4.0。
 - **也可以本地生成观测**——`scripts/generate_data` 积分干净场，`generate_sampling` 准备协议采样，`derive_dense_frames` 精取粗帧与跨分辨率帧，`generate_gaussian_data` 生成 S3。`assemble_generated_data` 和 `prepare_prediction_package` 汇集各自声明的再生数据，不自动重建六个实验的完整发布包。可选 `generate_noise` 用于独立历史噪声协议。命令与断点边界见 [docs/DATA_GENERATION.md](docs/DATA_GENERATION.md)；再生从已记录初值出发，不承诺跨设备逐比特一致。
@@ -261,18 +263,19 @@ GIFT与预测基线支持CPU和CUDA，硬件、数学库及上游GPU算子可能
 
 GIFT 软件与文档使用 [MIT 许可](LICENSE)；数据包使用 CC BY 4.0；外部项目适用各自条款。
 
-对比实验使用以下上游开源实现。上游源码**不随本仓库分发**，需按各自条款从上游获取；本仓库只记录固定提交与源码散列（见 [`external_sources.json`](external_sources.json)）。仓库仅保留文字适配说明和来源引用；使用者自行下载官方代码并在 GIFT 仓库外完成适配，步骤见 [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md) 和[详细操作说明](docs/EXTERNAL_MANUAL_ADAPTATION.md)。实验机器上已有的外部运行接口是独立本地依赖，不属于 GIFT 发布内容。对各项目的作者与贡献者表示感谢，使用相关方法时请引用其原始研究。
+对比实验使用以下上游实现。当前工作树仅保留来源引用、固定版本元数据、文字适配说明和通用接口；外部算法实现及可执行源码补丁必须保存在 GIFT 之外。使用者按上游条款自行取得官方代码并在仓库外完成适配，步骤见 [docs/EXTERNAL_ADAPTATIONS.md](docs/EXTERNAL_ADAPTATIONS.md) 和[详细操作说明](docs/EXTERNAL_MANUAL_ADAPTATION.md)。实验机器上已有的外部运行接口是独立本地依赖。此前 Git 历史和 `reference-checkpoints-20260913` 标签仍保留旧的可执行适配器，普通新提交不会移除这些内容；已被取代的旧模型附件仍含四段 ANIE 源码文本元数据（441字符），作为来源记录保留，新发布提供清理后的公开副本。本次发布未改写 Git 历史，范围见[外部算法边界说明](docs/EXTERNAL_REPOSITORY_POLICY.md)。对各项目的作者与贡献者表示感谢，使用相关方法时请引用其原始研究。
 
 | 上游项目 | 用途 | 固定版本 | 许可状态 |
 | --- | --- | --- | --- |
 | [neuraloperator/neuraloperator](https://github.com/neuraloperator/neuraloperator) | FNO-2D 与 FNO-3D 基线 | `01d2aeca` | MIT |
 | [ashiq24/UNO](https://github.com/ashiq24/UNO) | U-NO 基线 | `19462d82` | BSD-2-Clause |
+| [emazap7/ANIE](https://github.com/emazap7/ANIE) | ANIE 基线 | `2071ad70` | 固定提交未找到明确许可，尚未取得额外书面授权 |
 | [Rui1521/Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets) | U-Net 基线 | `229da3e0` | 上游未声明许可，**不得再分发** |
 | [isds-neu/EQDiscovery](https://github.com/isds-neu/EQDiscovery) | PINN-SR 两种配置 | `9a20ebe6` | 上游未声明许可 |
 | [snagcliffs/PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | PDE-FIND 两种配置 | `86911349` | 上游未声明许可 |
 | [tensorflow/tensorflow](https://github.com/tensorflow/tensorflow)（tag `v1.15.0`） | NAdam 与 L-BFGS 优化器实现 | `590d6eef` | Apache-2.0 |
 
-表中许可状态均在上述**固定提交**处读取。六个上游项目中有三个未声明许可，本项目因此不主张也不暗示对其代码的任何权利：这些源码须自行从上游获取并按各自条款使用，风险自担。Apache-2.0 仅在再分发时才要求保留声明，而本仓库未再分发任何 TensorFlow 源码。
+表中许可状态均对应上述**固定提交**。七个上游项目中有四个未找到明确许可，GIFT 不授予其代码的任何权利。ANIE 的使用、修改和权重公开分发授权仍未闭环；补齐引用或清理源码元数据不能替代授权。ANIE 声明其 Galerkin attention 来自采用 MIT 许可的 [Galerkin Transformer](https://github.com/scaomath/galerkin-transformer)，该许可不会自动覆盖 ANIE 的其余代码。TensorFlow 使用 Apache-2.0；如再分发受其覆盖的源码，须保留适用声明。
 
 ANIE基线采用 [emazap7/ANIE](https://github.com/emazap7/ANIE) 的固定提交 `2071ad709b260a6c305450affcf7168fd825f692`，选定源码元数据见 [anie_sources.json](anie_sources.json)，坐标与 dropout 必要操作见[手工适配说明](docs/EXTERNAL_MANUAL_ADAPTATION.md)。该 JSON 不含可执行补丁文本。
 
@@ -285,6 +288,7 @@ ANIE基线采用 [emazap7/ANIE](https://github.com/emazap7/ANIE) 的固定提交
 - **FNO-2D / FNO-3D**——Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, A. Anandkumar, "Fourier neural operator for parametric partial differential equations", ICLR 2021 (arXiv:2010.08895)。上游仓库明确要求引用。
 - **U-NO**——M. A. Rahman, Z. E. Ross, K. Azizzadenesheli, "U-NO: U-shaped neural operators", Trans. Mach. Learn. Res. 2023。
 - **U-Net 基线**——R. Wang, K. Kashinath, M. Mustafa, A. Albert, R. Yu, "Towards physics-informed deep learning for turbulent flow prediction", KDD 2020。上游仓库明确要求引用。
+- **ANIE**——E. Zappala et al., "Learning integral operators via neural integral equations", Nat. Mach. Intell. 6, 1046–1062 (2024)，[doi:10.1038/s42256-024-00886-8](https://doi.org/10.1038/s42256-024-00886-8)。
 - **PINN-SR**——Z. Chen, Y. Liu, H. Sun, "Physics-informed learning of governing equations from scarce data", Nat. Commun. 12, 6136 (2021)。
 - **PDE-FIND**——S. H. Rudy, S. L. Brunton, J. L. Proctor, J. N. Kutz, "Data-driven discovery of partial differential equations", Sci. Adv. 3, e1602614 (2017)。
 - **TensorFlow 优化器**——Apache-2.0 软件，上游未提出引用要求。

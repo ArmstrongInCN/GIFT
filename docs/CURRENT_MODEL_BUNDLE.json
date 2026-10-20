@@ -1,15 +1,8 @@
 {
-  "status": "published_github_release",
-  "filename": "GIFT-current-models-20261020.zip",
-  "bytes": 265720161,
-  "sha256": "2b7d9d7c592a5cdeb35a24510350efa5e671abf8cc1f89dd59d82e9f5bfebf95",
-  "bundle_manifest_sha256": "4db5242a321c11e42194211368e18ce27ff2160141e7439ffcba7fcbff7b450a",
   "model_count": 7,
   "model_file_count": 9,
   "training_observations_included": false,
   "complete_training_resume_state_included": false,
-  "download_url": "https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020/GIFT-current-models-20261020.zip",
-  "release_url": "https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020",
   "models": {
     "GIFT": "models/GIFT/branch/model.pt",
     "fno2d": "models/fno2d/terminal_weights.pt",
@@ -19,11 +12,20 @@
     "unet": "models/unet/terminal_weights.pt",
     "GIFT-N50": "models/GIFT-N50/branch/model.pt"
   },
+  "status": "published_source_free",
+  "filename": "GIFT-current-models-20261020-source-free.zip",
+  "bytes": 265720625,
+  "sha256": "f18edee1cad3e5e0a99331878b83fb59094a84000c0b2fe3acd6f15a4abd7e7c",
+  "bundle_schema": "gift.current-model-bundle.v2",
+  "source_metadata_policy": "source-free-provenance-v1",
+  "bundle_manifest_sha256": "a7dbb4c91358e82177abfc289cd0cd4d9eeddf3b29ddc217dc56c4c8f2ce4951",
+  "download_url": "https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip",
+  "release_url": "https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free",
   "model_files": [
     {
       "path": "models/anie_ns/best.pt",
-      "bytes": 6988397,
-      "sha256": "3adbe09b412c1a3a214ac06bebde51079298018799b80a685d8cfde4f93abb35"
+      "bytes": 6983013,
+      "sha256": "e0f39eeee053d1afae736f3471c625a4dc1c7200e93d993ddc85aeb24873a25d"
     },
     {
       "path": "models/fno2d/terminal_weights.pt",
@@ -65,5 +67,17 @@
       "bytes": 121928759,
       "sha256": "75334c44d832fab4d5ef525af68c3848ed1392594e1c32885f3c539179919068"
     }
-  ]
+  ],
+  "tensor_values_unchanged": true,
+  "original_weight_files_modified": false,
+  "previous_published_archive": {
+    "filename": "GIFT-current-models-20261020.zip",
+    "sha256": "2b7d9d7c592a5cdeb35a24510350efa5e671abf8cc1f89dd59d82e9f5bfebf95",
+    "release_url": "https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020",
+    "source_metadata_present": true,
+    "replacement_pending": false,
+    "superseded_by_release_url": "https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free",
+    "superseded_by_download_url": "https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip",
+    "retained_for_provenance": true
+  }
 }

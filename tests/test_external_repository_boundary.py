@@ -53,7 +53,8 @@ def test_audit_rejects_algorithm_files_and_executable_patch_metadata(tmp_path):
     (tmp_path / "patch.json").write_text(json.dumps({"patches": [{"before": "x", "after": "y"}]}))
     failures = external_boundary_failures(tmp_path, ["adapters/__init__.py", "adapters/models.py",
                                                      "copied.py", "patch.json"])
-    assert len(failures) == 3
+    # Both source-bearing fields are reported with their exact nested paths.
+    assert len(failures) == 4
     assert any("algorithm definition" in item for item in failures)
     assert any("patch source text" in item for item in failures)
     assert external_boundary_failures(tmp_path, ["adapters/__init__.py"]) == []

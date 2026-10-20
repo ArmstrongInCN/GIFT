@@ -9,6 +9,7 @@ import importlib
 import os
 from pathlib import Path
 
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -49,29 +50,13 @@ def source_file(project_root, relative):
 
 
 def public_metadata(value):
-    """Publish patch descriptions without before/after source text.
+    """Filter public provenance only when requested by an export operation.
 
-    Only fields inside a patch-description list are omitted. Numerical values,
-    settings and other before/after records are untouched.
+    Configuration-only callers can import the external interface namespace
+    without installing or importing the numerical GIFT package first.
     """
-    if isinstance(value, dict):
-        output = {}
-        for key, item in value.items():
-            if key == "patches" and isinstance(item, list):
-                output[key] = [
-                    public_metadata({k: v for k, v in patch.items()
-                                     if k not in ("before", "after")})
-                    if isinstance(patch, dict) else public_metadata(patch)
-                    for patch in item
-                ]
-            else:
-                output[key] = public_metadata(item)
-        return output
-    if isinstance(value, list):
-        return [public_metadata(item) for item in value]
-    if isinstance(value, tuple):
-        return tuple(public_metadata(item) for item in value)
-    return value
+    from gift.publication_metadata import public_metadata as clean_metadata
+    return clean_metadata(value)
 
 
 def __getattr__(name):

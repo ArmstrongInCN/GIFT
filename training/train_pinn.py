@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from adapters.pinn_runtime import _json, _writer, sha256
 from adapters import source_file
+from gift.publication_metadata import public_metadata
 from training.configuration import validate_resume, output_path
 
 DEFAULT_BUDGET = {"pre_nadam": 5000, "rounds": 6, "ado_nadam": 1000,
@@ -530,7 +531,7 @@ def terminal_export(journal):
                      "mask": "exact_nonzero_of_final_STRidge_float32_coefficients",
                      "post_LBF": False},
                   "library": control.backend.runtime.library_names, "training_cost": control.state["cost"], "raw_coefficients": raw.tolist(), "mask": mask.tolist(),
-                  "effective_coefficients": (raw * mask).tolist(), "terminal_snapshot": metadata,
+                  "effective_coefficients": (raw * mask).tolist(), "terminal_snapshot": public_metadata(metadata),
                   "terminal_state_sha256": sha256(numeric), "checkpoint": journal.latest,
                   "tensor_format": "numeric_npz_allow_pickle_false_no_meta_graph"}
         destination = directory / "result.json"

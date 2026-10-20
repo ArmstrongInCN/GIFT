@@ -18,6 +18,7 @@ import torch
 from adapters.w1_extended import build_network, forward_model, METHODS
 from adapters.models import uno_components
 from adapters import source_file
+from gift.publication_metadata import public_metadata
 from training.baseline_control import _configure_profile
 from training.checkpoints import capture_rng, restore_rng, restore_optimizer, runtime_identity, state_digest, digest_file
 from training.w1_single_train import _retain_resume_evidence, _restore_complete_progress
@@ -274,7 +275,7 @@ def run_training(window, output, *, model_spec, config, device="cuda", resume=Fa
                             model_state=state_cpu(model), model_spec=spec, config=config, normalization={"kind": "none"},
                             epoch=epoch, selection="terminal", stage=config["stage"], seed=config["seed"],
                             val_metric=last_validation["validation_mse"], data_binding=bank.binding,
-                            source_provenance=provenance))
+                            source_provenance=public_metadata(provenance)))
                 checkpoint_seconds += time.perf_counter() - save_begin
             history[-1].update(checkpoint_seconds=checkpoint_seconds, epoch_total_seconds=time.perf_counter() - epoch_begin)
             if epoch % config["checkpoint_interval"] == 0 or epoch == end_epoch:

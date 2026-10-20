@@ -23,6 +23,7 @@ from adapters.anie import ANIEPredictor
 from adapters.anie_config import ANIEConfig
 from adapters.models import build_model, fno_utilities
 from adapters import source_file
+from gift.publication_metadata import public_metadata
 from training.baseline_control import _fno3d_input
 from training.checkpoints import capture_rng, restore_rng, restore_optimizer, runtime_identity, state_digest, digest_file
 from training.w1_v2_data import WindowBank, epoch_order
@@ -392,7 +393,7 @@ def run_training(window, output, *, model_spec, config, device="cuda", resume=Fa
                                  model_state=state_cpu(model), model_spec=model_spec, config=config,
                                  normalization=normalization, epoch=epoch, val_metric=selection["best_metric"],
                                  stage=config["stage"], seed=config["seed"], data_binding=bank.binding,
-                                 source_provenance=source_provenance))
+                                 source_provenance=public_metadata(source_provenance)))
                     with (output / "BEST_HISTORY.jsonl").open("a", encoding="utf-8") as stream:
                         stream.write(json.dumps(dict(epoch=epoch, val_metric=selection["best_metric"]), allow_nan=False) + "\n")
                 if config["stage"] == "formal" and epoch >= config["min_epochs"] and selection["stale_checks"] >= config["patience"]:

@@ -7,6 +7,7 @@ import random
 import numpy as np
 import torch
 
+from gift.publication_metadata import public_metadata
 from training.checkpoints import write_model_export
 from training.configuration import output_path
 
@@ -119,7 +120,8 @@ def export_terminal(output, model, config, model_config, identity, history, upda
                     fresh_training=True, same_run_resume_used=resumed,
                     selection="terminal_epoch_not_validation",
                     training_cost=training_cost(history, updates),
-                    run_provenance=dict(run_id=attempt["run_id"], identity=identity, terminal_boundary=latest))
+                    run_provenance=dict(run_id=attempt["run_id"], identity=public_metadata(identity),
+                                        terminal_boundary=public_metadata(latest)))
     write_model_export(output / "model.pt", artifact)
 
 

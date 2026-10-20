@@ -23,6 +23,7 @@ from adapters.anie import ANIEPredictor, native_early_stopping
 from adapters import source_file
 from adapters.anie_config import ANIEConfig
 from adapters.models import build_model, fno_utilities
+from gift.publication_metadata import public_metadata
 from training.checkpoints import capture_rng, restore_rng, restore_optimizer, runtime_identity, state_digest, digest_file
 from training.w1_v2_data import WindowBank, epoch_order, SAMPLE_SEED
 from training.w1_v2_train import (
@@ -215,7 +216,7 @@ def _weights_payload(model, spec, config, normalization, bank, provenance, epoch
     return dict(schema=WEIGHTS_SCHEMA, status=status, model_state=state_cpu(model), model_spec=spec,
                 config=config, normalization=normalization, epoch=epoch, val_metric=metric,
                 selection=config["selection"], stage=config["stage"], seed=config["seed"],
-                data_binding=bank.binding, source_provenance=provenance)
+                data_binding=bank.binding, source_provenance=public_metadata(provenance))
 
 
 def _retain_resume_evidence(output, checkpoint_epoch):

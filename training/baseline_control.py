@@ -22,6 +22,7 @@ from torch.utils.checkpoint import checkpoint as activation_checkpoint
 
 from adapters.models import build_model, source_record, fno_utilities, uno_components
 from adapters import source_file
+from gift.publication_metadata import public_metadata
 from training.checkpoints import CheckpointStore, restore_optimizer, digest_file, runtime_identity, write_model_export
 from training.budgets import PREDICTION_EPOCHS
 from training.configuration import output_path
@@ -345,7 +346,8 @@ def _export_terminal(output, network, normalization, config, identity, resumed, 
     artifact = dict(schema="gift.independent-baseline-weights.v1", status="complete", method=config["model"],
                     model_state_dict={key: value.detach().cpu() for key, value in network.state_dict().items()},
                     normalization=normalization, formal_configuration=config,
-                    run_provenance=dict(run_id=attempt["run_id"], identity=identity, terminal_boundary=latest),
+                    run_provenance=dict(run_id=attempt["run_id"], identity=public_metadata(identity),
+                                        terminal_boundary=public_metadata(latest)),
                     artifact_role="fresh_terminal" if config["formal"] else "test_only",
                     fresh_training=True, same_run_resume_used=resumed,
                     initialization="random_from_seed_no_published_checkpoint",

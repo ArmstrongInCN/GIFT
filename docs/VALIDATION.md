@@ -6,6 +6,18 @@
 [EXTERNAL_REPOSITORY_POLICY.md](EXTERNAL_REPOSITORY_POLICY.md)。手工下载与适配步骤见
 [EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md)。
 
+公开文件检查也覆盖权重容器中的文本元数据。新模型包中的公开副本须与来源文件逐张量一致；若移除源码片段导致序列化字节变化，来源 SHA256 与公开副本 SHA256 分别记录在 `ORIGINS.json`，不要求它们相等，也不更新历史实验的模型哈希。原始权重、观测数据和已记录的实验数值仍要求保持不变。
+
+## 源码元数据清理版发布验证
+
+本次发布前的完整测试为 **1090 passed、12 skipped、12 subtests passed**，另有45条警告。该轮使用 Python 3.12.14、PyTorch 2.10.0 + CUDA 12.6；README 的 Python 3.10.19 是原记录的训练参考环境，不能将两者视为同一次运行。测试包含四个真实外部预测网络的小型 CPU 连续训练与暂停恢复检查，未重新执行正式500轮训练。跳过项包括显式启用的 CUDA、TensorFlow 和未配置的外部参考数据测试，不作为通过项。
+
+独立只读复核逐对象比较9个公开 PT 与原权重的全部412个张量、49,446,895个标量：dtype、shape、layout 与逻辑原始字节完全一致，无浮点容差。8个 PT 保持原文件字节；ANIE 仅移除预先确认的4个源码元数据字段，其他科学元数据完全一致。归档成员、CRC、文件大小和 SHA256 均通过，并检查了 PT 的序列化字符串，未残留此前441字符的源码文本。
+
+真实 ANIE 推理对照使用同一确认轨迹 ID100000、RTX A5500 Laptop GPU 和完整76节点，输出形状为 `[1,76,64,64]`。原权重与公开副本的预测逐位一致、全部有限，最大绝对差和相对 L2 均为0；原 checkpoint 哈希保持不变。这是单条真实轨迹的完整时间轴对照，没有重新评估整个180条轨迹集或重新训练。
+
+最终测试后，1540个既有权重、结果及图源文件的 SHA256 全部不变；独立数据包1699个文件的大小与 SHA256 全量核验通过，同时核对角色、shape、dtype 和50个 W3 case。该轮未重复全数组 finite 扫描，也不将文件完整性检查当作完整科学实验复算。上述检查针对[当前发布模型包](CURRENT_MODEL_BUNDLE.json)和当前工作文件，不证明全部 Git 历史或旧发布附件均无外部代码。
+
 ## W1/W2 验证范围
 
 [N300/76点协议](W1_W2_PROTOCOL.md) 的验证对象包括固定有序N300/N50 ID、20条validation、真实76节点精抽、单真实初态、每方法声明的seed与checkpoint身份，以及终态或validation-best规则。U-NO/U-Net的20/4步目标、batch/time-sum loss、尾批、optimizer/scheduler与随机状态对应其固定配方；W1/W2的GIFT-Lite使用自己的N300协议生成元/分支文件（来源键`GIFT-N50`），不与辅助实验的N1000协议同名权重混用。
@@ -76,6 +88,24 @@ After Git is initialized, inspect the proposed file selection with
 `python -B -m scripts.audit_repository`. Once the final files have been staged,
 add `--tracked` to limit the audit to tracked files. These are read-only
 checks: they do not stage, commit or upload anything.
+
+For an external model attachment, also inspect its contained checkpoints:
+
+```shell
+python -B -m scripts.audit_repository --public-file /exports/GIFT-current-models-20261020-source-free.zip
+python -B -m scripts.audit_repository --history-risk-ref reference-checkpoints-20260913
+```
+
+The first check covers the specified publication file, including nested source
+metadata. The second reports known risks in that historical reference without
+rewriting it. Earlier `main` history and the old tag still retain executable
+adapters; the superseded online model ZIP still retains ANIE source strings and
+remains available for provenance. The [new release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free)
+provides the cleaned replacement without rewriting that history or physically
+removing the old attachment. A passing current-file or replacement-bundle check
+must not be presented as certification of all history or all old releases.
+Removing source metadata and adding citations do not grant upstream permission;
+ANIE's additional authorization remains unconfirmed.
 
 代码测试、断点恢复、文件哈希、完整训练和实验指标一致性分别核验。合成数据测试
 不读取已有训练权重，也不代表真实数据实验通过。测试不会自动训练全部正式模型。
