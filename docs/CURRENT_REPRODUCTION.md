@@ -2,7 +2,7 @@
 
 The current prediction protocol uses N300/N50, 76 real observation nodes and one true initial field. ANIE uses `aligned_ns_single_v1`. W3 uses 50 parameter cases, one training trajectory and zero independent validation trajectories per case, with fixed terminal GIFT checkpoints. The following entry points prepare these protocols without the experiment machine's old run folders or cost forecasts. They never update the supplied observations, reference weights or published numerical records.
 
-Install the environments in [SETUP.md](SETUP.md), then prepare the pinned upstream sources and external interfaces using [EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md). The external algorithm implementations remain outside GIFT. Source availability and recorded hashes do not grant a licence: the [licence table](../README.md#data-code-and-licence) includes ANIE's unresolved authorization status. The commands below run from the repository root and use new output directories.
+Install the environments in [SETUP.md](SETUP.md), then prepare the pinned upstream sources and external interfaces using [EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md). The external algorithm implementations remain outside GIFT. Source identities are recorded in [external_sources.json](../external_sources.json) and [anie_sources.json](../anie_sources.json). The commands below run from the repository root and use new output directories.
 
 ## Inputs and environment
 

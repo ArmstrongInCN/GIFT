@@ -2,7 +2,7 @@
 
 当前七方法推理模型与两份配套生成元可通过 `scripts.package_current_models` 导出独立公开副本、全量校验并在新机器激活，流程见 [CURRENT_REPRODUCTION.md](CURRENT_REPRODUCTION.md)。[源码元数据清理版 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020-source-free)提供[参考模型包](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip)，[归档清单](CURRENT_MODEL_BUNDLE.json)记录其下载地址、文件大小和 SHA256。此前[旧 Release](https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020)的包仍含 ANIE 的四段源码元数据（441字符），现已由新包取代，旧附件作为来源记录保留。公开副本清理源码元数据，并逐张量验证数值完全不变；原权重保持只读，原测量文件、当前来源文件与公开副本各自保存文件哈希。当前W3可由正式输入包新建自己的运行gate并从零训练，见 [W3_REPRODUCTION.md](W3_REPRODUCTION.md)。
 
-元数据清理会改变 ANIE 公开副本的序列化字节及 SHA256，不能宣称它与原文件逐字节相同，也不能据此取得 ANIE 的使用、修改或权重分发授权。许可状态和原始研究引用见 [README](../README.md#data-code-and-licence)。下表保留当前来源文件身份，不以公开副本的新哈希覆盖历史科学结果的来源绑定。
+元数据清理会改变 ANIE 公开副本的序列化字节及 SHA256，不能宣称它与原文件逐字节相同，也不能据此取得 ANIE 的使用、修改或权重分发授权。来源及相关文献见 [README](../README.md#references)，外部依赖范围见[边界说明](EXTERNAL_REPOSITORY_POLICY.md)。下表保留当前来源文件身份，不以公开副本的新哈希覆盖历史科学结果的来源绑定。
 
 ## W1/W2 模型文件与来源
 
