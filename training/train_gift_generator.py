@@ -1,4 +1,4 @@
-"""Train only the full-data prediction generator; M1 uses its own entry point."""
+"""Train only the full-data prediction generator; W3 uses its own entry point."""
 
 # Thin console entry; the generator's prediction protocol lives in
 # training.gift_prediction_control.main_generator.

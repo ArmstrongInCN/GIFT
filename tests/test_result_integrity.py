@@ -8,31 +8,34 @@ from experiments.formal._shared.figure_evidence import file_record, finish_figur
 
 
 def make_result(root, numeric=True):
+    """Create numeric-first or legacy completion receipts for non-scientific CSV bytes."""
     root.mkdir()
     (root / "summary").mkdir()
     metric = root / "summary/metrics.csv"
     metric.write_text("fixture_only\nnot_scientific\n", encoding="utf-8")
-    report = dict(experiment="M2", status="numerical_complete" if numeric else "complete")
+    report = dict(experiment="W1", status="numerical_complete" if numeric else "complete")
     if numeric:
         report["numeric_files"] = [file_record(metric, root)]
     filename = "numeric_report.json" if numeric else "report.json"
     (root / filename).write_text(json.dumps(report), encoding="utf-8")
     if not numeric:
-        (root / "manifest.json").write_text(json.dumps(dict(experiment="M2", status="complete",
+        (root / "manifest.json").write_text(json.dumps(dict(experiment="W1", status="complete",
             files=[file_record(metric, root), file_record(root / filename, root)])), encoding="utf-8")
     return root
 
 
 @pytest.mark.parametrize("numeric", [True, False])
 def test_both_completion_formats_are_integrity_only(tmp_path, numeric):
+    """Verify receipt integrity without reporting recomputed metrics or training."""
     root = make_result(tmp_path / "result", numeric)
-    result = verify_result(root, "M2")
+    result = verify_result(root, "W1")
     assert result["status"] == "PASS_INTEGRITY_ONLY"
     assert not result["training_performed"] and not result["numerical_metrics_recomputed"]
 
 
 @pytest.mark.parametrize("change", ["corrupt", "status", "experiment", "duplicate", "escape", "size"])
 def test_invalid_numeric_result_rejected(tmp_path, change):
+    """Reject corrupt files, incomplete receipts and unsafe/duplicate file declarations."""
     root = make_result(tmp_path / "result")
     path = root / "numeric_report.json"
     report = json.loads(path.read_text())
@@ -50,16 +53,17 @@ def test_invalid_numeric_result_rejected(tmp_path, change):
         report["numeric_files"][0]["bytes"] = True
     path.write_text(json.dumps(report))
     with pytest.raises(ValueError):
-        verify_result(root, "M2")
+        verify_result(root, "W1")
 
 
 def test_svg_binding_and_structure(tmp_path):
+    """Bind SVGs to their numeric report and reject changed binding or embedded raster data."""
     root = make_result(tmp_path / "result")
-    result = verify_result(root, "M2")
+    result = verify_result(root, "W1")
     figures = tmp_path / "figures"
     figures.mkdir()
     (figures / "test.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg"><text>fixture</text></svg>')
-    finish_figures(figures, {"experiment": "M2", "report_sha256": result["report_sha256"]},
+    finish_figures(figures, {"experiment": "W1", "report_sha256": result["report_sha256"]},
                    root / "numeric_report.json", {"fixture_only": True})
     assert verify_figures(figures, result)["svg_files_verified"] == 1
     with pytest.raises(ValueError, match="another"):

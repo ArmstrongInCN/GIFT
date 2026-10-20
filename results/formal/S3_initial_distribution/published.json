@@ -1,0 +1,897 @@
+{
+  "schema": "gift.published-results.v1",
+  "experiment": "S3",
+  "scope": "summaries_and_selected_figures",
+  "full_raw_outputs_included": false,
+  "resumable_experiment": false,
+  "measurement": {
+    "report_sha256": "6BB31F1B4679EB5C88D5CD3138178981453B258A0BEF18885C2F4BFBD1CBB17F",
+    "result_manifest_sha256": "2E83ADA34DCEF211E5441C238C68700E646A7614156F54CB9962D2E53DAF4FB7",
+    "settings": {
+      "device": "cuda",
+      "fno2d_batch_size": 10,
+      "fno3d_batch_size": 5,
+      "gift_batch_size": 16,
+      "gift_execution": "eager",
+      "gift_regimes": [
+        "GIFT",
+        "GIFT-Lite"
+      ],
+      "lite_gift_model": [],
+      "lite_low_model": null,
+      "unet_batch_size": 4,
+      "uno_batch_size": 4
+    },
+    "runtime": {
+      "cublas_workspace_config": null,
+      "cuda": "12.6",
+      "cudnn": 91002,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "cudnn_tf32": true,
+      "deterministic": false,
+      "deterministic_warn_only": false,
+      "machine": "AMD64",
+      "matmul_tf32": false,
+      "numpy": "2.2.6",
+      "os": "Windows-10-10.0.26100-SP0",
+      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+      "python": "3.10.19",
+      "selected_gpu": {
+        "major": 8,
+        "minor": 6,
+        "multiprocessors": 58,
+        "name": "NVIDIA RTX A5500 Laptop GPU",
+        "total_memory": 17179344896
+      },
+      "tf32_override": null,
+      "threading": {
+        "environment": {
+          "MKL_DYNAMIC": null,
+          "MKL_NUM_THREADS": "2",
+          "NUMEXPR_NUM_THREADS": null,
+          "OMP_DYNAMIC": null,
+          "OMP_NUM_THREADS": "2",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": null
+        },
+        "torch_num_interop_threads": 16,
+        "torch_num_threads": 2
+      },
+      "torch": "2.10.0+cu126",
+      "torch_interop_threads": 16,
+      "torch_threads": 2
+    },
+    "external": {
+      "fno2d": {
+        "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+        "family": "fno",
+        "repository": "https://github.com/neuraloperator/neuraloperator",
+        "source_sha256": {
+          "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+          "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+          "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+        }
+      },
+      "fno3d": {
+        "commit": "01d2aeca407f85ce1c1e78b313edb749973fc051",
+        "family": "fno",
+        "repository": "https://github.com/neuraloperator/neuraloperator",
+        "source_sha256": {
+          "fourier_2d_time.py": "481617EF6C3280413F78D608593241EA4EE9D07CF93E30D657D0F3E68436E0B0",
+          "fourier_3d.py": "E6F8875D319C9E6708B7C449F0BB9C63581446EB26E941FDC06C0979DF650A96",
+          "utilities3.py": "113B9BA3A10A3E951F7A3479FCE9A8B10D52AD4DED6FB95C6B03BCF94F810A13"
+        }
+      },
+      "unet": {
+        "commit": "229da3e01acefa6f4dd6c77244da5015c9b965af",
+        "family": "unet",
+        "repository": "https://github.com/Rui1521/Turbulent-Flow-Nets",
+        "source_sha256": {
+          "Baselines/U-net.py": "F7390A41DA24DD8DBC45F80D04ABEA81F4AAC8FFF14C4BCDC982A9EBDF59B237"
+        }
+      },
+      "uno": {
+        "commit": "19462d82729ef64ef7b9e97056ddcaaf3044ad47",
+        "family": "uno",
+        "repository": "https://github.com/ashiq24/UNO",
+        "source_sha256": {
+          "Adam.py": "8F2FD03BF320C32D6D08CE9627845EE8048D34489B967BD6E86A66445330F1BA",
+          "LICENSE": "AB4DD081D7897CD3A440A90A500F872F4B54475C071F7B761B283B0D5475FE9A",
+          "integral_operators.py": "89E5F51D7FC5C5FA1FBE5357C0E2D770B717053B6E25E93F4F2EAF9B04D2DB52",
+          "navier_stokes_uno2d.py": "B66DC6C8215E33D72D31B1DFA29AD041558C967DB77B78A2721D96B02D8B1876",
+          "ns_train_2d.py": "77B905CFB0090E942ACEBF1446395B18AB02015863C875F658520D4627FB8879",
+          "ns_uno2d_main.py": "15DAC20BC540A5E466649B89ACE9D416634DC274735CA78BC79D42E9C29E6CA1",
+          "utilities3.py": "AD92FB260F6D565AD71BB25597A7C7012F06ED6ECB3948D59D1D146E78EE1395"
+        }
+      }
+    },
+    "executed_source_record": {
+      "source_record_id": "3cb5a889acb6534d6a18",
+      "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+    },
+    "released_input_bindings": {
+      "fno2d_model": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/fno2d/model.pt",
+        "sha256": "4806281FC7992C691EAE9F23E16560DCE764F8AE613EB6B6425BF40668A3973A",
+        "relation": "identical_serialized_bytes"
+      },
+      "fno3d_model": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/fno3d/model.pt",
+        "sha256": "047F95C548E9C573E48AF98AD1566894CF3D3699D8741CF83FC80E9F7DA0D791",
+        "relation": "identical_serialized_bytes"
+      },
+      "fno_test_dt0p02": {
+        "root": "GIFT_DATA_ROOT",
+        "path": "s3_gaussian/trajectories.h5",
+        "sha256": "8868C616C697D65B60FC58E8E1BBF69CAB8D7B369D23CA8742B8DF1E748F8431",
+        "relation": "identical_serialized_bytes"
+      },
+      "gift_20260820": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_full/gift_seed_20260820.pt",
+        "sha256": "E0EAEBC16A9357484382D434972B68B913A905BC49F50890258C9FAB0A094ABA",
+        "relation": "identical_serialized_bytes"
+      },
+      "gift_20260821": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_full/gift_seed_20260821.pt",
+        "sha256": "96C858B645039E9A7B3B0D7D89A2B6614BA61F21CE85FF3CA5EEBDD383ADA2E3",
+        "relation": "identical_serialized_bytes"
+      },
+      "gift_20260822": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_full/gift_seed_20260822.pt",
+        "sha256": "7C9A756A113A77A8AA33624BB33EC67E0072C37CDDD917774923FE8E13D74030",
+        "relation": "identical_serialized_bytes"
+      },
+      "lite_gift_20260820": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_lite/gift_seed_20260820.pt",
+        "sha256": "5EA538AEB034FC0AF4BD953B7896FEB8A20D2D1494094E877AB5D1BBC944F87A",
+        "relation": "identical_serialized_bytes"
+      },
+      "lite_gift_20260821": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_lite/gift_seed_20260821.pt",
+        "sha256": "A4F61C461543660E228C57BD34BBAE396E3EEDFA4C2242A89538B6E54A9A4A7B",
+        "relation": "identical_serialized_bytes"
+      },
+      "lite_gift_20260822": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_lite/gift_seed_20260822.pt",
+        "sha256": "B88705C7E9AA7BEB6C9FDB19EF917A7F3017CF39855855EB9F7D01256CDAAD86",
+        "relation": "identical_serialized_bytes"
+      },
+      "lite_low_model": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_lite/generator.pt",
+        "sha256": "88E7850E50842365E638359A262D0DE3E4D0DFA5C60E53A263281B1C3B6E3E94",
+        "relation": "identical_serialized_bytes"
+      },
+      "low_model": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/gift_full/generator.pt",
+        "sha256": "5460303D0666D1A09AA3568EFA054B7B5508F9BDA2D6FBFA3CBFACACA61C32A5",
+        "relation": "identical_serialized_bytes"
+      },
+      "standard_n64": {
+        "root": "GIFT_DATA_ROOT",
+        "path": "s3_gaussian/trajectories.h5",
+        "sha256": "8868C616C697D65B60FC58E8E1BBF69CAB8D7B369D23CA8742B8DF1E748F8431",
+        "relation": "identical_serialized_bytes"
+      },
+      "unet_model": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/unet/model.pt",
+        "sha256": "C10D0C0E82E582B5B17806C259A1482B2C304BD77D3512DF1E30B6CDC777DB38",
+        "relation": "identical_serialized_bytes"
+      },
+      "uno_model": {
+        "root": "project",
+        "path": "artifacts/s3_gaussian/uno/weights.json",
+        "sha256": "E8912264850E58BE00A62DBE9C70E7C72951F480C71DCA46227BD093AF93DC32",
+        "relation": "identical_serialized_bytes"
+      }
+    },
+    "independent_full_field_metric_audit": {
+      "status": "PASS_INDEPENDENT_FULL_FIELD_METRICS",
+      "trajectories": 180,
+      "method_seed_groups": 10,
+      "report_times": 7,
+      "trajectory_time_errors": 12600,
+      "complete_prediction_finite_counts": {
+        "GIFT_seed_20260820": 180,
+        "GIFT_seed_20260821": 180,
+        "GIFT_seed_20260822": 180,
+        "GIFT_Lite_seed_20260820": 163,
+        "GIFT_Lite_seed_20260821": 163,
+        "GIFT_Lite_seed_20260822": 163,
+        "FNO_2D": 180,
+        "FNO_3D": 180,
+        "U_NO": 180,
+        "U_Net": 180
+      },
+      "report_sha256": "6bb31f1b4679eb5c88d5cd3138178981453b258a0bef18885c2f4bfbd1cbb17f",
+      "raw_prediction_sha256": "4191481874f6a00b879f5de693941f5aac9e9e9077d7b6d971009c48e02064f0",
+      "metrics_sha256": "adaec6d212bca5de13f0e17e9f4e616b137b728b5bd4be740f445565990c0e76",
+      "metric_arithmetic": "float32 field subtraction followed by float64 squared-sum norms",
+      "finite_subset_statistics_checked_without_hiding_failure_counts": true,
+      "training_reexecuted": false
+    },
+    "prediction_finiteness": {
+      "GIFT": 180,
+      "GIFT-Lite": 163,
+      "FNO-2D": 180,
+      "FNO-3D": 180,
+      "U-NO": 180,
+      "U-Net": 180
+    },
+    "failed_trajectories_omitted": false,
+    "initial_condition": {
+      "family": "periodic_zero_mean_smooth_gaussian_random_field",
+      "root_seed": 2026091601,
+      "rng": "NumPy PCG64 with SeedSequence([root_seed, trajectory_id])",
+      "grid": 64,
+      "correlation_length": 0.4,
+      "ensemble_pointwise_standard_deviation": 1.0908839162005806,
+      "amplitude_source": "RMS of initial fields in four-vortex training IDs 0-999 only",
+      "amplitude_source_file_sha256": "23f5a0af459633b620f486624e6802b012b4fb7684b4d41a186b15c4eeab3244",
+      "spectral_filter": "h(k)=exp(-ell^2*|k|^2/4), h(0)=0",
+      "construction": "omega_hat=a*h*FFT(z); z~N(0,I), a=sigma*N/sqrt(sum(h^2))",
+      "samplewise_rms_normalization": false,
+      "rejection_sampling": false,
+      "zero_spatial_mean": true,
+      "parameters_selected_using_test_results": false
+    },
+    "comparison_scope": "within each distribution; not cross-distribution generalization",
+    "reference": {
+      "experiment": "W1",
+      "published_manifest_sha256": "6134D138411366DC538EF558B13B5A8AA65B8A3DC4BD9E726D1ABA1F55B919B1",
+      "original_results_recomputed": false
+    }
+  },
+  "figure_directories": [
+    "figures/curves",
+    "figures/keyframes",
+    "figures/four_vortex"
+  ],
+  "recompute_instructions": "docs/S3_PROTOCOL.md",
+  "files": [
+    {
+      "path": "figures/curves/figure_manifest.json",
+      "bytes": 6167,
+      "sha256": "3BFBD0BA881F3AA27248DEDFADF11566B02BA4B78DA56767E0EBCF2D5A67EB52"
+    },
+    {
+      "path": "figures/curves/four_vortex_mean_relative_l2_vs_time.svg",
+      "bytes": 28433,
+      "sha256": "1E9629FFBEFE1E45EBE622B38E91BBC4EE17673CB8365259F99D458EAB05BF16"
+    },
+    {
+      "path": "figures/curves/gaussian_mean_relative_l2_vs_time.svg",
+      "bytes": 28287,
+      "sha256": "308E8AEE44D013035499FB8FD111CF7AE8A621DEDDC34D853B0BD9DB44A6830C"
+    },
+    {
+      "path": "figures/curves/initial_distribution_comparison.svg",
+      "bytes": 57386,
+      "sha256": "B11115B2BC2A7B4E2435BC0D45AC9E9F898B5F6D1CD591ACD25A7E81B4AD7C29"
+    },
+    {
+      "path": "figures/curves/reference_source_data.csv",
+      "bytes": 2285,
+      "sha256": "2F9379EBF48FB5A6DB7C529B723166C2B5032844905670C6B8CA78177FF1C94C"
+    },
+    {
+      "path": "figures/curves/source_data.csv",
+      "bytes": 2293,
+      "sha256": "6A1BF7D7737E87180CDB7D0FA9EE1D59ED9D0BD9C3F2F26A7824D5E5213E6623"
+    },
+    {
+      "path": "figures/four_vortex/figure_manifest.json",
+      "bytes": 27576,
+      "sha256": "DB107CBEECA96C30CC05851BB8701C184CFC650D22183150C6460EA492125951"
+    },
+    {
+      "path": "figures/four_vortex/figure_metadata.json",
+      "bytes": 2863,
+      "sha256": "8DABBD07F10A046AF8EDD2B48F22931A6C8C1BBE3D12665066561AC070B6B2BC"
+    },
+    {
+      "path": "figures/four_vortex/panel_file_index.csv",
+      "bytes": 3783,
+      "sha256": "1B61D32D02915BC17489C2DD0E9ED01CBF93CEC40D07919146752268B19C06D4"
+    },
+    {
+      "path": "figures/four_vortex/panel_metrics.csv",
+      "bytes": 2835,
+      "sha256": "75088F0392DDBD643AF05F0916ED89883260979EA68AA1BD4E2DCD962E7A19A9"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "C377DD9901A2714A0C9C95C0B6D5686B6373C0C9764BE4DFDE2D2AFC8BEF7F11"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "AC6930C2D80AC31C09DD790BE8B98208386911317D32552DF29F5158870C5F28"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "1F169310107D6E69C2570704D36C3FC8C13AC6E59A1E31C4B0B4EEDADA81FA89"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "ACDD50BABEA87BE980D1DBA621B06AF639F3805999DF382B16B484787D01846C"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "A69D9BDE4EFBF317B31991BAD391FE688041DFD724E53C711CAE74BE136EED12"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "42635F63F66FDBB96199C18626D5156C185DB1B8EAE7B4BC571235F46B30E30F"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "AB70F416A409C60FDB0DB7BAAB4851CA7BC4ACDEB4FE93983CAFD5F7D66A51E0"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno2d/traj1045_fno2d_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "68510106804977B2920C14241F4C499FEB2D1B91AFB2C5A3308E1ABEDE5F474B"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "6473EDBD9F5ED8B1B15ABA29BEA6B215CB735D4CD14CF85A5FE8B1CF197BA883"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "B408F1F9AF6D2305574FA011AB421DE89E756806373C6BB94B59EF1627994D89"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "615AF50BECB2BF938BC8B5F5E66726B8A926E777762CDB4D70379EDFB32EED89"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "BD2298F89059DB4BB380638C7304A3E262F388FA867CBF336748396CCC4AAD89"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "EB460D5A9C6A96C9CD10BBF6C3145A7980759B2EFDC5E1EF162292FC126024F4"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "6EE9FD6C53D270426A41D049B295C94D969758F9F817549F8CF5EF8ACF1CDC80"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "6B9A0EFAFD302FDF8A68B1BCC69A4235CA754AF60181E4C6E4B15F50943B114E"
+    },
+    {
+      "path": "figures/four_vortex/panels/fno3d/traj1045_fno3d_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "6EE8B2DD85B3EE3C050DF70A3D2D85B53AE10438AA7C635B4E3B6F3342787309"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "A9E15F1BFDAE070E9C0F7703C2CDA63BA0C009CF0248A31BB0D511B7986E8E5B"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "902635B5B7FC5596C46327C2867AA084FDC10D6529791740968984D8CED35502"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "083516F7F756074212F8461AF38D982ED9EE79EB959A270D877F931395DA7D79"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "DC2659472F45246FC256670330D88419519231F32D2F308C5C11B07C621F1773"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "3A43D093C9FB7D6E732C8C2B28D8F65C2E34071F625882FA015F080FAACFB756"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "7D9CC59D47A9DD6C615E34C6E78D825C515A3DE99DC1F9E73396539779E413C3"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "22EB6D510A3C024DC1F5CED303E820EAABEFC407880336985B0639B6190D0F31"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift/traj1045_gift_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "4532EF56B08027BA7723DA965606543401BFAA8E1B90D9A63AD898F684AF5BBB"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "2E3F1AC835267CCFF35BB792CE8991465EE5D9A27322C6D9A91FF7A0E6AB919D"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "E922433D9F0C412DF015A4D6A61AAC47EE2055100E381F6F88ED85E739B0A9BC"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "19D4F8DA7D42FF14778929AA03BB3A3A6AB193835D722DF1CF1138981CAFE5B7"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "FFD91B82857C854ABDC292CE58A638E5F6E77A5EAD250E08D5C09ED4820A18BB"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "40EDB7257D486A5F242479C4FF703608E40DFA8DA69B961E854E498474977B0D"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "6BB44E76EA24B6A56FA0C0D2341F44E206534117AE19D83A2A6CC75C3EF51F7D"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "DDEFF4C4330FFCE2E3B66FBEDE727007AB89AF7F57DD73463480F5773E611EC7"
+    },
+    {
+      "path": "figures/four_vortex/panels/gift_lite/traj1045_gift_lite_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "69DA290A4604202DA61C6B52FF29B7E737E9BB4C349265ABD804242122B70C61"
+    },
+    {
+      "path": "figures/four_vortex/panels/reference/traj1045_reference_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "CF454C3AA2A077ED144D78E1B6F92425745CF311BF78002FAD9A3EDE36709DA4"
+    },
+    {
+      "path": "figures/four_vortex/panels/reference/traj1045_reference_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "8BBDE1E721BC395322EC9C66D5929BF087D9705993908C0FE0A8905476CC2E6F"
+    },
+    {
+      "path": "figures/four_vortex/panels/reference/traj1045_reference_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "38D73C9066496E44525C0CDD6E4144F26BF94E2D01402AC634E639D8FCAA8A63"
+    },
+    {
+      "path": "figures/four_vortex/panels/reference/traj1045_reference_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "7844DEAE4D5A7FF41E0BA28738BDF163DD86F642053A15EF7467A3499AFB9EC4"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "CE77ACCD34BABF4B5F1CA8504D4D600A6BC4F1A4268F717C961AB6964444DFB3"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "392005A3B43D979256D8F58DA01515189C380A76A5F52B49D6ABE5B0E4996F7B"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "995F0FE68D7A3CDE67ECDBF602CE26D9D25C6DD3E762B27C177632BE9B9569AF"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "5EB3508D4F13B3E1574856A343F85EEF42A929C1E196D314B6BB7203B3252FE9"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "94FA45251F782B505782B39CFF73EF2B4C4831B0C88EC9CB27F1393381019CAD"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "8DC6F36CD3E179A967EB80EF80595C953C0B215B2D7B1DC4C477B759AF29F76D"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "873E11F80A8441BA77C95F092F829FBD87F7E90E1A0F39391C2AC3613D471C7F"
+    },
+    {
+      "path": "figures/four_vortex/panels/unet/traj1045_unet_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "24FC321FD77D40F82302A7C41CB6DB3D8C27233B1E6462BDF9C04735CC2C7BC7"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "54DFC0A89EF5B33B8CC2EF127906FEC676BC652D7105131278F93036FC0DD57C"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "BEF40EE44399894E53B38F993199D97B0762371BF188C441E82062E3FC814FF0"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "BAFAF739E25171FB355935C9572874AABF0B1B7BB7920FFA18968B9F83DBA4EC"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "DB39800FB1755EA60B22F07FC2AD94670EF8441DC988D535A03659AF5605988C"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "AB8C916F86639E90B45ED89372E7D28937DF42054D297C7D3F4BB4ADF57C5A53"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "1862ADCE492CF92654BB09D816BB648E79639A59E0DC8B7DEFCF2D9644A1368D"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "9380956FDAFF7C116F7EF3DED786C47CBE48B93DC84D9DFC4EB9DEA76E16D4D2"
+    },
+    {
+      "path": "figures/four_vortex/panels/uno/traj1045_uno_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "1C8E024D8919708943F387D4331A7119F40404973BC504B0DD9032691010B18E"
+    },
+    {
+      "path": "figures/four_vortex/source_fields.npz",
+      "bytes": 695446,
+      "sha256": "6DF4AC2F73A2B82B1392366E9BDE1AFCF3596FAE7ACADF41FE4B0B96E3003ACC"
+    },
+    {
+      "path": "figures/four_vortex/traj1045_recursive_keyframes.svg",
+      "bytes": 42347249,
+      "sha256": "961A98D07D3B90E0F35F31F72A1CE7C3BBA094C2DCBED9042B4E3854EDBE62EA"
+    },
+    {
+      "path": "figures/keyframes/figure_manifest.json",
+      "bytes": 27207,
+      "sha256": "7538EAA016ED77D826EAD0872A470A52656986BF9C81937B4BAA63B5B77FE9FC"
+    },
+    {
+      "path": "figures/keyframes/figure_metadata.json",
+      "bytes": 2861,
+      "sha256": "756C255B0AE4C1114D52D9F6E0E2C8D27700C0EC3A689555E5D82B93712906A8"
+    },
+    {
+      "path": "figures/keyframes/panel_file_index.csv",
+      "bytes": 3783,
+      "sha256": "FD3F0A022918EEDF7BFE955F03FC987AE45EF1874A4FE20FC08C32CCE66458B1"
+    },
+    {
+      "path": "figures/keyframes/panel_metrics.csv",
+      "bytes": 2824,
+      "sha256": "D1297E80BDC2384D3E61BAF36CFC383E3B9C365B4734CC5235E0C61BF09AC0DF"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "1335832C5D9321B129F8CF69D127EEE6DFF397C3B3EA712EA68458B7B2DA1D83"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "F48C3432BD7AE9A23F4CF7C9C4A901A4FB23D301C799466E3441A49363FBD704"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "2B6419BD8CE70C0D76AC3D62FBED8EC13A3749DF86791A0B897EAA0C060613F6"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "7E37D8B53D377D3B1AE5611268B31DB09CC584148F27EF34BB135439BAF5F109"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "36628B32A20B0A897077AEFCF355B054B2BBB72CD93AC1209080BDE2E3C43AB3"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "B4A11E03C4D8393740D570A0BBB2DAFA69E6C35DEFF4FCFEF590AC3C601FB25E"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "7EB192B5BEF88A3944B1318C14EBF0B6310293B02B72B3E9B070A25E5A18493A"
+    },
+    {
+      "path": "figures/keyframes/panels/fno2d/traj2265_fno2d_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "B2463FC062CB4E74355DF9EC0B3B69331534E76D8FAA111E950060C1A47CFA43"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "CC658CC1A71CFCD578E252B46F9149E7F9C3EE4DCDE9BABA41037FB8B905D786"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "16D6D7CC5D5E10DCB8573C5C49DFAABCA763EC853CA8C6EC4D92AEA449083BF4"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "6D5D8617A2BBACA6DBC3112307545CBB1953B490D7F65345BA0F6E83E55D98D9"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "1F33FC6FB061D5F1D344C8575BC6FB68338948E897923114D6BA4D11A51CCD13"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "4DF0219BD4AB9EDE8B8941C805B4121B2D827EA9DF04FAD734D9CCD3D3F9C992"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "76EDA7B828DE8FB707124AA16A5C6AF0C3A4F172911651CC8EAA2E06607C5AD3"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "FBF592344EFED9627CF2258D7C84D8D1A170E697542FE405881E4D08EBFA4A47"
+    },
+    {
+      "path": "figures/keyframes/panels/fno3d/traj2265_fno3d_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "04CFF9FD8014547B755B6C583DC277CDE4B2980ABB8D099733D6F2FFB111CE36"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "21D55325C8A223379FFD7D589AF96F8D40EE27A18D994222E0C275454F4A162E"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "17DAD1BCEC3677EF83416EE50A2FA63F6A033FA099FA4AED60B501C8F37834DD"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "85FB0DAD0D9162D0CBDB6BD84DC86AC4C53988E55BBB754340A3B22CE7811FB9"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "6357BF351B7133BE71E7ED6982AD1E394B635D3CF575BFA4CD3E66A9E3F15BBE"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "E3F61B424425150D233FF6A4C6206A19612E660654797C972BDD67671D9EDC04"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "60E2068518904F5A00DF889FEAD878DD8C4CD7E39C5437498B785F4DBD15DAD5"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "4BE8DD60184DC5782F9E20A6F9659821C860C7A7E402CDABC4A0EB7DE79D2923"
+    },
+    {
+      "path": "figures/keyframes/panels/gift/traj2265_gift_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "61929BA4D9B24FA39B8DE8CBD155047CAC194D29498752471725BE50D0E54FB9"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "C64CFE8A6536D184D7385C6E3C8BD11BB114707DA06251CDD7B333DCE11B908A"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "57267C28188E3F3861D0230D9911BAB2A70D54DE278DF57083CF5A0A4063BB99"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "85F2D4B244CA8DED921A0125112C1EB51887AEA479B50E29C1188A29F8F5CCE6"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "26E46337D18A547DA876C18B9AEFC49850E5DF456D9C5C747BF2486CF745D5D2"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "C800B94EBA8332242BDD9A8B390C6FBEEE7B34B2EF4AB457E82618816ECE1A94"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "B738482B6352E7F83EC357DE8294542EE7ECD8746A0B0D131B4088BFE20BACDB"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "07D21938BC0D7FC934CE50D10C33C4B80C17C0A134D38C6A33CA1C95ECAD2D93"
+    },
+    {
+      "path": "figures/keyframes/panels/gift_lite/traj2265_gift_lite_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "AA09FE408FBEE773766F2F411B002C5C2A23DD1FABD3DEF1F291627761828B56"
+    },
+    {
+      "path": "figures/keyframes/panels/reference/traj2265_reference_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "1C862D89D0A7C27A35D3916702E193F3AA709E93121FF6781DD0BE82D56AFC76"
+    },
+    {
+      "path": "figures/keyframes/panels/reference/traj2265_reference_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "2F355F4266ABA0D6BF65FBD8FFBA24A72898D62F1729DBFEB40182D0AAEBCFF7"
+    },
+    {
+      "path": "figures/keyframes/panels/reference/traj2265_reference_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "DF41189CB547192199C6725E78B5988742CB201F9DD39B0D7F71FEE111811B43"
+    },
+    {
+      "path": "figures/keyframes/panels/reference/traj2265_reference_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "551601169AEC84998EEE274FB51EAB04DACE4589788C09BCD27DA7489EED9303"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "88AD1738A3682E9C948042B1DC35F77F94F7096045BB464176545D0A206D8AB2"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "4AB7A3B3207CC8D998BCFBC1451FA126B16E13AAF04BB9AC9D8A4D73DD492D8F"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "65CA4237389E39EEAE6AAAAA1266B2BEFE45787F53EFBEA9318458FFEE66576B"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "FFA44E2D32E725D8908D415F52E57778C13718FB2A01C180B448A237B0B22EA2"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "AD7C025253E06AFA3EC12EA10963C964BCD96FF97FB964CF0246B9EDC0BF1EF5"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "2F8B9A5D059429505EDE90212049C7410A05DD34144AC9F6A2508F9920B01DEC"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "2EC4A5FA95B9AF147D1B2B318B5FCE8B182A8AACD23036736CAED1417D09A773"
+    },
+    {
+      "path": "figures/keyframes/panels/unet/traj2265_unet_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "6A3A57010D2F81497AF7A4D14D18BBD3529474AF39B97F5D3B0794FC58139585"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_residual_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "B354628C5920EFB998FD601501467010468A01F810E290524CC9E6D565CBB38D"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_residual_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "D43D84BA94B3A207FD3EB2C777969C0D4CAAF50991F8DA5879B220606AFC50F8"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_residual_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "678432F790BA98954F228B338A73F6692238B913216A21EFFEEE2D6DD4F7B229"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_residual_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "AB35546BBC1944B73FB0FB510643C9D85049D3FE43E0DC2A65171658139CE460"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_scalar_T5p0.svg",
+      "bytes": 586121,
+      "sha256": "5E8682D0A9D44C8C3BF5ACB188CEA2F29D88B4909FE2BDBD840AB3857E002C8B"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_scalar_T6p0.svg",
+      "bytes": 586121,
+      "sha256": "0CB49E1C41782636825D77300F1836C2BDD38956539E62D3E7B89DCF0AF3863B"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_scalar_T7p0.svg",
+      "bytes": 586121,
+      "sha256": "DFFB58E0C373B69BFD9F1739B6EE2BA0FBC670046B1DE4A248FA3021C53D714C"
+    },
+    {
+      "path": "figures/keyframes/panels/uno/traj2265_uno_scalar_T8p0.svg",
+      "bytes": 586121,
+      "sha256": "D1C0C6DC388A62D7CF2F1BFDE83AEE6ED96224474895D302935A73E8B19A9498"
+    },
+    {
+      "path": "figures/keyframes/source_fields.npz",
+      "bytes": 697779,
+      "sha256": "E0065687BF516788706C40FAB3042249227E147973800907A6D02DB23DD4803F"
+    },
+    {
+      "path": "figures/keyframes/traj2265_recursive_keyframes.svg",
+      "bytes": 42347257,
+      "sha256": "14E9315BA64B69F851DB3CE32183CBCE115E7050096FFD535DD7E3BFCF40C36D"
+    },
+    {
+      "path": "summary/metrics.csv",
+      "bytes": 9710,
+      "sha256": "5C7D183D103C67823DA342E157FB5615AF1A1C880677CFFD264900DAAB8560B1"
+    },
+    {
+      "path": "summary/summary.json",
+      "bytes": 3091,
+      "sha256": "5B7C6C8DA12A85D9EC9BC7CC59D78E267B155CB417F471A7CCF327CFCB9D2B42"
+    }
+  ],
+  "four_vortex_reference": {
+    "protocol": "independent N1000, baseline history46, dt0.02, future150",
+    "selected_trajectory_id": 1045,
+    "scientific_provenance": {
+      "source_record_id": "ee2aa012a005ec50e95b",
+      "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+    },
+    "figure_directory": "figures/four_vortex"
+  },
+  "source_provenance": {
+    "source_record_id": "028d582ba79add2e7844",
+    "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+  }
+}

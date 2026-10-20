@@ -10,6 +10,7 @@ from gift.data_splits import (
 
 
 def test_partition_is_contiguous_disjoint_and_complete():
+    """Cover every canonical ID once and keep checkpoint/lite subsets inside their split."""
     combined = TRAINING_IDS + VALIDATION_IDS + TEST_IDS
     assert combined == tuple(range(1220))
     assert len(set(combined)) == len(combined)
@@ -21,6 +22,7 @@ def test_partition_is_contiguous_disjoint_and_complete():
 
 
 def test_all_observation_identities_round_trip_without_field_changes():
+    """Round-trip all storage IDs and check representative boundary rows in input order."""
     public = tuple(range(1220))
     stored = storage_ids(public)
     assert len(stored) == len(set(stored)) == 1220
@@ -31,6 +33,7 @@ def test_all_observation_identities_round_trip_without_field_changes():
 
 
 def test_independent_test_does_not_include_validation_or_training():
+    """Separate the old 200-row evaluation container into 20 validation and 180 test rows."""
     original_evaluation = tuple(range(1000, 1200))
     rows = partition_rows(original_evaluation)
     assert rows == {"training": (), "validation": tuple(range(20)), "test": tuple(range(20, 200))}
@@ -39,36 +42,42 @@ def test_independent_test_does_not_include_validation_or_training():
 
 
 def test_correction_second_cohort_is_training_not_test():
+    """Classify correction-fitting trajectories as training despite their legacy IDs."""
     rows = partition_rows(range(1200, 1400))
     assert rows == {"training": tuple(range(200)), "validation": (), "test": ()}
 
 
 @pytest.mark.parametrize("values", [[-1], [70], [999], [2150]])
 def test_unknown_storage_ids_are_rejected(values):
+    """Reject storage IDs outside the explicit observation-container mapping."""
     with pytest.raises(ValueError, match="unknown"):
         canonical_ids(values)
 
 
 @pytest.mark.parametrize("values", [[-1], [1220]])
 def test_unknown_public_ids_are_rejected(values):
+    """Reject canonical IDs outside the complete benchmark population."""
     with pytest.raises(ValueError, match="unknown"):
         storage_ids(values)
 
 
 @pytest.mark.parametrize("value", [1.0, True, "1", None])
 def test_coercion_cannot_silently_change_identity(value):
+    """Reject floats, booleans and text instead of coercing them to trajectory IDs."""
     for operation in (canonical_ids, storage_ids):
         with pytest.raises(TypeError):
             operation([value])
 
 
 def test_duplicate_rows_are_not_silently_accepted():
+    """Reject duplicate rows in either direction of the ID conversion."""
     for operation in (canonical_ids, storage_ids):
         with pytest.raises(ValueError, match="duplicate"):
             operation([0, 0])
 
 
 def test_manifest_does_not_call_lite_training_a_new_split():
+    """Expose lite training as a subset while preserving disjoint validation and test IDs."""
     value = prediction_split_manifest()
     assert set(value["gift_lite_training"]) < set(value["training"])
     assert set(value["training"]).isdisjoint(value["validation"])

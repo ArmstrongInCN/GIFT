@@ -2,7 +2,7 @@
 
 The three reduced-data branch checkpoints use seeds 20260820, 20260821 and 20260822 and share
 the clean generator at `../fixed_k21_n64_unmasked/gift_main.pt`. Noisy generators
-for M1 are under `../m1_parameter_identification/`. All six models were trained
+for W3 are under `../w3_parameter_identification/`. All six models were trained
 from fresh initialization under the protocol in `docs/TRAINING_PROTOCOL.md`.
 
 The complete training histories and saved boundaries were checked before

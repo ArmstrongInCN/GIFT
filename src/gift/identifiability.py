@@ -1,3 +1,10 @@
+"""Fit affine spectral coefficients while reporting unresolved directions.
+
+The fit uses pooled per-mode sufficient statistics, not a materialised sample
+design matrix. A centred two-column design makes its intercept and slope
+directions orthogonal, so their singular values and truncation can be computed
+directly. Quadratic model weights remain unchanged.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -31,6 +38,12 @@ class AffineMinimumNormFit:
     subtract_quadratic: bool = True
 
     def summary(self, grid: WaveGrid) -> dict:
+        """Produce JSON-compatible rank counts and unresolved active-mode details.
+
+        ``grid`` must describe the fitted Fourier arrays. Inactive modes are
+        omitted from counts and reports; discarded directions are reported
+        explicitly rather than presented as independently identified values.
+        """
         active = grid.mask.detach().cpu()
         rank = self.numerical_rank.detach().cpu()
         intercept_retained = self.intercept_retained.detach().cpu()
@@ -114,18 +127,23 @@ def _minimum_norm_from_statistics(
     storage_dtype: torch.dtype,
     subtract_quadratic: bool,
 ) -> AffineMinimumNormFit:
-    if sample_count < 1:
-        raise ValueError("sample_count must be positive")
-    if state_scale <= 0.0:
-        raise ValueError("state_scale must be positive")
+    """Solve the centred per-mode affine problem from float64 statistics.
+
+    ``sum_x``/``sum_y`` sum Fourier-series state/target coefficients;
+    ``sum_xx`` sums ``abs(x)^2`` and ``sum_xy`` sums ``conj(x)*y`` over samples.
+    Arrays are ``[N, N]``. Directions whose singular value is at most
+    ``rcond*sigma_max`` receive the centred minimum-norm value zero. The
+    fitted constant is converted back to native DFT scale, while the slope
+    remains a multiplier; model-ready outputs are stored as complex64.
+    """
     if not 0.0 < rcond < 1.0:
         raise ValueError("rcond must lie strictly between zero and one")
-    if sum_x.shape != sum_y.shape or sum_x.shape != sum_xx.shape:
-        raise ValueError("all sufficient statistics must have equal spatial shape")
 
     shape = sum_x.shape
     mean_x = sum_x / float(sample_count)
     mean_y = sum_y / float(sample_count)
+    # Roundoff can make an exactly constant mode's centred variance slightly
+    # negative. Clamping restores the nonnegative Gram-matrix quantity.
     centered_xx = (
         sum_xx - float(sample_count) * mean_x.abs().square()
     ).clamp_min(0.0)
@@ -139,6 +157,8 @@ def _minimum_norm_from_statistics(
         if not bool(torch.isfinite(value).all()):
             raise FloatingPointError(f"non-finite sufficient statistic: {name}")
 
+    # Centring makes the two design columns orthogonal: their norms are the
+    # singular values, avoiding a separate SVD at every Fourier mode.
     intercept_singular = torch.full_like(centered_xx, float(sample_count) ** 0.5)
     slope_singular = centered_xx.sqrt()
     largest = torch.maximum(intercept_singular, slope_singular)
@@ -162,12 +182,12 @@ def _minimum_norm_from_statistics(
     active = active_mask.to(device=sum_x.device)
     constant_hat = torch.where(active, constant_hat, torch.zeros_like(constant_hat))
     linear_hat = torch.where(active, linear_hat, torch.zeros_like(linear_hat))
+    constant_hat = constant_hat.to(torch.complex64)
+    linear_hat = linear_hat.to(torch.complex64)
     if not bool(torch.isfinite(constant_hat).all()):
         raise FloatingPointError("non-finite fitted constant")
     if not bool(torch.isfinite(linear_hat).all()):
         raise FloatingPointError("non-finite fitted linear multiplier")
-    constant_hat = constant_hat.to(torch.complex64)
-    linear_hat = linear_hat.to(torch.complex64)
 
     return AffineMinimumNormFit(
         constant_hat=constant_hat,
@@ -206,6 +226,13 @@ def fit_affine_minimum_norm(
     regression target is ``dstate/dt - Q(state,state)``; setting it false is
     useful for the initial affine fit before nonlinear training.  No Fourier
     mode, conservation law, PDE term, or known operator is singled out.
+
+    ``state`` and ``derivative`` are matching real ``[samples, N, N]`` arrays;
+    derivatives use field units per unit time. The first ``count`` samples
+    contribute equally, loaded in ``chunk_size`` batches on ``device``.
+    Observation FFTs use float32, while pooled statistics use complex128 and
+    float64 to reduce cancellation. The returned fit describes the values
+    installed in ``model.constant_table`` and ``model.linear_table``.
     """
 
     if state.ndim != 3 or derivative.shape != state.shape:

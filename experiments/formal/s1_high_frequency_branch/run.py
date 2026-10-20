@@ -40,6 +40,7 @@ from gift.data_splits import canonical_ids
 
 
 def parse_args() -> argparse.Namespace:
+    """Select one GIFT training regime and batches for the branch-enabled/disabled ablation."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, default=default_project_root())
     parser.add_argument("--output", type=Path)
@@ -141,6 +142,7 @@ def derivative_validation(
 def _endpoint_arrays(
     prediction: np.ndarray, truth: np.ndarray, index: int
 ) -> dict[str, np.ndarray]:
+    """Extract each band's errors at the selected saved-time index for ablation summaries."""
     values = metric_arrays(prediction[:, index : index + 1], truth[:, index : index + 1])
     result = {name: array[:, 0] for name, array in values.items()}
     masks = spectral_masks(truth.shape[-1])
@@ -154,6 +156,12 @@ def _endpoint_arrays(
 
 
 def main() -> None:
+    """Compare a fixed low generator with and without its learned Q21 branch.
+
+    Both arms retain the same independent test states and post-step correction.
+    Observed validation derivatives and cross-resolution outer-band errors measure
+    the branch contribution without fitting coefficients or updating model weights.
+    """
     args = parse_args()
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:

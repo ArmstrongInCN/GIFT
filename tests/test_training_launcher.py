@@ -6,34 +6,36 @@ from types import SimpleNamespace
 import pytest
 
 from scripts import run_training as launcher
-from training.unet_environment import validate_environment
 
 
 def test_child_environment_does_not_change_parent():
-    parent = {"PATH": "test-only-path", "CUDA_VISIBLE_DEVICES": "invalid-test-value",
+    """Child defaults must preserve parent settings and apply model-specific thread/device defaults locally."""
+    parent = {"PATH": "test-only-path", "CUDA_VISIBLE_DEVICES": "1",
               "pythonpath": "case-variant", "UNRELATED": "preserved"}
     before = parent.copy()
     env = launcher.child_environment("unet", sys.executable, "cuda", parent)
-    validate_environment(env)
     assert env["UNRELATED"] == "preserved" and parent == before
+    assert env["CUDA_VISIBLE_DEVICES"] == "1"
     for model in ("fno2d", "fno3d", "uno", "gift_low", "gift_branch", "gift_generator", "gift_predictor"):
         env = launcher.child_environment(model, sys.executable, "cuda", {})
         if model == "uno":
             assert env["OMP_NUM_THREADS"] == "24"
-            assert not {"MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"} & set(env)
+            assert env["MKL_NUM_THREADS"] == "16"
         else:
             assert env["OMP_NUM_THREADS"] == env["MKL_NUM_THREADS"] == "16"
         assert env["CUDA_VISIBLE_DEVICES"] == "0"
-        if model.startswith("fno"):
-            assert "CUBLAS_WORKSPACE_CONFIG" not in env
-        else:
+        if model.startswith("gift_"):
             assert env["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"
+        else:
+            assert "CUBLAS_WORKSPACE_CONFIG" not in env
 
 
 @pytest.mark.parametrize("model", list(launcher.MODULES))
 def test_dispatches_exactly_one_module_without_shell(model, monkeypatch):
+    """Each model name must dispatch one explicit Python module with forwarded arguments and shell disabled."""
     calls = []
     def child(command, **kwargs):
+        """Capture the child command/options and return success without starting any training process."""
         calls.append((command, kwargs))
         return SimpleNamespace(returncode=0)
     monkeypatch.setattr(launcher.subprocess, "run", child)
@@ -47,7 +49,9 @@ def test_dispatches_exactly_one_module_without_shell(model, monkeypatch):
 
 
 def test_pinn_maps_cuda_to_gpu_and_uses_selected_python(monkeypatch):
+    """Translate PINN device naming, preserve selected interpreter and propagate the child exit code."""
     calls = []
+    monkeypatch.delenv("CUDA_VISIBLE_DEVICES", raising=False)
     monkeypatch.setattr(launcher.subprocess, "run", lambda *args, **kwargs:
                         calls.append((args, kwargs)) or SimpleNamespace(returncode=3))
     with pytest.raises(SystemExit) as exit_info:

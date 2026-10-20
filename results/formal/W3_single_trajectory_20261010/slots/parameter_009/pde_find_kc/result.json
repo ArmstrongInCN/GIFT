@@ -1,0 +1,184 @@
+{
+  "schema": "gift.w3-parameter-measurement.v1",
+  "status": "complete",
+  "case_id": "parameter_009",
+  "method": "PDE-FIND-KC",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_009",
+      "observation_sha256": "57d7d7e559f1793ac8d19b37538236e99c006ad544c3810ead034ac4a9edcc08",
+      "data_receipt_sha256": "5688177bc3d5ccc05990f37f18af1aecc2d2d9bff17a41257c0fd2fe9f187b1e",
+      "data_lock_sha256": "cb647b66b15ed8e5ab06f0f857d2d647c4fbf180f010c98f4798a4e28371928b",
+      "data_qa_sha256": "60c21285f9bc2083d258d7073b7392564b102247ba86d258dbebb2f2ccdaee5a",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "PDE-FIND-KC",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "noise": 0.0,
+      "SVD_denoising": false,
+      "columns": 4,
+      "regression_seed": 0,
+      "native_regression_configuration_unchanged": true
+    }
+  },
+  "truth": {
+    "nu": 0.009701495559132071,
+    "beta": 0.8156807037272034,
+    "gamma": 0.9067336312463078
+  },
+  "parameters": {
+    "nu": 0.013199253868212647,
+    "beta": 0.7089447561648282,
+    "gamma": 0.8395258752520345
+  },
+  "APE_percent": {
+    "nu": 36.053805186645846,
+    "beta": 13.085506016588566,
+    "gamma": 7.412072705618746
+  },
+  "measurement_seconds": 1.7053666999563575,
+  "raw_measurement": {
+    "parameters": {
+      "nu": 0.013199253868212647,
+      "beta": 0.7089447561648282,
+      "gamma": 0.8395258752520345
+    },
+    "training_executed": false,
+    "forward_executed": false,
+    "sparse_regression_executed": true,
+    "protocol": {
+      "preprocessing": {
+        "mode": "clean_no_svd"
+      },
+      "time_indices": [
+        40,
+        47,
+        53,
+        60,
+        67,
+        73,
+        80,
+        87,
+        93,
+        100,
+        107,
+        113,
+        120,
+        127,
+        133,
+        140,
+        147,
+        153,
+        160,
+        167,
+        173,
+        180,
+        187,
+        193,
+        200,
+        207,
+        213,
+        220,
+        227,
+        233,
+        240,
+        246,
+        253,
+        260,
+        266,
+        273,
+        280,
+        286,
+        293,
+        300,
+        306,
+        313,
+        320,
+        326,
+        333,
+        340,
+        346,
+        353,
+        360,
+        366,
+        373,
+        380,
+        386,
+        393,
+        400,
+        406,
+        413,
+        420,
+        426,
+        433
+      ],
+      "row_order": "y,x,time",
+      "rows": 245760,
+      "poly_degree": 5,
+      "time_y_window": 9,
+      "x_window": 19,
+      "dt": 0.02,
+      "dx": 0.09817477042468103,
+      "raw_vorticity_sha256": "4580B65193F4EC426DC6A407D17CEDDFC202DF270EED3F4C51B0F7FF8EC4A1C1"
+    },
+    "upstream_stdout": "Optimal tolerance: 25.388888888888886\n",
+    "upstream": {
+      "repository": "https://github.com/snagcliffs/PDE-FIND",
+      "commit": "86911349b9fac82996e35465a13d06205730cc05",
+      "path": "D:\\GIFT\\release_work_20260910\\external\\pde_find\\PDE_FIND.py",
+      "sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A",
+      "license": null,
+      "redistribution_permission": "not_identified",
+      "in_memory_compatibility": [
+        "NumPy compatibility: one STRidge empty-index comparison uses len(biginds) != 0 for every version"
+      ],
+      "random_scope": "isolated RandomState, original seed0 and draw order",
+      "membership_acceleration_only": true
+    },
+    "ridge": {
+      "lam": 1e-05,
+      "d_tol": 5.0,
+      "maxit": 25,
+      "STR_iters": 10,
+      "split": 0.8,
+      "normalize": 2,
+      "l0_penalty": null
+    },
+    "library_dtype": "complex64",
+    "library_shape": [
+      245760,
+      4
+    ],
+    "library_sha256": "7B53E63B3E661E5CEB81CD885161274F23794DD10FB175C916E5C27F630A6010",
+    "training_indices_sha256": "7C28680B7FFFA200A1373C3F4992B64B7064EB8A9C92BAEF908EF0A26294FB3D",
+    "native_coefficients": [
+      {
+        "term": "w",
+        "real": 0.011865435306046213,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*w_x+v*w_y",
+        "real": -0.7089447561648282,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_xx+w_yy",
+        "real": 0.013199253868212647,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q",
+        "real": 0.8395258752520345,
+        "imaginary": 0.0
+      }
+    ]
+  },
+  "measurement_host": "DQY_Station",
+  "measurement_device": "cpu"
+}

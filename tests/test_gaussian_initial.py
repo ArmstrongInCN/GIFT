@@ -7,6 +7,7 @@ from gift.prediction_cohorts import GAUSSIAN, partitions
 
 
 def test_appended_disjoint_ids():
+    """Append the Gaussian cohort without overlapping the original or its own splits."""
     original, gaussian = partitions(), partitions(GAUSSIAN)
     a = set(original['training'] + original['validation'] + original['test'])
     groups = [set(gaussian[k]) for k in ('training','validation','test')]
@@ -17,6 +18,7 @@ def test_appended_disjoint_ids():
 
 
 def test_draws_independent_of_batch_and_order():
+    """Require ID-stable draws, complex64 storage, zero mean and Hermitian spectra."""
     together = initial_hat([1220,1221])
     assert np.array_equal(together[0],initial_hat([1220])[0])
     assert np.array_equal(together[::-1],initial_hat([1221,1220]))
@@ -30,6 +32,7 @@ def test_draws_independent_of_batch_and_order():
 
 
 def test_ensemble_amplitude_not_per_sample_renormalized():
+    """Check ensemble amplitude while retaining realisation-to-realisation RMS variation."""
     fields = np.fft.ifft2(initial_hat(list(range(1220,1476)))).real
     rms = np.sqrt(np.mean(fields**2,axis=(1,2)))
     assert abs(np.sqrt(np.mean(fields**2))/ENSEMBLE_RMS-1) < .03
@@ -39,5 +42,6 @@ def test_ensemble_amplitude_not_per_sample_renormalized():
 
 @pytest.mark.parametrize('ids', [[],[1220,1220],[-1],[1.5],[True]])
 def test_invalid_ids(ids):
+    """Reject empty, duplicate, negative or non-integer random-field identities."""
     with pytest.raises(ValueError):
         initial_hat(ids)

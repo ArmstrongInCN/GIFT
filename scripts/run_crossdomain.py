@@ -1,33 +1,7 @@
-"""Train and evaluate the native GIFT generator on a cross-domain fixture dataset.
+"""Train a cross-domain generator or evaluate saved weights against persistence.
 
-Two stages, both using the project's own code without modification:
-
-``train``     calls ``training.gift_prediction_control.run_generator`` with the
-              project's ``PredictionTrainingConfig(fixture_only=True)``
-              configuration. Fixture mode is the project's declared path for
-              non-canonical diagnostic data: it relaxes the formal population and
-              identity checks and marks every artifact as ``fixture_only``, so a
-              diagnostic run can never be mistaken for a formal result. The
-              generator, budget, optimizer, scheduler and sampling code are the
-              unchanged full-data implementation (500 trajectory epochs).
-
-``evaluate``  loads the exported ``model.pt`` with ``gift.identified.load_generator``
-              and performs recursive RK4 rollouts with
-              ``gift.identified.rollout_rk4``: anchor frame 250 (t = 5.0), 150
-              steps of dt = 0.02 through t = 8.0, one reported frame every 10
-              steps. Metrics are the mean relative L2 over the fixture test
-              trajectories, reported next to a persistence baseline (the anchor
-              frame held constant).
-
-Reference values measured on the verification machine (RTX 5060 Laptop, torch
-2.10.0+cu128) at lead 3.0 s, mean relative L2 over 20 held-out trajectories:
-
-  heat       0.0239   (persistence 0.4211)
-  advect     0.0245   (persistence 1.4020)
-  reactdiff  0.0051   (persistence 0.0064)
-
-Cross-platform floating-point differences can move these numbers slightly; the
-reported figures are measurements, not guarantees. See EXPERIMENTS.md.
+Evaluation starts at t=5 and advances to t=8. Independent evaluation uses
+--model for the weights and --output for a new result directory.
 """
 from __future__ import annotations
 
@@ -43,19 +17,16 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from scripts.generate_data import safe_output, sha256, write_json_new  # noqa: E402
+from scripts.generate_data import safe_output, write_json_new  # noqa: E402
 
-# Rollout settings shared by every fixture kind: anchor at frame 250 (t=5.0),
-# 150 steps of dt 0.02 (to t=8.0), one reported frame every 10 steps. REFERENCE
-# holds the measured final mean relative L2 on the verification machine.
 DT = 0.02
 ANCHOR = 250
 STEPS = 150
 SAVE_EVERY = 10
-REFERENCE = {"heat": 0.0239, "advect": 0.0245, "reactdiff": 0.0051}
 
 
 def resolve_device(name):
+    """Resolve auto to an available backend; reject an explicitly unavailable CUDA request."""
     available = torch.cuda.is_available()
     if name == "cuda" and not available:
         raise ValueError("cuda was requested but is not available")
@@ -65,10 +36,9 @@ def resolve_device(name):
 
 
 def train_stage(dataset, output, device):
+    """Train the diagnostic generator into its own subdirectory using the declared budget."""
     from training.gift_prediction_control import PredictionTrainingConfig, run_generator
 
-    # fixture_only relaxes the formal population/identity checks and marks every
-    # artifact fixture_only, so a diagnostic run can never be read as formal output.
     config = PredictionTrainingConfig(fixture_only=True)
     report = run_generator(dataset, output / "generator", device=str(device),
                            config=config, execution="auto")
@@ -76,26 +46,53 @@ def train_stage(dataset, output, device):
 
 
 def relative_l2(prediction, truth):
+    """Return the spatial L2 error in float64, with a small floor for a zero truth norm."""
     difference = prediction.astype(np.float64) - truth.astype(np.float64)
     denominator = np.sqrt(np.square(truth.astype(np.float64)).sum())
     return float(np.sqrt(np.square(difference).sum()) / max(denominator, 1e-30))
 
 
-def evaluate_stage(dataset, output, device, grid):
+def validate_evaluation_data(dataset, grid):
+    """Require matching test axes and the observed t=5 through t=8 report frames.
+
+    The dt=0.02 schedule needs indices 250 through 400, hence at least 401
+    frames. Validation happens before creating outputs or starting an all-stage
+    training request that would later be unevaluable.
+    """
+    with h5py.File(dataset, "r") as handle:
+        field = handle["test/vorticity"]
+        ids = handle["test/trajectory_index"]
+        times = handle["test/time"]
+        if (field.ndim != 4 or field.shape[0] != len(ids)
+                or field.shape[0] == 0 or field.shape[2:] != (grid, grid)):
+            raise ValueError("Test fields must match the population and requested grid")
+        if field.shape[1] < ANCHOR + STEPS + 1:
+            raise ValueError("Evaluation requires at least 401 frames (t=0 through t=8)")
+        positions = np.arange(ANCHOR, ANCHOR + STEPS + 1, SAVE_EVERY)
+        if len(times) != field.shape[1] or not np.allclose(
+                times[positions], positions * DT, rtol=0, atol=2e-12):
+            raise ValueError("Evaluation times must use the dt=0.02 observation grid")
+
+
+def evaluate_stage(dataset, output, device, grid, model_path=None):
+    """Roll out the saved generator from t=5 and compare with observed truth and persistence.
+
+    Only every tenth frame is read for reporting. The model receives the
+    initial field; future observations are used for scoring. Model output is
+    [report_time,trajectory,N,N], while HDF truth is trajectory-major.
+    """
     from gift.identified import FixedBandwidthGridGenerator, load_generator, rollout_rk4
 
-    # Load the exported generator, roll it out from the anchor frame with the
-    # project's own RK4 integrator, and score against a held-constant persistence
-    # baseline so the fixture transferability is measured relatively.
-
-    model_path = output / "generator" / "model.pt"
+    validate_evaluation_data(dataset, grid)
+    model_path = Path(model_path) if model_path is not None else output / "generator" / "model.pt"
     model = load_generator(model_path, device=device)
     runner = FixedBandwidthGridGenerator(model, grid, reference_grid=grid)
     with h5py.File(dataset, "r") as handle:
-        truth_all = handle["test/vorticity"][:]
+        truth = handle["test/vorticity"][:, ANCHOR:ANCHOR + STEPS + 1:SAVE_EVERY]
         ids = np.asarray(handle["test/trajectory_index"][:], dtype=np.int64)
-    initial = truth_all[:, ANCHOR]
-    truth = truth_all[:, ANCHOR:ANCHOR + STEPS + 1:SAVE_EVERY]
+    if not np.isfinite(truth).all():
+        raise ValueError("Nonfinite test observations")
+    initial = truth[:, 0]
     with torch.inference_mode():
         states = torch.from_numpy(initial).to(device)
         rolled = rollout_rk4(runner, states, dt=DT, steps=STEPS, save_every=SAVE_EVERY)
@@ -125,13 +122,12 @@ def evaluate_stage(dataset, output, device, grid):
                "numpy": np.__version__, "h5py": h5py.__version__, "torch": torch.__version__,
                "device": str(device), "cuda": torch.version.cuda,
                "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None}
-    report = {"dataset": dataset.name, "dataset_sha256": sha256(dataset),
-              "model_sha256": sha256(model_path), "anchor_frame": ANCHOR,
+    report = {"dataset": str(dataset.resolve()), "model": str(model_path.resolve()),
+              "anchor_frame": ANCHOR,
               "time_step": DT, "steps": STEPS, "save_every": SAVE_EVERY,
               "final_mean_relative_l2": summary[-1]["model_mean_relative_l2"],
               "final_persistence_mean_relative_l2": summary[-1]["persistence_mean_relative_l2"],
               "per_lead": summary, "runtime": runtime,
-              "reference_final": REFERENCE.get(dataset.stem, None),
               "scope": ("diagnostic fixture evaluation of the native GIFT generator; "
                         "not part of the formal published experiments")}
     write_json_new(output / "summary" / "summary.json", report)
@@ -139,10 +135,12 @@ def evaluate_stage(dataset, output, device, grid):
 
 
 def main(argv=None):
+    """Plan or execute independent training/evaluation with an explicit model for evaluate."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--kind", required=True, choices=("heat", "advect", "reactdiff"))
     parser.add_argument("--data", type=Path, required=True, help="fixture dataset from generate_crossdomain_data")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--model", type=Path, help="saved generator for --stage evaluate")
     parser.add_argument("--stage", choices=("train", "evaluate", "all"), default="all")
     parser.add_argument("--device", choices=("auto", "cuda", "cpu"), default="auto")
     parser.add_argument("--grid", type=int, default=64)
@@ -152,26 +150,31 @@ def main(argv=None):
 
     if not args.data.is_file():
         parser.error("--data must point to an existing fixture dataset")
+    if args.stage == "evaluate" and (args.model is None or not args.model.is_file()):
+        parser.error("--stage evaluate requires --model pointing to saved generator weights")
+    if args.stage != "evaluate" and args.model is not None:
+        parser.error("--model is only used by --stage evaluate")
     plan = {"kind": args.kind, "stage": args.stage, "data": str(args.data),
+            "model": str(args.model) if args.model else None,
             "output": str(args.output), "device": args.device, "grid": args.grid,
-            "budget": "generator 500 trajectory epochs (fixture configuration)",
-            "reference_final_mean_relative_l2": REFERENCE[args.kind]}
+            "budget": "generator 500 trajectory epochs (fixture configuration)"}
     if not args.execute:
         print(json.dumps(plan, indent=2, ensure_ascii=False))
         print("plan only; add --execute to train and/or evaluate")
         return
 
     device = resolve_device(args.device)
+    if args.stage in ("evaluate", "all"):
+        validate_evaluation_data(args.data, args.grid)
     output = safe_output(args.output)
     output.mkdir(parents=True, exist_ok=False)
     if args.stage in ("train", "all"):
         train_stage(args.data, output, device)
     if args.stage in ("evaluate", "all"):
-        report = evaluate_stage(args.data, output, device, args.grid)
+        report = evaluate_stage(args.data, output, device, args.grid, args.model)
         print(json.dumps({"kind": args.kind,
                           "final_mean_relative_l2": report["final_mean_relative_l2"],
-                          "reference_final": report["reference_final"],
-                          "model_sha256": report["model_sha256"]}, indent=2))
+                          "model": report["model"]}, indent=2))
 
 
 if __name__ == "__main__":

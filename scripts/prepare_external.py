@@ -14,12 +14,18 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def git(directory, *arguments):
+    """Run one argument-list Git command in the selected checkout and return its text output."""
     return subprocess.check_output(["git", "-C", str(directory), *arguments], text=True).strip()
 
 
 def verify(directory, record):
     # An upstream checkout is accepted only if its HEAD commit and every recorded
     # source file's SHA-256 match the pinned registry entry.
+    """Explicitly verify a checkout against the reference commit and recorded source bytes.
+
+    This belongs to dependency preparation; ordinary model loaders do not use
+    this full checkout identity as a runtime or resume permission.
+    """
     if git(directory, "rev-parse", "HEAD") != record["commit"]:
         raise ValueError("upstream commit differs: " + directory.name)
     for name, expected in record["files"].items():
@@ -33,6 +39,12 @@ def verify(directory, record):
 def prepare(root, sources=None, verify_only=False):
     # Resolve the external source root outside the project and data folders, then
     # fetch only the pinned upstream checkouts that are not already present.
+    """Create missing reference checkouts or verify existing ones without modifying them.
+
+    The chosen root must stay outside project and input trees. Existing
+    checkouts are never fetched, repaired or switched; verify_only also refuses
+    missing checkouts instead of creating them.
+    """
     root = Path(root).expanduser().resolve()
     protected = [ROOT]
     if os.environ.get("GIFT_DATA_ROOT"):
@@ -68,6 +80,7 @@ def prepare(root, sources=None, verify_only=False):
 
 
 def main():
+    """Prepare the selected upstream implementations or perform read-only verification."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--source", action="append")

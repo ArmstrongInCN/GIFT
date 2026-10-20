@@ -30,6 +30,7 @@ def test_completed_call_round_trip_and_new_aggregation(tmp_path):
     original_record = (directory / "continuation.json").read_bytes()
     resumed = ExperimentSession(directory, identity, resume=True)
     def must_not_run():
+        """Fail if a committed numerical call is unexpectedly recomputed during resume."""
         raise AssertionError("completed inference was recomputed")
     actual = resumed.call("N64_seed_1", must_not_run)
     assert isinstance(actual[0], RolloutResult)
@@ -45,6 +46,7 @@ def test_completed_call_round_trip_and_new_aggregation(tmp_path):
 
 
 def test_interrupted_uncommitted_call_does_not_invalidate_completed_work(tmp_path):
+    """An uncommitted temporary receipt must leave earlier calls reusable and be preserved on disk."""
     directory = tmp_path / "run"
     first = ExperimentSession(directory, {"source": "v1"})
     first.call("first", lambda: np.arange(3))
@@ -59,14 +61,15 @@ def test_interrupted_uncommitted_call_does_not_invalidate_completed_work(tmp_pat
 
 
 def test_changed_identity_or_corrupt_payload_is_rejected(tmp_path):
+    """Changed scientific settings or a corrupt cached array must be rejected rather than silently replaced."""
     directory = tmp_path / "run"
     first = ExperimentSession(directory, {"source": "v1", "input_sha": "a"})
     first.call("unit", lambda: np.arange(3))
     first.close()
     with pytest.raises(ValueError, match="identity differs"):
-        ExperimentSession(directory, {"source": "v2", "input_sha": "a"}, resume=True)
+        ExperimentSession(directory, {"source": "v2", "input_sha": "b"}, resume=True)
     receipt = json.loads((directory / ".resume" / "unit.json").read_text())
-    array = directory / ".resume" / receipt["arrays"]["file"]
+    array = directory / receipt["arrays"]["file"]
     with array.open("ab") as stream:
         stream.write(b"corruption")
     resumed = ExperimentSession(directory, {"source": "v1", "input_sha": "a"}, resume=True)
@@ -76,6 +79,7 @@ def test_changed_identity_or_corrupt_payload_is_rejected(tmp_path):
 
 
 def test_concurrent_owner_and_bad_keys_rejected(tmp_path):
+    """A run has one writer and each safe numerical call key can be used once per session."""
     directory = tmp_path / "run"
     first = ExperimentSession(directory, {})
     with pytest.raises(RuntimeError, match="Another process owns"):
@@ -89,6 +93,7 @@ def test_concurrent_owner_and_bad_keys_rejected(tmp_path):
 
 
 def test_object_arrays_cannot_create_completed_receipt(tmp_path):
+    """Executable/object payloads must fail before a completion receipt is published."""
     session = ExperimentSession(tmp_path / "run", {})
     with pytest.raises(TypeError, match="object arrays"):
         session.call("bad", lambda: np.asarray([object()], dtype=object))
@@ -97,6 +102,7 @@ def test_object_arrays_cannot_create_completed_receipt(tmp_path):
 
 
 def test_equal_configuration_is_not_permission_to_borrow_another_run(tmp_path):
+    """Matching settings do not make a different run's copied receipt reusable."""
     first = ExperimentSession(tmp_path / "first", {"config": "equal"})
     first.call("unit", lambda: 1)
     receipt = json.loads((first.cache / "unit.json").read_text())
@@ -108,3 +114,80 @@ def test_equal_configuration_is_not_permission_to_borrow_another_run(tmp_path):
         second.call("unit", lambda: pytest.fail("borrowed another run"))
     first.close()
     second.close()
+
+
+def test_content_signature_ignores_source_runtime_paths_and_batch_sizes(tmp_path):
+    """Reuse depends on scientific input/settings, while metadata and batching changes leave original evidence intact."""
+    original = {"experiment": "W1", "inputs": {"weights": {"path": "old/weights.pt", "sha256": "ABC"}},
+                "config": {"device": "cpu", "gift_batch_size": 2, "gift_model": ["old.pt"], "cutoff": 21},
+                "source": {"run.py": "OLD"}, "runtime": {"python": "old"}}
+    directory = tmp_path / "run"
+    first = ExperimentSession(directory, original)
+    first.call("unit", lambda: np.arange(4))
+    first.close()
+    before = (directory / "EXPERIMENT.json").read_bytes()
+    changed = json.loads(json.dumps(original))
+    changed["inputs"]["weights"]["path"] = "new/weights.pt"
+    changed["source"] = {"run.py": "NEW"}
+    changed["runtime"] = {"python": "new"}
+    changed["config"].update(device="cuda", gift_batch_size=8, gift_model=["new.pt"])
+    resumed = ExperimentSession(directory, changed, resume=True)
+    np.testing.assert_array_equal(resumed.call("unit", lambda: pytest.fail("recomputed")), np.arange(4))
+    resumed.close()
+    assert (directory / "EXPERIMENT.json").read_bytes() == before
+    changed["config"]["cutoff"] = 19
+    with pytest.raises(ValueError, match="scientific configuration"):
+        ExperimentSession(directory, changed, resume=True)
+
+
+def test_predictions_reference_one_committed_array_and_resume_locally(tmp_path):
+    """Raw result links must reuse the single committed prediction array and remain readable after resumed aggregation."""
+    import h5py
+    import os
+    directory = tmp_path / "run"
+    session = ExperimentSession(directory, {})
+    prediction = np.arange(12, dtype=np.float32).reshape(3, 4)
+    value = session.call("method", lambda: (prediction, {"measured": True}))
+    raw = directory / "raw/predictions.h5"
+    with h5py.File(raw, "x") as handle:
+        session.save_prediction(handle.create_group("method"), "method", value[0])
+        assert isinstance(handle["method"].get("prediction", getlink=True), h5py.ExternalLink)
+        np.testing.assert_array_equal(handle["method/prediction"][:], prediction)
+    session.close()
+    units = list((directory / "raw/units").glob("*.h5"))
+    assert len(units) == 1
+    resumed = ExperimentSession(directory, {}, resume=True)
+    reused = resumed.call("method", lambda: pytest.fail("recomputed"))
+    resumed_raw = resumed.output / "raw/predictions.h5"
+    resumed_raw.parent.mkdir()
+    with h5py.File(resumed_raw, "x") as handle:
+        resumed.save_prediction(handle.create_group("method"), "method", reused[0])
+        np.testing.assert_array_equal(handle["method/prediction"][:], prediction)
+    resumed_unit = next((resumed_raw.parent / "units").glob("*.h5"))
+    assert os.path.samefile(units[0], resumed_unit)
+    resumed.close()
+
+
+def test_legacy_numpy_receipt_is_read_without_rewriting(tmp_path):
+    """Legacy NPZ receipts round-trip without invoking inference or rewriting their completion files."""
+    from experiments.formal._shared.resume import _encode
+    from training.checkpoints import digest_file
+    directory = tmp_path / "run"
+    first = ExperimentSession(directory, {"source": "old", "input_sha": "data"})
+    arrays = {}
+    tree = _encode((np.arange(4), {"complete": True}), arrays)
+    tree_path = first.cache / "legacy.values.json"
+    array_path = first.cache / "legacy.values.npz"
+    tree_path.write_text(json.dumps(tree))
+    np.savez_compressed(array_path, **arrays)
+    receipt_path = first.cache / "legacy.json"
+    receipt_path.write_text(json.dumps({"schema": "gift.experiment-call.v1", "key": "legacy",
+        "identity": first.identity, "run_id": first.run_id,
+        "tree": {"file": tree_path.name, "sha256": digest_file(tree_path)},
+        "arrays": {"file": array_path.name, "sha256": digest_file(array_path)}}))
+    first.close()
+    before = receipt_path.read_bytes()
+    resumed = ExperimentSession(directory, {"source": "new", "input_sha": "data"}, resume=True)
+    np.testing.assert_array_equal(resumed.call("legacy", lambda: pytest.fail("recomputed"))[0], np.arange(4))
+    resumed.close()
+    assert receipt_path.read_bytes() == before

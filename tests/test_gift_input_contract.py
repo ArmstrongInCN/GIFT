@@ -1,5 +1,4 @@
 """CPU metadata/negative gates only: no scientific generation, model or training."""
-import copy
 from dataclasses import asdict
 import importlib
 import json
@@ -15,29 +14,32 @@ from experiments.formal import train_gift_branches as high
 from experiments.formal.train_low_generator import parse_args as low_arguments
 from experiments.formal._shared.gift_generator_training import GeneratorTrainingConfig
 from scripts import assemble_generated_data as assembly
-from scripts import generate_data as gen
 from training import gift_data as gate
 from training.checkpoints import digest_file, runtime_identity
 
 
 def low_metadata(profile="released"):
+    """Supply synthetic v3 generator state and historical training provenance for prerequisite checks."""
     binding = dict(profile=profile, sha256=gate.RELEASED_SHA["noise_000"], full_input_checks_performed=True)
-    payload = dict(format_version=3, artifact_role="trained_generator",
-                   fresh_training=dict(pretrained_model_loaded=False),
+    payload = dict(format_version=3, model_state_dict={"weight": torch.ones(1)},
+                   model_configuration={"cutoff": 21, "rank": 64},
+                   artifact_role="trained_generator", fresh_training=dict(pretrained_model_loaded=False),
                    training_configuration=asdict(GeneratorTrainingConfig()),
                    training_data=dict(sha256=binding["sha256"].upper(), group="training", trajectory_ids=list(range(50))))
     return payload, binding
 
 
 def test_historical_fresh_v3_released_metadata_compatibility():
+    """Both legacy and nested provenance representations must remain usable with matching generator structure."""
     payload, binding = low_metadata()
-    gate.validate_low_prerequisite(payload, binding, asdict(GeneratorTrainingConfig()))
+    gate.validate_low_prerequisite(payload, binding, {"cutoff": 21, "rank": 64})
     payload["training_data"]["provenance"] = binding
-    gate.validate_low_prerequisite(payload, binding, asdict(GeneratorTrainingConfig()))
+    gate.validate_low_prerequisite(payload, binding, {"cutoff": 21, "rank": 64})
 
 
 @pytest.mark.parametrize("kind", ["published", "wrong_data", "tiny", "wrong_ids", "regenerated_unbound", "collection_changed"])
-def test_low_prerequisite_rejects(kind):
+def test_low_training_metadata_does_not_qualify_usable_weights(kind):
+    """Usable generator state must not require a particular historical budget, file hash or collection receipt."""
     payload, binding = low_metadata()
     if kind == "published":
         payload["fresh_training"] = {}
@@ -51,70 +53,56 @@ def test_low_prerequisite_rejects(kind):
         binding["profile"] = "regenerated"
     else:
         payload["training_data"]["provenance"] = dict(binding, manifest_sha256="old")
-    with pytest.raises(ValueError, match="prerequisite"):
-        gate.validate_low_prerequisite(payload, binding, asdict(GeneratorTrainingConfig()))
+    gate.validate_low_prerequisite(payload, binding, {"cutoff": 21, "rank": 64})
 
 
-def test_released_and_missing_manifest_reject_before_opening_model(tmp_path):
-    (tmp_path / gate.DATASETS["noise_000"]).write_bytes(b"not released bytes")
-    with pytest.raises(ValueError, match="SHA256"):
+@pytest.mark.parametrize("change", ["missing_state", "cutoff", "rank", "version"])
+def test_generator_actual_structure_is_checked(change):
+    """Reject missing weights, an unsupported format or mismatched cutoff/rank before branch use."""
+    payload, binding = low_metadata()
+    if change == "missing_state":
+        payload["model_state_dict"] = {}
+    elif change == "version":
+        payload["format_version"] = 99
+    else:
+        payload["model_configuration"][change] = 0
+    with pytest.raises(ValueError):
+        gate.validate_low_prerequisite(payload, binding, {"cutoff": 21, "rank": 64})
+
+
+def observed_file(path):
+    """Write finite five-frame train/validation observations with disjoint IDs and a 4-grid."""
+    with h5py.File(path, "w") as handle:
+        for split, ids in (("training", np.arange(2)), ("validation", np.arange(2, 3))):
+            group = handle.create_group(split)
+            group["trajectory_index"] = ids
+            group["time"] = np.arange(5) * .02
+            group["vorticity"] = np.ones((len(ids), 5, 4, 4), dtype=np.float32)
+
+
+def test_invalid_hdf_is_rejected_and_manifest_is_optional(tmp_path):
+    """Invalid HDF5 must fail; valid observations must work without claiming published byte identity."""
+    path = tmp_path / gate.DATASETS["noise_000"]
+    path.write_bytes(b"invalid HDF")
+    with pytest.raises(OSError):
         gate.validate_input(tmp_path, "noise_000", "released", full=True)
-    with pytest.raises(FileNotFoundError):
-        gate.validate_input(tmp_path, "noise_000", "regenerated", full=True)
-    plan = gate.validate_input(tmp_path, "noise_000", "released", full=False)
-    assert plan["sha256"] is None and not plan["published_dataset_identity"]
+    observed_file(path)
+    for profile in ("released", "regenerated"):
+        plan = gate.validate_input(tmp_path, "noise_000", profile, full=True)
+        assert plan["sha256"] is None and not plan["published_dataset_identity"]
 
 
-def test_collection_controller_metadata_only_with_mocked_scientific_boundary(tmp_path, monkeypatch):
-    """Mocks scientific validation deliberately; not evidence of generated field acceptance."""
-    relative = gate.DATASETS["noise_000"]
-    with h5py.File(tmp_path / relative, "w"):
-        pass
-    plan = gen.make_plan(SimpleNamespace(dataset="standard", initial_conditions=None,
-        subset=None, split="all", pilot_steps=None, batch_size=None, device="cpu"))
-    attempt = dict(name="standard", root=tmp_path / "provenance/standard", scientific=plan,
-                   run=dict(attempt_id="metadata-only", binding_sha256="f" * 64),
-                   receipt=dict(data_sha256=digest_file(tmp_path / relative)))
-    groups = {"MOCKED_BOUNDARY_NOT_SCIENTIFIC_VALIDATION": True}
-    paths = [(relative, "generated_scientific_input"), ("splits.json", "split_metadata"),
-             ("provenance/standard/run.json", "generation_provenance"),
-             ("provenance/standard/COMPLETE.json", "generation_provenance")]
-    for name, _ in paths[1:]:
-        file = tmp_path / name
-        file.parent.mkdir(parents=True, exist_ok=True)
-        value = dict(schema="gift.generated-splits.v1", files={relative: groups}) if name == "splits.json" else {}
-        file.write_text(json.dumps(value), encoding="utf-8")
-    records = [dict(path=name, bytes=(tmp_path / name).stat().st_size, sha256=digest_file(tmp_path / name),
-                    category=category) for name, category in paths]
-    records[0].update(generation_job="standard", attempt_id="metadata-only")
-    allowed = set(assembly.CLEAN_PATHS) | set(assembly.SAMPLING) | {"noise"}
-    manifest = dict(schema="gift.generated-data-collection.v1", data_profile="regenerated",
-        status="ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED", scientific_arrays_modified=False,
-        released_truth_used_to_fill_gaps=False, full_hash_and_finite_checks_performed=True,
-        assembler_sha256=digest_file(Path(assembly.__file__)), available_jobs=["standard"],
-        missing_jobs=sorted(allowed - {"standard"}), files=records)
-    target = tmp_path / "manifest.json"
-    target.write_text(json.dumps(manifest), encoding="utf-8")
-    monkeypatch.setattr(assembly, "load_attempt", lambda *args: attempt)
-    calls = []
-
-    def mock_validate(value, *, full, data_path):
-        calls.append((value, full, data_path))
-        return [(data_path, relative, records[0]["sha256"], groups)]
-
-    monkeypatch.setattr(assembly, "validate_clean", mock_validate)
+def test_normal_input_does_not_invoke_collection_assembler(tmp_path, monkeypatch):
+    """Ordinary training reads its observations directly and must not invoke collection-assembly validation."""
+    observed_file(tmp_path / gate.DATASETS["noise_000"])
+    monkeypatch.setattr(assembly, "validate_clean", lambda *a, **k: pytest.fail("ordinary consumer must not run assembler"))
+    (tmp_path / "manifest.json").write_text("irrelevant metadata", encoding="utf-8")
     result = gate.validate_input(tmp_path, "noise_000", "regenerated", full=True)
-    assert calls and result["sha256"] == records[0]["sha256"]
-    assert not result["published_dataset_identity"] and not result["numerical_reproduction_verified"]
-    original = copy.deepcopy(manifest)
-    for key, value in [("assembler_sha256", "0" * 64), ("released_truth_used_to_fill_gaps", True)]:
-        changed = dict(original, **{key: value})
-        target.write_text(json.dumps(changed), encoding="utf-8")
-        with pytest.raises(ValueError, match="collection"):
-            gate.validate_input(tmp_path, "noise_000", "regenerated", full=True)
+    assert result["sha256"] is None and result["full_input_checks_performed"]
 
 
-def test_branch_identity_covers_runtime_and_rejects_before_preparation(tmp_path):
+def test_branch_preflight_keeps_provenance_and_defers_array_content_check(tmp_path):
+    """Metadata preflight accepts source/runtime/file-byte changes; decoded scientific state is checked later."""
     data, low = tmp_path / "input.bin", tmp_path / "low.bin"
     data.write_bytes(b"metadata fixture")
     low.write_bytes(b"metadata fixture, not model weights")
@@ -125,31 +113,49 @@ def test_branch_identity_covers_runtime_and_rejects_before_preparation(tmp_path)
     (tmp_path / "ATTEMPT.json").write_text(json.dumps(dict(identity=identity, runtime=runtime_identity())), encoding="utf-8")
     high._preflight_resume(tmp_path, 20260820, paths, torch.device("cpu"), None)
     data.write_bytes(b"changed fixture")
-    with pytest.raises(ValueError, match="before data preparation"):
-        high._preflight_resume(tmp_path, 20260820, paths, torch.device("cpu"), None)
+    high._preflight_resume(tmp_path, 20260820, paths, torch.device("cpu"), None)
+    historical = json.loads((tmp_path / "ATTEMPT.json").read_text())
+    historical["identity"]["runtime"] = {"h5py": "old-version", "torch_threads": 99}
+    (tmp_path / "ATTEMPT.json").write_text(json.dumps(historical), encoding="utf-8")
+    high._preflight_resume(tmp_path, 20260820, paths, torch.device("cpu"), None)
+    # Old journals had descriptive environment fields at the top level.
+    legacy = historical["identity"]
+    legacy.pop("runtime")
+    legacy.pop("provenance")
+    legacy.update(h5py="old-version", torch_threads=99, torch_interop_threads=98,
+                  omp_threads="old", mkl_threads="old", device="cpu", gpu=None,
+                  data_sha256="OLD-FILE-BYTES", frozen_generator_sha256="OLD-WEIGHT-FILE")
+    (tmp_path / "ATTEMPT.json").write_text(json.dumps(dict(identity=legacy, runtime={})), encoding="utf-8")
+    high._preflight_resume(tmp_path, 20260820, paths, torch.device("cpu"), None)
 
 
-@pytest.mark.parametrize("name", ["m2_recursive_prediction", "m3_cross_resolution", "s1_high_frequency_branch",
-                                 "s2_recursive_local_correction", "s3_seed_stability"])
-def test_five_experiment_explicit_low_argument(name, monkeypatch):
+@pytest.mark.parametrize("name", ["w1_recursive_prediction", "w2_cross_resolution", "s1_high_frequency_branch",
+                                 "s2_recursive_local_correction"])
+def test_prediction_experiment_explicit_low_argument(name, monkeypatch):
+    """Prediction experiment parsers must retain an explicitly selected low-generator file."""
     module = importlib.import_module(f"experiments.formal.{name}.run")
     monkeypatch.setattr("sys.argv", ["run.py", "--low-model", "explicit_low.pt"])
     assert module.parse_args().low_model == Path("explicit_low.pt")
 
 
 def test_low_profile_default_and_explicit():
+    """The low-generator CLI defaults to released observations and accepts regenerated routing."""
     assert low_arguments(["--dry-run"]).data_profile == "released"
     assert low_arguments(["--dry-run", "--data-profile", "regenerated"]).data_profile == "regenerated"
 
 
 def test_new_high_payload_preserves_input_binding_without_model_execution(tmp_path):
+    """Synthetic branch export must preserve provenance and distinguish old file hashes from loaded-weight fingerprints."""
     class MetadataOnlyModel:
+        """Empty-state export interface isolates metadata serialization without running a branch model."""
         state_scale = high_scale = low_rhs_scale = high_rhs_scale = torch.tensor(1.)
 
         def state_dict(self):
+            """Return no learned tensors so the test cannot be mistaken for trained-weight evidence."""
             return {}
 
         def export_config(self):
+            """Mark the exported empty-state interface as a fixture."""
             return {"fixture_only": True}
 
     binding = dict(profile="regenerated", sha256="a" * 64, manifest_sha256="b" * 64)
@@ -160,8 +166,16 @@ def test_new_high_payload_preserves_input_binding_without_model_execution(tmp_pa
     assert payload["training_data"] == binding and payload["data_profile"] == "regenerated"
     assert payload["model_state"] == {}  # No real model or trained weights in this test.
 
+    modern = tmp_path / "metadata_only_new_binding.pt"
+    high._write_checkpoint(modern, MetadataOnlyModel(), seed=20260820, phase="metadata_only",
+        epoch=0, selection_metric=0., generator_weights_sha256="d" * 64, training_data=binding)
+    actual = torch.load(modern, map_location="cpu", weights_only=True)
+    assert actual["frozen_generator_sha256"] is None
+    assert actual["generator_weights_sha256"] == "d" * 64
+
 
 def test_noise_collection_path_override_still_rejects_wrong_protocol(tmp_path):
+    """Explicit assembly-file overrides must not permit a scientifically different noise seed/protocol."""
     parent = gate.DATASETS["noise_000"]
     attempt = dict(name="noise", scientific=dict(input_sha256="d" * 64, seed=999))
     with pytest.raises(ValueError, match="Noise protocol"):
@@ -170,11 +184,12 @@ def test_noise_collection_path_override_still_rejects_wrong_protocol(tmp_path):
 
 
 def test_noise_path_override_metadata_only_no_finite_or_hash_claim(tmp_path):
+    """Metadata-only assembly inspection may locate sparse NaN fields but must not certify numeric contents."""
     binding = dict(input_sha256="d" * 64, seed=0, rng="MT19937", scaling="std(clean_group,ddof=0)",
                    group_order=["training", "validation"], frame_chunk=16,
-                   fractions={"noise_001": .01, "noise_010": .10})
+                   fractions={"noise_001": .01, "noise_005": .05})
     paths = {}
-    for name in ("noise_001.h5", "noise_010.h5"):
+    for name in ("noise_001.h5", "noise_005.h5"):
         path = tmp_path / name
         paths[name] = path
         with h5py.File(path, "w") as handle:

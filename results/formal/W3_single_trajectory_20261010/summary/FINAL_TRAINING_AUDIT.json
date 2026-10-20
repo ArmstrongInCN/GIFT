@@ -1,0 +1,5271 @@
+{
+  "schema": "gift.w3-single-trajectory.training-audit.v1",
+  "status": "passed",
+  "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+  "task_ledger_sha256": "d78c1c4d867cf99e01ca48bf943cbe34422868e25a0f4f975bccf8ac0cb580c7",
+  "parameter_results_sha256": "7a202ab85c760b28a3344527d2c3bf657adc58ed04941635375baa003357c190",
+  "source_lock_sha256": "be3fdee2c47fb85c4ff8790992e69c86542b127eb5c78db0e219d8d7fe755ac3",
+  "audit_source_sha256": "49b3acba980e9d6bb272c4dad4d9aa0df6d187e89b90f0ae16ca5f59e889f2d0",
+  "checked_utc": "2026-10-14T05:15:21.322094+00:00",
+  "planned_neural_slots": 150,
+  "planned_regression_slots": 100,
+  "native_budgets_seeds_and_own_case_checkpoint_verified": true,
+  "actual_scipy_terminations": [
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9021,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.7771760821342468,
+      "gradient_inf_norm": 1.0919806957244873
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9436,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -2.700387477874756,
+      "gradient_inf_norm": 0.4063552916049957
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9045,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.0769790410995483,
+      "gradient_inf_norm": 4.037247657775879
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9389,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.8887760639190674,
+      "gradient_inf_norm": 0.5203893184661865
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8991,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.9827604293823242,
+      "gradient_inf_norm": 2.4740524291992188
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9458,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.4496619701385498,
+      "gradient_inf_norm": 0.3861880898475647
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9071,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": -0.1591838002204895,
+      "gradient_inf_norm": 2.7599921226501465
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9488,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -2.05761981010437,
+      "gradient_inf_norm": 0.09557678550481796
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9040,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.9490830898284912,
+      "gradient_inf_norm": 3.8566434383392334
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9330,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.779969334602356,
+      "gradient_inf_norm": 0.02152477763593197
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9010,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.1646591424942017,
+      "gradient_inf_norm": 3.7987093925476074
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9491,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.3604506254196167,
+      "gradient_inf_norm": 0.23193100094795227
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9008,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 0.4875248670578003,
+      "gradient_inf_norm": 8.238680839538574
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9415,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.1646134853363037,
+      "gradient_inf_norm": 0.32153335213661194
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8984,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.3726109266281128,
+      "gradient_inf_norm": 1.7233575582504272
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9603,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.23801571130752563,
+      "gradient_inf_norm": 0.2628854513168335
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9018,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.4053325653076172,
+      "gradient_inf_norm": 0.7603297829627991
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9392,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.12484616041183472,
+      "gradient_inf_norm": 0.31572574377059937
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9003,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.7738101482391357,
+      "gradient_inf_norm": 5.787214279174805
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9368,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": -1.1903492212295532,
+      "gradient_inf_norm": 0.8794941306114197
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9037,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.3748642206192017,
+      "gradient_inf_norm": 6.117977142333984
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9394,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.0356184244155884,
+      "gradient_inf_norm": 0.06975094228982925
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9013,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.2145075649023056,
+      "gradient_inf_norm": 4.802282333374023
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9528,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.6362608671188354,
+      "gradient_inf_norm": 0.06685524433851242
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8994,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.46578770875930786,
+      "gradient_inf_norm": 3.1123714447021484
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9480,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -2.0790531635284424,
+      "gradient_inf_norm": 0.2621733844280243
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8993,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.5472507476806641,
+      "gradient_inf_norm": 4.636930465698242
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9515,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.5014923810958862,
+      "gradient_inf_norm": 0.20501220226287842
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9024,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.8881622552871704,
+      "gradient_inf_norm": 3.8968911170959473
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9350,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.704967200756073,
+      "gradient_inf_norm": 0.2727676331996918
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9039,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.04023328423500061,
+      "gradient_inf_norm": 5.131237030029297
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9438,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": -2.0497844219207764,
+      "gradient_inf_norm": 0.19961382448673248
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9028,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.5961171984672546,
+      "gradient_inf_norm": 3.91314435005188
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9347,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.9846460819244385,
+      "gradient_inf_norm": 1.082136869430542
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9035,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.9260886907577515,
+      "gradient_inf_norm": 5.7117085456848145
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9541,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.2588207721710205,
+      "gradient_inf_norm": 0.6215089559555054
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9030,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.0172772407531738,
+      "gradient_inf_norm": 2.4773612022399902
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9420,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.3753383457660675,
+      "gradient_inf_norm": 0.0826178714632988
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8985,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.5261088013648987,
+      "gradient_inf_norm": 3.687190532684326
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9561,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.3304615020751953,
+      "gradient_inf_norm": 0.21759088337421417
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9040,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.7331383228302002,
+      "gradient_inf_norm": 7.921241760253906
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9594,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.4117937088012695,
+      "gradient_inf_norm": 0.377254456281662
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9068,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.4879481792449951,
+      "gradient_inf_norm": 3.366583824157715
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9438,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.19309403002262115,
+      "gradient_inf_norm": 0.1690542995929718
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9024,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.424549400806427,
+      "gradient_inf_norm": 1.4907039403915405
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9354,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.2663189172744751,
+      "gradient_inf_norm": 0.04080943018198013
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9032,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.1162207126617432,
+      "gradient_inf_norm": 2.3992133140563965
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9559,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.5184084177017212,
+      "gradient_inf_norm": 0.08814503252506256
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9070,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.5944964289665222,
+      "gradient_inf_norm": 1.1473422050476074
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9467,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.7769793272018433,
+      "gradient_inf_norm": 0.0556691437959671
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8993,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 1.4417738914489746,
+      "gradient_inf_norm": 4.622588157653809
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9298,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.8678523898124695,
+      "gradient_inf_norm": 0.039227165281772614
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9006,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.5729491710662842,
+      "gradient_inf_norm": 3.6938488483428955
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9569,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.1528341919183731,
+      "gradient_inf_norm": 0.04433513805270195
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9005,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.4533926248550415,
+      "gradient_inf_norm": 0.9509008526802063
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9424,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.1497664898633957,
+      "gradient_inf_norm": 0.09016457200050354
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9033,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.6565582752227783,
+      "gradient_inf_norm": 2.566481113433838
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9393,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.7154837846755981,
+      "gradient_inf_norm": 0.2389116883277893
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8974,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": -0.7525510191917419,
+      "gradient_inf_norm": 9.679662704467773
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9483,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -3.051313877105713,
+      "gradient_inf_norm": 0.5247824788093567
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9040,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 1.0528075695037842,
+      "gradient_inf_norm": 5.295875549316406
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9439,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.2957281470298767,
+      "gradient_inf_norm": 0.03785060718655586
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9004,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 0.5926429629325867,
+      "gradient_inf_norm": 1.57583487033844
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9436,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.7892862558364868,
+      "gradient_inf_norm": 0.04879060760140419
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9039,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.2144103050231934,
+      "gradient_inf_norm": 1.4328038692474365
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9601,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.5701808333396912,
+      "gradient_inf_norm": 0.17373234033584595
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9010,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.2920114994049072,
+      "gradient_inf_norm": 1.0471651554107666
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9488,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.9918320178985596,
+      "gradient_inf_norm": 0.23064342141151428
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9009,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.8669102191925049,
+      "gradient_inf_norm": 1.1931246519088745
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9465,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": -0.664996862411499,
+      "gradient_inf_norm": 0.14424432814121246
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8982,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.618594765663147,
+      "gradient_inf_norm": 4.871399879455566
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9495,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.1297889947891235,
+      "gradient_inf_norm": 0.47333115339279175
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8989,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.0913360118865967,
+      "gradient_inf_norm": 1.9737273454666138
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9382,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.45257407426834106,
+      "gradient_inf_norm": 0.07188503444194794
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9030,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": -0.043777741491794586,
+      "gradient_inf_norm": 4.266139984130859
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9566,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.9928373098373413,
+      "gradient_inf_norm": 0.08979963511228561
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8992,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.0856883525848389,
+      "gradient_inf_norm": 6.251963138580322
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9445,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.29436928033828735,
+      "gradient_inf_norm": 0.037852078676223755
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9012,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.8222772479057312,
+      "gradient_inf_norm": 2.668757915496826
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9500,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.6401591300964355,
+      "gradient_inf_norm": 0.07940740883350372
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9006,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 0.7796428799629211,
+      "gradient_inf_norm": 3.4138262271881104
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9416,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.5739008188247681,
+      "gradient_inf_norm": 0.2241770625114441
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 8988,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.1380088329315186,
+      "gradient_inf_norm": 0.9785279631614685
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9282,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 0.7223085761070251,
+      "gradient_inf_norm": 0.07618018239736557
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9006,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.0115985870361328,
+      "gradient_inf_norm": 2.9799203872680664
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9394,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.1564478725194931,
+      "gradient_inf_norm": 0.1473131775856018
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9053,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.6811987161636353,
+      "gradient_inf_norm": 3.1904211044311523
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9458,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.7214986681938171,
+      "gradient_inf_norm": 0.057943351566791534
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9019,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.9362678527832031,
+      "gradient_inf_norm": 2.0086538791656494
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9422,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.46431583166122437,
+      "gradient_inf_norm": 0.08730872720479965
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9032,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.010092654265463352,
+      "gradient_inf_norm": 2.1655850410461426
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9581,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.885237455368042,
+      "gradient_inf_norm": 0.574463427066803
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9037,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.2889508008956909,
+      "gradient_inf_norm": 2.1818268299102783
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9498,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -1.2227433919906616,
+      "gradient_inf_norm": 0.11463958024978638
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9042,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.3507399559020996,
+      "gradient_inf_norm": 4.681906700134277
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9476,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": -0.3033066689968109,
+      "gradient_inf_norm": 0.3270295560359955
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9050,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 1.3719933032989502,
+      "gradient_inf_norm": 1.8657631874084473
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9456,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.12199500948190689,
+      "gradient_inf_norm": 0.03734571486711502
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9025,
+      "function_evaluations": 10002,
+      "gradient_evaluations": 10002,
+      "objective": 1.2298603057861328,
+      "gradient_inf_norm": 6.259213924407959
+    },
+    {
+      "success": false,
+      "status": 1,
+      "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+      "iterations": 9441,
+      "function_evaluations": 10001,
+      "gradient_evaluations": 10001,
+      "objective": 0.07411134243011475,
+      "gradient_inf_norm": 0.045789383351802826
+    }
+  ],
+  "scipy_cap_is_not_called_convergence": true,
+  "tensorflow_graph_constructed": false,
+  "GPU_operations_performed": false,
+  "records": [
+    {
+      "case_id": "parameter_000",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "42b91c5a91f08d7f693093ebf092120fbbeebafa1cc2919c19dba3611de6ec80",
+      "completion_sha256": "41c2501b9b24201eae326edeec50a2da5d53bfbd44194890c8b5d17963ccf679",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 81.03099250001833
+      }
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c0c305fdc7d9724a8d722d4c4389e5680981be669381199c3b90a0720a039390",
+      "completion_sha256": "655f96fa9a14f18cb5fcafcfd4a3adb30d78f312e1caa24e3d0c4d817f9126a2",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 7998.685219400017,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9021,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.7771760821342468,
+          "gradient_inf_norm": 1.0919806957244873
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "63d7ac4c0531e8e607303564eb475bac4016c0dc390e1347e29f7af0037e2a7b",
+      "completion_sha256": "b91c4f787c6030d10892d824016f4bda5d66823ccf103e8eb63cf62cfec6707a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6001.457817299954,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9436,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -2.700387477874756,
+          "gradient_inf_norm": 0.4063552916049957
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "6bcbb61e6cd150fa2d6fabab0ab3306bcc21120d48a5a43a84265c765cc10afa",
+      "completion_sha256": "890b98beefe7c83b172ec41e2bed62f8dd7555e3c58afbb6a9ca9d257b909582",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 84.88521570013836
+      }
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "581cbb9bc0c2444e7caff82c6a56d2dc4f1b78e2ca4e4a2fb8844f2042d64e80",
+      "completion_sha256": "27c28dc2b9342143f3751dd68b3ac79e5cc7c868f04b6733c88402049c506e47",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6644.501293699901,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9045,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.0769790410995483,
+          "gradient_inf_norm": 4.037247657775879
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "059a85fbd46f03ad1e4d6b680d6494052c31cd10d785d5e152fafe22121f60f8",
+      "completion_sha256": "599811941f9401c6355f0f4486e99ea559b9e3b7ba3afbc0b3ffd3c58449a44a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5037.935842500036,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9389,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.8887760639190674,
+          "gradient_inf_norm": 0.5203893184661865
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b439eb00cc0c1cce5b3a4b19fd060a671050c36e663e8052e3b22796eaac8189",
+      "completion_sha256": "aa2069a2e48bf4c283a25861603b46a9109b8628e50dfe37191769200216a7fd",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 88.41271569998935
+      }
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "fcc371da1637cc5a4c23cb0a21245483963b885e42d462220029e2ff2fdf3f5d",
+      "completion_sha256": "851de6080eea44b840855125a1a66ddbfedd063537da297bf1f43e7d3a1e36aa",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 7409.56280969999,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8991,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.9827604293823242,
+          "gradient_inf_norm": 2.4740524291992188
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "cfcb4f92414d275d2163e340406014432774539ce9f10799dbbc94d5b45c08e3",
+      "completion_sha256": "40daa519bbdfc674f4d5f2de2ac2e31cc2708e4f1d0fdcbf6b0d2aa1e12afd68",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6011.725320499982,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9458,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.4496619701385498,
+          "gradient_inf_norm": 0.3861880898475647
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c0e1934dc08f63eb4171d6b676e1b118b904ace0990ecbb0c89843562a6f1d86",
+      "completion_sha256": "fec265d2d100d35f2812bc7ea9bdca1bc005906ba7a60a2d7cff5d2d1a836745",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 101.62439020024613
+      }
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "0b9271edace2960e533f1f325c5b6b755a889c4ef2403ed7b8c65ca489781a57",
+      "completion_sha256": "0ef30113bb698315c25e2928f786dec2d1bc4f2b1fbad049b05866d5265bd301",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8060.0324715999195,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9071,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": -0.1591838002204895,
+          "gradient_inf_norm": 2.7599921226501465
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "2ba05c343cfd9c18d0f08ff2d164c4da139432d6e8aaae81304aeabd32b4de95",
+      "completion_sha256": "4d8e7fcd032b7527f343e2f46ee80a3614daef9fbe42df38fe8b3a61354954b8",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5058.507375099948,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9488,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -2.05761981010437,
+          "gradient_inf_norm": 0.09557678550481796
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "4026719817c52696d5276d3fbb016d08c3e6d8597bb5d6476f3669f17496749c",
+      "completion_sha256": "436e0941b25e3b4252b6c1d6ebdfda5480cf76f9f745a7f3f63ada8a7e055377",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 102.37364999996498
+      }
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "666df79ce239b7b8c5f1d7046aeac6e73131abff42914853389e5897b7a78a89",
+      "completion_sha256": "b0e3a74d3141b33f4d95ad7a70b494cf2d1e5b70085cd3f8d67e826bcd49e3ce",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 9769.296230100173,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9040,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.9490830898284912,
+          "gradient_inf_norm": 3.8566434383392334
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "6e40093829e02bca5d20beb2830ecfc3a818bc055af115a0884c63e22927f9dc",
+      "completion_sha256": "3c5266532390c299acc95a787b1ab31c062fcf4af60fb0a106d93a394b627dbd",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6024.456685899972,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9330,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.779969334602356,
+          "gradient_inf_norm": 0.02152477763593197
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "27e90091ca4c4dc12ccc10e63f2898df84bc98c7deb1cacb0c86add7fa8607b0",
+      "completion_sha256": "37f148a16b4aee89bc976363cf45848f0192c02497974e835c37155cf561d3d0",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 106.61956720007583
+      }
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "4c23b910e44b6725c209915a6ebb0272a89eaa047b7a7e76159689a6c982c89f",
+      "completion_sha256": "8817407fc8ad989e13f2f0ff55d7b5f2ba2a0da730101a762b1554bc44bbc910",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8086.514885899758,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9010,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.1646591424942017,
+          "gradient_inf_norm": 3.7987093925476074
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "fac3116d1ad0e1ea180868a9988035e89333cb2c1282b358eeb0a641ffd691f0",
+      "completion_sha256": "177cf008bc7b75dc0f4751679d08bdeca094415d719f28c8f2b4aa8a3fc36628",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5197.451160800041,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9491,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.3604506254196167,
+          "gradient_inf_norm": 0.23193100094795227
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "2e86cef14dd46bb9265f26c3eaa82a1ae3b9acfbb1b0308ca29d755d178d5786",
+      "completion_sha256": "2c27e7a9dec75bdfe9972f8b42a636ec5817d7fdce87baaedf449e6102896a97",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 97.4659628001973
+      }
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "f7f016043b0a86a3261919dfffb987ea622419a07bc8d09ec86287b3da94fb97",
+      "completion_sha256": "a48844d4cb8d2c7b42afd8b800cd0c31c580842b5e5c14c8ed50ab6aac62f2f7",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6792.72905799989,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9008,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 0.4875248670578003,
+          "gradient_inf_norm": 8.238680839538574
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "fda5746207c9900216ced21f53b1d66195fc111be47c3bdfe76a4ea62b039c43",
+      "completion_sha256": "37f361882f9dbecc21a0cf2beafa215361b79b2db87ed969a75f2e498ce4d044",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6003.405737999936,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9415,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.1646134853363037,
+          "gradient_inf_norm": 0.32153335213661194
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "86f12506bbf151a9212feb1dcdc243dee4cde90843ca88e94d651ad727195a9a",
+      "completion_sha256": "42e052c238ef46b80c996fd1b26f28de6ea92418892e7e8c34611e76ddc78e2e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 104.10553569998592
+      }
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b67e6775be68c5e4a720f7e6a77e3cad87eee97c64ef61265baa4915eeaa477c",
+      "completion_sha256": "c6305dc9c17eee025de071f462e4f1cd22726627fe502ba83271ba6a09f73349",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8148.918991900202,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8984,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.3726109266281128,
+          "gradient_inf_norm": 1.7233575582504272
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "4ad5bd4824ac692d00ec76f0f7385a7053114525318bf8394e7b4209b8a17f59",
+      "completion_sha256": "5500ac19e2fd94eaf37fa972993f03e179f5085a4bb603dcf2f19a8a6f01a6aa",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5243.326034099962,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9603,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.23801571130752563,
+          "gradient_inf_norm": 0.2628854513168335
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "6b51ee5fa016be21a6cb46138e621f3bfdc0812ba82af478ae72cab58b81c53b",
+      "completion_sha256": "590b5937f882db85bc3af41d893035df31405634c160961c7b191e8d247d7769",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 104.2500860998407
+      }
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9ccc1965175e8bccde6ebee0c82bfb2b2ebaed424e6eaa263ddccb0422aa9c96",
+      "completion_sha256": "7ccfa7a51ad32416f2f7e6399c6df4f27440231e3aac4c1a5e56255203f9a7ef",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8623.665827699937,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9018,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.4053325653076172,
+          "gradient_inf_norm": 0.7603297829627991
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8080c8ea2747bf74da59d927166e492074437bafd84d56cf252a191bc9c5f449",
+      "completion_sha256": "1efd714a0132230a3fb86ce5d76c9e9bfb21a2d84bb09669d14f888e4850f670",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6012.227481399883,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9392,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.12484616041183472,
+          "gradient_inf_norm": 0.31572574377059937
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b0df77fe9e766fb5920e5ed576396f6caa04b7b0fd429b7ac27d9caeff77671c",
+      "completion_sha256": "3adfe3af09e39d5e54ae1e34792b97225fa7c844904bd4bae081215818e3994d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 107.04008169984445
+      }
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "0be8c8082603294baee2277f236ef9473d7bac4adea1280bbe454219a5cd195b",
+      "completion_sha256": "40df97c4a50324a8ae6f98c170d4124206c6bc01e090f358787c566da7a29818",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8145.769735299989,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9003,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.7738101482391357,
+          "gradient_inf_norm": 5.787214279174805
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "57d059020e85d76151e3b8cdc526f92428595abce7ac1cddca0870fcd13b07ef",
+      "completion_sha256": "db4ed61383525f39ec76751dbd5ccb817fd21625747eb3f27b930117c0586449",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5166.963882400063,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9368,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": -1.1903492212295532,
+          "gradient_inf_norm": 0.8794941306114197
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "0d6b9e4f2892317de0af97111acc42765248a7951d6a42f84214b591d9bb2b46",
+      "completion_sha256": "af821c67f4bc93a0f68d0c53778649119fb6d4beaab9c3e63ffcb5c08b8a08b7",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 97.81377090001479
+      }
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "515f74ab8393ad4d264ef8ef6a162f4b02df0298569753705b3afb9d446a58c9",
+      "completion_sha256": "aa1b8ff072a14e693fd6449a30310f90bd0da9e114941aeff28e954ed0540572",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6556.532082499962,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9037,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.3748642206192017,
+          "gradient_inf_norm": 6.117977142333984
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "f53ee9a8730b4c6be5f0e35ab16fd9f2a47cd4d8eb3886eb003cc4e02968bd8a",
+      "completion_sha256": "d8cc569a6ef3fa01c7dc7d49eb8a43291d224518774d39bd9b15ab50ba9c032f",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6044.7507605,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9394,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.0356184244155884,
+          "gradient_inf_norm": 0.06975094228982925
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "439ac481e5c48466ba45603206fe01400b2d56959976fe61f88542fb2ccd34d1",
+      "completion_sha256": "067aa23f34f212e2642add14ad0e7bc66ec50576222bcb62b520ae3c7f2bc008",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 103.17234819987789
+      }
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "0980103c97fc5c95b7694694ead37457f7fee2b98e0a91942c54e560f1e09026",
+      "completion_sha256": "66b67993fcc9b8b7fd5d23a5cbf9656ac3e33ddec9448c6ebeefcab762668501",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8117.635656399996,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9013,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.2145075649023056,
+          "gradient_inf_norm": 4.802282333374023
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "7892895cccf162f1b28be65e2be6d36ada3bb69e5f9512f7c47ce8c4a6675a9a",
+      "completion_sha256": "390274b8e21e669bdac780db75f7be62d90c9c35f009bf85eabf3d4a79ea2a87",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5974.277194400116,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9528,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.6362608671188354,
+          "gradient_inf_norm": 0.06685524433851242
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "69da310a54dd20e888288c91c3690f1a0120ccfc83250195ca50e61f0960f61c",
+      "completion_sha256": "a38d238feef14a0a524177eb0b0a216af3bd7d6e83fd562f7273e57773aa7e6e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 101.69880450004712
+      }
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "6dcc543661893d674a7e8931f048135b27301244af156a65f2a92985b7f6d3b3",
+      "completion_sha256": "5b26a734b9a2d1fea60f8034b4bd4b7222221012f4b120f017aad705c07c0d15",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8086.576151500009,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8994,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.46578770875930786,
+          "gradient_inf_norm": 3.1123714447021484
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c32635699dfef793c81d4aa769b729b3a0ee5fb6e642280ccd1e10987152a394",
+      "completion_sha256": "52b645bd0a3a9d5d4ffaf58e6104a1d53609b09311218f3e1f8797c3d5719113",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5094.290462399972,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9480,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -2.0790531635284424,
+          "gradient_inf_norm": 0.2621733844280243
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "4d833c4668455ef60f92a652370e805f9015d1d4b5f4cf67040f9e73d0a0163f",
+      "completion_sha256": "3dfb26c6f9f4ed1dea6f8e52169f4324003de7e4436325e64976201b871ba739",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 109.26197630027309
+      }
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "0880554441d0c5b9925ceee2f71bc1aba4b0d7f1b0f1039c0c2ed675f24fc970",
+      "completion_sha256": "711f8742c94b15b63158a35bdba7c87244d7f120cb130351571889e78b121911",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6642.296497499961,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8993,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.5472507476806641,
+          "gradient_inf_norm": 4.636930465698242
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "026e6370d2642a661525a99cec3ab2c5542586e95f8f3780c8d257fc293129c5",
+      "completion_sha256": "c6108ee2555291af6352f80f62a9f008e584d5433ba65e3d4f994b63e5a3ba2a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6030.919174599972,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9515,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.5014923810958862,
+          "gradient_inf_norm": 0.20501220226287842
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "79411aa70ea60f00e915918eaf93a1d421145d03f3be41c88c76400544c5fda1",
+      "completion_sha256": "f539367742a227de3e4ff03832f06b3cdedfaf5fbb5ddbc8e66f66705ec77792",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 87.92874989984557
+      }
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "f09ca068d54cdf0215e493b786281c41c94bc12a3c3552962c96887e24689fe5",
+      "completion_sha256": "50a7788760112f4fef979c50b372488116c9f0fc8796dca9ea5faa07e03337f7",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8074.056495500018,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9024,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.8881622552871704,
+          "gradient_inf_norm": 3.8968911170959473
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "5ea78c605637c2077da224ce0b8587b9ae42327eb74fbcbc29c2a14a92fdc95e",
+      "completion_sha256": "b4f1f8366c37a2706b8c55898ee385ccfb06ef7566f32aae9694145106ecd250",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5080.545525699979,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9350,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.704967200756073,
+          "gradient_inf_norm": 0.2727676331996918
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "25607f156c7fa949587b82a5386bbf6a2d7767f0c06dac3480cbcb27e30121fe",
+      "completion_sha256": "11c733ce19e8e246bac9531658b178605895b8c5a56ec16ac75a2535fbf4d5d0",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 99.09001269983128
+      }
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "46d5e1aeb4af6d4bf91918ba5d8787db30ec5fba1bad073695365f98a76b5798",
+      "completion_sha256": "8119190e3b9e5c1ac1c7d897dcb3409b5a5671c26559718d035e81955229d011",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 7538.800007799954,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9039,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.04023328423500061,
+          "gradient_inf_norm": 5.131237030029297
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "331f3f172a7747d70bcff71cc810dccee2aea20231dd049e9419b9d1b8014edb",
+      "completion_sha256": "81eb95eece9c1dab19baae06a8e37facf473b7a433fcfab7653afd02eb701f2e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6014.304509199916,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9438,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": -2.0497844219207764,
+          "gradient_inf_norm": 0.19961382448673248
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "1a64cce982202293374c967f80a069b4fc49f064d6a448e545fb8ab72a7cd046",
+      "completion_sha256": "8b230b09d10631484752c0d7d17552fc08587b903be6f3307edff73bbd5b700f",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.32238140003756
+      }
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "4b526542f8f24c86ea7c14372019fa70cafd031ba25cf1bea3b520aa650951c2",
+      "completion_sha256": "3ffcd9cff7914f812ff384924244003fa70df2f312bcbb3737a2895106fdf00b",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8034.410688200062,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9028,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.5961171984672546,
+          "gradient_inf_norm": 3.91314435005188
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "6e62cc90dd71c4c161a6f0976f7ec008ab6511c168b96508e91c5a919463610b",
+      "completion_sha256": "bfbee90dd54fbf820d42dcf537d2ee0f45d70a9f9bc3c93a918c1e777607cdab",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5743.838640600008,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9347,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.9846460819244385,
+          "gradient_inf_norm": 1.082136869430542
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "090f539ecd38684fd6027d11f1d45fb24047380b65a7e2119249bf70d6c44ef6",
+      "completion_sha256": "234f1b3d4b9588453ad198bcd18ded1d05e36d9634831cb49572e79fac7e3d3e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.48114599986002
+      }
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "7cb21b1204c18c2c13dd79759672ed9e3471aeae58d43c16a5f58653b5125cac",
+      "completion_sha256": "c4bcb47abdc6c6f8b0439b4a2be4a03ff7acba0fc01f025af96527b9aada097c",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6777.13197370019,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9035,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.9260886907577515,
+          "gradient_inf_norm": 5.7117085456848145
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "d5802e573ab296d40a86dd8ed3d4abb8c54488cff9172fe318d7986f983cf4d9",
+      "completion_sha256": "f5089da13c1b3868d6d85c3f1545282347fac4296355dc7d72e493e11686df43",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5227.876061800059,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9541,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.2588207721710205,
+          "gradient_inf_norm": 0.6215089559555054
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "737e3ffd7a009d8502c604f7e85d82640f9c66293bc8bc3aecb25f9a36edcebb",
+      "completion_sha256": "df33ee830320dd961384298e1ca58b4e3cdff42250d9f7a46debff2d366fa7f6",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.02011469984427
+      }
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "bb171f77ff13beaeea9b5dbe9bae3d5437bf3b46c5e9880408e167a11147b730",
+      "completion_sha256": "f40fd109959298e03b47416342ad8145f15e30cb5ca6006b3f72fd31de91b67f",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8249.406816600025,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9030,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.0172772407531738,
+          "gradient_inf_norm": 2.4773612022399902
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "30884e153c815e3b337d7b842bfb9794d001014f8be381e95a79dc43b4be6f74",
+      "completion_sha256": "1aec21c9476e86b159d1d58e0d5b47aad74b04e97e04232b0f3815a88a6a5204",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6015.381593299911,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9420,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.3753383457660675,
+          "gradient_inf_norm": 0.0826178714632988
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b826140734c0dc933aa4f07450ac30e3dbc5af6a65cd22c7550677d2c8646bcd",
+      "completion_sha256": "c99f35a55d2e1db9be2747609a8e441d51f325b46e83a3a43e3e66a2bea3fce6",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.58206540020183
+      }
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "cc245b87471d5d12a8ae4fd6cebcdf63d7550bd85ade58eb4e90bba785977c38",
+      "completion_sha256": "37c67436539bf9ce666317bcc36a5fc75a1da9dbf14f41cd601bb0b4ce336369",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8028.238133999996,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8985,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.5261088013648987,
+          "gradient_inf_norm": 3.687190532684326
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "fd1a9e5f110df613cc139a69d936f3d7134991603925f53900d70ad1f63beb03",
+      "completion_sha256": "46c6289c993719a5a320bd13726c029d93e61300c4ac60e05326e3df8908838a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5147.888915200013,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9561,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.3304615020751953,
+          "gradient_inf_norm": 0.21759088337421417
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8cd03356a826d6c427d9570eaeef4b7bc379c51ac73e1b0a8da21dc2663ddb42",
+      "completion_sha256": "472d1ae8a523d739d5fa1ce42f04dd0da4c65ade9756c80f6e11702bd19ec438",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.2312328000553
+      }
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "7fc8529b7ddecfac2770ce1abe427da1e9eaaf9e809cfd59d4a63d8837b2d93e",
+      "completion_sha256": "499e00eb18bc7961da84a3b45f606dcd7d1856b7a880c8791a094eb187f7185b",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6683.656842099997,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9040,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.7331383228302002,
+          "gradient_inf_norm": 7.921241760253906
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "32cf98b16be401e8985606d4205445852a011719c901c786bf1d02ee8c2c1784",
+      "completion_sha256": "1f8ae491ac8e4c4b1816c7bae3b82dd8e8c437ddc091327d409faf3666ff7c9a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6018.47245629991,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9594,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.4117937088012695,
+          "gradient_inf_norm": 0.377254456281662
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9c18a1912ef3a4154ceb4c2978d6b5a148524236723b7becba1f34960c69e3ac",
+      "completion_sha256": "5888579b4e7a4b4a216a43a290c240a2074bb379967ef568ea7790576431c2f7",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 93.58796070003882
+      }
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8c7aa467ec56f065a1c9ec8c96828ba6cfd0ea107b7634bcecf29083675943f4",
+      "completion_sha256": "58a494208c812531cae44a30ed1bd49eb6b6f1906fb31b5cf4901a51904fdb67",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8048.9108252999895,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9068,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.4879481792449951,
+          "gradient_inf_norm": 3.366583824157715
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "518bb273c4aefbb79e180a58419cf370f51f20e9b4bf42d2fc3c0352c19e7209",
+      "completion_sha256": "3e49fb699f1ef57644c776b382420e0c6fd3da6a427084b084d9e3617ae27a87",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5752.4130505999765,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9438,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.19309403002262115,
+          "gradient_inf_norm": 0.1690542995929718
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "05a25d565888eb7325fd63781ed1babae85a1b2806a2d6fa3e0c089ca995a97d",
+      "completion_sha256": "c677d9b455a737868bad7fe2c0e066a77acbdc1012e07bee314dfaa04d93a2d1",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.44974139984697
+      }
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "a202d8d53f879f1e5cdf52350bdf1959f39eb9e3a6f212ca447cf5b71715e2b2",
+      "completion_sha256": "78552dee19ba37e94998fe07a80fc30eb231e0d5c7d9a4b02a095dbb0dc135c0",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6625.46130240005,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9024,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.424549400806427,
+          "gradient_inf_norm": 1.4907039403915405
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3f3fc1c82e82f8c26c8cf253afb7bfdb43c9cef566002b7796489390127441e9",
+      "completion_sha256": "86a617b2fa1fadc80fda3598451b69b1d43193829eaf9f37c620fb66955ef022",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6000.217364599976,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9354,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.2663189172744751,
+          "gradient_inf_norm": 0.04080943018198013
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "f7d9521f2ab886e3ca45f887df6f40689ea653bc0793bd3ec30b114516555dfd",
+      "completion_sha256": "363b595b6c27524eae95ef044ab5aadb34283ece99648ea2a5665a2e94d5848a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 96.63610489992425
+      }
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c0968f68bd189327f852eedac53a9818cec63779e941b50da90edab483bba153",
+      "completion_sha256": "c708ac2624c62204cfc547ae3864e1e1dbd38d9ff8e5113989b85044ac13ee5d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8047.661360300031,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9032,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.1162207126617432,
+          "gradient_inf_norm": 2.3992133140563965
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "16847d1db9f701c02abf420e2aaea6915546428ac3baab3943349b52656ad3ed",
+      "completion_sha256": "65c950281e01bacfa413625b11572bc8a15ddf6a71136b17af7eeb38374c3071",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5069.4192900999515,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9559,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.5184084177017212,
+          "gradient_inf_norm": 0.08814503252506256
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "55cd3c0e92530ea851ab3048e286e930559c88e775d0672f5f8fffccdaa11cf3",
+      "completion_sha256": "ebd7603d956c7afa759253c6bf831867017c1af00cca509e147fb9b20b584199",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 97.3496542996727
+      }
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c2b9af7b370a1ef2a088ebccc3186105fe54439f1b216aaa26353b14ad62ff4b",
+      "completion_sha256": "8f3d1afe23542644ebb432c03be2572ff27c2eda9fb819f933777150b20ec58f",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6597.786550499989,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9070,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.5944964289665222,
+          "gradient_inf_norm": 1.1473422050476074
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b586a46bdae27614d877906b52a9d738d4766ddcd356a4959d4454cef2808fbe",
+      "completion_sha256": "b49cd063c006dd54685e7af5218cb733092e4d6a3c9bfe57c5081480e7f9daef",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6026.003418500003,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9467,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.7769793272018433,
+          "gradient_inf_norm": 0.0556691437959671
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8ddb74f51e86ed1715688bbffc8c6d0fded150362dbb6f15b2ffc6d698842123",
+      "completion_sha256": "20f1bc57fef0415f542a0054606b99353545e3a0166fb7632369b40183e46386",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.44041350018233
+      }
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3b1b3cc6609fba46b69c22545251fc1dc12dd77fbf0609180f4fb5e0fbb9bc1b",
+      "completion_sha256": "86068937b634463b8dfe151fbe05af53a22185838fe7d4cc2619762080c73d8c",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8087.21607810003,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8993,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 1.4417738914489746,
+          "gradient_inf_norm": 4.622588157653809
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "061ccbe5c17794cdea6ced05a1393fa09d196ad1172a6a2b9085f149e20482cf",
+      "completion_sha256": "42e84cfafb5dfefacadd7092d0b94acf1f59c2ee42f77b3c4c03ad74440f6f2a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5005.58746579999,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9298,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.8678523898124695,
+          "gradient_inf_norm": 0.039227165281772614
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "53fd2e533ba1a184cd9fc30f01eb7dc040563ff965857255328189c61024e67b",
+      "completion_sha256": "02fd96fb1bc8ee3c4df2fc9e080e35673bb8c83397a9424b817ccd4ecfea38c7",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.11075370013714
+      }
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9b0a1567eac71d67d3e35eb83e6ac4639bff5ae4bc2a606672eede4b5fc04eb2",
+      "completion_sha256": "94d67103c529a89ff666c0387b1d792412346fdce183451aec0ffbf2d15116d6",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8170.567925299951,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9006,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.5729491710662842,
+          "gradient_inf_norm": 3.6938488483428955
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c7a39f8be97e75065f1532570d037e0ba1e4117f862c340c21977aff364ba474",
+      "completion_sha256": "be376a41db7ccdf3d3d7dfcab7a7c70217d9c70053bcc7413552e1ae1e9efeca",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5003.661730200059,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9569,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.1528341919183731,
+          "gradient_inf_norm": 0.04433513805270195
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c9418012b3ada4a063b575f8a2a03d972364c7e0e8121152be6a0dba34465fc3",
+      "completion_sha256": "45b9d71f58dc5968bba1e69dd803d13e051093dd9c7bb707455c628394d9fa6d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 97.99188439967111
+      }
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "a341ce3ddd5bbd97c083317c3487bc35ce8cf330c8eaa749ac812c67433297e4",
+      "completion_sha256": "b8fe35fad17f1c7f5497c92768550be72aded7d231280676f32154333dc0a25e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6631.8923459000125,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9005,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.4533926248550415,
+          "gradient_inf_norm": 0.9509008526802063
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "27c1c233e8a9ec3a2d60c443f93f86412ac64b2d7e0ea4a10ead2f8dae28ab1d",
+      "completion_sha256": "3691c44813dabe140dc7bf9815267b1f0e8ba97125ea5a2745c8bfc73c6bcb48",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6010.883386500085,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9424,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.1497664898633957,
+          "gradient_inf_norm": 0.09016457200050354
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "ff796b6c86dadb2cc8992c964fff34cbccc3211b94a58e1e93c197d9e3912f7a",
+      "completion_sha256": "94131e399be42785e9ce150835f45b9ecfea0e2f0de23d62642395cfd0377a2d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 98.63447210006416
+      }
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3b97e8b7fe3514452028a541344713a4bdae40f13ae4ff874d4655b3740ca53c",
+      "completion_sha256": "0926d8c5e27b7b0e3e1567fec622d9dc88478e14be38b699c46ea850f96b02e1",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8026.6542356999635,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9033,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.6565582752227783,
+          "gradient_inf_norm": 2.566481113433838
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "d227b4fb2deaf0000863c72782f0e0fe3ce5302edb8d88d9690c9f891fd0b2da",
+      "completion_sha256": "171f56cc3e713109802e438eff0b970bf41142f9755c51ccccaf02fe808760d2",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5009.582411299943,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9393,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.7154837846755981,
+          "gradient_inf_norm": 0.2389116883277893
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "ff2fbfd9383176e6d501ee643ea0cd996aa3bafcaa2201555241468fad3394d1",
+      "completion_sha256": "bd0eee66826379895478851856c28e80f099b5968cfcb0bd8d6cf5f9a1dfda5a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 93.68030759971589
+      }
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "59b7c9106f1f250cc802ec917db225f4308700b31e770cbb6763a34167a075c4",
+      "completion_sha256": "98dccef128276a5668d73aa1544296bb23cd1621c7b0b7d4edd05becada57f89",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 7048.338344700083,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8974,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": -0.7525510191917419,
+          "gradient_inf_norm": 9.679662704467773
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "501a952c6cb664821a0a5c5ff8df0581013c31bf2206a9079ec08d7bf6db8e66",
+      "completion_sha256": "8f91783df4ae6032d1d189c4eb78770890df87b002bed3055acd9f71a25b4133",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5169.7099690999485,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9483,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -3.051313877105713,
+          "gradient_inf_norm": 0.5247824788093567
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8ba0142478b5c364af1f614e12998163bcd362517f167a56025ebe077c8e3ed4",
+      "completion_sha256": "9739daed255679c3981764c394eb199df1aa2899480d55a7e30b925887600088",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 93.80767939984798
+      }
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "011292defb854ee314b25f82362502c28993e88998d5c4bc09b10e7a4ddbde29",
+      "completion_sha256": "1c4042d81819d4d820cc02fc19aba6b6e0030ed757a62035c11f48108ed59a8d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 7138.079286699976,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9040,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 1.0528075695037842,
+          "gradient_inf_norm": 5.295875549316406
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9d78a5ed2fa6d7a4a59d3213f5af412eaea28f54b3afab40d4adab01bf0a9919",
+      "completion_sha256": "08fa9448ca6a370dea73fe43ff587aba343befe841930754047a11e61c123e76",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6016.1279563000335,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9439,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.2957281470298767,
+          "gradient_inf_norm": 0.03785060718655586
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9d218d71763d80df2da623c06a0358ca00a8b5afb5b1defdeea5177667919a80",
+      "completion_sha256": "ea330173a155f832447c8ba1e63be4960e3a8beb2a8bac3a89fad991794e6f86",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 96.0713928998448
+      }
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "1d75efda0460d9bfcce0902082347db7ec489c019ef14c26ddeaef80174064fc",
+      "completion_sha256": "14319b2164e5aed6e04013cced7bb52236f0099eda7f49f403a0582b38aea0da",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8074.54287130002,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9004,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 0.5926429629325867,
+          "gradient_inf_norm": 1.57583487033844
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "d0e7333bf008935ea3727c2cafb2d7bad24d8d12cc6f73cb1db5a4f33b47e0b2",
+      "completion_sha256": "5a75904e608ceed4daa2787816f4e01f1622ba24411d5d7833935e3d1e1514c6",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5231.700829900078,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9436,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.7892862558364868,
+          "gradient_inf_norm": 0.04879060760140419
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "33e9b0796fe98ed068ddb3579ff4a612d7148826afec51e6c29f4e04ba2bed1e",
+      "completion_sha256": "fa572fb3d7a7e49dea49a714f3c59af80c96a86ea3561f9d5a203236dd127a33",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 97.77919899998233
+      }
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "955f9fee8e51b2aa74efde7f6e4ce237ecf1d463254c99d925d1ab51521c3f06",
+      "completion_sha256": "f9d48226262856984f9f8206850c7d9d55b711392026c9f33318c0c90365b22c",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6831.009297100026,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9039,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.2144103050231934,
+          "gradient_inf_norm": 1.4328038692474365
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "258915ea2b239ec08b1389aaf3065158af8d379fd079b9c63f483b9f7fb763ff",
+      "completion_sha256": "10a57f311a7f3aade5e5221558f3f08e8ae24064d987c54e69925073f1560e05",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6001.524940300044,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9601,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.5701808333396912,
+          "gradient_inf_norm": 0.17373234033584595
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "cb42175a040f170fc37473978e208ed79727e6b8b32d08785983c6229d37cd83",
+      "completion_sha256": "00fdbb4437c797f4dcaa94fb0604b35f9c7857474efd4da25c0a74599e90ff92",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.13461099984124
+      }
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "ae3ef9a1df8dda216f6c4ce1144ae1e4dfe4e80d99e091bed818fae28d3eb39b",
+      "completion_sha256": "7df22e17ac7f50495fb2f2ca6a3ecbed005fd853ed5b45d540be12bfb893ad4e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8076.971029399994,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9010,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.2920114994049072,
+          "gradient_inf_norm": 1.0471651554107666
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "6bba3d0afa66128f7534e1bf672b9d62f6934acce966445764dee1258c25faa5",
+      "completion_sha256": "fbdf17d870eff8a290bb14199e263c9637562df63a02c158484f5de4a0c4ea31",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5230.238828300053,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9488,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.9918320178985596,
+          "gradient_inf_norm": 0.23064342141151428
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "ccf0e3b32ecc8ca1f5858ba5496762ca01a8a0403cef4bf75e735b0906734fa8",
+      "completion_sha256": "1755b625d2830a4649d6b3049c33a2a1a5ff3e97225a2deaeda2cdd1b4fefb42",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 99.82097190013155
+      }
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "d235b5af8e48ac6c27856bf75d17b989ee4409e188acacbd76d481ac782d7fdc",
+      "completion_sha256": "d301e73c42d7a59c9b6653e407f2f7598b1105ec79a2ae529ef9441a286a6d08",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6899.676949999968,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9009,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.8669102191925049,
+          "gradient_inf_norm": 1.1931246519088745
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "49de90a336d32acbf3223e765d0bf27fe898d459f1cc6c1d74680d838b7554b2",
+      "completion_sha256": "ad8c4b2f3c86abcb25df5f5fb2d1e0d9ffd65ae45d358c4e5bf8587b70edd7aa",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6018.261949299935,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9465,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": -0.664996862411499,
+          "gradient_inf_norm": 0.14424432814121246
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "ad6dd2f2d354ce9e37cfa6b013412ba2126b55d2c4175228f678b877015ac437",
+      "completion_sha256": "5e4421826669bee2f8b0e639995c5b6a26ca63c59b212dc52bbac01e6ee4d17d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 96.47824640013278
+      }
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b1a0cb82cbb56ab9f1a825c088b7300127f54a682f150219540abd81a9c8ed50",
+      "completion_sha256": "4e55d0e23c7e379dde4fcf501f1a7ac78dbdea02fc242367c671402dda5ffaf3",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8020.278888499852,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8982,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.618594765663147,
+          "gradient_inf_norm": 4.871399879455566
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c21ce293f44ac23eed331237dda38b2cda1feb3a43a91a7d0db269c4d523c9f6",
+      "completion_sha256": "3076c92b9ac1757965a78e91c6d0919756392f9f9cdab187cf85a3cedc2329d0",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8372.945968100039,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9495,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.1297889947891235,
+          "gradient_inf_norm": 0.47333115339279175
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8cd5bdfc2b2dbea6fc74158e4bfaffca40bd38bc4ec9c983a70004777b21d51c",
+      "completion_sha256": "cd975f853c626c3703d9c79316f292355d654881580c20fd3e513ba1e004bee1",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 97.56373040005565
+      }
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9372da559cfb4e9fc1948250d2d3e80364f1bbdcfd75a8fb8226553cbaf5bbe1",
+      "completion_sha256": "714d2650a00a670aa34fd866f78ffed80130760c6fb3f6781df346a758b53a6d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6774.3545927999785,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8989,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.0913360118865967,
+          "gradient_inf_norm": 1.9737273454666138
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "470202900e04fb81d5adc2e2bab1188fe228b27a8f5694568d5fb9dea7f2d837",
+      "completion_sha256": "83df0250c0a894d017d0467981fd3cec2dfbec22b42769a9f35fc14f72141125",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5987.045725499983,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9382,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.45257407426834106,
+          "gradient_inf_norm": 0.07188503444194794
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "f91040f0ca2b41cf3ab70ffebb350fc372be63945fd6a64c4e563adf61e25bbf",
+      "completion_sha256": "22d468e2b12cb02178ae89c10b2d66f16e99d774ddb318beab7c0c6028f62b73",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 89.98574509983882
+      }
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "0f4de1aa5f3a8328d9c7162bb23efd960cc986ac980b0c16d3b0cfe04f94356e",
+      "completion_sha256": "9ad6fb8d4e70e92a377abde76ded7fa59a038d44ecd85acdb3305e228a47de97",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8010.935418699939,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9030,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": -0.043777741491794586,
+          "gradient_inf_norm": 4.266139984130859
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "aff26b3d24cb341ea5433566ea01f4628c34511bab5f330f7169455160901cac",
+      "completion_sha256": "fbedfc7a9e68d1254acf037534892994f129f406b0820e624e83debb0b8cce70",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6009.1468163999925,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9566,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.9928373098373413,
+          "gradient_inf_norm": 0.08979963511228561
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "fde830aba587bb169270e788ad9c12c1c7bfaf9c8a029d3e9682655bb6335e3f",
+      "completion_sha256": "3b5e2abdff84727c4d38ad43b8c6b0b381dc2d83a450f0ed240b807827895c7e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 96.07094019977376
+      }
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "2db60057e4d2d759a4d481026da567ddd95c1d93c2cd6cdc38de13864dbc2883",
+      "completion_sha256": "4ce5fc38d37376899769e0819801fe160ebd84a723ff140ea1c5f1ef5ffaa014",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6650.622495100019,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8992,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.0856883525848389,
+          "gradient_inf_norm": 6.251963138580322
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3c7a5b5f608c79eb2cdd909a19b1a82270e23b0e2812008ce6bee346ab0bde38",
+      "completion_sha256": "121bafdec18f182224acef92e0b68966b24b700a43626200b74044c4b89420e8",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6010.2895399999925,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9445,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.29436928033828735,
+          "gradient_inf_norm": 0.037852078676223755
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "20e797e2dcd70bd001b0c84afa61d00e95fd8f72daff6692bd871a29aa667d4c",
+      "completion_sha256": "ad4b9d29ddb08c856314dad442170081a5cbe63d1e9f7a570affe56ed4f3b33f",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 96.15695340000093
+      }
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8fe3a1de4a08e4da8aed3c8cdfc6c4b5046ef6ca8f69b609f71d282f7170cb80",
+      "completion_sha256": "8efeba5d6cb59696ba1e4a8ec3a7fd9b145f6aa521196ae8499379be7a67006c",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8073.769986600024,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9012,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.8222772479057312,
+          "gradient_inf_norm": 2.668757915496826
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "f9dd6ab15418219bc7060195154224e8c58ffcc527c32913e850cbfb6b4ea84c",
+      "completion_sha256": "5edccfd155c7bee710124cd61105b72550a411325b960a3927dd219d2dee0e20",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5073.206811800019,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9500,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.6401591300964355,
+          "gradient_inf_norm": 0.07940740883350372
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "7e524fdde67c6cb0ee9c508dcae14bb4973cd5c2ec60d9e0e4ffd69c4344eb02",
+      "completion_sha256": "316bbac19a827a6d4ef43ba883156c044c537a37a94e261c3f963af95d97bb76",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.04702850012109
+      }
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "66a97aa096f16d37969686f2092a99d9cb220354f8dc9a9ad24680c4c887a5e5",
+      "completion_sha256": "a88a46e1d1365a607bf586aff66de206cbcbc051e2cc1857d4b25d96fd26be99",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 22419.353039300524,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9006,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 0.7796428799629211,
+          "gradient_inf_norm": 3.4138262271881104
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "eda475309727a8f70270f4d9e7f572e4494f957d615518c2de9ef4d71321e4ac",
+      "completion_sha256": "3e8f3db14f8f114077d804893b44dc687764c8effec6a452c9722847b73e9de6",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5022.527102199994,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9416,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.5739008188247681,
+          "gradient_inf_norm": 0.2241770625114441
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "d23db67e908732a478b5dfdd0a208564bce4b5b30eb5c54b51cd26619eccd0ab",
+      "completion_sha256": "044b2b2b496bac050d561a20c4d6e1f3457fa46e982665c7085da63cbc187c6a",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 95.71813650010154
+      }
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c6ef7e589aa509a6af502ae4510f4d31d92d54d82a8fa97423e3da998d4e437d",
+      "completion_sha256": "ecdc7b87d4016badd67540cfc9673efb11652c48a0076194880070d388fdf520",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6675.719455799993,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 8988,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.1380088329315186,
+          "gradient_inf_norm": 0.9785279631614685
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "a0b29fad13ef6a4beb3d612b2246732eed43d34ec810c2282adb00f13d4684dd",
+      "completion_sha256": "f74bc5b17e2325f16887fdc6999a2c3c9ed1421c03cf2f9f31287803e1f85dab",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6348.700176099845,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9282,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 0.7223085761070251,
+          "gradient_inf_norm": 0.07618018239736557
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b7db9c51c32b330114bd5a779927dfbaabc664119b6ca53bebd92a6efedafdd6",
+      "completion_sha256": "38130ab5158094a2196ecf8ee508e44330ab0d1e9927e731a68ed32a3fba0076",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.78072919975966
+      }
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "8f5d194bd42a2fa72b3c996b258076fe142e2f59f69b48760f8a353508c959fa",
+      "completion_sha256": "2701e86978c78ae0c938477ddb03eaa0d99c045e114077f763d8dcb1fc97d575",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8457.593388700123,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9006,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.0115985870361328,
+          "gradient_inf_norm": 2.9799203872680664
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "5462f2af36f730964f07459a25d98432d83782fd7061e63aaae5c09579011275",
+      "completion_sha256": "abbbc81092219b1e74f6b6201be4c1551b95f105459c2054a7191e862eb4b2a0",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5195.568785199998,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9394,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.1564478725194931,
+          "gradient_inf_norm": 0.1473131775856018
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "14da80b999cacee47d243aaa2deadee29bc67af6664952015cd771bac1e2e675",
+      "completion_sha256": "08710675a394e5754d747cc511725c3b7d8d450ff8e9bdf755c767017da3edbe",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 98.4933938998729
+      }
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3e2914251ce8fdafad06da14610f24275c672ce30d255a493a5e7c3e8a052961",
+      "completion_sha256": "c19e50bd20de3557452058a2cd4a3e2efca9ed0e0cd018862a05acdda677de5e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 11402.380651399984,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9053,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.6811987161636353,
+          "gradient_inf_norm": 3.1904211044311523
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "b4c529ce8599fc8bb3b9f259f8c213c3688e5c0507f41b6d0172b9029aa006e7",
+      "completion_sha256": "4d5b071c40b8867835741deb1ca1b02d8cd77f2e8999c15d2748d49c9c16eaea",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6037.003494300053,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9458,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.7214986681938171,
+          "gradient_inf_norm": 0.057943351566791534
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "2dba59b536c04816cdab486f8ce52d271c65a636e9cf24fe388fe1fd834ab00e",
+      "completion_sha256": "9c107ae4c491d8935306702a5c6b65e3a0aa06b0eeae914b66940af3be1afa6c",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 99.18424799991772
+      }
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "5801e1cbd989a6279996ef490ea296d745c992bb5af6e6fbfb5d5e10cd409049",
+      "completion_sha256": "d9d77e38c814dd0ea7b4a6657420d5df7802847f9ba8f66ae9f45597361ed960",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 17930.533007400063,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9019,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.9362678527832031,
+          "gradient_inf_norm": 2.0086538791656494
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9158624f29fdeefaa6a8ac8702044c2789498c830ef10338e4cd7f2f1f5e2006",
+      "completion_sha256": "6476afa55e62851c5f19bccf55b53b1270545f00988f45cb01aaf34248aa5d2d",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6011.001797799979,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9422,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.46431583166122437,
+          "gradient_inf_norm": 0.08730872720479965
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "247302845a80a1266a73ca14a1a70d92f33840867d47c6d2a9ba2124d37778fa",
+      "completion_sha256": "b1750cf64e93aa3a247cdba8b0dae7d08ca90ef6605402136f3af0b40882ead4",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 92.93052489962429
+      }
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "dde821c00ed641f63230a22c368f9003844e46492de4e67c305a6a2f6c86c9b9",
+      "completion_sha256": "2e3b466b92b50315f97fec70abd7895b855ffb3b0e18234f06a09ac50563ad2b",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8088.461626999976,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9032,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.010092654265463352,
+          "gradient_inf_norm": 2.1655850410461426
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "7bd73c17fb6a73ca21832119be387f4b8f29a49c0e9260aa14300111dbf3c621",
+      "completion_sha256": "44b7ad709366bde1de930542c59e2d83f05910f6188124e4b9a18f1105da9bb8",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6027.317821499962,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9581,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.885237455368042,
+          "gradient_inf_norm": 0.574463427066803
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "9d1d4a05fb1a3dbc49fcb99906a0efebaf0b2e0528b40f80530a687d84ae0893",
+      "completion_sha256": "ba643bb05fbf37f02eae514467edcad04d227c0da25b97962ff2699c666dcf01",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 92.84021210018545
+      }
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "a898af034dc48360ad03cb8745735705d3e83e76234e8ff3041cc5b4df1297e7",
+      "completion_sha256": "8c0d8a5eeb7f0e2a0e9b1e1bcf54357429726cf1bcda47822b645f402baa953e",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8077.63435540014,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9037,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.2889508008956909,
+          "gradient_inf_norm": 2.1818268299102783
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "e019838c471f6ac45e3b7173cf8bcd13400daefae0d7bdcfb8ec8bc7cf4ab83c",
+      "completion_sha256": "3111d0a738766f57d52bcbdf79bc9e328ab8f8bf694b9cbb7d10fba5f95675bd",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5288.6281933999735,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9498,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -1.2227433919906616,
+          "gradient_inf_norm": 0.11463958024978638
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "cea668acb8974741b55719ba91a9a94a069cd7939552feaee7e9209027a9d329",
+      "completion_sha256": "8207144ad92ff86bfb9d5007714286f379b348b4505850fe9237cb80d2fcce79",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 96.25419689994305
+      }
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3976431b9448dbf263c2dde3624bd782b9fcb88a0b7aff3f5c45e564c9d32f7d",
+      "completion_sha256": "d5fb4c38a0cc4d998065fc02fd30a10fcf3f87f785b1eed19adc84d72cd98d81",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6799.672520900027,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9042,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.3507399559020996,
+          "gradient_inf_norm": 4.681906700134277
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "3c7344dc4cd5c4d81f984554cf8b2d4f5cabd01cc186a1604c71a6d716ccaf23",
+      "completion_sha256": "1af5f9ce7991d7e060c7c5e4ed478521d5c0586643db4ce88a665e8d20cb6bd3",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6035.903395999974,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9476,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": -0.3033066689968109,
+          "gradient_inf_norm": 0.3270295560359955
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "159f8c66b7206be51474bf2ca4e0585518d18a2a7b605c11313d07b4f954fd79",
+      "completion_sha256": "2b704565fb5f568796793f6b93cdcfdde6480ae9940331dc51fb9c3b024220ed",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.39094709977508
+      }
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "c75de3a8f6cdf93ecebf3225b86b6306936ba5f5e23c79e85c97ace7b804c5ae",
+      "completion_sha256": "57eaf7caadc18668cb1c469574bf6148b6d8a80ce6853166b5b054556fd702bd",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 8112.126314199979,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9050,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 1.3719933032989502,
+          "gradient_inf_norm": 1.8657631874084473
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "ba5a52ae4f5edbc2c0e7da9fe4465625508fbae98564cf9f3bd76b037e7b193d",
+      "completion_sha256": "aa1bee176b772bf17ee1c10cb6cd3123370fc0c18b104daa5231db867c5140c9",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 5286.7783051000315,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9456,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.12199500948190689,
+          "gradient_inf_norm": 0.03734571486711502
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "GIFT",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "4ca5d9b406a8f1a55e417ad5535e56fdd492b05d4fb1dd90585088e8b419ba20",
+      "completion_sha256": "97351ac806220883f1e4100b8e3a17c1539dc9765786280b1698a067f836f157",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 2026072301,
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "native_committed_training_seconds": 94.9552128999494
+      }
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "neural_training": false
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PINN-SR",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "cbdf1ad185605e0a60d6c1edc9534a3d0ccafd19b0463de93819c0b052cd0b25",
+      "completion_sha256": "e28b338818caf227239a88e2070ced2fe7d11a58ce52db21d936253b05bd8757",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6908.2822317000255,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9025,
+          "function_evaluations": 10002,
+          "gradient_evaluations": 10002,
+          "objective": 1.2298603057861328,
+          "gradient_inf_norm": 6.259213924407959
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "training_status": "complete",
+      "neural_training": true,
+      "checkpoint_sha256": "726093eb7d71e536d1609b6b072d3f1c410dad674851f5dcb763e53ad6585623",
+      "completion_sha256": "95c4e7c04ef311ee81f754eae8a93d9602488fbcbd7886e2c7f188a49061a0a6",
+      "scientific_input_bound": true,
+      "budget_and_seed": {
+        "seed": 1234,
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "native_committed_training_seconds": 6033.820865600086,
+        "actual_scipy_termination": {
+          "success": false,
+          "status": 1,
+          "message": "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIMIT",
+          "iterations": 9441,
+          "function_evaluations": 10001,
+          "gradient_evaluations": 10001,
+          "objective": 0.07411134243011475,
+          "gradient_inf_norm": 0.045789383351802826
+        },
+        "scipy_success_is_not_assumed": true
+      }
+    }
+  ],
+  "cpu_audit_seconds": 24.733153199777007
+}

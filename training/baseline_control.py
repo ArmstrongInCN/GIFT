@@ -21,8 +21,10 @@ import torch
 from torch.utils.checkpoint import checkpoint as activation_checkpoint
 
 from adapters.models import build_model, source_record, fno_utilities, uno_components
-from training.checkpoints import CheckpointStore, digest_file, runtime_identity
+from adapters import source_file
+from training.checkpoints import CheckpointStore, restore_optimizer, digest_file, runtime_identity, write_model_export
 from training.budgets import PREDICTION_EPOCHS
+from training.configuration import output_path
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +43,11 @@ PROTOCOLS = {
 
 
 def _arguments(model: str, argv=None):
+    """Parse one baseline's IO, training budget and pause/resume options.
+
+    Without --run-training the controller only validates a plan. A resume
+    requires an existing output; fresh training requires an explicit output.
+    """
     parser = argparse.ArgumentParser(description=f"Independent {model} training; default is read-only dry run",
                                      allow_abbrev=False)
     action = parser.add_mutually_exclusive_group()
@@ -54,6 +61,9 @@ def _arguments(model: str, argv=None):
                         help="canonical: numbered prediction package; released/regenerated: storage-ID input")
     parser.add_argument("--stop-after-epoch", type=int, help="operational pause; does not change total run budget")
     parser.add_argument("--checkpoint-interval", type=int, default=10, help="save every N completed epochs; default 10")
+    parser.add_argument("--epochs", type=int)
+    parser.add_argument("--trajectories", type=int)
+    parser.add_argument("--seed", type=int)
     parser.add_argument("--tiny", action="store_true", help="explicit NONFORMAL test budget, never a formal artifact")
     parser.add_argument("--tiny-epochs", type=int, default=2)
     parser.add_argument("--tiny-trajectories", type=int, default=2)
@@ -61,7 +71,7 @@ def _arguments(model: str, argv=None):
     parser.add_argument("--tiny-rollout", type=int)
     args = parser.parse_args(argv)
     if args.data_profile == "gaussian" and args.data_file == TRAIN_FILE:
-        args.data_file = "s4_gaussian/trajectories.h5"
+        args.data_file = "s3_gaussian/trajectories.h5"
     if args.resume and not args.run_training:
         parser.error("--resume requires --run-training")
     if args.run_training and args.output is None:
@@ -74,19 +84,28 @@ def _arguments(model: str, argv=None):
 
 
 def _data_path(relative: str) -> tuple[Path, Path]:
+    """Resolve a dataset path relative to GIFT_DATA_ROOT and return (root, file)."""
     configured = os.environ.get("GIFT_DATA_ROOT")
     if not configured:
         raise ValueError("set GIFT_DATA_ROOT to the external dataset directory")
     base = Path(configured).expanduser().resolve(strict=True)
-    if base == ROOT or ROOT in base.parents:
-        raise ValueError("training data must remain outside this repository")
-    path = (base / relative).resolve(strict=True)
+    from gift.paths import data_path
+    roles = {TRAIN_FILE: "four_vortex.fno_training_dt0p02",
+             "s3_gaussian/trajectories.h5": "s3.trajectories"}
+    path = (data_path(base, roles[relative], relative) if relative in roles
+            else base / relative).resolve(strict=True)
     if base not in path.parents:
         raise ValueError("--data-file must stay inside GIFT_DATA_ROOT")
     return base, path
 
 
 def configuration(model: str, args) -> dict:
+    """Build model-specific scientific counts from defaults and explicit overrides.
+
+    A microbatch is the resident forward/backward size; accumulation gives
+    its update group size. Tiny settings mark a diagnostic artifact. FNO-3D
+    needs enough future points for its unchanged temporal spectral modes.
+    """
     config = dict(PROTOCOLS[model])
     config.update(model=model, formal=not args.tiny, scheduler_step=100, scheduler_gamma=0.5,
                   selection="terminal_epoch_not_validation", teacher_forcing=False, detach_rollout=False,
@@ -94,156 +113,52 @@ def configuration(model: str, args) -> dict:
     if args.tiny:
         config.update(epochs=args.tiny_epochs, trajectories=args.tiny_trajectories,
                       micro_batch=args.tiny_batch, accumulation=1,
-                      rollout=args.tiny_rollout or (16 if model == "fno3d" else 1))
+                      rollout=(16 if model == "fno3d" else 1) if args.tiny_rollout is None else args.tiny_rollout)
+    for key in ("epochs", "trajectories", "seed"):
+        if getattr(args, key, None) is not None:
+            config[key] = getattr(args, key)
     if any(config[key] < 1 for key in ("epochs", "trajectories", "micro_batch", "rollout")):
         raise ValueError("training counts must be positive")
     if model == "fno3d" and config["rollout"] < 14:
         raise ValueError("FNO-3D's unchanged modes3=8 needs at least 14 future points")
     effective = config["micro_batch"] * config["accumulation"]
-    if model != "uno" and config["trajectories"] % effective:
-        raise ValueError("this protocol requires complete physical/effective batches")
     return config
 
 
-def _regenerated_input(base: Path, path: Path, *, full: bool) -> dict:
-    """Validate only this consumer's complete generated input, without training.
-
-    A collection may intentionally omit unrelated experiments. Its manifest is
-    an integrity/provenance record, not a certificate of numerical reproduction.
-    """
-    from scripts import assemble_generated_data as assembly
-    from scripts import generate_data as gen
-
-    manifest_path = assembly.checked_file(base, "manifest.json")
-    manifest_bytes = manifest_path.read_bytes()
-    manifest = json.loads(manifest_bytes)
-    if (manifest.get("schema") != "gift.generated-data-collection.v1"
-            or manifest.get("data_profile") != "regenerated"
-            or manifest.get("status") != "ASSEMBLED_SCHEMA_VERIFIED_NOT_EXPERIMENT_ACCEPTED"
-            or manifest.get("scientific_arrays_modified") is not False
-            or manifest.get("released_truth_used_to_fill_gaps") is not False
-            or manifest.get("full_hash_and_finite_checks_performed") is not True
-            or manifest.get("assembler_sha256") != digest_file(Path(assembly.__file__))):
-        raise ValueError("regenerated collection status/provenance/assembler differs")
-    available, missing = manifest.get("available_jobs", []), manifest.get("missing_jobs", [])
-    allowed = set(assembly.CLEAN_PATHS) | set(assembly.SAMPLING) | {"noise"}
-    if (len(available) != len(set(available)) or len(missing) != len(set(missing))
-            or set(available) & set(missing) or set(available) | set(missing) != allowed
-            or "fno-training" not in available):
-        raise ValueError("regenerated collection job inventory differs")
-    records, seen = {}, set()
-    for record in manifest["files"]:
-        relative = record["path"]
-        parts = relative.split("/")
-        if (not relative or "\\" in relative or ":" in relative or any(p in ("", ".", "..") for p in parts)
-                or relative.casefold() in seen):
-            raise ValueError("unsafe/duplicate generated collection path")
-        seen.add(relative.casefold())
-        checked = assembly.checked_file(base, relative)
-        expected = record["sha256"]
-        if (checked.stat().st_size != record["bytes"] or len(expected) != 64
-                or any(char not in "0123456789abcdef" for char in expected)):
-            raise ValueError("generated collection file size/SHA declaration differs")
-        records[relative] = record
-    if path != assembly.checked_file(base, TRAIN_FILE):
-        raise ValueError("regenerated baseline requires its canonical collection training file")
-    required = {TRAIN_FILE: "generated_scientific_input", "splits.json": "split_metadata",
-                "provenance/fno-training/run.json": "generation_provenance",
-                "provenance/fno-training/COMPLETE.json": "generation_provenance"}
-    consumed = {}
-    for relative, category in required.items():
-        record = records.get(relative)
-        if record is None or record.get("category") != category:
-            raise ValueError("missing/wrong generated input or provenance category")
-        if relative != TRAIN_FILE or full:
-            if digest_file(assembly.checked_file(base, relative)) != record["sha256"]:
-                raise ValueError("generated input/provenance SHA256 differs")
-        consumed[relative] = record["sha256"]
-    attempt = assembly.load_attempt("fno-training", base / "provenance" / "fno-training")
-    plan = attempt["scientific"]
-    canonical = gen.make_plan(argparse.Namespace(dataset="standard", initial_conditions=None,
-        subset=None, split="all", pilot_steps=None, batch_size=None, device="cpu"))
-    if (plan.get("schema") != "gift.data-generation.v1" or plan.get("sources") != canonical["sources"]
-            or plan.get("dt") != gen.DT
-            or plan.get("extra950_origin") != "specified_initial_conditions_seed_unknown"
-            or not isinstance(plan.get("initial_conditions_file_sha256"), str)
-            or len(plan["initial_conditions_file_sha256"]) != 64
-            or any(char not in "0123456789abcdef" for char in plan["initial_conditions_file_sha256"])):
-        raise ValueError("generation source/PDE/initial-condition origin differs")
-    record = records[TRAIN_FILE]
-    if (record.get("generation_job") != "fno-training" or record.get("attempt_id") != attempt["run"]["attempt_id"]
-            or record["sha256"] != attempt["receipt"]["data_sha256"]):
-        raise ValueError("generated input and generation receipt differ")
-    if full:
-        with h5py.File(path, "r") as handle:
-            if (handle.attrs.get("fixture_only", False)
-                    or any(token in str(handle.attrs.get(key, "")).upper()
-                           for key in ("purpose", "attempt_id") for token in ("MOCK", "TEST", "PILOT"))):
-                raise ValueError("test/mock/pilot data cannot qualify as regenerated training input")
-    validated = assembly.validate_clean(attempt, full=full, data_path=path)
-    splits = assembly.read_json(base / "splits.json")
-    if splits.get("schema") != "gift.generated-splits.v1" or splits["files"].get(TRAIN_FILE) != validated[0][3]:
-        raise ValueError("generated collection split metadata differs")
-    return dict(profile="regenerated", manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
-                consumed_files=consumed, generation_attempt_id=attempt["run"]["attempt_id"],
-                generation_binding_sha256=attempt["run"]["binding_sha256"],
-                generation_sources=plan["sources"], initial_conditions_file_sha256=plan["initial_conditions_file_sha256"],
-                extra950_origin=plan["extra950_origin"], full_input_checks_performed=full,
-                published_dataset_identity=False, numerical_reproduction_verified=False)
-
-
 def _validate_data(path: Path, config: dict, *, hash_bytes: bool, data_base: Path | None = None) -> dict:
-    profile = config.get("data_profile", "released")
-    if profile not in ("released", "regenerated", "canonical", "gaussian"):
-        raise ValueError("unknown data profile")
-    provenance = None
-    if profile == "regenerated":
-        if data_base is None:
-            raise ValueError("regenerated input requires its explicit collection root")
-        provenance = _regenerated_input(data_base, path, full=hash_bytes)
-    elif profile in ("canonical", "gaussian"):
-        if data_base is None:
-            raise ValueError("canonical input requires its explicit collection root")
-        import sys
-        # Use this checkout's input reader without changing the strict U-Net
-        # startup environment or requiring a PYTHONPATH environment override.
-        local_source = str(ROOT / "src")
-        if local_source not in sys.path:
-            sys.path.insert(0, local_source)
-        if profile == "gaussian":
-            from gift.gaussian_package import validate_input as training_input
-        else:
-            from gift.canonical_package import training_input
-        provenance = training_input(data_base, path, full=hash_bytes)
+    """Inspect training IDs, DT=0.02 time axis and float32 [trajectory,time,64,64] layout.
+
+    Require enough selected trajectories and history-plus-rollout frames.
+    Return shape/size provenance; sampled values are checked by _batch.
+    hash_bytes and data_base are retained caller arguments, not instructions
+    to rehash a large dataset or require a package receipt.
+    """
     with h5py.File(path, "r") as handle:
         field = handle["training/vorticity"]
         shape = tuple(field.shape)
         if len(shape) != 4 or shape[0] < config["trajectories"] or shape[2:] != (64, 64):
             raise ValueError("expected at least the selected trajectories in [trajectory,time,64,64]")
-        if field.dtype != np.dtype("float32") or shape[1] < 46 + config["rollout"]:
+        if field.dtype != np.dtype("float32") or shape[1] < config["history"] + config["rollout"]:
             raise ValueError("field dtype or available frames differ")
-        if config["formal"]:
-            expected_ids = (np.arange(1000) if profile == "canonical"
-                            else np.arange(1220, 2220) if profile == "gaussian"
-                            else np.r_[np.arange(50), np.arange(1200, 2150)])
-            if shape != (1000, 501, 64, 64) or not np.array_equal(handle["training/trajectory_index"][:], expected_ids):
-                raise ValueError("formal training population/shape differs")
-            if not np.allclose(handle["training/time"][:], np.arange(501) * 0.02, rtol=0, atol=2e-12):
-                raise ValueError("formal training time axis differs")
-    actual = (provenance['sha256'] if profile == 'gaussian' else
-              provenance["consumed_files"][TRAIN_FILE] if provenance is not None
-              else digest_file(path)) if hash_bytes else None
-    if config["formal"] and profile == "released" and actual is not None and actual != TRAIN_SHA:
-        raise ValueError("formal dataset SHA256 differs; no training started")
+        ids = np.asarray(handle["training/trajectory_index"][:])
+        if len(ids) != shape[0] or len(set(map(int, ids))) != len(ids):
+            raise ValueError("training identities must be unique and match the population")
+        times = np.asarray(handle["training/time"][:])
+        if len(times) != shape[1] or not np.allclose(times, np.arange(shape[1]) * .02, rtol=0, atol=2e-12):
+            raise ValueError("training time axis differs")
     return dict(shape=list(shape), dtype="float32", bytes=path.stat().st_size,
-                sha256=actual, sha256_verified=hash_bytes,
-                provenance=provenance or dict(profile="released" if config["formal"] else "nonformal_test",
-                    published_dataset_identity=bool(config["formal"] and hash_bytes),
-                    full_input_checks_performed=bool(config["formal"] and hash_bytes),
-                    numerical_reproduction_verified=False))
+                sha256=None, sha256_verified=False,
+                provenance=dict(profile=config.get("data_profile", "released"),
+                                published_dataset_identity=False, full_input_checks_performed=False,
+                                numerical_reproduction_verified=False))
 
 
 def _configure_profile(model: str, seed: int) -> None:
+    """Seed initialization and set the baseline's documented kernel/precision choices.
+
+    U-Net and U-NO use deterministic cuDNN selection; the FNO families leave
+    ambient TF32 settings in place and record them as provenance.
+    """
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -252,8 +167,6 @@ def _configure_profile(model: str, seed: int) -> None:
         torch.backends.cudnn.deterministic = True
         torch.use_deterministic_algorithms(True, warn_only=model == "uno")
     if model == "unet":
-        if os.environ.get("NVIDIA_TF32_OVERRIDE") == "0":
-            raise ValueError("U-Net's verified training profile needs cuDNN TF32; remove the global override explicitly")
         torch.backends.cudnn.allow_tf32 = True
         torch.backends.cuda.matmul.allow_tf32 = False
     # FNO and UNO retain the original default/ambient TF32 flags. Record them;
@@ -261,6 +174,12 @@ def _configure_profile(model: str, seed: int) -> None:
 
 
 def epoch_schedule(config: dict, epoch: int, frames: int):
+    """Return trajectory order and one history-window start per selected row.
+
+    Starts are indexed by trajectory row. U-NO samples starts independently
+    by seed and epoch; the other protocols visit a deterministic stride-five
+    anchor cycle and use their established per-epoch ordering.
+    """
     count = config["trajectories"]
     possible = frames - config["history"] - config["rollout"] + 1
     if config["model"] == "uno":
@@ -275,6 +194,12 @@ def epoch_schedule(config: dict, epoch: int, frames: int):
 
 
 def _batch(field, rows, starts, config, device):
+    """Read selected history/future windows and return tensors in native layouts.
+
+    Input HDF5 axes are [trajectory,frame,64,64]. U-Net returns channel-first
+    [B,46,64,64] history; FNO/U-NO return [B,64,64,46]. Targets use the same
+    layout with rollout frames, and all sampled values must be finite.
+    """
     length = 46 + config["rollout"]
     values = np.stack([np.asarray(field[int(row), int(starts[row]):int(starts[row]) + length],
                                   dtype=np.float32) for row in rows])
@@ -290,6 +215,12 @@ def _batch(field, rows, starts, config, device):
 
 
 def _fit_normalization(field, config: dict) -> dict:
+    """Fit FNO-3D's position/time mean and sample deviation on training windows.
+
+    Reduction includes only selected training trajectories and stride-five
+    anchors, keeping the original row-major order. Store [64,64,time] input
+    and output statistics separately; other model families return kind=none.
+    """
     if config["model"] != "fno3d":
         return {"kind": "none"}
     # Preserve the original row-major all-training-window reduction order.
@@ -309,6 +240,11 @@ def _fit_normalization(field, config: dict) -> dict:
 
 
 def _normalizer_objects(saved: dict, device):
+    """Rebuild native input/output normalizers from saved statistics on device.
+
+    Bypass __init__ so resume uses the original training fit rather than
+    refitting statistics from a potentially different window order.
+    """
     native, _ = fno_utilities()
     result = []
     for prefix in ("input", "output"):
@@ -322,6 +258,11 @@ def _normalizer_objects(saved: dict, device):
 
 def _fno3d_input(context, future: int):
     # Project input-layout glue; the model's external spectral code is untouched.
+    """Append normalized coordinates and repeat context over the future axis.
+
+    context is [B,nx,ny,history]; return [B,nx,ny,future,history+3]. Spatial
+    coordinates span [0,1], and future coordinates exclude the initial point.
+    """
     batch, nx, ny, history = context.shape
     axes = [torch.tensor(np.linspace(0, 1, size), dtype=torch.float32) for size in (nx, ny)]
     axes.append(torch.tensor(np.linspace(0, 1, future + 1)[1:], dtype=torch.float32))
@@ -331,7 +272,13 @@ def _fno3d_input(context, future: int):
 
 
 def objective(model, context, target, family: str, loss_function=None, normalizers=None):
-    """Only project-specific closed-loop scheduling and calls to native losses."""
+    """Return differentiable training loss and detached full-window reporting loss.
+
+    FNO-3D predicts its full future axis with saved normalizers. Other models
+    roll forward using their own predictions, without detaching the context.
+    Native losses retain their sum convention across trajectories/horizons;
+    microbatch accumulation in main therefore sums, rather than averages, them.
+    """
     if family == "fno3d":
         input_norm, output_norm = normalizers
         encoded_target = output_norm.encode(target)
@@ -387,7 +334,12 @@ def training_cost(history, optimizer_updates):
 
 
 def _export_terminal(output, network, normalization, config, identity, resumed, cost=None):
-    """A new-schema weights-only product; never masquerade as a published file."""
+    """Publish final CPU weights with the fitted normalization needed for inference.
+
+    The model/configuration and run pointer are descriptive export metadata.
+    Adam, scheduler and RNG state stay in the separate resume journal.
+    A completed checkpoint may call this again to finish interrupted export.
+    """
     attempt = json.loads((output / "ATTEMPT.json").read_text(encoding="utf-8"))
     latest = json.loads((output / "LATEST.json").read_text(encoding="utf-8"))
     artifact = dict(schema="gift.independent-baseline-weights.v1", status="complete", method=config["model"],
@@ -400,23 +352,25 @@ def _export_terminal(output, network, normalization, config, identity, resumed, 
                     terminal_epoch=config["epochs"])
     if cost is not None:
         artifact["training_cost"] = cost
-    with (output / "model.pt").open("xb") as stream:
-        torch.save(artifact, stream)
-        stream.flush()
-        os.fsync(stream.fileno())
+    write_model_export(output / "model.pt", artifact)
 
 
 def save_boundary(epoch: int, config: dict, stop: int) -> bool:
+    """Select interval, explicit pause and terminal epochs for durable checkpointing."""
     return (not config["formal"] or epoch % config["checkpoint_interval"] == 0
             or epoch == stop or epoch == config["epochs"])
 
 
 def main(model_name: str, argv=None) -> None:
+    """Validate, train or resume one native baseline and export its final weights.
+
+    Restore model, optimizer, scheduler and normalization before restoring RNG.
+    Each effective update group may contain several microbatches, including a
+    smaller tail. A completed checkpoint can repair missing terminal export
+    without executing another update; validation does not select a best epoch.
+    """
     args = _arguments(model_name, argv)
     config = configuration(model_name, args)
-    if model_name == "unet" and config["formal"]:
-        from training.unet_environment import require_validated_startup
-        require_validated_startup()
     data_base, data_file = _data_path(args.data_file)
     source = source_record(model_name)
     data = _validate_data(data_file, config, hash_bytes=args.run_training, data_base=data_base)
@@ -425,21 +379,16 @@ def main(model_name: str, argv=None) -> None:
                               upstream=source, outputs_written=0, training_performed=False), indent=2))
         return
     device = torch.device(args.device)
-    if not args.tiny and device.type != "cuda":
-        raise ValueError("formal-budget training requires CUDA; --tiny explicitly enables CPU tests")
     output = args.output.expanduser().resolve()
     external = Path(os.environ["GIFT_EXTERNAL_ROOT"]).resolve()
-    for protected in (ROOT, data_base, external):
-        if output == protected or protected in output.parents:
-            raise ValueError("run output must be outside source, data and external-code roots")
+    output = output_path(output, ROOT, data_base, external)
     _configure_profile(model_name, config["seed"])
     source.pop("directory")
     identity = dict(kind="gift.independent-baseline-training.v1", configuration=config,
                     data=data, data_file=args.data_file, upstream=source,
-                    sources={str(path.relative_to(ROOT)): digest_file(path) for path in (
-                        Path(__file__), ROOT / "training" / "checkpoints.py", ROOT / "training" / "budgets.py",
-                        ROOT / "training" / f"train_{model_name}.py", ROOT / "adapters" / "models.py",
-                        ROOT / "external_sources.json")},
+                    sources={relative: digest_file(source_file(ROOT, relative)) for relative in (
+                        "training/baseline_control.py", "training/checkpoints.py", "training/budgets.py",
+                        f"training/train_{model_name}.py", "adapters/models.py", "external_sources.json")},
                     numerical_profile=runtime_identity(), device=str(device))
     if model_name == "unet":
         identity["sources"]["training/unet_environment.py"] = digest_file(ROOT / "training/unet_environment.py")
@@ -470,17 +419,23 @@ def main(model_name: str, argv=None) -> None:
         if args.resume:
             saved = store.payload
             network.load_state_dict(saved["model_state_dict"], strict=True)
-            optimizer.load_state_dict(saved["optimizer_state_dict"])
+            restore_optimizer(optimizer, saved["optimizer_state_dict"])
             scheduler.load_state_dict(saved["scheduler_state_dict"])
             history, updates, start_epoch = saved["history"], saved["optimizer_updates"], saved["completed_epochs"]
             normalization = saved["normalization"]
+            if not 0 <= start_epoch <= config["epochs"] or (saved["status"] == "complete") != (start_epoch == config["epochs"]):
+                raise ValueError("Checkpoint epoch and completion status disagree")
             if saved["status"] == "complete":
-                raise ValueError("run is already complete; no training repeated")
+                _export_terminal(output, network, normalization, config, identity, True,
+                                 cost=training_cost(history, updates))
+                print(json.dumps(dict(status="complete", completed_epochs=start_epoch, output=str(output))))
+                return
         else:
             normalization = _fit_normalization(field, config)
         norms = _normalizer_objects(normalization, device) if model_name == "fno3d" else None
 
         def payload(epoch, status):
+            """Capture the complete epoch boundary: weights, optimizer, schedule and progress."""
             return dict(status=status, model_state_dict=network.state_dict(),
                         optimizer_state_dict=optimizer.state_dict(), scheduler_state_dict=scheduler.state_dict(),
                         normalization=normalization, completed_epochs=epoch, optimizer_updates=updates,

@@ -1,0 +1,425 @@
+{
+  "status": "complete",
+  "evidence": {
+    "experiment": "W1",
+    "cohort": "confirmation",
+    "report_sha256": "8D6FA2D36D588829815369110665AA6A8163CC81F923B0700F9424C8BF6AA61F",
+    "numeric_report_path": "source-record:7573ff55a546c8d25e9c",
+    "sources": [
+      {
+        "path": "summary/metrics.csv",
+        "bytes": 2750,
+        "sha256": "0E0E87CA01A7D181B4CDE5BCC045CBD8FCBF28EB8C3A7BA7DB736FBB5EC6B1A6"
+      }
+    ],
+    "integrity_verified": true,
+    "experiment_inputs": {
+      "raw_provenance": [
+        {
+          "label": "GIFT",
+          "raw_method_key": "GIFT",
+          "panel_slug": "gift",
+          "recorded_raw_prediction_file": "raw\\GIFT.h5",
+          "actual_read_path": "source-record:79200376b66399d31a0c",
+          "raw_prediction_sha256": "A885A745CCFBC89357E27A42F77B94B80D6BC46DD1C03610072E6085360B635D",
+          "reused_measurement_from": "source-record:17063d9e8abaa56c28fe",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:da5def62e61780f6ee3e",
+          "checkpoint_from_raw_attribute": "source-record:da5def62e61780f6ee3e",
+          "checkpoint_sha256_recorded": "0b5f245e2778f02b9464b97f42f2a126dbf21fb36f8df132d225abb57eb721ff",
+          "seed": 20260820
+        },
+        {
+          "label": "GIFT-N50",
+          "raw_method_key": "GIFT-N50",
+          "panel_slug": "gift_n50",
+          "recorded_raw_prediction_file": "raw\\GIFT-N50.h5",
+          "actual_read_path": "source-record:6de8e9412961cab8ae30",
+          "raw_prediction_sha256": "1BC7DF5DD403F69DA4ED5B4A6851B6AC05D8970008C035E95FC6654E587AD635",
+          "reused_measurement_from": "source-record:17063d9e8abaa56c28fe",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:93876fd25b7bf2ac36c5",
+          "checkpoint_from_raw_attribute": "source-record:93876fd25b7bf2ac36c5",
+          "checkpoint_sha256_recorded": "09b83b4151150ad883fbffa1b951b99929bb1d11c7a35ac010ad9cda8c0f37d6",
+          "seed": 20260820
+        },
+        {
+          "label": "FNO-2D",
+          "raw_method_key": "fno2d",
+          "panel_slug": "fno2d",
+          "recorded_raw_prediction_file": "raw\\fno2d.h5",
+          "actual_read_path": "source-record:af639ad2edbe5a951528",
+          "raw_prediction_sha256": "711E865BC6A5E837E365B227E8118AA8EA083CD1DE5ACFF5EF9F27C5AAB114A5",
+          "reused_measurement_from": "source-record:17063d9e8abaa56c28fe",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:48c635e3acd46989edc5",
+          "checkpoint_from_raw_attribute": "source-record:48c635e3acd46989edc5",
+          "checkpoint_sha256_recorded": "678a4005208091486f270f841dc219205c284cec421b445a498bc5354323ce3a",
+          "seed": 0
+        },
+        {
+          "label": "FNO-3D",
+          "raw_method_key": "fno3d",
+          "panel_slug": "fno3d",
+          "recorded_raw_prediction_file": "raw\\fno3d.h5",
+          "actual_read_path": "source-record:81230fc73e001f3c11e0",
+          "raw_prediction_sha256": "61EF4B381BC3F2A8D68CF79F8C800A752D56CE862B533442BD053B9AC439889B",
+          "reused_measurement_from": "source-record:17063d9e8abaa56c28fe",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:feb222b43c791636dd3e",
+          "checkpoint_from_raw_attribute": "source-record:feb222b43c791636dd3e",
+          "checkpoint_sha256_recorded": "0d194bd96bd205fb5a0da1de794fee945ad52e71b87d6ab45d040a31cee28817",
+          "seed": 0
+        },
+        {
+          "label": "U-NO",
+          "raw_method_key": "uno",
+          "panel_slug": "uno",
+          "recorded_raw_prediction_file": "raw\\uno.h5",
+          "actual_read_path": "source-record:43212dece63ccca54762",
+          "raw_prediction_sha256": "2B4A12084ABE0863E8F518110C031DA624D5F81F179D386399C5A10D302FCA43",
+          "reused_measurement_from": "source-record:17063d9e8abaa56c28fe",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:3295cc23629fe9987695",
+          "checkpoint_from_raw_attribute": "source-record:3295cc23629fe9987695",
+          "checkpoint_sha256_recorded": "7075041cf3ec5048a0f618dca15bce2c153be9d67b153a71ad1e88d33416140c",
+          "seed": 0
+        },
+        {
+          "label": "U-Net",
+          "raw_method_key": "unet",
+          "panel_slug": "unet",
+          "recorded_raw_prediction_file": "raw\\unet.h5",
+          "actual_read_path": "source-record:f7f52e2989fb7722856f",
+          "raw_prediction_sha256": "4DEA414B107F6761B2EFFBC27316EAFFF8996296C87B2758B2F5837C4F35F43D",
+          "reused_measurement_from": "source-record:17063d9e8abaa56c28fe",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:3a6d6499ec75565249e2",
+          "checkpoint_from_raw_attribute": "source-record:3a6d6499ec75565249e2",
+          "checkpoint_sha256_recorded": "e304d6977ef236c7a9bdf6814a1bda29ddd42b94d23be3adc21889cf9b7f0a61",
+          "seed": 0
+        },
+        {
+          "label": "ANIE",
+          "raw_method_key": "anie_ns",
+          "panel_slug": "anie",
+          "recorded_raw_prediction_file": "raw/anie_ns.h5",
+          "actual_read_path": "source-record:df1142ad189e8cd0658d",
+          "raw_prediction_sha256": "357B23412983DAA14E1EF3D9033B8E41D46F768D23EE262791FAE141893CF439",
+          "reused_measurement_from": null,
+          "new_inference_performed_in_measurement": true,
+          "checkpoint_from_report": "source-record:bda3e1979cf57969ce4d",
+          "checkpoint_from_raw_attribute": "source-record:bda3e1979cf57969ce4d",
+          "checkpoint_sha256_recorded": "12668253562c19ebf7538c31599d5639c771b066231c1fb2c93fee4c9823c379",
+          "seed": 7
+        }
+      ]
+    },
+    "source_numeric_report_sha256": "86933B1063BE5537B8DCD1177FE811B00D636BF0332DAD97AE38CDD9AFC2C2D0",
+    "source_figure_manifest_sha256": "DB3623730285874976BF5B5B6B8F8885845019D6DFC1F9E1EBDF237B6A5190F9"
+  },
+  "details": {
+    "cohort": "confirmation",
+    "trajectory_count": 180,
+    "trajectory_id": 100005,
+    "renderer_sources": [
+      {
+        "path": "source-record:1c90d7cc3953e4d1c352",
+        "sha256": "0225218A88C9B81B49ED21E5A99E6A98C1BFEF2371B9865D122A2310DFA6AEEA",
+        "original_commit": "eff64d2682dc856e8b35aaae3b7b37320a3f301f",
+        "original_committed_file_sha256": "AC58FC81242ED13DC944D89349746A58F924F13419BE1E26E0A51354948D1A6D",
+        "function": "draw",
+        "function_source_utf8_lf_sha256": "32FB0ADB93700853A48130D7E0B34D21A7D147EF4840108F375BE7F0A718015D"
+      },
+      {
+        "path": "source-record:f9b24a3fa0a1c01a686f",
+        "sha256": "07D7D0DDD74C85727C18FF18A57A6DE2D07EB62F2312ABEA7575254B2A1C97C1",
+        "original_commit": "eff64d2682dc856e8b35aaae3b7b37320a3f301f",
+        "original_committed_file_sha256": "B25D23EC56E7F7290311011EF3F483093EF247942CC08EBAFBEA4D89E7605335",
+        "function": "draw_composite",
+        "function_source_utf8_lf_sha256": "B9E2CAF09534380090A5C3D5D6BD6E96E58FA626C0E510DBA31BD6AA0ED6E19B"
+      }
+    ],
+    "methods": [
+      "GIFT",
+      "GIFT-N50",
+      "FNO-2D",
+      "FNO-3D",
+      "U-NO",
+      "U-Net",
+      "ANIE"
+    ],
+    "method_specs": [
+      {
+        "label": "GIFT",
+        "slug": "gift",
+        "group": "GIFT"
+      },
+      {
+        "label": "GIFT-N50",
+        "slug": "gift_n50",
+        "group": "GIFT-N50"
+      },
+      {
+        "label": "FNO-2D",
+        "slug": "fno2d",
+        "group": "fno2d"
+      },
+      {
+        "label": "FNO-3D",
+        "slug": "fno3d",
+        "group": "fno3d"
+      },
+      {
+        "label": "U-NO",
+        "slug": "uno",
+        "group": "uno"
+      },
+      {
+        "label": "U-Net",
+        "slug": "unet",
+        "group": "unet"
+      },
+      {
+        "label": "ANIE",
+        "slug": "anie",
+        "group": "anie_ns"
+      }
+    ],
+    "requested_report_times": [
+      5.0,
+      5.5,
+      6.0,
+      6.5,
+      7.0,
+      7.5,
+      8.0
+    ],
+    "actual_report_times": [
+      5.0,
+      5.48,
+      6.0,
+      6.48,
+      7.0,
+      7.48,
+      8.0
+    ],
+    "report_time_indices": [
+      0,
+      12,
+      25,
+      37,
+      50,
+      62,
+      75
+    ],
+    "key_times": [
+      5.0,
+      6.0,
+      7.0,
+      8.0
+    ],
+    "key_time_indices": [
+      0,
+      25,
+      50,
+      75
+    ],
+    "source_rows": 49,
+    "curve": "seven actual measured nodes;601-point PCHIP visual guide; no additional evaluations",
+    "curve_canvas_mm": [
+      183.0,
+      96.0
+    ],
+    "curve_axis_count": 1,
+    "curve_y_limits": [
+      0.0,
+      1.5211900962257343
+    ],
+    "legend": "original top,ncol3",
+    "styles": {
+      "GIFT": [
+        "#1246D6",
+        "o",
+        "-",
+        2.5,
+        10
+      ],
+      "FNO-2D": [
+        "#8B3FE0",
+        "s",
+        "-",
+        1.5,
+        5
+      ],
+      "FNO-3D": [
+        "#00A896",
+        "D",
+        "-",
+        1.5,
+        4
+      ],
+      "U-NO": [
+        "#29A82C",
+        "^",
+        "-",
+        1.8,
+        8
+      ],
+      "U-Net": [
+        "#FF7A00",
+        "v",
+        "-",
+        1.6,
+        6
+      ],
+      "GIFT-N50": [
+        "#19C2F5",
+        "o",
+        "-",
+        1.8,
+        9
+      ],
+      "ANIE": [
+        "#D62728",
+        "X",
+        "-",
+        1.6,
+        7
+      ]
+    },
+    "error_bars": "none; one training model per method",
+    "primary_metric": "unchanged future75 mean per-frame relative L2; known initial frame excluded",
+    "layout": {
+      "row_order": [
+        "Reference",
+        "GIFT",
+        "GIFT-N50",
+        "FNO-2D",
+        "FNO-3D",
+        "U-NO",
+        "U-Net",
+        "ANIE"
+      ],
+      "axis_count": 74,
+      "field_columns": [
+        5.0,
+        6.0,
+        7.0,
+        8.0
+      ],
+      "signed_residual_columns": [
+        5.0,
+        6.0,
+        7.0,
+        8.0
+      ],
+      "arrangement": "scalar_left_residual_right",
+      "origin": "lower; original pcolormesh(values),ylim(0,64)",
+      "reference_residual": "original grey zero placeholders",
+      "two_horizontal_colorbars": true
+    },
+    "color_scales": {
+      "field_limit": 19.0,
+      "residual_limit": 22.0,
+      "field_cmap": "RdBu_r",
+      "residual_cmap": "PuOr",
+      "residual_definition": "signed_prediction_minus_truth",
+      "clipped_values": 0,
+      "selected_field_maximum_absolute_value": 16.006607055664062,
+      "selected_residual_maximum_absolute_value": 19.311809539794922
+    },
+    "adaptations": [
+      "explicit additional ANIE style/row; GIFT-N50 reuses original Lite light-blue style",
+      "actual .04-node ticks and markers; unavailable half-second nodes use nearest,ties earlier",
+      "per-method raw-file adapter with full hashes; only ANIE exempted from t5==truth check",
+      "locked shared residual22 instead of21 because old-test FNO3D exceeds21; no clipping",
+      "PNG saved from same original figure; original renderer defaults preserved"
+    ],
+    "anie_initial_relative_l2": 0.8924445400895641,
+    "inference_performed_for_plotting": false
+  },
+  "renderer": {
+    "path": "plot_w1_original_style.py",
+    "sha256": "19992CFBB5F93C0323AB4D9FD6D6FB0A7BFB7115348F153BD8E61F891262D0A5"
+  },
+  "shared_renderer_sha256": "B65CB31F45A69A0209BD9734E0CC252DE278EF343D3A1A4AA1D0FB9324C3CCC5",
+  "vector_cell_rendering": {
+    "policy": "crispEdges on QuadMesh groups only",
+    "groups_per_svg": {
+      "mean_relative_l2_vs_time.svg": 0,
+      "traj100005_recursive_keyframes.svg": 62
+    }
+  },
+  "svg_checks": {
+    "mean_relative_l2_vs_time.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "503.255731pt",
+      "height": "253.982876pt"
+    },
+    "traj100005_recursive_keyframes.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "518.740157pt",
+      "height": "506.456693pt"
+    }
+  },
+  "files": [
+    {
+      "path": "mean_relative_l2_vs_time.svg",
+      "bytes": 32551,
+      "sha256": "CECBE86B2DF674C62DEB7454C8EBFBACAF827112E68BF0C7345530E31A4FE860"
+    },
+    {
+      "path": "panel_metrics.csv",
+      "bytes": 3223,
+      "sha256": "0096E2C18097C5A754C9AD70E0CF78DB6B042D7BEACBB062B544C1154BAD224A"
+    },
+    {
+      "path": "source_data.csv",
+      "bytes": 3886,
+      "sha256": "06E56F4E7DF89EE9E63FA5E79F95FFB197CD1B7D011960254F5F6BA0B34F6C7F"
+    },
+    {
+      "path": "source_fields.npz",
+      "bytes": 819422,
+      "sha256": "9F7F019D4E83CAB426DF8FC019E0812F7F11A2CFC89E9F091EBA065469FA0D5E"
+    },
+    {
+      "path": "traj100005_recursive_keyframes.svg",
+      "bytes": 48842139,
+      "sha256": "8B81447A733D7D54F0C4B409CB03091A5649D541A0341829E089E74CA8982C32"
+    }
+  ],
+  "source_array_metadata": {
+    "source_fields.npz": {}
+  },
+  "figure_contract": {
+    "backend": "Python matplotlib",
+    "archetype": "original manuscript comparison templates",
+    "editable_vector_curves": true,
+    "editable_vector_fields": true,
+    "field_previews": [
+      {
+        "path": "assets/figures/w1_flow_prediction_confirmation_mean_relative_l2_vs_time_20261007.png",
+        "bytes": 164275,
+        "sha256": "91C7136A488263284D57B7485A05C259AA544DDD26D17628F325741B41637C36"
+      },
+      {
+        "path": "assets/figures/w1_flow_prediction_confirmation_traj100005_recursive_keyframes_20261007.png",
+        "bytes": 610513,
+        "sha256": "445B1E7EF5FF883E7907D47E4F4736FF8161ACD5DB4BF26AB0166692F1417797"
+      }
+    ],
+    "residual_definition": "prediction minus truth",
+    "single_training_instance": true,
+    "ANIE_in_W2": false
+  },
+  "publication_identity": "W1",
+  "source_provenance": {
+    "source_record_id": "3e3c8ac9867bb92c4a28",
+    "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+  },
+  "method_labels": "manuscript algorithm names; original scientific source keys remain in the CSV"
+}

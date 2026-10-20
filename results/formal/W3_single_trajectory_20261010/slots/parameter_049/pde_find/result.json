@@ -1,0 +1,614 @@
+{
+  "schema": "gift.w3-parameter-measurement.v1",
+  "status": "complete",
+  "case_id": "parameter_049",
+  "method": "PDE-FIND",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_049",
+      "observation_sha256": "b2e54c8845c92089adfc6712c9a7142ef04435aff54284069ec23ac1f10f97c3",
+      "data_receipt_sha256": "df883cc47ce97fdecc8a3629a75d7960aac8fbfb35adb461bc3138959ddae76d",
+      "data_lock_sha256": "0c185539c022946827bef56876ece2f9b88d7dfedf83270a576e77dc9d7db7e4",
+      "data_qa_sha256": "a02bcf332ff2754717d5de7df9c6b16e7ab3949109bc90072c9424f6148cae49",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "PDE-FIND",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "noise": 0.0,
+      "SVD_denoising": false,
+      "columns": 90,
+      "regression_seed": 0,
+      "native_regression_configuration_unchanged": true
+    }
+  },
+  "truth": {
+    "nu": 0.011898203054784898,
+    "beta": 1.1110893301760547,
+    "gamma": 1.2373381283980724
+  },
+  "parameters": {
+    "nu": 0.0277034015581224,
+    "beta": 1.0133763640594506,
+    "gamma": 1.1411057060303904
+  },
+  "APE_percent": {
+    "nu": 132.83685301522397,
+    "beta": 8.79433934453508,
+    "gamma": 7.777374685145275
+  },
+  "measurement_seconds": 246.74823040002957,
+  "raw_measurement": {
+    "parameters": {
+      "nu": 0.0277034015581224,
+      "beta": 1.0133763640594506,
+      "gamma": 1.1411057060303904
+    },
+    "training_executed": false,
+    "forward_executed": false,
+    "sparse_regression_executed": true,
+    "protocol": {
+      "preprocessing": {
+        "mode": "clean_no_svd"
+      },
+      "time_indices": [
+        40,
+        47,
+        53,
+        60,
+        67,
+        73,
+        80,
+        87,
+        93,
+        100,
+        107,
+        113,
+        120,
+        127,
+        133,
+        140,
+        147,
+        153,
+        160,
+        167,
+        173,
+        180,
+        187,
+        193,
+        200,
+        207,
+        213,
+        220,
+        227,
+        233,
+        240,
+        246,
+        253,
+        260,
+        266,
+        273,
+        280,
+        286,
+        293,
+        300,
+        306,
+        313,
+        320,
+        326,
+        333,
+        340,
+        346,
+        353,
+        360,
+        366,
+        373,
+        380,
+        386,
+        393,
+        400,
+        406,
+        413,
+        420,
+        426,
+        433
+      ],
+      "row_order": "y,x,time",
+      "rows": 245760,
+      "poly_degree": 5,
+      "time_y_window": 9,
+      "x_window": 19,
+      "dt": 0.02,
+      "dx": 0.09817477042468103,
+      "raw_vorticity_sha256": "423289B52C6FBB0DFCBFBA0A90716AC871144ABD887266E1D1BC7B2F259C7CED"
+    },
+    "upstream_stdout": "Optimal tolerance: 125.0\n",
+    "upstream": {
+      "repository": "https://github.com/snagcliffs/PDE-FIND",
+      "commit": "86911349b9fac82996e35465a13d06205730cc05",
+      "path": "D:\\GIFT\\release_work_20260910\\external\\pde_find\\PDE_FIND.py",
+      "sha256": "79D05AEE89900F57A1E2EE91040C09C55B953DAE0C8BF4AAF1CED61DF6B66E2A",
+      "license": null,
+      "redistribution_permission": "not_identified",
+      "in_memory_compatibility": [
+        "NumPy compatibility: one STRidge empty-index comparison uses len(biginds) != 0 for every version"
+      ],
+      "random_scope": "isolated RandomState, original seed0 and draw order",
+      "membership_acceleration_only": true
+    },
+    "ridge": {
+      "lam": 1e-05,
+      "d_tol": 5.0,
+      "maxit": 25,
+      "STR_iters": 10,
+      "split": 0.8,
+      "normalize": 2,
+      "l0_penalty": null
+    },
+    "library_dtype": "complex64",
+    "library_shape": [
+      245760,
+      90
+    ],
+    "library_sha256": "0477845A46BBF64DC3AD62AEB3CA5D48DC1095581BFC41AB4591EBF266B1DFC7",
+    "training_indices_sha256": "7C28680B7FFFA200A1373C3F4992B64B7064EB8A9C92BAEF908EF0A26294FB3D",
+    "native_coefficients": [
+      {
+        "term": "",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{xx}",
+        "real": 0.03719744093499543,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{yy}",
+        "real": 0.018209362181249376,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q",
+        "real": 1.1411057060303904,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vq",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v^2",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uq",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uv",
+        "real": -0.6603065174827873,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u^2",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wq",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wv",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wu",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w^2",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uw_{x}",
+        "real": -1.0846579026511898,
+        "imaginary": 0.0
+      },
+      {
+        "term": "ww_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vqw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v^2w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uqw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u^2w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wqw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wvw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wuw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w^2w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vw_{y}",
+        "real": -0.9420948254677115,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "ww_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vqw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v^2w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uqw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u^2w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wqw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wvw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wuw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w^2w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "ww_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vqw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v^2w_{xx}",
+        "real": -0.009584127265722163,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uqw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u^2w_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wqw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wvw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wuw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w^2w_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{xy}",
+        "real": 0.00373769015435369,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "ww_{xy}",
+        "real": -0.0016043780952957347,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vqw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v^2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uqw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u^2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wqw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wvw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wuw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w^2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "ww_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vqw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v^2w_{yy}",
+        "real": -0.003820318260728558,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uqw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u^2w_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wqw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wvw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "wuw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w^2w_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      }
+    ]
+  },
+  "measurement_host": "DQY_Station",
+  "measurement_device": "cpu"
+}

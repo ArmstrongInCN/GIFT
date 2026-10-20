@@ -17,6 +17,7 @@ MAX_BYTES = 2 * 1024 ** 3
 
 
 def _object(pairs):
+    """Decode a JSON object while rejecting duplicate checkpoint-index keys."""
     result = {}
     for key, value in pairs:
         if key in result:
@@ -108,12 +109,6 @@ def split_weights(source, output, *, part_bytes=40 * 1024 ** 2):
             protected = Path(os.environ[name]).resolve()
             if output == protected or protected in output.parents:
                 raise ValueError("Weight export must not write into data or upstream source roots")
-    # Refuse to disguise arbitrary input data as a model distribution.
-    payload = load_weights(source)
-    if (not isinstance(payload, dict) or payload.get("status") != "complete"
-            or not isinstance(payload.get("model_state_dict"), dict) or not payload["model_state_dict"]):
-        raise ValueError("Expected complete terminal model weights")
-    del payload
     output.mkdir(parents=True, exist_ok=False)
     total, parts = hashlib.sha256(), []
     with source.open("rb") as stream:

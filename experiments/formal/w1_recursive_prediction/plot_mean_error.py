@@ -1,0 +1,307 @@
+"""Draw the explicitly selected W1 comparison from a completed metrics CSV.
+
+Markers are the seven evaluated report times.  The lines are shape-preserving
+piecewise cubic Hermite interpolants (PCHIP) that pass exactly through those
+markers; they are a visual guide and do not add evaluation times.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
+from matplotlib.lines import Line2D  # noqa: E402
+from matplotlib.ticker import MaxNLocator  # noqa: E402
+from scipy.interpolate import PchipInterpolator  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[3]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from experiments.formal._shared.figure_evidence import bind_result, finish_figures
+
+
+REPORT_TIMES = np.asarray([5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0])
+METHOD_ORDER = ("GIFT", "GIFT-Lite", "FNO-2D", "FNO-3D", "U-NO", "U-Net")
+COHORT = "test_1040_1219"
+POPULATION = 180
+
+STYLES = {
+    "GIFT": ("#1246D6", "o", "-", 2.5, 10),
+    "GIFT-Lite": ("#19C2F5", "o", "-", 1.8, 9),
+    "FNO-2D": ("#8B3FE0", "s", "-", 1.5, 5),
+    "FNO-3D": ("#00A896", "D", "-", 1.5, 4),
+    "U-NO": ("#29A82C", "^", "-", 1.8, 8),
+    "U-Net": ("#FF7A00", "v", "-", 1.6, 6),
+}
+
+
+def sha256_file(path: Path) -> str:
+    """Stream the selected metrics table's digest for the figure record."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest().upper()
+
+
+def read_source(metrics_path: Path, *, cohort: str = COHORT, methods=METHOD_ORDER) -> list[dict[str, object]]:
+    """Read population means at the seven report times for the explicitly selected methods.
+
+    GIFT rows contribute three training-seed means; baselines contribute one.
+    Incomplete populations keep their finite counts but receive no whole-population
+    mean. UTF-8 BOM input is read directly without altering the numerical CSV.
+    """
+    with metrics_path.open("r", encoding="utf-8-sig", newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    selected = [row for row in rows if row["cohort"] == cohort]
+    grouped: dict[tuple[str, float], list[dict[str, str]]] = defaultdict(list)
+    for row in selected:
+        method = row["method"]
+        if method in methods:
+            grouped[(method, float(row["absolute_time"]))].append(row)
+
+    source: list[dict[str, object]] = []
+    for method in methods:
+        for absolute_time in REPORT_TIMES:
+            matches = grouped[(method, float(absolute_time))]
+            expected = 3 if method in ("GIFT", "GIFT-Lite") else 1
+            if len(matches) != expected:
+                raise ValueError(
+                    f"{method} at t={absolute_time:g} has {len(matches)} rows; "
+                    f"expected {expected}"
+                )
+            if any(int(row["population"]) != POPULATION for row in matches):
+                raise ValueError(f"{method} population differs")
+            # A method may lose trajectories to non-finite predictions. That loss
+            # is recorded and carried into the figure source instead of being
+            # silently dropped, and no value is invented for a time whose
+            # population is incomplete. Complete-population rows retain their
+            # recorded means, including the existing published W1 measurements.
+            finite_counts = [int(row["finite_count"]) for row in matches]
+            if any(count < 0 or count > POPULATION for count in finite_counts):
+                raise ValueError(f"{method} finite count is out of range")
+            complete_population = all(count == POPULATION for count in finite_counts)
+            values = np.asarray([float(row["mean"]) if row["mean"] else np.nan for row in matches])
+            expected_seeds = {"20260820", "20260821", "20260822"}
+            if method in ("GIFT", "GIFT-Lite") and {row["seed"] for row in matches} != expected_seeds:
+                raise ValueError("GIFT requires one result from each declared training seed")
+            if complete_population and (not np.isfinite(values).all() or (values < 0).any()):
+                raise ValueError(f"{method} mean errors must be finite and nonnegative")
+            source.append(
+                {
+                    "method": method,
+                    "absolute_time": float(absolute_time),
+                    "mean_relative_l2": float(values.mean()) if complete_population else None,
+                    "finite_subset_mean_diagnostic": (float(values.mean())
+                        if not complete_population and np.isfinite(values).all() else None),
+                    "training_seed_sd": (
+                        float(values.std(ddof=1)) if complete_population and method in ("GIFT", "GIFT-Lite") else ""
+                    ),
+                    "n_training_seeds": expected,
+                    "n_test_trajectories": POPULATION,
+                    "finite_count_min": min(finite_counts),
+                    "complete_population": complete_population,
+                }
+            )
+    return source
+
+
+def write_source(path: Path, rows: list[dict[str, object]]) -> None:
+    """Create the exact method/time source table used by the mean-error figure."""
+    if path.exists():
+        raise FileExistsError(f"refusing to overwrite {path}")
+    with path.open("x", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def draw(rows: list[dict[str, object]], *, y_limit: float | None = None, methods=None,
+         styles=None, draw_order=None, report_times=None):
+    """Draw the mean-error curves.
+
+    ``y_limit`` forces one shared vertical range, used to place two distributions
+    on comparable axes. It is only ever raised, never lowered, so a caller-supplied
+    value can never clip a measurement. Optional style/order/tick mappings let
+    a new measured method or observation grid use this same original design;
+    the six-method default and original report ticks remain unchanged.
+    """
+    plt.rcParams.update(
+        {
+            "font.family": "sans-serif",
+            "font.sans-serif": ["Arial", "DejaVu Sans", "Liberation Sans"],
+            "svg.fonttype": "none",
+            "pdf.fonttype": 42,
+            "font.size": 8,
+            "axes.labelsize": 9,
+            "xtick.labelsize": 7.5,
+            "ytick.labelsize": 7.5,
+            "legend.fontsize": 7.5,
+            "axes.linewidth": 0.8,
+            "axes.spines.right": False,
+            "axes.spines.top": False,
+            "legend.frameon": False,
+        }
+    )
+    # Only times carrying the complete test population are drawn. A method that
+    # loses trajectories to non-finite predictions ends at its last complete time
+    # rather than showing a finite-subset mean in place of the full population,
+    # and the fitted guide is never extrapolated past that boundary.
+    methods = tuple(methods or (method for method in METHOD_ORDER
+                               if any(row["method"] == method for row in rows)))
+    method_times: dict[str, np.ndarray] = {}
+    series: dict[str, np.ndarray] = {}
+    for method in methods:
+        kept = []
+        for row in sorted((row for row in rows if row["method"] == method),
+                          key=lambda row: float(row["absolute_time"])):
+            if not row["complete_population"]:
+                break
+            kept.append(row)
+        method_times[method] = np.asarray([float(row["absolute_time"]) for row in kept])
+        series[method] = np.asarray([float(row["mean_relative_l2"]) for row in kept])
+    figure, axis = plt.subplots(figsize=(183.0 / 25.4, 96.0 / 25.4))
+    fitted_times = np.linspace(5.0, 8.0, 601)
+    handles: dict[str, Line2D] = {}
+    selected_styles = STYLES if styles is None else styles
+    selected_order = (("FNO-3D", "U-Net", "FNO-2D", "U-NO", "GIFT-Lite", "GIFT")
+                      if draw_order is None else tuple(draw_order))
+    for method in selected_order:
+        if method not in methods:
+            continue
+        color, marker, line_style, width, zorder = selected_styles[method]
+        times = method_times[method]
+        values = series[method]
+        if len(times) > 1:
+            interpolator = PchipInterpolator(times, values)
+            span = fitted_times[(fitted_times >= times[0]) & (fitted_times <= times[-1])]
+            axis.plot(span, interpolator(span), color=color, linestyle=line_style,
+                      linewidth=width, solid_capstyle="round", zorder=zorder)
+        axis.plot(
+            times,
+            values,
+            linestyle="none",
+            color=color,
+            marker=marker,
+            markersize=4.8 if method == "GIFT" else 4.2,
+            markeredgecolor="white",
+            markeredgewidth=0.55,
+            zorder=zorder + 0.2,
+        )
+        handles[method] = Line2D(
+            [0],
+            [0],
+            color=color,
+            marker=marker,
+            linestyle=line_style,
+            linewidth=width,
+            markersize=4.5,
+            markeredgecolor="white",
+            markeredgewidth=0.55,
+        )
+    axis.set_xlim(4.96, 8.04)
+    # Keep the specified design unless the data need more room. Errors need not
+    # increase monotonically; neither ordering nor a target value is imposed.
+    maximum = max((float(np.max(values)) for values in series.values() if values.size), default=0.0)
+    required = max(1.28, 1.08 * maximum)
+    upper = required if y_limit is None else max(float(y_limit), required)
+    axis.set_ylim(0.0, upper)
+    axis.set_xticks(REPORT_TIMES if report_times is None else report_times)
+    if maximum <= 1.28 and upper <= 1.31:
+        axis.set_yticks(np.arange(0.0, 1.21, 0.2))
+    else:
+        axis.yaxis.set_major_locator(MaxNLocator(nbins=6, min_n_ticks=3))
+    axis.set_xlabel(r"Time, $t$")
+    axis.set_ylabel(r"Mean relative $L^2$ error")
+    axis.tick_params(axis="both", direction="out", length=3.0, width=0.8, pad=2.5)
+    axis.spines["left"].set_bounds(0.0, 1.2 if (maximum <= 1.28 and upper <= 1.31) else upper)
+    axis.spines["bottom"].set_bounds(5.0, 8.0)
+    axis.legend(
+        [handles[method] for method in methods],
+        methods,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.015),
+        ncol=3,
+        handlelength=2.5,
+        columnspacing=1.6,
+        handletextpad=0.55,
+        borderaxespad=0.0,
+    )
+    figure.subplots_adjust(left=0.105, right=0.985, bottom=0.165, top=0.82)
+    return figure
+
+
+def parse_args() -> argparse.Namespace:
+    """Select completed metrics, the output directory and explicit GIFT regimes to draw."""
+    project_root = Path(__file__).resolve().parents[3]
+    result = project_root / "results" / "formal" / "W1_recursive_prediction"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--metrics", type=Path, default=result / "summary" / "metrics.csv"
+    )
+    parser.add_argument("--output-dir", type=Path, default=result / "figures")
+    parser.add_argument("--gift-regimes", nargs="+", choices=("GIFT", "GIFT-Lite"),
+                        default=["GIFT", "GIFT-Lite"],
+                        help="explicit completed regimes to draw; missing selected results are errors")
+    return parser.parse_args()
+
+
+def main() -> None:
+    """Read completed measurements and publish a new vector curve with its source table and manifest."""
+    args = parse_args()
+    methods = tuple(method for method in METHOD_ORDER
+                        if method not in ("GIFT", "GIFT-Lite") or method in args.gift_regimes)
+    metrics = args.metrics.resolve(strict=True)
+    if metrics.name != "metrics.csv" or metrics.parent.name != "summary":
+        raise ValueError("use the completed experiment's summary/metrics.csv")
+    evidence = bind_result(metrics.parent.parent, "W1", ("summary/metrics.csv",))
+    output = args.output_dir.resolve(strict=False)
+    output.mkdir(parents=True, exist_ok=False)
+    targets = [
+        output / "source_data.csv",
+        output / "source_manifest.csv",
+        output / "mean_relative_l2_vs_time.svg",
+    ]
+    if any(path.exists() for path in targets):
+        raise FileExistsError("refusing to overwrite an existing W1 figure file")
+
+    source = read_source(metrics, methods=methods)
+    write_source(targets[0], source)
+    try:
+        metric_display = metrics.relative_to(output.parent).as_posix()
+    except ValueError:
+        metric_display = "summary/metrics.csv"
+    write_source(
+        targets[1],
+        [
+            {
+                "source": metric_display,
+                "sha256": sha256_file(metrics),
+                "fitted_curve": "PCHIP through all seven evaluated points",
+            }
+        ],
+    )
+    figure = draw(source, methods=methods)
+    figure.savefig(targets[2], bbox_inches="tight")
+    axis_limits = list(figure.axes[0].get_ylim())
+    plt.close(figure)
+    finish_figures(output, evidence, Path(__file__), {
+        "metric": "mean per-trajectory relative L2", "trajectory_count": POPULATION,
+        "methods": list(methods),
+        "gift_seeds": [20260820, 20260821, 20260822], "baseline_models_per_method": 1,
+        "curve": "PCHIP visual guide through measured points", "y_limits": axis_limits,
+        "error_bars": "none", "hypothesis_tests": "none",
+    })
+
+
+if __name__ == "__main__":
+    main()

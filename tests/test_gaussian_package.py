@@ -1,4 +1,9 @@
-"""Sparse, deliberately nonfinite fixtures test gates, not a scientific run."""
+"""Check Gaussian observation layouts with sparse, deliberately nonfinite HDF files.
+
+Metadata-only reads must describe their limited scope; full input checks must
+reject unwritten fields. These fixtures exercise reader boundaries and cohort
+selection, not generated scientific data or model accuracy.
+"""
 import hashlib
 import json
 from types import SimpleNamespace
@@ -15,12 +20,13 @@ from training.checkpoints import digest_file
 
 @pytest.fixture
 def package(tmp_path):
-    root=tmp_path/'s4_gaussian'
+    """Build full/lite schema fixtures with NaN-filled chunked fields and old receipts."""
+    root=tmp_path/'s3_gaussian'
     root.mkdir()
     for name,lite in (('trajectories.h5',False),('lite.h5',True)):
         with h5py.File(root/name,'x') as handle:
             handle.attrs.update(prediction_cohort=GAUSSIAN,trajectory_id_scheme='canonical',
-                                pilot=False,status='COMPLETE_GENERATION')
+                                fixture_only=True,pilot=False,status='COMPLETE_GENERATION')
             if lite:
                 handle.attrs['parent_sha256']=digest_file(root/'trajectories.h5')
             for group,ids in group_ids(lite=lite).items():
@@ -41,9 +47,11 @@ def package(tmp_path):
 
 
 def test_metadata_never_claims_completed_numerical_validation(package):
+    """Return selected Gaussian IDs without claiming field scans or reproduction."""
     base,root,_=package
     result=validate_input(base,root/'trajectories.h5',full=False)
     assert result['trajectory_ids']==list(range(1220,2220))
+    assert result['fixture_only']
     assert result['sha256'] is None and not result['full_input_checks_performed']
     assert not result['numerical_reproduction_verified']
     lite=validate_input(base,root/'lite.h5',full=False)
@@ -51,13 +59,15 @@ def test_metadata_never_claims_completed_numerical_validation(package):
 
 
 def test_unwritten_truth_cannot_supply_training(package):
+    """Reject NaN-filled observations when finite-value checking is requested."""
     base,root,_=package
     with pytest.raises(ValueError,match='Nonfinite'):
         validate_input(base,root/'lite.h5',full=True)
 
 
 @pytest.mark.parametrize('change',['overlap','covariance','missing','duplicate','hash'])
-def test_corrupt_gaussian_manifest_rejected(package,change):
+def test_unrelated_manifest_does_not_gate_observations(package,change):
+    """Read valid observation metadata despite unrelated generation-manifest changes."""
     base,root,value=package
     if change=='overlap': value['partitions']['test'][0]=1220
     elif change=='covariance': value['initial_condition']['correlation_length']=.8
@@ -65,20 +75,31 @@ def test_corrupt_gaussian_manifest_rejected(package,change):
     elif change=='duplicate': value['files'].append(value['files'][0])
     else: value['files'][0]['sha256']='bad'
     (root/'manifest.json').write_text(json.dumps(value),encoding='utf-8')
-    with pytest.raises(ValueError): validate_input(base,root/'lite.h5',full=False)
+    assert validate_input(base,root/'lite.h5',full=False)['cohort']==GAUSSIAN
+
+
+def test_actual_gaussian_ids_rejected(package):
+    """Reject a test-cohort ID substituted into the lite training observation rows."""
+    base,root,_=package
+    with h5py.File(root/'lite.h5','r+') as handle:
+        handle['training/trajectory_index'][0]=2260
+    with pytest.raises(ValueError,match='identities'):
+        validate_input(base,root/'lite.h5',full=False)
 
 
 def test_baseline_budget_unchanged_for_gaussian():
+    """Change the input cohort without changing each baseline's default training budget."""
     from training.baseline_control import _arguments,configuration
     for family in ('fno2d','fno3d','uno','unet'):
         args=_arguments(family,['--data-profile','gaussian'])
-        assert args.data_file=='s4_gaussian/trajectories.h5'
+        assert args.data_file=='s3_gaussian/trajectories.h5'
         new=configuration(family,args)
         old=configuration(family,_arguments(family,[]))
         assert {k:v for k,v in new.items() if k!='data_profile'}=={k:v for k,v in old.items() if k!='data_profile'}
 
 
 def test_gaussian_prediction_reads_appended_ids(tmp_path):
+    """Select Gaussian test IDs explicitly and reject reading them as the original cohort."""
     from experiments.formal._shared.prediction_data import _observations
     path=tmp_path/'input.h5'
     with h5py.File(path,'x') as handle:

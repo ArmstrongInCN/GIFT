@@ -1,0 +1,277 @@
+{
+  "status": "complete",
+  "evidence": {
+    "experiment": "W2",
+    "report_sha256": "44DF87EF1B3668B6427888F0DCC2639023E0E5B6513A3D7A8F7A41C68624DC34",
+    "sources": [
+      {
+        "path": "summary/metrics.csv",
+        "bytes": 6875,
+        "sha256": "0946A75385722CB0CEAAD4104FFFA43FB0DB9B6F8C425116CB7745E887A4366C"
+      }
+    ],
+    "source_root": "source-record:1e3ab008a0b3f67eaeaf",
+    "integrity_verified": true,
+    "independent_result_audit_sha256": "F678EFA8E0AD1421673976B06FF4801B238445E8C0815726B4544A71893419B1",
+    "training_audit_sha256": "81394EAA7DDD77F66520E2FFAE07568559FE95B69D2BD5559F656F108EBED2A8",
+    "evaluation_plan_sha256": "4D8D9ECB9C250AA00F7E3193DAD065F67CE03C1B8D2C2F28CA6307243C34105B",
+    "scientific_predictions_and_metrics_unchanged": true,
+    "source_numeric_report_sha256": "C3ED35634FEC16143337B01B8AA0A46327436DDE00367BF6F12F0A61806F9D30",
+    "source_figure_manifest_sha256": "6E9FA180F71307B369703B812ECD05348C913E34F670028CB99F964A32CB5452",
+    "cohort": "old_test",
+    "population": 180
+  },
+  "details": {
+    "cohort": "old_test",
+    "trajectory_id": 1150,
+    "selected_population_row": 110,
+    "training_seeds": {
+      "GIFT": 20260820,
+      "GIFT-N50": 20260820,
+      "FNO-2D": 0,
+      "FNO-3D": 0,
+      "U-NO": 0,
+      "U-Net": 0
+    },
+    "checkpoint_sha256": {
+      "GIFT": "0b5f245e2778f02b9464b97f42f2a126dbf21fb36f8df132d225abb57eb721ff",
+      "GIFT-N50": "09b83b4151150ad883fbffa1b951b99929bb1d11c7a35ac010ad9cda8c0f37d6",
+      "FNO-2D": "678a4005208091486f270f841dc219205c284cec421b445a498bc5354323ce3a",
+      "FNO-3D": "0d194bd96bd205fb5a0da1de794fee945ad52e71b87d6ab45d040a31cee28817",
+      "U-NO": "7075041cf3ec5048a0f618dca15bce2c153be9d67b153a71ad1e88d33416140c",
+      "U-Net": "e304d6977ef236c7a9bdf6814a1bda29ddd42b94d23be3adc21889cf9b7f0a61"
+    },
+    "training_counts": {
+      "GIFT": 300,
+      "GIFT-N50": 50,
+      "FNO-2D": 300,
+      "FNO-3D": 300,
+      "U-NO": 300,
+      "U-Net": 300
+    },
+    "interpretation": "posthoc exploratory original test180",
+    "methods": [
+      "GIFT",
+      "GIFT-N50",
+      "FNO-2D",
+      "FNO-3D",
+      "U-NO",
+      "U-Net"
+    ],
+    "native_method_keys": [
+      "GIFT",
+      "GIFT-N50",
+      "fno2d",
+      "fno3d",
+      "uno",
+      "unet"
+    ],
+    "population_per_curve": 180,
+    "single_model_per_method": true,
+    "seed_shading": "none; one actual training seed per method",
+    "metric_units": "relative L2 ratio; not percentage",
+    "curve_grid": "original 1x3 N64/N96/N128",
+    "field_grid": "original 2 rows; reference+6 methods",
+    "curve_sample_indices": [
+      0,
+      2,
+      5,
+      7,
+      10,
+      12,
+      15,
+      17,
+      20,
+      22,
+      25
+    ],
+    "curve_actual_absolute_times": [
+      5.0,
+      5.08,
+      5.2,
+      5.28,
+      5.4,
+      5.48,
+      5.6,
+      5.68,
+      5.8,
+      5.88,
+      6.0
+    ],
+    "time_selection": "nearest original .1-second nodes, ties earlier; real saved .04 nodes only",
+    "t0_plotted": false,
+    "t0_in_primary_metric": false,
+    "curve_axes": [
+      {
+        "scale": "log",
+        "limits": [
+          0.011921807002895045,
+          1.4579405128121412
+        ]
+      },
+      {
+        "scale": "log",
+        "limits": [
+          0.011921807002895045,
+          1.4579405128121412
+        ]
+      },
+      {
+        "scale": "log",
+        "limits": [
+          0.011921807002895045,
+          1.4579405128121412
+        ]
+      }
+    ],
+    "endpoint_label_y_offsets_points": {
+      "64": {
+        "GIFT  0.022": 0.0,
+        "GIFT-N50  0.028": 0.0,
+        "FNO-2D  0.355": 0.0,
+        "U-NO  0.470": 0.0,
+        "U-Net  0.784": -0.029273467095524665,
+        "FNO-3D  0.974": 0.02927346709554513
+      },
+      "96": {
+        "GIFT  0.022": -0.06128643451642802,
+        "GIFT-N50  0.027": 0.06128643451643825,
+        "FNO-2D  0.356": 0.0,
+        "U-NO  0.483": 0.0,
+        "FNO-3D  0.974": -0.5882977110963384,
+        "U-Net  1.156": 0.5882977110963384
+      },
+      "128": {
+        "GIFT  0.021": -0.06647821175719627,
+        "GIFT-N50  0.027": 0.06647821175720652,
+        "FNO-2D  0.359": 0.0,
+        "U-NO  0.500": 0.0,
+        "FNO-3D  0.974": 0.0,
+        "U-Net  1.215": 0.0
+      }
+    },
+    "endpoint_label_policy": "original direct endpoint labels; vertical text spacing only, anchors unchanged",
+    "field_canvas_width_mm": 278.5519979928829,
+    "field_canvas_height_mm": 96.0,
+    "field_width_policy": "two added method columns; original cell width, height, row/column ratios retained",
+    "signed_residual_definition": "prediction minus truth",
+    "field_rendering": "original upper-origin vector pcolormesh; no smoothing/interpolation/rasterization",
+    "field_colormap": "RdBu_r",
+    "residual_colormap": "PuOr",
+    "colour_scale_policy": "original max(preferred,ceil(observed)), shared per quantity, no clipping",
+    "field_limit": 14.0,
+    "residual_limit": 20.0,
+    "observed_field_maximum": 13.742712020874023,
+    "observed_residual_maximum": 19.236671447753906,
+    "field_caption_relative_l2": {
+      "GIFT": 0.01892599179970968,
+      "GIFT-N50": 0.023905986517115858,
+      "FNO-2D": 0.32036175613986306,
+      "FNO-3D": 0.8689743686658342,
+      "U-NO": 0.5657191396971488,
+      "U-Net": 1.207801326393684
+    },
+    "template_source": "experiments/formal/w2_cross_resolution/plot_results.py",
+    "template_source_sha256": "CAD4FED3D420480B2DD9DC4B4BDA5676B7B888EE622D6A9CB03D06465435FDE1",
+    "template_before_parameterization_sha256": "BE3B0770E9AE8C17D46C620EF7E0000DC1C1E0701D5916DBD0D33DE7415B39DF",
+    "template_function_source_sha256": {
+      "draw_time_curves_only": "C2C0045D8FBB00E8360A33AD63401BCE7509EB258CE64A5723121F31D029FF37",
+      "draw_prediction_fields_only": "5EE8B70EFD62D288600D6AA7F4DA5588ADB32B463165495B8D29CD8DB931A3FC",
+      "draw_vector_field": "103F336789BB5AD506CAC3FE1BCF9FC9FF1ABD2804E82597722F5A87D28CF1A5"
+    },
+    "template_changes": "optional method/style/tick/canvas-width arguments; defaults preserve old rendering; single-seed bands omitted",
+    "model_loading_or_inference": false,
+    "science_run_mutated": false,
+    "png_dpi": 300,
+    "visual_qa": "passed; independent actual PNG inspection in ORIGINAL_STYLE_DATA_AUDIT.json"
+  },
+  "renderer": {
+    "path": "w2_original_style_figures.py",
+    "sha256": "BEE8F25287955F106D421049FC4600FD1F93267CEBAC2C6C1A945CD99BE101D6"
+  },
+  "shared_renderer_sha256": "B65CB31F45A69A0209BD9734E0CC252DE278EF343D3A1A4AA1D0FB9324C3CCC5",
+  "vector_cell_rendering": {
+    "policy": "crispEdges on QuadMesh groups only",
+    "groups_per_svg": {
+      "cross_resolution_mean_relative_l2.svg": 0,
+      "traj1150_n128_t6_prediction_fields.svg": 15
+    }
+  },
+  "svg_checks": {
+    "cross_resolution_mean_relative_l2.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "524.183248pt",
+      "height": "166.501139pt"
+    },
+    "traj1150_n128_t6_prediction_fields.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "747.701857pt",
+      "height": "249.383547pt"
+    }
+  },
+  "files": [
+    {
+      "path": "cross_resolution_mean_relative_l2.svg",
+      "bytes": 52063,
+      "sha256": "2B2E2EE09DE0A38E9440BB5D3CB1E3E7C9470BD81E276A509CD6CB5CDC059CF5"
+    },
+    {
+      "path": "source_data.csv",
+      "bytes": 24564,
+      "sha256": "A07134EAC5E26C495DF4282C90C0EEFDD4B69B8E0B21C312C32B564BF21CAB27"
+    },
+    {
+      "path": "source_fields.npz",
+      "bytes": 427026,
+      "sha256": "8C01F30C1FA1AB3B1DE8727554284ED63C9D5DFAE064E0D95656C3E859654AB1"
+    },
+    {
+      "path": "traj1150_n128_t6_prediction_fields.svg",
+      "bytes": 42036864,
+      "sha256": "1DAEB492D2BBB9E5F1B19D6BC7FB9FF432FB02B488177DDC8ECA44D1BAB174C9"
+    }
+  ],
+  "figure_contract": {
+    "backend": "Python matplotlib",
+    "archetype": "original manuscript comparison templates",
+    "editable_vector_curves": true,
+    "editable_vector_fields": true,
+    "field_previews": [
+      {
+        "path": "assets/figures/w2_cross_resolution_old_test_cross_resolution_mean_relative_l2_20261007.png",
+        "bytes": 208809,
+        "sha256": "950A0A921A8F22A69610E5B32DE1F706F5D3480674A3E0E0CEBBDC32819C2ABB"
+      },
+      {
+        "path": "assets/figures/w2_cross_resolution_old_test_traj1150_n128_t6_prediction_fields_20261007.png",
+        "bytes": 913209,
+        "sha256": "F29DDD5ADD2622226A35E0EEF2973EA5E8D0BFF70C31238437CF9A3DFAAF8F70"
+      }
+    ],
+    "residual_definition": "prediction minus truth",
+    "single_training_instance": true,
+    "ANIE_in_W2": false
+  },
+  "source_array_metadata": {
+    "source_fields.npz": {
+      "methods": [
+        "GIFT",
+        "GIFT-N50",
+        "FNO-2D",
+        "FNO-3D",
+        "U-NO",
+        "U-Net"
+      ],
+      "training_seeds_json": "{\"GIFT\": 20260820, \"GIFT-N50\": 20260820, \"FNO-2D\": 0, \"FNO-3D\": 0, \"U-NO\": 0, \"U-Net\": 0}",
+      "checkpoint_sha256_json": "{\"GIFT\": \"0b5f245e2778f02b9464b97f42f2a126dbf21fb36f8df132d225abb57eb721ff\", \"GIFT-N50\": \"09b83b4151150ad883fbffa1b951b99929bb1d11c7a35ac010ad9cda8c0f37d6\", \"FNO-2D\": \"678a4005208091486f270f841dc219205c284cec421b445a498bc5354323ce3a\", \"FNO-3D\": \"0d194bd96bd205fb5a0da1de794fee945ad52e71b87d6ab45d040a31cee28817\", \"U-NO\": \"7075041cf3ec5048a0f618dca15bce2c153be9d67b153a71ad1e88d33416140c\", \"U-Net\": \"e304d6977ef236c7a9bdf6814a1bda29ddd42b94d23be3adc21889cf9b7f0a61\"}"
+    }
+  },
+  "publication_identity": "W2",
+  "source_provenance": {
+    "source_record_id": "5112ec56bda3700411d1",
+    "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+  },
+  "method_labels": "manuscript algorithm names; original scientific source keys remain in the CSV"
+}

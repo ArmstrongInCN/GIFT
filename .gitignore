@@ -1,4 +1,4 @@
-# Data, external implementations and execution records stay outside the project.
+# Keep downloaded data, upstream implementations and run products out of Git.
 /data/
 /external/
 /vendor/
@@ -7,6 +7,10 @@
 /work/
 /build/
 /dist/
+/tmp/
+/external-adapters/
+/external_runtime/
+/gift-external-runtime/
 # Local assistant/work notes are development diaries, not part of the delivery.
 /.workbuddy/
 .env
@@ -16,6 +20,7 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+.test_tmp/
 .venv/
 *.h5
 *.hdf5

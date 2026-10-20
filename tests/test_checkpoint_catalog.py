@@ -9,6 +9,11 @@ from training.weight_files import read_index, split_weights
 
 
 def package(tmp_path, monkeypatch):
+    """Create a small split-weight bundle and bind each part to its catalog index.
+
+    The saved tensor is synthetic; only catalog membership and index links
+    are tested, without loading a trained model or invoking Git.
+    """
     source = tmp_path / "source.pt"
     torch.save({"status": "complete", "model_state_dict": {"x": torch.ones(16)}}, source)
     root = tmp_path / "project"
@@ -27,6 +32,7 @@ def package(tmp_path, monkeypatch):
 
 
 def test_complete_part_catalog(tmp_path, monkeypatch):
+    """Allow exactly the index and part paths declared by a consistent catalog."""
     _, records = package(tmp_path, monkeypatch)
     # The allowlist must list exactly the files the catalog declares; a missing
     # or orphaned part is rejected by the inconsistent-catalog test below.
@@ -35,6 +41,7 @@ def test_complete_part_catalog(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize("change", ["missing_part", "wrong_binding", "orphan_part"])
 def test_inconsistent_part_catalog(tmp_path, monkeypatch, change):
+    """Reject missing parts, wrong index links and parts with no catalogued index."""
     catalog, records = package(tmp_path, monkeypatch)
     if change == "missing_part":
         records.pop()

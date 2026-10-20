@@ -15,13 +15,24 @@ class BranchTrainingView:
     """Delegate model state and projections, specializing only training work."""
 
     def __init__(self, model):
+        """Wrap a branch without copying its Parameters or serializable state.
+
+        Packed spectral views start empty and live only for one backward segment.
+        """
         self.model = model
         self.packed = None
 
     def __getattr__(self, name):
+        """Forward ordinary branch attributes and methods to the wrapped model."""
         return getattr(self.model, name)
 
     def begin_segment(self):
+        """Build differentiable spectral layouts for the next backward segment.
+
+        Permuting channel axes makes the contraction layout contiguous while
+        keeping autograd connected to the original Parameters. An active segment
+        must be released before constructing another one.
+        """
         if self.packed is not None:
             raise RuntimeError("previous training segment was not released")
         # Make channel contractions contiguous once, not at every RK4 stage.
@@ -35,9 +46,16 @@ class BranchTrainingView:
         }
 
     def end_segment(self):
+        """Drop packed views after backward so the next segment uses fresh weights."""
         self.packed = None
 
     def block(self, block, field):
+        """Apply a spectral-plus-pointwise block to [B,C,ny,nx] real fields.
+
+        Assemble positive and negative rfft2 mode supports with a zero middle
+        band, then invert at the original grid size. The assembly preserves
+        gradients without creating full-grid slice-assignment copies.
+        """
         if self.packed is None:
             raise RuntimeError("begin a training segment before spectral execution")
         spectral = block.spectral
@@ -62,6 +80,11 @@ class BranchTrainingView:
         return F.gelu(value) if block.activate else value
 
     def forward_with_generator_output(self, state, low_rhs):
+        """Evaluate the wrapped branch with this segment's packed spectral kernels.
+
+        state is the observed field and low_rhs is the frozen generator output;
+        the wrapped branch retains projection, scaling and output semantics.
+        """
         if self.packed is None:
             raise RuntimeError("begin a training segment before branch execution")
         return self.model.forward_with_generator_output(state, low_rhs, _training_kernels=self)

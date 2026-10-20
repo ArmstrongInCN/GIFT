@@ -1,4 +1,4 @@
-"""Derive paired 1%/10% observations from a specified clean H5, without training."""
+"""Derive paired 1%/5% observations from a specified clean H5, without training."""
 from __future__ import annotations
 
 import argparse
@@ -15,13 +15,14 @@ import h5py
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts.generate_data import ROOT, atomic_json, canonical, safe_output, sha256, write_json_new
+from scripts.generate_data import ROOT, atomic_json, canonical, generation_configuration, safe_output, sha256, write_json_new
 
 GROUPS = ("training", "validation")
-FRACTIONS = {"noise_001": .01, "noise_010": .10}
+FRACTIONS = {"noise_001": .01, "noise_005": .05}
 
 
 def rng_arrays(rng):
+    """Encode the complete MT19937 state, including its cached Gaussian draw, as NPZ arrays."""
     algorithm, keys, position, cached, gaussian = rng.get_state()
     return {"rng_algorithm": np.asarray(algorithm), "rng_keys": keys,
             "rng_position": np.int64(position), "rng_has_gauss": np.int64(cached),
@@ -29,6 +30,7 @@ def rng_arrays(rng):
 
 
 def restore_rng(saved):
+    """Rebuild MT19937 including the Gaussian cache so the next noise draw is unchanged."""
     if str(saved["rng_algorithm"]) != "MT19937":
         raise ValueError("Only this attempt's MT19937 state is supported")
     rng = np.random.RandomState()
@@ -55,6 +57,12 @@ def group_statistics(field):
 
 
 def inspect_clean(source, pilot):
+    """Inspect clean [trajectory,time,64,64] float32 groups and their ID/time axes.
+
+    The full reference mode requires the declared populations and 501 frames.
+    Pilot mode permits reduced inputs while retaining the basic array contract;
+    whole-group statistics are computed separately.
+    """
     groups = {}
     if "noise_fraction" in source.attrs or source.attrs.get("status") == "INCOMPLETE":
         raise ValueError("Input must be a complete clean dataset, not a noise output")
@@ -76,6 +84,12 @@ def inspect_clean(source, pilot):
 
 
 def main(argv=None):
+    """Generate paired 1% and 5% noise files or resume their next 16-frame block.
+
+    Both conditions share each standard-normal draw. Noise scale uses the
+    clean group population standard deviation, not per-sample normalization.
+    The checkpoint cursor and full RNG state preserve draw order across pauses.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--clean", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -110,8 +124,9 @@ def main(argv=None):
         if (output / "COMPLETE.json").exists():
             raise ValueError("Attempt already complete")
         run = json.loads((output / "run.json").read_text(encoding="utf-8"))
-        if run["binding"] != binding or run["binding_sha256"] != binding_hash:
-            raise ValueError("Resume input/source/configuration/runtime mismatch")
+        if generation_configuration(run["binding"]) != generation_configuration(binding):
+            raise ValueError("Resume input/configuration mismatch")
+        binding_hash = run["binding_sha256"]
         latest = json.loads((output / "latest.json").read_text(encoding="utf-8"))
         checkpoint = output / latest["file"]
         if checkpoint.parent != output or not checkpoint.name.startswith("checkpoint_") or sha256(checkpoint) != latest["sha256"]:
@@ -148,6 +163,7 @@ def main(argv=None):
                 raise ValueError("Output H5 identity mismatch")
 
         def save(next_position):
+            """Flush both paired outputs and save the next block cursor with the complete RNG state."""
             for handle in outputs.values():
                 handle.flush()
             path = output / ("checkpoint_" + uuid.uuid4().hex + ".npz")

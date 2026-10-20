@@ -19,6 +19,7 @@ spec.loader.exec_module(generator)
 
 @pytest.fixture(autouse=True)
 def one_cpu_thread():
+    """Limit these tiny solver runs to one CPU thread and restore the previous setting."""
     previous = torch.get_num_threads()
     torch.set_num_threads(1)
     yield
@@ -26,6 +27,7 @@ def one_cpu_thread():
 
 
 def test_seed_parameter_protocol():
+    """Check the fixed validation/test parameter draws and inclusive trajectory-ID parsing."""
     groups = generator.seed_parameters()
     assert generator.array_hash(groups["validation"][1]) == "7b8e4cb4174a3efb5e8933a9c8f976bf492fd7ee7f7c95e6656a67a1c698569b"
     assert generator.array_hash(groups["test"][1]) == "94d1ce16d6beb4cf92c2985253661ff978cb9af80297dd97818ecf437a935604"
@@ -36,6 +38,12 @@ def test_seed_parameter_protocol():
 
 
 def test_short_integration_and_own_resume(tmp_path):
+    """Compare an eight-step CPU integration with a paused/resumed copy exactly.
+
+    Also check saved 0.02-second labels, pilot status, incompatible batch sizes
+    and protection of already completed output. This is a resume test, not a
+    full-budget solver comparison.
+    """
     straight, paused = tmp_path / "straight", tmp_path / "paused"
     common = ["--dataset", "standard", "--split", "training", "--subset", "0",
               "--pilot-steps", "8", "--checkpoint-every", "2", "--execute"]
@@ -58,10 +66,34 @@ def test_short_integration_and_own_resume(tmp_path):
         generator.main(common + ["--output", str(paused)])
 
 
+def test_resume_accepts_source_and_environment_metadata_changes(tmp_path, monkeypatch):
+    """Allow descriptive source/version changes while preserving the original run record."""
+    output = tmp_path / "resume_metadata"
+    arguments = ["--dataset", "standard", "--split", "training", "--subset", "0",
+                 "--pilot-steps", "4", "--output", str(output), "--execute"]
+    generator.main(arguments + ["--stop-after-steps", "1"])
+    original_plan = generator.make_plan
+    original_runtime = generator.runtime_record
+
+    def changed_plan(args):
+        """Replace source metadata only, leaving all integration parameters unchanged."""
+        plan = original_plan(args)
+        plan["sources"] = {"comments_only.py": "new revision"}
+        return plan
+
+    monkeypatch.setattr(generator, "make_plan", changed_plan)
+    monkeypatch.setattr(generator, "runtime_record", lambda *args: dict(original_runtime(*args), python="new patch"))
+    assert generator.main(arguments + ["--resume"]) == 0
+    original = json.loads((output / "run.json").read_text())
+    assert "comments_only.py" not in original["binding"]["plan"]["sources"]
+    assert (output / "COMPLETE.json").is_file()
+
+
 def test_output_guards_and_dry_plan(tmp_path, monkeypatch, capsys):
+    """Reject protected output paths and verify that planning writes no directory."""
     data = tmp_path / "readonly_data"
     monkeypatch.setenv("GIFT_DATA_ROOT", str(data))
-    for bad in (ROOT / "outputs", data / "outputs", tmp_path):
+    for bad in (ROOT / "src" / "outputs", data / "outputs", tmp_path):
         with pytest.raises(ValueError, match="outside"):
             generator.safe_output(bad)
     out = tmp_path / "planned"
@@ -106,6 +138,7 @@ def test_reference_parameters_and_t0():
 
 
 def test_cross_resolution_short_pilot(tmp_path):
+    """Check finite initial/first-step fields on both N96 and N128 CPU grids."""
     out = tmp_path / "cross"
     generator.main(["--dataset", "cross-resolution", "--subset", "1000",
                     "--pilot-steps", "1", "--output", str(out), "--execute"])
@@ -117,6 +150,7 @@ def test_cross_resolution_short_pilot(tmp_path):
 
 
 def full_plan(dataset):
+    """Build the complete CPU schedule for a dataset without executing its solver."""
     return generator.make_plan(argparse.Namespace(dataset=dataset, initial_conditions=None,
         subset=None, split="all", pilot_steps=None, batch_size=None, device="cpu"))
 
@@ -124,6 +158,7 @@ def full_plan(dataset):
 # Short-test and cross-resolution time labels are derived from a fixed formula and
 # must match the reader exactly; rounding drift would misalign frames downstream.
 def test_formal_short_time_labels_match_reader_exactly():
+    """Require exact 4.1-6.0 labels and integer solver steps for both coarse test views."""
     for dataset in ("short-test", "cross-resolution"):
         plan = full_plan(dataset)
         for group in plan["groups"]:
@@ -134,7 +169,7 @@ def test_formal_short_time_labels_match_reader_exactly():
 
 def test_native_fno_metadata_reader_interface(tmp_path):
     """Sparse zero-filled MOCK fields test the reader only; not scientific output."""
-    from experiments.formal._shared.common import load_fno_test_dt0p02
+    from experiments.formal._shared.prediction_data import load_fno_test_dt0p02
     plan = full_plan("fno-test")
     path = tmp_path / "MOCK_reader_only.h5"
     group_plan = plan["groups"][0]
@@ -145,15 +180,15 @@ def test_native_fno_metadata_reader_interface(tmp_path):
         group.create_dataset("time", data=generator.stored_times(plan, group_plan))
         group.create_dataset("vorticity", shape=(200,196,64,64), dtype="f4", chunks=(1,1,64,64), fillvalue=0.)
         generator.write_generation_metadata(handle, plan, complete=False)
-    paths = SimpleNamespace(fno_test_dt0p02=path, require=lambda *names: None)
+    paths = SimpleNamespace(fno_test_dt0p02=path, prediction_cohort="four_vortex")
     with pytest.raises(ValueError, match="metadata differs"):
         load_fno_test_dt0p02(paths, 64, [5., 6.])
     with h5py.File(path, "r+") as handle:
         generator.write_generation_metadata(handle, plan, complete=True)
     ids, times, context, report_times, truth = load_fno_test_dt0p02(paths,64,[5.,6.])
-    assert context.shape == (200,46,64,64)
-    assert truth.shape == (200,2,64,64)
-    assert len(ids) == 200
+    assert context.shape == (180,46,64,64)
+    assert truth.shape == (180,2,64,64)
+    assert len(ids) == 180
     np.testing.assert_allclose(report_times,[5.,6.],atol=2e-12,rtol=0)
     with h5py.File(path, "r+") as handle:
         plan["pilot"] = True
@@ -175,6 +210,7 @@ def test_single_trajectory_initial_path_diagnostic(tmp_path, monkeypatch):
     forbidden_calls = []
 
     def forbidden(*args, **kwargs):
+        """Fail if the Torch initial-condition path invokes any patched NumPy FFT."""
         forbidden_calls.append(True)
         raise AssertionError("The clean Torch generation path must not call NumPy FFT")
 

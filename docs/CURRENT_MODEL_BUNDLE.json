@@ -1,0 +1,69 @@
+{
+  "status": "published_github_release",
+  "filename": "GIFT-current-models-20261020.zip",
+  "bytes": 265720161,
+  "sha256": "2b7d9d7c592a5cdeb35a24510350efa5e671abf8cc1f89dd59d82e9f5bfebf95",
+  "bundle_manifest_sha256": "4db5242a321c11e42194211368e18ce27ff2160141e7439ffcba7fcbff7b450a",
+  "model_count": 7,
+  "model_file_count": 9,
+  "training_observations_included": false,
+  "complete_training_resume_state_included": false,
+  "download_url": "https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020/GIFT-current-models-20261020.zip",
+  "release_url": "https://github.com/ArmstrongInCN/GIFT/releases/tag/current-protocol-20261020",
+  "models": {
+    "GIFT": "models/GIFT/branch/model.pt",
+    "fno2d": "models/fno2d/terminal_weights.pt",
+    "fno3d": "models/fno3d/terminal_weights.pt",
+    "anie_ns": "models/anie_ns/best.pt",
+    "uno": "models/uno/terminal_weights.pt",
+    "unet": "models/unet/terminal_weights.pt",
+    "GIFT-N50": "models/GIFT-N50/branch/model.pt"
+  },
+  "model_files": [
+    {
+      "path": "models/anie_ns/best.pt",
+      "bytes": 6988397,
+      "sha256": "3adbe09b412c1a3a214ac06bebde51079298018799b80a685d8cfde4f93abb35"
+    },
+    {
+      "path": "models/fno2d/terminal_weights.pt",
+      "bytes": 3724133,
+      "sha256": "6dc9197637184db3f7c412aa82d0630be8eafaa79054cf0401a876fd04ca3b05"
+    },
+    {
+      "path": "models/fno3d/terminal_weights.pt",
+      "bytes": 28746241,
+      "sha256": "286aeea4c54c6810a43ab572b66309c5c3db16fb9c8323286ad581d3968fc0a1"
+    },
+    {
+      "path": "models/GIFT/branch/model.pt",
+      "bytes": 11339602,
+      "sha256": "fe40059ce9863df79a31e6f3c16e890c577b277519e2fc0a234e4f7014cbf478"
+    },
+    {
+      "path": "models/GIFT/generator/model.pt",
+      "bytes": 298852,
+      "sha256": "a4489e094c1edd74cabc8ead557a7535ddcdbf45cb67f74aa164af86a3c66c31"
+    },
+    {
+      "path": "models/GIFT-N50/branch/model.pt",
+      "bytes": 11336850,
+      "sha256": "fe78259d166941e7cab84859669a0a508a0f580f19c7a2a908809d4adeb3ec93"
+    },
+    {
+      "path": "models/GIFT-N50/generator/model.pt",
+      "bytes": 296100,
+      "sha256": "4b4f95124604e43c6d880fa10dea48d997f576168321b0f9b2e7313ffed7400c"
+    },
+    {
+      "path": "models/unet/terminal_weights.pt",
+      "bytes": 99834735,
+      "sha256": "ee6918cba6991b904cd6ccaa6738dd992325ad8691ffce5919438e32307eb34c"
+    },
+    {
+      "path": "models/uno/terminal_weights.pt",
+      "bytes": 121928759,
+      "sha256": "75334c44d832fab4d5ef525af68c3848ed1392594e1c32885f3c539179919068"
+    }
+  ]
+}

@@ -12,40 +12,43 @@ from experiments.formal._shared.figure_evidence import (
     _crisp_vector_cells, bind_result, error_axis, file_record, finish_figures, symmetric_limit, verify_svg,
 )
 from experiments.formal._shared.plotting import publish_numeric_then_plot
-from experiments.formal.m1_equation_identification import plot_parameters as m1
-from experiments.formal.m2_recursive_prediction import plot_mean_error as m2
-from experiments.formal.m2_recursive_prediction import plot_keyframes as fields
-from experiments.formal.m3_cross_resolution import plot_results as m3
+from experiments.formal.w3_equation_identification import plot_parameters as w3
+from experiments.formal.w1_recursive_prediction import plot_mean_error as w1
+from experiments.formal.w1_recursive_prediction import plot_keyframes as fields
+from experiments.formal.w2_cross_resolution import plot_results as w2
 from scripts.verify_published_results import verify_field_source
 from scripts.verify_results import verify_figures
 
 
 def test_completed_result_binds_numeric_files(tmp_path):
+    """A completed table binds its size/content and input provenance; changed table bytes are rejected."""
     (tmp_path / "summary").mkdir()
     path = tmp_path / "summary/metrics.csv"
     path.write_text("mean\n0.2\n")
-    publish_numeric_then_plot(tmp_path, {"experiment": "M2", "status": "complete",
+    publish_numeric_then_plot(tmp_path, {"experiment": "W1", "status": "complete",
                                       "inputs": {"model": {"path": "private/model.pt", "sha256": "ABC"}}}, [])
-    evidence = bind_result(tmp_path, "M2", ("summary/metrics.csv",))
+    evidence = bind_result(tmp_path, "W1", ("summary/metrics.csv",))
     assert evidence["sources"] == [file_record(path, tmp_path)]
     assert evidence["experiment_inputs"]["model"] == {"sha256": "ABC"}
     # Editing a bound source after the fact must be detected, which is the whole
     # point of binding figures to the measurement they came from.
     path.write_text("mean\n0.1\n")
     with pytest.raises(ValueError, match="differs"):
-        bind_result(tmp_path, "M2", ("summary/metrics.csv",))
+        bind_result(tmp_path, "W1", ("summary/metrics.csv",))
 
 
 def test_unfinished_result_rejected(tmp_path):
-    (tmp_path / "report.json").write_text(json.dumps({"experiment": "M3", "status": "running"}))
+    """Plots must not treat an unfinished numerical report as completed evidence."""
+    (tmp_path / "report.json").write_text(json.dumps({"experiment": "W2", "status": "running"}))
     with pytest.raises(ValueError, match="completed"):
-        bind_result(tmp_path, "M3", ("summary/metrics.csv",))
+        bind_result(tmp_path, "W2", ("summary/metrics.csv",))
 
 
 def test_range_kept_or_expanded_without_clipping():
     # A prespecified range is kept when it already contains the data, expanded
     # when it would clip it, and refused outright for values that cannot be
     # plotted on a relative-error axis.
+    """Error/color ranges retain the design defaults until expansion is needed; zero errors remain visible."""
     assert error_axis([0.02, 0.5], (0.015, 0.55))["limits"] == (0.015, 0.55)
     axis = error_axis([0.001, 20.0], (0.015, 0.55))
     assert axis["limits"][0] < 0.001 and axis["limits"][1] > 20
@@ -57,12 +60,13 @@ def test_range_kept_or_expanded_without_clipping():
             error_axis(values, (0.015, 0.55))
 
 
-def test_m2_nonmonotonic_large_errors_are_not_hidden(tmp_path):
+def test_w1_nonmonotonic_large_errors_are_not_hidden(tmp_path):
+    """A synthetic large, nonmonotonic curve must be fully visible in an editable SVG."""
     rows = [{"method": method, "absolute_time": float(time), "mean_relative_l2": value,
              "complete_population": True}
-            for method in m2.METHOD_ORDER
-            for time, value in zip(m2.REPORT_TIMES, [0, 0.7, 0.3, 0.5, 1, 2, 1.8])]
-    figure = m2.draw(rows)
+            for method in w1.METHOD_ORDER
+            for time, value in zip(w1.REPORT_TIMES, [0, 0.7, 0.3, 0.5, 1, 2, 1.8])]
+    figure = w1.draw(rows)
     assert figure.axes[0].get_ylim()[1] > 2
     output = tmp_path / "mean.svg"
     figure.savefig(output)
@@ -73,17 +77,18 @@ def test_m2_nonmonotonic_large_errors_are_not_hidden(tmp_path):
 def test_curve_stops_at_last_complete_population():
     """A finite-subset mean is never drawn in place of the full population."""
     rows = []
-    for method in m2.METHOD_ORDER:
-        for index, time in enumerate(m2.REPORT_TIMES):
+    for method in w1.METHOD_ORDER:
+        for index, time in enumerate(w1.REPORT_TIMES):
             complete = method != "GIFT-Lite" or time <= 6.5
             rows.append({"method": method, "absolute_time": float(time),
                          "mean_relative_l2": 0.01 * (index + 1),
                          "complete_population": complete})
-    figure = m2.draw(rows)
+    figure = w1.draw(rows)
     axis = figure.axes[0]
 
     def reach(method):
-        colour = m2.STYLES[method][0]
+        """Find the last plotted time for one method by its stable curve color."""
+        colour = w1.STYLES[method][0]
         lines = [line for line in axis.get_lines() if line.get_color() == colour]
         assert lines, f"{method} series missing from the axis"
         return max(float(np.max(line.get_xdata())) for line in lines)
@@ -97,39 +102,40 @@ def test_curve_stops_at_last_complete_population():
 def test_draw_requires_declared_population_completeness():
     """Rows without the declared flag are rejected rather than silently drawn."""
     rows = [{"method": method, "absolute_time": float(time), "mean_relative_l2": value}
-            for method in m2.METHOD_ORDER
-            for time, value in zip(m2.REPORT_TIMES, [0, 0.7, 0.3, 0.5, 1, 2, 1.8])]
+            for method in w1.METHOD_ORDER
+            for time, value in zip(w1.REPORT_TIMES, [0, 0.7, 0.3, 0.5, 1, 2, 1.8])]
     with pytest.raises(KeyError):
-        m2.draw(rows)
+        w1.draw(rows)
 
 
-def test_m2_field_limits_are_prespecified_and_refuse_to_clip():
-    """The colour range is fixed per population; a clipping keyframe is refused."""
+def test_w1_field_limits_are_prespecified_and_refuse_to_clip():
+    """Keep the population's preferred color range, expanding it to include finite keyframes."""
     truth = np.asarray([23.1])
     residual = {"a": np.asarray([-20.4])}
     limits = fields.verify_color_limits(truth, {"a": np.asarray([-19.2])}, residual,
                                         field_limit=25.0, residual_limit=21.0)
     assert limits["field_limit"] == 25.0
     assert limits["residual_limit"] == 21.0
-    with pytest.raises(RuntimeError):
-        fields.verify_color_limits(truth, {"a": np.asarray([-19.2])}, residual,
-                                   field_limit=19.0, residual_limit=21.0)
+    expanded = fields.verify_color_limits(truth, {"a": np.asarray([-19.2, np.nan])}, residual,
+                                         field_limit=19.0, residual_limit=21.0)
+    assert expanded["field_limit"] == 24.0
     # The paper's own tick tuples survive for its constants, and any other
     # prespecified range gets five evenly spaced ticks on the same symmetric scale.
     assert fields.colour_ticks(19.0) == (-19.0, -10.0, 0.0, 10.0, 19.0)
     assert fields.colour_ticks(25.0) == (-25.0, -12.5, 0.0, 12.5, 25.0)
 
 
-def test_m2_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):
+def test_w1_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):
     # A synthetic N64 renderer fixture checks exported artifacts, not accuracy.
+    """The final vector package must preserve its exact field arrays and catalogue every exported panel once."""
     result = tmp_path / "numeric_fixture"
     (result / "raw").mkdir(parents=True)
     (result / "summary").mkdir()
     raw = result / "raw/predictions.h5"
     raw.write_bytes(b"renderer unit fixture; numeric loading is replaced below")
     (result / "summary/metrics.csv").write_text("renderer_unit_fixture\n", encoding="utf-8")
-    publish_numeric_then_plot(result, {"experiment": "M2", "status": "complete"}, [])
-    evidence = bind_result(result, "M2", ("raw/predictions.h5", "summary/metrics.csv"))
+    publish_numeric_then_plot(result, {"experiment": "W1", "status": "complete"}, [])
+    evidence = bind_result(result, "W1", ("raw/predictions.h5", "summary/metrics.csv"))
     truth = np.arange(4 * 64 * 64, dtype=np.float64).reshape(4, 64, 64) / 1024 + 1
     predictions, residuals, errors = {}, {}, {}
     for index, spec in enumerate(fields.METHODS):
@@ -157,7 +163,7 @@ def test_m2_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):
             slug = str(spec["slug"])
             np.testing.assert_array_equal(archive[f"prediction_{slug}"], predictions[slug])
             np.testing.assert_array_equal(archive[f"residual_{slug}"], residuals[slug])
-    verify_figures(output, {"experiment": "M2", "report_sha256": evidence["report_sha256"]})
+    verify_figures(output, {"experiment": "W1", "report_sha256": evidence["report_sha256"]})
     manifest = json.loads((output / "figure_manifest.json").read_text(encoding="utf-8"))
     assert all(value > 0 for value in manifest["vector_cell_rendering"]["groups_per_svg"].values())
     assert {row["path"] for row in manifest["files"]} == {
@@ -166,6 +172,7 @@ def test_m2_keyframe_bundle_uses_only_final_manifest(tmp_path, monkeypatch):
 
 
 def test_svg_rejects_embedded_raster(tmp_path):
+    """Raster content must fail the vector-export check."""
     path = tmp_path / "bad.svg"
     path.write_text('<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/png;base64,"/></svg>')
     with pytest.raises(ValueError, match="raster"):
@@ -173,6 +180,7 @@ def test_svg_rejects_embedded_raster(tmp_path):
 
 
 def test_vector_cell_edge_hint_changes_no_paths_colours_or_text(tmp_path):
+    """Crisp-edge rendering hints may change group attributes only and must be idempotent."""
     path = tmp_path / "cells.svg"
     original = (b'<svg xmlns="http://www.w3.org/2000/svg"><g id="QuadMesh_1">'
         b'<path d="M 0 0 L 1 0 L 1 1 Z" fill="#123456"/></g>'
@@ -187,19 +195,21 @@ def test_vector_cell_edge_hint_changes_no_paths_colours_or_text(tmp_path):
 
 
 def test_committed_figure_is_not_rewritten(tmp_path):
+    """An already committed figure manifest must block a replacement without changing its SVG bytes."""
     path = tmp_path / "cells.svg"
     path.write_bytes(b'<g id="QuadMesh_1">')
     (tmp_path / "figure_manifest.json").write_text('{}', encoding="utf-8")
     before = path.read_bytes()
     with pytest.raises(FileExistsError, match="committed"):
-        finish_figures(tmp_path, {}, Path(m3.__file__), {})
+        finish_figures(tmp_path, {}, Path(w2.__file__), {})
     assert path.read_bytes() == before
 
 
-def test_m3_vector_cells_preserve_upper_origin(tmp_path):
+def test_w2_vector_cells_preserve_upper_origin(tmp_path):
+    """Vector cells must retain the original array values and upper-origin display coordinates."""
     figure, axis = plt.subplots()
     array = np.arange(16).reshape(4, 4)
-    mesh = m3.draw_vector_field(axis, array, cmap="RdBu_r", vmin=0, vmax=15)
+    mesh = w2.draw_vector_field(axis, array, cmap="RdBu_r", vmin=0, vmax=15)
     np.testing.assert_array_equal(np.asarray(mesh.get_array()).reshape(4, 4), array)
     assert axis.get_ylim() == (3.5, -0.5)
     assert not axis.images
@@ -209,39 +219,42 @@ def test_m3_vector_cells_preserve_upper_origin(tmp_path):
     assert verify_svg(path)["embedded_raster_images"] == 0
 
 
-def test_m3_no_method_ordering_gate(tmp_path):
+def test_w2_no_method_ordering_gate(tmp_path):
     # Deliberately give GIFT the largest error. This is a renderer unit fixture,
     # not an experimental measurement or a claim about model performance.
+    """Valid plotted measurements remain accepted when their errors reverse any expected ranking."""
     data = {"times": 5 + np.arange(11) * 0.1, "curves": {}, "curve_seeds": {}}
-    for grid in m3.RESOLUTIONS:
+    for grid in w2.RESOLUTIONS:
         seeds = np.stack([np.linspace(0, 2 + index * 0.1, 11) for index in range(3)])
         data["curve_seeds"][grid] = {"GIFT": seeds, "GIFT-Lite": seeds * 0.8}
         data["curves"][grid] = {"GIFT": seeds.mean(0), "GIFT-Lite": seeds.mean(0) * 0.8, "FNO-2D": np.linspace(0, .2, 11),
                                 "FNO-3D": np.linspace(0, .3, 11)}
-    figure = m3.draw_time_curves_only(data)
+    figure = w2.draw_time_curves_only(data)
     assert all(axis.get_ylim()[1] > 2.2 for axis in figure.axes)
     figure.savefig(tmp_path / "curves.svg")
     plt.close(figure)
-    finish_figures(tmp_path, {"test_fixture": True}, Path(m3.__file__), {})
+    finish_figures(tmp_path, {"test_fixture": True}, Path(w2.__file__), {})
     assert json.loads((tmp_path / "figure_manifest.json").read_text())["status"] == "complete"
 
 
-def m1_fixture():
+def w3_fixture():
+    """Create an exact-reference 45-row parameter table for display tests; these are synthetic estimates."""
     rows = []
-    for noise, condition in [(0, "noise_000"), (1, "noise_001"), (10, "noise_010")]:
-        for method in m1.METHODS:
+    for noise, condition in [(0, "noise_000"), (1, "noise_001"), (5, "noise_005")]:
+        for method in w3.METHODS:
             for parameter, reference in [("nu", .01), ("beta", 1.0), ("gamma", 1.0)]:
-                rows.append(dict(experiment="M1", condition=condition, noise_percent=noise,
+                rows.append(dict(experiment="W3", condition=condition, noise_percent=noise,
                                  method=method, parameter=parameter, estimate=reference,
                                  reference=reference, absolute_error=0.0, relative_error_percent=0.0))
     return pd.DataFrame(rows)
 
 
-def test_m1_zero_error_is_visible_and_not_floored(tmp_path):
-    frame = m1_fixture()
+def test_w3_zero_error_is_visible_and_not_floored(tmp_path):
+    """Zero percentage errors must remain zero on symlog axes with readable parameter symbols."""
+    frame = w3_fixture()
     frame.to_csv(tmp_path / "metrics.csv", index=False)
-    checked = m1.load_and_validate(tmp_path / "metrics.csv")
-    figure = m1.draw(checked)
+    checked = w3.load_and_validate(tmp_path / "metrics.csv")
+    figure = w3.draw(checked)
     assert all(axis.get_yscale() == "symlog" for axis in figure.axes)
     assert all(axis.get_ylim()[0] == 0 for axis in figure.axes)
     np.testing.assert_array_equal(checked["relative_error_percent"], np.zeros(45))
@@ -255,8 +268,9 @@ def test_m1_zero_error_is_visible_and_not_floored(tmp_path):
 
 
 @pytest.mark.parametrize("corruption", ["duplicate", "mismatch", "nan"])
-def test_m1_corrupt_metrics_rejected(tmp_path, corruption):
-    frame = m1_fixture()
+def test_w3_corrupt_metrics_rejected(tmp_path, corruption):
+    """Changed estimates, references, errors or duplicate rows must fail table validation."""
+    frame = w3_fixture()
     if corruption == "duplicate":
         frame.iloc[1] = frame.iloc[0]
     elif corruption == "mismatch":
@@ -265,4 +279,33 @@ def test_m1_corrupt_metrics_rejected(tmp_path, corruption):
         frame.loc[0, "estimate"] = np.nan
     frame.to_csv(tmp_path / "bad.csv", index=False)
     with pytest.raises(ValueError):
-        m1.load_and_validate(tmp_path / "bad.csv")
+        w3.load_and_validate(tmp_path / "bad.csv")
+
+
+@pytest.mark.parametrize("complete_points", [0, 1])
+def test_failed_population_with_zero_or_one_complete_point_can_be_drawn(complete_points):
+    """Sparse complete-population points must draw without interpolation failure or global method mutation."""
+    rows = [{"method": "GIFT", "absolute_time": float(time),
+             "mean_relative_l2": 0.0 if index < complete_points else None,
+             "complete_population": index < complete_points}
+            for index, time in enumerate(w1.REPORT_TIMES)]
+    before = w1.METHOD_ORDER
+    figure = w1.draw(rows, methods=["GIFT"])
+    assert w1.METHOD_ORDER == before
+    assert figure.axes[0].get_legend().get_texts()[0].get_text() == "GIFT"
+    plt.close(figure)
+
+
+def test_large_field_binding_uses_recorded_digest_without_full_scan(tmp_path, monkeypatch):
+    """Ordinary plot binding may read an HDF5 size but must not claim a full digest verification."""
+    (tmp_path / "raw").mkdir()
+    raw = tmp_path / "raw/predictions.h5"
+    raw.write_bytes(b"fixture")
+    publish_numeric_then_plot(tmp_path, {"experiment": "S3", "status": "complete"}, [])
+    from experiments.formal._shared import figure_evidence as module
+    original = module.sha256
+    monkeypatch.setattr(module, "sha256", lambda path: pytest.fail("field file rescanned")
+                        if path == raw else original(path))
+    evidence = bind_result(tmp_path, "S3", ("raw/predictions.h5",))
+    assert evidence["integrity_verified"] is False
+    assert evidence["sources"][0]["bytes"] == len(b"fixture")

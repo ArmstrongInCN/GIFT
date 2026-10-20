@@ -43,6 +43,7 @@ from experiments.formal._shared.gift_regimes import add_lite_arguments, resolve_
 
 
 def parse_args() -> argparse.Namespace:
+    """Select completed GIFT regimes and batches for paired correction-on/off rollouts."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, default=default_project_root())
     parser.add_argument("--output", type=Path)
@@ -124,11 +125,13 @@ def _report_without_step_matrices(
 
 
 def _raw_dataset_name(scope: str, quantity: str) -> str:
+    """Name aggregate and component correction matrices consistently in the raw HDF5 file."""
     prefix = "correction" if scope == "aggregate" else f"correction_{scope}"
     return f"{prefix}_{quantity}"
 
 
 def _correction_summary(value: dict[str, Any]) -> dict[str, Any]:
+    """Retain pixel, step, trajectory and gate counts separately for aggregate/P21/Q21 reports."""
     components = value["components"]
     fields = (
         "trigger_pixel_events",
@@ -157,6 +160,7 @@ def _summary_row(
     absolute_time: float,
     values: np.ndarray,
 ) -> dict[str, Any]:
+    """Create one S2 time/arm/seed population row with lead time measured from t=5."""
     stats = summarize(values)
     return {
         "experiment": "S2",
@@ -173,6 +177,12 @@ def _summary_row(
 
 
 def main() -> None:
+    """Evaluate paired correction-on/off arms from identical models and observed anchors.
+
+    The independent population is never selected by observed failures. Raw
+    [step,trajectory] triggers/gates and all prediction failures remain available
+    so reported effects can be traced to the actual correction events.
+    """
     args = parse_args()
     paths = ProjectPaths.from_root(args.project_root)
     if args.low_model is not None:
@@ -231,13 +241,7 @@ def main() -> None:
                     metrics = metric_arrays(result.prediction, truth)
                     all_metrics[(cohort_name, seed, arm)] = metrics
                     arm_group = seed_group.create_group(arm)
-                    arm_group.create_dataset(
-                        "prediction",
-                        data=result.prediction,
-                        compression="gzip",
-                        compression_opts=4,
-                        shuffle=True,
-                    )
+                    session.save_prediction(arm_group, f"{cohort_name}_gift_{seed}_{arm}", result.prediction)
                     for name, value in metrics.items():
                         arm_group.create_dataset(name, data=value)
                     arm_group.create_dataset(

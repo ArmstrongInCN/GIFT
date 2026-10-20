@@ -1,8 +1,9 @@
-"""Generate the S4 population once; preserve own-attempt ETDRK4 checkpoints.
+"""Generate the S3 population once; preserve own-attempt ETDRK4 checkpoints.
 
-Only the initial-condition distribution differs from the M2 physical solver.
-The three disjoint splits are fixed before generation. Output is a new external
-directory; use --resume only for that directory's unchanged committed attempt.
+Only the initial-condition distribution differs from the W1 physical solver.
+The disjoint training, validation and test populations are fixed before
+generation. Select a new output directory or resume its saved solver state
+with the same generation parameters; source/environment metadata is descriptive.
 """
 import argparse
 import json
@@ -20,10 +21,15 @@ from scripts import generate_data as generation
 
 
 def make_plan(args):
-    # S4 partitions the Gaussian cohort into the formal disjoint splits.
+    # S3 partitions the Gaussian cohort into the formal disjoint splits.
+    """Build the fixed S3 split and 0.02-second observation schedule on the N64 grid.
+
+    The checkpoint-validation rows and auxiliary validation rows stay separate.
+    Subsets and short pilots are labelled and do not become a full S3 package.
+    """
     split = partitions(GAUSSIAN)
-    # validation_aux holds checkpoint-validation IDs 2220-2239 (the last 20
-    # validation rows), kept separate so neither validation nor test trains.
+    # validation contains checkpoint-selection IDs 2220-2239; validation_aux
+    # contains IDs 2240-2259. Both remain separate from training and test rows.
     ids_by_group = {"training": split['training'],
                    "validation": split['checkpoint_validation'],
                    "validation_aux": split['validation'][20:], "test": split['test']}
@@ -39,11 +45,11 @@ def make_plan(args):
         groups.append(dict(name=name, split=name, grid=64, batch_size=args.batch_size,
                            steps=steps, ids=ids))
     if not groups or (chosen is not None and found != chosen):
-        raise ValueError("Subset contains IDs outside the prespecified S4 population")
+        raise ValueError("Subset contains IDs outside the prespecified S3 population")
     # prediction_cohort and initial_condition record the Gaussian law and cohort,
     # so the later package and append steps can bind the exact initial-condition
     # distribution without re-deriving it from the raw fields.
-    return dict(schema='gift.gaussian-generation.v1', dataset='s4-gaussian',
+    return dict(schema='gift.gaussian-generation.v1', dataset='s3-gaussian',
         prediction_cohort=GAUSSIAN, initial_condition=specification(),
         pilot=args.pilot_steps is not None or args.subset is not None,
         subset=args.subset, dt=generation.DT, device=args.device, groups=groups,
@@ -61,17 +67,23 @@ def make_plan(args):
 # Build the spectral initial state for a batch directly from the Gaussian
 # initial-condition law; no reference solution or trained weights are consulted.
 def build_state(group, start, end, device):
+    """Create complex Fourier initial states for IDs in the current Gaussian batch.
+
+    The seeded initial-condition law determines each field independently of
+    batch order; no reference trajectory or trained model is read.
+    """
     import torch
     return torch.from_numpy(initial_hat(group['ids'][start:end])).to(device)
 
 
 def main(argv=None):
+    """Plan or resume Gaussian initial-condition integration through the common NS solver."""
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--device', choices=('cpu','cuda','cuda:0'), default='cpu')
     parser.add_argument('--batch-size', type=int, default=50)
     parser.add_argument('--checkpoint-every', type=int, default=100)
-    parser.add_argument('--subset', help='Diagnostic selection, never a full S4 data package')
+    parser.add_argument('--subset', help='Diagnostic selection, never a full S3 data package')
     parser.add_argument('--pilot-steps', type=int)
     parser.add_argument('--stop-after-steps', type=int)
     parser.add_argument('--resume', action='store_true')

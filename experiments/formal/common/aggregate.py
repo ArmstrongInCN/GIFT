@@ -1,4 +1,4 @@
-"""Create a read-only-derived, create-only union of the six summary CSV files."""
+"""Create a read-only-derived, create-only union of the five summary CSV files."""
 
 from __future__ import annotations
 
@@ -21,20 +21,20 @@ from experiments.formal._shared.common import (
 
 
 RESULT_NAMES = (
-    # The six experiments whose summary CSV files live under results/formal and
-    # share the same column family. S4 is absent on purpose: it is evaluated on
+    # The five experiments whose summary CSV files live under results/formal and
+    # share the same column family. S3 is absent on purpose: it is evaluated on
     # a second initial-condition population and is summarised in its own
     # directory, so folding it in here would mix two populations in one table.
-    ("M1", "M1_equation_identification"),
-    ("M2", "M2_recursive_prediction"),
-    ("M3", "M3_cross_resolution"),
+    ("W3", "W3_equation_identification"),
+    ("W1", "W1_recursive_prediction"),
+    ("W2", "W2_cross_resolution"),
     ("S1", "S1_high_frequency_branch"),
     ("S2", "S2_recursive_local_correction"),
-    ("S3", "S3_seed_stability"),
 )
 
 
 def parse_args() -> argparse.Namespace:
+    """Select the formal result root and a new aggregate output directory."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, default=default_project_root())
     parser.add_argument("--results-root", type=Path)
@@ -43,6 +43,11 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """Concatenate the five formal summary tables without recomputing their scientific values.
+
+    The union preserves experiment-specific columns with blank absent values. S3
+    remains separate because its independent initial-condition population differs.
+    """
     args = parse_args()
     root = args.project_root.resolve(strict=True)
     results = (args.results_root or root / "results" / "formal").resolve(strict=True)

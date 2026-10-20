@@ -1,0 +1,425 @@
+{
+  "status": "complete",
+  "evidence": {
+    "experiment": "W1",
+    "cohort": "old_test",
+    "report_sha256": "8D6FA2D36D588829815369110665AA6A8163CC81F923B0700F9424C8BF6AA61F",
+    "numeric_report_path": "source-record:e9641e6bbde408413e34",
+    "sources": [
+      {
+        "path": "summary/metrics.csv",
+        "bytes": 2750,
+        "sha256": "0E0E87CA01A7D181B4CDE5BCC045CBD8FCBF28EB8C3A7BA7DB736FBB5EC6B1A6"
+      }
+    ],
+    "integrity_verified": true,
+    "experiment_inputs": {
+      "raw_provenance": [
+        {
+          "label": "GIFT",
+          "raw_method_key": "GIFT",
+          "panel_slug": "gift",
+          "recorded_raw_prediction_file": "raw\\GIFT.h5",
+          "actual_read_path": "source-record:9affcc6fa63753203287",
+          "raw_prediction_sha256": "47EFD6D46777A8297A1DBC19CDA269A3F297080C9CFFAE30A2ED634E5CE54BF4",
+          "reused_measurement_from": "source-record:772a6908a2a78bce3270",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:da5def62e61780f6ee3e",
+          "checkpoint_from_raw_attribute": "source-record:da5def62e61780f6ee3e",
+          "checkpoint_sha256_recorded": "0b5f245e2778f02b9464b97f42f2a126dbf21fb36f8df132d225abb57eb721ff",
+          "seed": 20260820
+        },
+        {
+          "label": "GIFT-N50",
+          "raw_method_key": "GIFT-N50",
+          "panel_slug": "gift_n50",
+          "recorded_raw_prediction_file": "raw\\GIFT-N50.h5",
+          "actual_read_path": "source-record:6df988c6124f6a7f2b49",
+          "raw_prediction_sha256": "9F226301DD9571449DB4D0CDB3843FC4C94FED056683C94DBE97AB4917192C77",
+          "reused_measurement_from": "source-record:772a6908a2a78bce3270",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:93876fd25b7bf2ac36c5",
+          "checkpoint_from_raw_attribute": "source-record:93876fd25b7bf2ac36c5",
+          "checkpoint_sha256_recorded": "09b83b4151150ad883fbffa1b951b99929bb1d11c7a35ac010ad9cda8c0f37d6",
+          "seed": 20260820
+        },
+        {
+          "label": "FNO-2D",
+          "raw_method_key": "fno2d",
+          "panel_slug": "fno2d",
+          "recorded_raw_prediction_file": "raw\\fno2d.h5",
+          "actual_read_path": "source-record:e2efeba7764678cf99da",
+          "raw_prediction_sha256": "03FAADA83887C3C6B6620F4E08DE7B6E5F6898B1F3D4E3E1CE4E84DADE3DD688",
+          "reused_measurement_from": "source-record:772a6908a2a78bce3270",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:48c635e3acd46989edc5",
+          "checkpoint_from_raw_attribute": "source-record:48c635e3acd46989edc5",
+          "checkpoint_sha256_recorded": "678a4005208091486f270f841dc219205c284cec421b445a498bc5354323ce3a",
+          "seed": 0
+        },
+        {
+          "label": "FNO-3D",
+          "raw_method_key": "fno3d",
+          "panel_slug": "fno3d",
+          "recorded_raw_prediction_file": "raw\\fno3d.h5",
+          "actual_read_path": "source-record:3eab0326ca2806ffe1de",
+          "raw_prediction_sha256": "B2DBA47DE0E3D97FB3FA84200700579A23E1ABF01305BBF4B99C7397BC58EFCC",
+          "reused_measurement_from": "source-record:772a6908a2a78bce3270",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:feb222b43c791636dd3e",
+          "checkpoint_from_raw_attribute": "source-record:feb222b43c791636dd3e",
+          "checkpoint_sha256_recorded": "0d194bd96bd205fb5a0da1de794fee945ad52e71b87d6ab45d040a31cee28817",
+          "seed": 0
+        },
+        {
+          "label": "U-NO",
+          "raw_method_key": "uno",
+          "panel_slug": "uno",
+          "recorded_raw_prediction_file": "raw\\uno.h5",
+          "actual_read_path": "source-record:fbac707e9c9e6ea389fa",
+          "raw_prediction_sha256": "29E2985C75255307E56EA9580B94A1F21AD671977F8ECBA3FA608B174A676F58",
+          "reused_measurement_from": "source-record:772a6908a2a78bce3270",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:3295cc23629fe9987695",
+          "checkpoint_from_raw_attribute": "source-record:3295cc23629fe9987695",
+          "checkpoint_sha256_recorded": "7075041cf3ec5048a0f618dca15bce2c153be9d67b153a71ad1e88d33416140c",
+          "seed": 0
+        },
+        {
+          "label": "U-Net",
+          "raw_method_key": "unet",
+          "panel_slug": "unet",
+          "recorded_raw_prediction_file": "raw\\unet.h5",
+          "actual_read_path": "source-record:f6848da6402e4adb64ea",
+          "raw_prediction_sha256": "E8B2A062E3B4E2FBDCC83612EE9809C3C87AA982643DF3C0DDAD9F8FB044FBA5",
+          "reused_measurement_from": "source-record:772a6908a2a78bce3270",
+          "new_inference_performed_in_measurement": false,
+          "checkpoint_from_report": "source-record:3a6d6499ec75565249e2",
+          "checkpoint_from_raw_attribute": "source-record:3a6d6499ec75565249e2",
+          "checkpoint_sha256_recorded": "e304d6977ef236c7a9bdf6814a1bda29ddd42b94d23be3adc21889cf9b7f0a61",
+          "seed": 0
+        },
+        {
+          "label": "ANIE",
+          "raw_method_key": "anie_ns",
+          "panel_slug": "anie",
+          "recorded_raw_prediction_file": "raw/anie_ns.h5",
+          "actual_read_path": "source-record:7e8977720d0e5e8da79e",
+          "raw_prediction_sha256": "452798DE61393A4A6F855386DABC68E9F3CADF0A5D8360C688E9518366F6710F",
+          "reused_measurement_from": null,
+          "new_inference_performed_in_measurement": true,
+          "checkpoint_from_report": "source-record:bda3e1979cf57969ce4d",
+          "checkpoint_from_raw_attribute": "source-record:bda3e1979cf57969ce4d",
+          "checkpoint_sha256_recorded": "12668253562c19ebf7538c31599d5639c771b066231c1fb2c93fee4c9823c379",
+          "seed": 7
+        }
+      ]
+    },
+    "source_numeric_report_sha256": "0BB75FD6911EFA0132ADA5AA3AF7EEB6067E05F3F251061197C80760C623DE42",
+    "source_figure_manifest_sha256": "FABB4B7C935EB0E736ED024BCC901C2B85F957D0833F6F8C4C33B78C372C9ACC"
+  },
+  "details": {
+    "cohort": "old_test",
+    "trajectory_count": 180,
+    "trajectory_id": 1045,
+    "renderer_sources": [
+      {
+        "path": "source-record:1c90d7cc3953e4d1c352",
+        "sha256": "0225218A88C9B81B49ED21E5A99E6A98C1BFEF2371B9865D122A2310DFA6AEEA",
+        "original_commit": "eff64d2682dc856e8b35aaae3b7b37320a3f301f",
+        "original_committed_file_sha256": "AC58FC81242ED13DC944D89349746A58F924F13419BE1E26E0A51354948D1A6D",
+        "function": "draw",
+        "function_source_utf8_lf_sha256": "32FB0ADB93700853A48130D7E0B34D21A7D147EF4840108F375BE7F0A718015D"
+      },
+      {
+        "path": "source-record:f9b24a3fa0a1c01a686f",
+        "sha256": "07D7D0DDD74C85727C18FF18A57A6DE2D07EB62F2312ABEA7575254B2A1C97C1",
+        "original_commit": "eff64d2682dc856e8b35aaae3b7b37320a3f301f",
+        "original_committed_file_sha256": "B25D23EC56E7F7290311011EF3F483093EF247942CC08EBAFBEA4D89E7605335",
+        "function": "draw_composite",
+        "function_source_utf8_lf_sha256": "B9E2CAF09534380090A5C3D5D6BD6E96E58FA626C0E510DBA31BD6AA0ED6E19B"
+      }
+    ],
+    "methods": [
+      "GIFT",
+      "GIFT-N50",
+      "FNO-2D",
+      "FNO-3D",
+      "U-NO",
+      "U-Net",
+      "ANIE"
+    ],
+    "method_specs": [
+      {
+        "label": "GIFT",
+        "slug": "gift",
+        "group": "GIFT"
+      },
+      {
+        "label": "GIFT-N50",
+        "slug": "gift_n50",
+        "group": "GIFT-N50"
+      },
+      {
+        "label": "FNO-2D",
+        "slug": "fno2d",
+        "group": "fno2d"
+      },
+      {
+        "label": "FNO-3D",
+        "slug": "fno3d",
+        "group": "fno3d"
+      },
+      {
+        "label": "U-NO",
+        "slug": "uno",
+        "group": "uno"
+      },
+      {
+        "label": "U-Net",
+        "slug": "unet",
+        "group": "unet"
+      },
+      {
+        "label": "ANIE",
+        "slug": "anie",
+        "group": "anie_ns"
+      }
+    ],
+    "requested_report_times": [
+      5.0,
+      5.5,
+      6.0,
+      6.5,
+      7.0,
+      7.5,
+      8.0
+    ],
+    "actual_report_times": [
+      5.0,
+      5.48,
+      6.0,
+      6.48,
+      7.0,
+      7.48,
+      8.0
+    ],
+    "report_time_indices": [
+      0,
+      12,
+      25,
+      37,
+      50,
+      62,
+      75
+    ],
+    "key_times": [
+      5.0,
+      6.0,
+      7.0,
+      8.0
+    ],
+    "key_time_indices": [
+      0,
+      25,
+      50,
+      75
+    ],
+    "source_rows": 49,
+    "curve": "seven actual measured nodes;601-point PCHIP visual guide; no additional evaluations",
+    "curve_canvas_mm": [
+      183.0,
+      96.0
+    ],
+    "curve_axis_count": 1,
+    "curve_y_limits": [
+      0.0,
+      1.5211900962257343
+    ],
+    "legend": "original top,ncol3",
+    "styles": {
+      "GIFT": [
+        "#1246D6",
+        "o",
+        "-",
+        2.5,
+        10
+      ],
+      "FNO-2D": [
+        "#8B3FE0",
+        "s",
+        "-",
+        1.5,
+        5
+      ],
+      "FNO-3D": [
+        "#00A896",
+        "D",
+        "-",
+        1.5,
+        4
+      ],
+      "U-NO": [
+        "#29A82C",
+        "^",
+        "-",
+        1.8,
+        8
+      ],
+      "U-Net": [
+        "#FF7A00",
+        "v",
+        "-",
+        1.6,
+        6
+      ],
+      "GIFT-N50": [
+        "#19C2F5",
+        "o",
+        "-",
+        1.8,
+        9
+      ],
+      "ANIE": [
+        "#D62728",
+        "X",
+        "-",
+        1.6,
+        7
+      ]
+    },
+    "error_bars": "none; one training model per method",
+    "primary_metric": "unchanged future75 mean per-frame relative L2; known initial frame excluded",
+    "layout": {
+      "row_order": [
+        "Reference",
+        "GIFT",
+        "GIFT-N50",
+        "FNO-2D",
+        "FNO-3D",
+        "U-NO",
+        "U-Net",
+        "ANIE"
+      ],
+      "axis_count": 74,
+      "field_columns": [
+        5.0,
+        6.0,
+        7.0,
+        8.0
+      ],
+      "signed_residual_columns": [
+        5.0,
+        6.0,
+        7.0,
+        8.0
+      ],
+      "arrangement": "scalar_left_residual_right",
+      "origin": "lower; original pcolormesh(values),ylim(0,64)",
+      "reference_residual": "original grey zero placeholders",
+      "two_horizontal_colorbars": true
+    },
+    "color_scales": {
+      "field_limit": 19.0,
+      "residual_limit": 22.0,
+      "field_cmap": "RdBu_r",
+      "residual_cmap": "PuOr",
+      "residual_definition": "signed_prediction_minus_truth",
+      "clipped_values": 0,
+      "selected_field_maximum_absolute_value": 16.495975494384766,
+      "selected_residual_maximum_absolute_value": 21.354568481445312
+    },
+    "adaptations": [
+      "explicit additional ANIE style/row; GIFT-N50 reuses original Lite light-blue style",
+      "actual .04-node ticks and markers; unavailable half-second nodes use nearest,ties earlier",
+      "per-method raw-file adapter with full hashes; only ANIE exempted from t5==truth check",
+      "locked shared residual22 instead of21 because old-test FNO3D exceeds21; no clipping",
+      "PNG saved from same original figure; original renderer defaults preserved"
+    ],
+    "anie_initial_relative_l2": 0.8770258227404675,
+    "inference_performed_for_plotting": false
+  },
+  "renderer": {
+    "path": "plot_w1_original_style.py",
+    "sha256": "19992CFBB5F93C0323AB4D9FD6D6FB0A7BFB7115348F153BD8E61F891262D0A5"
+  },
+  "shared_renderer_sha256": "B65CB31F45A69A0209BD9734E0CC252DE278EF343D3A1A4AA1D0FB9324C3CCC5",
+  "vector_cell_rendering": {
+    "policy": "crispEdges on QuadMesh groups only",
+    "groups_per_svg": {
+      "mean_relative_l2_vs_time.svg": 0,
+      "traj1045_recursive_keyframes.svg": 62
+    }
+  },
+  "svg_checks": {
+    "mean_relative_l2_vs_time.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "503.255731pt",
+      "height": "253.982876pt"
+    },
+    "traj1045_recursive_keyframes.svg": {
+      "editable_text": true,
+      "embedded_raster_images": 0,
+      "width": "518.740157pt",
+      "height": "506.456693pt"
+    }
+  },
+  "files": [
+    {
+      "path": "mean_relative_l2_vs_time.svg",
+      "bytes": 32683,
+      "sha256": "64337DD900FAE4B142703C065BD55A9B88D5B7991ABD069B94B7E5A13A3D9901"
+    },
+    {
+      "path": "panel_metrics.csv",
+      "bytes": 3177,
+      "sha256": "B489D87728AAAF0C5F4F34631C4E73348ACF082134F22B5088667744548FAD6F"
+    },
+    {
+      "path": "source_data.csv",
+      "bytes": 3696,
+      "sha256": "7CA520C6372166E8D4D0383D2CD463AEE2C9C0AA082406600A496EC56F3D8C73"
+    },
+    {
+      "path": "source_fields.npz",
+      "bytes": 820978,
+      "sha256": "FD169792D03FA2F06B9A0AB04FE682B7A7114CD11F0D1BB1183F2A837EF600A3"
+    },
+    {
+      "path": "traj1045_recursive_keyframes.svg",
+      "bytes": 48842137,
+      "sha256": "24863133798FBDA3612A4A162C4D26D6C3D3CE8CE9EC5DC093E0F7E1DA237432"
+    }
+  ],
+  "source_array_metadata": {
+    "source_fields.npz": {}
+  },
+  "figure_contract": {
+    "backend": "Python matplotlib",
+    "archetype": "original manuscript comparison templates",
+    "editable_vector_curves": true,
+    "editable_vector_fields": true,
+    "field_previews": [
+      {
+        "path": "assets/figures/w1_flow_prediction_old_test_mean_relative_l2_vs_time_20261007.png",
+        "bytes": 163560,
+        "sha256": "637D7B651C8E3F44BAD304E531D65C6606AF9BECF2E7AD38E2EEF465D61C9A3D"
+      },
+      {
+        "path": "assets/figures/w1_flow_prediction_old_test_traj1045_recursive_keyframes_20261007.png",
+        "bytes": 619098,
+        "sha256": "C0EB0BF0BEDC494CBE9063437F5CC92345A3DCDE151898DD23DEE94D5D2E723E"
+      }
+    ],
+    "residual_definition": "prediction minus truth",
+    "single_training_instance": true,
+    "ANIE_in_W2": false
+  },
+  "publication_identity": "W1",
+  "source_provenance": {
+    "source_record_id": "ea37546bd9e698833fcc",
+    "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+  },
+  "method_labels": "manuscript algorithm names; original scientific source keys remain in the CSV"
+}

@@ -2197232,8 +2197232,12 @@
     },
     {
       "path": "summary/summary.json",
-      "bytes": 44425,
-      "sha256": "C8D3A3B50BBCC428E466173FEBA67AD44F4436D09AD855D674A5B80D31984A67"
+      "bytes": 45656,
+      "sha256": "821FCF803E42A8A91B0593B7C149D4775D2A2D464C3B41BD7FE822DA9EFE82B2"
     }
-  ]
+  ],
+  "source_provenance": {
+    "source_record_id": "419a17fe86a43dd4e12a",
+    "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+  }
 }

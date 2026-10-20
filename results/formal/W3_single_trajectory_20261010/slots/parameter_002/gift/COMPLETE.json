@@ -1,0 +1,46 @@
+{
+  "schema": "gift.w3-parameter-measurement-commit.v1",
+  "status": "complete",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_002",
+      "observation_sha256": "609471a0becae41f44a0772c76da62681fbaac60fdff5158be72048b0fa4b12f",
+      "data_receipt_sha256": "5ce93cbeca7c48a143f10956d39947718382bd85640571148fa92deeca3db7c4",
+      "data_lock_sha256": "90b6b584e66b327cf421f1072094319efd30de1c4cdfc7429753d693203d93db",
+      "data_qa_sha256": "1b16ba7e7f4dc6d8c22d02b2f59911eb9a760cfcfce1e8d6135608cde5ad1077",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "GIFT",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "seed": 2026072301,
+      "phase_steps": [
+        6000,
+        6000
+      ],
+      "phase_learning_rates": [
+        0.01,
+        0.003
+      ],
+      "batch_size": 16,
+      "training_trajectories": 1,
+      "cutoff": 21,
+      "rank": 8,
+      "affine_refit_interval": 500,
+      "validation_interval": 250,
+      "checkpoint_interval": 250,
+      "validation_trajectories": 0,
+      "checkpoint_selection": "terminal"
+    },
+    "checkpoint_sha256": "b439eb00cc0c1cce5b3a4b19fd060a671050c36e663e8052e3b22796eaac8189"
+  },
+  "files": {
+    "result.json": "d42274d44f3c8f73a4d22e01e65c74a4a3ad0d93057dbcf4621e8ca3856fffce",
+    "summary.csv": "97b4ffc43caacb0f161612a40fe8e81646757119c0b2d11e1d840beabfd9c200",
+    "native_coefficients.csv": "293714f9ddc5efbedb5b5188794403eee68f7c51bada2382be7a8ea6747be402"
+  }
+}

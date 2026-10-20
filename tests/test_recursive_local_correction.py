@@ -24,16 +24,19 @@ from experiments.formal._shared.gift_runtime import (
 
 
 def _zero_generator(state: torch.Tensor) -> torch.Tensor:
+    """Return a shape-preserving zero RHS so fixtures isolate correction and failure bookkeeping."""
     return torch.zeros_like(state)
 
 
 def _projected_impulse(grid: int, selected_mask: torch.Tensor) -> torch.Tensor:
+    """Create one known P21/Q21 impulse on a small periodic fixture grid."""
     impulse = torch.zeros(grid, grid, dtype=torch.float64)
     impulse[0, 0] = 1000.0
     return torch.fft.ifft2(torch.fft.fft2(impulse) * selected_mask).real
 
 
 def test_default_component_policies_are_fixed() -> None:
+    """Pin component thresholds and grid-area cap scaling used by the published correction rule."""
     assert DEFAULT_P21_CORRECTION_POLICY.score_threshold == 2.1
     assert DEFAULT_Q21_CORRECTION_POLICY.score_threshold == 2.1
     assert DEFAULT_P21_CORRECTION_POLICY.amplitude_threshold == 22.0
@@ -54,6 +57,7 @@ def test_default_component_policies_are_fixed() -> None:
 
 @pytest.mark.parametrize("scope", ("P21", "Q21"))
 def test_component_correction_delta_stays_in_selected_band(scope: str) -> None:
+    """A correction may change its selected component but must preserve mean and the complementary band."""
     grid = 64
     p21_mask = square_selected_mask(
         grid, cutoff=21, device=torch.device("cpu")
@@ -82,6 +86,7 @@ def test_component_correction_delta_stays_in_selected_band(scope: str) -> None:
 
 
 def test_q21_scope_builds_high_frequency_mask_when_omitted() -> None:
+    """The scope-only API must build Q21 rather than accidentally reusing the default P21 mask."""
     grid = 64
     p21_mask = square_selected_mask(
         grid, cutoff=21, device=torch.device("cpu")
@@ -106,6 +111,7 @@ def test_q21_scope_builds_high_frequency_mask_when_omitted() -> None:
 
 
 def test_rollout_aggregate_is_sum_of_component_reports() -> None:
+    """Aggregate pixel counts must equal P21 plus Q21, while aggregate gates are their logical OR."""
     grid = 64
     initial = np.zeros((1, grid, grid), dtype=np.float32)
     initial[0, 0, 0] = 1000.0
@@ -143,6 +149,7 @@ def test_rollout_aggregate_is_sum_of_component_reports() -> None:
 
 
 def test_component_gate_failure_stops_only_its_trajectory() -> None:
+    """An exceeded correction cap must mark only the offending trajectory and preserve other predictions."""
     grid = 64
     p21_mask = square_selected_mask(
         grid, cutoff=21, device=torch.device("cpu")
@@ -195,6 +202,7 @@ def test_component_gate_failure_stops_only_its_trajectory() -> None:
 
 
 def test_disabled_branch_audit_describes_q21_correction() -> None:
+    """Disabling the learned Q21 RHS must still disclose the separately enabled Q21 post-step correction."""
     grid = 64
     initial = np.zeros((1, grid, grid), dtype=np.float32)
     initial[0, 0, 0] = 1000.0
@@ -221,3 +229,19 @@ def test_disabled_branch_audit_describes_q21_correction() -> None:
     assert result.runtime["high_state_policy"] == (
         "zero-RHS Q21 with post-step Q21 local correction"
     )
+
+
+def test_informational_diagnostics_do_not_change_rollout_or_failures():
+    """Optional detailed diagnostics must leave saved fields and trajectory failure decisions unchanged."""
+    initial = np.random.default_rng(12).normal(size=(2, 64, 64)).astype(np.float32)
+    arguments = dict(low=_zero_generator, branch=None, initial_state=initial,
+                     trajectory_ids=np.asarray([10, 11]), duration=.04, save_interval=.02,
+                     device=torch.device("cpu"), batch_size=2, correction=True)
+    ordinary = rollout_gift(**arguments)
+    audited = rollout_gift(**arguments, diagnostics=True)
+    np.testing.assert_array_equal(ordinary.prediction, audited.prediction)
+    np.testing.assert_array_equal(ordinary.failure_step, audited.failure_step)
+    np.testing.assert_array_equal(ordinary.correction_trigger_count, audited.correction_trigger_count)
+    assert ordinary.correction["diagnostics_performed"] is False
+    assert "maximum_actual_zero_mode_absolute" not in ordinary.correction
+    assert "maximum_actual_zero_mode_absolute" in audited.correction

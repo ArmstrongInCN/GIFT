@@ -1,4 +1,4 @@
-"""Lossless canonical export and M1 source immutability checks on tiny fixtures."""
+"""Lossless canonical export and W3 source immutability checks on tiny fixtures."""
 
 import json
 
@@ -11,6 +11,7 @@ from training.checkpoints import digest_file
 
 
 def container(path, test_ids=(1000, 1020, 1042)):
+    """Write tiny distinguishable observation rows with legacy IDs and range metadata."""
     with h5py.File(path, "x") as handle:
         # A metadata range is not an explicit list of trajectory identities.
         handle.attrs["metadata_json"] = json.dumps({"training_trajectory_ids": [[0, 49], [1200, 2149]],
@@ -26,6 +27,11 @@ def container(path, test_ids=(1000, 1020, 1042)):
 
 
 def test_reindex_preserves_observations_and_source_file(tmp_path):
+    """Reindex and repartition rows losslessly while keeping the source archive unchanged.
+
+    Four-square fields distinguish rows without representing a full benchmark
+    package. The explicit ID vector, not a metadata range, drives conversion.
+    """
     source, target = tmp_path / "source.h5", tmp_path / "target.h5"
     container(source)
     before = digest_file(source)
@@ -52,6 +58,7 @@ def test_reindex_preserves_observations_and_source_file(tmp_path):
 
 
 def test_training_rows_cannot_be_exported_as_test(tmp_path):
+    """Reject a legacy training identity placed in the input test group."""
     source = tmp_path / "bad.h5"
     container(source, test_ids=(1200,))
     with pytest.raises(ValueError, match="training observations"):

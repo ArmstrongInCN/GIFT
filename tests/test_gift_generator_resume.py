@@ -12,6 +12,7 @@ from experiments.formal._shared import gift_generator_training as trainer
 
 
 def make_observations(path):
+    """Create one training and one validation trajectory on an 8-grid for bounded CPU continuation."""
     rng = np.random.RandomState(741)
     with h5py.File(path, "x") as handle:
         for group, trajectory_id in (("training", 0), ("validation", 50)):
@@ -23,6 +24,7 @@ def make_observations(path):
 
 @pytest.mark.parametrize("boundary", ["phase_1_step_1", "phase_1_step_3", "phase_2_step_1"])
 def test_resume_matches_continuous_across_phase_and_best_selection(tmp_path, monkeypatch, boundary):
+    """Require bitwise factors and matching selected-phase metrics after committed interruptions; changed arrays must fail."""
     old_threads = torch.get_num_threads()
     torch.set_num_threads(1)
     try:
@@ -34,6 +36,7 @@ def test_resume_matches_continuous_across_phase_and_best_selection(tmp_path, mon
             validation_interval=1, seed=811,
         )
         def run(directory, *, resume=False, configuration=config):
+            """Run the actual small generator controller in a new or explicitly resumed output directory."""
             if not resume:
                 directory.mkdir()
             return trainer.train_fresh_generator(
@@ -48,6 +51,7 @@ def test_resume_matches_continuous_across_phase_and_best_selection(tmp_path, mon
         reference = run(continuous)
         original_save = trainer.CheckpointStore.save
         def save_then_interrupt(store, name, payload):
+            """Commit the requested boundary, then simulate process loss before later work or exports."""
             value = original_save(store, name, payload)
             if name == boundary:
                 raise RuntimeError("simulated process loss after durable boundary")
@@ -57,7 +61,7 @@ def test_resume_matches_continuous_across_phase_and_best_selection(tmp_path, mon
             with pytest.raises(RuntimeError, match="simulated process loss"):
                 run(interrupted)
         assert not (interrupted / "gift_main.pt").exists()
-        with pytest.raises(ValueError, match="identity differs"):
+        with pytest.raises(ValueError, match="configuration differs"):
             run(interrupted, resume=True, configuration=replace(config, seed=812))
         resumed = run(interrupted, resume=True)
         expected = torch.load(continuous / "gift_main.pt", weights_only=True)
@@ -70,14 +74,22 @@ def test_resume_matches_continuous_across_phase_and_best_selection(tmp_path, mon
         assert reference["identifiability_final"] == resumed["identifiability_final"]
         assert resumed["freshness_contract"]["same_attempt_continuation"] is True
         assert resumed["freshness_contract"]["pretrained_model_loaded"] is False
-        with pytest.raises(FileExistsError, match="overwrite training output"):
+        original_exports = {name: (interrupted / name).read_bytes()
+                            for name in ("gift_main.pt", "report.json", "history.csv")}
+        assert run(interrupted, resume=True) == resumed
+        assert all((interrupted / name).read_bytes() == content
+                   for name, content in original_exports.items())
+        with h5py.File(dataset, "r+") as handle:
+            handle["training/vorticity"][0, 3, 0, 0] += 1.
+        with pytest.raises(ValueError, match="scientific inputs differ"):
             run(interrupted, resume=True)
     finally:
         torch.set_num_threads(old_threads)
 
 
-@pytest.mark.parametrize("condition", ["noise_000", "noise_001", "noise_010"])
+@pytest.mark.parametrize("condition", ["noise_000", "noise_001", "noise_005"])
 def test_dry_plan_condition_defaults_and_no_writes(tmp_path, monkeypatch, condition):
+    """Planning each noise condition must retain defaults, mark missing input and leave the directory empty."""
     monkeypatch.setenv("GIFT_DATA_ROOT", str(tmp_path))
     plan = cli.build_plan(cli.parse_args(["--dry-run", "--condition", condition]))
     assert plan["dataset"] == str(tmp_path / cli.DATASETS[condition])
@@ -92,6 +104,7 @@ def test_dry_plan_condition_defaults_and_no_writes(tmp_path, monkeypatch, condit
 
 @pytest.mark.parametrize("profile", ["released", "regenerated"])
 def test_missing_input_plan_does_not_qualify_for_execution(tmp_path, monkeypatch, profile):
+    """A readable missing-input plan must not let execution create output or start optimization."""
     data = tmp_path / "data"
     data.mkdir()
     output = tmp_path / "fresh"
@@ -106,5 +119,65 @@ def test_missing_input_plan_does_not_qualify_for_execution(tmp_path, monkeypatch
 
 
 def test_resume_requires_explicit_own_output():
+    """Reject a resume request without the journal directory it is intended to reopen."""
     with pytest.raises(SystemExit):
         cli.parse_args(["--resume"])
+
+
+def test_interrupted_csv_write_does_not_publish_partial_history(tmp_path, monkeypatch):
+    """A mid-write exception must leave no published CSV, allowing a later complete atomic write."""
+    from experiments.formal._shared import common
+    destination = tmp_path / "history.csv"
+    rows = [{"step": 1, "loss": 2.}, {"step": 2, "loss": 1.}]
+    def partial_write(writer, values):
+        """Write the first row and raise to simulate interruption before the history file is complete."""
+        writer.writerow(values[0])
+        raise OSError("mid-file interruption")
+    with monkeypatch.context() as patch:
+        patch.setattr(common.csv.DictWriter, "writerows", partial_write)
+        with pytest.raises(OSError, match="mid-file interruption"):
+            common.write_csv_new(destination, rows)
+    assert not destination.exists()
+    assert not list(tmp_path.glob("*.tmp"))
+    common.write_csv_new(destination, rows)
+    assert "2,1.0" in destination.read_text(encoding="utf-8-sig")
+
+
+@pytest.mark.parametrize("failed_export", ["model", "history", "report"])
+def test_completed_generator_can_finish_interrupted_export(tmp_path, monkeypatch, failed_export):
+    """Recover each missing terminal product without repeating affine fits/evaluation or overwriting completed products."""
+    dataset = tmp_path / "observations.h5"
+    make_observations(dataset)
+    output = tmp_path / "run"
+    output.mkdir()
+    config = trainer.GeneratorTrainingConfig(
+        training_trajectories=1, validation_trajectories=1, cutoff=1, rank=1,
+        phase_steps=(1,), phase_learning_rates=(.01,), batch_size=2,
+        affine_refit_interval=1, validation_interval=1, seed=811,
+    )
+    def run(resume=False):
+        """Use a one-phase native generator fixture to reach export quickly on CPU."""
+        return trainer.train_fresh_generator(
+            dataset=dataset, checkpoint=output / "gift_main.pt", report_path=output / "report.json",
+            history_path=output / "history.csv", condition="noise_000", device_name="cpu",
+            config=config, project_root=cli.PROJECT_ROOT, entry_script=Path(cli.__file__),
+            checkpoint_interval=1, resume=resume,
+        )
+    export_function = {"model": "write_model_export", "history": "write_csv_new",
+                       "report": "write_json_export"}[failed_export]
+    def interrupt(*args, **kwargs):
+        """Inject an export-time IO failure after the final training checkpoint has been committed."""
+        raise OSError("interrupted export")
+    with monkeypatch.context() as patch:
+        patch.setattr(trainer, export_function, interrupt)
+        with pytest.raises(OSError, match="interrupted export"):
+            run()
+    before = {path.name: path.read_bytes() for path in output.iterdir() if path.is_file()}
+    monkeypatch.setattr(trainer, "fit_affine_minimum_norm",
+                        lambda *args, **kwargs: pytest.fail("completed export must not refit"))
+    monkeypatch.setattr(trainer, "evaluate",
+                        lambda *args, **kwargs: pytest.fail("completed export must not repeat evaluation"))
+    report = run(resume=True)
+    assert report["status"] == "complete"
+    assert all((output / name).read_bytes() == content for name, content in before.items())
+    assert all((output / name).is_file() for name in ("gift_main.pt", "report.json", "history.csv"))

@@ -8,6 +8,11 @@ from experiments.formal._shared.prediction_data import _observations, _positions
 
 
 def write_container(path, *, canonical=False, duplicate=False, missing=False):
+    """Write ID-valued 4x4 HDF5 fixture fields that make row-selection mistakes visible.
+
+    The fields are synthetic and test storage/routing only; they do not represent
+    Navier-Stokes observations or validate scientific prediction accuracy.
+    """
     ids = np.arange(1040, 1220) if canonical else np.arange(1000, 1200)
     if duplicate:
         ids[-1] = ids[-2]
@@ -25,6 +30,7 @@ def write_container(path, *, canonical=False, duplicate=False, missing=False):
 
 
 def test_storage_identity_selection_is_not_value_based(tmp_path):
+    """Legacy stored IDs must map to the 180 independent canonical IDs without altering field values."""
     path = tmp_path / "observations.h5"
     write_container(path)
     ids, times, fields = _observations(path, "test", 4)
@@ -36,6 +42,7 @@ def test_storage_identity_selection_is_not_value_based(tmp_path):
 
 
 def test_canonical_ids_are_not_mapped_a_second_time(tmp_path):
+    """Already canonical identities must preserve their corresponding stored rows."""
     path = tmp_path / "canonical.h5"
     write_container(path, canonical=True)
     ids, _, fields = _observations(path, "test", 4)
@@ -46,6 +53,7 @@ def test_canonical_ids_are_not_mapped_a_second_time(tmp_path):
 @pytest.mark.parametrize("canonical", [False, True])
 @pytest.mark.parametrize("invalid", ["duplicate", "missing"])
 def test_missing_or_duplicate_test_id_is_not_silently_accepted(tmp_path, canonical, invalid):
+    """A missing or repeated independent test identity must fail instead of shrinking the population."""
     path = tmp_path / "bad.h5"
     write_container(path, canonical=canonical, **{invalid: True})
     with pytest.raises(ValueError):
@@ -53,9 +61,24 @@ def test_missing_or_duplicate_test_id_is_not_silently_accepted(tmp_path, canonic
 
 
 def test_only_saved_times_are_returned():
+    """Requested times must match unique saved frames, with no interpolation or duplicate report positions."""
     times = np.asarray([5.0, 5.5, 6.0])
     assert _positions(times, [5.0, 6.0]).tolist() == [0, 2]
     with pytest.raises(ValueError):
         _positions(times, [5.25])
     with pytest.raises(ValueError):
         _positions(times, [5.0, 5.0])
+
+
+def test_only_requested_fields_are_read_and_validated(tmp_path):
+    """Invalid unused frames must not force a whole-trajectory read; requested invalid truth still fails."""
+    path = tmp_path / "selected.h5"
+    write_container(path, canonical=True)
+    with h5py.File(path, "r+") as handle:
+        handle["test/vorticity"][:, 1] = np.nan
+    ids, times, fields = _observations(path, "test", 4, requested=[5.0, 6.0])
+    assert ids.tolist() == list(range(1040, 1220))
+    assert times.tolist() == [5.0, 6.0]
+    assert fields.shape == (180, 2, 4, 4) and np.isfinite(fields).all()
+    with pytest.raises(ValueError, match="finite"):
+        _observations(path, "test", 4, requested=[5.5])

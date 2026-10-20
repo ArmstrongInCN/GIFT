@@ -1,24 +1,16 @@
-"""Independent U-Net entry; formal environment checks precede scientific imports."""
+"""Independent U-Net training entry point."""
 from pathlib import Path
 import sys
 
-# Script execution has no package context, so add the repo root to the path
-# before the stdlib-only preflight import.
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from training.unet_environment import preflight
 
 
 def main(argv=None):
-    """Keep --help and rejected formal launches free of runtime/data imports."""
-    arguments = list(sys.argv[1:] if argv is None else argv)
-    try:
-        dispatch = preflight(arguments)
-    except ValueError as error:
-        raise SystemExit(str(error)) from None
-    if dispatch:
-        from training.baseline_control import main as train
-        train("unet", arguments)
+    """Delegate U-Net CLI parsing, training and resume to the shared baseline controller."""
+    from training.baseline_control import main as train
+    train("unet", argv)
+
 
 if __name__ == "__main__":
     main()

@@ -1,78 +1,55 @@
-# External algorithms / 外部算法适配
+# 外部算法来源与必要适配
 
-Download the fixed sources listed in `external_sources.json` into a directory outside this project. The loader verifies them before execution. No upstream source file is edited on disk or included in this repository.
+**GIFT 仓库不包含外部算法实现、自动源码改写器或可执行补丁。** 本文与[手工适配操作说明](EXTERNAL_MANUAL_ADAPTATION.md)只记录官方仓库、固定版本、需要实施的操作和外部接口。使用者须在 GIFT 仓库文件夹之外下载、适配和保存外部算法，不能因目录已被 Git 忽略就把代码放在仓库内。
 
-这里分别说明对外部源码的少量调整和本项目的实验设置。固定源码、模型能够加载、训练能够恢复，分别是不同的检查，不代表实验结果已经得到验证。
+GIFT 的 `adapters/` 只连接使用者准备的仓库外运行接口。`GIFT_EXTERNAL_ADAPTER_ROOT` 指向包含外部 `adapters/` 模块的根目录，缺省为相邻 `gift-external-runtime/`；`GIFT_EXTERNAL_ROOT` 指向官方 checkout 父目录；`GIFT_ANIE_SOURCE_ROOT` 指向 ANIE checkout。本机现有接口保存于 `D:/2_GIFT/gift-external-runtime`，原官方 checkout 保持只读。这些本地依赖不属于 GIFT Git 仓库，也不随 GIFT 发布。新使用者需自行按文字步骤提供接口；纯下载工具不执行算法适配。
 
-| Used for | Upstream repository | Pinned commit |
+## 官方来源
+
+| 方法 | 官方仓库 | 固定 commit |
 | --- | --- | --- |
 | FNO-2D / FNO-3D | [NeuralOperator](https://github.com/neuraloperator/neuraloperator) | `01d2aeca407f85ce1c1e78b313edb749973fc051` |
 | U-NO | [UNO](https://github.com/ashiq24/UNO) | `19462d82729ef64ef7b9e97056ddcaaf3044ad47` |
 | U-Net | [Turbulent-Flow-Nets](https://github.com/Rui1521/Turbulent-Flow-Nets) | `229da3e01acefa6f4dd6c77244da5015c9b965af` |
+| ANIE | [ANIE](https://github.com/emazap7/ANIE) | `2071ad709b260a6c305450affcf7168fd825f692` |
 | PDE-FIND | [PDE-FIND](https://github.com/snagcliffs/PDE-FIND) | `86911349b9fac82996e35465a13d06205730cc05` |
 | PINN-SR | [EQDiscovery](https://github.com/isds-neu/EQDiscovery) | `9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496` |
-| Native PINN optimizers | [TensorFlow](https://github.com/tensorflow/tensorflow) | `590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b` |
+| PINN 原生优化器 | [TensorFlow](https://github.com/tensorflow/tensorflow)，tag `v1.15.0` | `590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b` |
 
-[SETUP.md](SETUP.md) gives installation and download commands. Adaptations below
-are applied automatically in memory; readers do not need to edit the upstream
-files. The file-by-file byte checks are in `external_sources.json`.
+仓库内 `external_sources.json` 与 `anie_sources.json` 仅保存来源、版本、选定文件和文字操作标识。固定 commit 与散列用于来源记录，不能代替上游许可。许可状态和原始研究引用见 [README](../README.md)；安装、独立命令及目录设置见 [SETUP.md](SETUP.md)。
 
-## FNO
+## 当前单初态 W1/W2
 
-1. Load only the network and required utility classes, without executing the example's data-loading or training statements.
-2. Change FNO-2D's input projection from 12 to 48 inputs: 46 history frames and two coordinates.
-3. Change FNO-3D's input projection from 13 to 49 inputs: 46 history frames and three coordinates.
-4. Make these two dimension changes before initialization. Do not replace spectral layers, forward operations or gradients.
+当前[固定协议](W1_W2_PROTOCOL.md)使用 `single_native76_n300`，各方法一个固定种子模型，不进行选参或多seed。来源适配与实验设置须分别理解：使用公开架构不等于执行作者原数据和训练脚本，也不意味着各方法监督时域或预算相等。
 
-只加载模型和所需工具类。两种模型分别调整一处输入维度，其他网络计算保持上游定义。时间窗口、训练批量、损失汇总、归一化统计及跨分辨率统计映射属于实验设置，须另行明确报告。
+| 方法 | 仓库外必要操作 | 保留的计算与当前任务设置 |
+| --- | --- | --- |
+| FNO-2D / FNO-3D | 隔离模块顶层示例；在原唯一fc0位置把输入数改为3/4，包含一场及两/三坐标；提供原工具类。 | 保留谱层、forward、初始化、原LpLoss和normalizer。FNO-2D闭环课程属于训练协议；FNO-3D输出75未来点。W2保持75 joint queries，冻结normalizer空间Fourier插值后截前25，不拟合目标网格统计。 |
+| U-NO | 提供原模型/积分算子/Adam/LpLoss；导入时不重设训练种子；用原构造参数设置in_width=5、width=32、pad=0、factor=.75。 | 一场加原四坐标；保留谱、插值梯度与BatchNorm。当前20步完整闭环监督及非重入activation checkpoint、每epoch调度和终态选择由协议声明。 |
+| U-Net | 从原Baselines/U-net.py提供U_net，原构造参数设输入/输出通道1/1、kernel_size=3、dropout_rate=0。 | 保留卷积/BN/skip和初始化。四步训练预算与优化器为项目配方；N64/N96/N128使用同一全卷积模型，像素核物理尺度随N改变。 |
+| ANIE | 提供原NS网络和积分求解器；将空间和时间坐标与状态统一为space-major/time-minor；功能性attention dropout跟随train/eval状态，训练概率仍0.5。 | 当前aligned_ns_single_v1使用原c=0/y_init分支；保持原全局decoder、积分归一化、迭代规则和autograd。训练/评价均76查询，micro6/effective32为显存组织；仅参加W1。 |
 
-## U-NO
+ANIE 的坐标与评价 dropout 修正会改变未经修正的函数，因此当前结果称为带明确修正的官方 notebook 架构实验，不称为作者实现逐字原样复现。此处的仓库边界整理只移动既有本地依赖，不再引入这些数值变化，也不将旧权重切换到另一profile。
 
-1. Load the original network, integral operators, Adam and `LpLoss`.
-2. Use `in_width=50`, comprising 46 observed history channels and four coordinates supplied by the model.
-3. Do not execute the two import-time seed statements. Set the seed explicitly in the training command before constructing the network.
-4. Load only the needed loss class from the utilities file. Do not import unused data readers or replace native interpolation gradients.
+各方法的参数源、监督覆盖、loss、真实预算和数值环境见[单次固定配方实现](W1_W2_PROTOCOL.md)、[补充基线实现](W1_W2_PROTOCOL.md)、[W2实现](W1_W2_PROTOCOL.md)与[结果解释范围](W1_W2_PROTOCOL.md)。ANIE的必要修正及其当前配置见[ANIE实现说明](ANIE_ADAPTATION.md)。实际模型及权重身份见 [CHECKPOINTS.md](CHECKPOINTS.md)，成本见 [PERFORMANCE.md](PERFORMANCE.md)。
 
-使用原模型、优化器和损失；只设置输入通道，并把随机种子设置放到训练入口。训练窗口、递归步数、学习率调度频率和最终模型选择由实验协议明确规定，不声称直接执行了上游示例训练脚本。
+## 独立46帧与方程识别协议
 
-## U-Net
+历史46帧预测使用独立输入投影：FNO-2D/FNO-3D为48/49，U-NO为50，U-Net输入通道46。不能把单初态权重和历史46帧权重互换。ANIE不同profile同样须按权重记录的坐标和自由项分支加载；不能静默升级旧模型的运算路径。
 
-Import `U_net` directly and set `input_channels=46`, `output_channels=1`, `kernel_size=3`, `dropout_rate=0`. No network operation or initialization method is replaced.
+PDE-FIND 和 PINN-SR 服务独立 W3，不随 W1/W2改动。其仓库外操作为：
 
-直接通过上游已有参数设置输入、输出和 dropout，不改网络内部。本项目负责时间窗口、闭环相对 L2 损失、优化器调用和恢复。训练入口显式设置记录的数值环境；模型加载器本身不修改精度开关。
+| 方法 | 操作范围 |
+| --- | --- |
+| PDE-FIND | 提供原库构造/回归函数；所有NumPy版本均将唯一空索引比较改为显式长度判断（1.26已会报错）。按原意执行非空索引的最终最小二乘；旧单元素数组误判的细节见手工说明。保持seed0样本和顺序；局部RNG及成员查找仅隔离/加速抽样。周期速度、SVD及导数处理沿用声明协议。 |
+| PINN-SR 网络 | 提供原PhysicsInformedNN；TF1引用变量使原SciPy候选feed实际进入目标；已知库4/开放库90。保留Xavier、网络、损失及完整人口。默认原生FP32；可选同式坐标导数/残差计算与XLA须通过完整配对精度验收。 |
+| PINN-SR 稀疏回归 | 使用原TrainSTRidge/STRidge；保留seed0随机训练行原顺序和float32继承系数，rcond=−1及唯一空索引长度判断。立即明确赋值，纯读取无副作用；ADO固定回归系数，只更新网络，post固定最后STRidge支持并联合细化。 |
+| TensorFlow优化器 | 使用固定官方NAdam和ScipyOptimizerInterface，不复写内核。保留同一NAdam slots/beta；记录真实SciPy终止与目标变化。耦合保存回归支持与模型/optimizer/FSM；L-BFGS内部中断从阶段边界重做，不宣称内部求解器状态续算。 |
 
-## PDE-FIND
+当前W3的两种PINN方法各完成50次独立训练，共100份正式终态模型，采用论文Methods式(6b)/(8)的`paper_ado_v1`，保持固定回归系数ADO与最后回归支持后训练。TF1引用变量、纯读取与原回归行顺序的操作见[手工适配说明](EXTERNAL_MANUAL_ADAPTATION.md#pinn-sr-与-tensorflow-优化器)，完整数据和实际结果见[W3协议](W3_PROTOCOL.md)。
 
-1. Load the original library-construction and STRidge functions.
-2. For NumPy 2, replace the single empty-index test `biginds != []` with `len(biginds) != 0`.
-3. Keep the same sampled values and order in a local random-number generator. A membership lookup table only accelerates testing whether an index was sampled.
+具体目标文件、构造顺序、张量轴、坐标规则、库列序、接口名称与检查步骤均见[手工适配操作说明](EXTERNAL_MANUAL_ADAPTATION.md)。小规模加载、前向或续算检查只能验证对应计算条件，不能代替完整科学实验。
 
-回归核心不替换。数据预处理单独包括周期速度重建、噪声条件下分别对涡量和速度进行 SVD，以及固定导数计算。导数使用五次局部多项式权重；混合导数对已算出的一阶导数再做中心差分。这些是实验处理步骤，不只是文件格式转换。
+## 致谢
 
-## PINN sparse regression / PINN 稀疏回归
-
-The external STRidge methods use four explicit adjustments: sort the sampled row indices; supply the fixed inherited coefficients as float64; use `lstsq(rcond=-1)`; replace the single empty-index test with a length test. Do not change the sampled set, threshold-search objective or accepted-candidate rule.
-
-四项调整分别是样本行排序、继承系数的计算精度、最小二乘设置和空数组判断。前三项属于需要报告的数值约定，不称为纯语法兼容。
-
-## PINN network and training / PINN 网络与训练
-
-1. Load `PhysicsInformedNN` without running the example's data-loading, training or environment statements.
-2. Expose the TF1 API through `tf.compat.v1`, and load the pinned TensorFlow implementations of NAdam and `ScipyOptimizerInterface` from the external checkout. Configure the session's device, thread count and logging explicitly.
-3. Change the coefficient vector's single dimension from 60 to 4 (known library) or 90 (open library).
-4. For the known library, supply four columns: vorticity, advection, Laplacian and the known forcing pattern. For the open library, keep all 60 original columns and append the five forcing polynomials `q`, `q²`, `u q`, `v q`, `w q`, each multiplied by the six original derivative factors. Here `q = -4 cos(4y)`.
-5. Initialize with the original Xavier method and seed 1234 in the declared TensorFlow environment. No initialization checkpoint is required.
-
-Do not intercept `tf.gradients`, rewrite powers as multiplication, replace the loss, accumulate a separate gradient, or implement optimizer kernels. Each NAdam update directly runs the upstream `train_op_Adam` on the complete 24,000-observation / 84,000-collocation population. The project schedules the declared phases and saves native TensorFlow variables, including optimizer slots.
-
-只加载原类；兼容 TF1 接口；调整一处系数数量；按物理问题提供候选项。网络、自动微分、幂运算、损失及 NAdam 更新均调用原实现。初始化由代码和种子生成，不读取初始化文件。图计算采用 float32，并显式关闭 TF32；这些运行环境设置与上述源码适配分开记录。
-
-L-BFGS calls the original public optimizer interface. Its internal work arrays are not copied or serialized by this project. The preceding NAdam boundary is saved before entering L-BFGS. If interrupted inside L-BFGS, `--resume` restores that boundary and repeats only the uncommitted L-BFGS phase; it does not claim internal-solver-state continuation. NAdam, STRidge and completed phase boundaries have their own saved states.
-
-L-BFGS 使用上游公开接口，按阶段恢复；阶段内部中断时重做当前 L-BFGS 阶段，不重做已完成的预训练。上游接口不返回完整的收敛状态，因此这里只报告回调计数及最终损失，不把达到迭代上限或正常返回擅自写成“收敛”。
-
-See the [TensorFlow graph-mode API](https://www.tensorflow.org/api_docs/python/tf/compat/v1/disable_eager_execution) and [SciPy L-BFGS-B options](https://docs.scipy.org/doc/scipy-1.7.1/reference/reference/optimize.minimize-lbfgsb.html). A small native-operation or continuation test is not evidence that a full experimental budget has completed.
-
-## Attribution / 致谢
-
-We thank the authors of NeuralOperator, U-NO, Turbulent-Flow-Nets, EQDiscovery, PDE-FIND, TensorFlow and SciPy. Please cite the corresponding research and respect each upstream project's terms. This project's license does not grant additional rights over external code. The exact references, together with each upstream project's licence status at the pinned commit, are listed in [README.md](../README.md) under Citation.
+感谢 NeuralOperator、U-NO、Turbulent-Flow-Nets、ANIE、EQDiscovery、PDE-FIND、TensorFlow 与 SciPy 的作者和贡献者。请引用实际使用的研究并遵守上游条款；GIFT 许可不授予外部代码的额外权利。

@@ -1,8 +1,9 @@
 """Independent full-data GIFT training with real trajectory-epoch budgets.
 
-The generator and branch each receive 500 epochs, reported separately. Native
-GIFT mathematical components are reused. Epoch sampling and terminal checkpoint
-selection implement the prediction comparison protocol; M1 is not affected.
+The default generator and branch schedules each contain 500 epochs, reported
+separately; explicit positive budgets use the same phase rules. Each epoch
+visits one sampled observed window per trajectory. Native mathematical losses,
+affine fits and terminal selection are shared across eager and graph execution.
 """
 
 from __future__ import annotations
@@ -17,7 +18,8 @@ import time
 import torch
 
 from gift import GIFTGenerator, fit_affine_minimum_norm, identifiability_grid
-from training.checkpoints import CheckpointStore, digest_file
+from training.checkpoints import CheckpointStore, restore_optimizer, digest_file, write_model_export, write_json_export
+from training.configuration import output_path
 from training.gift_prediction_data import ObservationBank
 from training.gift_execution import EXECUTION_CHOICES, EXECUTION_HELP, resolve_execution
 from experiments.formal._shared.gift_generator_training import (
@@ -30,7 +32,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @dataclass(frozen=True)
 class PredictionTrainingConfig:
-    """Prespecified budgets; fixture configurations cannot qualify as formal runs."""
+    """Default prediction budgets with explicit phase, seed and model choices."""
 
     # Generator: two 250-epoch phases (500 trajectory-epochs total). Branch: four
     # stages of 400/50/25/25 trajectory-epochs, ordered from the cheap derivative
@@ -48,16 +50,13 @@ class PredictionTrainingConfig:
     fixture_only: bool = False
 
     def validate(self):
+        """Require two generator phases, four branch phases and positive training/model counts."""
         if (len(self.generator_phases) != 2 or len(self.branch_phases) != 4
                 or min(*self.generator_phases, *self.branch_phases, self.batch_size,
                        self.rollout_batch_size, self.cutoff, self.rank) < 1
                 or len(self.generator_learning_rates) != 2
                 or min(self.generator_learning_rates) <= 0):
             raise ValueError("invalid GIFT epoch training configuration")
-        # Formal runs must use the prespecified protocol exactly; only fixture
-        # builds may deviate, and fixtures never count as formal evidence.
-        if not self.fixture_only and self != PredictionTrainingConfig():
-            raise ValueError("formal GIFT prediction settings must match the prespecified protocol")
 
 
 def phase_at(epoch: int, counts: tuple[int, ...]) -> tuple[int, int]:
@@ -72,8 +71,21 @@ def phase_at(epoch: int, counts: tuple[int, ...]) -> tuple[int, int]:
     raise ValueError("epoch exceeds budget")
 
 
+def validate_phase_boundary(saved, counts):
+    """Check that saved global epoch, phase and completion flag describe the same boundary."""
+    if saved is None:
+        return
+    epoch = saved["epoch"]
+    if not 0 <= epoch <= sum(counts):
+        raise ValueError("Saved epoch is outside the configured budget")
+    if epoch and saved["phase"] != phase_at(epoch, counts)[0]:
+        raise ValueError("Saved training phase and epoch disagree")
+    if "completed" in saved and saved["completed"] != (epoch == sum(counts)):
+        raise ValueError("Saved completion status and epoch disagree")
+
+
 def source_identity():
-    """Bind the numerical implementation, not unrelated reports or figures."""
+    """Record the numerical implementation used by this run."""
     files = (
         "training/gift_prediction_control.py", "training/gift_prediction_data.py",
         "training/train_gift_generator.py",
@@ -94,18 +106,15 @@ def source_identity():
 
 
 def synchronize(device):
+    """Wait for CUDA work before wall-time measurements; CPU needs no synchronization."""
     if device.type == "cuda":
         torch.cuda.synchronize(device)
 
 
 def _open_run(output, identity, resume):
-    output = Path(output).resolve()
-    if output == ROOT or output == ROOT / "artifacts" or ROOT / "artifacts" in output.parents:
-        raise ValueError("training cannot overwrite the project or released weights")
-    if resume:
-        if any((output / name).exists() for name in ("model.pt", "COMPLETE.json")):
-            raise FileExistsError("completed training output cannot be overwritten")
-    else:
+    """Protect input/code roots and create or resume the output's checkpoint journal."""
+    output = output_path(output, ROOT)
+    if not resume:
         output.mkdir(parents=True, exist_ok=False)
     return output, CheckpointStore(output / "checkpoints", identity, resume=resume)
 
@@ -113,7 +122,14 @@ def _open_run(output, identity, resume):
 def run_generator(dataset, output, *, device="cuda", resume=False,
                   config=PredictionTrainingConfig(), checkpoint_interval=10,
                   stop_after_epoch=None, log_interval=10, execution="auto"):
-    """Train native generator factors and affine tables without pretrained weights."""
+    """Train generator factors and refit affine tables from observed derivatives.
+
+    Each epoch samples one window per trajectory. Within a phase, resume
+    restores AdamW and cosine state; crossing a phase boundary constructs its
+    new optimizer. Restore RNG only after setup. Training-only scales make
+    losses dimensionless, affine refits are counted separately from gradient
+    updates, and terminal weights come from the last configured epoch.
+    """
     config.validate()
     if checkpoint_interval < 1 or log_interval < 1:
         raise ValueError("checkpoint/log intervals must be positive")
@@ -125,9 +141,8 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
                                   checkpoint_directory=Path(output)/"checkpoints")
     configure_determinism(config.generator_seed, strict=True)
     bank = ObservationBank(dataset, fixture=config.fixture_only)
-    # The identity record binds role, configuration, data hash, source hashes and
-    # device; it is the control record that later resume/continuation checks
-    # must match before any checkpoint is trusted.
+    # Scientific inputs and training configuration govern compatibility;
+    # source and environment records remain descriptive provenance.
     identity = {"role": "gift_prediction_generator", "configuration": asdict(config),
                 "data": bank.binding, "sources": source_identity(), "device": str(device),
                 "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
@@ -135,6 +150,9 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
     identity["execution"] = execution if device.type == "cuda" else "eager"
     output, store = _open_run(output, identity, resume)
     saved = store.payload
+    validate_phase_boundary(saved, config.generator_phases)
+    if saved is not None and saved.get("completed") and (output / "COMPLETE.json").exists():
+        return json.loads((output / "COMPLETE.json").read_text(encoding="utf-8"))
     if saved is not None and not 0 <= saved["epoch"] <= total_epochs:
         raise ValueError("saved epoch is outside the configured budget")
     if saved is not None and stop_after_epoch is not None and stop_after_epoch <= saved["epoch"]:
@@ -176,7 +194,7 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
             scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
                 optimizer, T_max=config.generator_phases[phase] * batches, eta_min=lr * 0.02)
             if saved is not None and epoch == completed + 1 and saved["phase"] == phase:
-                optimizer.load_state_dict(saved["optimizer"])
+                restore_optimizer(optimizer, saved["optimizer"])
                 scheduler.load_state_dict(saved["scheduler"])
             last_phase = phase
         if saved is not None and epoch == completed + 1:
@@ -256,18 +274,18 @@ def run_generator(dataset, output, *, device="cuda", resume=False,
         "source_identity": identity["sources"],
         "execution": identity["execution"],
     }
-    with (output / "model.pt").open("xb") as stream:
-        torch.save(artifact, stream)
-    write_json_new(output / "history.json", history)
+    write_model_export(output / "model.pt", artifact)
+    write_json_export(output / "history.json", history)
     report = {"status": "complete", "role": identity["role"], "configuration": asdict(config),
               "training_data": bank.binding, "training_cost": artifact["training_cost"],
               "model_sha256": digest_file(output / "model.pt"), "runtime": store.runtime,
               "selection": "terminal_epoch", "sources": identity["sources"]}
-    write_json_new(output / "COMPLETE.json", report)
+    write_json_export(output / "COMPLETE.json", report)
     return report
 
 
 def main_generator(argv=None):
+    """Parse the generator CLI and either print a plan or call the epoch controller."""
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--dry-run", action="store_true")

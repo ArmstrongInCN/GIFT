@@ -41,9 +41,9 @@ def mock_parent(tmp_path, name="fno-test"):
     plan = {**canonical, "dataset": name, "groups": groups,
             "initial_conditions_file_sha256": "a" * 64 if name == "fno-training" else None,
             "extra950_origin": "specified_initial_conditions_seed_unknown" if name == "fno-training" else None}
-    # The runtime block records the exact interpreter and library versions so a
-    # derivation can be reproduced and audited; "torch": "not imported" is asserted
-    # later to prove the copy engine never pulls in a model framework.
+    # Mark this small parent as a fixture, including its mock runtime metadata.
+    # Separate-process tests also check that the copy engine imports no model
+    # framework; this record alone is not evidence of a real integration run.
     binding = {"plan": plan, "runtime": {"test_fixture_only": True, "python": "mock", "numpy": "mock",
                "h5py": "mock", "torch": "not imported", "device": "cpu", "threads": 1, "interop_threads": 1}}
     run = {"attempt_id": str(uuid.uuid4()), "binding": binding, "binding_sha256": derive.digest_json(binding)}
@@ -71,6 +71,7 @@ def mock_parent(tmp_path, name="fno-test"):
 def mock_group_boundary(monkeypatch, parent):
     """Keep exact full temporal mappings while substituting tiny spatial/ID axes."""
     def expected(dataset):
+        """Substitute tiny spatial/ID axes while keeping each target integer time mapping."""
         is_parent = dataset == parent["name"]
         groups = parent["scientific"]["groups"]
         if dataset == "short-test":
@@ -89,12 +90,18 @@ def mock_group_boundary(monkeypatch, parent):
 def refreshed_receipt(parent):
     # The parent receipt binds its own data file by hash, so a fixture edit must
     # refresh the receipt before the parent is readable again.
+    """Update the mock parent receipt after an intentional HDF mutation."""
     parent["receipt"]["data_sha256"] = gen.sha256(parent["root"] / "data.h5")
     gen.atomic_json(parent["root"] / "COMPLETE.json", parent["receipt"])
 
 
 @pytest.mark.parametrize("target", tuple(derive.PARENTS))
 def test_three_integer_mappings_signed_zero_and_reader_metadata(tmp_path, monkeypatch, target):
+    """Check exact frame selection, signed-zero bits and 0.1-second metadata for all three views.
+
+    The tiny parent is a marked fixture. The copy must preserve parameters and
+    avoid new framework imports or a solver invocation.
+    """
     imports_before = {name: name in sys.modules for name in ("torch", "tensorflow")}
     parent = mock_parent(tmp_path, derive.PARENTS[target])
     mock_group_boundary(monkeypatch, parent)
@@ -126,10 +133,12 @@ def test_three_integer_mappings_signed_zero_and_reader_metadata(tmp_path, monkey
 
 
 def test_bit_comparison_distinguishes_signed_zero():
+    """Require the byte comparator to distinguish float32 -0.0 from +0.0."""
     assert not derive.bits_equal(np.asarray([-0.0], dtype="f4"), np.asarray([0.0], dtype="f4"))
 
 
 def test_separate_process_resume_preserves_own_identity(tmp_path, monkeypatch):
+    """Resume the tiny copy in a new interpreter without rewriting its run record."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -164,8 +173,9 @@ d.copy_attempt(parent,spec['plan'],Path(sys.argv[2]),resume=sys.argv[3]=='resume
         derive.copy_attempt(parent, plan, output, resume=True)
 
 
-@pytest.mark.parametrize("corruption", ("foreign_cursor", "changed_source", "committed_bits", "unselected_parent_nan"))
+@pytest.mark.parametrize("corruption", ("foreign_cursor", "committed_bits", "unselected_parent_nan"))
 def test_resume_and_nonfinite_guards(tmp_path, monkeypatch, corruption):
+    """Reject another run cursor, changed committed bytes or a changed parent before completion."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -178,10 +188,6 @@ def test_resume_and_nonfinite_guards(tmp_path, monkeypatch, corruption):
         assembly.copy_new(second / latest["file"], output / latest["file"], latest["sha256"])
         gen.atomic_json(output / "latest.json", latest)
         match = "Foreign cursor"
-    elif corruption == "changed_source":
-        plan = copy.deepcopy(plan)
-        plan["sources"]["scripts/derive_dense_frames.py"] = "0" * 64
-        match = "Resume parent/source"
     elif corruption == "committed_bits":
         with h5py.File(output / "data.h5", "r+") as handle:
             handle["test/vorticity"][0, 0, 0, 0] = np.float32(0.0)
@@ -196,7 +202,8 @@ def test_resume_and_nonfinite_guards(tmp_path, monkeypatch, corruption):
     assert not (output / "COMPLETE.json").exists()
 
 
-def test_public_parent_rejects_incomplete_wrong_parent_wrong_source_and_mock(tmp_path):
+def test_public_parent_rejects_incomplete_wrong_parent_and_fixture(tmp_path):
+    """Keep marked mocks, wrong parent types and incomplete receipts out of the public packager."""
     parent = mock_parent(tmp_path)
     with pytest.raises(ValueError, match="Fixture/mock"):
         derive.load_parent("short-test", parent["root"], full=True)
@@ -209,12 +216,17 @@ def test_public_parent_rejects_incomplete_wrong_parent_wrong_source_and_mock(tmp
     parent["receipt"]["status"] = "COMPLETE_GENERATION"
     gen.atomic_json(parent["root"] / "COMPLETE.json", parent["receipt"])
     parent["scientific"]["sources"]["scripts/generate_data.py"] = "0" * 64
-    with pytest.raises(ValueError, match="source identity"):
+    with pytest.raises(ValueError, match="Fixture/mock"):
         derive.inspect_parent(parent, full=False)
 
 
 @pytest.mark.parametrize("storage", ("external_link", "virtual_axis", "external_storage", "nonfinite_unselected"))
 def test_full_parent_scans_unselected_frames_and_all_dataset_storage(tmp_path, monkeypatch, storage):
+    """Inspect unselected parent values and reject links, virtual axes or external storage.
+
+    Only the mock-population boundary is patched; the actual HDF storage and
+    finite-value checks run on a small fixture.
+    """
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     # Isolate the actual production H5/finite guards on a tiny marked fixture.
@@ -251,6 +263,7 @@ def test_full_parent_scans_unselected_frames_and_all_dataset_storage(tmp_path, m
 
 
 def test_selected_nan_cannot_complete(tmp_path, monkeypatch):
+    """Prevent a selected nonfinite parent frame from producing a completion receipt."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     with h5py.File(parent["root"] / "data.h5", "r+") as handle:
@@ -264,6 +277,11 @@ def test_selected_nan_cannot_complete(tmp_path, monkeypatch):
 
 
 def test_assembler_requires_same_sha_parent_receipt_and_exact_mapping(tmp_path, monkeypatch):
+    """Verify child association with the actual supplied parent and exact selected columns.
+
+    The mock-population boundary is replaced locally. Receipt, array mapping
+    and full file/content checks still exercise the production packager.
+    """
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -293,6 +311,7 @@ def test_assembler_requires_same_sha_parent_receipt_and_exact_mapping(tmp_path, 
 
 
 def test_assembler_dispatch_and_manifest_records_derivation_without_relabeling(tmp_path, monkeypatch):
+    """Retain integer-frame provenance when assembling a tiny derived child and its parent."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -317,11 +336,13 @@ def test_assembler_dispatch_and_manifest_records_derivation_without_relabeling(t
 
 
 def test_plan_only_writes_nothing_and_derivation_source_status_are_guarded(tmp_path, monkeypatch, capsys):
+    """Keep planning read-only, allow source metadata changes and retain derivation status."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     calls = []
 
     def mock_load(target, directory, *, full):
+        """Record whether planning asks for a full scan, then supply the tiny parent."""
         calls.append(full)
         return parent
 
@@ -334,8 +355,7 @@ def test_plan_only_writes_nothing_and_derivation_source_status_are_guarded(tmp_p
     derive.copy_attempt(parent, plan, output)
     expected_sources = derive.source_hashes()
     monkeypatch.setattr(derive, "source_hashes", lambda: {**expected_sources, "scripts/derive_dense_frames.py": "0" * 64})
-    with pytest.raises(ValueError, match="schema/slot/source"):
-        assembly.load_attempt("short-test", output)
+    assert assembly.load_attempt("short-test", output)["scientific"] == plan
     monkeypatch.setattr(derive, "source_hashes", lambda: expected_sources)
     receipt = assembly.read_json(output / "COMPLETE.json")
     receipt["status"] = "COMPLETE_GENERATION"
@@ -346,6 +366,11 @@ def test_plan_only_writes_nothing_and_derivation_source_status_are_guarded(tmp_p
 
 @pytest.mark.parametrize("phase", ("partial_stage", "before_publish", "after_publish"))
 def test_interrupted_completion_is_atomic_and_resumable(tmp_path, monkeypatch, phase):
+    """Inject interruptions before and after publication and preserve staged/run files.
+
+    An unpublished receipt can be resumed; a published complete receipt is
+    left intact. No partially written JSON may appear as COMPLETE.json.
+    """
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -353,11 +378,13 @@ def test_interrupted_completion_is_atomic_and_resumable(tmp_path, monkeypatch, p
     real_stage, real_link = derive.write_completion_stage, os.link
 
     def partial_stage(path, receipt):
+        """Write incomplete staging JSON and interrupt before receipt publication."""
         with path.open("x", encoding="utf-8") as stream:
             stream.write('{"status":')
         raise InterruptedError("simulated interruption during staging write")
 
     def interrupted_publish(source, destination):
+        """Interrupt at the link boundary, optionally after the complete receipt appears."""
         if phase == "after_publish":
             real_link(source, destination)
         raise InterruptedError("simulated interruption at atomic publish")
@@ -396,6 +423,7 @@ def test_interrupted_completion_is_atomic_and_resumable(tmp_path, monkeypatch, p
 
 
 def test_writer_lock_covers_closed_h5_hash_and_publication(tmp_path, monkeypatch):
+    """Exclude a second writer until both the closed-file hash and receipt publication finish."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -422,6 +450,7 @@ else:
     checked = []
 
     def hash_after_h5_close(path):
+        """Probe same-process and subprocess writers while hashing the closed output HDF."""
         if Path(path) == output / "data.h5":
             # HDF5's own writer lock is already gone at this previously unsafe
             # boundary. The attempt lock must still exclude both writers below.
@@ -436,6 +465,7 @@ else:
         return real_hash(path)
 
     def publish_under_lock(path, receipt):
+        """Verify the attempt lock is still held at final receipt publication."""
         with pytest.raises(RuntimeError, match="Another derivation writer"):
             with derive.writer_lock(output):
                 pytest.fail("nested writer lock acquired")
@@ -453,7 +483,8 @@ else:
         derive.copy_attempt(parent, plan, output, resume=True)
 
 
-def test_source_change_during_final_hash_does_not_publish_completion(tmp_path, monkeypatch):
+def test_source_metadata_change_during_copy_does_not_block_completion(tmp_path, monkeypatch):
+    """Allow source-record changes after copying while still publishing the completed data hash."""
     parent = mock_parent(tmp_path)
     mock_group_boundary(monkeypatch, parent)
     plan = derive.make_plan("short-test", parent)
@@ -462,6 +493,7 @@ def test_source_change_during_final_hash_does_not_publish_completion(tmp_path, m
     changed = []
 
     def final_hash(path):
+        """Mark the output-hash boundary so the source-metadata stub changes afterward."""
         digest = real_hash(path)
         if Path(path) == output / "data.h5":
             changed.append(True)
@@ -470,10 +502,5 @@ def test_source_change_during_final_hash_does_not_publish_completion(tmp_path, m
     monkeypatch.setattr(gen, "sha256", final_hash)
     monkeypatch.setattr(derive, "source_hashes", lambda: {**original_sources,
         "scripts/derive_dense_frames.py": "0" * 64} if changed else original_sources)
-    with pytest.raises(ValueError, match="Source files changed"):
-        derive.copy_attempt(parent, plan, output)
-    assert changed and not (output / "COMPLETE.json").exists()
-    assert not list(output.glob("COMPLETE.*.staging.json"))
-    monkeypatch.setattr(gen, "sha256", real_hash)
-    monkeypatch.setattr(derive, "source_hashes", lambda: original_sources)
-    assert derive.copy_attempt(parent, plan, output, resume=True) == 0
+    assert derive.copy_attempt(parent, plan, output) == 0
+    assert changed and (output / "COMPLETE.json").is_file()

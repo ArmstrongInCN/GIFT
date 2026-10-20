@@ -3,7 +3,7 @@
 Training IDs come first, followed by validation and independent test IDs.
 Different grids and observation conditions of one trajectory always share one
 identity. The conversion is an explicit storage-ID lookup, never error-based
-sample selection. M1 keeps its separately defined identification data protocol.
+sample selection. W3 keeps its separately defined identification data protocol.
 """
 
 from __future__ import annotations
@@ -95,5 +95,5 @@ def prediction_split_manifest() -> dict:
         "gift_lite_training": list(LITE_TRAINING_IDS),
         "checkpoint_validation": list(CHECKPOINT_VALIDATION_IDS),
         "test_selection": "fixed identity partition, not selected by model outcomes",
-        "m1_protocol": "separate equation-identification dataset; unchanged",
+        "w3_protocol": "separate equation-identification dataset; unchanged",
     }

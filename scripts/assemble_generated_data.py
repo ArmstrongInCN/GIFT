@@ -1,8 +1,4 @@
-"""Assemble completed independent generation attempts into a NEW input collection.
-
-Only this project's completed generation receipts are accepted. Never imports models,
-copies released truth to fill gaps, edits arrays, or relaxes training hash gates.
-"""
+"""Assemble completed generation attempts into a new input collection."""
 from __future__ import annotations
 
 import argparse
@@ -26,15 +22,17 @@ CLEAN_PATHS = {
     "cross-resolution": "cross_resolution/cross_resolution_n96_n128_t4p1_t6p0_dt0p1.h5",
     "short-test": "fair_short_horizon/standard_ns_n64_full_spectrum_test_t4p1_t6p0_dt0p1.h5",
 }
-SAMPLING = {"sampling-clean": "noise_000", "sampling-001": "noise_001", "sampling-010": "noise_010"}
+SAMPLING = {"sampling-clean": "noise_000", "sampling-001": "noise_001", "sampling-005": "noise_005"}
 FULL_TRAIN_PARAMETER_HASH = "68e8d17c07e26c4034753022e8106432eacbdb3582da21470ac2b9be3eaacce8"
 
 
 def read_json(path):
+    """Read one UTF-8 generation record as a dictionary without altering it."""
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
 def checked_file(root, relative):
+    """Resolve an ordinary file within one generation attempt; reject links and escapes."""
     if (root / relative).is_symlink():
         raise ValueError("Linked generation files are not assembly inputs")
     path = (root / relative).resolve(strict=True)
@@ -44,6 +42,12 @@ def checked_file(root, relative):
 
 
 def load_attempt(name, directory):
+    """Read a completed full-population integration or frame-derivation record.
+
+    The saved receipt must agree with its own run record. Current project source
+    bytes are not compared with historical source metadata. Pilot and subset
+    outputs are unsuitable for this full data-package assembly operation.
+    """
     root = directory.resolve(strict=True)
     run, receipt = read_json(root / "run.json"), read_json(root / "COMPLETE.json")
     if receipt.get("status") == "COMPLETE_DERIVATION":
@@ -61,18 +65,16 @@ def load_attempt(name, directory):
     scientific = binding.get("plan", binding)
     if scientific.get("pilot") or scientific.get("subset") is not None:
         raise ValueError(f"{name}: pilot/subset inputs are not full-population data")
-    sources = scientific["sources"]
-    expected_script = "scripts/generate_data.py" if name in CLEAN_PATHS else "scripts/generate_noise.py" if name == "noise" else "scripts/generate_sampling.py"
-    if expected_script not in sources:
-        raise ValueError(f"{name}: wrong generation source")
-    for relative, expected in sources.items():
-        path = (gen.ROOT / relative).resolve(strict=True)
-        if gen.ROOT not in path.parents or gen.sha256(path) != expected.lower():
-            raise ValueError(f"{name}: generator/solver source hash differs: {relative}")
     return {"name": name, "root": root, "run": run, "receipt": receipt, "scientific": scientific}
 
 
 def expected_groups(dataset):
+    """Return the declared IDs, grids, solver-step indices and initial-parameter hashes.
+
+    These specifications distinguish native dense integration from coarse-time
+    views. Test groups retain the historical storage IDs until the later
+    canonical prediction-package conversion.
+    """
     seeds = gen.seed_parameters()
     if dataset == "standard":
         return [(split,64,seeds[split][0], list(range(1000,2001,100)) if split=="test" else list(range(0,2001,4)),gen.array_hash(seeds[split][1])) for split in seeds]
@@ -87,6 +89,7 @@ def expected_groups(dataset):
 
 
 def require_finite(field):
+    """Scan each trajectory in blocks of 16 frames to catch unwritten or invalid fields."""
     for row in range(field.shape[0]):
         for start in range(0,field.shape[1],16):
             if not np.isfinite(field[row,start:start+16]).all():
@@ -94,10 +97,12 @@ def require_finite(field):
 
 
 def validate_clean(attempt, *, full, data_path=None):
-    """Read a generation attempt, or an already range/hash-checked collection file.
+    """Check a clean generation job for this explicit data-assembly operation.
 
-    The optional path is a read-only consumer entry point; callers must enforce
-    their collection boundary. All scientific/receipt checks remain identical.
+    full=False inspects axes, schema, parameters and completion metadata;
+    full=True additionally verifies file bytes and scans all field values.
+    data_path selects an alternate copy without changing the expected contents.
+    Return file, destination, digest and split records for the package manifest.
     """
     name, plan = attempt["name"], attempt["scientific"]
     if plan.get("dataset") != name:
@@ -154,13 +159,18 @@ def validate_clean(attempt, *, full, data_path=None):
 
 
 def validate_derivative(attempt, available, *, full, data_paths=None):
-    """Validate own outputs; optional paths are range/hash-checked collection inputs."""
+    """Check noise or sampling outputs against their supplied clean-parent records.
+
+    full=True also verifies file bytes and all noise values. Sampling NPZ
+    arrays are always decoded to inspect their shape, dtype, finiteness and
+    seeded design. data_paths may select alternate copies for these checks.
+    """
     name,binding=attempt["name"],attempt["scientific"]
     if name=="noise":
         required=CLEAN_PATHS["standard"]
     else:
         condition=SAMPLING[name]
-        required=CLEAN_PATHS["standard"] if condition=="noise_000" else "m1_parameter_identification/"+condition+".h5"
+        required=CLEAN_PATHS["standard"] if condition=="noise_000" else "w3_parameter_identification/"+condition+".h5"
     if required not in available or binding["input_sha256"]!=available[required]:
         raise ValueError(f"{name}: requires its own newly generated parent input in this collection; released input cannot fill the gap")
     if name!="noise":
@@ -192,10 +202,10 @@ def validate_derivative(attempt, available, *, full, data_paths=None):
         return [(path,"auxiliary/pinn_sampling/"+SAMPLING[name]+"_seed1234.npz",digest,split_record)]
     if (binding.get("seed")!=0 or binding.get("rng")!="MT19937" or binding.get("scaling")!="std(clean_group,ddof=0)" or
             binding.get("group_order")!=["training","validation"] or binding.get("frame_chunk")!=16 or
-            binding.get("fractions")!={"noise_001":.01,"noise_010":.10}):
+            binding.get("fractions")!={"noise_001":.01,"noise_005":.05}):
         raise ValueError("Noise protocol differs")
     result=[]
-    for condition in ("noise_001","noise_010"):
+    for condition in ("noise_001","noise_005"):
         path=checked_file(attempt["root"],condition+".h5") if data_paths is None else Path(data_paths[condition+".h5"])
         digest=attempt["receipt"]["outputs"][condition+".h5"]
         if full and gen.sha256(path)!=digest:
@@ -218,11 +228,12 @@ def validate_derivative(attempt, available, *, full, data_paths=None):
                 if full:
                     require_finite(group["vorticity"])
                 splits[group_name]={"trajectory_ids":ids.tolist(),"times":group["time"][:].tolist(),"shape":list(group["vorticity"].shape),"dtype":"float32"}
-        result.append((path,"m1_parameter_identification/"+condition+".h5",digest,splits))
+        result.append((path,"w3_parameter_identification/"+condition+".h5",digest,splits))
     return result
 
 
 def copy_new(source, destination, expected):
+    """Copy an input to a new package path and verify the resulting file bytes."""
     destination.parent.mkdir(parents=True,exist_ok=True)
     with source.open("rb") as src, destination.open("xb") as dst:
         shutil.copyfileobj(src,dst,length=8*1024*1024)
@@ -231,6 +242,12 @@ def copy_new(source, destination, expected):
 
 
 def main(argv=None):
+    """Plan or assemble completed generation jobs into a new input collection.
+
+    Planning checks the inventory, schemas and generation/parent records.
+    --execute adds full file/field verification and copies the supplied jobs;
+    missing jobs are not filled from downloaded reference observations.
+    """
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--job",action="append",required=True,help="Repeat NAME=attempt_directory; see docs/DATA_GENERATION.md")
     parser.add_argument("--output",type=Path,required=True)

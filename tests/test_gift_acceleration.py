@@ -13,6 +13,7 @@ from experiments.formal._shared.gift_runtime import (
 
 
 def test_static_grid_cache_keeps_state_dict_and_gradients():
+    """Grid caches must preserve parameter keys, exact gradients and sensitivity to updated learned tables."""
     torch.manual_seed(44)
     reference = GIFTGenerator(2, rank=2)
     candidate = GIFTGenerator(2, rank=2)
@@ -33,6 +34,7 @@ def test_static_grid_cache_keeps_state_dict_and_gradients():
 
 
 def test_tensor_correction_preserves_state_counts_gates():
+    """Tensor correction must match the reference corrected state, trigger counts and failure flags."""
     state = torch.zeros(2, 64, 64)
     state[0, 13, 17] = 1000
     state[1] = torch.arange(64 * 64).reshape(64, 64).remainder(3) * 1000
@@ -45,6 +47,7 @@ def test_tensor_correction_preserves_state_counts_gates():
 
 
 def test_cpu_fallback_and_rejected_update():
+    """CPU graph requests resolve to eager, and a NaN batch leaves weights and optimizer state untouched."""
     model = GIFTGenerator(2, rank=1)
     engine = TrainingEngine(model, kind="generator", scale=1., backend="cuda-graph")
     assert engine.backend == "eager"
@@ -57,17 +60,27 @@ def test_cpu_fallback_and_rejected_update():
 
 
 def test_rollout_gate_rejects_before_optimizer_update():
+    """A real correction failure in the surrogate rollout must reject the whole batch before AdamW."""
     class SafetyBranch(torch.nn.Module):
         """Small control-flow fixture; correction uses the real tensor core."""
         def __init__(self):
+            """Create one zero-weight branch parameter and unit high-band loss scale."""
             super().__init__()
             self.weight = torch.nn.Parameter(torch.tensor(0.))
             self.high_scale = 1.
 
-        def enable_static_cache(self): pass
-        def split_state(self, value): return value, torch.zeros_like(value)
-        def project_q21(self, value): return value
-        def forward_with_generator_output(self, state, low): return state * self.weight
+        def enable_static_cache(self):
+            """Satisfy the engine interface; this scalar surrogate has no grid-dependent cache."""
+            pass
+        def split_state(self, value):
+            """Treat the supplied field as low state and start a zero high track for gate testing."""
+            return value, torch.zeros_like(value)
+        def project_q21(self, value):
+            """Leave fields unchanged so this fixture isolates correction rejection, not spectral projection."""
+            return value
+        def forward_with_generator_output(self, state, low):
+            """Return a differentiable scalar-weighted RHS for the rollout control path."""
+            return state * self.weight
 
     torch.manual_seed(100)
     sequence = torch.zeros(1, 8, 64, 64)
@@ -81,6 +94,7 @@ def test_rollout_gate_rejects_before_optimizer_update():
 
 
 def test_frozen_generator_mutation_is_rejected():
+    """Changing frozen parameters in place must invalidate the engine before a replayed backward."""
     from types import SimpleNamespace
     model = GIFTGenerator(2, rank=1)
     frozen = SimpleNamespace(model=GIFTGenerator(2, rank=1))
@@ -91,10 +105,11 @@ def test_frozen_generator_mutation_is_rejected():
 
 
 @pytest.mark.parametrize("module_name", [
-    "m2_recursive_prediction", "m3_cross_resolution", "s1_high_frequency_branch",
-    "s2_recursive_local_correction", "s3_seed_stability",
+    "w1_recursive_prediction", "w2_cross_resolution", "s1_high_frequency_branch",
+    "s2_recursive_local_correction",
 ])
 def test_prediction_cli_exposes_opt_in_backend(monkeypatch, module_name):
+    """Each prediction CLI must pass an explicit CUDA-graph request through its parser."""
     import importlib
     import sys
     module = importlib.import_module(f"experiments.formal.{module_name}.run")
@@ -105,6 +120,7 @@ def test_prediction_cli_exposes_opt_in_backend(monkeypatch, module_name):
 @pytest.mark.skipif(os.environ.get("GIFT_RUN_CUDA_TESTS") != "1" or not torch.cuda.is_available(),
                     reason="explicit CUDA test opt-in required")
 def test_graph_shape_switch_rng_and_parameter_storage_guard():
+    """Opt-in CUDA checks require exact eager gradients across shapes, unchanged RNG and stable parameter storage."""
     torch.manual_seed(88)
     model = GIFTGenerator(2, rank=1).cuda()
     model.constant_table.requires_grad_(False)

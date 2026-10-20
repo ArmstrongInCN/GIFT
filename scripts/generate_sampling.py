@@ -17,7 +17,7 @@ import h5py
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts.generate_data import ROOT, canonical, safe_output, sha256, write_json_new
+from scripts.generate_data import ROOT, canonical, generation_configuration, safe_output, sha256, write_json_new
 from scripts.generate_noise import rng_arrays, restore_rng
 
 
@@ -56,6 +56,13 @@ def sampling_design(times, grid, rng, sensors=500, time_samples=60, lhs_points=6
 
 
 def measurement_targets(source, arrays):
+    """Read selected frames of trajectory 0 and return sensor-major [u,v,omega] targets.
+
+    HDF requires increasing frame indices, so selected times are sorted for
+    reading and restored to the random design order afterward. Velocity is
+    reconstructed with a float64/complex128 FFT and zero derivative Nyquist
+    modes, then targets are flattened as [sensor,time,component] to [rows,3].
+    """
     selected = arrays["time_indices"]
     order = np.argsort(selected)
     frames = np.asarray(source["training/vorticity"][0, selected[order]], dtype=np.float32)[np.argsort(order)]
@@ -78,6 +85,12 @@ def measurement_targets(source, arrays):
 
 
 def main(argv=None):
+    """Create or resume the fixed PINN sensor/time split and LHS collocation cache.
+
+    The random design is saved before target extraction, so a pause after
+    design does not resample sensors, times, validation rows or physics points.
+    Only data preparation runs; no PINN model or optimizer is constructed.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True, help="Specified clean OR noisy H5; opened read-only")
     parser.add_argument("--output", type=Path, required=True)
@@ -113,8 +126,9 @@ def main(argv=None):
         if (output / "COMPLETE.json").exists():
             raise ValueError("Attempt already complete")
         run = json.loads((output / "run.json").read_text(encoding="utf-8"))
-        if run["binding_sha256"] != binding_hash or run["binding"] != binding:
-            raise ValueError("Resume input/source/configuration/runtime mismatch")
+        if generation_configuration(run["binding"]) != generation_configuration(binding):
+            raise ValueError("Resume input/configuration mismatch")
+        binding_hash = run["binding_sha256"]
         receipt = json.loads((output / "design.json").read_text(encoding="utf-8"))
         checkpoint = output / "design.npz"
         if sha256(checkpoint) != receipt["sha256"]:

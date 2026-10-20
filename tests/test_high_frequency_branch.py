@@ -24,10 +24,12 @@ from experiments.formal._shared.high_frequency import (
 
 
 def _zero_generator(state: torch.Tensor) -> torch.Tensor:
+    """Provide a stationary low-band RHS to isolate branch/integration behaviour."""
     return torch.zeros_like(state)
 
 
 def _model() -> HighFrequencyBranch:
+    """Construct a seeded untrained branch with fixed positive scale fixtures."""
     torch.manual_seed(7)
     return HighFrequencyBranch(
         HighFrequencyConfig(),
@@ -40,6 +42,7 @@ def _model() -> HighFrequencyBranch:
 
 
 def _released_payload() -> dict[str, object]:
+    """Assemble a format-complete fixture; metadata is not scientific training evidence."""
     model = _model()
     return {
         "schema": "gift.high_frequency_branch.parameters.v2",
@@ -71,6 +74,7 @@ def _released_payload() -> dict[str, object]:
 
 
 def test_released_configuration_is_fixed() -> None:
+    """Reject unsupported spectral dimensions in the published branch architecture."""
     HighFrequencyConfig()
     with pytest.raises(ValueError):
         HighFrequencyConfig(modes=20)
@@ -83,6 +87,7 @@ def test_released_configuration_is_fixed() -> None:
     ("schema", "fixed_upper_output_cutoff", "frozen_generator_sha256"),
 )
 def test_loader_rejects_incomplete_release_metadata(tmp_path, missing_key: str) -> None:
+    """Require the branch schema, support declaration and generator association."""
     payload = _released_payload()
     payload.pop(missing_key)
     path = tmp_path / f"missing_{missing_key}.pt"
@@ -93,6 +98,7 @@ def test_loader_rejects_incomplete_release_metadata(tmp_path, missing_key: str) 
 
 @pytest.mark.parametrize("grid", (64, 96, 128))
 def test_output_is_q21_on_each_supported_grid(grid: int) -> None:
+    """Verify branch output stays outside P21 at 64, 96 and 128 grid widths."""
     model = _model()
     state = torch.randn(2, grid, grid)
     value = model.forward_with_generator_output(state, torch.zeros_like(state))
@@ -104,6 +110,7 @@ def test_output_is_q21_on_each_supported_grid(grid: int) -> None:
 
 
 def test_modes_above_31_receive_state_dependent_action() -> None:
+    """A mode-40 input must receive nonzero action beyond the inner retained band."""
     grid = 96
     model = _model()
     coordinate = torch.arange(grid, dtype=torch.float32) / grid
@@ -116,6 +123,7 @@ def test_modes_above_31_receive_state_dependent_action() -> None:
 
 
 def test_disabled_branch_preserves_q21_anchor() -> None:
+    """A zero low RHS and disabled branch must leave the complete anchor unchanged."""
     grid = 64
     coordinate = np.arange(grid, dtype=np.float32) / grid
     yy, xx = np.meshgrid(coordinate, coordinate, indexing="ij")
@@ -140,23 +148,36 @@ def test_disabled_branch_preserves_q21_anchor() -> None:
 
 
 def test_same_stage_generator_output_is_reused_by_enabled_branch() -> None:
+    """Count one low evaluation per RK4 stage and inspect the branch's reused input.
+
+    Instrumented stand-ins isolate the call contract; they do not approximate
+    the learned branch or certify any scientific rollout accuracy.
+    """
     class CountingGenerator:
+        """Return a recognisable nonlinear RHS while counting stage evaluations."""
+
         def __init__(self) -> None:
+            """Initialise the stage-call counter."""
             self.calls = 0
 
         def __call__(self, state: torch.Tensor) -> torch.Tensor:
+            """Count and return ``state**2+1`` for independent projection checking."""
             self.calls += 1
             return state.square() + 1.0
 
     class ZeroBranch:
+        """Inspect the projected low RHS and contribute no high-band dynamics."""
+
         config = SimpleNamespace(cutoff=21)
 
         def __init__(self) -> None:
+            """Initialise the branch-call counter."""
             self.calls = 0
 
         def forward_with_generator_output(
             self, state: torch.Tensor, low_rhs: torch.Tensor
         ) -> torch.Tensor:
+            """Check the supplied P21 projection against this stage's state."""
             self.calls += 1
             p21 = square_mask(
                 int(state.shape[-1]),

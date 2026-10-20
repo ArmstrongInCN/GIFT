@@ -1,4 +1,4 @@
-"""Append a verified S4 population, preserving every existing numeric file.
+"""Append a verified S3 population, preserving every existing numeric file.
 
 Metadata backups are mandatory and stay outside the Zenodo package. No existing
 data directory is replaced, moved or deleted. Metadata are committed last.
@@ -21,9 +21,9 @@ from scripts.verify_data import verify, sha256
 
 DESCRIPTION = '''
 
-## S4: Gaussian random-field initial conditions / 高斯随机场初值
+## S3: Gaussian random-field initial conditions / 高斯随机场初值
 
-`s4_gaussian/trajectories.h5` contains 1,220 independent N64 trajectories,
+`s3_gaussian/trajectories.h5` contains 1,220 independent N64 trajectories,
 sampled at t=0, 0.02, ..., 10 (501 frames). IDs are appended to the original
 population: training 1220–2219, validation 2220–2259, test 2260–2439.
 The `validation` group contains checkpoint-validation IDs 2220–2239;
@@ -52,12 +52,19 @@ The root manifest also covers all five files. License: CC BY 4.0, unchanged.
 
 
 def append(package, dataset, backup):
-    # Extend an existing Zenodo-style data package with the S4 Gaussian population.
+    # Extend an existing Zenodo-style data package with the S3 Gaussian population.
     # Every original numeric file is preserved byte-for-byte; only metadata are
     # rewritten, and a mandatory backup of those metadata stays outside the package.
+    """Add a completed S3 population while preserving the original numeric files.
+
+    The existing package is verified first. Its five metadata files are backed
+    up outside the package before the new directory is copied; the root manifest
+    is updated last. This operation extends a package rather than generating
+    observations or overwriting an existing population.
+    """
     package, dataset = Path(package).resolve(strict=True), Path(dataset).resolve(strict=True)
     backup = Path(backup).resolve()
-    destination = dataset/'s4_gaussian'
+    destination = dataset/'s3_gaussian'
     if (destination.exists()
             or backup.exists() or dataset == backup or dataset in backup.parents):
         raise ValueError('Use an unextended data package and a new external metadata-backup directory')
@@ -78,7 +85,7 @@ def append(package, dataset, backup):
     splits = json.loads((backup/'splits.json').read_text(encoding='utf-8'))
     splits.setdefault('additional_populations', {})[GAUSSIAN] = partitions(GAUSSIAN)
     schema = json.loads((backup/'schema.json').read_text(encoding='utf-8'))
-    schema['files'].update({'s4_gaussian/'+name: value for name, value in nested['observation_schema'].items()})
+    schema['files'].update({'s3_gaussian/'+name: value for name, value in nested['observation_schema'].items()})
     for name, value in (('splits.json', splits), ('schema.json', schema)):
         (dataset/name).write_text(json.dumps(value, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     records = []
@@ -97,7 +104,7 @@ def append(package, dataset, backup):
             sha256=sha256(file), data_license='CC-BY-4.0',
             category='scientific_input' if file.suffix=='.h5' else 'metadata'))
     updated = dict(previous, files=records, file_count=len(records), total_bytes=sum(r['bytes'] for r in records),
-                   gaussian_population='s4_gaussian', gaussian_observations_lossless=True)
+                   gaussian_population='s3_gaussian', gaussian_observations_lossless=True)
     (dataset/'manifest.json').write_text(json.dumps(updated, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     result = verify(dataset, full_array_scan=True)
     result['original_numeric_files_unchanged'] = True
@@ -106,6 +113,7 @@ def append(package, dataset, backup):
 
 
 def main():
+    """Read the S3 package, destination and metadata-backup paths, then append once."""
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--package', type=Path, required=True)
     parser.add_argument('--dataset', type=Path, required=True)

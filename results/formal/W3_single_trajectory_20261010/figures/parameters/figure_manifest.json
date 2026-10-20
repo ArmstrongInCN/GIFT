@@ -1,0 +1,808 @@
+{
+  "schema": "gift.w3.parameter-joint-error-figure.v1",
+  "status": "complete",
+  "experiment": "W3",
+  "figure_number": 4,
+  "panels": {
+    "joint": "five methods in one shared origin-crossing signed xyz frame"
+  },
+  "sources": [
+    {
+      "scope": "numerical-package",
+      "path": "summary/parameter_results.csv",
+      "sha256": "7a202ab85c760b28a3344527d2c3bf657adc58ed04941635375baa003357c190",
+      "rows": 750
+    }
+  ],
+  "plot_source": {
+    "scope": "repository",
+    "path": "experiments/formal/w3_equation_identification/plot_parameter_clouds.py",
+    "sha256": "d661844ee674ce31066d0e1efdbd8f44bf25d633cc666558b4328b9cef42cb33"
+  },
+  "files": [
+    {
+      "path": "w3_parameter_joint_errors.svg",
+      "bytes": 11362497,
+      "sha256": "eaa6c7a61ffc087a63f76bb370738c3b6c3d2f5199b35e6e586606155cb00c6c"
+    },
+    {
+      "path": "figure_metadata.json",
+      "bytes": 152057,
+      "sha256": "46340c6725cd135f4474f649db206acd26623ccf47504b1144ca5950ae971979"
+    },
+    {
+      "path": "source_points.csv",
+      "bytes": 20168,
+      "sha256": "ce8707773244580c422bf76b28374136f986f2afa5eabff2b8baa1b86d365cdd"
+    },
+    {
+      "path": "envelope_meshes.npz",
+      "bytes": 637723,
+      "sha256": "bc184b3d8102c0d036f48147769c697796ac08afe59f491ac83f478b7ae567c7"
+    },
+    {
+      "path": "aerosol_render_data.npz",
+      "bytes": 29085669,
+      "sha256": "422cb8ad991e21d50c6ba76d72f20a8614c13efe127fafe73d1f99ce86af9779"
+    }
+  ],
+  "preview": {
+    "scope": "repository",
+    "path": "assets/figures/w3_parameter_joint_errors.png",
+    "bytes": 728484,
+    "sha256": "de51c0f001a251e382c02f868856343dab76cea349fa07388688af59b99b2a1c"
+  },
+  "data_contract": {
+    "case_count_per_method": 50,
+    "method_count": 5,
+    "point_count": 250,
+    "three_dimensional_coordinates": "100 * (estimate - truth) / truth; raw signed percent, nu/beta/gamma",
+    "positive_values": "overestimation",
+    "negative_values": "underestimation",
+    "all_points_retained": true,
+    "observed_coordinates_not_smoothed": true,
+    "no_jitter": true,
+    "origin_is_reference_only": true,
+    "empirical_geometry": "unique convex-hull supporting-plane logsumexp sublevel",
+    "common_smoothing_tau": 0.05,
+    "coverage_padding": 1e-09,
+    "coverage_level": "max_i F(z_i)+1e-9",
+    "standardization": "sample mean and sample standard deviation ddof1, geometry only",
+    "predefined_shape_family": null,
+    "convex_outer_envelope": true,
+    "solid_surface_is_drawn": false,
+    "limitations": "convexity bridges unobserved gaps; smoothing can extend beyond observations; Gaussian fog softness is a display reconstruction",
+    "geometric_integration_support_count": 163840,
+    "supports_are_observations": false,
+    "individually_drawn_support_particles": 0,
+    "fog_is_probability_or_confidence": false,
+    "fog_intensity_is_accuracy": false,
+    "not_multiple_seeds": true,
+    "envelope_volume_not_ranked": true,
+    "APE_summary_tables_unchanged": true
+  },
+  "width_mm": 270,
+  "height_mm": 220,
+  "camera": {
+    "projection": "persp",
+    "focal_length": 1.15,
+    "elev": 30,
+    "azim": 45,
+    "box_zoom": 1.25
+  },
+  "box_aspect": [
+    1.4317123692274512,
+    1.4543287047303572,
+    1.22865700916875
+  ],
+  "axis_definitions": [
+    {
+      "name": "nu",
+      "symbol": "ν",
+      "dimension": 0,
+      "endpoints": [
+        [
+          -120.0,
+          0.0,
+          0.0
+        ],
+        [
+          400.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ticks": [
+        -100.0,
+        0.0,
+        100.0,
+        200.0,
+        300.0,
+        400.0
+      ],
+      "zero_tick_shared_at_origin": true,
+      "tick_labels": [
+        "-100",
+        "0",
+        "+100",
+        "+200",
+        "+300",
+        "+400"
+      ],
+      "SVG_axis_id": "axis-nu",
+      "projected_endpoints": [
+        [
+          0.06586216882783051,
+          0.04722017731225635
+        ],
+        [
+          -0.03708671026360034,
+          -0.0030886556953021245
+        ]
+      ]
+    },
+    {
+      "name": "beta",
+      "symbol": "β",
+      "dimension": 1,
+      "endpoints": [
+        [
+          0.0,
+          -285.0,
+          0.0
+        ],
+        [
+          0.0,
+          150.0,
+          0.0
+        ]
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ticks": [
+        -250.0,
+        -150.0,
+        -50.0,
+        0.0,
+        50.0,
+        100.0,
+        150.0
+      ],
+      "zero_tick_shared_at_origin": true,
+      "tick_labels": [
+        "-250",
+        "-150",
+        "-50",
+        "0",
+        "+50",
+        "+100",
+        "+150"
+      ],
+      "SVG_axis_id": "axis-beta",
+      "projected_endpoints": [
+        [
+          -0.023144098736973786,
+          0.06680045713652305
+        ],
+        [
+          0.08139794345223851,
+          0.018954528631375502
+        ]
+      ]
+    },
+    {
+      "name": "gamma",
+      "symbol": "γ",
+      "dimension": 2,
+      "endpoints": [
+        [
+          0.0,
+          0.0,
+          -110.0
+        ],
+        [
+          0.0,
+          0.0,
+          30.0
+        ]
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ticks": [
+        -100.0,
+        -50.0,
+        0.0,
+        30.0
+      ],
+      "zero_tick_shared_at_origin": true,
+      "tick_labels": [
+        "-100",
+        "-50",
+        "0",
+        "+30"
+      ],
+      "SVG_axis_id": "axis-gamma",
+      "projected_endpoints": [
+        [
+          0.04174345933494145,
+          -0.04593522524736188
+        ],
+        [
+          0.04401472931859271,
+          0.0599428460221773
+        ]
+      ]
+    }
+  ],
+  "shared_display_limits": [
+    [
+      -120.0,
+      400.0
+    ],
+    [
+      -285.0,
+      150.0
+    ],
+    [
+      -110.0,
+      30.0
+    ]
+  ],
+  "data_panel_count": 1,
+  "axis_intersection": [
+    0,
+    0,
+    0
+  ],
+  "grid_visible": false,
+  "panes_visible": false,
+  "bounding_box_visible": false,
+  "solid_faces_drawn": 0,
+  "outline_count": 0,
+  "section_curve_count": 0,
+  "fog_rendering": {
+    "sampling": "5D unscrambled Sobol, half-cell shifted; volume-weighted tetrahedra and normalized exponential barycentric weights",
+    "support_power": 15,
+    "supports_per_method": 32768,
+    "supports_are_observations": false,
+    "individual_support_particles_drawn": false,
+    "reconstruction": "projected weighted histogram followed by normalized Gaussian convolution",
+    "grid_spacing_points": 0.6,
+    "Gaussian_sigma_points": 2.8,
+    "Gaussian_truncate_sigma": 4.0,
+    "grid_padding_sigma": 5.0,
+    "mean_optical_depth_per_projected_silhouette": 0.85,
+    "visibility_normalization": "total support optical mass = common mean optical depth times projected full-mesh silhouette area",
+    "concentration": "within-method 50-point full-covariance Scott KDE log-Q05/Q95; weight .8+.2*concentration",
+    "boundary_fade_fraction": 0.38,
+    "depth_slabs": 12,
+    "composition": "approximate common projected-depth slabs, representative mass-weighted mean depth, jointly ordered with all 250 measured centers",
+    "optical_to_opacity": "1-exp(-tau)",
+    "vector_approximation": "48 nested midpoint optical-depth contour levels per field; no contour lines",
+    "maximum_optical_quantization_error": "tau_max/(2*contour_levels) for each field",
+    "contour_levels": 48,
+    "final_field_soften_sigma_points": 0.2,
+    "solid_surface_drawn": false,
+    "geometry_changed_for_appearance": false,
+    "layers": [
+      {
+        "gid": "fog-gift-depth_03",
+        "method": "GIFT",
+        "depth_slab": 3,
+        "sample_count": 6096,
+        "representative_projected_depth": -0.8704557244582013,
+        "optical_mass": 114.19324994844723,
+        "integrated_field_mass": 114.1932499484472,
+        "tau_max": 0.8288902597321535,
+        "contour_optical_step": 0.0172685470777532,
+        "contour_incremental_alpha": 0.017120300280835242,
+        "path_count": 48,
+        "prefix": "GIFT_slab_03"
+      },
+      {
+        "gid": "fog-gift-depth_04",
+        "method": "GIFT",
+        "depth_slab": 4,
+        "sample_count": 19377,
+        "representative_projected_depth": -0.8652824332873649,
+        "optical_mass": 419.0037615076689,
+        "integrated_field_mass": 419.00376150766886,
+        "tau_max": 1.736608588493775,
+        "contour_optical_step": 0.036179345593620314,
+        "contour_incremental_alpha": 0.03553269499011789,
+        "path_count": 48,
+        "prefix": "GIFT_slab_04"
+      },
+      {
+        "gid": "fog-gift-depth_05",
+        "method": "GIFT",
+        "depth_slab": 5,
+        "sample_count": 7295,
+        "representative_projected_depth": -0.8604022682696715,
+        "optical_mass": 114.8187944580348,
+        "integrated_field_mass": 114.81879445803476,
+        "tau_max": 0.8962794941174927,
+        "contour_optical_step": 0.018672489460781098,
+        "contour_incremental_alpha": 0.018499238547253976,
+        "path_count": 48,
+        "prefix": "GIFT_slab_05"
+      },
+      {
+        "gid": "fog-pde-find-depth_00",
+        "method": "PDE-FIND",
+        "depth_slab": 0,
+        "sample_count": 3173,
+        "representative_projected_depth": -0.8901819517675587,
+        "optical_mass": 76.64944489721506,
+        "integrated_field_mass": 76.64944489721505,
+        "tau_max": 0.5282393509817592,
+        "contour_optical_step": 0.01100498647878665,
+        "contour_incremental_alpha": 0.010944653140433675,
+        "path_count": 48,
+        "prefix": "PDE-FIND_slab_00"
+      },
+      {
+        "gid": "fog-pde-find-depth_01",
+        "method": "PDE-FIND",
+        "depth_slab": 1,
+        "sample_count": 16121,
+        "representative_projected_depth": -0.8857067727772236,
+        "optical_mass": 808.4347837769506,
+        "integrated_field_mass": 808.4347837769504,
+        "tau_max": 1.6834834929855313,
+        "contour_optical_step": 0.035072572770531905,
+        "contour_incremental_alpha": 0.03446465785996476,
+        "path_count": 48,
+        "prefix": "PDE-FIND_slab_01"
+      },
+      {
+        "gid": "fog-pde-find-depth_02",
+        "method": "PDE-FIND",
+        "depth_slab": 2,
+        "sample_count": 11697,
+        "representative_projected_depth": -0.8798330564384564,
+        "optical_mass": 521.0233821368292,
+        "integrated_field_mass": 521.0233821368291,
+        "tau_max": 1.5559373048552625,
+        "contour_optical_step": 0.032415360517817966,
+        "contour_incremental_alpha": 0.031895613782321905,
+        "path_count": 48,
+        "prefix": "PDE-FIND_slab_02"
+      },
+      {
+        "gid": "fog-pde-find-depth_03",
+        "method": "PDE-FIND",
+        "depth_slab": 3,
+        "sample_count": 1777,
+        "representative_projected_depth": -0.8745573391609666,
+        "optical_mass": 33.1445951376042,
+        "integrated_field_mass": 33.14459513760419,
+        "tau_max": 0.28092427102466183,
+        "contour_optical_step": 0.0058525889796804545,
+        "contour_incremental_alpha": 0.005835495943227279,
+        "path_count": 48,
+        "prefix": "PDE-FIND_slab_03"
+      },
+      {
+        "gid": "fog-pde-find-kc-depth_02",
+        "method": "PDE-FIND-KC",
+        "depth_slab": 2,
+        "sample_count": 4138,
+        "representative_projected_depth": -0.8759564978985281,
+        "optical_mass": 19.01573273685795,
+        "integrated_field_mass": 19.015732736857945,
+        "tau_max": 0.21967709546790765,
+        "contour_optical_step": 0.004576606155581409,
+        "contour_incremental_alpha": 0.004566149451783418,
+        "path_count": 48,
+        "prefix": "PDE-FIND-KC_slab_02"
+      },
+      {
+        "gid": "fog-pde-find-kc-depth_03",
+        "method": "PDE-FIND-KC",
+        "depth_slab": 3,
+        "sample_count": 28630,
+        "representative_projected_depth": -0.8739700357764547,
+        "optical_mass": 154.10319085463112,
+        "integrated_field_mass": 154.10319085463115,
+        "tau_max": 1.150130869724596,
+        "contour_optical_step": 0.023961059785929082,
+        "contour_incremental_alpha": 0.023676272727358057,
+        "path_count": 48,
+        "prefix": "PDE-FIND-KC_slab_03"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_00",
+        "method": "PINN-SR",
+        "depth_slab": 0,
+        "sample_count": 679,
+        "representative_projected_depth": -0.8907333073098835,
+        "optical_mass": 89.76844321867858,
+        "integrated_field_mass": 89.76844321867857,
+        "tau_max": 0.2338157301258871,
+        "contour_optical_step": 0.004871161044289315,
+        "contour_incremental_alpha": 0.004859316179881589,
+        "path_count": 48,
+        "prefix": "PINN-SR_slab_00"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_01",
+        "method": "PINN-SR",
+        "depth_slab": 1,
+        "sample_count": 2304,
+        "representative_projected_depth": -0.8851022646605702,
+        "optical_mass": 696.10725001075,
+        "integrated_field_mass": 696.1072500107499,
+        "tau_max": 0.6839601585505792,
+        "contour_optical_step": 0.014249169969803735,
+        "contour_incremental_alpha": 0.014148131023742662,
+        "path_count": 55,
+        "prefix": "PINN-SR_slab_01"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_02",
+        "method": "PINN-SR",
+        "depth_slab": 2,
+        "sample_count": 4008,
+        "representative_projected_depth": -0.8787333223402538,
+        "optical_mass": 1591.3747016653147,
+        "integrated_field_mass": 1591.3747016653142,
+        "tau_max": 1.1345170627619667,
+        "contour_optical_step": 0.023635772140874308,
+        "contour_incremental_alpha": 0.023358635022292736,
+        "path_count": 57,
+        "prefix": "PINN-SR_slab_02"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_03",
+        "method": "PINN-SR",
+        "depth_slab": 3,
+        "sample_count": 4787,
+        "representative_projected_depth": -0.8722861724010444,
+        "optical_mass": 2006.8020513376755,
+        "integrated_field_mass": 2006.8020513376753,
+        "tau_max": 1.310523822517579,
+        "contour_optical_step": 0.027302579635782896,
+        "contour_incremental_alpha": 0.026933233212332843,
+        "path_count": 70,
+        "prefix": "PINN-SR_slab_03"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_04",
+        "method": "PINN-SR",
+        "depth_slab": 4,
+        "sample_count": 4702,
+        "representative_projected_depth": -0.865523392659007,
+        "optical_mass": 1907.7031521200083,
+        "integrated_field_mass": 1907.7031521200079,
+        "tau_max": 1.319469812031617,
+        "contour_optical_step": 0.027488954417325354,
+        "contour_incremental_alpha": 0.027114571419459846,
+        "path_count": 55,
+        "prefix": "PINN-SR_slab_04"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_05",
+        "method": "PINN-SR",
+        "depth_slab": 5,
+        "sample_count": 4078,
+        "representative_projected_depth": -0.8587618078310356,
+        "optical_mass": 1563.0540089447256,
+        "integrated_field_mass": 1563.0540089447256,
+        "tau_max": 1.3154916352065453,
+        "contour_optical_step": 0.027406075733469693,
+        "contour_incremental_alpha": 0.027033936614189624,
+        "path_count": 52,
+        "prefix": "PINN-SR_slab_05"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_06",
+        "method": "PINN-SR",
+        "depth_slab": 6,
+        "sample_count": 3682,
+        "representative_projected_depth": -0.8519093570805858,
+        "optical_mass": 1307.2279635662126,
+        "integrated_field_mass": 1307.2279635662126,
+        "tau_max": 1.2165636001053064,
+        "contour_optical_step": 0.025345075002193882,
+        "contour_incremental_alpha": 0.025026584980008194,
+        "path_count": 51,
+        "prefix": "PINN-SR_slab_06"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_07",
+        "method": "PINN-SR",
+        "depth_slab": 7,
+        "sample_count": 3057,
+        "representative_projected_depth": -0.8451379666193218,
+        "optical_mass": 980.6579115987912,
+        "integrated_field_mass": 980.6579115987909,
+        "tau_max": 1.045975574918931,
+        "contour_optical_step": 0.021791157810811063,
+        "contour_incremental_alpha": 0.02155544578206074,
+        "path_count": 50,
+        "prefix": "PINN-SR_slab_07"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_08",
+        "method": "PINN-SR",
+        "depth_slab": 8,
+        "sample_count": 2507,
+        "representative_projected_depth": -0.838461692357146,
+        "optical_mass": 737.9225929302944,
+        "integrated_field_mass": 737.9225929302943,
+        "tau_max": 1.0824246176339682,
+        "contour_optical_step": 0.022550512867374337,
+        "contour_incremental_alpha": 0.022298150577863607,
+        "path_count": 49,
+        "prefix": "PINN-SR_slab_08"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_09",
+        "method": "PINN-SR",
+        "depth_slab": 9,
+        "sample_count": 1778,
+        "representative_projected_depth": -0.8316839453033137,
+        "optical_mass": 406.82137853381266,
+        "integrated_field_mass": 406.82137853381266,
+        "tau_max": 0.7066907346003628,
+        "contour_optical_step": 0.014722723637507559,
+        "contour_incremental_alpha": 0.014614874269398725,
+        "path_count": 49,
+        "prefix": "PINN-SR_slab_09"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_10",
+        "method": "PINN-SR",
+        "depth_slab": 10,
+        "sample_count": 1027,
+        "representative_projected_depth": -0.8254511288498021,
+        "optical_mass": 157.57249073941063,
+        "integrated_field_mass": 157.5724907394106,
+        "tau_max": 0.4537385858574724,
+        "contour_optical_step": 0.009452887205364009,
+        "contour_incremental_alpha": 0.00940834911543226,
+        "path_count": 48,
+        "prefix": "PINN-SR_slab_10"
+      },
+      {
+        "gid": "fog-pinn-sr-depth_11",
+        "method": "PINN-SR",
+        "depth_slab": 11,
+        "sample_count": 159,
+        "representative_projected_depth": -0.8202074786162236,
+        "optical_mass": 7.572188272570653,
+        "integrated_field_mass": 7.572188272570651,
+        "tau_max": 0.05938380793818801,
+        "contour_optical_step": 0.0012371626653789169,
+        "contour_incremental_alpha": 0.0012363976951453382,
+        "path_count": 48,
+        "prefix": "PINN-SR_slab_11"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_00",
+        "method": "PINN-SR-KC",
+        "depth_slab": 0,
+        "sample_count": 37,
+        "representative_projected_depth": -0.8899130337700598,
+        "optical_mass": 2.1144797471069863,
+        "integrated_field_mass": 2.1144797471069863,
+        "tau_max": 0.020816647469187953,
+        "contour_optical_step": 0.00043368015560808234,
+        "contour_incremental_alpha": 0.00043358612996224167,
+        "path_count": 48,
+        "prefix": "PINN-SR-KC_slab_00"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_01",
+        "method": "PINN-SR-KC",
+        "depth_slab": 1,
+        "sample_count": 675,
+        "representative_projected_depth": -0.8847725929437809,
+        "optical_mass": 128.88545689028686,
+        "integrated_field_mass": 128.88545689028683,
+        "tau_max": 0.22607439244034264,
+        "contour_optical_step": 0.004709883175840471,
+        "contour_incremental_alpha": 0.0046988090688138895,
+        "path_count": 50,
+        "prefix": "PINN-SR-KC_slab_01"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_02",
+        "method": "PINN-SR-KC",
+        "depth_slab": 2,
+        "sample_count": 2033,
+        "representative_projected_depth": -0.8785666160724481,
+        "optical_mass": 587.3987696323775,
+        "integrated_field_mass": 587.3987696323775,
+        "tau_max": 0.3592761202292545,
+        "contour_optical_step": 0.007484919171442801,
+        "contour_incremental_alpha": 0.007456976922562047,
+        "path_count": 83,
+        "prefix": "PINN-SR-KC_slab_02"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_03",
+        "method": "PINN-SR-KC",
+        "depth_slab": 3,
+        "sample_count": 3151,
+        "representative_projected_depth": -0.8721028530587489,
+        "optical_mass": 1093.5413684788705,
+        "integrated_field_mass": 1093.5413684788705,
+        "tau_max": 0.4238661410845568,
+        "contour_optical_step": 0.008830544605928267,
+        "contour_incremental_alpha": 0.008791669859459679,
+        "path_count": 102,
+        "prefix": "PINN-SR-KC_slab_03"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_04",
+        "method": "PINN-SR-KC",
+        "depth_slab": 4,
+        "sample_count": 3730,
+        "representative_projected_depth": -0.8653048016678815,
+        "optical_mass": 1351.5594935886534,
+        "integrated_field_mass": 1351.559493588653,
+        "tau_max": 0.4004505169980848,
+        "contour_optical_step": 0.008342719104126766,
+        "contour_incremental_alpha": 0.00830801519847162,
+        "path_count": 91,
+        "prefix": "PINN-SR-KC_slab_04"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_05",
+        "method": "PINN-SR-KC",
+        "depth_slab": 5,
+        "sample_count": 4089,
+        "representative_projected_depth": -0.8585675060365456,
+        "optical_mass": 1502.7446355119794,
+        "integrated_field_mass": 1502.744635511979,
+        "tau_max": 0.421165103604804,
+        "contour_optical_step": 0.00877427299176675,
+        "contour_incremental_alpha": 0.008735891397395,
+        "path_count": 123,
+        "prefix": "PINN-SR-KC_slab_05"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_06",
+        "method": "PINN-SR-KC",
+        "depth_slab": 6,
+        "sample_count": 4158,
+        "representative_projected_depth": -0.8517601291619354,
+        "optical_mass": 1512.2633031295588,
+        "integrated_field_mass": 1512.2633031295588,
+        "tau_max": 0.447596076890552,
+        "contour_optical_step": 0.009324918268553166,
+        "contour_incremental_alpha": 0.009281576043720267,
+        "path_count": 105,
+        "prefix": "PINN-SR-KC_slab_06"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_07",
+        "method": "PINN-SR-KC",
+        "depth_slab": 7,
+        "sample_count": 4227,
+        "representative_projected_depth": -0.8450195408905543,
+        "optical_mass": 1547.9753659027506,
+        "integrated_field_mass": 1547.9753659027501,
+        "tau_max": 0.4134753577161736,
+        "contour_optical_step": 0.008614069952420284,
+        "contour_incremental_alpha": 0.008577075153318967,
+        "path_count": 109,
+        "prefix": "PINN-SR-KC_slab_07"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_08",
+        "method": "PINN-SR-KC",
+        "depth_slab": 8,
+        "sample_count": 4041,
+        "representative_projected_depth": -0.8382307396326887,
+        "optical_mass": 1463.974120090582,
+        "integrated_field_mass": 1463.9741200905817,
+        "tau_max": 0.44877859252220687,
+        "contour_optical_step": 0.009349554010879309,
+        "contour_incremental_alpha": 0.009305982826889771,
+        "path_count": 93,
+        "prefix": "PINN-SR-KC_slab_08"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_09",
+        "method": "PINN-SR-KC",
+        "depth_slab": 9,
+        "sample_count": 3744,
+        "representative_projected_depth": -0.8314742826056897,
+        "optical_mass": 1347.3057829872462,
+        "integrated_field_mass": 1347.3057829872462,
+        "tau_max": 0.4600007402485892,
+        "contour_optical_step": 0.009583348755178942,
+        "contour_incremental_alpha": 0.009537574807765058,
+        "path_count": 82,
+        "prefix": "PINN-SR-KC_slab_09"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_10",
+        "method": "PINN-SR-KC",
+        "depth_slab": 10,
+        "sample_count": 2330,
+        "representative_projected_depth": -0.8251624204785926,
+        "optical_mass": 749.04166621393,
+        "integrated_field_mass": 749.0416662139298,
+        "tau_max": 0.43146038974764345,
+        "contour_optical_step": 0.008988758119742571,
+        "contour_incremental_alpha": 0.008948480007223883,
+        "path_count": 64,
+        "prefix": "PINN-SR-KC_slab_10"
+      },
+      {
+        "gid": "fog-pinn-sr-kc-depth_11",
+        "method": "PINN-SR-KC",
+        "depth_slab": 11,
+        "sample_count": 553,
+        "representative_projected_depth": -0.8193741179855654,
+        "optical_mass": 120.75965570906975,
+        "integrated_field_mass": 120.75965570906973,
+        "tau_max": 0.2559254180267989,
+        "contour_optical_step": 0.005331779542224978,
+        "contour_incremental_alpha": 0.005317590833903435,
+        "path_count": 48,
+        "prefix": "PINN-SR-KC_slab_11"
+      }
+    ]
+  },
+  "observation_rendering": {
+    "point_count": 250,
+    "glyph_count": 250,
+    "all_methods_marker": "soft flat circle",
+    "base_outer_radius_points": 3.0,
+    "perspective_radius_rule": "radius * median(observed clip-w) / own clip-w",
+    "reference_clip_w": 11.414386475793595,
+    "alpha_rule": ".84+.12*near",
+    "radial_opacity": "exp(-4.5*r**2) times smoothstep((1-r)/.25), sampled at 41 stops on normalized radius [0,1]",
+    "color_constant_within_dot": true,
+    "highlight": false,
+    "stroke": false,
+    "new_measured_centers": 0
+  },
+  "method_styles": {
+    "GIFT": {
+      "color": "#16386C",
+      "marker": "soft flat circle"
+    },
+    "PDE-FIND": {
+      "color": "#C58A36",
+      "marker": "soft flat circle"
+    },
+    "PDE-FIND-KC": {
+      "color": "#236B4C",
+      "marker": "soft flat circle"
+    },
+    "PINN-SR": {
+      "color": "#925AB1",
+      "marker": "soft flat circle"
+    },
+    "PINN-SR-KC": {
+      "color": "#287780",
+      "marker": "soft flat circle"
+    }
+  },
+  "palette_meaning": "method hue identity; fog concentration is qualitative within method, not cross-method accuracy",
+  "scientific_audit_sha256": "d1ed769f4d4c00168a5f92a4bba06bd41ccdc4dd38211ddd127ae873f8280111",
+  "visual_qa_sha256": "5fc94be90bbb15933cc8454c0557a05fa09a28e8416f527925237be00528e1d6",
+  "vector_integrity": {
+    "embedded_raster_images": 0,
+    "editable_text": true,
+    "all_250_observed_soft_circle_centers_verified": true,
+    "native_Gaussian_fog_filters": true
+  }
+}

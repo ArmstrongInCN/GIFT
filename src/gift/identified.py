@@ -1,3 +1,9 @@
+"""Load frozen generators and integrate their continuous-time field dynamics.
+
+Artifact loading checks model format and tensor layout. The grid adapter below
+also preserves the physical amplitude of a constant term when native FFT
+coefficients move between resolutions.
+"""
 from __future__ import annotations
 
 from pathlib import Path
@@ -7,10 +13,16 @@ import torch
 from .model import GIFTGenerator
 
 
-def load_release_payload(artifact: str | Path) -> dict:
-    """Load and validate a frozen GIFT artifact payload on CPU."""
+def load_release_payload(artifact: str | Path | dict) -> dict:
+    """Read format-2/3 model metadata and weights without optimizer recovery.
 
-    payload = torch.load(Path(artifact), map_location="cpu", weights_only=True)
+    ``artifact`` may be an already loaded dictionary or a Torch artifact path.
+    Paths are deserialised on CPU with ``weights_only=True``; dictionaries are
+    returned directly after required model fields are checked.
+    """
+
+    payload = artifact if isinstance(artifact, dict) else torch.load(
+        Path(artifact), map_location="cpu", weights_only=True)
     if payload.get("format_version") not in (2, 3):
         raise ValueError("unsupported GIFT artifact format")
     if "model_configuration" not in payload or "model_state_dict" not in payload:
@@ -19,11 +31,15 @@ def load_release_payload(artifact: str | Path) -> dict:
 
 
 def load_generator(
-    artifact: str | Path,
+    artifact: str | Path | dict,
     *,
     device: str | torch.device = "cpu",
 ) -> GIFTGenerator:
-    """Load a frozen GIFT generator artifact."""
+    """Rebuild a generator, load exact state keys/shapes, and enter eval mode.
+
+    The returned model lives on ``device``. Eval mode does not disable
+    autograd; inference callers choose their own gradient context.
+    """
     payload = load_release_payload(artifact)
     model = GIFTGenerator(**payload["model_configuration"])
     model.load_state_dict(payload["model_state_dict"], strict=True)
@@ -36,9 +52,7 @@ class FixedBandwidthGridGenerator:
     ``reference_grid`` is the grid on which the model's unnormalised constant
     DFT table was identified.  Only that complete state-independent table is
     converted by ``(grid_size / reference_grid) ** 2``; the linear multiplier
-    and quadratic factors are unchanged.  ``constant_factor`` is an explicit
-    override reserved for controlled representation-unit ablations; normal
-    inference should leave it as ``None``.
+    and quadratic factors are unchanged.
     """
 
     def __init__(
@@ -47,8 +61,13 @@ class FixedBandwidthGridGenerator:
         grid_size: int,
         *,
         reference_grid: int,
-        constant_factor: float | None = None,
     ) -> None:
+        """Prepare fixed weights on ``grid_size`` using the training FFT scale.
+
+        Both grids must resolve all modes through ``model.cutoff``. Table
+        values are prepared once, so changing weights, dtype or device later
+        requires rebuilding this adapter.
+        """
         if isinstance(grid_size, bool) or int(grid_size) != grid_size or grid_size < 1:
             raise ValueError("grid_size must be a positive integer")
         if (
@@ -71,23 +90,20 @@ class FixedBandwidthGridGenerator:
         self.dtype = parameter.dtype
         with torch.no_grad():
             self.prepared = model.prepare(self.grid_size, self.device, self.dtype)
-        expected_factor = (self.grid_size / self.reference_grid) ** 2
-        factor = expected_factor if constant_factor is None else float(constant_factor)
-        if not bool(torch.isfinite(torch.tensor(factor))) or factor < 0.0:
-            raise ValueError("constant_factor must be finite and nonnegative")
-        self.constant_factor = factor
+        self.constant_factor = (self.grid_size / self.reference_grid) ** 2
         self._parameter_versions = tuple(
             parameter._version for parameter in self.model.parameters()
         )
 
-    @property
-    def grid(self) -> int:
-        """Compatibility alias for the evaluation grid size."""
-
-        return self.grid_size
-
     @torch.inference_mode()
     def __call__(self, state: torch.Tensor) -> torch.Tensor:
+        """Return a derivative for real ``[N, N]`` or ``[batch, N, N]`` fields.
+
+        Inputs must use the prepared model's device and real dtype. The
+        constant spectrum scales by ``(N/reference_grid)^2`` because its
+        coefficients are unnormalised DFT values; linear multipliers and
+        pointwise quadratic factors already have grid-independent amplitudes.
+        """
         if state.ndim not in (2, 3):
             raise ValueError("state must have shape [N, N] or [batch, N, N]")
         if tuple(state.shape[-2:]) != (self.grid_size, self.grid_size):
@@ -140,7 +156,13 @@ def rollout_rk4(
     steps: int,
     save_every: int = 1,
 ) -> torch.Tensor:
-    """Integrate the learned continuous-time generator with explicit RK4."""
+    """Integrate a real initial field with explicit, fixed-step classical RK4.
+
+    ``dt`` uses the generator's time unit; ``steps`` counts integration updates.
+    The tensor returned is ``[saved_times, *initial_state.shape]`` and includes
+    the initial field plus every ``save_every``-th step. A final step that is
+    not a save multiple is not appended. Saved states are detached copies.
+    """
     if steps < 0 or save_every < 1:
         raise ValueError("steps must be nonnegative and save_every must be positive")
     state = initial_state

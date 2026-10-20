@@ -1,13 +1,16 @@
 """Train the three formal GIFT high-frequency branches from project data.
 
-The P21 generator is frozen.  Every trainable branch receives the complete
-N64 state, its Q21 component, and the frozen generator output.  Training and
-model selection use only trajectories 0--69 from the N64 project dataset.
+The P21 generator is frozen. Every trainable branch receives the complete
+N64 state, its Q21 component, and the same-state frozen generator output.
+The selected observation cohort supplies 50 training and 20 validation
+trajectories; test and higher-resolution fields are not read. The ordinary
+four-vortex layout stores these training/validation rows as local IDs 0--69.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -33,7 +36,6 @@ from experiments.formal._shared.common import (
     create_output,
     default_project_root,
     file_record,
-    finish_output,
     sha256_file,
     write_csv_new,
 )
@@ -66,6 +68,7 @@ ROLLOUT_ANCHORS = (0, 100, 200, 300, 400)
 
 
 def parse_args() -> argparse.Namespace:
+    """Select one branch seed, its explicitly trained low generator and the execution action."""
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--dry-run", action="store_true")
@@ -82,6 +85,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def _expected_lite_ids(handle):
+    """Return the declared 50-trajectory training and 20-trajectory validation populations."""
     from gift.prediction_cohorts import GAUSSIAN, observation_cohort, partitions
     if observation_cohort(handle) == GAUSSIAN:
         split = partitions(GAUSSIAN)
@@ -92,6 +96,7 @@ def _expected_lite_ids(handle):
 
 
 def _validate_training_source_metadata(paths: ProjectPaths) -> dict[str, Any]:
+    """Check observation IDs, float32 N64 fields and 501 native dt=0.02 times without loading fields."""
     paths.require("standard_n64", "low_model")
     groups: dict[str, Any] = {}
     with h5py.File(paths.standard_n64, "r") as handle:
@@ -118,6 +123,7 @@ def _validate_training_source_metadata(paths: ProjectPaths) -> dict[str, Any]:
 
 
 def _set_seed(seed: int) -> None:
+    """Set all initialization RNGs and the supported training precision policy before constructing models."""
     configure_training_runtime(strict=False)
     random.seed(seed)
     np.random.seed(seed)
@@ -126,12 +132,14 @@ def _set_seed(seed: int) -> None:
 
 
 def _square_mask(cutoff: int) -> np.ndarray:
+    """Build a square N64 Fourier mask in native FFT ordering."""
     modes = np.fft.fftfreq(64, d=1.0 / 64.0)
     ky, kx = np.meshgrid(modes, modes, indexing="ij")
     return (np.abs(kx) <= cutoff) & (np.abs(ky) <= cutoff)
 
 
 def _project(value: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    """Project [...,64,64] fields into a Fourier band and return real float32 arrays."""
     return np.fft.ifft2(
         np.fft.fft2(value, axes=(-2, -1)) * mask, axes=(-2, -1)
     ).real.astype(np.float32)
@@ -140,6 +148,12 @@ def _project(value: np.ndarray, mask: np.ndarray) -> np.ndarray:
 def _build_split(
     handle: h5py.File, split: str, expected_ids: np.ndarray
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Build observed Q21 derivative targets and short rollout sequences for a declared split.
+
+    The derivative uses every fifth centre of a fourth-order finite difference.
+    Sequences use five absolute-time anchors and eight saved offsets, so training
+    receives observed states rather than analytic PDE derivatives.
+    """
     ids = np.asarray(handle[f"{split}/trajectory_index"][:], dtype=np.int64)
     times = np.asarray(handle[f"{split}/time"][:], dtype=np.float64)
     field = handle[f"{split}/vorticity"]
@@ -187,6 +201,7 @@ def _load_raw_training_data(
     tuple[np.ndarray, np.ndarray, np.ndarray],
     tuple[np.ndarray, np.ndarray, np.ndarray],
 ]:
+    """Load only the declared training/validation splits into derivative and sequence arrays."""
     paths.require("standard_n64")
     with h5py.File(paths.standard_n64, "r") as handle:
         expected = dict(_expected_lite_ids(handle))
@@ -202,6 +217,7 @@ def _compute_low_rhs(
     device: torch.device,
     batch_size: int = 64,
 ) -> np.ndarray:
+    """Evaluate the frozen generator on [sample,64,64] states in non-gradient batches."""
     output = np.empty_like(states)
     for start in range(0, len(states), batch_size):
         stop = min(start + batch_size, len(states))
@@ -213,6 +229,7 @@ def _compute_low_rhs(
 
 
 def _rms(values: np.ndarray) -> float:
+    """Compute a positive finite training-field RMS with float64 accumulation."""
     values64 = np.asarray(values, dtype=np.float64)
     result = float(np.sqrt(np.mean(values64 * values64)))
     if not math.isfinite(result) or result <= 0.0:
@@ -223,6 +240,7 @@ def _rms(values: np.ndarray) -> float:
 def _training_scales(
     states: np.ndarray, q21_rhs: np.ndarray, low_rhs: np.ndarray
 ) -> tuple[float, float, float, float]:
+    """Measure full-state, Q21-state, P21-RHS and Q21-RHS scales from training samples only."""
     p21 = _square_mask(21)
     return (
         _rms(states),
@@ -235,6 +253,7 @@ def _training_scales(
 def _checked(
     rhs: Callable[[torch.Tensor], torch.Tensor], state: torch.Tensor
 ) -> torch.Tensor:
+    """Check that the frozen training RHS preserves a stage tensor's shape, dtype and device."""
     value = rhs(state)
     if (
         value.shape != state.shape
@@ -251,9 +270,15 @@ def _dual_rk4_step(
     low_state: torch.Tensor,
     high_state: torch.Tensor,
 ) -> tuple[torch.Tensor, torch.Tensor]:
+    """Advance low/high training tracks together with dt=0.02 and same-state generator conditioning.
+
+    This helper follows the training stage definition. The inference rollout has
+    its own explicit projection and failure bookkeeping around each stage.
+    """
     def stage(
         stage_low: torch.Tensor, stage_high: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Evaluate both derivatives from the sum of the low and high stage states."""
         complete = stage_low + stage_high
         frozen = _checked(low_rhs, complete)
         learned = branch.forward_with_generator_output(complete, frozen)
@@ -275,6 +300,7 @@ def _dual_rk4_step(
 
 
 def _correct_low(low_state: torch.Tensor) -> torch.Tensor:
+    """Apply the gradient-free P21 training correction and reject a failed local gate."""
     with torch.no_grad():
         result = apply_local_correction(
             low_state.detach(), DEFAULT_P21_CORRECTION_POLICY
@@ -287,6 +313,7 @@ def _correct_low(low_state: torch.Tensor) -> torch.Tensor:
 def _initialize_tracks(
     model: HighFrequencyBranch, anchor: torch.Tensor
 ) -> tuple[torch.Tensor, torch.Tensor]:
+    """Split an observed anchor into detached P21/Q21 starting states."""
     low, high = model.split_state(anchor)
     return low.detach(), high.detach()
 
@@ -298,6 +325,7 @@ def _validate_derivative(
     device: torch.device,
     high_rhs_scale: float,
 ) -> dict[str, float]:
+    """Accumulate global Q21 derivative error and scale-normalized MSE over validation batches."""
     model.eval()
     error_squared = 0.0
     target_squared = 0.0
@@ -327,6 +355,12 @@ def _validate_rollout(
     *,
     return_values: bool = False,
 ) -> dict[str, float | int | list[float]]:
+    """Measure one-unit lead errors after 50 autonomous dt=0.02 training-route steps.
+
+    Loader sequences provide their first observed anchor and final truth. Correction
+    affects the low track; the high track is projected back to Q21. Optional returned
+    values retain individual rollout errors for S3 seed comparisons.
+    """
     model.eval()
     full_relative: list[float] = []
     q21_relative: list[float] = []
@@ -375,6 +409,7 @@ def _short_epoch(
     optimizer: torch.optim.Optimizer,
     device: torch.device,
 ) -> float:
+    """Optimize Q21 rollout error at leads 0.1 and 0.2 through ten differentiable RK4 steps."""
     model.train()
     total = 0.0
     rows = 0
@@ -411,6 +446,11 @@ def _long_epoch(
     optimizer: torch.optim.Optimizer,
     device: torch.device,
 ) -> float:
+    """Optimize six Q21 targets over one-unit lead using ten-step truncated backpropagation.
+
+    Gradient contributions accumulate across segments before one optimizer update
+    per batch; detached track boundaries limit the retained computation graph.
+    """
     model.train()
     targets = (10, 20, 25, 30, 40, 50)
     total = 0.0
@@ -447,6 +487,7 @@ def _long_epoch(
 
 
 def _snapshot(model: HighFrequencyBranch) -> dict[str, torch.Tensor]:
+    """Copy branch weights and scale buffers into independent CPU tensors."""
     return {
         name: value.detach().cpu().clone()
         for name, value in model.state_dict().items()
@@ -461,10 +502,16 @@ def _write_checkpoint(
     phase: str,
     epoch: int,
     selection_metric: float,
-    frozen_generator_sha256: str,
+    frozen_generator_sha256: str | None = None,
+    generator_weights_sha256: str | None = None,
     training_data: dict[str, Any] | None = None,
     training_cost: dict[str, Any] | None = None,
 ) -> None:
+    """Publish an inference export with branch weights, scales, spectral support and training provenance.
+
+    Optimizer/sampling progress belongs to the resume journal, not this parameter
+    file. The generator digest identifies the paired low model rather than source code.
+    """
     payload = {
         "schema": "gift.high_frequency_branch.parameters.v2",
         "method": "GIFT",
@@ -482,6 +529,7 @@ def _write_checkpoint(
         "training_seed": int(seed),
         "fixed_upper_output_cutoff": None,
         "frozen_generator_sha256": frozen_generator_sha256,
+        "generator_weights_sha256": generator_weights_sha256,
         "training_data": training_data,
         "data_profile": training_data["profile"] if training_data is not None else "unverified_internal_call",
         "support": {
@@ -496,15 +544,27 @@ def _write_checkpoint(
     }
     if training_cost is not None:
         payload["training_cost"] = training_cost
-    with path.open("xb") as stream:
-        torch.save(payload, stream)
-        stream.flush()
-        os.fsync(stream.fileno())
+    from training.checkpoints import write_model_export
+    write_model_export(path, payload)
+
+
+def _selection_report(phase, epoch, value):
+    """Describe validation selection, earliest-tie rule and the reported qualification threshold."""
+    return {
+        "phase": phase,
+        "epoch": epoch,
+        "metric": "N64 validation lead=1 full-field relative L2",
+        "value": value,
+        "strictly_lower_earliest_tie_break": True,
+        "qualification_threshold": 0.10,
+        "qualification_passed": value <= 0.10,
+    }
 
 
 def _rollout_loader(
     sequences: np.ndarray, seed: int, *, shuffle: bool, batch_size: int
 ) -> DataLoader:
+    """Wrap observed sequences, giving shuffled training passes their own seeded RNG."""
     return DataLoader(
         TensorDataset(torch.from_numpy(sequences)),
         batch_size=batch_size,
@@ -515,6 +575,11 @@ def _rollout_loader(
 
 
 def _training_identity(seed, paths, scales, device, input_binding=None, execution="eager"):
+    """Describe numerical branch settings, selected inputs and execution provenance for a checkpoint run.
+
+    Source/runtime records explain the run; resume compatibility depends on
+    scientific settings and the loaded observations/generator weights.
+    """
     root = getattr(paths, "root", PROJECT_ROOT)
     sources = {
         "experiments/formal/train_gift_branches.py",
@@ -529,35 +594,31 @@ def _training_identity(seed, paths, scales, device, input_binding=None, executio
     return {
         "method": "GIFT-high", "seed": seed,
         "execution": execution,
-        "data_sha256": sha256_file(paths.standard_n64),
-        "frozen_generator_sha256": sha256_file(paths.low_model),
+        "provenance": {"observations_file": str(paths.standard_n64),
+                       "frozen_generator_file": str(paths.low_model)},
         "sources": {relative: sha256_file(root / relative) for relative in sorted(sources)},
         "input_provenance": input_binding,
         "epochs": [DERIVATIVE_EPOCHS, SHORT_ROLLOUT_EPOCHS, LONG_ROLLOUT_STAGES],
-        "scales": list(scales), "device": str(device),
-        "h5py": str(h5py.__version__), "torch_threads": torch.get_num_threads(),
-        "torch_interop_threads": torch.get_num_interop_threads(),
-        "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
-        "omp_threads": os.environ.get("OMP_NUM_THREADS"),
-        "mkl_threads": os.environ.get("MKL_NUM_THREADS"),
+        "scales": list(scales),
+        "runtime": {"device": str(device), "h5py": str(h5py.__version__),
+                    "torch_threads": torch.get_num_threads(),
+                    "torch_interop_threads": torch.get_num_interop_threads(),
+                    "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
+                    "omp_threads": os.environ.get("OMP_NUM_THREADS"),
+                    "mkl_threads": os.environ.get("MKL_NUM_THREADS")},
     }
 
 
 def _preflight_resume(directory, seed, paths, device, input_binding, execution="auto"):
-    """Reject changed inputs/sources before full-data derivative/RHS preparation.
-
-    Recomputed scales are checked again by the normal journal opening. This
-    read-only check intentionally does not restore RNG or construct any model.
-    """
-    from training.checkpoints import runtime_identity
+    """Check scientific resume inputs before preparing derivative/RHS arrays."""
+    from training.configuration import validate_resume
     attempt = json.loads((directory / "ATTEMPT.json").read_text(encoding="utf-8"))
     scales = attempt["identity"].get("scales", [])
     if len(scales) != 4 or not all(math.isfinite(x) and x > 0 for x in scales):
         raise ValueError("Invalid saved branch scale identity")
     execution = resolve_execution(execution, device, resume=True, checkpoint_directory=directory)
     identity = _training_identity(seed, paths, scales, device, input_binding, execution)
-    if attempt["identity"] != identity or attempt["runtime"] != runtime_identity():
-        raise ValueError("Resume identity/runtime differs before data preparation")
+    validate_resume(identity, attempt["identity"])
 
 
 def _train_seed(
@@ -574,6 +635,13 @@ def _train_seed(
     input_binding: dict[str, Any] | None = None,
     execution: str = "auto",
 ) -> tuple[HighFrequencyBranch, dict[str, Any], list[dict[str, Any]]]:
+    """Train one seed through derivative, short-rollout and long-rollout phases.
+
+    Inputs contain state, observed Q21 derivative, observed sequence and frozen
+    low-RHS arrays for training/validation. Completed epoch boundaries preserve
+    optimizer, scheduler, loader RNG and selection state. Resume continues the
+    next committed index and a finished phase returns its selected weights.
+    """
     _set_seed(seed)
     execution = resolve_execution(execution, device, resume=resume,
                                   checkpoint_directory=checkpoint_directory)
@@ -602,7 +670,7 @@ def _train_seed(
         batch_size=DERIVATIVE_BATCH_SIZE,
         shuffle=True,
         generator=torch.Generator().manual_seed(seed),
-        pin_memory=True,
+        pin_memory=device.type == "cuda",
     )
     derivative_valid = DataLoader(
         TensorDataset(
@@ -612,22 +680,37 @@ def _train_seed(
         ),
         batch_size=DERIVATIVE_BATCH_SIZE,
         shuffle=False,
-        pin_memory=True,
+        pin_memory=device.type == "cuda",
     )
     # Journalling must not alter the optimizer, batch order, or seed order above.
     # The loader's explicit generator is distinct from global Torch RNG state.
     store = None
     saved = None
     if checkpoint_directory is not None:
-        from training.checkpoints import CheckpointStore
+        from training.checkpoints import CheckpointStore, state_digest
         identity = _training_identity(seed, paths, scales, device, input_binding, execution)
+        scientific = hashlib.sha256()
+        for split, arrays in (("training", training), ("validation", validation)):
+            for index, value in enumerate(arrays):
+                value = np.ascontiguousarray(value)
+                scientific.update(f"{split}:{index}:{value.shape}:{value.dtype}".encode("ascii"))
+                scientific.update(memoryview(value).cast("B"))
+        identity["selected_arrays_sha256"] = scientific.hexdigest()
+        identity["generator_weights_sha256"] = state_digest(low_rhs.model.state_dict())
         store = CheckpointStore(checkpoint_directory, identity, resume=resume)
         saved = store.payload
     elif resume:
         raise ValueError("Resume needs this run's checkpoint directory")
 
+    if saved is not None and saved["phase"] == "long" and saved["next_index"] == LONG_ROLLOUT_STAGES + 1:
+        model.load_state_dict(saved["selected_state"], strict=True)
+        model.eval()
+        return model, _selection_report(saved["selected_phase"], saved["selected_epoch"],
+                                        saved["selected_metric"]), saved["history"]
+
     def save_boundary(phase: str, next_index: int, loader: DataLoader,
                       extra: dict[str, Any]) -> None:
+        """Commit the completed phase index, optimizer/loader state and current selection history."""
         if store is None:
             return
         boundary = f"{phase}_{next_index - 1}"
@@ -739,6 +822,7 @@ def _train_seed(
         selected_epoch = saved["selected_epoch"]
 
     def selected_values() -> dict[str, Any]:
+        """Return the selected weight snapshot, phase, epoch and metric for boundary records."""
         return {"selected_metric": selected_metric, "selected_state": selected_state,
                 "selected_phase": selected_phase, "selected_epoch": selected_epoch}
 
@@ -817,15 +901,7 @@ def _train_seed(
         save_boundary("long", stage + 1, rollout_train, selected_values())
 
     model.eval()
-    selection = {
-        "phase": selected_phase,
-        "epoch": selected_epoch,
-        "metric": "N64 validation lead=1 full-field relative L2",
-        "value": selected_metric,
-        "strictly_lower_earliest_tie_break": True,
-        "qualification_threshold": 0.10,
-        "qualification_passed": selected_metric <= 0.10,
-    }
+    selection = _selection_report(selected_phase, selected_epoch, selected_metric)
     return model, selection, history
 
 
@@ -850,6 +926,11 @@ def branch_training_cost(history):
 
 
 def main() -> None:
+    """Inspect the branch plan or train one seed from explicit observation and low-generator inputs.
+
+    Only N64 training and validation fields are opened; higher-resolution and test
+    fields do not affect optimizer updates or checkpoint selection.
+    """
     args = parse_args()
     paths = ProjectPaths.from_root(args.project_root)
     if args.data_profile == 'gaussian':
@@ -906,8 +987,8 @@ def main() -> None:
     if args.seed is None:
         raise ValueError("Train one seed per independent run: specify --seed")
     device = torch.device(args.device)
-    if device.type != "cuda" or not torch.cuda.is_available():
-        raise RuntimeError("formal high-frequency branch training requires CUDA")
+    if device.type == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA requested but unavailable")
     # Apply before preparing frozen-generator RHS tensors, not just before the
     # trainable branch. Kernel policy and precision must agree throughout a run.
     configure_training_runtime(strict=False)
@@ -916,18 +997,18 @@ def main() -> None:
         args.output
         or paths.root / "reproduced_models" / f"gift_branches_{suffix}"
     ).resolve(strict=False)
-    execution = resolve_execution(args.execution, device, resume=args.resume,
-                                  checkpoint_directory=output/"checkpoints")
     if output.exists() and not args.resume:
         raise FileExistsError(f"refusing to overwrite training output: {output}")
-    if args.resume and (not output.is_dir() or (output / "report.json").exists()
-                        or (output / f"gift_seed_{args.seed}.pt").exists()):
-        raise ValueError("Resume requires an incomplete own run, not terminal published weights")
+    if args.resume and not (output / "checkpoints" / "LATEST.json").is_file():
+        raise FileNotFoundError("Resume requires this run's saved boundary in --output/checkpoints")
+    execution = resolve_execution(args.execution, device, resume=args.resume,
+                                  checkpoint_directory=output/"checkpoints")
 
     started = time.perf_counter()
     if args.resume:
-        # Match the deterministic runtime flags used at the journal boundary;
-        # _train_seed sets the seed again in its unchanged scientific order.
+        # Set precision/RNG policy before preparing the frozen RHS arrays.
+        # _train_seed repeats initialization in the established model order,
+        # then restores the saved RNG state before the next training epoch.
         _set_seed(args.seed)
         _preflight_resume(output / "checkpoints", args.seed, paths, device, input_binding, execution)
     training_raw, validation_raw = _load_raw_training_data(paths)
@@ -939,7 +1020,8 @@ def main() -> None:
     validation = (*validation_raw, valid_frozen)
     if not args.resume:
         output = create_output(output, "GIFT_high_frequency_branch_training")
-    frozen_sha256 = sha256_file(paths.low_model)
+    from training.checkpoints import state_digest
+    frozen_weights = state_digest(low_rhs.model.state_dict())
     reports: dict[str, Any] = {}
     all_history: list[dict[str, Any]] = []
     for seed in seeds:
@@ -958,7 +1040,7 @@ def main() -> None:
             phase=selection["phase"],
             epoch=selection["epoch"],
             selection_metric=selection["value"],
-            frozen_generator_sha256=frozen_sha256,
+            generator_weights_sha256=frozen_weights,
             training_data=dict(input_binding, execution=execution),
             training_cost=cost,
         )
@@ -993,7 +1075,9 @@ def main() -> None:
                     ),
                 }
             )
-    write_csv_new(output / "training_history.csv", all_history)
+    history_path = output / "training_history.csv"
+    if not history_path.exists():
+        write_csv_new(history_path, all_history)
     report = {
         "schema": "gift.formal.high-frequency-branch-training.v2",
         "execution": execution,
@@ -1069,7 +1153,16 @@ def main() -> None:
         "wall_seconds": time.perf_counter() - started,
         "cuda_bitwise_determinism_enforced": False,
     }
-    finish_output(output, report)
+    from training.checkpoints import write_json_export
+    write_json_export(output / "report.json", report)
+    if not (output / "manifest.json").exists():
+        publication = [output / f"gift_seed_{seed}.pt" for seed in seeds]
+        publication += [history_path, output / "report.json"]
+        write_json_export(output / "manifest.json", {
+            "schema": "gift.experiment-manifest.v1",
+            "status": report["status"], "experiment": report["experiment"],
+            "files": [file_record(path, output) for path in sorted(publication)],
+        })
 
 
 if __name__ == "__main__":

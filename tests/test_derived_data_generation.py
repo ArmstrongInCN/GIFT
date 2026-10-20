@@ -15,6 +15,7 @@ from scripts import generate_sampling as sampling  # noqa: E402 - standalone che
 
 
 def test_noise_resume_crosses_group_boundary(tmp_path):
+    """Require identical paired-noise arrays when resuming across train/validation groups."""
     source = tmp_path / "clean.h5"
     with h5py.File(source, "x") as handle:
         for name, ids in (("training", [0]), ("validation", [50])):
@@ -38,6 +39,7 @@ def test_noise_resume_crosses_group_boundary(tmp_path):
 
 
 def test_rng_state_includes_cached_gaussian():
+    """Preserve the MT19937 cached normal draw, not just its integer generator state."""
     rng = np.random.RandomState(0)
     rng.standard_normal(3)
     saved = noise.rng_arrays(rng)
@@ -47,6 +49,11 @@ def test_rng_state_includes_cached_gaussian():
 
 
 def test_original_noise_first_two_blocks(tmp_path):
+    """Compare only the first two generated noise blocks with optional read-only reference data.
+
+    The run intentionally remains incomplete. Exact comparison checks the
+    population-standard-deviation scaling and resumed random stream.
+    """
     configured = os.environ.get("GIFT_TEST_REFERENCE_DATA_ROOT")
     if not configured:
         pytest.skip("Optional read-only reference data not configured")
@@ -64,18 +71,23 @@ def test_original_noise_first_two_blocks(tmp_path):
     assert run["binding"]["scaling"] == "std(clean_group,ddof=0)"
     assert not (output / "COMPLETE.json").exists()
     for condition in noise.FRACTIONS:
-        with h5py.File(output / (condition + ".h5"), "r") as actual, h5py.File(data / "m1_parameter_identification" / (condition + ".h5"), "r") as reference:
+        with h5py.File(output / (condition + ".h5"), "r") as actual, h5py.File(data / "w3_parameter_identification" / (condition + ".h5"), "r") as reference:
             np.testing.assert_array_equal(actual["training/vorticity"][0, :32], reference["training/vorticity"][0, :32])
     print("NOISE_ORACLE_EXACT=2 conditions x 32 frames x 64 x 64; remainder not generated")
 
 
-@pytest.mark.parametrize("condition", ["noise_000", "noise_001", "noise_010"])
+@pytest.mark.parametrize("condition", ["noise_000", "noise_001", "noise_005"])
 def test_sampling_against_original_and_own_resume(tmp_path, condition):
+    """Compare all saved sampling arrays after a design-only pause with the optional reference.
+
+    Coordinates, row ordering, dtypes and seeded splits must agree exactly for
+    each noise condition; no network or model is evaluated.
+    """
     configured = os.environ.get("GIFT_TEST_REFERENCE_DATA_ROOT")
     if not configured:
         pytest.skip("Optional read-only reference data not configured")
     data = Path(configured)
-    source = data / "standard_ns_n64_full_spectrum.h5" if condition == "noise_000" else data / "m1_parameter_identification" / (condition + ".h5")
+    source = data / "standard_ns_n64_full_spectrum.h5" if condition == "noise_000" else data / "w3_parameter_identification" / (condition + ".h5")
     output = tmp_path / condition
     common = ["--input", str(source), "--output", str(output), "--execute"]
     sampling.main(common + ["--stop-after-design"])

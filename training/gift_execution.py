@@ -12,8 +12,7 @@ EXECUTION_HELP = (
     "auto uses CUDA graphs for fresh GPU training and eager on CPU; resume keeps "
     "the journal's recorded backend. Explicit eager is the numerical reference."
 )
-# Capture depends on these tensor operations even when a caller uses only the
-# generator phase. Binding the complete shared engine avoids unrecorded edits.
+# Source files recorded with the selected tensor execution implementation.
 EXECUTION_SOURCES = (
     "training/gift_execution.py", "training/gift_acceleration.py",
     "training/gift_branch_kernels.py", "src/gift/execution.py",
@@ -29,8 +28,8 @@ def configure_training_runtime(*, strict):
 
     A seed alone does not make cuDNN backward deterministic. Use the same
     settings for eager and graph training, including the reduced-data branch.
-    The journal records these flags; incompatible old runtime states are not
-    silently resumed. Strictness remains specific to each scientific trainer.
+    The journal records these flags as provenance. Strictness remains specific
+    to each scientific trainer.
     """
     # Force a deterministic cuBLAS workspace and disable benchmark/cudnn
     # nondeterminism; a seed alone does not make backward passes reproducible.
@@ -41,17 +40,18 @@ def configure_training_runtime(*, strict):
 
 
 def resolve_execution(requested, device, *, resume=False, checkpoint_directory=None):
-    """Select an execution path, never weaken the journal's identity checks.
+    """Resolve eager/CUDA-graph selection without changing device or mathematical budget.
 
-    Automatic resume inherits only the backend; source/data/runtime are still
-    independently checked by CheckpointStore. An explicit backend mismatch is
-    rejected there. Capture failures are errors, not silent numerical fallbacks.
+    Fresh auto uses graphs on CUDA and eager on CPU. Auto-resume inherits
+    the recorded backend, requiring its existing journal. An explicit choice
+    can be changed by the caller; actual state compatibility is checked by
+    the training controller rather than source/environment metadata.
     """
     if requested not in EXECUTION_CHOICES:
         raise ValueError("unknown GIFT training execution backend")
     device = torch.device(device)
     # On auto-resume, inherit the backend recorded in the journal rather than
-    # re-deriving it; the source/data/runtime checks still run independently.
+    # re-deriving it. Actual saved tensor/phase compatibility is checked later.
     if requested == "auto" and resume:
         if checkpoint_directory is None:
             raise ValueError("automatic resume needs its own checkpoint directory")

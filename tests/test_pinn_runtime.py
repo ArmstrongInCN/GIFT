@@ -11,7 +11,14 @@ from adapters import pinn_runtime as pinn
 
 @unittest.skipUnless(os.environ.get("GIFT_PINN_NATIVE_TEST") == "1", "native TensorFlow test is opt-in")
 class PINNBoundaryTests(unittest.TestCase):
+    """Exercise native one-step replay only when its dependency/data environment is set."""
+
     def check_mode(self, mode):
+        """Restore all TF variables and repeat one update exactly on small selected rows.
+
+        The native graph and optimizer are real, but 8 measured and 12 physics
+        rows keep this a state-replay test rather than a full training result.
+        """
         root = Path(os.environ["GIFT_DATA_ROOT"])
         coordinates, targets, physics, lower, upper, _ = pinn.read_inputs(
             root / "auxiliary/pinn_sampling/noise_000_seed1234.npz",
@@ -42,9 +49,11 @@ class PINNBoundaryTests(unittest.TestCase):
             runtime.close()
 
     def test_known_native_operation_and_restore(self):
+        """Check the four-column known-form native graph and complete state replay."""
         self.check_mode("known")
 
     def test_open_native_operation_and_restore(self):
+        """Check the 90-column open native graph and complete state replay."""
         self.check_mode("open")
 
 if __name__ == "__main__":

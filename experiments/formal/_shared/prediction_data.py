@@ -1,4 +1,4 @@
-"""Canonical, independent prediction-test readers; M1 data stays unchanged.
+"""Canonical, independent prediction-test readers; W3 data stays unchanged.
 
 Every model receives the same identity-selected test rows. Selection never
 depends on finite predictions, error rankings, model family or training seed.
@@ -7,14 +7,21 @@ The raw observation containers remain read-only.
 
 from __future__ import annotations
 
+import json
 import h5py
 import numpy as np
 
-from gift.data_splits import TEST_IDS, canonical_ids
+from gift.data_splits import canonical_ids
 from gift.prediction_cohorts import FOUR_VORTEX, GAUSSIAN, observation_cohort, partitions
 
 
-def _observations(path, group, grid, *, cohort=FOUR_VORTEX):
+def _observations(path, group, grid, *, cohort=FOUR_VORTEX, requested=None, expected_times=None):
+    """Read the declared independent test population and only the requested saved frames.
+
+    Return int64 IDs, float64 absolute times and float32 [trajectory,time,N,N]
+    vorticity. Legacy local IDs are converted before population selection. Selection
+    uses the cohort partition, never model errors or finite prediction status.
+    """
     with h5py.File(path, "r") as handle:
         if observation_cohort(handle) != cohort:
             raise ValueError("Observation population differs from the declared experiment")
@@ -38,14 +45,24 @@ def _observations(path, group, grid, *, cohort=FOUR_VORTEX):
         if raw.dtype != np.dtype("float32") or raw.shape != (len(ids), len(times), grid, grid):
             raise ValueError("prediction observation field schema differs")
         time_values = np.asarray(times[:], dtype=np.float64)
-        fields = np.asarray(raw[rows], dtype=np.float32)
-    if (not np.isfinite(time_values).all() or np.any(np.diff(time_values) <= 0)
-            or not np.isfinite(fields).all()):
-        raise ValueError("invalid observation time support or nonfinite test truth")
+        if not np.isfinite(time_values).all() or np.any(np.diff(time_values) <= 0):
+            raise ValueError("invalid observation time support")
+        if expected_times is not None and (time_values.shape != np.asarray(expected_times).shape
+                or not np.allclose(time_values, expected_times, rtol=0, atol=2e-12)):
+            raise ValueError("native prediction observation time support differs")
+        positions = slice(None) if requested is None else _positions(time_values, requested)
+        if np.all(np.diff(rows) == 1):
+            fields = np.asarray(raw[int(rows[0]):int(rows[-1]) + 1, positions], dtype=np.float32)
+        else:
+            fields = np.stack([raw[int(row), positions] for row in rows]).astype(np.float32)
+        time_values = time_values[positions]
+    if not np.isfinite(fields).all():
+        raise ValueError("nonfinite test truth")
     return selected, time_values, fields
 
 
 def _positions(times, requested):
+    """Map strictly increasing absolute times to unique stored positions without interpolation."""
     requested = np.asarray(requested, dtype=np.float64)
     if requested.ndim != 1 or not len(requested) or np.any(np.diff(requested) <= 0):
         raise ValueError("requested times must be strictly increasing")
@@ -59,13 +76,18 @@ def _positions(times, requested):
 
 
 def load_n64_long(paths):
-    ids, times, fields = _observations(paths.standard_n64, "test", 64,
-                                      cohort=getattr(paths, 'prediction_cohort', FOUR_VORTEX))
+    """Read seven N64 report frames at absolute t=5,5.5,...,8 for W1/S2."""
     requested = np.arange(5.0, 8.0 + 0.25, 0.5)
-    return ids, requested, fields[:, _positions(times, requested)]
+    return _observations(paths.standard_n64, "test", 64,
+                         cohort=paths.prediction_cohort, requested=requested)
 
 
 def load_n64_short(paths):
+    """Return N64 IDs, ten context times, context fields and eleven truth frames.
+
+    The context spans t=4.1..5.0; truth spans t=5.0..6.0. Their t=5 frame overlaps
+    so every model starts from the same observed anchor.
+    """
     ids, times, fields = _observations(paths.dense_n64, "test", 64)
     expected = np.round(np.arange(41, 61) / 10, 12)
     if not np.allclose(times, expected, rtol=0, atol=2e-12):
@@ -74,6 +96,11 @@ def load_n64_short(paths):
 
 
 def load_cross_resolution(paths):
+    """Read aligned N64/N96/N128 test fields at absolute t=4.1..6.0.
+
+    Each mapping value is (IDs,times,[trajectory,20,N,N]); spatial interpolation
+    is not used to manufacture higher-resolution truth.
+    """
     ids, _, context, truth = load_n64_short(paths)
     times = np.round(np.arange(41, 61) / 10, 12)
     output = {64: (ids, times, np.concatenate((context, truth[:, 1:]), axis=1))}
@@ -86,20 +113,39 @@ def load_cross_resolution(paths):
 
 
 def load_fno_test_dt0p02(paths, grid, report_times):
+    """Read the 46 observed context frames and requested truth frames on the native dt=0.02 grid.
+
+    Return IDs, context times/fields and report times/fields. The context covers
+    t=4.1..5.0; HDF5 reads only their union with the report positions, avoiding
+    allocation of the complete stored trajectory. Gaussian S3 supports N64 only.
+    """
     if grid not in (64, 96, 128):
         raise ValueError("unsupported prediction-test grid")
-    cohort = getattr(paths, 'prediction_cohort', FOUR_VORTEX)
-    ids, times, fields = _observations(paths.fno_test_dt0p02, f"N{grid}/test", grid, cohort=cohort)
+    cohort = paths.prediction_cohort
+    with h5py.File(paths.fno_test_dt0p02, "r") as handle:
+        metadata = handle.attrs.get("metadata_json")
+        if metadata is not None:
+            metadata = json.loads(metadata)
+            if (metadata.get("schema_version") != "gift.fno.test-data.v1"
+                    or metadata.get("status") != "complete"
+                    or metadata.get("stored_dt") != .02
+                    or metadata.get("interpolation_used") is not False):
+                raise ValueError("formal FNO test metadata differs")
     if cohort == GAUSSIAN:
         if grid != 64:
-            raise ValueError('S4 defines N64 only, not a new cross-resolution experiment')
-        selected = _positions(times, 4.1 + np.arange(196)*.02)
-        times, fields = times[selected], fields[:,selected]
+            raise ValueError('S3 defines N64 only, not a new cross-resolution experiment')
     frames = 196 if grid == 64 else 96
-    if len(times) != frames or not np.allclose(times, 4.1 + np.arange(frames) * 0.02, rtol=0, atol=2e-12):
-        raise ValueError("native prediction observation time support differs")
+    context_times = 4.1 + np.arange(46) * .02
+    requested = np.asarray(report_times, dtype=np.float64)
+    expected = np.arange(501) * .02 if cohort == GAUSSIAN else 4.1 + np.arange(frames) * .02
+    selected_positions = np.unique(np.concatenate((_positions(expected, context_times),
+                                                  _positions(expected, requested))))
+    saved = expected[selected_positions]
+    ids, times, fields = _observations(paths.fno_test_dt0p02, f"N{grid}/test", grid,
+        cohort=cohort, requested=saved, expected_times=expected)
     positions = _positions(times, report_times)
-    return ids, times[:46], fields[:, :46], times[positions], fields[:, positions]
+    context_positions = _positions(times, context_times)
+    return ids, times[context_positions], fields[:, context_positions], times[positions], fields[:, positions]
 
 
 def evaluate_prediction_rhs(paths, branch_path, *, device, batch_size, include_actions=False):

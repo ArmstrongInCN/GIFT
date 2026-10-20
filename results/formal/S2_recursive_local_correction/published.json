@@ -11532,8 +11532,12 @@
     },
     {
       "path": "summary/summary.json",
-      "bytes": 17271,
-      "sha256": "DCC97EAE2D9CDB8444175846A01403AB0AD589EB0D74176D666686388D976406"
+      "bytes": 17852,
+      "sha256": "87A925A8568BE2BF3BAD25120AED12135CFDE64B519393AF03A00D149CDFDCD1"
     }
-  ]
+  ],
+  "source_provenance": {
+    "source_record_id": "b78ba72b80699b5554cf",
+    "registry": "D:/2_GIFT/repository_audits/rename_w3_20261007/SOURCE_PROVENANCE.json"
+  }
 }

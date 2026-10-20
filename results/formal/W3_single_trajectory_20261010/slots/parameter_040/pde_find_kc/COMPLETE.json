@@ -1,0 +1,32 @@
+{
+  "schema": "gift.w3-parameter-measurement-commit.v1",
+  "status": "complete",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_040",
+      "observation_sha256": "e4c1a4d5d64f6d8d7689424f55c1c1b1afbde80cf33fe7978738ff8b3b089e1e",
+      "data_receipt_sha256": "46199b11e8c842fbf03763488dea9d4dbae684ba1b852eb984261854ad4c6f18",
+      "data_lock_sha256": "a098bf478b9b4c0b360c170330207eda22a70f30f6e9cf1bb8ff7b439e3e431b",
+      "data_qa_sha256": "6a1eda676c3cc122c32243b5f464b1cce1e97685ad92761698f32bdf405e2a82",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "PDE-FIND-KC",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "noise": 0.0,
+      "SVD_denoising": false,
+      "columns": 4,
+      "regression_seed": 0,
+      "native_regression_configuration_unchanged": true
+    }
+  },
+  "files": {
+    "result.json": "51a0a0cd2758cd874be5068309199560b9efdd50ca7733aef9d3aa229e176772",
+    "summary.csv": "f3b247f3c0dab847289a70f51576ef710d0e9acd83e74308b920691f2981e350",
+    "native_coefficients.csv": "c6b7662612824ceda1da9dd8885000c6d7c93ea4dd9274db3221254a2b055ca0"
+  }
+}

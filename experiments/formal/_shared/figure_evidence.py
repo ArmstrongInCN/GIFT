@@ -33,6 +33,7 @@ def symmetric_limit(observed: float, preferred: float) -> float:
 
 
 def sha256(path: Path) -> str:
+    """Stream an evidence-file digest without loading its full content into memory."""
     digest = hashlib.sha256()
     with path.open("rb") as stream:
         for block in iter(lambda: stream.read(8 * 1024 * 1024), b""):
@@ -41,15 +42,16 @@ def sha256(path: Path) -> str:
 
 
 def file_record(path: Path, root: Path) -> dict:
+    """Catalogue one generated figure/source file relative to its figure-package root."""
     return {"path": path.resolve().relative_to(root.resolve()).as_posix(),
             "bytes": path.stat().st_size, "sha256": sha256(path)}
 
 
 def bind_result(root: Path, experiment: str, required: tuple[str, ...]) -> dict:
-    """Verify files against the numerical commit or the finished run manifest.
+    """Read a completed result and check the small tables consumed by a plot.
 
-    This accepts both pre-plot numerical completion and fully completed results.
-    Neither a plain CSV nor a folder name is proof of a completed experiment.
+    Large field files retain their recorded digest without another whole-file
+    scan. Run the explicit result verifier for complete artifact integrity.
     """
     root = root.resolve(strict=True)
     report_path = root / "numeric_report.json"
@@ -65,20 +67,27 @@ def bind_result(root: Path, experiment: str, required: tuple[str, ...]) -> dict:
     if records is None:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
         records = manifest["files"]
-    verified = []
+    sources = []
+    integrity_verified = True
     for name in required:
         path = (root / name).resolve(strict=True)
         if root not in path.parents:
             raise ValueError("figure source escapes the result directory")
         matches = [row for row in records if row["path"] == name]
-        actual = file_record(path, root)
-        if len(matches) != 1 or actual["bytes"] != matches[0]["bytes"] or (
-            actual["sha256"] != matches[0]["sha256"].upper()
-        ):
+        if len(matches) != 1:
+            raise ValueError(f"figure source lacks a numerical record: {name}")
+        if path.suffix.lower() in {".h5", ".hdf5"}:
+            actual = {"path": name, "bytes": path.stat().st_size,
+                      "sha256": matches[0]["sha256"].upper()}
+            integrity_verified = False
+        else:
+            actual = file_record(path, root)
+        if actual["bytes"] != matches[0]["bytes"] or actual["sha256"] != matches[0]["sha256"].upper():
             raise ValueError(f"figure input differs from completed experiment: {name}")
-        verified.append(actual)
+        sources.append(actual)
     # Preserve the model/data bindings without publishing local working paths.
     def portable(value):
+        """Copy provenance while omitting host-local path and output-record fields."""
         if isinstance(value, dict):
             return {key: portable(item) for key, item in value.items()
                     if key not in {"path", "record", "root", "output_directory"}}
@@ -86,10 +95,12 @@ def bind_result(root: Path, experiment: str, required: tuple[str, ...]) -> dict:
             return [portable(item) for item in value]
         return value
     return {"experiment": experiment, "report_sha256": sha256(report_path),
-            "sources": verified, "experiment_inputs": portable(report.get("inputs", {}))}
+            "sources": sources, "integrity_verified": integrity_verified,
+            "experiment_inputs": portable(report.get("inputs", {}))}
 
 
 def verify_svg(path: Path, *, editable_text: bool = True) -> dict:
+    """Check that an SVG contains vector graphics and, where required, editable text."""
     root = ElementTree.parse(path).getroot()
     if root.tag != "{http://www.w3.org/2000/svg}svg":
         raise ValueError("not an SVG document")

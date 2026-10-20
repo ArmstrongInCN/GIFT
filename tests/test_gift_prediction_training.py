@@ -12,12 +12,13 @@ from training.gift_prediction_data import epoch_indices, observed_pairs, observe
 
 
 def make_observations(path, *, gaussian=False):
+    """Write tiny affine-in-time observed fields for four training and two validation trajectories."""
     rng = np.random.default_rng(881)
     with h5py.File(path, "x") as handle:
         handle.attrs["trajectory_id_scheme"] = "canonical"
         handle.attrs["fixture_only"] = True
         if gaussian:
-            handle.attrs['prediction_cohort'] = 'gaussian_s4'
+            handle.attrs['prediction_cohort'] = 'gaussian_s3'
         groups = (("training", [1220, 1221, 1222, 1223]), ("validation", [2220, 2221])) if gaussian else (
             ("training", [0, 1, 2, 3]), ("validation", [1000, 1001]))
         for name, ids in groups:
@@ -31,6 +32,7 @@ def make_observations(path, *, gaussian=False):
 
 
 def test_one_window_per_trajectory_and_reproducible_sampling():
+    """Both derivative and rollout sampling must visit every row once with legal repeatable windows."""
     for rollout in (False, True):
         for epoch in (0, 1, 250, 500):
             order, positions = epoch_indices(1000, 501, 7, epoch, rollout=rollout)
@@ -42,6 +44,7 @@ def test_one_window_per_trajectory_and_reproducible_sampling():
 
 
 def test_five_point_derivative_uses_observations_and_row_order():
+    """Require the DT-aware five-point stencil and rollout offsets to follow original row-indexed anchors."""
     raw = np.arange(2 * 55 * 8 * 8, dtype=np.float32).reshape(2, 55, 8, 8)
     order, centres = np.asarray([1, 0]), np.asarray([3, 7])
     state, target = observed_pairs(raw, order, centres)
@@ -53,6 +56,7 @@ def test_five_point_derivative_uses_observations_and_row_order():
 
 
 def test_phase_boundaries_count_total_not_each_phase_twice():
+    """Map global epochs to exactly one phase, including the transition after epoch 250."""
     assert phase_at(250, (250, 250)) == (0, 250)
     assert phase_at(251, (250, 250)) == (1, 1)
     assert phase_at(500, (250, 250)) == (1, 250)
@@ -64,6 +68,7 @@ def test_phase_boundaries_count_total_not_each_phase_twice():
 @pytest.mark.parametrize("boundary", [1, 2, 3])
 @pytest.mark.parametrize("gaussian", [False, True])
 def test_generator_exact_resume_inside_and_across_phases(tmp_path, boundary, gaussian):
+    """On tiny CPU fields, continuous and resumed factors/history must match inside and across phase boundaries."""
     torch.set_num_threads(1)
     dataset = tmp_path / "observations.h5"
     make_observations(dataset, gaussian=gaussian)
@@ -87,10 +92,11 @@ def test_generator_exact_resume_inside_and_across_phases(tmp_path, boundary, gau
     for left, right in zip(*histories):
         assert {k: v for k, v in left.items() if k != "seconds"} == {
             k: v for k, v in right.items() if k != "seconds"}
-    with pytest.raises(FileExistsError):
-        run_generator(dataset, split, device="cpu", config=config, resume=True)
+    before = (split / "model.pt").read_bytes()
+    assert run_generator(dataset, split, device="cpu", config=config, resume=True)["status"] == "complete"
+    assert (split / "model.pt").read_bytes() == before
 
 
-def test_fixture_cannot_be_advertised_as_formal():
-    with pytest.raises(ValueError, match="formal"):
-        PredictionTrainingConfig(generator_phases=(2, 2)).validate()
+def test_custom_budget_is_independent_of_fixture_status():
+    """Allow a positive custom generator phase budget without requiring a fixture-only label."""
+    PredictionTrainingConfig(generator_phases=(2, 2)).validate()

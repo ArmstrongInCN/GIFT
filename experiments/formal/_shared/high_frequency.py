@@ -35,6 +35,7 @@ class HighFrequencyConfig:
     head: str = "transport"
 
     def __post_init__(self) -> None:
+        """Require the implemented transport-head architecture before constructing its layers."""
         expected = (21, 32, 12, False, 21, 20, 4, 64, "transport")
         actual = (
             self.cutoff,
@@ -58,12 +59,14 @@ def square_mask(
     device: torch.device,
     dtype: torch.dtype,
 ) -> torch.Tensor:
+    """Build the incoming grid's square integer-wavenumber support as a tensor mask."""
     modes = torch.fft.fftfreq(grid, d=1.0 / grid, device=device, dtype=dtype)
     ky, kx = torch.meshgrid(modes, modes, indexing="ij")
     return ((kx.abs() <= cutoff) & (ky.abs() <= cutoff)).to(dtype)
 
 
 def project(field: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+    """Apply a periodic Fourier projection on the final two spatial axes."""
     return torch.fft.ifft2(torch.fft.fft2(field) * mask).real
 
 
@@ -71,6 +74,7 @@ class SpectralConvolution2d(nn.Module):
     """Low-mode Fourier integral operator for the spectral backbone."""
 
     def __init__(self, channels: int, modes: int) -> None:
+        """Allocate independent complex channel-mixing weights for positive and negative y modes."""
         super().__init__()
         self.channels = channels
         self.modes = modes
@@ -85,9 +89,11 @@ class SpectralConvolution2d(nn.Module):
 
     @staticmethod
     def multiply(values: torch.Tensor, weights: torch.Tensor) -> torch.Tensor:
+        """Contract input channels [batch,in,ky,kx] with [in,out,ky,kx] complex weights."""
         return torch.einsum("bixy,ioxy->boxy", values, weights)
 
     def forward(self, field: torch.Tensor) -> torch.Tensor:
+        """Transform [batch,channels,Ny,Nx] fields, mix retained modes and return the original grid."""
         grid_y, grid_x = field.shape[-2:]
         if 2 * self.modes > grid_y or self.modes > grid_x // 2 + 1:
             raise ValueError("configured spectral modes exceed the incoming grid")
@@ -110,13 +116,16 @@ class SpectralConvolution2d(nn.Module):
 
 
 class SpectralResidualBlock(nn.Module):
+    """Combine a low-mode spectral operator with a pointwise channel map."""
     def __init__(self, width: int, modes: int, *, activate: bool) -> None:
+        """Create spectral/pointwise paths and choose whether this block applies GELU."""
         super().__init__()
         self.spectral = SpectralConvolution2d(width, modes)
         self.pointwise = nn.Conv2d(width, width, 1)
         self.activate = activate
 
     def forward(self, field: torch.Tensor) -> torch.Tensor:
+        """Add both channel maps, applying GELU only on configured intermediate blocks."""
         value = self.spectral(field) + self.pointwise(field)
         return F.gelu(value) if self.activate else value
 
@@ -134,6 +143,11 @@ class HighFrequencyBranch(nn.Module):
         high_rhs_scale: float,
         frozen_generator: Callable[[torch.Tensor], torch.Tensor],
     ) -> None:
+        """Construct the conditioned Q21 branch with scales measured from training fields.
+
+        The frozen generator is deliberately outside state_dict: branch exports store
+        its weight binding, while trainable layers and scale buffers belong to the branch.
+        """
         super().__init__()
         self.config = config
         for name, value in (
@@ -168,10 +182,17 @@ class HighFrequencyBranch(nn.Module):
             tuple[int, str, int | None, torch.dtype],
             tuple[torch.Tensor, torch.Tensor, torch.Tensor],
         ] = {}
+        self._cache_transport_grids = False
+        self._transport_grids = {}
 
     def masks(
         self, state: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Cache P21, Q21 and common-source masks for [batch,N,N] state tensors.
+
+        The cache key includes grid, device and dtype; training-safe tensors are built
+        outside inference mode so reuse cannot invalidate autograd.
+        """
         if state.ndim != 3 or state.shape[-1] != state.shape[-2]:
             raise ValueError("state must have shape [batch,N,N]")
         grid = int(state.shape[-1])
@@ -196,6 +217,7 @@ class HighFrequencyBranch(nn.Module):
         return result
 
     def split_state(self, state: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """Return the P21 and Q21 components of a full [batch,N,N] state."""
         low_mask, high_mask, _ = self.masks(state)
         state_hat = torch.fft.fft2(state)
         return (
@@ -211,9 +233,10 @@ class HighFrequencyBranch(nn.Module):
         self._mask_cache.clear()
 
     def transport_grid(self, state: torch.Tensor):
+        """Return integer wave numbers and the P12 coefficient mask on the state's grid."""
         grid = int(state.shape[-1])
         key = (grid, state.device, state.dtype)
-        enabled = getattr(self, "_cache_transport_grids", False)
+        enabled = self._cache_transport_grids
         cached = self._transport_grids.get(key) if enabled else None
         if cached is None:
             with torch.inference_mode(False), torch.no_grad():
@@ -229,14 +252,11 @@ class HighFrequencyBranch(nn.Module):
         return cached
 
     def project_q21(self, field: torch.Tensor) -> torch.Tensor:
+        """Remove P21 modes from a physical field while retaining the incoming Q21 support."""
         return project(field, self.masks(field)[1])
 
-    def project_branch(self, field: torch.Tensor) -> torch.Tensor:
-        """Compatibility alias: the branch target is the complete Q21 field."""
-
-        return self.project_q21(field)
-
     def frozen_generator_output(self, state: torch.Tensor) -> torch.Tensor:
+        """Evaluate the fixed generator without gradients and project its output onto P21."""
         with torch.no_grad():
             value = self.__dict__["_frozen_generator"](state.detach())
         if value.shape != state.shape or value.device != state.device:
@@ -248,6 +268,13 @@ class HighFrequencyBranch(nn.Module):
     def forward_with_generator_output(
         self, state: torch.Tensor, low_rhs: torch.Tensor, *, _training_kernels=None
     ) -> torch.Tensor:
+        """Map same-state vorticity and frozen P21 RHS to a [batch,N,N] Q21 derivative.
+
+        The backbone decodes bounded rate, velocity and diffusivity fields plus a
+        common-band source. Gradients/Laplacian act on Q21(state), so the learned local
+        action extends to modes above the source band on larger grids. Training kernels
+        change execution of the same operators, not their spectral support.
+        """
         if low_rhs.shape != state.shape:
             raise ValueError("low_rhs shape differs from state")
         low_mask, high_mask, common_mask = self.masks(state)
@@ -300,18 +327,14 @@ class HighFrequencyBranch(nn.Module):
         return project(transported + common_source, high_mask)
 
     def forward(self, state: torch.Tensor) -> torch.Tensor:
+        """Evaluate the frozen same-state conditioning RHS before the high-frequency action."""
         return self.forward_with_generator_output(
             state, self.frozen_generator_output(state)
         )
 
     def export_config(self) -> dict[str, Any]:
+        """Return the architecture settings needed to reconstruct the branch from its weights."""
         return asdict(self.config)
-
-    @property
-    def branch_scale(self) -> torch.Tensor:
-        """Compatibility alias for training helpers."""
-
-        return self.high_scale
 
 
 def load_high_frequency_model(
@@ -339,7 +362,6 @@ def load_high_frequency_model(
         "fixed_upper_output_cutoff",
         "equation_terms",
         "memory_or_hidden_state",
-        "frozen_generator_sha256",
         "seed",
         "training_seed",
         "phase",
@@ -373,7 +395,10 @@ def load_high_frequency_model(
         or dict(payload["support"]) != expected_support
     ):
         raise ValueError("GIFT high-frequency model support metadata differs")
-    frozen_hash = str(payload["frozen_generator_sha256"]).upper()
+    frozen_hash = payload.get("generator_weights_sha256") or payload.get("frozen_generator_sha256")
+    if frozen_hash is None:
+        raise ValueError("GIFT model parameter file is missing its frozen-generator binding")
+    frozen_hash = str(frozen_hash).upper()
     if len(frozen_hash) != 64 or any(
         character not in "0123456789ABCDEF" for character in frozen_hash
     ):
@@ -389,9 +414,7 @@ def load_high_frequency_model(
         high_rhs_scale=float(payload["high_rhs_scale"]),
         frozen_generator=frozen_generator,
     )
-    load = model.load_state_dict(dict(payload["model_state"]), strict=True)
-    if load.missing_keys or load.unexpected_keys:
-        raise ValueError("GIFT high-frequency model parameters did not load strictly")
+    model.load_state_dict(dict(payload["model_state"]), strict=True)
     model.requires_grad_(False).to(device).eval()
     if any(
         not bool(torch.isfinite(value).all()) for value in model.state_dict().values()

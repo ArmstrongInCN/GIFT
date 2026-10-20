@@ -1,13 +1,60 @@
 # GIFT execution efficiency / GIFT 计算效率
 
-Every GIFT training entry point uses the shared `auto` execution policy. Fresh
+## W1/W2 配方与实测成本
+
+[N300/76点协议](W1_W2_PROTOCOL.md) 的GIFT与GIFT-Lite训练采用eager执行，监督时距0.08/0.48秒、内部RK4 dt = 0.02、观测保存间隔0.04秒。N1000独立控制器的auto/cuda-graph策略和加速基准在下节单独说明。
+
+| 方法 | 单模型训练进程（秒） | 分钟 |
+| --- | ---: | ---: |
+| FNO-2D | 5482.334 | 91.37 |
+| FNO-3D | 6104.994 | 101.75 |
+| GIFT N300，生成元与分支合计 | 10296.856 | 171.61 |
+| ANIE，训练1029轮、MSE-best epoch29 | 21176.742 | 352.95 |
+| U-Net N300，500轮 | 652.677 | 10.88 |
+| U-NO N300，500轮 | 8332.408 | 138.87 |
+| GIFT-Lite，生成元与分支合计 | 1911.591 | 31.86 |
+
+七方法训练进程合计53957.603秒（14.9882小时）。时间包含各进程的数据准备、训练、内部validation、checkpoint写入和导出；GIFT两个组件已经计入其合计，不再加内部timer。U-NO/U-Net仅监督20/4步，其他方法使用各自原生loss和目标；N50的更新更少。因此该表描述固定配方成本，不是统一计算预算的架构效率排名。
+
+| 测量范围 | 进程墙钟（秒） | 分钟 |
+| --- | ---: | ---: |
+| U-NO/U-Net/GIFT-Lite的两人口W1推理，以及七方法评分与作图 | 448.829 | 7.48 |
+| N96/N128配对确认真值生成 | 774.489 | 12.91 |
+| 六方法两人口W2原生推理、评分与图 | 2826.245 | 47.10 |
+
+这些分项按声明的进程范围计时，不是全部W1/W2训练与评价的统一端到端时间。W2 N64指标来自对应W1预测的一秒前缀，不重复计预测时间；FNO-3D高网格完整输出75个未来token后评价前25点，所以其计算不限于25时间token。进程中的推理、验证和作图子计时不再重复相加。环境安装、来源获取及文档操作不计入模型训练时间。
+
+成本来源为 `source-record:9b0778b4fa631783ad24`（SHA-256 `133fbb3022e0dbe3056d335360f0e78b03df3d990cbfb5a80232c67ec5ca6876`）与 `source-record:34daf08966d3f15edc14`（`d3607da57ec27cc6a51270060c5157d92694c5980d561e8ceb93de5477930787`）。ANIE训练成本来自 `source-record:0458d853302dcbaf7140`（SHA-256 `41aff903c363426402e2ebaa8e64acdc5358d95223c8be7421c55f3e3fa7d4b7`）。其他方法成本范围记录在原目录的 `FINAL_COST_CLOSURE.json`；CPU图像导出等操作另有 `CPU_EXECUTION_EVENTS.jsonl` 记录，不混入上述训练计时。机器为RTX A5500 Laptop GPU；浮点和随机算子不保证跨设备逐位一致。
+
+## W3 无噪声50组参数识别实测成本
+
+每种方法各完成50个参数case。下表为FINAL_COST_CLOSURE中的方法级worker墙钟合计及单槽均值；两机并行执行，累计worker时间不能解释为日历运行时长，也不是等计算预算效率排名。训练、回归、参数读出和辅助阶段分别记录；表中仅累计已完整计时的worker墙钟，中断尝试另报区间。
+
+| 方法 | 50槽累计worker墙钟 | 单槽均值 |
+|---|---:|---:|
+| GIFT | 5,313.126 秒（1.48 小时） | 106.263 秒 |
+| PDE-FIND | 12,552.202 秒（3.49 小时） | 251.044 秒 |
+| PDE-FIND-KC | 160.025 秒（0.04 小时） | 3.200 秒 |
+| PINN-SR | 409,616.955 秒（113.78 小时） | 8,192.339 秒 |
+| PINN-SR-KC | 285,430.598 秒（79.29 小时） | 5,708.612 秒 |
+
+
+两台主机worker墙钟合计：DQY_STATION 350,335.529秒，DQY_PC 362,737.377秒；跨机合计 713,072.906秒（198.08小时）。并行与调度使此数值不等于实验经历的日历时长。采样准备等辅助事件合计 278.298秒；这些准备事件不计入模型训练成本。
+
+参数041的PINN-SR运行经历一次基础设施中断，随后从该槽自身检查点继续，未创建第二个科学槽、未重抽seed。中断尝试按证据计为 800.370–36924.215秒区间；具体区间与完整尝试清单见[成本闭合](../results/formal/W3_single_trajectory_20261010/summary/FINAL_COST_CLOSURE.json)。所有250个科学实例均完成；中断尝试只能报告上述区间，不能将它或包含它的总成本写成精确值。
+
+锁定预算和真实计时边界见[W3协议](W3_PROTOCOL.md)、[逐例成本清单](../results/formal/W3_single_trajectory_20261010/summary/)与run审计。不同方法的目标、系数库、优化过程与实现环境不同，不能根据单一墙钟汇总宣称统一效率比较。
+
+
+## Independent N1000 engine policy / 独立N1000执行策略
+
+The N1000 GIFT entry points in `scripts.run_training` use the shared `auto` execution policy. Fresh
 GPU training uses `cuda-graph` to replay the same tensor operations with less
 CPU dispatch overhead; CPU uses `eager`. `--execution eager` selects the explicit
 reference training path. Prediction remains eager by default. No extra package
-is needed. The formal GIFT-Lite branch command requires CUDA; CPU fallback applies
-to entry points that support CPU.
+is needed. CPU training uses the same model and declared budget with eager execution.
 
-所有 GIFT 独立训练入口共用 `auto` 执行策略：GPU 新训练默认使用 `cuda-graph`，
+N1000协议的 `scripts.run_training` GIFT入口共用 `auto` 执行策略：GPU 新训练默认使用 `cuda-graph`，
 CPU 使用 `eager`；`--execution eager` 可明确选择参考训练路径。预测默认路径不变。
 优化不改变模型、训练数据量、epoch 数、批大小、
 AdamW、学习率日程、损失、RK4 步长或递归截断位置，也不启用混合精度。
@@ -24,46 +71,35 @@ python -m scripts.run_training gift_low --run-training --condition noise_000 --o
 python -m scripts.run_training gift_branch --run-training --low-model ../runs/gift_lite_generator/gift_main.pt --seed 20260820 --output ../runs/gift_lite_branch_20260820
 ```
 
-Continue with `--resume`, the same output directory, source, runtime and execution
-backend. `auto` inherits the journal's backend when resuming; it does not silently
-upgrade an eager run. Graphs are rebuilt from the saved model, optimizer, scheduler and RNG
-state; the checkpoint never depends on a serialized CUDA graph. Changing source
-or switching backends is **not** silently accepted as same-run continuation.
-Existing parameter artifacts remain usable for inference.
+Continue with `--resume` and the same output directory. The model, optimizer,
+scheduler, RNG and progress are restored from the latest committed boundary.
+Graphs are rebuilt; no CUDA graph or device address is serialized. Source and
+environment records describe the run rather than prevent code maintenance.
+Actual model, data and schedule compatibility is checked before continuing.
 
-断点恢复时保持输出目录、源代码、运行环境及执行后端一致。`gift_low`、
+断点恢复使用原输出目录。`gift_low`、
 `gift_generator` 和 `gift_predictor` 将 `--run-training` 替换为 `--resume`；
 `gift_branch` 则保留 `--run-training`，另加 `--resume`。
-执行图在恢复后重建，不保存设备内存地址。旧源代码产生的
-训练日志不能通过修改身份校验来冒充当前实现的同次续算；已有模型参数文件
-仍可正常读取。首次图构建计入训练 epoch 耗时，并非免费的训练计算。
+执行图在恢复后重建，不保存设备内存地址。源码和环境变化不阻止兼容状态的恢复，
+运行设置如实记录。首次图构建计入训练 epoch 耗时。
 
 The reduced-data branch command retains `--run-training` when adding `--resume`.
 The clean/noisy reduced-data generator keeps its best-validation phase selection,
 random-minibatch sampling and affine refit schedule. GIFT-Lite branches keep their
 derivative/short/long selection and optimizer/loader resets. These protocols are
-not replaced by the full-data trajectory-epoch schedule. M1 evaluation, published
+not replaced by the full-data trajectory-epoch schedule. W3 evaluation, published
 weights and scientific settings are not changed by execution selection.
 
-For the full-data branch trainer, a reviewed source/backend change uses `--continue-from PARENT_RUN` instead of
-`--resume`, with a new output directory and `--transition-record RECORD.json`.
-The record binds the exact parent checkpoint SHA256, both source maps and
-backends, and hashed numerical-equality evidence. All other scientific identity
-fields and the numerical runtime must match. The complete committed model,
-optimizer, scheduler, RNG and history are transferred without a training update;
-the parent remains untouched. Subsequent ordinary resume is strict again.
-Continuation provenance is retained in the journal and terminal artifact. This
-is not permission to substitute another model's trained weights or to accept an
-unverified numerical change.
+Use `--continue-from PARENT_RUN` and a new output directory when intentionally
+starting a separate continuation. It copies the committed model, optimizer,
+scheduler, RNG and history without a training update. No transition certificate
+is required. The parent remains unchanged. Uncommitted work restarts from the
+last boundary; paused time is not counted as training time.
 
-经数值对照验证的执行方式切换须使用独立续算目录和明确的转换记录，不能放宽
-普通断点校验。已提交 epoch 的训练状态全部保留；未落盘的工作从最近检查点
-重算。训练耗时按各段实际记录累计，不把暂停等待时间算作计算时间。
-
-M2/M3/S1/S2/S3 accept `--gift-execution cuda-graph`. This only changes GIFT
-execution, including the GIFT-Lite inference arm. External algorithms and M1
-are unaffected. Inference retains all correction reports, leakage audits,
-per-trajectory failure reasons and RHS evaluation counts. Its reported elapsed
+W1/W2/S1/S2/S3 accept `--gift-execution cuda-graph`. This only changes GIFT
+execution, including the GIFT-Lite inference arm. External algorithms and W3
+are unaffected. Inference retains per-trajectory failures, correction gates and
+RHS evaluation counts; detailed leakage diagnostics are optional. Its reported elapsed
 time includes graph construction. Very short predictions can be slower because
 the initial graph cost is not yet amortized.
 Reported RHS counts describe the simulated RK4 steps. Graph warmups are extra
@@ -121,27 +157,7 @@ actual training entry points on explicitly marked, short-budget fixtures,
 including phase changes and short final batches. This does not replace a full
 500 + 500 epoch accuracy run.
 
-The independent reduced-data entry points were also checked with clean, 1% and
-10% noise fixtures: affine refits, phase-best selection, optimizer/scheduler and
-random states matched the eager reference exactly. Branch checks covered the
-derivative, short-recursion and long-recursion stages, including their separate
-loader and optimizer resets. Eager and graph runs use the same deterministic
-CUDA runtime for these comparisons. Independent-process interruptions were
-inserted only after committed boundaries; resumed numerical histories and
-selected weights matched uninterrupted runs. These are explicitly short-budget
-control-flow tests, not substitutes for reported scientific experiments.
-
-Complete-budget, from-scratch checks on the stated environment reproduced every
-packaged generator tensor bitwise: 12,000 updates for each of the clean/1%/10%
-noise generators, and 500 trajectory epochs (31,500 updates, 501 affine fits)
-for the full-data generator. The three reduced-data runs recorded 117.52, 121.38
-and 126.28 seconds respectively for training, refits, validation and intermediate
-checkpoint I/O, including graph setup but excluding initial preparation and
-terminal export. The full-data run recorded 266.84 committed epoch seconds,
-including graph setup and excluding initial preparation and checkpoint writes.
-These single-run checks have different timing scopes and are not additional
-rows in the repeated component benchmark above. Tensor equality does not imply
-identical serialized files: timestamps, source records and run metadata differ.
+Independent short-budget continuation and complete-budget equality checks are engineering evidence for the execution backend. They do not replace the current W3 50-case noise-free measurements or contribute additional statistical training seeds. Detailed source versions and numerical check records are retained outside the repository.
 
 All three reduced-data branches were also trained from scratch for the complete
 5,834-update schedule. Their committed training-plus-validation times were

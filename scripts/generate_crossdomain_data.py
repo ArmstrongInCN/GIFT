@@ -17,9 +17,9 @@ varying initial conditions only. This is the setting the generator's
 state-to-derivative map assumes; mixing parameters across trajectories makes that
 map ill-posed (measured during the transferability study, see EXPERIMENTS.md).
 
-Every file carries ``fixture_only = True``: these observations are diagnostic
-inputs and cannot qualify as formal project experiments. Run commands from the
-project root; the output must be a new directory outside the repository.
+Every file carries ``fixture_only = True`` to distinguish this diagnostic
+population from the reference Navier-Stokes observations. Run commands from the
+project root and select a new output directory accepted by ``safe_output``.
 
 See ``scripts/run_crossdomain.py`` for training and evaluation.
 """
@@ -48,13 +48,14 @@ EQUATIONS = {"heat": "u_t = kappa * Lap(u)",
 
 
 def wave_numbers(grid):
+    """Return integer FFT-order kx, ky and squared magnitudes on a square grid."""
     axis = np.fft.fftfreq(grid) * grid
     kx, ky = np.meshgrid(axis, axis)
     return kx, ky, kx * kx + ky * ky
 
 
 def smooth_field(rng, grid, k0=8.0):
-    """Zero-mean smooth random field with spectral decay exp(-(k/k0)^2), k0 = 8."""
+    """Return a zero-mean field filtered by exp(-0.5 * (|k|/k0)^2), default k0=8."""
     kx, ky, k2 = wave_numbers(grid)
     spectrum = np.fft.fft2(rng.standard_normal((grid, grid))) * np.exp(-0.5 * (np.sqrt(k2) / k0) ** 2)
     field = np.fft.ifft2(spectrum).real
@@ -87,6 +88,12 @@ def advect_trajectory(rng, grid, frames):
 
 
 def reactdiff_rhs(state, grid, r, kappa=0.02):
+    """Evaluate the periodic spectral Laplacian plus logistic reaction in real space.
+
+    state has shape [N,N]. Integer Fourier modes differentiate the 2-pi-periodic
+    field; the returned real array has the same shape and is an instantaneous
+    time derivative, not a discrete-time update.
+    """
     _, _, k2 = wave_numbers(grid)
     laplacian = np.fft.ifft2(-k2 * np.fft.fft2(state)).real
     return kappa * laplacian + r * state * (1.0 - state)
@@ -115,15 +122,22 @@ TRAJECTORY = {"heat": heat_trajectory, "advect": advect_trajectory,
 
 
 def populations(kind, seed, grid, frames, counts):
+    """Draw training, validation and test trajectories from one seeded RNG in group order."""
     rng = np.random.default_rng(seed)
     return {group: np.stack([TRAJECTORY[kind](rng, grid, frames) for _ in range(count)])
             for group, count in counts.items()}
 
 
 def write_dataset(path, kind, fields, ids, frames):
+    """Write diagnostic scalar fields as [trajectory,time,y,x] float32 observations.
+
+    Each group also stores its explicit IDs and time axis. The familiar
+    vorticity dataset name is reused for reader compatibility; equation and
+    parameter attributes distinguish these scalar systems from Navier-Stokes.
+    """
     with h5py.File(path, "x") as handle:
-        # fixture_only marks these as diagnostic inputs that can never qualify as
-        # a formal experiment; canonical IDs keep the reader's identity logic simple.
+        # Record the diagnostic population separately from reference NS data.
+        # Canonical IDs let the prediction readers reuse the same split mapping.
         handle.attrs["fixture_only"] = True
         handle.attrs["trajectory_id_scheme"] = "canonical"
         handle.attrs["equation"] = EQUATIONS[kind]
@@ -140,6 +154,7 @@ def write_dataset(path, kind, fields, ids, frames):
 
 
 def main(argv=None):
+    """Plan or generate one fixed-parameter cross-domain population in a new directory."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--kind", required=True, choices=tuple(EQUATIONS))
     parser.add_argument("--output", type=Path, required=True)
@@ -161,8 +176,10 @@ def main(argv=None):
         parser.error("frames must be at least 51 (5-frame stencil plus 50-step rollout window)")
     counts = {"training": args.train_count, "validation": args.validation_count,
               "test": args.test_count}
-    if min(counts.values()) < 1:
-        parser.error("population counts must be positive")
+    limits = {"training": len(TRAIN_IDS), "validation": len(VALIDATION_IDS), "test": len(TEST_IDS)}
+    for group, count in counts.items():
+        if not 1 <= count <= limits[group]:
+            parser.error(f"{group} count must be between 1 and {limits[group]}")
     ids = {"training": TRAIN_IDS[:counts["training"]],
            "validation": VALIDATION_IDS[:counts["validation"]],
            "test": TEST_IDS[:counts["test"]]}

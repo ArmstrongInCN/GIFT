@@ -9,6 +9,7 @@ from scripts.verify_data import inspect_arrays, package_path, sha256, verify
 
 
 def build_package(root, *, nonfinite=False):
+    """Build a tiny declared HDF package, optionally inserting one non-finite field value."""
     root.mkdir()
     for name in ("README.md", "DATA_DICTIONARY.md", "LICENSE.txt", "splits.json"):
         (root / name).write_text("{}", encoding="utf-8")
@@ -26,6 +27,7 @@ def build_package(root, *, nonfinite=False):
 
 
 def test_verify_is_read_only(tmp_path):
+    """Scan numerical arrays and verify all original package bytes remain unchanged."""
     root = tmp_path / "package"
     build_package(root)
     before = {p.name: sha256(p) for p in root.iterdir()}
@@ -36,6 +38,7 @@ def test_verify_is_read_only(tmp_path):
 
 
 def test_hash_mismatch(tmp_path):
+    """Detect changed bytes in a manifest-listed package document."""
     root = tmp_path / "package"
     build_package(root)
     (root / "README.md").write_text("changed", encoding="utf-8")
@@ -44,6 +47,7 @@ def test_hash_mismatch(tmp_path):
 
 
 def test_unlisted_file(tmp_path):
+    """Reject extra package files omitted from the declared manifest."""
     root = tmp_path / "package"
     build_package(root)
     (root / "unexpected.txt").write_text("extra", encoding="utf-8")
@@ -52,6 +56,7 @@ def test_unlisted_file(tmp_path):
 
 
 def test_finite_scan_is_explicit(tmp_path):
+    """Avoid claiming a finite-value scan unless requested, then reject the planted NaN."""
     root = tmp_path / "package"
     build_package(root, nonfinite=True)
     assert not verify(root)["all_numeric_values_finite_checked"]
@@ -61,11 +66,13 @@ def test_finite_scan_is_explicit(tmp_path):
 
 @pytest.mark.parametrize("relative", ["../outside", "/outside", "C:/outside", "a\\b", "a/../b", "a//b", ""])
 def test_path_rejection(tmp_path, relative):
+    """Reject absolute, parent-stepping and ambiguous package member paths."""
     with pytest.raises(ValueError):
         package_path(tmp_path, relative)
 
 
 def test_external_h5_link_rejected(tmp_path):
+    """Reject HDF external links instead of reading data outside the declared package."""
     path = tmp_path / "linked.h5"
     with h5py.File(path, "w") as handle:
         handle["data"] = h5py.ExternalLink("other.h5", "/data")

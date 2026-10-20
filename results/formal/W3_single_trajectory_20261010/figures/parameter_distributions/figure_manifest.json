@@ -1,0 +1,149 @@
+{
+  "schema": "gift.w3-parameter-distributions.figure-manifest.v1",
+  "status": "complete",
+  "experiment": "W3",
+  "figure_number": 4,
+  "panels": {
+    "a": "nu",
+    "b": "beta",
+    "c": "gamma"
+  },
+  "sources": [
+    {
+      "scope": "numerical-package",
+      "path": "summary/parameter_results.csv",
+      "sha256": "7a202ab85c760b28a3344527d2c3bf657adc58ed04941635375baa003357c190",
+      "rows": 750
+    }
+  ],
+  "plot_source": {
+    "scope": "repository",
+    "path": "experiments/formal/w3_equation_identification/plot_parameter_distributions.py",
+    "sha256": "f989554ee24cdda8d968d1eba5c05fc3f67e2906acf65f421b4fb1e13a5dacfc"
+  },
+  "files": [
+    {
+      "path": "w3_parameter_nu_errors.svg",
+      "bytes": 1944775,
+      "sha256": "b0508d411d4ed78bc75f2e59cf7e2ab75d408fb9250d47765c14cfe4cab72fef"
+    },
+    {
+      "path": "w3_parameter_beta_errors.svg",
+      "bytes": 1945079,
+      "sha256": "ae053eab89ee7daed5ef48814e9d0e8d67c2129d0bf1ef79028a5f8b29c1d33c"
+    },
+    {
+      "path": "w3_parameter_gamma_errors.svg",
+      "bytes": 1945301,
+      "sha256": "e7343118c072ed8b2ca03221b27f30bec76cae54e6d88302d2da048b9cc9da48"
+    },
+    {
+      "path": "source_points.csv",
+      "bytes": 19854,
+      "sha256": "0f5a33d9d226e96845a24b5436de103b66d2918070d0b30b0fa83704bc6e9efc"
+    },
+    {
+      "path": "source_statistics.csv",
+      "bytes": 1967,
+      "sha256": "3b934e92f01f631c3aaee4fcd1714ccb1b9643bdd96717c749df5696efbe1394"
+    },
+    {
+      "path": "figure_metadata.json",
+      "bytes": 196540,
+      "sha256": "a410e7d9b9546cd2acf17779d20f1e9b2912efe76ac2950aeabf091b060bb2b4"
+    }
+  ],
+  "previews": [
+    {
+      "scope": "repository",
+      "path": "assets/figures/w3_parameter_nu_errors.png",
+      "sha256": "d433a6111ef35078630911c25211506c5ea2d31f90bb450849ad1d464f1d362b"
+    },
+    {
+      "scope": "repository",
+      "path": "assets/figures/w3_parameter_beta_errors.png",
+      "sha256": "a8191095b7e31d3ce5b7315998bbe8bbbdccd7309c3faecbf2578385b85280ba"
+    },
+    {
+      "scope": "repository",
+      "path": "assets/figures/w3_parameter_gamma_errors.png",
+      "sha256": "94ff4faf3e6f586201d97ae45028c0398d87797b4b009fdb9aa696cbc2e2d0f2"
+    }
+  ],
+  "data_contract": {
+    "case_count_per_method": 50,
+    "parameter_rows": 750,
+    "point_count_per_full_figure": 250,
+    "metric": "100 * abs(estimate - truth) / abs(truth)",
+    "units": "percent",
+    "scales": "linear, common across methods within each parameter",
+    "box": "Q1–Q3, NumPy linear sample quantiles, opaque method-color fill",
+    "mean": "retained in source statistics but not drawn or annotated",
+    "median": "50th sample percentile; long line in the exact box color through and beyond the box and explicit numeric label",
+    "center_statistic": "median",
+    "boxplot_convention": "Tukey box plot, Q1–Q3 and median, whiskers at observed values within 1.5 IQR",
+    "whiskers": "smallest and largest observed APE within inclusive Q1−1.5IQR and Q3+1.5IQR fences",
+    "whisker_iqr_multiplier": 1.5,
+    "outside_whisker_points": "all retained once in the original 50-case dot layer; no duplicated flier markers",
+    "vertical_separation": "deterministic center-first packing on seven fixed horizontal lanes; measured x is unchanged",
+    "lane_offsets_points": [
+      0.0,
+      -2.7,
+      2.7,
+      -5.4,
+      5.4,
+      -8.1,
+      8.1
+    ],
+    "point_diameter_points": 2.1,
+    "point_alpha": 0.95,
+    "point_rendering": {
+      "shape": "soft-edged circular marker",
+      "edge": "no outline",
+      "vector_layers_per_observation": 12,
+      "radial_alpha_profile": "Gaussian in normalized marker radius",
+      "radial_sigma": 0.42,
+      "alpha_compositing": "incremental concentric opacity; nominal peak alpha 0.95",
+      "data_integrity": "all layers share one real observation center; no density estimation or synthetic observations"
+    },
+    "method_labels": {
+      "color": "black",
+      "weight": "bold",
+      "font_size_points": 10.2
+    },
+    "axis_style": {
+      "left": "solid black",
+      "bottom": "solid black",
+      "width_points": 1.2,
+      "grid": false,
+      "x_tick_direction": "in",
+      "x_tick_label_position": "below",
+      "x_tick_label_pad_points": 7.5,
+      "bottom_spine_extension_fraction": 0.03
+    },
+    "summary_line_widths_points": {
+      "tukey_whiskers": 1.1,
+      "caps": 1.1,
+      "median": 1.6,
+      "IQR_outline": 1.35
+    },
+    "summary_heights_category_units": {
+      "IQR_box": 0.15,
+      "median_bar": 0.32,
+      "caps": 0.09
+    },
+    "median_bar_colors": {
+      "GIFT": "#174EB6",
+      "PDE-FIND": "#D45500",
+      "PDE-FIND-KC": "#008143",
+      "PINN-SR": "#8423B5",
+      "PINN-SR-KC": "#007F8F"
+    },
+    "median_color_white_blend_fraction": 0.0,
+    "box_fill_opacity": 1.0,
+    "visible_text_policy": "parameter-specific x-axis name, numeric x ticks, black bold method names and per-method Median APE values",
+    "axes_per_figure": 1,
+    "not_multiple_seeds": true,
+    "uncertainty_or_significance_claim": false
+  }
+}

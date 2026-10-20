@@ -15,6 +15,7 @@ from scripts import generate_data as gen  # noqa: E402
 
 
 def test_rejects_pilot_and_missing_generation_receipt(tmp_path):
+    """Require a completed generation receipt when explicitly assembling new solver outputs."""
     released_like=tmp_path/"no_generation_receipt"
     released_like.mkdir()
     with pytest.raises(FileNotFoundError):
@@ -28,6 +29,7 @@ def test_rejects_pilot_and_missing_generation_receipt(tmp_path):
 
 
 def test_noise_cannot_take_released_parent_to_fill_gap():
+    """Require the newly generated clean parent declared by a noise-generation job."""
     attempt={"name":"noise","scientific":{"input_sha256":"released-parent-hash"}}
     with pytest.raises(ValueError,match="newly generated parent"):
         assembly.validate_derivative(attempt,{},full=False)
@@ -36,6 +38,7 @@ def test_noise_cannot_take_released_parent_to_fill_gap():
 
 
 def test_copy_is_create_only_and_byte_preserving(tmp_path):
+    """Copy a fixture without changing bytes or replacing an existing destination."""
     source,target=tmp_path/"source.txt",tmp_path/"target.txt"
     source.write_text("unit fixture, not scientific data",encoding="utf-8")
     before=gen.sha256(source)
@@ -46,6 +49,11 @@ def test_copy_is_create_only_and_byte_preserving(tmp_path):
 
 
 def test_full_population_metadata_does_not_bypass_unwritten_values(tmp_path):
+    """Show that valid full-size metadata cannot substitute for finite generated fields.
+
+    The HDF uses unallocated NaN fill values. Schema-only inspection succeeds,
+    while the explicit full scan must detect unwritten values.
+    """
     plan=gen.make_plan(argparse.Namespace(dataset="standard",initial_conditions=None,
         subset=None,split="all",pilot_steps=None,batch_size=None,device="cpu"))
     binding={"plan":plan,"runtime":{"test_fixture_only":True}}
@@ -64,7 +72,8 @@ def test_full_population_metadata_does_not_bypass_unwritten_values(tmp_path):
                 dtype="f4",chunks=(1,1,64,64),fillvalue=np.nan)
     attempt={"name":"standard","root":tmp_path,"run":run,"scientific":plan,
              "receipt":{"data_sha256":gen.sha256(path)}}
-    # A metadata-only plan is allowed to inspect a schema, never to assert eligibility.
+    # Schema-only inspection can describe unallocated fields; a full value scan
+    # is needed to detect the NaN fill values before packaging them.
     assert len(assembly.validate_clean(attempt,full=False))==1
     with pytest.raises(ValueError,match="Nonfinite/unwritten"):
         assembly.validate_clean(attempt,full=True)

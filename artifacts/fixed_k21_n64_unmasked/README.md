@@ -7,7 +7,7 @@ not a smaller network. The three reduced-data branches in `../gift/` share it as
 a frozen prerequisite.
 
 It is **not** the generator used by the equation-identification experiment: those
-are three separate checkpoints under `../m1_parameter_identification/`, one per
+are three separate checkpoints under `../w3_parameter_identification/`, one per
 noise condition. Neither set substitutes for the other, and neither substitutes
 for the full-data generator in `../gift_full/generator.pt`.
 

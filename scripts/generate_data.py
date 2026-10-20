@@ -32,6 +32,7 @@ EXTRA_PARAMETERS_HASH = "77a90ccd984690b4c5c3ca45c281af69e59199f138fd6aa05e3902c
 
 
 def sha256(path):
+    """Hash a file in 8 MiB blocks without loading the full scientific container."""
     result = hashlib.sha256()
     with Path(path).open("rb") as stream:
         for block in iter(lambda: stream.read(8 * 1024 * 1024), b""):
@@ -40,10 +41,24 @@ def sha256(path):
 
 
 def canonical(value):
+    """Serialize JSON with stable key order and separators for saved binding records."""
     return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
 
 
+def generation_configuration(binding):
+    """The inputs and settings needed to continue an unfinished generation."""
+    metadata = {"sources", "runtime", "python", "numpy", "h5py", "platform", "input_name"}
+    configuration = {key: value for key, value in binding.items() if key not in metadata}
+    if "plan" in configuration:
+        configuration["plan"] = {
+            key: value for key, value in configuration["plan"].items()
+            if key not in {"sources", "device", "initial_conditions_file_sha256"}
+        }
+    return configuration
+
+
 def array_hash(value):
+    """Hash contiguous little-endian float64 initial-condition parameters."""
     return hashlib.sha256(np.ascontiguousarray(value, dtype="<f8").tobytes()).hexdigest()
 
 
@@ -63,6 +78,12 @@ def draw_parameters(count, seed):
 
 
 def seed_parameters():
+    """Return the fixed training, validation and test IDs and four-vortex parameters.
+
+    The first five training parameter sets are explicit; later training and
+    held-out parameters use separate fixed draws. Each parameter tensor has
+    shape [trajectory,4 vortices,4 parameters].
+    """
     first = np.asarray(FIRST_FIVE, dtype=np.float64)
     first[:, :, 0] *= 1.5
     pool = draw_parameters(1150, 2026080801)
@@ -72,6 +93,12 @@ def seed_parameters():
 
 
 def extra_parameters(path):
+    """Read the specified extra 950 initial conditions and map canonical IDs to storage IDs.
+
+    The file contains parameters rather than saved solution fields. Its exact
+    content is part of this reference data-generation protocol; the original
+    random seed is not inferred or invented.
+    """
     value = json.loads(Path(path).read_text(encoding="utf-8"))
     parameters = np.asarray(value["parameters"], dtype=np.float64)
     ids = np.asarray(value["trajectory_ids"], dtype=np.int64)
@@ -88,6 +115,7 @@ def extra_parameters(path):
 
 
 def parse_ids(value):
+    """Parse unique IDs and inclusive ascending ranges, or return None for all IDs."""
     if value is None:
         return None
     result = []
@@ -108,6 +136,12 @@ def parse_ids(value):
 
 
 def make_plan(args):
+    """Build grid, population, batch and integer-step schedules without integrating.
+
+    The native step is 0.005 seconds. Each group records the solver steps to
+    store, explicit initial parameters and its intended batch size. Pilot or
+    subset requests remain labelled rather than masquerading as a full package.
+    """
     pools = seed_parameters()
     input_hash = None
     if args.dataset in ("fno-training", "fno-training-coarse"):
@@ -167,6 +201,11 @@ def make_plan(args):
 
 
 def stored_times(plan, group):
+    """Convert stored solver steps to physical seconds using the declared output schedule.
+
+    Coarse reference views form their 0.1-second labels from integer ticks,
+    avoiding a different floating-point representation from the report readers.
+    """
     steps = np.asarray(group["steps"], dtype=np.int64)
     if not plan["pilot"] and plan["dataset"] in ("short-test", "cross-resolution"):
         if np.any(steps % 20):
@@ -192,28 +231,39 @@ def write_generation_metadata(handle, plan, *, complete):
 
 
 def write_json_new(path, value):
+    """Write one finite JSON record using create-only semantics."""
     with Path(path).open("x", encoding="utf-8") as stream:
         stream.write(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
 
 
 def atomic_json(path, value):
+    """Stage and atomically replace a small mutable progress pointer in the same directory."""
     temporary = path.with_name(path.name + "." + uuid.uuid4().hex + ".tmp")
     write_json_new(temporary, value)
     os.replace(temporary, path)
 
 
 def safe_output(path):
+    """Resolve an output directory while protecting code, inputs and published artifacts.
+
+    A new run may be inside the project, but cannot overlap the protected trees.
+    This function checks location; the caller controls create-only or resume
+    semantics for the directory itself.
+    """
     output = Path(path).resolve()
-    protected = [ROOT]
+    protected = [ROOT / name for name in ("src", "training", "adapters", "experiments", "scripts", "artifacts", "results")]
     if os.environ.get("GIFT_DATA_ROOT"):
         protected.append(Path(os.environ["GIFT_DATA_ROOT"]).resolve())
+    if output == ROOT:
+        raise ValueError("Output must be a separate directory outside source and released artifacts")
     for base in protected:
         if output == base or base in output.parents or output in base.parents:
-            raise ValueError("Output must be a separate directory outside code and GIFT_DATA_ROOT")
+            raise ValueError("Output must be a separate directory outside source, artifacts and GIFT_DATA_ROOT")
     return output
 
 
 def runtime_record(torch, device):
+    """Describe the active numerical libraries, device and precision settings."""
     record = {"python": platform.python_version(), "platform": platform.platform(),
               "numpy": np.__version__, "h5py": h5py.__version__, "torch": torch.__version__,
               "threads": torch.get_num_threads(), "interop_threads": torch.get_num_interop_threads(),
@@ -229,6 +279,14 @@ def runtime_record(torch, device):
 
 
 def execute(args, plan, *, initial_state_builder=None):
+    """Integrate the declared initial states and commit resumable ETDRK4 boundaries.
+
+    Jobs traverse groups and trajectory batches deterministically. Checkpoints
+    store the complex spectral state, its current step and the next job cursor.
+    HDF fields are flushed before a new progress pointer is published. Resume
+    restores the old run record while comparing scientific inputs and settings.
+    initial_state_builder supplies Gaussian spectra for the S3 variant.
+    """
     import torch
     from src.even_full_spectrum_ns import (
         EvenFullSpectrumConfiguration, EvenFullSpectrumNSSolver, build_initial_hat,
@@ -238,6 +296,7 @@ def execute(args, plan, *, initial_state_builder=None):
     device = torch.device(args.device)
     if device.type == "cuda" and device.index is None:
         device = torch.device("cuda", torch.cuda.current_device())
+    completion_sources = plan["sources"]
     binding = {"plan": plan, "runtime": runtime_record(torch, device)}
     binding_hash = hashlib.sha256(canonical(binding).encode()).hexdigest()
     jobs = [(i, start, min(start + group["batch_size"], len(group["ids"])))
@@ -247,8 +306,10 @@ def execute(args, plan, *, initial_state_builder=None):
         if (output / "COMPLETE.json").exists():
             raise ValueError("This attempt is already complete; it is not a new generation")
         run = json.loads((output / "run.json").read_text(encoding="utf-8"))
-        if run["binding_sha256"] != binding_hash or run["binding"] != binding:
-            raise ValueError("Resume source/configuration/parameters/runtime mismatch")
+        if generation_configuration(run["binding"]) != generation_configuration(binding):
+            raise ValueError("Resume generation configuration/parameters mismatch")
+        binding_hash = run["binding_sha256"]
+        plan = run["binding"]["plan"]
         latest = json.loads((output / "latest.json").read_text(encoding="utf-8"))
         checkpoint = output / latest["file"]
         if checkpoint.parent != output or not checkpoint.name.startswith("checkpoint_"):
@@ -294,6 +355,7 @@ def execute(args, plan, *, initial_state_builder=None):
             raise ValueError("H5 does not belong to this attempt")
 
         def save(next_job, current_step, state):
+            """Save the active spectral state and job cursor before advancing the latest pointer."""
             handle.flush()
             name = "checkpoint_" + uuid.uuid4().hex + ".npz"
             with (output / name).open("xb") as stream:
@@ -349,12 +411,15 @@ def execute(args, plan, *, initial_state_builder=None):
     write_json_new(output / "COMPLETE.json", {"attempt_id": run["attempt_id"],
                    "status": "COMPLETE_PILOT" if plan["pilot"] else "COMPLETE_GENERATION",
                    "binding_sha256": binding_hash, "data_sha256": sha256(h5_path),
+                   "completion_runtime": runtime_record(torch, device),
+                   "completion_sources": completion_sources,
                    "reference_comparison_performed": False, "full_budget_reproduction_claim": False})
     print(json.dumps({"status": "COMPLETE_PILOT" if plan["pilot"] else "COMPLETE_GENERATION", "output": str(output)}), flush=True)
     return 0
 
 
 def main(argv=None):
+    """Validate generation options, then print a plan or execute the requested integration."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", required=True, choices=["standard", "fno-training", "fno-training-coarse", "fno-test", "cross-resolution", "short-test"])
     parser.add_argument("--split", choices=["all", "training", "validation", "test"], default="all")

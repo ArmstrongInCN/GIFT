@@ -9,6 +9,7 @@ from training.weight_files import load_weights, read_index, reconstruct, split_w
 
 
 def fixture(tmp_path):
+    """Serialize integer/complex synthetic tensors and split their exact bytes into small file parts."""
     source = tmp_path / "model.pt"
     payload = {"status": "complete", "model_state_dict": {"w": torch.arange(80).reshape(8, 10),
                "complex": torch.complex(torch.arange(10.).float(), torch.ones(10))}}
@@ -18,6 +19,7 @@ def fixture(tmp_path):
 
 
 def test_reconstructed_file_and_tensors_exact(tmp_path):
+    """Reconstruction must match source bytes and preserve integer/complex tensors through both load paths."""
     source, index, original = fixture(tmp_path)
     buffer = io.BytesIO()
     reconstruct(index, buffer)
@@ -28,6 +30,7 @@ def test_reconstructed_file_and_tensors_exact(tmp_path):
 
 
 def test_existing_output_retained(tmp_path):
+    """A second split into an existing directory must fail without changing its index."""
     source, index, _ = fixture(tmp_path)
     before = index.read_bytes()
     with pytest.raises(FileExistsError):
@@ -36,6 +39,7 @@ def test_existing_output_retained(tmp_path):
 
 
 def test_corrupt_part_rejected(tmp_path):
+    """A same-size flipped byte must fail explicit part integrity checking."""
     _, index, _ = fixture(tmp_path)
     part = index.parent / "weights-0001.part"
     value = part.read_bytes()
@@ -46,6 +50,7 @@ def test_corrupt_part_rejected(tmp_path):
 
 @pytest.mark.parametrize("change", ["escape", "duplicate", "total", "order"])
 def test_bad_index_rejected(tmp_path, change):
+    """Reject escaped/duplicate parts, incorrect total size or reordered byte reconstruction."""
     _, index, _ = fixture(tmp_path)
     doc = json.loads(index.read_text())
     if change == "escape":
@@ -61,15 +66,19 @@ def test_bad_index_rejected(tmp_path, change):
         load_weights(index)
 
 
-def test_refuses_nonmodel_archive(tmp_path):
+def test_split_preserves_bytes_without_requiring_a_terminal_schema(tmp_path, monkeypatch):
+    """Splitting arbitrary numeric .pt content must avoid deserialization and retain the original bytes."""
     source = tmp_path / "data.pt"
     torch.save({"observations": torch.ones(3)}, source)
-    with pytest.raises(ValueError, match="terminal"):
-        split_weights(source, tmp_path / "parts")
-    assert not (tmp_path / "parts").exists()
+    monkeypatch.setattr(torch, "load", lambda *a, **k: (_ for _ in ()).throw(AssertionError("split must not deserialize")))
+    index = split_weights(source, tmp_path / "parts")
+    buffer = io.BytesIO()
+    reconstruct(index, buffer)
+    assert buffer.getvalue() == source.read_bytes()
 
 
 def test_excess_parts_rejected_before_creation(tmp_path):
+    """A requested split exceeding 2,048 parts must fail before creating output."""
     source, _, _ = fixture(tmp_path)
     output = tmp_path / "too_many"
     with pytest.raises(ValueError, match="2048"):
@@ -79,6 +88,7 @@ def test_excess_parts_rejected_before_creation(tmp_path):
 
 @pytest.mark.parametrize("name", ["GIFT_DATA_ROOT", "GIFT_EXTERNAL_ROOT"])
 def test_protected_roots_unchanged(tmp_path, monkeypatch, name):
+    """Weight distribution must not create files inside configured data or upstream-source roots."""
     source, _, _ = fixture(tmp_path)
     protected = tmp_path / "protected"
     protected.mkdir()
@@ -91,6 +101,7 @@ def test_protected_roots_unchanged(tmp_path, monkeypatch, name):
 @pytest.mark.parametrize("doc", [[], {"schema": "gift.sharded-checkpoint.v1", "bytes": 2,
                                       "sha256": None, "parts": []}])
 def test_malformed_types_rejected(tmp_path, doc):
+    """Malformed JSON shapes/types must raise a clear index validation error."""
     index = tmp_path / "weights.json"
     index.write_text(json.dumps(doc))
     with pytest.raises(ValueError):

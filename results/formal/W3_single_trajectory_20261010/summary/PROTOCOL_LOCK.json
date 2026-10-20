@@ -1,0 +1,129 @@
+{
+  "schema": "gift.w3-single-trajectory.protocol-lock.v1",
+  "status": "locked",
+  "profile": "single_trajectory_terminal_v1",
+  "case_count": 50,
+  "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+  "parameter_ranges": {
+    "nu": [
+      0.0075,
+      0.015
+    ],
+    "beta": [
+      0.75,
+      1.25
+    ],
+    "gamma": [
+      0.75,
+      1.25
+    ]
+  },
+  "parameter_design": "frozen LHS seed2026100901; loguniform nu, linear beta/gamma",
+  "equation": "omega_t = -beta*(u*omega_x+v*omega_y) + nu*laplacian(omega) + gamma*q",
+  "forcing": "q=-4*cos(4*y)",
+  "velocity": "unit Biot-Savart",
+  "observations": {
+    "noise": 0,
+    "trajectory_count": 50,
+    "per_parameter_trajectory_ids": [
+      0
+    ],
+    "training_trajectories_per_case": 1,
+    "validation_trajectories_per_case": 0,
+    "grid": 64,
+    "saved_frames": 501,
+    "time_interval": [
+      0,
+      10
+    ],
+    "save_dt": 0.02,
+    "internal_solver_dt": 0.005,
+    "only_training_hdf_group": true,
+    "selected_ID0_arrays_equal_original_bitwise": true,
+    "new_integration_performed": false
+  },
+  "GIFT": {
+    "seed": 2026072301,
+    "phase_steps": [
+      6000,
+      6000
+    ],
+    "phase_learning_rates": [
+      0.01,
+      0.003
+    ],
+    "batch_size": 16,
+    "training_trajectories": 1,
+    "cutoff": 21,
+    "rank": 8,
+    "affine_refit_interval": 500,
+    "validation_interval": 250,
+    "checkpoint_interval": 250,
+    "validation_trajectories": 0,
+    "checkpoint_selection": "terminal"
+  },
+  "PINN": {
+    "seed": 1234,
+    "budget": {
+      "pre_nadam": 5000,
+      "rounds": 6,
+      "ado_nadam": 1000,
+      "post_nadam": 20000,
+      "lbf_maxiter": 10000,
+      "lbf_maxfun": 10000
+    },
+    "train_rows": 24000,
+    "holdout_rows_within_the_same_trajectory": 6000,
+    "lhs_rows": 60000,
+    "physics_rows": 84000,
+    "sensors": 500,
+    "time_samples": 60,
+    "algorithm_profile": "paper_ado_v1",
+    "execution_profile": "native_fp32",
+    "tensorflow_tf32": false,
+    "checkpoint": "terminal",
+    "pre_joint_nadam": {
+      "lr": 0.001,
+      "physics_weight": 1,
+      "L1": 1e-07
+    },
+    "ado_network_only_nadam": {
+      "lr": 0.0001,
+      "physics_weight": 2,
+      "L1": 0
+    }
+  },
+  "PDE_FIND": {
+    "seed": 0,
+    "noise": 0,
+    "SVD_denoising": false,
+    "open_library_columns": 90,
+    "known_library_columns": 4,
+    "native_local_polynomial_and_STRidge_unchanged": true
+  },
+  "readout": {
+    "truth": "each actual parameter case",
+    "primary_metric": "100*abs(estimate-truth)/abs(truth)",
+    "GIFT_readout": "original ID0 t5 to t6 at 0.1; frozen P21 projection and unit-reference readout",
+    "full_native_coefficient_library_and_support_retained": true
+  },
+  "replications": {
+    "methods": 5,
+    "parameter_cases_per_method": 50,
+    "unique_slots": 250,
+    "neural_training_slots": 150,
+    "regression_slots": 100,
+    "primary_parameter_rows": 750,
+    "training_initialization_per_slot": "fresh",
+    "old_or_pilot_weights_reused": false,
+    "multiple_seeds": false,
+    "hyperparameter_search": false,
+    "scientific_failure_retry": false
+  },
+  "scope": {
+    "only_user_requested_change": "GIFT uses the one ID0 observation trajectory; no external validation; fixed phase terminal checkpoints",
+    "other_experiments_modified": false,
+    "plots_in_this_stage": false,
+    "equal_information_or_equal_budget_architecture_claim": false
+  }
+}

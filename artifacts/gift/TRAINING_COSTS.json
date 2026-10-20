@@ -24,48 +24,6 @@
       "condition": "noise_000"
     },
     {
-      "path": "artifacts/m1_parameter_identification/gift_noise_001.pt",
-      "method": "GIFT",
-      "artifact_role": "trained_weights",
-      "bytes": 398034,
-      "sha256": "9E3858869EF76F496F7C165EAEA49629EC4990880B21FB0D3C4296B9AE85009C",
-      "model_state_sha256": "d90a0656c4643651599ede7fff355dd1ea7a19fafe6957fac00b6695325bc68f",
-      "training_cost": {
-        "optimizer_updates": 12000,
-        "phase_updates": [
-          6000,
-          6000
-        ],
-        "training_and_final_evaluation_seconds": 409.12842359999195,
-        "timing_scope": "training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
-        "timing_excludes": "initial preparation and affine fit, terminal export",
-        "count_evidence": "complete same-run journal and phase-end history",
-        "same_run_resume_used": false
-      },
-      "condition": "noise_001"
-    },
-    {
-      "path": "artifacts/m1_parameter_identification/gift_noise_010.pt",
-      "method": "GIFT",
-      "artifact_role": "trained_weights",
-      "bytes": 392978,
-      "sha256": "7E59BA53E0688D60F8CED0BC885CE84E57848925FAB7EFB1BDE5814FDDCCFC0F",
-      "model_state_sha256": "e87fa342ef91fc585dca13deb3138edd55e5990e624606a6517e6f2075751e80",
-      "training_cost": {
-        "optimizer_updates": 12000,
-        "phase_updates": [
-          6000,
-          6000
-        ],
-        "training_and_final_evaluation_seconds": 476.8908530000044,
-        "timing_scope": "training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
-        "timing_excludes": "initial preparation and affine fit, terminal export",
-        "count_evidence": "complete same-run journal and phase-end history",
-        "same_run_resume_used": false
-      },
-      "condition": "noise_010"
-    },
-    {
       "path": "artifacts/gift/gift_seed_20260820.pt",
       "method": "GIFT-Lite",
       "seed": 20260820,
@@ -542,5 +500,30 @@
         "end_to_end_timing_scope": "data/RHS preparation, training, validation, selection, checkpoint and terminal/history export; excludes shared generator pretraining and initial input checks"
       }
     }
-  ]
+  ],
+  "scope": "Preserved clean auxiliary pretraining and independent reference-protocol branches",
+  "archived_parameter_identification_costs": [
+    {
+      "source_record_id": "086df3b89644970d957e",
+      "scope": "archived parameter-identification training cost; not a current W3 result"
+    },
+    {
+      "source_record_id": "3b2b678fbaa4ed693561",
+      "scope": "archived parameter-identification training cost; not a current W3 result"
+    }
+  ],
+  "current_w3_training_costs": {
+    "status": "complete",
+    "path": "artifacts/w3_parameter_identification/TRAINING_COSTS.json",
+    "sha256": "5D83C698529ECE4BB8CAA29A444F79D9152162836ADDAF5B1A1A40D3B3D43709",
+    "training_slots": 9,
+    "fresh_PINN_training_slots": 6,
+    "preserved_GIFT_training_slots": 3,
+    "conditions": [
+      "noise_000",
+      "noise_001",
+      "noise_005"
+    ],
+    "protocol_document": "docs/W3_PROTOCOL.md"
+  }
 }

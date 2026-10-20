@@ -5,10 +5,14 @@ import numpy as np
 from training.pinn_lbfgsb import run_lbfgs
 
 class InterfaceTests(unittest.TestCase):
+    """Exercise upstream optimizer invocation using callback surrogates, not a numerical L-BFGS implementation."""
     def test_callbacks_and_options_pass_through(self):
+        """Forward native session/feed/loss/options and report observed callbacks without claiming convergence."""
         class Optimizer:
+            """Recording public-interface surrogate with unchanged extra L-BFGS options."""
             optimizer_kwargs = {"options": {"maxiter": 10000, "maxfun": 10000, "maxcor": 50, "maxls": 50}}
             def minimize(self, session, feed_dict, fetches, step_callback, loss_callback):
+                """Record invocation and emit two objective callbacks plus one step callback."""
                 self.received = (session, feed_dict, fetches)
                 loss_callback(1.)
                 loss_callback(.5)
@@ -25,9 +29,12 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(result["resume_boundary"], "phase_start_if_interrupted")
 
     def test_native_exception_is_not_hidden_or_marked_complete(self):
+        """An exception from the native solver must propagate instead of producing a successful summary."""
         class Optimizer:
+            """Interrupting optimizer surrogate for error propagation checks."""
             optimizer_kwargs = {"options": {}}
             def minimize(self, *args, **kwargs):
+                """Raise a simulated external-solver interruption before any completion report."""
                 raise RuntimeError("external solver interrupted")
         runtime = SimpleNamespace(model=SimpleNamespace(optimizer_BFGS_Pre=Optimizer(), loss=None), session=None)
         with self.assertRaisesRegex(RuntimeError, "interrupted"):

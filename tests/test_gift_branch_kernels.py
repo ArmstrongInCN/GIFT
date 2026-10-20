@@ -11,6 +11,7 @@ from experiments.formal._shared.high_frequency import SpectralResidualBlock, Hig
 
 
 def test_segment_lifetime_parameter_storage_and_native_gradients():
+    """Packed views must enforce one active segment while preserving parameter addresses and reference gradients."""
     torch.manual_seed(12)
     old = SpectralResidualBlock(2, 2, activate=True)
     new = copy.deepcopy(old)
@@ -38,6 +39,7 @@ def test_segment_lifetime_parameter_storage_and_native_gradients():
 @pytest.mark.skipif(os.environ.get("GIFT_RUN_CUDA_TESTS") != "1" or not torch.cuda.is_available(),
                     reason="explicit CUDA test opt-in required")
 def test_training_view_keeps_outputs_gradients_updates_and_prediction_exact():
+    """Opt-in CUDA checks compare full and tail batches against exact native outputs, gradients and AdamW updates."""
     from training.gift_acceleration import TrainingEngine
     from experiments.formal._shared.gift_generator_training import configure_determinism
     configure_determinism(20260821, strict=False)
@@ -72,6 +74,7 @@ def test_training_view_keeps_outputs_gradients_updates_and_prediction_exact():
 @pytest.mark.skipif(os.environ.get("GIFT_RUN_CUDA_TESTS") != "1" or not torch.cuda.is_available(),
                     reason="explicit CUDA test opt-in required")
 def test_bad_batch_releases_views_and_cannot_update_optimizer():
+    """A rejected CUDA batch must release packed views and leave model/optimizer state unmodified."""
     from training.gift_acceleration import TrainingEngine
     model = HighFrequencyBranch(HighFrequencyConfig(),state_scale=1.,high_scale=1.,
         low_rhs_scale=1.,high_rhs_scale=1.,frozen_generator=torch.zeros_like).cuda()

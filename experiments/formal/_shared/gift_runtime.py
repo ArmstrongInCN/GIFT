@@ -26,6 +26,7 @@ class LocalCorrectionPolicy:
     maximum_flagged_fraction: float = 40.0 / 4096.0
 
     def __post_init__(self) -> None:
+        """Validate physical amplitude/relative-score thresholds and the supported periodic window."""
         if not math.isfinite(self.score_threshold) or self.score_threshold <= 0.0:
             raise ValueError("score_threshold must be finite and positive")
         if (
@@ -41,6 +42,7 @@ class LocalCorrectionPolicy:
             raise ValueError("maximum_flagged_fraction must lie between zero and one")
 
     def maximum_flagged_points(self, grid: int) -> int:
+        """Scale the outlier gate with grid area so its population fraction stays fixed."""
         if grid < 2 * self.selected_cutoff + 1:
             raise ValueError("grid is too small to represent the selected band")
         return max(1, math.floor(self.maximum_flagged_fraction * grid * grid))
@@ -48,11 +50,15 @@ class LocalCorrectionPolicy:
 
 DEFAULT_P21_CORRECTION_POLICY = LocalCorrectionPolicy()
 DEFAULT_Q21_CORRECTION_POLICY = LocalCorrectionPolicy(amplitude_threshold=12.0)
-DEFAULT_CORRECTION_POLICY = DEFAULT_P21_CORRECTION_POLICY
 
 
 @dataclass(frozen=True)
 class CorrectionResult:
+    """Corrected [trajectory,N,N] state and trajectory-local trigger/gate evidence.
+
+    A gate failure leaves the corresponding input state unchanged; the rollout
+    caller decides whether that trajectory can continue.
+    """
     state: torch.Tensor
     trigger_count_by_trajectory: torch.Tensor
     gate_failed_by_trajectory: torch.Tensor
@@ -60,22 +66,30 @@ class CorrectionResult:
 
     @property
     def trigger_count(self) -> torch.Tensor:
+        """Expose the per-trajectory pixel counts for callers using the shorter historical name."""
         return self.trigger_count_by_trajectory
 
     @property
     def gate_failed(self) -> torch.Tensor:
+        """Expose the per-trajectory correction rejection flags."""
         return self.gate_failed_by_trajectory
 
 
 def square_selected_mask(
     grid: int, *, cutoff: int, device: torch.device
 ) -> torch.Tensor:
+    """Construct boolean P-cutoff support using the incoming grid's integer Fourier modes."""
     modes = torch.fft.fftfreq(grid, d=1.0 / grid, device=device)
     ky, kx = torch.meshgrid(modes, modes, indexing="ij")
     return (kx.abs() <= cutoff) & (ky.abs() <= cutoff)
 
 
 def _periodic_neighbor_median(state: torch.Tensor, radius: int) -> torch.Tensor:
+    """Compute the median of neighboring pixels with periodic wrap and the centre excluded.
+
+    For the 5x5 window there are 24 neighbors; averaging the two middle order
+    statistics gives the conventional median of an even-sized set.
+    """
     neighbors = torch.stack(
         [
             torch.roll(state, shifts=(dy, dx), dims=(-2, -1))
@@ -95,8 +109,8 @@ def _periodic_neighbor_median(state: torch.Tensor, radius: int) -> torch.Tensor:
 def correction_tensors(state, policy, selected_mask):
     """Tensor-only correction shared by audited inference and training.
 
-    The caller validates shape/mask and MUST check finite inputs and returned
-    gates before accepting a state or taking an optimizer step. No host reads
+    The caller validates shape/mask and checks finite inputs and returned gates
+    before accepting a state or taking an optimizer step. No host reads
     here: fixed-shape training may capture these operations in a CUDA graph.
     Additional intermediates support the unchanged public diagnostic report.
     """
@@ -130,6 +144,7 @@ def apply_local_correction(
     *,
     selected_mask: torch.Tensor | None = None,
     selected_scope: str = "P21",
+    diagnostics: bool = True,
 ) -> CorrectionResult:
     """Apply one band-preserving post-step correction without modifying either RHS."""
 
@@ -166,6 +181,11 @@ def apply_local_correction(
     corrected, counts, gate_failed, residual, rms, centered, raw_delta, delta_hat = (
         correction_tensors(state, policy, selected_mask)
     )
+
+    if not diagnostics:
+        return CorrectionResult(state=corrected, trigger_count_by_trajectory=counts,
+                                gate_failed_by_trajectory=gate_failed,
+                                report={"diagnostics_performed": False})
 
     actual_delta = corrected - state
     actual_delta_hat = torch.fft.fft2(actual_delta)
@@ -221,6 +241,11 @@ def apply_local_correction(
 
 @dataclass
 class RolloutResult:
+    """Saved prediction fields and all trajectory-local failures/correction/runtime evidence.
+
+    Prediction is float32 [trajectory,saved_time,N,N]. Failed future slots stay NaN;
+    failure_step is one-based for failures and -1 for surviving trajectories.
+    """
     prediction: np.ndarray
     finite_by_time: np.ndarray
     failure_step: np.ndarray
@@ -237,6 +262,7 @@ class RolloutResult:
 def load_low_generator(
     paths: ProjectPaths, grid: int, device: torch.device
 ) -> Callable[[torch.Tensor], torch.Tensor]:
+    """Load a frozen P21 generator and adapt its DFT normalization to the requested grid."""
     paths.require("low_model")
     activate_project(paths.root)
     from gift import FixedBandwidthGridGenerator, load_generator
@@ -249,10 +275,19 @@ def load_low_generator(
 def load_gift_models(
     paths: ProjectPaths, branch_path: Path, grid: int, device: torch.device
 ) -> tuple[Callable[[torch.Tensor], torch.Tensor], HighFrequencyBranch, dict[str, Any]]:
+    """Load the low generator and branch, checking they represent the same trained pair.
+
+    New exports compare loaded generator tensors; older exports retain their
+    recorded file-digest convention for compatibility.
+    """
     low = load_low_generator(paths, grid, device)
     branch, payload = load_high_frequency_model(branch_path, device, low)
-    expected_low_hash = str(payload["frozen_generator_sha256"]).upper()
-    if expected_low_hash != sha256_file(paths.low_model):
+    from training.checkpoints import state_digest
+    expected = payload.get("generator_weights_sha256")
+    actual = state_digest(low.model.state_dict()) if expected is not None else sha256_file(paths.low_model)
+    if expected is None:
+        expected = payload["frozen_generator_sha256"]
+    if expected.lower() != actual.lower():
         raise ValueError("high-frequency model was trained with a different P21 generator")
     return low, branch, payload
 
@@ -263,6 +298,7 @@ def _validate_rhs(
     *,
     label: str,
 ) -> torch.Tensor:
+    """Require the RHS to preserve the input [batch,N,N] tensor's shape, dtype and device."""
     value = rhs(state)
     if not isinstance(value, torch.Tensor) or value.shape != state.shape:
         raise ValueError(f"{label} RHS must return a tensor with the input shape")
@@ -272,10 +308,12 @@ def _validate_rhs(
 
 
 def _project(value: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+    """Project a physical tensor on the incoming grid without changing its leading axes."""
     return torch.fft.ifft2(torch.fft.fft2(value) * mask).real
 
 
 def _exact_count(numerator: float, denominator: float, label: str) -> int:
+    """Convert a duration ratio to a positive integer step count without rounding a partial step."""
     value = numerator / denominator
     rounded = int(round(value))
     if rounded < 1 or not math.isclose(
@@ -296,6 +334,7 @@ def _component_correction_report(
     gate_failures: np.ndarray,
     audit_maxima: dict[str, float],
 ) -> dict[str, Any]:
+    """Summarize one component's [step,trajectory] pixel counts and rejection gates."""
     triggered = np.any(trigger_counts > 0, axis=0)
     gated = np.any(gate_failures, axis=0)
     return {
@@ -336,6 +375,7 @@ def _correction_report(
     p21_audit_maxima: dict[str, float],
     q21_audit_maxima: dict[str, float],
 ) -> dict[str, Any]:
+    """Combine independent P21/Q21 trigger counts and OR their trajectory rejection gates."""
     trigger_counts = p21_trigger_counts + q21_trigger_counts
     gate_failures = p21_gate_failures | q21_gate_failures
     triggered = np.any(trigger_counts > 0, axis=0)
@@ -400,6 +440,7 @@ def rollout_gift(
     correction_policy: LocalCorrectionPolicy = DEFAULT_P21_CORRECTION_POLICY,
     q21_correction_policy: LocalCorrectionPolicy = DEFAULT_Q21_CORRECTION_POLICY,
     execution: str = "eager",
+    diagnostics: bool = False,
 ) -> RolloutResult:
     """Run GIFT recursion with trajectory-local failure isolation.
 
@@ -410,6 +451,14 @@ def rollout_gift(
     modes and has no model-fixed upper cutoff. After each complete RK4 step,
     recursive local correction is applied independently to the P21 and Q21
     tracks, with each correction projected back to its own component.
+
+    initial_state is float32 [trajectory,N,N], with unique int64 trajectory_ids.
+    Duration, step and save interval use the observation time coordinate and must
+    divide into complete steps. The result includes the anchor and each saved
+    lead time. A failed trajectory keeps NaN future slots, its failure step and
+    reason; other trajectories continue, preserving the original population.
+    Detailed leakage diagnostics are optional and do not change the correction
+    gates or integration rule.
     """
 
     initial = np.asarray(initial_state)
@@ -474,8 +523,8 @@ def rollout_gift(
         "maximum_actual_tail_coefficient_absolute",
         "maximum_actual_outside_selected_mask_absolute",
     )
-    p21_audit_maxima = {key: 0.0 for key in audit_keys}
-    q21_audit_maxima = {key: 0.0 for key in audit_keys}
+    p21_audit_maxima = {key: 0.0 for key in audit_keys} if diagnostics else {}
+    q21_audit_maxima = {key: 0.0 for key in audit_keys} if diagnostics else {}
 
     modes = torch.fft.fftfreq(grid, d=1.0 / grid, device=resolved_device)
     ky, kx = torch.meshgrid(modes, modes, indexing="ij")
@@ -489,12 +538,15 @@ def rollout_gift(
             raise ValueError("enabled high-frequency branch must preserve P21")
 
     def low_project(value: torch.Tensor) -> torch.Tensor:
+        """Keep only P21 in the low track at each composed RK4 stage."""
         return _project(value, low_mask)
 
     def q21_project(value: torch.Tensor) -> torch.Tensor:
+        """Keep only Q21 in the high track at each composed RK4 stage."""
         return _project(value, q21_mask)
 
     def compose(formal_value: torch.Tensor, high_value: torch.Tensor) -> torch.Tensor:
+        """Compose a complete physical stage state from its independently projected tracks."""
         return low_project(formal_value) + q21_project(high_value)
 
     maximum_low_track_q21 = 0.0
@@ -505,6 +557,7 @@ def rollout_gift(
     def coupled_tensor_rhs(
         low_value: torch.Tensor, high_value: torch.Tensor
     ):
+        """Evaluate one frozen-generator call and reuse its P21 result to condition the branch."""
         complete = compose(low_value, high_value)
         frozen = low_project(_validate_rhs(low, complete, label="low"))
         if branch is None:
@@ -519,9 +572,13 @@ def rollout_gift(
         ):
             raise ValueError("high RHS must return a tensor with the input shape")
         projected = q21_project(raw)
-        return frozen, projected, low_project(raw).abs().max(), low_project(projected).abs().max()
+        if diagnostics:
+            return frozen, projected, low_project(raw).abs().max(), low_project(projected).abs().max()
+        zero = torch.zeros((), dtype=raw.dtype, device=raw.device)
+        return frozen, projected, zero, zero
 
     def coupled_rhs(low_value, high_value):
+        """Accumulate optional host diagnostics around the shared tensor-only stage RHS."""
         nonlocal maximum_raw_branch_rhs_p21, maximum_applied_branch_rhs_p21
         frozen, projected, raw_leak, applied_leak = coupled_tensor_rhs(low_value, high_value)
         maximum_raw_branch_rhs_p21 = max(
@@ -534,8 +591,10 @@ def rollout_gift(
         return frozen, projected
 
     def graph_rk4(formal_current, high_current):
-        # Inference has its own projected stage definition; do not substitute
-        # the training RK4 helper. Keep every projection and all eight audits.
+        """Advance projected dual tracks with four RK4 stages and return tensor leakage diagnostics."""
+        # Inference projects each composed stage. The training helper has a
+        # different graph boundary, so this path spells out its four stages and
+        # returns raw/applied P21 leakage for optional diagnostics at each stage.
         low1, high1, r1, a1 = coupled_tensor_rhs(formal_current, high_current)
         low2, high2, r2, a2 = coupled_tensor_rhs(
             formal_current + 0.5 * step * low1, high_current + 0.5 * step * high1)
@@ -549,6 +608,7 @@ def rollout_gift(
         return formal_updated, high_updated, torch.stack((r1, a1, r2, a2, r3, a3, r4, a4))
 
     def eager_rk4(formal_current, high_current):
+        """Advance the same dual-track RK4 step while accumulating eager diagnostic maxima."""
         low1, high1 = coupled_rhs(formal_current, high_current)
         formal2 = formal_current + 0.5 * step * low1
         high2_state = high_current + 0.5 * step * high1
@@ -595,10 +655,11 @@ def rollout_gift(
                         graph_calls[graph_key] = call
                         graph_setup_seconds += call.setup_seconds
                     formal_updated, high_updated, audits = graph_calls[graph_key](formal_current, high_current)
-                    values = audits.cpu().tolist()
-                    for raw_leak, applied_leak in zip(values[::2], values[1::2]):
-                        maximum_raw_branch_rhs_p21 = max(maximum_raw_branch_rhs_p21, raw_leak)
-                        maximum_applied_branch_rhs_p21 = max(maximum_applied_branch_rhs_p21, applied_leak)
+                    if diagnostics:
+                        values = audits.cpu().tolist()
+                        for raw_leak, applied_leak in zip(values[::2], values[1::2]):
+                            maximum_raw_branch_rhs_p21 = max(maximum_raw_branch_rhs_p21, raw_leak)
+                            maximum_applied_branch_rhs_p21 = max(maximum_applied_branch_rhs_p21, applied_leak)
                 else:
                     formal_updated, high_updated = eager_rk4(formal_current, high_current)
                 combined_updated = compose(formal_updated, high_updated)
@@ -627,12 +688,14 @@ def rollout_gift(
                         correction_policy,
                         selected_mask=p21_correction_mask,
                         selected_scope="P21",
+                        diagnostics=diagnostics,
                     )
                     corrected_q21 = apply_local_correction(
                         finite_high,
                         q21_correction_policy,
                         selected_mask=q21_correction_mask,
                         selected_scope="Q21",
+                        diagnostics=diagnostics,
                     )
                     finite_global = begin + finite_rows.detach().cpu().numpy()
                     p21_counts = (
@@ -707,32 +770,36 @@ def rollout_gift(
 
                     accepted = ~combined_gates
                     accepted_rows = finite_rows[accepted]
-                    accepted_complete = compose(
-                        corrected_p21.state[accepted],
-                        corrected_q21.state[accepted],
-                    )
-                    accepted_finite = (
-                        torch.isfinite(accepted_complete).flatten(1).all(1)
-                    )
-                    bad_rows = accepted_rows[~accepted_finite]
-                    if len(bad_rows):
-                        for local in bad_rows.detach().cpu().tolist():
-                            global_index = begin + int(local)
-                            failure_step[global_index] = step_index + 1
-                            failure_reason[global_index] = "correction_nonfinite"
-                        active[bad_rows] = False
-                        formal_state[bad_rows] = 0.0
-                        high_state[bad_rows] = 0.0
+                    # All finite trajectories can fail the native gates at
+                    # once. Their failures were recorded above; an empty
+                    # [0,N,N] FFT is unsupported by cuFFT and some CPU backends.
+                    if len(accepted_rows):
+                        accepted_complete = compose(
+                            corrected_p21.state[accepted],
+                            corrected_q21.state[accepted],
+                        )
+                        accepted_finite = (
+                            torch.isfinite(accepted_complete).flatten(1).all(1)
+                        )
+                        bad_rows = accepted_rows[~accepted_finite]
+                        if len(bad_rows):
+                            for local in bad_rows.detach().cpu().tolist():
+                                global_index = begin + int(local)
+                                failure_step[global_index] = step_index + 1
+                                failure_reason[global_index] = "correction_nonfinite"
+                            active[bad_rows] = False
+                            formal_state[bad_rows] = 0.0
+                            high_state[bad_rows] = 0.0
 
-                    good = accepted_finite
-                    good_rows = accepted_rows[good]
-                    if len(good_rows):
-                        formal_state[good_rows] = low_project(
-                            accepted_complete[good]
-                        )
-                        high_state[good_rows] = q21_project(
-                            accepted_complete[good]
-                        )
+                        good = accepted_finite
+                        good_rows = accepted_rows[good]
+                        if len(good_rows):
+                            formal_state[good_rows] = low_project(
+                                accepted_complete[good]
+                            )
+                            high_state[good_rows] = q21_project(
+                                accepted_complete[good]
+                            )
                 elif len(finite_rows):
                     formal_state[finite_rows] = finite_formal
                     high_state[finite_rows] = finite_high
@@ -741,14 +808,9 @@ def rollout_gift(
             if completed_step % save_every == 0:
                 save_index = completed_step // save_every
                 combined = compose(formal_state, high_state)
-                maximum_low_track_q21 = max(
-                    maximum_low_track_q21,
-                    float(q21_project(formal_state).abs().max()),
-                )
-                maximum_high_track_p21 = max(
-                    maximum_high_track_p21,
-                    float(low_project(high_state).abs().max()),
-                )
+                if diagnostics:
+                    maximum_low_track_q21 = max(maximum_low_track_q21, float(q21_project(formal_state).abs().max()))
+                    maximum_high_track_p21 = max(maximum_high_track_p21, float(low_project(high_state).abs().max()))
                 snapshot = combined.detach().cpu().numpy().copy()
                 inactive = ~active.detach().cpu().numpy()
                 snapshot[inactive] = np.nan
@@ -817,12 +879,13 @@ def rollout_gift(
             )
         ),
         "finite_count_by_time": finite_by_time.sum(axis=0).astype(int).tolist(),
+        "diagnostics_performed": diagnostics,
     }
     if execution != "eager":
         runtime.update(execution="cuda-graph" if use_graph else "eager",
                        graph_setup_seconds=graph_setup_seconds,
                        captured_batch_shapes=len(graph_calls),
-                       timing_scope="complete rollout including graph warmup/capture and all diagnostics")
+                       timing_scope="complete rollout including graph warmup/capture and requested diagnostics")
     branch_audit = (
         {
             "enabled": True,
@@ -867,6 +930,12 @@ def rollout_gift(
             "same_complete_state_low_generator_protocol": True,
         }
     )
+    branch_audit["diagnostics_performed"] = diagnostics
+    correction_report["diagnostics_performed"] = diagnostics
+    if not diagnostics:
+        for key in ("maximum_raw_branch_rhs_in_P21", "maximum_applied_branch_rhs_in_P21",
+                    "maximum_Q21_leakage_from_low_track", "maximum_P21_leakage_from_high_track"):
+            branch_audit.pop(key, None)
     return RolloutResult(
         prediction=prediction,
         finite_by_time=finite_by_time,

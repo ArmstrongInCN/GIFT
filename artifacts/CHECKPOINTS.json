@@ -24,27 +24,6 @@
       "sha256": "354899842C15BB746778483C1B799FDFC7300B6010928FBED6E5F25C73A0620B"
     },
     {
-      "path": "artifacts/m1_parameter_identification/gift_noise_000.pt",
-      "method": "GIFT",
-      "artifact_role": "trained_weights",
-      "bytes": 393234,
-      "sha256": "B6529A2267ACE02AB77290A5A8445A9EF802C837A2E1896043515D7DAA64AA84"
-    },
-    {
-      "path": "artifacts/m1_parameter_identification/gift_noise_001.pt",
-      "method": "GIFT",
-      "artifact_role": "trained_weights",
-      "bytes": 393042,
-      "sha256": "29A825F3CC7247017B009D9C5E22643AFCFD592A1EF65252CD7CD4BF37E126FD"
-    },
-    {
-      "path": "artifacts/m1_parameter_identification/gift_noise_010.pt",
-      "method": "GIFT",
-      "artifact_role": "trained_weights",
-      "bytes": 393042,
-      "sha256": "CEA1C7DDC6F416A31487615FA7D6B2AE15A6AFA1519A11D2C253AA764359F758"
-    },
-    {
       "path": "artifacts/gift/gift_seed_20260820.pt",
       "method": "GIFT-Lite",
       "seed": 20260820,
@@ -560,54 +539,6 @@
       "sha256": "22FEFCFE020A5DEAAFE90966BD48CAF43A88CE81FD3728906607E519894D1F80"
     },
     {
-      "path": "artifacts/pinn/noise_000/known/terminal_state.npz",
-      "method": "PINN-SR-KC",
-      "condition": "noise_000",
-      "artifact_role": "trained_weights",
-      "bytes": 302922,
-      "sha256": "BEB0016824329C3DFAC5B19CC1411C0346C603222D37B3EBCCFFD06D09C22245"
-    },
-    {
-      "path": "artifacts/pinn/noise_000/open/terminal_state.npz",
-      "method": "PINN-SR",
-      "condition": "noise_000",
-      "artifact_role": "trained_weights",
-      "bytes": 304794,
-      "sha256": "9E57554F94DC11A92F76F035BBB847BC0A9C476183DFB9F870F26D553D57EF07"
-    },
-    {
-      "path": "artifacts/pinn/noise_001/known/terminal_state.npz",
-      "method": "PINN-SR-KC",
-      "condition": "noise_001",
-      "artifact_role": "trained_weights",
-      "bytes": 302780,
-      "sha256": "106CADEBCC99C08CA7D4A117186E87A17CF9D46D659E5E266B67ABCCDF1C1F13"
-    },
-    {
-      "path": "artifacts/pinn/noise_001/open/terminal_state.npz",
-      "method": "PINN-SR",
-      "condition": "noise_001",
-      "artifact_role": "trained_weights",
-      "bytes": 304698,
-      "sha256": "B7837B48300FBE21627CDC176EDCD149AFEDD36D184B93DA598C3C8515BC91FA"
-    },
-    {
-      "path": "artifacts/pinn/noise_010/known/terminal_state.npz",
-      "method": "PINN-SR-KC",
-      "condition": "noise_010",
-      "artifact_role": "trained_weights",
-      "bytes": 302937,
-      "sha256": "3ECA9A97588FC6E472F1FBEE99D8C6D4B165BC94F26DC1533EAE8848EBEBECC9"
-    },
-    {
-      "path": "artifacts/pinn/noise_010/open/terminal_state.npz",
-      "method": "PINN-SR",
-      "condition": "noise_010",
-      "artifact_role": "trained_weights",
-      "bytes": 304740,
-      "sha256": "1066B4B23081ECA7DEB993C91632F5B5A12BBC325C6C35E633C2BC5EF2936BB5"
-    },
-    {
       "path": "artifacts/gift_full/generator.pt",
       "method": "GIFT",
       "artifact_role": "trained_weights",
@@ -692,113 +623,347 @@
       "seed": 20260822
     },
     {
-      "path": "artifacts/s4_gaussian/gift_full/generator.pt",
+      "path": "artifacts/s3_gaussian/gift_full/generator.pt",
       "method": "gift_generator",
       "artifact_role": "trained_weights",
       "bytes": 284644,
-      "sha256": "5460303D0666D1A09AA3568EFA054B7B5508F9BDA2D6FBFA3CBFACACA61C32A5"
+      "sha256": "8F7EE0D383CF43B118B9924D11E57D9DB40ABEAC1B8BB301EC2C8D6AC55B72A1"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_lite/generator.pt",
+      "path": "artifacts/s3_gaussian/gift_lite/generator.pt",
       "method": "gift_low",
       "artifact_role": "trained_weights",
       "bytes": 405138,
-      "sha256": "88E7850E50842365E638359A262D0DE3E4D0DFA5C60E53A263281B1C3B6E3E94"
+      "sha256": "A6D87298D77A379CD096E24E9F1145F14D00C893AE9AFF49AF1FEF4E77FAD920"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_lite/gift_seed_20260820.pt",
+      "path": "artifacts/s3_gaussian/gift_lite/gift_seed_20260820.pt",
       "method": "gift_branch",
       "artifact_role": "trained_weights",
       "bytes": 11315410,
-      "sha256": "5EA538AEB034FC0AF4BD953B7896FEB8A20D2D1494094E877AB5D1BBC944F87A"
+      "sha256": "27266FDF59A5F0300D86F07DE4C3F7DC715B38D2E5423A72B152A680DF88A984"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_lite/gift_seed_20260821.pt",
+      "path": "artifacts/s3_gaussian/gift_lite/gift_seed_20260821.pt",
       "method": "gift_branch",
       "artifact_role": "trained_weights",
       "bytes": 11315410,
-      "sha256": "A4F61C461543660E228C57BD34BBAE396E3EEDFA4C2242A89538B6E54A9A4A7B"
+      "sha256": "0E49D28C1A7875B1DE45119F280693CC072AA8259A23E25D1A3213577B7576E5"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_lite/gift_seed_20260822.pt",
+      "path": "artifacts/s3_gaussian/gift_lite/gift_seed_20260822.pt",
       "method": "gift_branch",
       "artifact_role": "trained_weights",
       "bytes": 11315410,
-      "sha256": "B88705C7E9AA7BEB6C9FDB19EF917A7F3017CF39855855EB9F7D01256CDAAD86"
+      "sha256": "39A2D7CC9DCA08394F4FE7BD332202C7DAE7A033FB32736CCC1B71C5AED94E74"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_full/gift_seed_20260820.pt",
+      "path": "artifacts/s3_gaussian/gift_full/gift_seed_20260820.pt",
       "method": "gift_predictor",
       "artifact_role": "trained_weights",
       "bytes": 11323666,
-      "sha256": "E0EAEBC16A9357484382D434972B68B913A905BC49F50890258C9FAB0A094ABA"
+      "sha256": "8D27B6E59B8DC33F0696A102776D835F232222B71A4A59A7C7DD7F409ACF42AB"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_full/gift_seed_20260821.pt",
+      "path": "artifacts/s3_gaussian/gift_full/gift_seed_20260821.pt",
       "method": "gift_predictor",
       "artifact_role": "trained_weights",
       "bytes": 11323666,
-      "sha256": "96C858B645039E9A7B3B0D7D89A2B6614BA61F21CE85FF3CA5EEBDD383ADA2E3"
+      "sha256": "679C32F39C0D5FB838A8806017C1F09EF78521D0E30E7A1F698A99762279BE5F"
     },
     {
-      "path": "artifacts/s4_gaussian/gift_full/gift_seed_20260822.pt",
+      "path": "artifacts/s3_gaussian/gift_full/gift_seed_20260822.pt",
       "method": "gift_predictor",
       "artifact_role": "trained_weights",
       "bytes": 11323666,
-      "sha256": "7C9A756A113A77A8AA33624BB33EC67E0072C37CDDD917774923FE8E13D74030"
+      "sha256": "F0479904E163295BA7CEC227DD95E3D514AEAB44700B4F20AC19B3EFDB7212F8"
     },
     {
-      "path": "artifacts/s4_gaussian/unet/model.pt",
+      "path": "artifacts/s3_gaussian/unet/model.pt",
       "method": "unet",
       "artifact_role": "trained_weights",
-      "bytes": 99941807,
-      "sha256": "C10D0C0E82E582B5B17806C259A1482B2C304BD77D3512DF1E30B6CDC777DB38"
+      "bytes": 99941999,
+      "sha256": "1A62AB132A99A1E98DCAFC6D321642828035A6CC7EC7B29377BF980E549699B7"
     },
     {
-      "path": "artifacts/s4_gaussian/uno/weights-0001.part",
+      "path": "artifacts/s3_gaussian/uno/weights-0001.part",
       "method": "uno",
       "artifact_role": "trained_weights_part",
       "bytes": 41943040,
-      "sha256": "256CC4955CCD03D1BFCD80667223EF5D62E83B6F71AE536DAED87DE802BFBE6E",
-      "checkpoint_index": "artifacts/s4_gaussian/uno/weights.json"
+      "sha256": "E56FF17864DEF27195741B280C47659B58BAE7F8E07CBE6ADCA6C024571D2F5F",
+      "checkpoint_index": "artifacts/s3_gaussian/uno/weights.json"
     },
     {
-      "path": "artifacts/s4_gaussian/uno/weights-0002.part",
+      "path": "artifacts/s3_gaussian/uno/weights-0002.part",
       "method": "uno",
       "artifact_role": "trained_weights_part",
       "bytes": 41943040,
-      "sha256": "73ABAC414E52707D823CDB84283E8A0A94BD2853A4BE3B05917834D17E6655DB",
-      "checkpoint_index": "artifacts/s4_gaussian/uno/weights.json"
+      "sha256": "53624788DDA30CFB51BEC51CB886DDC87FD11EFAF7D381631B6A5E4806942C9A",
+      "checkpoint_index": "artifacts/s3_gaussian/uno/weights.json"
     },
     {
-      "path": "artifacts/s4_gaussian/uno/weights-0003.part",
+      "path": "artifacts/s3_gaussian/uno/weights-0003.part",
       "method": "uno",
       "artifact_role": "trained_weights_part",
-      "bytes": 38047287,
-      "sha256": "2E8D50BF2234E3EDA945505F53B87BA945AE4A6AE8200B25E7EDEFD9972163F6",
-      "checkpoint_index": "artifacts/s4_gaussian/uno/weights.json"
+      "bytes": 38047479,
+      "sha256": "2D051C3F7A81684FEC0ABF071B4AE79617B97FD555061FCCD25C373A02FE94A6",
+      "checkpoint_index": "artifacts/s3_gaussian/uno/weights.json"
     },
     {
-      "path": "artifacts/s4_gaussian/uno/weights.json",
+      "path": "artifacts/s3_gaussian/uno/weights.json",
       "method": "uno",
       "artifact_role": "trained_weights_index",
-      "bytes": 654,
-      "sha256": "E8912264850E58BE00A62DBE9C70E7C72951F480C71DCA46227BD093AF93DC32"
+      "bytes": 632,
+      "sha256": "5AD8B65953341443DAE7F44785F5C072149A9A7309316C293084CC413509916C"
     },
     {
-      "path": "artifacts/s4_gaussian/fno3d/model.pt",
+      "path": "artifacts/s3_gaussian/fno3d/model.pt",
       "method": "fno3d",
       "artifact_role": "trained_weights",
-      "bytes": 32683713,
-      "sha256": "047F95C548E9C573E48AF98AD1566894CF3D3699D8741CF83FC80E9F7DA0D791"
+      "bytes": 32683905,
+      "sha256": "FF35BA98BEDD4D713B95F1D9E43BDC613AEAA117F693C34D7CB6744A77B8164D"
     },
     {
-      "path": "artifacts/s4_gaussian/fno2d/model.pt",
+      "path": "artifacts/s3_gaussian/fno2d/model.pt",
       "method": "fno2d",
       "artifact_role": "trained_weights",
-      "bytes": 3729317,
-      "sha256": "4806281FC7992C691EAE9F23E16560DCE764F8AE613EB6B6425BF40668A3973A"
+      "bytes": 3729445,
+      "sha256": "B6EDC7343D7A0038BEE37E7A2621F32CD0B30644C91D3134EFF23718D7BEF099"
+    },
+    {
+      "path": "artifacts/w3_parameter_identification/gift_noise_000.pt",
+      "bytes": 393234,
+      "sha256": "037E813D0F99518B6167B50D896CF2B197455FE35EF392830009C154970D7A7A",
+      "method": "GIFT",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "trained_weights",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/w3_parameter_identification/gift_noise_001.pt",
+      "bytes": 393042,
+      "sha256": "CE8B6F7252EB5CF44E5F13A7ACDA041FBD151FD77F27F8F7E7CFFB6E543EB4F1",
+      "method": "GIFT",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "trained_weights",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/w3_parameter_identification/gift_noise_005.pt",
+      "bytes": 393042,
+      "sha256": "89DF0C60915E9C3C71DC8E5F2263F89025BBA40B942F396FC8F0DD3D210B979D",
+      "method": "GIFT",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "trained_weights",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_000/known/result.json",
+      "bytes": 170950,
+      "sha256": "6DAAB243CE7CC4BE91B6FF191BFE077F288C9BA24604ACC05AC1AA5CC883D2EF",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "completed_coefficients",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_000/known/terminal_state.npz",
+      "bytes": 302875,
+      "sha256": "F7FC49F634A7525803BE1BAC7224962BE20D137CCCBF204D96195BE2BFC24B34",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "learned_numeric_state",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_000/known/COMPLETED.json",
+      "bytes": 345,
+      "sha256": "F819EA93F9680C8E9F67396D6469B20365AB46E56717A86C15059076DAB6BBA6",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "completion_evidence",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_000/open/result.json",
+      "bytes": 176181,
+      "sha256": "F7881130CAC3DF624FA8B7522D0C9B94D168FC9044FA88B53B09C79E2AE25A18",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "completed_coefficients",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_000/open/terminal_state.npz",
+      "bytes": 304311,
+      "sha256": "481EB513D4E81D0662FEB8EA2A6FE7E8D6D43F4AAD6C24BEF75442C3BC6CCC33",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "learned_numeric_state",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_000/open/COMPLETED.json",
+      "bytes": 345,
+      "sha256": "D63F76092148ED0EE2921C269677706BBB4D9DD031C1656F18180259E7584135",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_000",
+      "artifact_role": "completion_evidence",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_001/known/result.json",
+      "bytes": 171051,
+      "sha256": "EF413A56614B5CD4C8B946A4FFBE999790651F0E166B078ECD4BF05957CE7802",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "completed_coefficients",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_001/known/terminal_state.npz",
+      "bytes": 303084,
+      "sha256": "FD1AA6AC0DD719F61C43ACA2F635D369E92C344DEB1A93C0064B2ECAF638E8AE",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "learned_numeric_state",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_001/known/COMPLETED.json",
+      "bytes": 345,
+      "sha256": "368FE516743895E2E460D954FAEC6130A990F99DDF377FD71DA6C30B9B3F895F",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "completion_evidence",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_001/open/result.json",
+      "bytes": 174721,
+      "sha256": "4687F1D5B00820E0DF87EA0A0D6E6281061921D9849761CD8689B91F6F475039",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "completed_coefficients",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_001/open/terminal_state.npz",
+      "bytes": 304185,
+      "sha256": "499144624A98A98C58D46C556F919FB8F93B92680B22CE90F5FF8335B5F1D36B",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "learned_numeric_state",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_001/open/COMPLETED.json",
+      "bytes": 345,
+      "sha256": "10482D794030BB162246EC3B3B2169BAC50050CCF7B3CA13D44BEBF7257FE0F2",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_001",
+      "artifact_role": "completion_evidence",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_005/known/result.json",
+      "bytes": 170962,
+      "sha256": "11F994B1F7206380F1B07398491F10D6E5F3387160472A8E1A73A79ADA1A3CAE",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "completed_coefficients",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_005/known/terminal_state.npz",
+      "bytes": 302974,
+      "sha256": "48B07B4B48A7DD16E969BCA6ACAB297E54AE1BF7CE95CA9C1F6485081F61AA19",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "learned_numeric_state",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_005/known/COMPLETED.json",
+      "bytes": 345,
+      "sha256": "2606159331B54957760431312868D6D3910CD771FC22EFA455D097D8C5B35714",
+      "method": "PINN-SR-KC",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "completion_evidence",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_005/open/result.json",
+      "bytes": 175986,
+      "sha256": "B8FE3F8197DFB70374F398D56430A5D8118E035CDF253BC7C2C1FE0859D8DE3C",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "completed_coefficients",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_005/open/terminal_state.npz",
+      "bytes": 304192,
+      "sha256": "AA9FF22702C92CD283C962B166876BAFBDFF54AEF79771FE4D476A32ABE699D0",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "learned_numeric_state",
+      "fresh_training": true
+    },
+    {
+      "path": "artifacts/pinn/noise_005/open/COMPLETED.json",
+      "bytes": 345,
+      "sha256": "98BB1AED8EA15BAF15E6C670790CCC0EE3816E647B9E7A6A17BD8229C2301007",
+      "method": "PINN-SR",
+      "experiment": "W3",
+      "condition": "noise_005",
+      "artifact_role": "completion_evidence",
+      "fresh_training": true
     }
   ],
-  "pending": []
+  "pending": [],
+  "w3_status": "complete; prescribed native paper_ado_v1 PINN and preserved GIFT/PDE results at noise0/1/5",
+  "current_w3": {
+    "status": "complete",
+    "conditions": [
+      "noise_000",
+      "noise_001",
+      "noise_005"
+    ],
+    "training_slots": 9,
+    "fresh_PINN_training_slots": 6,
+    "preserved_GIFT_training_slots": 3,
+    "gift_manifest": "artifacts/w3_parameter_identification/manifest.json",
+    "gift_manifest_sha256": "C1B04CC14D00C17A4A3328305198D43D13E354586C31B8F9EE683A5B06A6DEDF",
+    "costs": "artifacts/w3_parameter_identification/TRAINING_COSTS.json",
+    "costs_sha256": "5D83C698529ECE4BB8CAA29A444F79D9152162836ADDAF5B1A1A40D3B3D43709",
+    "data_receipt_sha256": "F7032BE81AA20B3D0C4D259695C0DA4FC3C6BA6537024F960DDE74DAC8B9676D",
+    "source_runs_by_method": {
+      "GIFT": "D:\\2_GIFT\\runs\\w3_parameters_noise005_20261007",
+      "PDE-FIND": "D:\\2_GIFT\\runs\\w3_parameters_noise005_20261007",
+      "PDE-FIND-KC": "D:\\2_GIFT\\runs\\w3_parameters_noise005_20261007",
+      "PINN-SR": "D:\\2_GIFT\\runs\\w3_pinn_corrected_20261008",
+      "PINN-SR-KC": "D:\\2_GIFT\\runs\\w3_pinn_corrected_20261008"
+    }
+  }
 }

@@ -9,6 +9,7 @@ from scripts import prepare_external as prepare
 
 @pytest.fixture
 def checkouts(tmp_path, monkeypatch):
+    """Build a text-only registered checkout and replace Git with a read-only sentinel."""
     project, external = tmp_path/"project", tmp_path/"external"
     project.mkdir()
     source = external/"test_source"
@@ -22,6 +23,7 @@ def checkouts(tmp_path, monkeypatch):
     monkeypatch.delenv("GIFT_DATA_ROOT", raising=False)
     calls = []
     def read_git(directory, *arguments):
+        """Allow only revision inspection, recording any requested Git operation."""
         calls.append(arguments)
         assert arguments == ("rev-parse", "HEAD"), "existing checkout must never be modified"
         return "test_commit"
@@ -30,6 +32,7 @@ def checkouts(tmp_path, monkeypatch):
 
 
 def test_existing_sources_verified_without_any_writes(checkouts):
+    """Verify existing revision/bytes while keeping the configured source unchanged."""
     _, external, source, calls = checkouts
     before = (source/"source.txt").read_bytes()
     result = prepare.prepare(external)
@@ -39,6 +42,7 @@ def test_existing_sources_verified_without_any_writes(checkouts):
 
 
 def test_changed_source_is_rejected_not_repaired(checkouts):
+    """Report mismatched reference bytes without repairing or overwriting the checkout."""
     _, external, source, _ = checkouts
     (source/"source.txt").write_bytes(b"changed test-only source")
     with pytest.raises(ValueError, match="bytes differ"):
@@ -47,6 +51,7 @@ def test_changed_source_is_rejected_not_repaired(checkouts):
 
 
 def test_project_data_and_missing_roots_guarded(checkouts, tmp_path, monkeypatch):
+    """Prevent dependency preparation inside protected roots or implicit verify-only creation."""
     project, _, _, calls = checkouts
     data = tmp_path/"data"
     data.mkdir()

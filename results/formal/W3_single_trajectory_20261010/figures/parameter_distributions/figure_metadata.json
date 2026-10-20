@@ -1,0 +1,5832 @@
+{
+  "schema": "gift.w3-parameter-distributions.metadata.v1",
+  "status": "complete",
+  "experiment": "W3",
+  "figure_number": 4,
+  "archetype": "quantitative grid",
+  "conclusion": "Compare absolute parameter-identification error, spread and extremes for each physical parameter.",
+  "source_csv_sha256": "7a202ab85c760b28a3344527d2c3bf657adc58ed04941635375baa003357c190",
+  "plot_source_sha256": "f989554ee24cdda8d968d1eba5c05fc3f67e2906acf65f421b4fb1e13a5dacfc",
+  "methods": [
+    "GIFT",
+    "PDE-FIND",
+    "PDE-FIND-KC",
+    "PINN-SR",
+    "PINN-SR-KC"
+  ],
+  "case_ids": [
+    "parameter_000",
+    "parameter_001",
+    "parameter_002",
+    "parameter_003",
+    "parameter_004",
+    "parameter_005",
+    "parameter_006",
+    "parameter_007",
+    "parameter_008",
+    "parameter_009",
+    "parameter_010",
+    "parameter_011",
+    "parameter_012",
+    "parameter_013",
+    "parameter_014",
+    "parameter_015",
+    "parameter_016",
+    "parameter_017",
+    "parameter_018",
+    "parameter_019",
+    "parameter_020",
+    "parameter_021",
+    "parameter_022",
+    "parameter_023",
+    "parameter_024",
+    "parameter_025",
+    "parameter_026",
+    "parameter_027",
+    "parameter_028",
+    "parameter_029",
+    "parameter_030",
+    "parameter_031",
+    "parameter_032",
+    "parameter_033",
+    "parameter_034",
+    "parameter_035",
+    "parameter_036",
+    "parameter_037",
+    "parameter_038",
+    "parameter_039",
+    "parameter_040",
+    "parameter_041",
+    "parameter_042",
+    "parameter_043",
+    "parameter_044",
+    "parameter_045",
+    "parameter_046",
+    "parameter_047",
+    "parameter_048",
+    "parameter_049"
+  ],
+  "colors": {
+    "GIFT": "#174EB6",
+    "PDE-FIND": "#D45500",
+    "PDE-FIND-KC": "#008143",
+    "PINN-SR": "#8423B5",
+    "PINN-SR-KC": "#007F8F"
+  },
+  "case_count_per_method": 50,
+  "parameter_rows": 750,
+  "point_count_per_full_figure": 250,
+  "metric": "100 * abs(estimate - truth) / abs(truth)",
+  "units": "percent",
+  "scales": "linear, common across methods within each parameter",
+  "box": "Q1–Q3, NumPy linear sample quantiles, opaque method-color fill",
+  "mean": "retained in source statistics but not drawn or annotated",
+  "median": "50th sample percentile; long line in the exact box color through and beyond the box and explicit numeric label",
+  "center_statistic": "median",
+  "boxplot_convention": "Tukey box plot, Q1–Q3 and median, whiskers at observed values within 1.5 IQR",
+  "whiskers": "smallest and largest observed APE within inclusive Q1−1.5IQR and Q3+1.5IQR fences",
+  "whisker_iqr_multiplier": 1.5,
+  "outside_whisker_points": "all retained once in the original 50-case dot layer; no duplicated flier markers",
+  "vertical_separation": "deterministic center-first packing on seven fixed horizontal lanes; measured x is unchanged",
+  "lane_offsets_points": [
+    0.0,
+    -2.7,
+    2.7,
+    -5.4,
+    5.4,
+    -8.1,
+    8.1
+  ],
+  "point_diameter_points": 2.1,
+  "point_alpha": 0.95,
+  "point_rendering": {
+    "shape": "soft-edged circular marker",
+    "edge": "no outline",
+    "vector_layers_per_observation": 12,
+    "radial_alpha_profile": "Gaussian in normalized marker radius",
+    "radial_sigma": 0.42,
+    "alpha_compositing": "incremental concentric opacity; nominal peak alpha 0.95",
+    "data_integrity": "all layers share one real observation center; no density estimation or synthetic observations"
+  },
+  "method_labels": {
+    "color": "black",
+    "weight": "bold",
+    "font_size_points": 10.2
+  },
+  "axis_style": {
+    "left": "solid black",
+    "bottom": "solid black",
+    "width_points": 1.2,
+    "grid": false,
+    "x_tick_direction": "in",
+    "x_tick_label_position": "below",
+    "x_tick_label_pad_points": 7.5,
+    "bottom_spine_extension_fraction": 0.03
+  },
+  "summary_line_widths_points": {
+    "tukey_whiskers": 1.1,
+    "caps": 1.1,
+    "median": 1.6,
+    "IQR_outline": 1.35
+  },
+  "summary_heights_category_units": {
+    "IQR_box": 0.15,
+    "median_bar": 0.32,
+    "caps": 0.09
+  },
+  "median_bar_colors": {
+    "GIFT": "#174EB6",
+    "PDE-FIND": "#D45500",
+    "PDE-FIND-KC": "#008143",
+    "PINN-SR": "#8423B5",
+    "PINN-SR-KC": "#007F8F"
+  },
+  "median_color_white_blend_fraction": 0.0,
+  "box_fill_opacity": 1.0,
+  "visible_text_policy": "parameter-specific x-axis name, numeric x ticks, black bold method names and per-method Median APE values",
+  "axes_per_figure": 1,
+  "not_multiple_seeds": true,
+  "uncertainty_or_significance_claim": false,
+  "width_mm": 228.0,
+  "height_mm": 118.0,
+  "figures": [
+    {
+      "parameter": "nu",
+      "title": "Viscosity ν",
+      "axes": [
+        {
+          "name": "nu-full",
+          "bounds_figure_fraction": [
+            0.18,
+            0.17,
+            0.6700000000000002,
+            0.79
+          ],
+          "x_limits": [
+            0.0,
+            300.0
+          ],
+          "y_limits": [
+            4.65,
+            -0.65
+          ],
+          "x_ticks": [
+            0,
+            50,
+            100,
+            150,
+            200,
+            250,
+            300
+          ],
+          "bottom_spine_bounds": [
+            0.0,
+            309.0
+          ]
+        }
+      ],
+      "rows": [
+        {
+          "method": "GIFT",
+          "statistics": {
+            "n": 50,
+            "minimum": 0.049935462686286146,
+            "q1": 2.08564401918267,
+            "median": 8.738373581131505,
+            "q3": 19.971171841462702,
+            "maximum": 59.316993217508525,
+            "mean": 12.863885155869864
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 17.885527822280032,
+            "lower_fence": -24.74264771423738,
+            "upper_fence": 46.79946357488275,
+            "lower_observation": 0.049935462686286146,
+            "upper_observation": 41.396044509788375,
+            "lower_outside_count": 0,
+            "upper_outside_count": 2
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 8,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 49.705676476215366,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 10.96822831015692,
+              "y": -0.20830830293928343,
+              "gid": "observed-nu-gift-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 30.043848091887483,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 30.753473273293647,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 1.3548625682529234,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 5.414121681374112,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 14.86475437025207,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 3.856595350095774,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 2.0768378213473517,
+              "y": -0.2624624544089251,
+              "gid": "observed-nu-gift-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 15.80427804821114,
+              "y": -0.20830830293928343,
+              "gid": "observed-nu-gift-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 1.4921608542475444,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 23.15862117681087,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 31.76354161753733,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 29.415303084381744,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 1.0466459378405208,
+              "y": 0.06246245440892512,
+              "gid": "observed-nu-gift-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 41.396044509788375,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 22.613653885760368,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 12.729318434645691,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 2.076719187556071,
+              "y": 0.008308302939283418,
+              "gid": "observed-nu-gift-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 14.545973292485977,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 15.155794970593016,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 1.920314982519417,
+              "y": -0.20830830293928343,
+              "gid": "observed-nu-gift-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 8.643059527715751,
+              "y": -0.20830830293928343,
+              "gid": "observed-nu-gift-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 7.530145313134209,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 0.149063097394871,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 21.609396358644965,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 2.475217882920756,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 1.8814257821649256,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 7.203121245909541,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 59.316993217508525,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 2.1120626126886237,
+              "y": 0.06246245440892512,
+              "gid": "observed-nu-gift-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 5.756515006458217,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 0.5682332075992174,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 21.360136439213225,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 0.049935462686286146,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 8.430132548979488,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 8.833687634547257,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 28.254070306642802,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 4.981308609867412,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 11.02548483946651,
+              "y": 0.008308302939283418,
+              "gid": "observed-nu-gift-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 9.677058773826909,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 11.15758061287821,
+              "y": -0.2624624544089251,
+              "gid": "observed-nu-gift-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 0.8352023702514483,
+              "y": -0.20830830293928343,
+              "gid": "observed-nu-gift-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 10.759845446558788,
+              "y": -0.045845848530358294,
+              "gid": "observed-nu-gift-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 5.986407189012249,
+              "y": -0.20830830293928343,
+              "gid": "observed-nu-gift-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 26.635486406669553,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 10.756876547687686,
+              "y": -0.1,
+              "gid": "observed-nu-gift-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 1.0181743947798496,
+              "y": -0.2624624544089251,
+              "gid": "observed-nu-gift-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 0.9697933730570475,
+              "y": 0.008308302939283418,
+              "gid": "observed-nu-gift-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 3.0610756599751574,
+              "y": -0.15415415146964173,
+              "gid": "observed-nu-gift-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 8.74%",
+            "gid": "median-label-nu-gift",
+            "x_axes_fraction": 1.035,
+            "y": 0
+          },
+          "summary_y": 0.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PDE-FIND",
+          "statistics": {
+            "n": 50,
+            "minimum": 0.136126342015983,
+            "q1": 74.08783852377286,
+            "median": 102.06801641045101,
+            "q3": 119.85254832916834,
+            "maximum": 161.95948790804226,
+            "mean": 97.40864577481597
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 45.76470980539548,
+            "lower_fence": 5.440773815679634,
+            "upper_fence": 188.49961303726155,
+            "lower_observation": 29.165821851063136,
+            "upper_observation": 161.95948790804226,
+            "lower_outside_count": 1,
+            "upper_outside_count": 0
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 0,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 34.10800524356296,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 114.58279920055206,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 95.01207676481717,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 38.92061224556026,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 115.59356558070357,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 131.15795638635615,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 89.15310511253958,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 160.77945227036122,
+              "y": 0.9541541514696418,
+              "gid": "observed-nu-pde-find-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 138.96693819812302,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 99.6599463377834,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 152.9042503427333,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 79.0364995397252,
+              "y": 0.9541541514696418,
+              "gid": "observed-nu-pde-find-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 43.59062145698827,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 90.88014512859357,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 119.29020755005749,
+              "y": 1.0083083029392834,
+              "gid": "observed-nu-pde-find-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 36.24112256748944,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 60.68492644780866,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 127.58503259731889,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 119.37479036579019,
+              "y": 0.7375375455910749,
+              "gid": "observed-nu-pde-find-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 78.6457400970813,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 98.193948679572,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 159.9134666908072,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 0.136126342015983,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 121.04042684605298,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 72.95676183761613,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 107.58591067706472,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 159.67657280639415,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 118.65966133817281,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 104.4760864831186,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 29.165821851063136,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 119.19713659663964,
+              "y": 0.7916916970607166,
+              "gid": "observed-nu-pde-find-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 70.49183252198715,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 138.66699847456246,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 118.95955378614379,
+              "y": 0.9541541514696418,
+              "gid": "observed-nu-pde-find-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 135.4553280764705,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 96.94043282230093,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 105.18053704460512,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 51.550714046491045,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 77.48106858224307,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 56.99446210118777,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 93.65502694084147,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 117.89002447501949,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 116.93161726990287,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 79.3704387356585,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 87.81976609979499,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 33.78695382637995,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 57.27967844785205,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 161.95948790804226,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 120.01180098362774,
+              "y": 0.8458458485303583,
+              "gid": "observed-nu-pde-find-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 132.83685301522397,
+              "y": 0.9,
+              "gid": "observed-nu-pde-find-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 102.07%",
+            "gid": "median-label-nu-pde-find",
+            "x_axes_fraction": 1.035,
+            "y": 1
+          },
+          "summary_y": 1.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PDE-FIND-KC",
+          "statistics": {
+            "n": 50,
+            "minimum": 18.40920466727969,
+            "q1": 29.686388144195877,
+            "median": 33.30235964504796,
+            "q3": 36.329869505624394,
+            "maximum": 45.40730258367915,
+            "mean": 32.791342319189496
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 6.643481361428517,
+            "lower_fence": 19.721166102053104,
+            "upper_fence": 46.29509154776717,
+            "lower_observation": 22.36481962785851,
+            "upper_observation": 45.40730258367915,
+            "lower_outside_count": 1,
+            "upper_outside_count": 0
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 9,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 29.745146441753715,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 31.495420151797052,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 18.40920466727969,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 30.40654393125503,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 32.015649482382194,
+              "y": 1.7916916970607164,
+              "gid": "observed-nu-pde-find-kc-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 36.42189094528391,
+              "y": 2.0083083029392834,
+              "gid": "observed-nu-pde-find-kc-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 31.377705664492538,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 33.346533615596094,
+              "y": 2.0083083029392834,
+              "gid": "observed-nu-pde-find-kc-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 41.974935617067594,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 36.053805186645846,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 35.61892995784865,
+              "y": 2.062462454408925,
+              "gid": "observed-nu-pde-find-kc-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 26.05729342739905,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 35.04460639238387,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 22.36481962785851,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 35.491684322852194,
+              "y": 1.7375375455910749,
+              "gid": "observed-nu-pde-find-kc-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 30.99736698511922,
+              "y": 2.0083083029392834,
+              "gid": "observed-nu-pde-find-kc-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 29.66680204500993,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 36.84551962673544,
+              "y": 1.7375375455910749,
+              "gid": "observed-nu-pde-find-kc-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 33.25818567449981,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 43.749357974208806,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 36.86908208223757,
+              "y": 2.062462454408925,
+              "gid": "observed-nu-pde-find-kc-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 30.318116778153378,
+              "y": 1.7916916970607164,
+              "gid": "observed-nu-pde-find-kc-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 37.536007145783,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 28.803613850106323,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 45.40730258367915,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 23.054580394593064,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 34.06511803593109,
+              "y": 1.7916916970607164,
+              "gid": "observed-nu-pde-find-kc-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 36.78104508294698,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 32.264949210350395,
+              "y": 2.062462454408925,
+              "gid": "observed-nu-pde-find-kc-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 24.886842567516084,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 37.81026344251518,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 29.076292287928037,
+              "y": 2.0083083029392834,
+              "gid": "observed-nu-pde-find-kc-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 37.63155231328665,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 23.0539263655148,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 35.152177123684005,
+              "y": 2.0083083029392834,
+              "gid": "observed-nu-pde-find-kc-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 35.27437715151819,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 27.91511685909021,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 34.94830713408291,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 38.08330588027136,
+              "y": 1.7375375455910749,
+              "gid": "observed-nu-pde-find-kc-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 33.145686543308294,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 26.721008937563276,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 32.201441936930145,
+              "y": 1.7375375455910749,
+              "gid": "observed-nu-pde-find-kc-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 33.68512027541535,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 31.976440308938386,
+              "y": 1.9,
+              "gid": "observed-nu-pde-find-kc-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 35.98020367030002,
+              "y": 1.8458458485303582,
+              "gid": "observed-nu-pde-find-kc-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 28.210851890341342,
+              "y": 1.7916916970607164,
+              "gid": "observed-nu-pde-find-kc-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 27.589944610416815,
+              "y": 1.9541541514696417,
+              "gid": "observed-nu-pde-find-kc-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 37.70073847308523,
+              "y": 2.0083083029392834,
+              "gid": "observed-nu-pde-find-kc-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 35.88972310418774,
+              "y": 1.7916916970607164,
+              "gid": "observed-nu-pde-find-kc-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 37.19257818233067,
+              "y": 1.7916916970607164,
+              "gid": "observed-nu-pde-find-kc-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 33.30%",
+            "gid": "median-label-nu-pde-find-kc",
+            "x_axes_fraction": 1.035,
+            "y": 2
+          },
+          "summary_y": 2.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PINN-SR",
+          "statistics": {
+            "n": 50,
+            "minimum": 7.047563757994296,
+            "q1": 110.99213979529472,
+            "median": 142.53636573936132,
+            "q3": 219.8374605042491,
+            "maximum": 271.16120580374894,
+            "mean": 153.5657473758133
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 108.84532070895438,
+            "lower_fence": -52.275841268136844,
+            "upper_fence": 383.10544156768066,
+            "lower_observation": 7.047563757994296,
+            "upper_observation": 271.16120580374894,
+            "lower_outside_count": 0,
+            "upper_outside_count": 0
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 0,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 88.10153542725241,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 118.60346183175378,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 100.0,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 130.819493596162,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 249.36493355583056,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 234.63621014023147,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 144.2618945825577,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 262.82447141520487,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 247.37517945170296,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 188.59635365343473,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 257.3948738258641,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 110.27406510475966,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 128.35515064040843,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 128.95876696884426,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 176.63985806648674,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 120.05157700080612,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 114.54756358174707,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 188.89425465746808,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 45.96801725342789,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 200.17117226290932,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 168.4142755761022,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 213.93215955026147,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 175.1153383901466,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 223.1395084047095,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 271.16120580374894,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 7.047563757994296,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 100.0,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 132.31484591023806,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 173.68301191994678,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 89.70105498324742,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 148.65791623526005,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 204.12562531481578,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 225.66176675797698,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 54.505229624467646,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 253.5242828612058,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 221.8058941555783,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 25.460041629580402,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 121.93937842484468,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 36.00831718926211,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 22.26450279833108,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 124.97326474613884,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 100.0,
+              "y": 2.9541541514696417,
+              "gid": "observed-nu-pinn-sr-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 239.5028806589104,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 140.81083689616494,
+              "y": 2.845845848530358,
+              "gid": "observed-nu-pinn-sr-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 153.18537120364863,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 113.14636386689992,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 140.34669660584828,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 100.0,
+              "y": 2.7916916970607164,
+              "gid": "observed-nu-pinn-sr-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 225.3847714218677,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 236.63643108661608,
+              "y": 2.9,
+              "gid": "observed-nu-pinn-sr-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 142.54%",
+            "gid": "median-label-nu-pinn-sr",
+            "x_axes_fraction": 1.035,
+            "y": 3
+          },
+          "summary_y": 3.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PINN-SR-KC",
+          "statistics": {
+            "n": 50,
+            "minimum": 14.385915462096474,
+            "q1": 53.91849466192602,
+            "median": 93.95839260755693,
+            "q3": 120.59401941366625,
+            "maximum": 170.91609583923355,
+            "mean": 89.70512622511701
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 66.67552475174023,
+            "lower_fence": -46.09479246568432,
+            "upper_fence": 220.60730654127659,
+            "lower_observation": 14.385915462096474,
+            "upper_observation": 170.91609583923355,
+            "lower_outside_count": 0,
+            "upper_outside_count": 0
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 0,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 14.385915462096474,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 88.082066794218,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 46.26418995408835,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 29.694684902030534,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 115.39976397024068,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 127.3196595624999,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 66.83813438165393,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 128.03988450296242,
+              "y": 3.7916916970607164,
+              "gid": "observed-nu-pinn-sr-kc-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 129.59459507950746,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 72.26058954225158,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 45.53849411474142,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 50.43433546372102,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 48.312535029869494,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 32.50848604236973,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 96.32983841237592,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 49.47428756899616,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 52.66119404762258,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 72.32983223327564,
+              "y": 3.9541541514696417,
+              "gid": "observed-nu-pinn-sr-kc-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 121.49822108281104,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 78.00686718044149,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 57.69039650483632,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 155.5243980403611,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 43.553251779698726,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 113.19358479154732,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 113.72805477541785,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 71.76875782685546,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 127.80873081436769,
+              "y": 3.9541541514696417,
+              "gid": "observed-nu-pinn-sr-kc-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 117.88141440623188,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 100.08930252671074,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 14.795422441235363,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 135.06168147579933,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 91.75788694261342,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 96.15889827250042,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 64.5983604747259,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 106.73903461042498,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 84.67163426952351,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 109.85210781255272,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 43.77175938853295,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 124.77036885428109,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 109.96384741969459,
+              "y": 3.9541541514696417,
+              "gid": "observed-nu-pinn-sr-kc-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 111.73296530934071,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 91.6900310630463,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 128.1200326068878,
+              "y": 4.008308302939283,
+              "gid": "observed-nu-pinn-sr-kc-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 109.21640170122525,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 141.2071826309853,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 46.686788221822425,
+              "y": 3.9541541514696417,
+              "gid": "observed-nu-pinn-sr-kc-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 61.77410582497672,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 127.45075468523254,
+              "y": 3.845845848530358,
+              "gid": "observed-nu-pinn-sr-kc-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 148.10948461741592,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 170.91609583923355,
+              "y": 3.9,
+              "gid": "observed-nu-pinn-sr-kc-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 93.96%",
+            "gid": "median-label-nu-pinn-sr-kc",
+            "x_axes_fraction": 1.035,
+            "y": 4
+          },
+          "summary_y": 4.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        }
+      ],
+      "visible_text_bounds": [
+        {
+          "text": "Median 8.74%",
+          "bounds_points": [
+            564.5100472440945,
+            284.3811736740455,
+            59.85,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 102.07%",
+          "bounds_points": [
+            564.5100472440945,
+            234.52350022284955,
+            70.2,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 33.30%",
+          "bounds_points": [
+            564.5100472440945,
+            184.6658267716536,
+            65.07,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 142.54%",
+          "bounds_points": [
+            564.5100472440945,
+            134.80815332045762,
+            70.2,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 93.96%",
+          "bounds_points": [
+            564.5100472440945,
+            84.95047986926167,
+            65.16,
+            8.64
+          ]
+        },
+        {
+          "text": "Absolute percentage error of ν (%)",
+          "bounds_points": [
+            252.02409448818898,
+            19.642992125984264,
+            161.63999999999996,
+            10.08
+          ]
+        },
+        {
+          "text": "0",
+          "bounds_points": [
+            113.67885826771654,
+            40.72299212598426,
+            5.31,
+            8.64
+          ]
+        },
+        {
+          "text": "50",
+          "bounds_points": [
+            183.193937007874,
+            40.72299212598426,
+            10.62,
+            8.64
+          ]
+        },
+        {
+          "text": "100",
+          "bounds_points": [
+            252.70901574803148,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "150",
+          "bounds_points": [
+            324.879094488189,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "200",
+          "bounds_points": [
+            397.04917322834655,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "250",
+          "bounds_points": [
+            469.21925196850395,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "300",
+          "bounds_points": [
+            541.3893307086615,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "GIFT",
+          "bounds_points": [
+            82.38385826771653,
+            282.5811736740455,
+            22.95,
+            10.08
+          ]
+        },
+        {
+          "text": "PDE-FIND",
+          "bounds_points": [
+            57.453858267716534,
+            232.72350022284954,
+            47.88,
+            10.08
+          ]
+        },
+        {
+          "text": "PDE-FIND-KC",
+          "bounds_points": [
+            39.54385826771653,
+            182.8658267716536,
+            65.79,
+            10.08
+          ]
+        },
+        {
+          "text": "PINN-SR",
+          "bounds_points": [
+            63.843858267716534,
+            133.0081533204576,
+            41.49,
+            10.08
+          ]
+        },
+        {
+          "text": "PINN-SR-KC",
+          "bounds_points": [
+            45.93385826771653,
+            83.15047986926167,
+            59.4,
+            10.08
+          ]
+        }
+      ],
+      "svg": "w3_parameter_nu_errors.svg",
+      "svg_sha256": "b0508d411d4ed78bc75f2e59cf7e2ab75d408fb9250d47765c14cfe4cab72fef",
+      "preview": "assets/figures/w3_parameter_nu_errors.png",
+      "preview_sha256": "d433a6111ef35078630911c25211506c5ea2d31f90bb450849ad1d464f1d362b"
+    },
+    {
+      "parameter": "beta",
+      "title": "Advection coefficient β",
+      "axes": [
+        {
+          "name": "beta-full",
+          "bounds_figure_fraction": [
+            0.18,
+            0.17,
+            0.6700000000000002,
+            0.79
+          ],
+          "x_limits": [
+            0.0,
+            300.0
+          ],
+          "y_limits": [
+            4.65,
+            -0.65
+          ],
+          "x_ticks": [
+            0,
+            50,
+            100,
+            150,
+            200,
+            250,
+            300
+          ],
+          "bottom_spine_bounds": [
+            0.0,
+            309.0
+          ]
+        }
+      ],
+      "rows": [
+        {
+          "method": "GIFT",
+          "statistics": {
+            "n": 50,
+            "minimum": 0.6501933352084459,
+            "q1": 1.0345697550117126,
+            "median": 1.6827024785387814,
+            "q3": 2.729817786720381,
+            "maximum": 14.990776697038143,
+            "mean": 2.572502406313215
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 1.6952480317086684,
+            "lower_fence": -1.50830229255129,
+            "upper_fence": 5.2726898342833834,
+            "lower_observation": 0.6501933352084459,
+            "upper_observation": 5.149429394818366,
+            "lower_outside_count": 0,
+            "upper_outside_count": 4
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 79,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 9.622394344988345,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 1.419094787002644,
+              "y": 0.008308302939283418,
+              "gid": "observed-beta-gift-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 4.7640113563686315,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 5.149429394818366,
+              "y": 0.06246245440892512,
+              "gid": "observed-beta-gift-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 0.9410993916696221,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 0.9503976801783299,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 2.355001829059595,
+              "y": 0.06246245440892512,
+              "gid": "observed-beta-gift-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 0.6988624621000449,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 0.9132088319293368,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 1.807257971544596,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 1.4621118395540933,
+              "y": -0.2624624544089251,
+              "gid": "observed-beta-gift-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 4.48761150533309,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 5.09302329682418,
+              "y": -0.2624624544089251,
+              "gid": "observed-beta-gift-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 3.9156571526046657,
+              "y": 0.008308302939283418,
+              "gid": "observed-beta-gift-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 1.1285049187573817,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 6.64256713723408,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 6.289198872513391,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 1.810068994369581,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 1.5987754210639853,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 3.179502826695571,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 2.043558838798881,
+              "y": 0.008308302939283418,
+              "gid": "observed-beta-gift-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 0.8436821089403792,
+              "y": -0.2624624544089251,
+              "gid": "observed-beta-gift-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 1.7034898740957303,
+              "y": -0.2624624544089251,
+              "gid": "observed-beta-gift-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 1.1009225584496316,
+              "y": 0.06246245440892512,
+              "gid": "observed-beta-gift-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 1.2445714008945972,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 2.7429221345024777,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 0.8144895913859991,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 0.9379055849585994,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 1.7757701838484246,
+              "y": 0.06246245440892512,
+              "gid": "observed-beta-gift-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 14.990776697038143,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 1.5891937503898363,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 1.5162688555948067,
+              "y": 0.06246245440892512,
+              "gid": "observed-beta-gift-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 0.8157249424824249,
+              "y": 0.008308302939283418,
+              "gid": "observed-beta-gift-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 2.6905047433740914,
+              "y": -0.15415415146964173,
+              "gid": "observed-beta-gift-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 1.0124521538657396,
+              "y": -0.2624624544089251,
+              "gid": "observed-beta-gift-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 1.6725724236274815,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 1.5494718415835282,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 4.416384597283423,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 2.0034541475191325,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 1.897650092996826,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 1.6928325334500813,
+              "y": 0.008308302939283418,
+              "gid": "observed-beta-gift-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 1.2453241862969258,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 0.9074332277063307,
+              "y": 0.06246245440892512,
+              "gid": "observed-beta-gift-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 2.2073051640654042,
+              "y": -0.2624624544089251,
+              "gid": "observed-beta-gift-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 1.3940675184646172,
+              "y": -0.20830830293928343,
+              "gid": "observed-beta-gift-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 4.639052015242664,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 2.568773894949196,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 0.7673128695989789,
+              "y": -0.045845848530358294,
+              "gid": "observed-beta-gift-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 0.9632790344384193,
+              "y": 0.008308302939283418,
+              "gid": "observed-beta-gift-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 0.6501933352084459,
+              "y": -0.1,
+              "gid": "observed-beta-gift-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 1.68%",
+            "gid": "median-label-beta-gift",
+            "x_axes_fraction": 1.035,
+            "y": 0
+          },
+          "summary_y": 0.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PDE-FIND",
+          "statistics": {
+            "n": 50,
+            "minimum": 5.904406809300055,
+            "q1": 9.671862307088686,
+            "median": 11.14863029933218,
+            "q3": 11.832687911676356,
+            "maximum": 17.412096934784955,
+            "mean": 10.939261000850951
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 2.1608256045876697,
+            "lower_fence": 6.430623900207181,
+            "upper_fence": 15.07392631855786,
+            "lower_observation": 6.759168011177951,
+            "upper_observation": 14.800388484155725,
+            "lower_outside_count": 1,
+            "upper_outside_count": 2
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 42,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 5.904406809300055,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 11.124264110340942,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 12.282092056671049,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 8.118243322944286,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 11.801816553654483,
+              "y": 1.0624624544089252,
+              "gid": "observed-beta-pde-find-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 8.801983537788047,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 10.721188555760413,
+              "y": 0.7375375455910749,
+              "gid": "observed-beta-pde-find-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 11.666452687308025,
+              "y": 1.0083083029392834,
+              "gid": "observed-beta-pde-find-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 9.74698321188955,
+              "y": 1.0624624544089252,
+              "gid": "observed-beta-pde-find-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 9.914172532999478,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 17.412096934784955,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 10.048818968180065,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 9.439684967967057,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 12.748800945935264,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 10.841256045304082,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 9.496459467050027,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 7.400966491785488,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 10.337945771522106,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 13.695890854063562,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 11.272608641446253,
+              "y": 0.7375375455910749,
+              "gid": "observed-beta-pde-find-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 8.712757947996723,
+              "y": 0.7375375455910749,
+              "gid": "observed-beta-pde-find-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 11.543461065648476,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 12.912609769952416,
+              "y": 0.7375375455910749,
+              "gid": "observed-beta-pde-find-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 10.792165818008453,
+              "y": 1.0624624544089252,
+              "gid": "observed-beta-pde-find-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 11.488858995822037,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 12.483639421676283,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 9.693406969445107,
+              "y": 0.7375375455910749,
+              "gid": "observed-beta-pde-find-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 9.88670877086024,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 11.223448534577873,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 6.759168011177951,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 12.717709381862896,
+              "y": 1.0083083029392834,
+              "gid": "observed-beta-pde-find-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 11.179108369647382,
+              "y": 1.0083083029392834,
+              "gid": "observed-beta-pde-find-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 11.415709561849518,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 14.800388484155725,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 11.842978364350312,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 13.418322522005864,
+              "y": 0.9541541514696418,
+              "gid": "observed-beta-pde-find-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 11.172996488323417,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 8.211147165226675,
+              "y": 1.0083083029392834,
+              "gid": "observed-beta-pde-find-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 14.17460772010869,
+              "y": 0.7916916970607166,
+              "gid": "observed-beta-pde-find-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 11.730811426939603,
+              "y": 0.7375375455910749,
+              "gid": "observed-beta-pde-find-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 8.379554244135038,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 11.716266902354553,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 12.993000123543315,
+              "y": 1.0624624544089252,
+              "gid": "observed-beta-pde-find-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 9.691667748863614,
+              "y": 0.8458458485303583,
+              "gid": "observed-beta-pde-find-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 11.339804486116446,
+              "y": 1.0624624544089252,
+              "gid": "observed-beta-pde-find-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 7.9181522422596275,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 10.286313590829165,
+              "y": 1.0083083029392834,
+              "gid": "observed-beta-pde-find-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 9.66526049316371,
+              "y": 1.0083083029392834,
+              "gid": "observed-beta-pde-find-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 17.2425536104162,
+              "y": 0.9,
+              "gid": "observed-beta-pde-find-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 8.79433934453508,
+              "y": 1.0624624544089252,
+              "gid": "observed-beta-pde-find-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 11.15%",
+            "gid": "median-label-beta-pde-find",
+            "x_axes_fraction": 1.035,
+            "y": 1
+          },
+          "summary_y": 1.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PDE-FIND-KC",
+          "statistics": {
+            "n": 50,
+            "minimum": 7.669973544552941,
+            "q1": 12.614581453720634,
+            "median": 13.98610465323684,
+            "q3": 15.272302991372165,
+            "maximum": 20.936962438173957,
+            "mean": 13.899473172897103
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 2.657721537651531,
+            "lower_fence": 8.627999147243337,
+            "upper_fence": 19.25888529784946,
+            "lower_observation": 9.173169623149347,
+            "upper_observation": 17.399712341356214,
+            "lower_outside_count": 1,
+            "upper_outside_count": 2
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 40,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 7.669973544552941,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 14.611017697947242,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 13.583965915811058,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 10.03758063706178,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 15.990232918052294,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 12.178746533569134,
+              "y": 1.7375375455910749,
+              "gid": "observed-beta-pde-find-kc-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 13.714021043292648,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 15.864212683308452,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 12.61706723743974,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 13.085506016588566,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 20.873381128759632,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 12.68935109692222,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 12.05312599654479,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 15.817700154593243,
+              "y": 2.062462454408925,
+              "gid": "observed-beta-pde-find-kc-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 13.470093070805627,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 12.073068177197152,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 9.238462175942457,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 14.05934031508766,
+              "y": 2.062462454408925,
+              "gid": "observed-beta-pde-find-kc-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 16.521028649207175,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 13.996038194550401,
+              "y": 1.7375375455910749,
+              "gid": "observed-beta-pde-find-kc-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 11.601199891615575,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 15.256455806599687,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 15.119113691611657,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 14.697894258534514,
+              "y": 1.7375375455910749,
+              "gid": "observed-beta-pde-find-kc-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 14.169522704599652,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 15.417715236160193,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 13.442981014048046,
+              "y": 2.062462454408925,
+              "gid": "observed-beta-pde-find-kc-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 13.285507858120093,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 14.087310339406942,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 9.173169623149347,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 15.277585386296325,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 13.963734434558269,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 15.476129525227162,
+              "y": 1.7375375455910749,
+              "gid": "observed-beta-pde-find-kc-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 17.331261739538213,
+              "y": 1.7375375455910749,
+              "gid": "observed-beta-pde-find-kc-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 14.759162748766073,
+              "y": 2.062462454408925,
+              "gid": "observed-beta-pde-find-kc-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 16.567588482736394,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 13.97617111192328,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 10.483146644074681,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 17.399712341356214,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 14.648575468470101,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 11.089541005582761,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 14.799187631177968,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 15.819636377332218,
+              "y": 1.9,
+              "gid": "observed-beta-pde-find-kc-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 12.6137528591476,
+              "y": 2.062462454408925,
+              "gid": "observed-beta-pde-find-kc-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 14.2732914183832,
+              "y": 1.9541541514696417,
+              "gid": "observed-beta-pde-find-kc-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 10.477069889717596,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 13.14504865158986,
+              "y": 1.7916916970607164,
+              "gid": "observed-beta-pde-find-kc-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 13.372719818090083,
+              "y": 1.7375375455910749,
+              "gid": "observed-beta-pde-find-kc-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 20.936962438173957,
+              "y": 1.8458458485303582,
+              "gid": "observed-beta-pde-find-kc-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 12.168597061633358,
+              "y": 2.0083083029392834,
+              "gid": "observed-beta-pde-find-kc-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 13.99%",
+            "gid": "median-label-beta-pde-find-kc",
+            "x_axes_fraction": 1.035,
+            "y": 2
+          },
+          "summary_y": 2.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PINN-SR",
+          "statistics": {
+            "n": 50,
+            "minimum": 22.932614956634534,
+            "q1": 31.323395561217673,
+            "median": 34.325816693393705,
+            "q3": 49.03791828245134,
+            "maximum": 95.60824103717182,
+            "mean": 42.628402345811466
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 17.71452272123367,
+            "lower_fence": 4.751611479367167,
+            "upper_fence": 75.60970236430185,
+            "lower_observation": 22.932614956634534,
+            "upper_observation": 73.49977178191581,
+            "lower_outside_count": 0,
+            "upper_outside_count": 5
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 4,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 25.715030532472536,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 51.482994453940805,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 84.16470659175283,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 31.127733830467587,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 33.19920139493288,
+              "y": 3.062462454408925,
+              "gid": "observed-beta-pinn-sr-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 31.267331702334364,
+              "y": 2.7916916970607164,
+              "gid": "observed-beta-pinn-sr-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 31.491587137867604,
+              "y": 3.062462454408925,
+              "gid": "observed-beta-pinn-sr-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 31.636664784848104,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 41.702689767982974,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 31.88052424375935,
+              "y": 2.7375375455910747,
+              "gid": "observed-beta-pinn-sr-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 34.06329966080233,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 34.45517313426673,
+              "y": 2.7916916970607164,
+              "gid": "observed-beta-pinn-sr-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 22.932614956634534,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 34.921819072879885,
+              "y": 2.7375375455910747,
+              "gid": "observed-beta-pinn-sr-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 41.09582641407994,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 28.250676925022773,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 30.2284376225507,
+              "y": 2.7375375455910747,
+              "gid": "observed-beta-pinn-sr-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 29.289919877259223,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 68.31902957564884,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 29.372662308016658,
+              "y": 2.7916916970607164,
+              "gid": "observed-beta-pinn-sr-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 31.764749443621376,
+              "y": 3.0083083029392834,
+              "gid": "observed-beta-pinn-sr-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 34.97431751801504,
+              "y": 3.062462454408925,
+              "gid": "observed-beta-pinn-sr-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 32.215251996863415,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 32.66577759398661,
+              "y": 2.7916916970607164,
+              "gid": "observed-beta-pinn-sr-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 33.876883575767344,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 59.98311599237982,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 95.60824103717182,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 52.94634211296512,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 32.16720092136166,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 25.092229793786146,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 60.72165214307162,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 37.07010863848576,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 34.19646025252068,
+              "y": 3.0083083029392834,
+              "gid": "observed-beta-pinn-sr-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 52.47240329399379,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 30.162347395656752,
+              "y": 3.0083083029392834,
+              "gid": "observed-beta-pinn-sr-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 31.263372498297723,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 70.43372785305758,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 29.10581181759071,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 80.75172371971608,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 73.49977178191581,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 38.241399190212505,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 82.76989059123305,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 36.452267502616344,
+              "y": 2.9541541514696417,
+              "gid": "observed-beta-pinn-sr-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 33.90966898222833,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 37.33252047260114,
+              "y": 2.7916916970607164,
+              "gid": "observed-beta-pinn-sr-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 29.942907169082414,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 35.106831310036334,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 86.47178906911115,
+              "y": 2.9,
+              "gid": "observed-beta-pinn-sr-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 37.69787398178792,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 35.92555565391891,
+              "y": 2.845845848530358,
+              "gid": "observed-beta-pinn-sr-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 34.33%",
+            "gid": "median-label-beta-pinn-sr",
+            "x_axes_fraction": 1.035,
+            "y": 3
+          },
+          "summary_y": 3.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        },
+        {
+          "method": "PINN-SR-KC",
+          "statistics": {
+            "n": 50,
+            "minimum": 11.960686083013659,
+            "q1": 15.512558834473573,
+            "median": 17.655561554381045,
+            "q3": 20.156891755612058,
+            "maximum": 263.05455547501344,
+            "mean": 40.759661261802464
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 4.644332921138485,
+            "lower_fence": 8.546059452765846,
+            "upper_fence": 27.123391137319786,
+            "lower_observation": 11.960686083013659,
+            "upper_observation": 21.374758304565063,
+            "lower_outside_count": 0,
+            "upper_outside_count": 5
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 26,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 12.901546380897278,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 17.186800639042247,
+              "y": 4.008308302939283,
+              "gid": "observed-beta-pinn-sr-kc-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 15.623210433680407,
+              "y": 4.008308302939283,
+              "gid": "observed-beta-pinn-sr-kc-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 15.21166775557293,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 253.09840207978638,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 16.803662429268822,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 17.54205635239104,
+              "y": 3.9541541514696417,
+              "gid": "observed-beta-pinn-sr-kc-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 17.3300000642757,
+              "y": 4.062462454408925,
+              "gid": "observed-beta-pinn-sr-kc-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 18.515569463574487,
+              "y": 3.7375375455910747,
+              "gid": "observed-beta-pinn-sr-kc-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 16.556813771235333,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 245.27032542950636,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 17.192276173038557,
+              "y": 3.7375375455910747,
+              "gid": "observed-beta-pinn-sr-kc-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 14.180127646102324,
+              "y": 3.9541541514696417,
+              "gid": "observed-beta-pinn-sr-kc-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 14.585878886009045,
+              "y": 3.7916916970607164,
+              "gid": "observed-beta-pinn-sr-kc-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 19.979465512366783,
+              "y": 3.7375375455910747,
+              "gid": "observed-beta-pinn-sr-kc-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 14.518102121383713,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 17.48961792312148,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 13.879781876375363,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 19.330328310190904,
+              "y": 3.9541541514696417,
+              "gid": "observed-beta-pinn-sr-kc-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 15.11986916072571,
+              "y": 3.7375375455910747,
+              "gid": "observed-beta-pinn-sr-kc-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 15.100001427417615,
+              "y": 4.008308302939283,
+              "gid": "observed-beta-pinn-sr-kc-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 20.38720827431303,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 240.75113898428236,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 17.930846121991166,
+              "y": 3.7916916970607164,
+              "gid": "observed-beta-pinn-sr-kc-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 17.769066756371053,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 250.94825733333775,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 15.475674968071294,
+              "y": 3.7916916970607164,
+              "gid": "observed-beta-pinn-sr-kc-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 17.102906163839368,
+              "y": 3.7916916970607164,
+              "gid": "observed-beta-pinn-sr-kc-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 20.09274593397276,
+              "y": 4.062462454408925,
+              "gid": "observed-beta-pinn-sr-kc-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 11.960686083013659,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 20.317750681688054,
+              "y": 3.9541541514696417,
+              "gid": "observed-beta-pinn-sr-kc-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 19.837539350311886,
+              "y": 3.7916916970607164,
+              "gid": "observed-beta-pinn-sr-kc-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 16.5295399650983,
+              "y": 4.062462454408925,
+              "gid": "observed-beta-pinn-sr-kc-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 15.24020243633117,
+              "y": 3.9541541514696417,
+              "gid": "observed-beta-pinn-sr-kc-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 17.953017436970327,
+              "y": 4.008308302939283,
+              "gid": "observed-beta-pinn-sr-kc-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 16.789770149002255,
+              "y": 3.9541541514696417,
+              "gid": "observed-beta-pinn-sr-kc-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 20.17827369615849,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 15.132464324774983,
+              "y": 4.062462454408925,
+              "gid": "observed-beta-pinn-sr-kc-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 20.588658417451917,
+              "y": 3.7916916970607164,
+              "gid": "observed-beta-pinn-sr-kc-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 19.288475807171086,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 18.72314917101712,
+              "y": 4.062462454408925,
+              "gid": "observed-beta-pinn-sr-kc-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 263.05455547501344,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 20.707433289619246,
+              "y": 4.008308302939283,
+              "gid": "observed-beta-pinn-sr-kc-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 19.40036488873194,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 20.736551533883773,
+              "y": 3.7375375455910747,
+              "gid": "observed-beta-pinn-sr-kc-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 15.297201226643487,
+              "y": 3.845845848530358,
+              "gid": "observed-beta-pinn-sr-kc-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 19.95750490609644,
+              "y": 4.008308302939283,
+              "gid": "observed-beta-pinn-sr-kc-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 16.26011776216134,
+              "y": 3.7375375455910747,
+              "gid": "observed-beta-pinn-sr-kc-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 21.374758304565063,
+              "y": 3.9,
+              "gid": "observed-beta-pinn-sr-kc-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 20.781699812277953,
+              "y": 4.062462454408925,
+              "gid": "observed-beta-pinn-sr-kc-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 17.66%",
+            "gid": "median-label-beta-pinn-sr-kc",
+            "x_axes_fraction": 1.035,
+            "y": 4
+          },
+          "summary_y": 4.34,
+          "axis_limits": [
+            0.0,
+            300.0
+          ]
+        }
+      ],
+      "visible_text_bounds": [
+        {
+          "text": "Median 1.68%",
+          "bounds_points": [
+            564.5100472440945,
+            284.3811736740455,
+            59.94,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 11.15%",
+          "bounds_points": [
+            564.5100472440945,
+            234.52350022284955,
+            64.44,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 13.99%",
+          "bounds_points": [
+            564.5100472440945,
+            184.6658267716536,
+            65.16,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 34.33%",
+          "bounds_points": [
+            564.5100472440945,
+            134.80815332045762,
+            65.07,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 17.66%",
+          "bounds_points": [
+            564.5100472440945,
+            84.95047986926167,
+            65.16,
+            8.64
+          ]
+        },
+        {
+          "text": "Absolute percentage error of β (%)",
+          "bounds_points": [
+            251.66409448818897,
+            19.642992125984264,
+            162.35999999999996,
+            10.08
+          ]
+        },
+        {
+          "text": "0",
+          "bounds_points": [
+            113.67885826771654,
+            40.72299212598426,
+            5.31,
+            8.64
+          ]
+        },
+        {
+          "text": "50",
+          "bounds_points": [
+            183.193937007874,
+            40.72299212598426,
+            10.62,
+            8.64
+          ]
+        },
+        {
+          "text": "100",
+          "bounds_points": [
+            252.70901574803148,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "150",
+          "bounds_points": [
+            324.879094488189,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "200",
+          "bounds_points": [
+            397.04917322834655,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "250",
+          "bounds_points": [
+            469.21925196850395,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "300",
+          "bounds_points": [
+            541.3893307086615,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "GIFT",
+          "bounds_points": [
+            82.38385826771653,
+            282.5811736740455,
+            22.95,
+            10.08
+          ]
+        },
+        {
+          "text": "PDE-FIND",
+          "bounds_points": [
+            57.453858267716534,
+            232.72350022284954,
+            47.88,
+            10.08
+          ]
+        },
+        {
+          "text": "PDE-FIND-KC",
+          "bounds_points": [
+            39.54385826771653,
+            182.8658267716536,
+            65.79,
+            10.08
+          ]
+        },
+        {
+          "text": "PINN-SR",
+          "bounds_points": [
+            63.843858267716534,
+            133.0081533204576,
+            41.49,
+            10.08
+          ]
+        },
+        {
+          "text": "PINN-SR-KC",
+          "bounds_points": [
+            45.93385826771653,
+            83.15047986926167,
+            59.4,
+            10.08
+          ]
+        }
+      ],
+      "svg": "w3_parameter_beta_errors.svg",
+      "svg_sha256": "ae053eab89ee7daed5ef48814e9d0e8d67c2129d0bf1ef79028a5f8b29c1d33c",
+      "preview": "assets/figures/w3_parameter_beta_errors.png",
+      "preview_sha256": "a8191095b7e31d3ce5b7315998bbe8bbbdccd7309c3faecbf2578385b85280ba"
+    },
+    {
+      "parameter": "gamma",
+      "title": "Forcing amplitude γ",
+      "axes": [
+        {
+          "name": "gamma-full",
+          "bounds_figure_fraction": [
+            0.18,
+            0.17,
+            0.6700000000000002,
+            0.79
+          ],
+          "x_limits": [
+            0.0,
+            110.0
+          ],
+          "y_limits": [
+            4.65,
+            -0.65
+          ],
+          "x_ticks": [
+            0,
+            25,
+            50,
+            75,
+            100,
+            110
+          ],
+          "bottom_spine_bounds": [
+            0.0,
+            113.3
+          ]
+        }
+      ],
+      "rows": [
+        {
+          "method": "GIFT",
+          "statistics": {
+            "n": 50,
+            "minimum": 3.4309576483492057,
+            "q1": 5.3629450661996545,
+            "median": 7.26029963675987,
+            "q3": 11.735725517162486,
+            "maximum": 30.833685922152384,
+            "mean": 9.695575578887732
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 6.372780450962831,
+            "lower_fence": -4.196225610244592,
+            "upper_fence": 21.294896193606732,
+            "lower_observation": 3.4309576483492057,
+            "upper_observation": 20.083777837131375,
+            "lower_outside_count": 0,
+            "upper_outside_count": 4
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 0,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 22.81248479006477,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 10.874147980769216,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 22.66661684433345,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 11.938932265606034,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 5.230072109828737,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 3.4309576483492057,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 7.032683139930526,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 4.450636924907536,
+              "y": 0.008308302939283418,
+              "gid": "observed-gamma-gift-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 4.405743000940145,
+              "y": -0.20830830293928343,
+              "gid": "observed-gamma-gift-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 8.335909766182285,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 6.201153491141806,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 11.126105271831841,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 11.945180071299337,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 18.004517714393806,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 13.025930913186222,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 14.818235283527182,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 27.20502010392558,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 6.375952857818369,
+              "y": 0.008308302939283418,
+              "gid": "observed-gamma-gift-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 6.065288601451481,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 7.244197846180863,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 9.360392428916008,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 5.26435733050801,
+              "y": -0.20830830293928343,
+              "gid": "observed-gamma-gift-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 10.098585074605392,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 7.276401427338876,
+              "y": -0.20830830293928343,
+              "gid": "observed-gamma-gift-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 8.334686878658776,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 10.499707659418245,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 4.40214009682116,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 6.342895715829619,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 6.441893569981689,
+              "y": -0.2624624544089251,
+              "gid": "observed-gamma-gift-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 30.833685922152384,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 5.658708273274589,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 6.358722698740401,
+              "y": -0.20830830293928343,
+              "gid": "observed-gamma-gift-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 5.155196040534241,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 12.386501182022249,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 10.244583004079052,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 4.099448805994118,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 10.986497416094553,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 20.083777837131375,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 5.702245554446196,
+              "y": -0.2624624544089251,
+              "gid": "observed-gamma-gift-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 6.951114989390189,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 5.667975314054638,
+              "y": 0.008308302939283418,
+              "gid": "observed-gamma-gift-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 8.505199132089444,
+              "y": -0.20830830293928343,
+              "gid": "observed-gamma-gift-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 4.713210689451069,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 8.080217250740626,
+              "y": -0.1,
+              "gid": "observed-gamma-gift-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 4.62047490682898,
+              "y": -0.2624624544089251,
+              "gid": "observed-gamma-gift-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 18.405947770916026,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 13.127826769180137,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 4.390731798003732,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 3.797991322951827,
+              "y": -0.045845848530358294,
+              "gid": "observed-gamma-gift-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 3.797895458564606,
+              "y": -0.15415415146964173,
+              "gid": "observed-gamma-gift-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 7.26%",
+            "gid": "median-label-gamma-gift",
+            "x_axes_fraction": 1.035,
+            "y": 0
+          },
+          "summary_y": 0.34,
+          "axis_limits": [
+            0.0,
+            110.0
+          ]
+        },
+        {
+          "method": "PDE-FIND",
+          "statistics": {
+            "n": 50,
+            "minimum": 0.5252216132026878,
+            "q1": 5.754637190414576,
+            "median": 7.701525789718246,
+            "q3": 9.163737030798416,
+            "maximum": 14.901253361070124,
+            "mean": 7.5653523028113865
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 3.4090998403838393,
+            "lower_fence": 0.640987429838817,
+            "upper_fence": 14.277386791374175,
+            "lower_observation": 1.2788006970515495,
+            "upper_observation": 11.718931358872483,
+            "lower_outside_count": 1,
+            "upper_outside_count": 1
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 4,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 3.8385426862881262,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 9.291264937641301,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 0.5252216132026878,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 6.663077023206484,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 9.601832523453417,
+              "y": 1.0083083029392834,
+              "gid": "observed-gamma-pde-find-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 8.855952271455553,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 7.572696765740117,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 5.409877225294128,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 7.110719179628096,
+              "y": 0.7375375455910749,
+              "gid": "observed-gamma-pde-find-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 5.535153556675846,
+              "y": 0.7916916970607166,
+              "gid": "observed-gamma-pde-find-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 11.158609914725295,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 9.415893675146359,
+              "y": 0.7916916970607166,
+              "gid": "observed-gamma-pde-find-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 7.405967599071943,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 2.8828828532546122,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 8.739935864674356,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 7.610267202854906,
+              "y": 0.7916916970607166,
+              "gid": "observed-gamma-pde-find-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 4.252564110889552,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 5.583205979158681,
+              "y": 1.0083083029392834,
+              "gid": "observed-gamma-pde-find-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 11.718931358872483,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 7.534115150851619,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 5.719791066767938,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 5.859175561354492,
+              "y": 0.7375375455910749,
+              "gid": "observed-gamma-pde-find-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 9.65239456861773,
+              "y": 0.7375375455910749,
+              "gid": "observed-gamma-pde-find-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 6.871250548552253,
+              "y": 0.7916916970607166,
+              "gid": "observed-gamma-pde-find-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 10.85983911403752,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 1.7562503767354252,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 9.151541687988905,
+              "y": 1.0624624544089252,
+              "gid": "observed-gamma-pde-find-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 7.109110947594932,
+              "y": 1.0083083029392834,
+              "gid": "observed-gamma-pde-find-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 10.198024870760301,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 5.518993271266388,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 10.292576309064808,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 9.114023000357301,
+              "y": 0.7375375455910749,
+              "gid": "observed-gamma-pde-find-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 8.110183465011652,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 1.2788006970515495,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 9.162257015918346,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 8.713156518605777,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 5.110475224084826,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 6.571130107998973,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 8.939734242286134,
+              "y": 0.7916916970607166,
+              "gid": "observed-gamma-pde-find-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 10.111557227496865,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 7.9690792090643745,
+              "y": 0.7375375455910749,
+              "gid": "observed-gamma-pde-find-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 4.907812634209144,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 11.132571409216336,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 7.6256768942912165,
+              "y": 1.0624624544089252,
+              "gid": "observed-gamma-pde-find-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 9.040685555769299,
+              "y": 1.0083083029392834,
+              "gid": "observed-gamma-pde-find-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 6.836035918755312,
+              "y": 0.9541541514696418,
+              "gid": "observed-gamma-pde-find-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 8.105917790318784,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 9.164230369091772,
+              "y": 0.8458458485303583,
+              "gid": "observed-gamma-pde-find-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 14.901253361070124,
+              "y": 0.9,
+              "gid": "observed-gamma-pde-find-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 7.777374685145275,
+              "y": 1.0083083029392834,
+              "gid": "observed-gamma-pde-find-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 7.70%",
+            "gid": "median-label-gamma-pde-find",
+            "x_axes_fraction": 1.035,
+            "y": 1
+          },
+          "summary_y": 1.34,
+          "axis_limits": [
+            0.0,
+            110.0
+          ]
+        },
+        {
+          "method": "PDE-FIND-KC",
+          "statistics": {
+            "n": 50,
+            "minimum": 4.300692332218356,
+            "q1": 7.904521697331254,
+            "median": 9.263145647601803,
+            "q3": 10.721440292782852,
+            "maximum": 17.468824000629734,
+            "mean": 9.418138095096598
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 2.8169185954515976,
+            "lower_fence": 3.679143804153857,
+            "upper_fence": 14.946818185960248,
+            "lower_observation": 4.300692332218356,
+            "upper_observation": 14.360620011977911,
+            "lower_outside_count": 0,
+            "upper_outside_count": 2
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 6,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 4.300692332218356,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 9.32124455042031,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 9.095353439975856,
+              "y": 2.0083083029392834,
+              "gid": "observed-gamma-pde-find-kc-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 6.394275617343208,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 10.124874769551862,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 7.849194722620786,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 9.397362741222036,
+              "y": 2.0083083029392834,
+              "gid": "observed-gamma-pde-find-kc-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 10.737498516030874,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 8.599356079030967,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 7.412072705618746,
+              "y": 2.0083083029392834,
+              "gid": "observed-gamma-pde-find-kc-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 17.468824000629734,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 8.643268541464282,
+              "y": 1.7375375455910749,
+              "gid": "observed-gamma-pde-find-kc-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 8.26518657501264,
+              "y": 2.0083083029392834,
+              "gid": "observed-gamma-pde-find-kc-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 11.453692606010438,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 8.070502621462657,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 8.699572258380869,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 5.852465220576349,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 7.752689788506541,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 11.601798490145082,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 9.333424121323377,
+              "y": 1.7375375455910749,
+              "gid": "observed-gamma-pde-find-kc-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 5.730984683398457,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 9.392242935403578,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 12.302047078030174,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 9.40785466541517,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 10.99620679340156,
+              "y": 2.0083083029392834,
+              "gid": "observed-gamma-pde-find-kc-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 12.1155092461529,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 7.270871798754569,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 9.651701823229702,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 9.578393284135894,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 5.347176056464927,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 10.828787650326062,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 8.869198042919455,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 9.602569056895934,
+              "y": 2.062462454408925,
+              "gid": "observed-gamma-pde-find-kc-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 13.50531009991517,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 9.115164227405984,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 11.47240001292046,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 9.190782710451074,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 5.389266785136493,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 14.360620011977911,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 11.597212683303086,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 6.858730602640433,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 9.951293416385251,
+              "y": 1.7375375455910749,
+              "gid": "observed-gamma-pde-find-kc-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 10.67326562303879,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 8.528536233598997,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 10.422994883326606,
+              "y": 1.8458458485303582,
+              "gid": "observed-gamma-pde-find-kc-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 7.124250391160497,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 8.192200052408023,
+              "y": 1.7916916970607164,
+              "gid": "observed-gamma-pde-find-kc-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 9.205046744783294,
+              "y": 2.062462454408925,
+              "gid": "observed-gamma-pde-find-kc-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 16.696037956229233,
+              "y": 1.9,
+              "gid": "observed-gamma-pde-find-kc-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 7.156899508075223,
+              "y": 1.9541541514696417,
+              "gid": "observed-gamma-pde-find-kc-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 9.26%",
+            "gid": "median-label-gamma-pde-find-kc",
+            "x_axes_fraction": 1.035,
+            "y": 2
+          },
+          "summary_y": 2.34,
+          "axis_limits": [
+            0.0,
+            110.0
+          ]
+        },
+        {
+          "method": "PINN-SR",
+          "statistics": {
+            "n": 50,
+            "minimum": 18.726835038832522,
+            "q1": 26.004919358476748,
+            "median": 32.13529404839548,
+            "q3": 43.91056845993853,
+            "maximum": 100.0,
+            "mean": 39.179742659681445
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 17.905649101461783,
+            "lower_fence": -0.8535542937159271,
+            "upper_fence": 70.7690421121312,
+            "lower_observation": 18.726835038832522,
+            "upper_observation": 65.58543133491737,
+            "lower_outside_count": 0,
+            "upper_outside_count": 5
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 0,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 22.689773032998367,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 25.882229096836685,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 73.47431562646835,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 24.944290226874607,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 36.31502285404713,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 28.845269133018455,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 25.053067794348905,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 25.338886241572663,
+              "y": 2.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 37.76746828538338,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 32.318487945648286,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 44.17047055768322,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 26.372990143396937,
+              "y": 2.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 31.629533208302924,
+              "y": 2.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 26.64639963662626,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 56.99329523177203,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 21.28860246198555,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 25.48569451188373,
+              "y": 2.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 32.37361551768783,
+              "y": 2.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 63.84246334455421,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 19.773239853123535,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 25.816206837408277,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 36.10176468490334,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 33.87614043510239,
+              "y": 2.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 33.6748333918094,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 30.09666163090988,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 65.58543133491737,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 100.0,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 60.50175413664153,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 27.543585166165844,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 18.726835038832522,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 43.13086216670447,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 31.952100151142673,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 22.323828445826774,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 51.23965630830727,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 29.476816851674474,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 23.173010032490843,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 49.18147650315076,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 26.780320721304317,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 79.02623852562431,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 51.233037734055785,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 40.71261719409489,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 80.93538061272457,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 34.38087241408968,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 28.810268286305494,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 31.572089214942974,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 21.992024707766127,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 33.50775249986208,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 100.0,
+              "y": 2.845845848530358,
+              "gid": "observed-gamma-pinn-sr-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 31.32845995602251,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 35.10199329707848,
+              "y": 2.9,
+              "gid": "observed-gamma-pinn-sr-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 32.14%",
+            "gid": "median-label-gamma-pinn-sr",
+            "x_axes_fraction": 1.035,
+            "y": 3
+          },
+          "summary_y": 3.34,
+          "axis_limits": [
+            0.0,
+            110.0
+          ]
+        },
+        {
+          "method": "PINN-SR-KC",
+          "statistics": {
+            "n": 50,
+            "minimum": 0.46842744552463156,
+            "q1": 8.073216870609205,
+            "median": 9.785083604704965,
+            "q3": 12.336111357045827,
+            "maximum": 100.0,
+            "mean": 15.57579440353895
+          },
+          "view": "full",
+          "whisker_statistics": {
+            "iqr": 4.262894486436622,
+            "lower_fence": 1.678875140954272,
+            "upper_fence": 18.73045308670076,
+            "lower_observation": 2.48336130523031,
+            "upper_observation": 15.919308285457,
+            "lower_outside_count": 2,
+            "upper_outside_count": 5
+          },
+          "shown_count": 50,
+          "marker_diameter_points": 2.1,
+          "overlapping_disk_pairs": 0,
+          "points": [
+            {
+              "case_id": "parameter_000",
+              "x": 2.597499585750001,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_000-full"
+            },
+            {
+              "case_id": "parameter_001",
+              "x": 7.64645221963802,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_001-full"
+            },
+            {
+              "case_id": "parameter_002",
+              "x": 7.143926638408352,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_002-full"
+            },
+            {
+              "case_id": "parameter_003",
+              "x": 2.48336130523031,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_003-full"
+            },
+            {
+              "case_id": "parameter_004",
+              "x": 67.14529270893429,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_004-full"
+            },
+            {
+              "case_id": "parameter_005",
+              "x": 9.475582092125142,
+              "y": 3.7375375455910747,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_005-full"
+            },
+            {
+              "case_id": "parameter_006",
+              "x": 10.706723022760158,
+              "y": 3.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_006-full"
+            },
+            {
+              "case_id": "parameter_007",
+              "x": 10.019867166335983,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_007-full"
+            },
+            {
+              "case_id": "parameter_008",
+              "x": 9.78862869568079,
+              "y": 3.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_008-full"
+            },
+            {
+              "case_id": "parameter_009",
+              "x": 10.342248175566029,
+              "y": 3.7375375455910747,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_009-full"
+            },
+            {
+              "case_id": "parameter_010",
+              "x": 68.4279230489861,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_010-full"
+            },
+            {
+              "case_id": "parameter_011",
+              "x": 8.634988142274118,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_011-full"
+            },
+            {
+              "case_id": "parameter_012",
+              "x": 6.530008021603202,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_012-full"
+            },
+            {
+              "case_id": "parameter_013",
+              "x": 0.46842744552463156,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_013-full"
+            },
+            {
+              "case_id": "parameter_014",
+              "x": 11.311124345205423,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_014-full"
+            },
+            {
+              "case_id": "parameter_015",
+              "x": 7.062186693526623,
+              "y": 3.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_015-full"
+            },
+            {
+              "case_id": "parameter_016",
+              "x": 10.283446349134424,
+              "y": 4.008308302939283,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_016-full"
+            },
+            {
+              "case_id": "parameter_017",
+              "x": 7.411408378627804,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_017-full"
+            },
+            {
+              "case_id": "parameter_018",
+              "x": 8.24189037649749,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_018-full"
+            },
+            {
+              "case_id": "parameter_019",
+              "x": 6.813297689826261,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_019-full"
+            },
+            {
+              "case_id": "parameter_020",
+              "x": 8.05053295902903,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_020-full"
+            },
+            {
+              "case_id": "parameter_021",
+              "x": 13.025418693544601,
+              "y": 3.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_021-full"
+            },
+            {
+              "case_id": "parameter_022",
+              "x": 100.0,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_022-full"
+            },
+            {
+              "case_id": "parameter_023",
+              "x": 10.214402154066274,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_023-full"
+            },
+            {
+              "case_id": "parameter_024",
+              "x": 12.844458992877925,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_024-full"
+            },
+            {
+              "case_id": "parameter_025",
+              "x": 68.9381488767125,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_025-full"
+            },
+            {
+              "case_id": "parameter_026",
+              "x": 9.376384276867052,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_026-full"
+            },
+            {
+              "case_id": "parameter_027",
+              "x": 10.613699941458234,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_027-full"
+            },
+            {
+              "case_id": "parameter_028",
+              "x": 11.437205941434122,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_028-full"
+            },
+            {
+              "case_id": "parameter_029",
+              "x": 0.4728050637398655,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_029-full"
+            },
+            {
+              "case_id": "parameter_030",
+              "x": 11.225747081740717,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_030-full"
+            },
+            {
+              "case_id": "parameter_031",
+              "x": 13.824070784589813,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_031-full"
+            },
+            {
+              "case_id": "parameter_032",
+              "x": 8.391623625925632,
+              "y": 4.008308302939283,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_032-full"
+            },
+            {
+              "case_id": "parameter_033",
+              "x": 6.809157608989896,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_033-full"
+            },
+            {
+              "case_id": "parameter_034",
+              "x": 12.492809890923782,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_034-full"
+            },
+            {
+              "case_id": "parameter_035",
+              "x": 8.055941049531903,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_035-full"
+            },
+            {
+              "case_id": "parameter_036",
+              "x": 12.705402718223205,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_036-full"
+            },
+            {
+              "case_id": "parameter_037",
+              "x": 9.172604048765184,
+              "y": 3.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_037-full"
+            },
+            {
+              "case_id": "parameter_038",
+              "x": 9.117750238182133,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_038-full"
+            },
+            {
+              "case_id": "parameter_039",
+              "x": 11.866015755411958,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_039-full"
+            },
+            {
+              "case_id": "parameter_040",
+              "x": 9.78153851372914,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_040-full"
+            },
+            {
+              "case_id": "parameter_041",
+              "x": 58.34370388584724,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_041-full"
+            },
+            {
+              "case_id": "parameter_042",
+              "x": 15.919308285457,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_042-full"
+            },
+            {
+              "case_id": "parameter_043",
+              "x": 9.348020884834447,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_043-full"
+            },
+            {
+              "case_id": "parameter_044",
+              "x": 9.185232392163442,
+              "y": 4.008308302939283,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_044-full"
+            },
+            {
+              "case_id": "parameter_045",
+              "x": 8.125044333841107,
+              "y": 3.7916916970607164,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_045-full"
+            },
+            {
+              "case_id": "parameter_046",
+              "x": 13.254045685334972,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_046-full"
+            },
+            {
+              "case_id": "parameter_047",
+              "x": 10.688099016455057,
+              "y": 3.9541541514696417,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_047-full"
+            },
+            {
+              "case_id": "parameter_048",
+              "x": 14.198977310608353,
+              "y": 3.9,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_048-full"
+            },
+            {
+              "case_id": "parameter_049",
+              "x": 8.777288065027696,
+              "y": 3.845845848530358,
+              "gid": "observed-gamma-pinn-sr-kc-parameter_049-full"
+            }
+          ],
+          "median_label": {
+            "text": "Median 9.79%",
+            "gid": "median-label-gamma-pinn-sr-kc",
+            "x_axes_fraction": 1.035,
+            "y": 4
+          },
+          "summary_y": 4.34,
+          "axis_limits": [
+            0.0,
+            110.0
+          ]
+        }
+      ],
+      "visible_text_bounds": [
+        {
+          "text": "Median 7.26%",
+          "bounds_points": [
+            564.5100472440945,
+            284.3811736740455,
+            59.94,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 7.70%",
+          "bounds_points": [
+            564.5100472440945,
+            234.52350022284955,
+            59.85,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 9.26%",
+          "bounds_points": [
+            564.5100472440945,
+            184.6658267716536,
+            59.94,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 32.14%",
+          "bounds_points": [
+            564.5100472440945,
+            134.80815332045762,
+            65.07,
+            8.64
+          ]
+        },
+        {
+          "text": "Median 9.79%",
+          "bounds_points": [
+            564.5100472440945,
+            84.95047986926167,
+            59.94,
+            8.64
+          ]
+        },
+        {
+          "text": "Absolute percentage error of γ (%)",
+          "bounds_points": [
+            252.02409448818898,
+            19.642992125984264,
+            161.63999999999996,
+            10.08
+          ]
+        },
+        {
+          "text": "0",
+          "bounds_points": [
+            113.67885826771654,
+            40.72299212598426,
+            5.31,
+            8.64
+          ]
+        },
+        {
+          "text": "25",
+          "bounds_points": [
+            209.4376020042949,
+            40.72299212598426,
+            10.62,
+            8.64
+          ]
+        },
+        {
+          "text": "50",
+          "bounds_points": [
+            307.8513457408733,
+            40.72299212598426,
+            10.62,
+            8.64
+          ]
+        },
+        {
+          "text": "75",
+          "bounds_points": [
+            406.2650894774516,
+            40.72299212598426,
+            10.62,
+            8.64
+          ]
+        },
+        {
+          "text": "100",
+          "bounds_points": [
+            502.0238332140301,
+            40.72299212598426,
+            15.93,
+            8.64
+          ]
+        },
+        {
+          "text": "110",
+          "bounds_points": [
+            541.7493307086614,
+            40.72299212598426,
+            15.21,
+            8.64
+          ]
+        },
+        {
+          "text": "GIFT",
+          "bounds_points": [
+            82.38385826771653,
+            282.5811736740455,
+            22.95,
+            10.08
+          ]
+        },
+        {
+          "text": "PDE-FIND",
+          "bounds_points": [
+            57.453858267716534,
+            232.72350022284954,
+            47.88,
+            10.08
+          ]
+        },
+        {
+          "text": "PDE-FIND-KC",
+          "bounds_points": [
+            39.54385826771653,
+            182.8658267716536,
+            65.79,
+            10.08
+          ]
+        },
+        {
+          "text": "PINN-SR",
+          "bounds_points": [
+            63.843858267716534,
+            133.0081533204576,
+            41.49,
+            10.08
+          ]
+        },
+        {
+          "text": "PINN-SR-KC",
+          "bounds_points": [
+            45.93385826771653,
+            83.15047986926167,
+            59.4,
+            10.08
+          ]
+        }
+      ],
+      "svg": "w3_parameter_gamma_errors.svg",
+      "svg_sha256": "e7343118c072ed8b2ca03221b27f30bec76cae54e6d88302d2da048b9cc9da48",
+      "preview": "assets/figures/w3_parameter_gamma_errors.png",
+      "preview_sha256": "94ff4faf3e6f586201d97ae45028c0398d87797b4b009fdb9aa696cbc2e2d0f2"
+    }
+  ]
+}

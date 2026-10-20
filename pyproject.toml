@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gift-field-generator"
+# Read the version from src/gift, keeping one source of truth.
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
@@ -19,12 +20,19 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Test/lint tools are separate from the numerical runtime dependencies above.
 test = ["pytest", "ruff"]
+
+[tool.setuptools]
+# The solver is a top-level module alongside the gift package under src/.
+package-dir = {"" = "src"}
+py-modules = ["even_full_spectrum_ns"]
 
 [tool.setuptools.dynamic]
 version = {attr = "gift.__version__"}
 
 [tool.setuptools.packages.find]
+# Training and experiment entry points run from the checkout; distribute src/gift.
 where = ["src"]
 
 [tool.pytest.ini_options]

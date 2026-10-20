@@ -1,38 +1,490 @@
 {
   "schema": "gift.formal-experiment-index",
-  "schema_version": 1,
+  "schema_version": 3,
   "record_document": "EXPERIMENTS.md",
-  "result_scope": "Published directories contain compact summaries and selected figures; raw_directory names describe independently recomputable full outputs, not files included in Git.",
+  "result_scope": "Manuscript-numbered scientific experiments and direct published evidence packages. Original raw predictions and training histories remain outside the repository.",
   "experiments": [
     {
-      "id": "M1",
+      "id": "W1",
       "category": "main",
-      "name": "equation_parameter_identification",
-      "title_zh": "方程参数识别",
-      "entrypoint": "experiments/formal/m1_equation_identification/run.py",
-      "result_directory": "results/formal/M1_equation_identification",
-      "raw_directory": "results/formal/M1_equation_identification/raw",
-      "metrics": "results/formal/M1_equation_identification/summary/metrics.csv"
+      "name": "flow_field_evolution_prediction",
+      "title_zh": "流场演化预测",
+      "entrypoint": "experiments/additional/w1_current_evaluate.py",
+      "result_directory": "results/formal/W1_flow_prediction_20261007",
+      "raw_directory": "source-record:4f2fb704e314fc51635b",
+      "metrics": "results/formal/W1_flow_prediction_20261007/summary/metrics.csv",
+      "protocol_version": "single_native76_n300_aligned_anie_20261006",
+      "profile": "single_native76_n300",
+      "protocol_document": "docs/W1_W2_PROTOCOL.md",
+      "evaluation_entrypoint": "experiments/additional/w1_current_evaluate.py",
+      "entrypoint_scope": "Current locked N300 single-initial-state scientific evaluation.",
+      "full_raw_outputs_included": false,
+      "checkpoints_included": false,
+      "resumable_experiment": false,
+      "external_run_directory": "source-record:955c61927a94c71baa2d",
+      "raw_directories": {
+        "confirmation": "source-record:e19cfa3ba17b99b67305",
+        "old_test": "source-record:42131fd4c57757cb7704"
+      },
+      "checkpoint_scope": "Current model weights are external; artifacts/CHECKPOINTS.json describes the independent packaged auxiliary-model artifacts.",
+      "external_checkpoint_run_directories": [
+        "source-record:3bc4339f9fb31e6fbc7c",
+        "source-record:633c790c903be39892f0",
+        "source-record:955c61927a94c71baa2d"
+      ],
+      "methods": [
+        "GIFT",
+        "GIFT-N50",
+        "fno2d",
+        "fno3d",
+        "uno",
+        "unet",
+        "anie_ns"
+      ],
+      "method_count": 7,
+      "model_instances_per_method": 1,
+      "training_count": 300,
+      "training_count_exceptions": {
+        "GIFT-N50": 50
+      },
+      "validation_count": 20,
+      "initial_history_frames": 1,
+      "observation_dt_seconds": 0.04,
+      "training_observation_points": 76,
+      "evaluation_window_seconds": [
+        5.0,
+        8.0
+      ],
+      "evaluation_grids": [
+        64
+      ],
+      "evaluation_time_points": 76,
+      "future_steps": 75,
+      "primary_metric": "future_mean_per_frame_relative_l2",
+      "t0_in_primary_metric": false,
+      "population_per_cohort_per_grid": 180,
+      "cohorts": {
+        "confirmation": {
+          "trajectory_id_range": [
+            100000,
+            100179
+          ],
+          "interpretation": "Independent of training and validation; this held-out population has already been scored and is not a blind test."
+        },
+        "old_test": {
+          "trajectory_id_range": [
+            1040,
+            1219
+          ],
+          "interpretation": "Posthoc exploratory reevaluation; separate from confirmation."
+        }
+      },
+      "statistical_scope": "Single fixed model per method, no training-seed mean or SD; method-native supervision and compute budgets differ.",
+      "publication_receipt": "source-record:8ac642d110cb1947d463",
+      "numerical_audit": "source-record:6c634d000a4f9e8389e3",
+      "training_audit": "source-record:a16c8d6b8b7b004e805e",
+      "prediction_scope": "Autonomous prediction from one true initial field: recursive GIFT/FNO2D/U-NO/U-Net/GIFT-N50 and native joint-output FNO3D/ANIE.",
+      "manuscript_figure": 2,
+      "execution_entrypoint": "scripts/run_anie_coordinate_refresh.py",
+      "method_display_names": {
+        "GIFT": "GIFT",
+        "GIFT-N50": "GIFT-Lite",
+        "fno2d": "FNO-2D",
+        "fno3d": "FNO-3D",
+        "uno": "U-NO",
+        "unet": "U-Net",
+        "anie_ns": "ANIE"
+      },
+      "display_method_order": [
+        "GIFT",
+        "GIFT-Lite",
+        "FNO-2D",
+        "FNO-3D",
+        "U-NO",
+        "U-Net",
+        "ANIE"
+      ],
+      "method_display_scope": "Current GIFT-Lite is source GIFT-N50: first50 of the ordered N300 training pool, same stage epochs, fewer total optimizer updates; it is distinct from the auxiliary N1000-source GIFT-Lite checkpoints.",
+      "completion_receipt": "source-record:ff615f6add98123209ac",
+      "completion_receipt_sha256": "22702E76FC18B7E58204B77626044634A11ABC87B03FFD6314EA19FA0DEE05BE",
+      "current_ANIE_checkpoint": {
+        "source_method_id": "anie_ns",
+        "source_profile": "aligned_ns_single_v1",
+        "path": "source-record:c91b35b4e3048c7cc6ed",
+        "sha256": "12668253562C19EBF7538C31599D5639C771B066231C1FB2C93FEE4C9823C379",
+        "selected_epoch": 29,
+        "seed": 7
+      },
+      "publication_manifest": "results/formal/W1_flow_prediction_20261007/published.json",
+      "publication_manifest_sha256": "84E1630A903A2EABC063AFC33EAD177D01525B5F1E61EC64D47EB0816065D431",
+      "status": "complete"
     },
     {
-      "id": "M2",
-      "category": "main",
-      "name": "recursive_prediction",
-      "title_zh": "递归预测",
-      "entrypoint": "experiments/formal/m2_recursive_prediction/run.py",
-      "result_directory": "results/formal/M2_recursive_prediction",
-      "raw_directory": "results/formal/M2_recursive_prediction/raw",
-      "metrics": "results/formal/M2_recursive_prediction/summary/metrics.csv"
-    },
-    {
-      "id": "M3",
+      "id": "W2",
       "category": "main",
       "name": "cross_resolution_prediction",
       "title_zh": "跨分辨率预测",
-      "entrypoint": "experiments/formal/m3_cross_resolution/run.py",
-      "result_directory": "results/formal/M3_cross_resolution",
-      "raw_directory": "results/formal/M3_cross_resolution/raw",
-      "metrics": "results/formal/M3_cross_resolution/summary/metrics.csv"
+      "entrypoint": "experiments/additional/w2_single_evaluate.py",
+      "result_directory": "results/formal/W2_cross_resolution_20261007",
+      "raw_directory": "source-record:b7f43bb28d5c471f2a48",
+      "metrics": "results/formal/W2_cross_resolution_20261007/summary/metrics.csv",
+      "protocol_version": "single_native76_n300_20261005",
+      "profile": "single_native76_n300",
+      "protocol_document": "docs/W1_W2_PROTOCOL.md",
+      "evaluation_entrypoint": "experiments/additional/w2_single_evaluate.py",
+      "entrypoint_scope": "Current locked N300 single-initial-state scientific evaluation.",
+      "full_raw_outputs_included": false,
+      "checkpoints_included": false,
+      "resumable_experiment": false,
+      "external_run_directory": "source-record:633c790c903be39892f0",
+      "raw_directories": {
+        "confirmation": "source-record:9a5587cf4a9e030d6125",
+        "old_test": "source-record:4a9847c54a06c6acacd0"
+      },
+      "checkpoint_scope": "Current model weights are external; artifacts/CHECKPOINTS.json describes the independent packaged auxiliary-model artifacts.",
+      "external_checkpoint_run_directories": [
+        "source-record:3bc4339f9fb31e6fbc7c",
+        "source-record:633c790c903be39892f0"
+      ],
+      "methods": [
+        "GIFT",
+        "GIFT-N50",
+        "fno2d",
+        "fno3d",
+        "uno",
+        "unet"
+      ],
+      "method_count": 6,
+      "model_instances_per_method": 1,
+      "training_count": 300,
+      "training_count_exceptions": {
+        "GIFT-N50": 50
+      },
+      "validation_count": 20,
+      "initial_history_frames": 1,
+      "observation_dt_seconds": 0.04,
+      "training_observation_points": 76,
+      "evaluation_window_seconds": [
+        5.0,
+        6.0
+      ],
+      "evaluation_grids": [
+        64,
+        96,
+        128
+      ],
+      "evaluation_time_points": 26,
+      "future_steps": 25,
+      "primary_metric": "future_mean_per_frame_relative_l2",
+      "t0_in_primary_metric": false,
+      "population_per_cohort_per_grid": 180,
+      "cohorts": {
+        "confirmation": {
+          "trajectory_id_range": [
+            100000,
+            100179
+          ],
+          "interpretation": "Independent of training and validation; this held-out population has already been scored and is not a blind test."
+        },
+        "old_test": {
+          "trajectory_id_range": [
+            1040,
+            1219
+          ],
+          "interpretation": "Posthoc exploratory reevaluation; separate from confirmation."
+        }
+      },
+      "statistical_scope": "Single fixed model per method, no training-seed mean or SD; method-native supervision and compute budgets differ.",
+      "numerical_audit": "source-record:b1e63147ba97e21cdce7",
+      "training_audit": "source-record:ef79e0d5cc9aade1a672",
+      "ANIE_included": false,
+      "native_zero_shot": true,
+      "training_repeated_for_w2": false,
+      "manuscript_figure": 3,
+      "execution_entrypoint": "scripts/run_w1_w2_single.py",
+      "method_display_names": {
+        "GIFT": "GIFT",
+        "GIFT-N50": "GIFT-Lite",
+        "fno2d": "FNO-2D",
+        "fno3d": "FNO-3D",
+        "uno": "U-NO",
+        "unet": "U-Net"
+      },
+      "display_method_order": [
+        "GIFT",
+        "GIFT-Lite",
+        "FNO-2D",
+        "FNO-3D",
+        "U-NO",
+        "U-Net"
+      ],
+      "method_display_scope": "Current GIFT-Lite is source GIFT-N50: first50 of the ordered N300 training pool, same stage epochs, fewer total optimizer updates; it is distinct from the auxiliary N1000-source GIFT-Lite checkpoints.",
+      "publication_manifest": "results/formal/W2_cross_resolution_20261007/published.json",
+      "publication_manifest_sha256": "8D530FDEECB60F57DB8661A3E18C949B3FFA69370DA81D2F6E88A160B947E291",
+      "status": "complete"
+    },
+    {
+      "id": "W3",
+      "category": "main",
+      "name": "equation_parameter_identification",
+      "title_zh": "方程参数识别",
+      "entrypoint": "results/formal/W3_single_trajectory_20261010/README.md",
+      "manuscript_figure": 4,
+      "methods": [
+        "GIFT",
+        "PDE-FIND",
+        "PDE-FIND-KC",
+        "PINN-SR",
+        "PINN-SR-KC"
+      ],
+      "method_display_names": {
+        "GIFT": "GIFT",
+        "PDE-FIND": "PDE-FIND",
+        "PDE-FIND-KC": "PDE-FIND-KC",
+        "PINN-SR": "PINN-SR",
+        "PINN-SR-KC": "PINN-SR-KC"
+      },
+      "display_method_order": [
+        "GIFT",
+        "PDE-FIND",
+        "PDE-FIND-KC",
+        "PINN-SR",
+        "PINN-SR-KC"
+      ],
+      "status": "complete",
+      "noise_levels": [
+        0
+      ],
+      "conditions": [
+        "parameter_000",
+        "parameter_001",
+        "parameter_002",
+        "parameter_003",
+        "parameter_004",
+        "parameter_005",
+        "parameter_006",
+        "parameter_007",
+        "parameter_008",
+        "parameter_009",
+        "parameter_010",
+        "parameter_011",
+        "parameter_012",
+        "parameter_013",
+        "parameter_014",
+        "parameter_015",
+        "parameter_016",
+        "parameter_017",
+        "parameter_018",
+        "parameter_019",
+        "parameter_020",
+        "parameter_021",
+        "parameter_022",
+        "parameter_023",
+        "parameter_024",
+        "parameter_025",
+        "parameter_026",
+        "parameter_027",
+        "parameter_028",
+        "parameter_029",
+        "parameter_030",
+        "parameter_031",
+        "parameter_032",
+        "parameter_033",
+        "parameter_034",
+        "parameter_035",
+        "parameter_036",
+        "parameter_037",
+        "parameter_038",
+        "parameter_039",
+        "parameter_040",
+        "parameter_041",
+        "parameter_042",
+        "parameter_043",
+        "parameter_044",
+        "parameter_045",
+        "parameter_046",
+        "parameter_047",
+        "parameter_048",
+        "parameter_049"
+      ],
+      "expected_method_condition_slots": 250,
+      "external_run_directory": "D:/2_GIFT/runs/w3_single_trajectory_20261010",
+      "protocol_document": "docs/W3_PROTOCOL.md",
+      "result_directory": "results/formal/W3_single_trajectory_20261010",
+      "metrics": "results/formal/W3_single_trajectory_20261010/summary/method_metrics.csv",
+      "publication_manifest": "results/formal/W3_single_trajectory_20261010/published.json",
+      "publication_manifest_sha256": "9aa009bb66626cb061ede390ce6ac7ce9acca56a37f4ba1021c89e68b3945f3e",
+      "raw_directory": "results/formal/W3_single_trajectory_20261010/slots",
+      "training_slots": 150,
+      "completed_method_condition_slots": 250,
+      "parameter_rows": 750,
+      "finite_parameter_rows": 750,
+      "protocol_version": "single_trajectory_nonoise_parameter_sweep50_20261010",
+      "parameter_search": false,
+      "repeated_seed_runs": false,
+      "full_raw_outputs_included": false,
+      "resumable_experiment": false,
+      "fresh_PINN_training_slots": 100,
+      "case_count": 50,
+      "trajectory_count": 50,
+      "trajectories_per_case": 1,
+      "trajectory_ids_per_case": [
+        0
+      ],
+      "validation_trajectories_per_case": 0,
+      "parameter_design": "LHS seed 2026100901; loguniform nu [0.0075,0.015], linear beta/gamma [0.75,1.25]",
+      "new_plots_included": true,
+      "current_run_directory": "D:/2_GIFT/runs/w3_single_trajectory_20261010",
+      "source_scope_audit": "D:/2_GIFT/runs/w3_single_trajectory_20261010/FINAL_SOURCE_AND_SCOPE_AUDIT.json",
+      "GIFT_training_slots": 50,
+      "checkpoint_scope": "The W3 numerical package includes fitted coefficient outputs and audits, not resumable checkpoints; full checkpoints remain in the external run archive.",
+      "slot_numerical_outputs_included": true,
+      "trajectory_arrays_included": false,
+      "execution_entrypoint": "D:/2_GIFT/repository_audits/w3_single_trajectory_20261010/dual_coordinator.py --root D:/2_GIFT/runs/w3_single_trajectory_20261010 --run (operator execution, outside project)",
+      "figure_directory": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions",
+      "figure_svgs": {
+        "nu": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/w3_parameter_nu_errors.svg",
+        "beta": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/w3_parameter_beta_errors.svg",
+        "gamma": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/w3_parameter_gamma_errors.svg"
+      },
+      "figure_previews": {
+        "nu": "assets/figures/w3_parameter_nu_errors.png",
+        "beta": "assets/figures/w3_parameter_beta_errors.png",
+        "gamma": "assets/figures/w3_parameter_gamma_errors.png"
+      },
+      "figure_source_points": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/source_points.csv",
+      "figure_source_statistics": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/source_statistics.csv",
+      "figure_metadata": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/figure_metadata.json",
+      "figure_manifest": "results/formal/W3_single_trajectory_20261010/figures/parameter_distributions/figure_manifest.json",
+      "figure_rendering_entrypoint": "experiments/formal/w3_equation_identification/plot_parameter_distributions.py",
+      "figure_count": 3,
+      "figure_panels": [
+        "nu",
+        "beta",
+        "gamma"
+      ],
+      "figure_full_panel_point_count_each": 250,
+      "figure_points_per_method_parameter": 50,
+      "figure_unique_parameter_readouts": 750,
+      "figure_coordinate_metric": "absolute_percentage_error",
+      "figure_coordinate_formula": "100 * abs(estimate - truth) / abs(truth)",
+      "figure_error_axis_scaling": "linear; same bounds for all methods within each parameter figure",
+      "figure_full_error_axis_limits_percent": {
+        "nu": [
+          0,
+          300
+        ],
+        "beta": [
+          0,
+          300
+        ],
+        "gamma": [
+          0,
+          110
+        ]
+      },
+      "figure_point_position": "individual exact APE on horizontal axis; deterministic greedy packing on seven fixed horizontal lanes; no x jitter, rounding or binning; categorical lane has no quantitative meaning",
+      "figure_empirical_summary": "Tukey boxplot with opaque method-color Q1–Q3 box; extended median line in exactly the same color as the box (1.6 pt) passing through and beyond the box and right-column Median value; whiskers at outermost actual observations inside inclusive 1.5 IQR fences; all 50 actual observations including outside-whisker points retained once; no means, duplicate flier symbols, confidence intervals or cross-seed error bars",
+      "figure_method_palette": {
+        "GIFT": "#174EB6",
+        "PDE-FIND": "#D45500",
+        "PDE-FIND-KC": "#008143",
+        "PINN-SR": "#8423B5",
+        "PINN-SR-KC": "#007F8F"
+      },
+      "figure_zero_reference": true,
+      "figure_all_finite_observations_retained": true,
+      "figure_main_APE_tables_unchanged": true,
+      "figure_dimensions_mm_each": [
+        228.0,
+        118.0
+      ],
+      "figure_manifest_sha256": "767c807065b7621718b9e2c092cfcefb8edc0fce3419edbbe5ff9e357f2a71bf",
+      "figure_metadata_sha256": "a410e7d9b9546cd2acf17779d20f1e9b2912efe76ac2950aeabf091b060bb2b4",
+      "figure_renderer_sha256": "f989554ee24cdda8d968d1eba5c05fc3f67e2906acf65f421b4fb1e13a5dacfc",
+      "figure_single_full_range_panel_each": true,
+      "figure_point_lane_offsets_points": [
+        0,
+        -2.7,
+        2.7,
+        -5.4,
+        5.4,
+        -8.1,
+        8.1
+      ],
+      "figure_point_diameter_points": 2.1,
+      "figure_point_rendering": {
+        "shape": "soft-edged circular marker",
+        "edge": "no outline",
+        "vector_layers_per_observation": 12,
+        "radial_alpha_profile": "Gaussian in normalized marker radius",
+        "radial_sigma": 0.42,
+        "alpha_compositing": "incremental concentric opacity; nominal peak alpha 0.95",
+        "data_integrity": "all layers share one real observation center; no density estimation or synthetic observations"
+      },
+      "figure_method_names": {
+        "color": "black",
+        "weight": "bold",
+        "size_points": 10.2
+      },
+      "figure_axes_style": {
+        "visible": [
+          "left",
+          "bottom"
+        ],
+        "color": "black",
+        "linestyle": "solid",
+        "linewidth_points": 1.2,
+        "grid": false,
+        "x_tick_direction": "in",
+        "x_tick_label_position": "below",
+        "x_tick_label_pad_points": 7.5,
+        "bottom_spine_extension_fraction": 0.03
+      },
+      "figure_statistical_line_widths_points": {
+        "tukey_whiskers": 1.1,
+        "caps": 1.1,
+        "median": 1.6,
+        "quartile_box_outline": 1.35
+      },
+      "figure_text_policy": "method names, numerical coordinate ticks, parameter-specific horizontal-axis label and per-method Median APE values only; no panel letters, titles, legends or footer notes",
+      "figure_x_axis_labels": {
+        "nu": "Absolute percentage error of ν (%)",
+        "beta": "Absolute percentage error of β (%)",
+        "gamma": "Absolute percentage error of γ (%)"
+      },
+      "figure_axes_bounds_fraction": [
+        0.18,
+        0.17,
+        0.6700000000000002,
+        0.79
+      ],
+      "figure_center_statistic": "median",
+      "figure_boxplot_convention": "Tukey box plot, Q1–Q3 and median, whiskers at observed values within 1.5 IQR",
+      "figure_statistical_heights_category_units": {
+        "IQR_box": 0.15,
+        "median_bar": 0.32,
+        "caps": 0.09
+      },
+      "figure_box_fill_opacity": 1.0,
+      "figure_median_bar_colors": {
+        "GIFT": "#174EB6",
+        "PDE-FIND": "#D45500",
+        "PDE-FIND-KC": "#008143",
+        "PINN-SR": "#8423B5",
+        "PINN-SR-KC": "#007F8F"
+      },
+      "figure_median_annotations": {
+        "statistic": "median of all 50 individual APE observations",
+        "format": "Median {value:.2f}%",
+        "location": "right column aligned with each method row",
+        "color": "black",
+        "font_size_points": 9.4
+      },
+      "figure_whiskers": "smallest and largest observed APE within inclusive Q1−1.5IQR and Q3+1.5IQR fences",
+      "figure_whisker_iqr_multiplier": 1.5,
+      "figure_outside_whisker_points": "all retained once in the original 50-case dot layer; no duplicated flier markers",
+      "figure_median_color_white_blend_fraction": 0
     },
     {
       "id": "S1",
@@ -57,22 +509,18 @@
     {
       "id": "S3",
       "category": "supporting",
-      "name": "random_seed_stability",
-      "title_zh": "随机种子稳定性",
-      "entrypoint": "experiments/formal/s3_seed_stability/run.py",
-      "result_directory": "results/formal/S3_seed_stability",
-      "raw_directory": "results/formal/S3_seed_stability/raw",
-      "metrics": "results/formal/S3_seed_stability/summary/metrics.csv"
-    },
-    {
-      "id": "S4",
-      "category": "supporting",
       "name": "initial_condition_distribution",
       "title_zh": "初值分布对照",
-      "entrypoint": "experiments/formal/s4_initial_distribution/run.py",
-      "result_directory": "results/formal/S4_initial_distribution",
-      "raw_directory": "results/formal/S4_initial_distribution/raw",
-      "metrics": "results/formal/S4_initial_distribution/summary/metrics.csv"
+      "entrypoint": "experiments/formal/s3_initial_distribution/run.py",
+      "result_directory": "results/formal/S3_initial_distribution",
+      "raw_directory": "results/formal/S3_initial_distribution/raw",
+      "metrics": "results/formal/S3_initial_distribution/summary/metrics.csv",
+      "protocol_document": "docs/S3_PROTOCOL.md",
+      "four_vortex_figure_directory": "results/formal/S3_initial_distribution/figures/four_vortex",
+      "current_data_root_local": "D:/2_GIFT/canonical_data",
+      "current_cohort_identity": "gaussian_s3",
+      "checkpoint_catalog": "artifacts/CHECKPOINTS.json",
+      "checkpoint_scope": "Current released file identities are listed in the checkpoint catalog; original scientific measurement hashes and learned state remain preserved."
     }
   ],
   "shared_tools": {
@@ -80,7 +528,7 @@
     "verify_result_integrity": "scripts/verify_results.py",
     "verify_published_integrity": "scripts/verify_published_results.py",
     "run_one_experiment": "scripts/run_experiment.py",
-    "m1_aggregate": "experiments/formal/m1_equation_identification/aggregate.py",
+    "w3_aggregate": "experiments/formal/w3_equation_identification/aggregate.py",
     "gift_training": "experiments/formal/train_gift_branches.py",
     "gift_generator_training": "experiments/formal/train_low_generator.py",
     "fno2d_training": "training/train_fno2d.py",
@@ -88,8 +536,30 @@
     "uno_training": "training/train_uno.py",
     "unet_training": "training/train_unet.py",
     "pinn_training": "training/train_pinn.py",
-    "m2_mean_error_figure": "experiments/formal/m2_recursive_prediction/plot_mean_error.py",
-    "m2_keyframe_figure": "experiments/formal/m2_recursive_prediction/plot_keyframes.py",
-    "s4_figures": "experiments/formal/s4_initial_distribution/plot_results.py"
-  }
+    "w1_mean_error_figure": "experiments/formal/w1_recursive_prediction/plot_mean_error.py",
+    "w1_keyframe_figure": "experiments/formal/w1_recursive_prediction/plot_keyframes.py",
+    "s3_figures": "experiments/formal/s3_initial_distribution/plot_results.py",
+    "native_w1_w2_queue": "scripts/run_w1_w2_single.py",
+    "native_w1_w2_eta": "scripts/estimate_w1_w2_single_eta.py",
+    "native_w1_w2_audit": "scripts/audit_w1_w2_single.py",
+    "native_w1_w2_publisher": "scripts/publish_w1_w2_single.py",
+    "native_w1_evaluation": "experiments/additional/w1_extended_evaluate.py",
+    "native_w2_evaluation": "experiments/additional/w2_single_evaluate.py",
+    "native_extended_baseline_training": "training/w1_extended_baselines.py",
+    "native_gift_n50_training": "training/w1_extended_gift_n50.py",
+    "paper_nomenclature": "experiments/paper_nomenclature.py",
+    "current_w1_evaluation": "experiments/additional/w1_current_evaluate.py",
+    "current_w2_evaluation": "experiments/additional/w2_single_evaluate.py",
+    "aligned_anie_execution": "scripts/run_anie_coordinate_refresh.py"
+  },
+  "nomenclature_module": "experiments/paper_nomenclature.py",
+  "presentation_order": [
+    "W1",
+    "W2",
+    "W3",
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "source_provenance": "docs/SOURCE_PROVENANCE.md"
 }

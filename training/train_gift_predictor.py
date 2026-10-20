@@ -11,6 +11,8 @@ import argparse
 from dataclasses import asdict
 import json
 import math
+import os
+import uuid
 from pathlib import Path
 import time
 
@@ -24,54 +26,48 @@ from experiments.formal.train_gift_branches import (
     _compute_low_rhs, _project, _square_mask, _training_scales, _validate_derivative,
     _validate_rollout, _short_epoch, _long_epoch, _snapshot, _write_checkpoint,
 )
-from training.checkpoints import digest_file
+from training.checkpoints import digest_file, state_digest, restore_optimizer, write_json_export
 from training.gift_prediction_control import (
     ROOT, PredictionTrainingConfig, configure_determinism, phase_at, source_identity,
-    _open_run, synchronize, write_json_new,
+    _open_run, synchronize, write_json_new, validate_phase_boundary,
 )
 from training.gift_prediction_data import ObservationBank
 from training.gift_execution import EXECUTION_CHOICES, EXECUTION_HELP, resolve_execution
 
-# The three formal training seeds; each branch run is one of these.
+# Default seeds used by the published experiments; other seeds are allowed.
 SEEDS = (20260820, 20260821, 20260822)
 
 
 def branch_sources():
+    """Extend generator source provenance with branch and continuation implementations."""
     value = source_identity()
     for name in ("training/train_gift_predictor.py", "experiments/formal/train_gift_branches.py",
                  "training/gift_continuation.py",
                  "experiments/formal/_shared/common.py", "experiments/formal/_shared/high_frequency.py",
                  "experiments/formal/_shared/gift_runtime.py", "training/gift_data.py",
                  "src/gift/paths.py"):
-        value[name] = digest_file(ROOT / name)
+        if name not in value:
+            value[name] = digest_file(ROOT / name)
     return value
 
 
 def qualify_generator(path, bank, config):
-    """An unrelated published generator is not a full-data training prerequisite."""
-    path = Path(path).resolve(strict=True)
-    value = torch.load(path, map_location="cpu", weights_only=True)
-    expected_config = json.loads(json.dumps(asdict(config)))
-    actual_config = json.loads(json.dumps(value.get("training_configuration", {})))
-    cost = value.get("training_cost", {})
-    if (value.get("training_regime") != "full_data_prediction"
-            or value.get("fixture_only") is not config.fixture_only
-            or actual_config != expected_config
-            or value.get("training_data", {}).get("observations_sha256") != bank.binding["observations_sha256"]
-            or value.get("training_data", {}).get("training_ids") != bank.binding["training_ids"]
-            or cost.get("epochs") != sum(config.generator_phases)
-            or cost.get("optimizer_updates") != sum(config.generator_phases) * math.ceil(len(bank.training) / config.batch_size)
-            or value.get("fresh_training", {}).get("pretrained_model_loaded") is not False
-            or value.get("selection") != "terminal_epoch"):
-        raise ValueError("generator is not completed fresh full-data training on these observations")
-    receipt_path = path.parent / "COMPLETE.json"
-    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    if receipt.get("status") != "complete" or receipt.get("model_sha256") != digest_file(path):
-        raise ValueError("generator completion receipt/hash differs")
+    """Load usable generator weights; its branch-independent training metadata is descriptive."""
+    value = torch.load(Path(path), map_location="cpu", weights_only=True)
+    if value.get("format_version") not in (2, 3) or not value.get("model_state_dict"):
+        raise ValueError("Incomplete generator weights")
+    if value.get("model_configuration", {}).get("cutoff") != config.cutoff:
+        raise ValueError("Generator cutoff differs from the branch support")
     return value
 
 
 def derivative_loader(bank, seed, epoch, frozen, device, *, validation=False, batch_size=16):
+    """Prepare observed high-band derivatives and frozen low-band RHS for one epoch.
+
+    Return an ordered DataLoader of (state,target,low_rhs) and its underlying
+    tensors. Q21 complements the fixed cutoff-21 low support; no additional
+    shuffle or random state is consumed after trajectory-window sampling.
+    """
     states, targets = bank.pairs(seed, epoch, validation=validation)
     # Project the derivative target onto the complementary high band (modes
     # outside the Q21 low-frequency cutoff) and precompute the frozen low RHS.
@@ -84,13 +80,18 @@ def derivative_loader(bank, seed, epoch, frozen, device, *, validation=False, ba
 
 
 def sequence_loader(bank, seed, epoch, *, validation=False, batch_size=5):
+    """Build an ordered loader of sampled [B,8,y,x] observed rollout sequences."""
     value = bank.sequences(seed, epoch, validation=validation)
     return DataLoader(TensorDataset(torch.from_numpy(value)), batch_size=batch_size,
                       shuffle=False, num_workers=0)
 
 
 def derivative_epoch(model, loader, optimizer, device, scale):
-    """Original Q21 normalized MSE and gradient clipping, unchanged."""
+    """Fit Q21 derivative error, normalized by high-RHS scale, and return its weighted mean.
+
+    Clip branch gradients at 1.0 before AdamW; a nonfinite loss or gradient
+    raises before the update. Each loader row represents one trajectory window.
+    """
     total, count = 0.0, 0
     model.train()
     for state, target, frozen in loader:
@@ -111,9 +112,20 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                config=PredictionTrainingConfig(), checkpoint_interval=10,
                stop_after_epoch=None, log_interval=10, execution="auto",
                continue_from=None, transition_record=None):
+    """Train one high-frequency branch with a fixed generator through four phases.
+
+    Prepare scales from training observations, then fit derivative, short
+    and long rollouts in order. An optimizer belongs to a phase: restore it
+    only when resuming inside that phase, and restore RNG after setup.
+    Epoch checkpoints include the cumulative update count and history. Resume
+    of a completed boundary can finish export without retraining; continuation
+    uses a separate journal while retaining the parent boundary.
+    """
     config.validate()
-    if seed not in SEEDS or checkpoint_interval < 1 or log_interval < 1:
-        raise ValueError("invalid seed or checkpoint/log interval")
+    if config.cutoff != 21:
+        raise ValueError("The current high-frequency branch supports cutoff=21")
+    if checkpoint_interval < 1 or log_interval < 1:
+        raise ValueError("invalid checkpoint/log interval")
     total_epochs = sum(config.branch_phases)
     if stop_after_epoch is not None and not 1 <= stop_after_epoch <= total_epochs:
         raise ValueError("stop boundary must be inside the configured budget")
@@ -122,9 +134,9 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                                   checkpoint_directory=Path(output)/"checkpoints")
     configure_determinism(seed, strict=False)
     bank = ObservationBank(dataset, fixture=config.fixture_only)
-    qualify_generator(low_model, bank, config)
-    # Loading the prerequisite consumes no published branch parameters.
-    generator = load_generator(low_model, device=device).eval().requires_grad_(False)
+    payload = qualify_generator(low_model, bank, config)
+    generator_weights = state_digest(payload["model_state_dict"])
+    generator = load_generator(payload, device=device).eval().requires_grad_(False)
     frozen = FixedBandwidthGridGenerator(generator, 64, reference_grid=64)
     _, support = derivative_loader(bank, seed, 0, frozen, device, batch_size=config.batch_size)
     scales = _training_scales(*(value.numpy() for value in support))
@@ -133,7 +145,7 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                                 low_rhs_scale=scales[2], high_rhs_scale=scales[3],
                                 frozen_generator=frozen).to(device)
     identity = {"role": "gift_prediction_branch", "seed": seed, "configuration": asdict(config),
-                "data": bank.binding, "generator_sha256": digest_file(low_model), "scales": list(scales),
+                "data": bank.binding, "generator_weights_sha256": generator_weights, "scales": list(scales),
                 "sources": branch_sources(), "device": str(device),
                 "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
                 "selection": "terminal_epoch", "budget_unit": "trajectory_epoch"}
@@ -143,6 +155,9 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
                                    continue_from=continue_from, transition_record=transition_record)
     identity = store.identity
     saved = store.payload
+    validate_phase_boundary(saved, config.branch_phases)
+    if saved is not None and saved.get("completed") and (output / "COMPLETE.json").exists():
+        return json.loads((output / "COMPLETE.json").read_text(encoding="utf-8"))
     if saved is not None:
         model.load_state_dict(saved["model"], strict=True)
     completed = 0 if saved is None else saved["epoch"]
@@ -168,7 +183,7 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
             scheduler = (torch.optim.lr_scheduler.CosineAnnealingLR(
                 optimizer, config.branch_phases[0], eta_min=0.0001) if phase == 0 else None)
             if saved is not None and epoch == completed + 1 and saved["phase"] == phase:
-                optimizer.load_state_dict(saved["optimizer"])
+                restore_optimizer(optimizer, saved["optimizer"])
                 if scheduler is not None:
                     scheduler.load_state_dict(saved["scheduler"])
             previous_phase = phase
@@ -228,41 +243,52 @@ def run_branch(dataset, low_model, output, *, seed, device="cuda", resume=False,
     cost = {"epochs": total_epochs, "phase_epochs": list(config.branch_phases),
             "optimizer_updates": updates, "committed_epoch_seconds": elapsed,
             "shared_generator_epochs": sum(config.generator_phases),
-            "shared_generator_sha256": digest_file(low_model),
+            "shared_generator_sha256": generator_weights,
             "timing_scope": "sampling, frozen RHS preparation, training and scheduled validation; excludes initial setup, checkpoint writes and paused time"}
     binding = dict(bank.binding, profile="full_data_prediction", configuration=asdict(config),
                    selection="terminal_epoch", pretrained_branch_loaded=False, sources=identity["sources"],
                    execution=identity["execution"])
     if "continuation" in identity:
         binding["continuation"] = identity["continuation"]
-    _write_checkpoint(output / "model.pt", model, seed=seed, phase="terminal_epoch", epoch=total_epochs,
+    export_path = output / "model.pt"
+    if export_path.exists():
+        existing = torch.load(export_path, map_location="cpu", weights_only=True)
+        state = existing.get("model_state", existing.get("state", {}))
+        if set(state) != set(model.state_dict()) or any(state[k].dtype != v.dtype or not torch.equal(state[k], v.cpu()) for k, v in model.state_dict().items()):
+            raise ValueError("Existing terminal branch differs from the completed checkpoint")
+    else:
+        temporary = export_path.with_name(export_path.name + "." + uuid.uuid4().hex + ".tmp")
+        _write_checkpoint(temporary, model, seed=seed, phase="terminal_epoch", epoch=total_epochs,
                       selection_metric=history[-1]["validation"]["lead_1_full_relative_l2"],
-                      frozen_generator_sha256=digest_file(low_model).upper(),
+                      generator_weights_sha256=generator_weights,
                       training_data=binding, training_cost=cost)
-    write_json_new(output / "history.json", history)
+        os.link(temporary, export_path)
+        temporary.unlink()
+    write_json_export(output / "history.json", history)
     result = {"status": "complete", "role": identity["role"], "seed": seed,
               "configuration": asdict(config), "training_data": bank.binding, "training_cost": cost,
               "model_sha256": digest_file(output / "model.pt"), "runtime": store.runtime,
               "selection": "terminal_epoch", "sources": identity["sources"]}
     if "continuation" in identity:
         result["continuation"] = identity["continuation"]
-    write_json_new(output / "COMPLETE.json", result)
+    write_json_export(output / "COMPLETE.json", result)
     return result
 
 
 def main(argv=None):
+    """Parse one branch run, its generator input and optional resume/continuation path."""
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--dry-run", action="store_true")
     action.add_argument("--run-training", action="store_true")
     action.add_argument("--resume", action="store_true")
     action.add_argument("--continue-from", type=Path,
-                        help="Continue this unfinished run in a NEW journal using a reviewed transition record.")
+                        help="Continue this unfinished run in a new journal.")
     parser.add_argument("--transition-record", type=Path)
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--low-model", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--seed", type=int, choices=SEEDS, required=True)
+    parser.add_argument("--seed", type=int, default=SEEDS[0])
     parser.add_argument("--device", default="cuda", choices=("cpu", "cuda"))
     parser.add_argument("--checkpoint-interval", type=int, default=10)
     parser.add_argument("--stop-after-epoch", type=int)

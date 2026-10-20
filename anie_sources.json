@@ -1,0 +1,102 @@
+{
+  "schema": "gift.anie-source-lock.v1",
+  "repository": "https://github.com/emazap7/ANIE",
+  "commit": "2071ad709b260a6c305450affcf7168fd825f692",
+  "line_endings": "Verify Git blob SHA1 and SHA256 after CRLF-to-LF normalization; upstream checkout is read-only.",
+  "files": {
+    "IE_source/Attentional_IE_solver.py": {
+      "sha256_lf": "e83f0c2aa2fe0077223195c0053d508735d8125cc7d9dee2f522d955a996ba91",
+      "git_blob_sha1": "54bc530df071a4ee4ab788251bb7e42d315b32bb",
+      "definitions": [
+        "global_error",
+        "masking_function",
+        "interval_function",
+        "Integral_spatial_attention_solver_multbatch"
+      ]
+    },
+    "IE_source/Galerkin_transformer.py": {
+      "sha256_lf": "162fa5dfd0f6e29617af7404e7e0d5db1c24ca66666d35d7525c81a9a73c7337",
+      "git_blob_sha1": "135f4d7419ad2fb638d578f6abd09baf7314069d",
+      "definitions": [
+        "default",
+        "PositionalEncoding",
+        "attention",
+        "linear_attention",
+        "causal_linear_attn",
+        "SimpleAttention",
+        "FeedForward",
+        "SimpleTransformerEncoderLayer",
+        "SimpleTransformerEncoderLastLayer"
+      ]
+    },
+    "IE_source/kernels.py": {
+      "sha256_lf": "854f5ca4b97267cbafb8f1444ebbc46a9debf47b5ee19ce5ee76ee6e1e42a63d",
+      "git_blob_sha1": "d5749f4db3a2afeeea1c0ef6e46717eff1bea75c",
+      "definitions": [
+        "model_blocks",
+        "Decoder_NN_2D",
+        "SingleConvNeuralNet"
+      ]
+    },
+    "NIE_Attention_Navier-Stokes_patches.ipynb": {
+      "sha256_lf": "025843c16870d479c939c52eb6e879bcaa26189064451b27c7ddbff06fe26a5f",
+      "git_blob_sha1": "16d5341dec7baa6e278871316d635710b1964843",
+      "definitions": []
+    },
+    "IE_source/experiments.py": {
+      "sha256_lf": "9efc0dde77031fef6ec08394594e5f8ed47ee455023ba656b699e80377d7383e",
+      "git_blob_sha1": "7f6070d9e131bb302b34017334e3671918bf0611",
+      "definitions": []
+    }
+  },
+  "patches": [
+    {
+      "id": "spatial_time_token_alignment",
+      "file": "IE_source/Attentional_IE_solver.py",
+      "expected_count": 1,
+      "reason": "The native state flatten is space-major [B,H,W,T,C]; transpose coordinate repetitions to the same order and keep each point's time sequence unsorted. No model, solver update, gradient, or optimizer replacement."
+    },
+    {
+      "id": "linear_attention_eval_dropout_mode",
+      "file": "IE_source/Galerkin_transformer.py",
+      "expected_count": 1,
+      "reason": "Respect eval mode while preserving the upstream training probability F.dropout's default p=0.5. The passed nn.Dropout(0.1) probability is not substituted for that native training probability."
+    }
+  ],
+  "profiles": {
+    "native_ns_single_v1": {
+      "patch_ids": [
+        "linear_attention_eval_dropout_mode"
+      ],
+      "loader_adaptations": [
+        "Users select this declared source profile in their externally prepared interface."
+      ],
+      "training_control_source": {
+        "file": "IE_source/utils.py",
+        "definition": "EarlyStopping",
+        "sha256_lf": "204aec1cf7bde477fff40a1584807fecd8e090dd800c7fe37d9ee2e756cabca1",
+        "git_blob_sha1": "d5389dab2fce147c3c5c3059ea79e2b32c5a6c22"
+      }
+    },
+    "aligned_ns_single_v1": {
+      "patch_ids": [
+        "spatial_time_token_alignment",
+        "linear_attention_eval_dropout_mode"
+      ],
+      "loader_adaptations": [
+        "Users select this declared source profile in their externally prepared interface."
+      ],
+      "training_control_source": {
+        "file": "IE_source/utils.py",
+        "definition": "EarlyStopping",
+        "sha256_lf": "204aec1cf7bde477fff40a1584807fecd8e090dd800c7fe37d9ee2e756cabca1",
+        "git_blob_sha1": "d5389dab2fce147c3c5c3059ea79e2b32c5a6c22"
+      }
+    }
+  },
+  "loader_adaptations": [
+    "Users prepare the required public classes and problem interface outside GIFT following the manual adaptation document."
+  ],
+  "policy": "References and written adaptation descriptions only; users obtain and adapt upstream code outside the GIFT repository.",
+  "manual_adaptation_document": "docs/EXTERNAL_MANUAL_ADAPTATION.md"
+}

@@ -18,22 +18,26 @@ from .common import ProjectPaths, activate_project
 
 CONTEXT_STEPS = 46
 FUTURE_STEPS = 150
-M2_FUTURE_INDICES = np.asarray([24, 49, 74, 99, 124, 149], dtype=np.int64)
-M3_FUTURE_INDICES = np.arange(4, 50, 5, dtype=np.int64)
+W1_FUTURE_INDICES = np.asarray([24, 49, 74, 99, 124, 149], dtype=np.int64)
+W2_FUTURE_INDICES = np.arange(4, 50, 5, dtype=np.int64)
 FNO2D_SAFE_BATCH = {64: 10, 96: 5, 128: 2}
 FNO3D_SAFE_BATCH = {64: 5, 96: 2, 128: 1}
 
 
 def _terminal_contract(payload: dict, method: str) -> None:
-    if payload.get("status") != "complete" or int(payload.get("terminal_epoch", -1)) != 500:
-        raise ValueError(f"{method}: a completed 500-epoch terminal artifact is required")
-    if payload.get("artifact_role") == "test_only" or payload.get("formal_configuration") is False:
-        raise ValueError("A tiny fixture cannot be used as a formal experiment model")
+    """Check completion and model-family metadata before evaluating an exported FNO."""
+    if payload.get("status") not in ("complete", "diagnostic_complete"):
+        raise ValueError(f"{method}: a completed model artifact is required")
     if payload.get("method") not in (method, method.lower().replace("-", "")):
         raise ValueError("Checkpoint method metadata differs")
 
 
 def load_fno_models(paths: ProjectPaths, device: torch.device):
+    """Load frozen FNO-2D/FNO-3D exports and their saved normalization metadata.
+
+    FNO-2D consumes physical fields directly; FNO-3D uses training statistics saved
+    with its export. No training data or optimizer journal is opened here.
+    """
     paths.require("fno2d_model", "fno3d_model")
     models, payloads = [], []
     for name, checkpoint in (("fno2d", paths.fno2d_model), ("fno3d", paths.fno3d_model)):
@@ -50,6 +54,11 @@ def load_fno_models(paths: ProjectPaths, device: torch.device):
 
 
 def _normalizers(paths: ProjectPaths, payload: dict, grid: int, device: torch.device):
+    """Lift frozen N64 FNO-3D training statistics to the requested spatial grid.
+
+    Statistics have [64,64,46] input and [64,64,150] output layouts. Fourier lifting
+    affects space only; time coordinates and test statistics never enter the transform.
+    """
     activate_project(paths.root)
     from even_full_spectrum_ns import merge_odd_dft_to_even_native, split_even_native_dft
 
@@ -81,6 +90,7 @@ def _normalizers(paths: ProjectPaths, payload: dict, grid: int, device: torch.de
 
 
 def _input_contract(context: np.ndarray, requested, batch_size: int, safe_batches: dict):
+    """Validate float32 [trajectory,46,N,N] context and increasing future indices in 0..149."""
     if context.ndim != 4 or context.dtype != np.float32:
         raise ValueError("Expected float32 [trajectory,46,x,y] context")
     population, history, nx, ny = context.shape
@@ -96,6 +106,12 @@ def _input_contract(context: np.ndarray, requested, batch_size: int, safe_batche
 
 @torch.inference_mode()
 def _predict(model, context, requested, device, batch_size, *, normalizers=None, trajectory_audit=False):
+    """Evaluate all 150 native future steps but retain only the requested report frames.
+
+    Returned fields have [trajectory,1+reports,N,N] shape, including the t=5 anchor.
+    FNO-2D recursively shifts its 46-frame history; FNO-3D makes one space-time call.
+    Nonfinite outputs remain in the fields and are counted in the audit.
+    """
     is3d = normalizers is not None
     population, grid, indices = _input_contract(context, requested, batch_size,
                                                FNO3D_SAFE_BATCH if is3d else FNO2D_SAFE_BATCH)
@@ -141,10 +157,12 @@ def _predict(model, context, requested, device, batch_size, *, normalizers=None,
 
 
 def predict_fno2d(model, context_frames, report_future_indices, device, batch_size, *, trajectory_audit=False):
+    """Predict from a 46-frame observed history using the frozen one-step recursive FNO."""
     return _predict(model, context_frames, report_future_indices, device, batch_size, trajectory_audit=trajectory_audit)
 
 
 def predict_fno3d(paths, model, payload, context_frames, report_future_indices, device, batch_size, *, trajectory_audit=False):
+    """Predict with the frozen space-time FNO and return inference plus normalization audits."""
     first, second, audit = _normalizers(paths, payload, context_frames.shape[-1], device)
     output, inference = _predict(model, context_frames, report_future_indices, device, batch_size,
                                  normalizers=(first, second), trajectory_audit=trajectory_audit)

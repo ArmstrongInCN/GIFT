@@ -6,6 +6,7 @@ from training.weight_files import split_weights
 
 
 def main(argv=None):
+    """Split one checkpoint into byte parts and an index without interpreting model payloads."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True, help="New directory")

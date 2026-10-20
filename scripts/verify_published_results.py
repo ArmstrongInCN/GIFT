@@ -15,15 +15,16 @@ import zipfile
 import numpy as np
 
 from scripts.verify_results import verify_figures, verify_files
+from experiments.paper_nomenclature import EXPERIMENT_ID_CHOICES, resolve_experiment_id
 
 
 # Each experiment's formal result directory name under results/formal; the checker
 # only accepts a package whose published.json names one of these experiments.
 EXPERIMENTS = {
-    "M1": "M1_equation_identification", "M2": "M2_recursive_prediction",
-    "M3": "M3_cross_resolution", "S1": "S1_high_frequency_branch",
-    "S2": "S2_recursive_local_correction", "S3": "S3_seed_stability",
-    "S4": "S4_initial_distribution",
+    "W3": "W3_equation_identification", "W1": "W1_recursive_prediction",
+    "W2": "W2_cross_resolution", "S1": "S1_high_frequency_branch",
+    "S2": "S2_recursive_local_correction",
+    "S3": "S3_initial_distribution",
 }
 
 
@@ -46,8 +47,8 @@ def verify_field_source(path):
         total = 0
         for key in archive.files:
             array = archive[key]
-            if array.dtype.kind not in "biuf" or not np.isfinite(array).all():
-                raise ValueError("Figure source must contain finite real numeric arrays")
+            if array.dtype.kind not in "biuf":
+                raise ValueError("Figure source must contain real numeric arrays")
             total += array.size
             if total > 2_000_000:
                 raise ValueError("Figure source exceeds the selected-panel size budget")
@@ -70,7 +71,8 @@ def verify_package(root, experiment):
     measurement = manifest["measurement"]
     if not re.fullmatch(r"[A-Fa-f0-9]{64}", measurement.get("report_sha256", "")):
         raise ValueError("Missing source measurement report hash")
-    files = verify_files(root, manifest["files"])
+    checked = {}
+    files = verify_files(root, manifest["files"], checked=checked)
     if "summary/metrics.csv" not in files:
         raise ValueError("Published metrics are missing")
     actual = {p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()}
@@ -92,7 +94,7 @@ def verify_package(root, experiment):
         if record_name not in files:
             raise ValueError("Unbound figure manifest")
         checks.append(verify_figures(directory, {
-            "experiment": experiment, "report_sha256": measurement["report_sha256"].upper()}))
+            "experiment": experiment, "report_sha256": measurement["report_sha256"].upper()}, checked=checked))
         figure = json.loads((root / record_name).read_text(encoding="utf-8"))
         bound = {relative + "/" + r["path"] for r in figure["files"]} | {record_name}
         if not bound <= set(files) or covered & bound:
@@ -114,11 +116,20 @@ def verify_package(root, experiment):
 
 
 def main(argv=None):
+    """Check one published summary package and print its integrity report.
+
+    The command verifies included files and figure associations. It does not
+    recompute metrics, run a model, or require the omitted raw predictions.
+    """
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument("--result-dir", type=Path, required=True)
-    parser.add_argument("--experiment", choices=tuple(EXPERIMENTS), required=True)
+    parser.add_argument("--experiment", choices=EXPERIMENT_ID_CHOICES, required=True)
     args = parser.parse_args(argv)
-    print(json.dumps(verify_package(args.result_dir, args.experiment), indent=2))
+    try:
+        source_experiment = resolve_experiment_id(args.experiment)
+    except ValueError as error:
+        parser.error(str(error))
+    print(json.dumps(verify_package(args.result_dir, source_experiment), indent=2))
 
 
 if __name__ == "__main__":

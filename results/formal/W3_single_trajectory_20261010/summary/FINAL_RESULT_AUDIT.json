@@ -1,0 +1,4527 @@
+{
+  "schema": "gift.w3-single-trajectory.result-audit.v1",
+  "status": "passed",
+  "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+  "task_ledger_sha256": "d78c1c4d867cf99e01ca48bf943cbe34422868e25a0f4f975bccf8ac0cb580c7",
+  "parameter_results_sha256": "7a202ab85c760b28a3344527d2c3bf657adc58ed04941635375baa003357c190",
+  "source_lock_sha256": "be3fdee2c47fb85c4ff8790992e69c86542b127eb5c78db0e219d8d7fe755ac3",
+  "audit_source_sha256": "49b3acba980e9d6bb272c4dad4d9aa0df6d187e89b90f0ae16ca5f59e889f2d0",
+  "checked_utc": "2026-10-14T05:15:21.322094+00:00",
+  "unique_slots": 250,
+  "parameter_rows": 750,
+  "cases_per_method": {
+    "GIFT": 50,
+    "PDE-FIND": 50,
+    "PDE-FIND-KC": 50,
+    "PINN-SR": 50,
+    "PINN-SR-KC": 50
+  },
+  "status_counts": {
+    "complete": 250
+  },
+  "actual_case_truth_and_APE_recomputed": true,
+  "failed_rows_permanently_null": true,
+  "all_native_coefficients_and_commits_verified": true,
+  "records": [
+    {
+      "case_id": "parameter_000",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007473783195469533,
+        "beta": 0.8636943527555785,
+        "gamma": 0.5891287109260321
+      },
+      "APE_percent": {
+        "nu": 49.705676476215366,
+        "beta": 9.622394344988345,
+        "gamma": 22.81248479006477
+      },
+      "complete_sha256": "076adac901011b3198157e899f14dcd561135007a94bbd2c0687e8af53935309",
+      "result_sha256": "bc119be3ef380666aa7fa964799519a2064cba88d8658e76ddf25b18bc2d3b39",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01992857415595394,
+        "beta": 0.8992253320829948,
+        "gamma": 0.7339460952190856
+      },
+      "APE_percent": {
+        "nu": 34.10800524356296,
+        "beta": 5.904406809300055,
+        "gamma": 3.8385426862881262
+      },
+      "complete_sha256": "81d9358b3f0d9082e4df9d1b15a3eb49ac29cd2aa1c8f2a332ea027607bd3505",
+      "result_sha256": "47c605fb3bf7625c405e2574102fb0a424d4619dc29e1849b2b8ebd4fef9a5a2",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019280249285220805,
+        "beta": 0.8823526786463471,
+        "gamma": 0.7304187679768329
+      },
+      "APE_percent": {
+        "nu": 29.745146441753715,
+        "beta": 7.669973544552941,
+        "gamma": 4.300692332218356
+      },
+      "complete_sha256": "7984bc4f5914bae87754c71f246f9bcf1d1ae04d93a241d961b39bd666e083f9",
+      "result_sha256": "271dca5a7fcf853b09b1a51c762fc869aec804277f7fbec3f615bfc7077cefac",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.027952062897384167,
+        "beta": 0.7099049389362335,
+        "gamma": 0.5900653004646301
+      },
+      "APE_percent": {
+        "nu": 88.10153542725241,
+        "beta": 25.715030532472536,
+        "gamma": 22.689773032998367
+      },
+      "complete_sha256": "6e3b4b0a6e7cb2d1a35e55d8ba2fc19e2eefb5431971b07a3939f9a534f0cb55",
+      "result_sha256": "896dd71b85df643831d7c3aad8094a656c4e8ba98fafdcdfc731fbc395ef2a2e",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_000",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01699785329401493,
+        "beta": 0.8323571085929871,
+        "gamma": 0.743418276309967
+      },
+      "APE_percent": {
+        "nu": 14.385915462096474,
+        "beta": 12.901546380897278,
+        "gamma": 2.597499585750001
+      },
+      "complete_sha256": "5513d580825a47ec6ecf49a349a6254469eb85004212c91ded0c53d1888563ce",
+      "result_sha256": "4df04a0c8336187895df0336904204c92fcfe55f3768213ccb0b7adbfc5e3201",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008341833865392867,
+        "beta": 0.8114969774884923,
+        "gamma": 0.8655222962472744
+      },
+      "APE_percent": {
+        "nu": 10.96822831015692,
+        "beta": 1.419094787002644,
+        "gamma": 10.874147980769216
+      },
+      "complete_sha256": "5f80ec40ac2a3f61accf012c0e1698c80d388a66293353ed1820a0361aaed697",
+      "result_sha256": "dc622f31c7d100eed03f7d5affb68b6e524cd8c59855b1bf81d1d4db349bc33b",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02010534023222376,
+        "beta": 0.731606094412439,
+        "gamma": 0.8808940490568109
+      },
+      "APE_percent": {
+        "nu": 114.58279920055206,
+        "beta": 11.124264110340942,
+        "gamma": 9.291264937641301
+      },
+      "complete_sha256": "3225ce38288fc6766f00fe9a2767e9f71418c7c0bf1669582d52be066dd3dbe5",
+      "result_sha256": "6ea9144c504065bbdb3b4e0975ea5a382598f1b43bc4e0e08315a769d79886cb",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.012320466370001061,
+        "beta": 0.7029038828484837,
+        "gamma": 0.8806029099237175
+      },
+      "APE_percent": {
+        "nu": 31.495420151797052,
+        "beta": 14.611017697947242,
+        "gamma": 9.32124455042031
+      },
+      "complete_sha256": "cc67d907cffcb97f982e92a1d9347dc7e1eb243ff2f739241fc46a9f08f3ccc6",
+      "result_sha256": "3913128b552162fead6330bb1705acd5355ade42ba3587a6ee10ea11bb215e78",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02048205630853772,
+        "beta": 0.3993816375732422,
+        "gamma": 0.7197752594947815
+      },
+      "APE_percent": {
+        "nu": 118.60346183175378,
+        "beta": 51.482994453940805,
+        "gamma": 25.882229096836685
+      },
+      "complete_sha256": "e0175a07e50baa9dcda2457a3eb50735514dbd04b77c7568b5477507f5cd4a89",
+      "result_sha256": "138047039af241a6a93ec7fb8c57c6ebe977e64a38b4136911ddce22a55237d9",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_001",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01762235350906849,
+        "beta": 0.681700587272644,
+        "gamma": 0.8968672156333923
+      },
+      "APE_percent": {
+        "nu": 88.082066794218,
+        "beta": 17.186800639042247,
+        "gamma": 7.64645221963802
+      },
+      "complete_sha256": "0f05924ffd3688e2e511bddd226eb14e4131ea664cd2d696cac8358a653f35ec",
+      "result_sha256": "0b40cf4666c16d24667af6eba9dd8d7f89a67caa2d53428e372d874b96d3ee59",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009636103358601761,
+        "beta": 0.7196959567600743,
+        "gamma": 0.9051864452388199
+      },
+      "APE_percent": {
+        "nu": 30.043848091887483,
+        "beta": 4.7640113563686315,
+        "gamma": 22.66661684433345
+      },
+      "complete_sha256": "30120f651336f03fc0bb66bd3304a36fceedaf0d7d5e2e7560df1a9fe44c6bb7",
+      "result_sha256": "d42274d44f3c8f73a4d22e01e65c74a4a3ad0d93057dbcf4621e8ca3856fffce",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0268619195971447,
+        "beta": 0.662882011111331,
+        "gamma": 1.1643512460539054
+      },
+      "APE_percent": {
+        "nu": 95.01207676481717,
+        "beta": 12.282092056671049,
+        "gamma": 0.5252216132026878
+      },
+      "complete_sha256": "f53adb656743dac31cdfbdd5746e6655b64e9e1e3454c71cb8918cf8383a9dbb",
+      "result_sha256": "7fde3c0a46c4ba53fbefa536edec5dd6f412d99a32cfadfa701b3bcb0267ec91",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016310264410804732,
+        "beta": 0.6530437832945261,
+        "gamma": 1.064037942187586
+      },
+      "APE_percent": {
+        "nu": 18.40920466727969,
+        "beta": 13.583965915811058,
+        "gamma": 9.095353439975856
+      },
+      "complete_sha256": "b1b07af3121700c0b1fcbd997c1c877163316c3dadb0d95c1653c78b3e4dbc01",
+      "result_sha256": "35fc2ee1ce2c646569c9c9ab75226c43895333c35b1bdd446d81d1f35c23671b",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0,
+        "beta": 0.11966691166162491,
+        "gamma": 0.31048285961151123
+      },
+      "APE_percent": {
+        "nu": 100.0,
+        "beta": 84.16470659175283,
+        "gamma": 73.47431562646835
+      },
+      "complete_sha256": "aa6d1201553f7b4261b8380a21b78424145f90a89f1a04326b9c45c0b4e9240c",
+      "result_sha256": "63acd1c27a886e310918146a95d6e95414c8d7dd38aa04fa6105e484e20abf92",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_002",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02014714665710926,
+        "beta": 0.6376332640647888,
+        "gamma": 1.0868793725967407
+      },
+      "APE_percent": {
+        "nu": 46.26418995408835,
+        "beta": 15.623210433680407,
+        "gamma": 7.143926638408352
+      },
+      "complete_sha256": "21fe9375c1d211fc763b6715034c4598848a320110968f04fbea61ecf27881b1",
+      "result_sha256": "68f519d4914b24794a04225991a14051b225f646820481588db718fa982e7a6b",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009341839706260277,
+        "beta": 0.9727099215320929,
+        "gamma": 0.7227798012580531
+      },
+      "APE_percent": {
+        "nu": 30.753473273293647,
+        "beta": 5.149429394818366,
+        "gamma": 11.938932265606034
+      },
+      "complete_sha256": "a36d2bf70de829884135f271d6b659fc818ae4e9048269ff39e87ad1345f4e87",
+      "result_sha256": "1cde1666a1e42d9d6f7fe994caffbe2a5b9a78dc2a713c945f2b09a92fa5f59f",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018741360077386367,
+        "beta": 0.9422641925855452,
+        "gamma": 0.7660824967814512
+      },
+      "APE_percent": {
+        "nu": 38.92061224556026,
+        "beta": 8.118243322944286,
+        "gamma": 6.663077023206484
+      },
+      "complete_sha256": "e72dcf9fc2d840a8d1edcf239205e67214537c01c562270a14ed0646461e7845",
+      "result_sha256": "b21f6d8215e5a7de0153f82ff4ec5deb620593c84dc3370aceb5cdcb8f1e6a50",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.017592752844646793,
+        "beta": 0.9225810379529799,
+        "gamma": 0.768288741058363
+      },
+      "APE_percent": {
+        "nu": 30.40654393125503,
+        "beta": 10.03758063706178,
+        "gamma": 6.394275617343208
+      },
+      "complete_sha256": "658a22d9d80d168cb372918c51339f1849b66b661cb1ab4897247ee21784bbc8",
+      "result_sha256": "644c67bded03b6f10101a21686741c1e78a2bee82baa9a33665281b25030a542",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.031139160506427288,
+        "beta": 0.7062976658344269,
+        "gamma": 0.6160355806350708
+      },
+      "APE_percent": {
+        "nu": 130.819493596162,
+        "beta": 31.127733830467587,
+        "gamma": 24.944290226874607
+      },
+      "complete_sha256": "640a312a7438b8f1b82858630f173b15d8499fd662228b4899b1971ed63d3af9",
+      "result_sha256": "fadc723533c4773c2e7f8be7d54a87f30a81699286a3af305ab91166247e5b6c",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_003",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01749671809375286,
+        "beta": 0.869519829750061,
+        "gamma": 0.8003883957862854
+      },
+      "APE_percent": {
+        "nu": 29.694684902030534,
+        "beta": 15.21166775557293,
+        "gamma": 2.48336130523031
+      },
+      "complete_sha256": "7b549575ddf492a9ddbfba3cbee3d7ab9578bd4b56a12063a78b01483b59a6de",
+      "result_sha256": "8c0f8f2be5d0875537cebe60624305a0a6cccdbf783cc11bb10d7504cd5a7d85",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008728684365524602,
+        "beta": 1.0896339238537807,
+        "gamma": 0.9069048517014022
+      },
+      "APE_percent": {
+        "nu": 1.3548625682529234,
+        "beta": 0.9410993916696221,
+        "gamma": 5.230072109828737
+      },
+      "complete_sha256": "e003d75498c5ef421ed369586d1d2a18324ba27ba648dc8ec2bcc80675bba4ed",
+      "result_sha256": "76bdbccc68c141930cd5448ea6523dcc8cbc7cf8a977852c5326a7f72f365887",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019076948283376336,
+        "beta": 0.9701675681360749,
+        "gamma": 0.8650691046679433
+      },
+      "APE_percent": {
+        "nu": 115.59356558070357,
+        "beta": 11.801816553654483,
+        "gamma": 9.601832523453417
+      },
+      "complete_sha256": "f998dc2dcb05f8cfc5d7d8600a2263fde2c28ef6ea637a13b0c947fe7696114a",
+      "result_sha256": "c7144d66d547bd43f9115051f164cba1a0f695c8932c892934b0627598a7e4aa",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011681497594736912,
+        "beta": 0.9240955793511683,
+        "gamma": 0.8600638296699376
+      },
+      "APE_percent": {
+        "nu": 32.015649482382194,
+        "beta": 15.990232918052294,
+        "gamma": 10.124874769551862
+      },
+      "complete_sha256": "2caa17089cbcd4ee4caf9ab3a87ee8d3106633272b856c6e7cf4e4d83a2f8ac3",
+      "result_sha256": "5645519a7bb40f6b16c0bb7629f8ac245e7d7ff494be5ff5715bfcba76bc1213",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03091380186378956,
+        "beta": 0.7347993552684784,
+        "gamma": 0.6094360947608948
+      },
+      "APE_percent": {
+        "nu": 249.36493355583056,
+        "beta": 33.19920139493288,
+        "gamma": 36.31502285404713
+      },
+      "complete_sha256": "8dc6a45bc84f662b04bbd8211367abd0463c98ad486247bfa73420e93d578dcc",
+      "result_sha256": "472aaeadd5c042904c011d6cd7d562e831b6cfc29dcac83c4f208ef8422b7113",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_004",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01905979961156845,
+        "beta": -1.68406081199646,
+        "gamma": 0.31440451741218567
+      },
+      "APE_percent": {
+        "nu": 115.39976397024068,
+        "beta": 253.09840207978638,
+        "gamma": 67.14529270893429
+      },
+      "complete_sha256": "565f17b5196961bbad2b189072c01080f5d7d615d8d8b48538999b4bf6ed0836",
+      "result_sha256": "f9c5684d97ac1bb84052f5992b696c62631e659727929f4e03f6ddae3de80eed",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009838770071835033,
+        "beta": 0.9890455322861389,
+        "gamma": 1.0531063385954815
+      },
+      "APE_percent": {
+        "nu": 5.414121681374112,
+        "beta": 0.9503976801783299,
+        "gamma": 3.4309576483492057
+      },
+      "complete_sha256": "dff2b21c30d3609410d74d3146d805381ada2454471cd8c6cdc154ed01172baf",
+      "result_sha256": "417fa3abea1cc317b94b0dc90984771a255176b82bba19b464026ae0d8c2bd89",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.024044921119189634,
+        "beta": 0.9106446530099594,
+        "gamma": 0.9939455963398446
+      },
+      "APE_percent": {
+        "nu": 131.15795638635615,
+        "beta": 8.801983537788047,
+        "gamma": 8.855952271455553
+      },
+      "complete_sha256": "0a21f2cca12f7440a92a49e248d521caf9c0d1049515dfd326f8c844239409a9",
+      "result_sha256": "a55ebf9610a11465fd33b11574a88885e61e81a737d93f69ff056eb96ee7ad7c",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014190528667018688,
+        "beta": 0.876926472660455,
+        "gamma": 1.0049245056288691
+      },
+      "APE_percent": {
+        "nu": 36.42189094528391,
+        "beta": 12.178746533569134,
+        "gamma": 7.849194722620786
+      },
+      "complete_sha256": "98474dea9832f56b3db357d7f08d3b69f1951da3797c4a4bcc70ab4a629e3285",
+      "result_sha256": "1abb95e2a481c1b328d85e71ab4ef4e2e01aa3d6168101c20fdef9b21ca3289c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03480867110192776,
+        "beta": 0.6863201558589935,
+        "gamma": 0.7759577631950378
+      },
+      "APE_percent": {
+        "nu": 234.63621014023147,
+        "beta": 31.267331702334364,
+        "gamma": 28.845269133018455
+      },
+      "complete_sha256": "57db32bb1647ac59a9b4cf4d30386923afab88fbefb3b664a8277c4ef81cf060",
+      "result_sha256": "1bd677eda3b4ba63891f38a8fe7cb9e3aaf56c1d89670ceb173b90cdf7c069af",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_005",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023645663633942604,
+        "beta": 0.8307450413703918,
+        "gamma": 0.9871883988380432
+      },
+      "APE_percent": {
+        "nu": 127.3196595624999,
+        "beta": 16.803662429268822,
+        "gamma": 9.475582092125142
+      },
+      "complete_sha256": "6c91763ec866010f8eafb1f441b834bd91ac8b8b2673f1b16b889bb21410cd61",
+      "result_sha256": "4b005ccc13fce10ded376d95065cabc17c46b337f13815fd481088c0dc73ff64",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009456945949191237,
+        "beta": 1.0462580491366908,
+        "gamma": 0.8470359203992261
+      },
+      "APE_percent": {
+        "nu": 14.86475437025207,
+        "beta": 2.355001829059595,
+        "gamma": 7.032683139930526
+      },
+      "complete_sha256": "76a6ab2c4bbde41de76acbf642f67f32be9170f9673c20cce7caf9a7d5ae2e14",
+      "result_sha256": "e515bf1227c484c294b917d37f38821b5af79059f5560df11f77cb00a0578170",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021011399896001825,
+        "beta": 0.9566150529018231,
+        "gamma": 0.8421157941224376
+      },
+      "APE_percent": {
+        "nu": 89.15310511253958,
+        "beta": 10.721188555760413,
+        "gamma": 7.572696765740117
+      },
+      "complete_sha256": "0b72bcf6bf9334f31026e7cea96075721b03109e07bc58df9d5dae5a9f56d393",
+      "result_sha256": "e9e4396f515c7ec200da4f5b340a1125c1850eb7cb599d289084e5bfa51ed68f",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014593625145585194,
+        "beta": 0.9245471012560391,
+        "gamma": 0.8254910524802777
+      },
+      "APE_percent": {
+        "nu": 31.377705664492538,
+        "beta": 13.714021043292648,
+        "gamma": 9.397362741222036
+      },
+      "complete_sha256": "9b737315bde48b6e16d1a3cd31d8f81758c067e0224fde21c5ebf8e3d8eab59f",
+      "result_sha256": "12823b8bb4fbc09f3804b70c196a537bfec57ca98277cdd98defe2f44c512d0f",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02713296376168728,
+        "beta": 0.7340619564056396,
+        "gamma": 0.6828501224517822
+      },
+      "APE_percent": {
+        "nu": 144.2618945825577,
+        "beta": 31.491587137867604,
+        "gamma": 25.053067794348905
+      },
+      "complete_sha256": "81a45a4fe13cbdbbe1c71eeb1c8f3e8d19338e14e68da0f7c088ab3aec6dec9b",
+      "result_sha256": "0e821657dfd9aadd6e869c9e78cfec4fc68a5a1ef27b1123a61570066110fe9e",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_006",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01853262074291706,
+        "beta": 0.8835300207138062,
+        "gamma": 0.8135613203048706
+      },
+      "APE_percent": {
+        "nu": 66.83813438165393,
+        "beta": 17.54205635239104,
+        "gamma": 10.706723022760158
+      },
+      "complete_sha256": "c0d2b934de615e40ea0f9319d1bff0201469a61ba751e5e333e40fa098e0a80e",
+      "result_sha256": "ec0ada0c46f4627d24c8222ef337c05dace6b238409d8cf72b0cb0afc414fc9e",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007988065522942832,
+        "beta": 0.8964694602623232,
+        "gamma": 1.0136525926927236
+      },
+      "APE_percent": {
+        "nu": 3.856595350095774,
+        "beta": 0.6988624621000449,
+        "gamma": 4.450636924907536
+      },
+      "complete_sha256": "c1681d5b04bfe40e77b14cc0f324e4e7519294e5fb99572e44aee5db8dbd6f90",
+      "result_sha256": "aed68943acc81241ab66fdeb0637f0cedb852887ff7af0cfd38499c364912f0a",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021666835695680384,
+        "beta": 0.7974563982435932,
+        "gamma": 1.0034763195475216
+      },
+      "APE_percent": {
+        "nu": 160.77945227036122,
+        "beta": 11.666452687308025,
+        "gamma": 5.409877225294128
+      },
+      "complete_sha256": "d21df6973bff115eca3dd7147158ad77e9f5cdc110ca7bb0fea0598976856bf0",
+      "result_sha256": "08b6e22d77e5c883f87c862790235aa319326fb60b938a9490219c532c7108df",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011079083912801102,
+        "beta": 0.7595599175865715,
+        "gamma": 0.9469572914719906
+      },
+      "APE_percent": {
+        "nu": 33.346533615596094,
+        "beta": 15.864212683308452,
+        "gamma": 10.737498516030874
+      },
+      "complete_sha256": "662ec02760e971a77cc2522fd99387709858af6c8b8eb7ca40ad2f13113d0501",
+      "result_sha256": "574fec73efa289c82f6c5bcf707022b6e441768c01ddd012636872b6105a5f24",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.030145236290991306,
+        "beta": 0.617169588804245,
+        "gamma": 0.7920558452606201
+      },
+      "APE_percent": {
+        "nu": 262.82447141520487,
+        "beta": 31.636664784848104,
+        "gamma": 25.338886241572663
+      },
+      "complete_sha256": "779550cc6d142069a7777cb09eb41f442680365ba2d2670d5f2d77fc42822d96",
+      "result_sha256": "dab2b0a92045aeb76e61ffed00457ce16eebbc9332c704dbd670783a63c177c2",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_007",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01894667185842991,
+        "beta": 0.7463271021842957,
+        "gamma": 0.9545704126358032
+      },
+      "APE_percent": {
+        "nu": 128.03988450296242,
+        "beta": 17.3300000642757,
+        "gamma": 10.019867166335983
+      },
+      "complete_sha256": "5ce193e88aea07e406f0d1524fbe6901fb455d9e28c650202a59bbe848d4d8de",
+      "result_sha256": "0b816ebb5cff4ae03e02d3e4207b9480ccca87d43fbbd27979d2dfc2596b80cd",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.00890653034631821,
+        "beta": 0.9926107114983641,
+        "gamma": 1.0659328970806248
+      },
+      "APE_percent": {
+        "nu": 2.0768378213473517,
+        "beta": 0.9132088319293368,
+        "gamma": 4.405743000940145
+      },
+      "complete_sha256": "371c200243f81d91c5f5bbd14f2a4208802164a5de0c66c30030d8ecdb55ef3c",
+      "result_sha256": "5487f980c78df15c4f6ed90b82bbdc042f60a1c0dc22d8495f733617a1601edd",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021735064916973412,
+        "beta": 0.9041175938068725,
+        "gamma": 1.0357708017289
+      },
+      "APE_percent": {
+        "nu": 138.96693819812302,
+        "beta": 9.74698321188955,
+        "gamma": 7.110719179628096
+      },
+      "complete_sha256": "3573402ad8f10d185ce4f39a359c3bd03e4f01c6f0399bdb8ac9ac3e2f410f3c",
+      "result_sha256": "6b766d73cdc1541b5d31778215e77700a6a6c167702fd480c93699d3e870cf9d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01291322751794927,
+        "beta": 0.875366272736951,
+        "gamma": 1.019171613736914
+      },
+      "APE_percent": {
+        "nu": 41.974935617067594,
+        "beta": 12.61706723743974,
+        "gamma": 8.599356079030967
+      },
+      "complete_sha256": "817ee76725ab13164323c3929a8ac19aa24062713c12af05bd48ff2d061c0c3b",
+      "result_sha256": "91090ae494e365e95e66fc0a64ce52fc27e581d6aedf3b9ada4b718ce04de838",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0315952580422163,
+        "beta": 0.5839984714984894,
+        "gamma": 0.6939297914505005
+      },
+      "APE_percent": {
+        "nu": 247.37517945170296,
+        "beta": 41.702689767982974,
+        "gamma": 37.76746828538338
+      },
+      "complete_sha256": "d233f44bf450ab6465cc47e07bebc535a0dd3f983bf27ef70e6bb8525dfd4634",
+      "result_sha256": "e3863a1fcba5aae1f226e01055ec52a591be0e009331acebac443f540b5d00c5",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_008",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020882610231637955,
+        "beta": 0.8162775039672852,
+        "gamma": 1.0059105157852173
+      },
+      "APE_percent": {
+        "nu": 129.59459507950746,
+        "beta": 18.515569463574487,
+        "gamma": 9.78862869568079
+      },
+      "complete_sha256": "72812aa158af82f7c50057ecfbc69107bf429b72ecde50e0de22b41d78c8f402",
+      "result_sha256": "aa2b7706f646e5e2136a7df6cddac954b156e7fe4c4320ee2ac6b12f9b9ae582",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008168244226131983,
+        "beta": 0.8009392491867424,
+        "gamma": 0.8311491339259875
+      },
+      "APE_percent": {
+        "nu": 15.80427804821114,
+        "beta": 1.807257971544596,
+        "gamma": 8.335909766182285
+      },
+      "complete_sha256": "637fcb0d64291594f592fa059c8edd755fcb7a60c766d80158cb26a4818d15c9",
+      "result_sha256": "10fb47b6dffaadf95cf94b8eed859ff2940a2c70fe9613e2f5ad6f78fc9eab44",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019370000827325533,
+        "beta": 0.7348127114413041,
+        "gamma": 0.8565445324068017
+      },
+      "APE_percent": {
+        "nu": 99.6599463377834,
+        "beta": 9.914172532999478,
+        "gamma": 5.535153556675846
+      },
+      "complete_sha256": "7525c4a11b26dc1dc5dacf729949d9ec8a9dfd6624a4eea72ac21207a6696dd0",
+      "result_sha256": "010582a6a68f2221a1650edaaa6c33e3a8ccf8f45a2f87cdb4ff05552e00fbf8",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.013199253868212647,
+        "beta": 0.7089447561648282,
+        "gamma": 0.8395258752520345
+      },
+      "APE_percent": {
+        "nu": 36.053805186645846,
+        "beta": 13.085506016588566,
+        "gamma": 7.412072705618746
+      },
+      "complete_sha256": "1f816e90ccc164c273fcc4cd53020d9a00be8f8c711b365c938298c1eebca754",
+      "result_sha256": "132d887d2465f02fe94c85581cc36d5ccc5a1d6a7c9d428c1ab0202250f95ac9",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02799816243350506,
+        "beta": 0.5556374192237854,
+        "gamma": 0.6136910319328308
+      },
+      "APE_percent": {
+        "nu": 188.59635365343473,
+        "beta": 31.88052424375935,
+        "gamma": 32.318487945648286
+      },
+      "complete_sha256": "e5431cd354db7f2d9eb2430c1d3c8de24bd0bde803e91f9ff0fa4701c16629de",
+      "result_sha256": "2b9757c3643d5c34233240b8aa2e3d06a42fa45411288f49dca963959085a70d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_009",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016711853444576263,
+        "beta": 0.6806299686431885,
+        "gamma": 0.8129569888114929
+      },
+      "APE_percent": {
+        "nu": 72.26058954225158,
+        "beta": 16.556813771235333,
+        "gamma": 10.342248175566029
+      },
+      "complete_sha256": "9f03bc332472d5f091976fbf56d54a1af9ee6f1b11ddda20a005bf4fcc46aee4",
+      "result_sha256": "a084b3ca10ee0cc5349d9cf2db0f8313b67626797d1d871dcf3a02aa9e1a2bde",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008012465037515865,
+        "beta": 0.9663655740500813,
+        "gamma": 0.9873216463177548
+      },
+      "APE_percent": {
+        "nu": 1.4921608542475444,
+        "beta": 1.4621118395540933,
+        "gamma": 6.201153491141806
+      },
+      "complete_sha256": "a0d8825685fc5e6ad69a610b086f1194962ce76f9792da1583d8c34d0baf43d7",
+      "result_sha256": "ba222ad7fcc59667649f079694ad49d86720ba90679149cbc20c671c64c5622e",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019965940686004265,
+        "beta": 0.8099433410350434,
+        "gamma": 0.9351397248991503
+      },
+      "APE_percent": {
+        "nu": 152.9042503427333,
+        "beta": 17.412096934784955,
+        "gamma": 11.158609914725295
+      },
+      "complete_sha256": "f9a0ecc53786eb5fde0b37a6e422152db759a0df376019d7f7532455f69498a1",
+      "result_sha256": "aa51dd3df614ac2643c661fd07d7e8aa3a4219a233d3efb72be425ceda12f4b5",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010706658776071357,
+        "beta": 0.7759983687050653,
+        "gamma": 0.8687187486100199
+      },
+      "APE_percent": {
+        "nu": 35.61892995784865,
+        "beta": 20.873381128759632,
+        "gamma": 17.468824000629734
+      },
+      "complete_sha256": "3046cb1865c627be1800254dc02db42bff8a64dec3d06eaf8d5421b9c75f7d5a",
+      "result_sha256": "c918a31550f7e0a74bd3fba799fa7df2e56a1957435887cd18c2d99afec6e2ce",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.028215124271810055,
+        "beta": 0.6466442346572876,
+        "gamma": 0.5876586437225342
+      },
+      "APE_percent": {
+        "nu": 257.3948738258641,
+        "beta": 34.06329966080233,
+        "gamma": 44.17047055768322
+      },
+      "complete_sha256": "cdcb9a6ebd05926c8ea72b18d494284343e9d2e2708e24a24060759e544cd4dd",
+      "result_sha256": "18794823c73930d72bd02859c976e368796878db75f4b5547409e595958ce321",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_010",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011489775031805038,
+        "beta": -1.4246727228164673,
+        "gamma": 0.3323259949684143
+      },
+      "APE_percent": {
+        "nu": 45.53849411474142,
+        "beta": 245.27032542950636,
+        "gamma": 68.4279230489861
+      },
+      "complete_sha256": "af6e0a0e28573bf421e035298d4ac4bfdcfac30fe984bebf374d90148f48529e",
+      "result_sha256": "ce313969f48994f50ba052ebb9b73f2a8a5edd7ce3b7ade0d770eb3c6f06c8e4",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011154636163858003,
+        "beta": 0.9944249177396488,
+        "gamma": 0.8834043477468662
+      },
+      "APE_percent": {
+        "nu": 23.15862117681087,
+        "beta": 4.48761150533309,
+        "gamma": 11.126105271831841
+      },
+      "complete_sha256": "7ef92c67cbc0fecfc95b048e7e395e1a2dabeb96f927f61e181628c4ceebf116",
+      "result_sha256": "14db8ff35358164b531b2efd970bfa0baa5f99200cf594041d99c1406a267f41",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.025989734216139364,
+        "beta": 0.9365245410352854,
+        "gamma": 0.9004038093401727
+      },
+      "APE_percent": {
+        "nu": 79.0364995397252,
+        "beta": 10.048818968180065,
+        "gamma": 9.415893675146359
+      },
+      "complete_sha256": "cd01b78ab0ffb609d00f96a7a19cca4f89b57e00d7a3c42888da9d8dbde7a344",
+      "result_sha256": "878d5798e6fd0954afd3daf2e2687b8548284c733ce0438a1dd13b5868545549",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018299037127103013,
+        "beta": 0.9090327047793013,
+        "gamma": 0.9080836843401475
+      },
+      "APE_percent": {
+        "nu": 26.05729342739905,
+        "beta": 12.68935109692222,
+        "gamma": 8.643268541464282
+      },
+      "complete_sha256": "d2ed9d75bfe2ba84bfae7478012366ae2131b7f338eb0c2d1613d4c13df052db",
+      "result_sha256": "1769adca64be447c59092b01eb7b6610d518490ad79969697421745bff23ecc1",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.030524318106472492,
+        "beta": 0.6824183762073517,
+        "gamma": 0.7318506836891174
+      },
+      "APE_percent": {
+        "nu": 110.27406510475966,
+        "beta": 34.45517313426673,
+        "gamma": 26.372990143396937
+      },
+      "complete_sha256": "7292b01a479eef0e6a6228032698f1a0e664fe756b08430dcaf9240a4626d049",
+      "result_sha256": "256bb3b80d9f8903925dcbdc4ed395e9c3759986349e74beb5e13a5bc7120b01",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_011",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021837716922163963,
+        "beta": 0.8621506094932556,
+        "gamma": 0.9081659913063049
+      },
+      "APE_percent": {
+        "nu": 50.43433546372102,
+        "beta": 17.192276173038557,
+        "gamma": 8.634988142274118
+      },
+      "complete_sha256": "894288e4a1705e8393223f09e2e209a4515d46d90b8fcc280a8b1af26c6c9d91",
+      "result_sha256": "05465f26fe607ab29a12d331449371a439918a53da910dc97eaacf0f6044fe95",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007664962830235671,
+        "beta": 0.8170827849300217,
+        "gamma": 0.690470605944147
+      },
+      "APE_percent": {
+        "nu": 31.76354161753733,
+        "beta": 5.09302329682418,
+        "gamma": 11.945180071299337
+      },
+      "complete_sha256": "ae8c395154640e0ccf7d7780aa8a5358b0ee8a85cc2c0a1219c358431a1ad4d3",
+      "result_sha256": "030cf12fb620cc7c65ab57122f822b9abeb1983956edecb44e70dc2fe0faab29",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016129453408460063,
+        "beta": 0.7796610637164836,
+        "gamma": 0.7260642598604901
+      },
+      "APE_percent": {
+        "nu": 43.59062145698827,
+        "beta": 9.439684967967057,
+        "gamma": 7.405967599071943
+      },
+      "complete_sha256": "b73a8ce0a58e83ee6fb38ba5fd40bf0e58a66c3a4bd17fe4f054be8ba929b064",
+      "result_sha256": "f099b21370c7e0439d42152a4bedd42dac9cf86a49bcbc03983ce773b18d7e16",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015169484363031671,
+        "beta": 0.7571611617276215,
+        "gamma": 0.7193268041773502
+      },
+      "APE_percent": {
+        "nu": 35.04460639238387,
+        "beta": 12.05312599654479,
+        "gamma": 8.26518657501264
+      },
+      "complete_sha256": "a41441ddc6660a723e95a9d10d80f613c13375c16296777bff6dd277c3b300f4",
+      "result_sha256": "501156c9537440a9a0c6a66c24a42d2acdd93f026285ba3f2f07087451a95c91",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02565100509673357,
+        "beta": 0.6634963601827621,
+        "gamma": 0.5361182689666748
+      },
+      "APE_percent": {
+        "nu": 128.35515064040843,
+        "beta": 22.932614956634534,
+        "gamma": 31.629533208302924
+      },
+      "complete_sha256": "4387807d6ae3c3932ad79c796ae5836f62aa71e46d06a125991506eea0b35964",
+      "result_sha256": "8847ea446fa4ea2a133108b0b424fa7ea688fe92ef2df9a396788cb64c77f42b",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_012",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01665986329317093,
+        "beta": 0.7388491630554199,
+        "gamma": 0.732932984828949
+      },
+      "APE_percent": {
+        "nu": 48.312535029869494,
+        "beta": 14.180127646102324,
+        "gamma": 6.530008021603202
+      },
+      "complete_sha256": "edc319592a5ec22db422549f2b0836cb69b928e83d95893aacedaf39f835fa45",
+      "result_sha256": "e409e2fc5245e43594e6b25f6408706199c4ac8c8c9cac0bcf825bd5aa2951e8",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008127414160192232,
+        "beta": 0.75606852990551,
+        "gamma": 0.8223465912824328
+      },
+      "APE_percent": {
+        "nu": 29.415303084381744,
+        "beta": 3.9156571526046657,
+        "gamma": 18.004517714393806
+      },
+      "complete_sha256": "79943e3610a4cda32cfb459a2e30e4db93dff5624b800b1d6e13c588b2021c05",
+      "result_sha256": "36272efeaedba17e0ba62b911b3554b5fd62132a2ab4a8394a227617800f21e8",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021978729982680002,
+        "beta": 0.6865622831606639,
+        "gamma": 0.9740040306442883
+      },
+      "APE_percent": {
+        "nu": 90.88014512859357,
+        "beta": 12.748800945935264,
+        "gamma": 2.8828828532546122
+      },
+      "complete_sha256": "9a9a6d2be4ab1a274a111b3e26980dfc9daeeee2cf5b5c1c6e3e6ac216922bc2",
+      "result_sha256": "c655ad256b63cc7a9c474fae425605ba71416890a85a68186dfb5bce84ec5a61",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014089591812538771,
+        "beta": 0.662413727377716,
+        "gamma": 0.8880459267556031
+      },
+      "APE_percent": {
+        "nu": 22.36481962785851,
+        "beta": 15.817700154593243,
+        "gamma": 11.453692606010438
+      },
+      "complete_sha256": "5114e035e951c8a159b76e6892d23f19f4bf3f47dbf0cd3089109b8f09b94a04",
+      "result_sha256": "ead30ea7412680aa80ca28a2677fc7616483213b9d1a2775e0356d223e5cc027",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.026363260112702847,
+        "beta": 0.5120872259140015,
+        "gamma": 0.7356756925582886
+      },
+      "APE_percent": {
+        "nu": 128.95876696884426,
+        "beta": 34.921819072879885,
+        "gamma": 26.64639963662626
+      },
+      "complete_sha256": "3187388454de52348cd8b1051aa5379d6a660cc65ab7fcb70d301f7cb28fa369",
+      "result_sha256": "ce301d6f6f8af41b41d9bb96845b5c7d6eaee34ac927af5813112ea22f015e4a",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_013",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015257575549185276,
+        "beta": 0.6721066832542419,
+        "gamma": 0.9982190132141113
+      },
+      "APE_percent": {
+        "nu": 32.50848604236973,
+        "beta": 14.585878886009045,
+        "gamma": 0.46842744552463156
+      },
+      "complete_sha256": "146a2bee23af9ea44306667fedda32a7aa2f1fe0fb8a36222dbe272a6d40cbef",
+      "result_sha256": "f707fa694531031e0b8108e7254e59a30f7a798f8936250b9907ba986d8ebbb7",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008485068843367773,
+        "beta": 1.0517396698308938,
+        "gamma": 0.7693081342184959
+      },
+      "APE_percent": {
+        "nu": 1.0466459378405208,
+        "beta": 1.1285049187573817,
+        "gamma": 13.025930913186222
+      },
+      "complete_sha256": "2cd7e9e16e944ba34de2a88ffb4e31b346ec56b78be130614950176cb122ce11",
+      "result_sha256": "5634b15b4d5433c6b5d2d9139b64313b23041289705d5f6c3151811f999399ba",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018803733591180902,
+        "beta": 0.9484208552970388,
+        "gamma": 0.8072188688622803
+      },
+      "APE_percent": {
+        "nu": 119.29020755005749,
+        "beta": 10.841256045304082,
+        "gamma": 8.739935864674356
+      },
+      "complete_sha256": "d2845b37238c0783e830584605872612bf98569952cf94e96fd1c57d8bc24811",
+      "result_sha256": "d4804f23f8b46fdadbfd499de2f8873ab5d38e8c000d2a4ef52f68be83bd316b",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011618163730570223,
+        "beta": 0.9204567572223779,
+        "gamma": 0.8131401790266349
+      },
+      "APE_percent": {
+        "nu": 35.491684322852194,
+        "beta": 13.470093070805627,
+        "gamma": 8.070502621462657
+      },
+      "complete_sha256": "700ef404d96858901e73882af5ef5855c05aa959e8336c565ae1d60f793592ed",
+      "result_sha256": "1576c3e57ae003da2c3ecf3993cb8336cec886bbe31dd94636ad1c310e698122",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023721361067146063,
+        "beta": 0.6265896558761597,
+        "gamma": 0.3804054260253906
+      },
+      "APE_percent": {
+        "nu": 176.63985806648674,
+        "beta": 41.09582641407994,
+        "gamma": 56.99329523177203
+      },
+      "complete_sha256": "5081c281f8b32676f2feb12089832c2588614aa59d6c84017d63d04837ce95bf",
+      "result_sha256": "4e28df46509715c29c413982b17c87fa4e6e4e9e68dba860ff68132cc678c49d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_014",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0168349239975214,
+        "beta": 0.8512136936187744,
+        "gamma": 0.7844760417938232
+      },
+      "APE_percent": {
+        "nu": 96.32983841237592,
+        "beta": 19.979465512366783,
+        "gamma": 11.311124345205423
+      },
+      "complete_sha256": "98cad2e13566aa0ed880b72af9edf8d2a7a79e9bfed83754b8c6984b25698e41",
+      "result_sha256": "9411855886d184c3f85cd4adac1b89955c0d964e2fb009a6006cf65a4c81b35c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007273744732672376,
+        "beta": 0.8302916061211852,
+        "gamma": 0.6976371057160741
+      },
+      "APE_percent": {
+        "nu": 41.396044509788375,
+        "beta": 6.64256713723408,
+        "gamma": 14.818235283527182
+      },
+      "complete_sha256": "342736b0021fee68cf0ed06c3e0c42ba79cefd932bddf3265e63d90272607f87",
+      "result_sha256": "7086e5f09f35074d12fc1ab9be5aec78ce23ad376980f7a7c4e3fe7abf9810ae",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016909833804889973,
+        "beta": 0.8049099865376322,
+        "gamma": 0.7566702333653021
+      },
+      "APE_percent": {
+        "nu": 36.24112256748944,
+        "beta": 9.496459467050027,
+        "gamma": 7.610267202854906
+      },
+      "complete_sha256": "c9bf153e641f02aecb6d56955124914a21cd2e4d9e25059e8379d20b3b261acf",
+      "result_sha256": "3c4773c7802629ba69fa8af2c0baf0737b174efca8a3baf2d88f8aae13110d27",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01625899480899562,
+        "beta": 0.7819944401403927,
+        "gamma": 0.7477488447475801
+      },
+      "APE_percent": {
+        "nu": 30.99736698511922,
+        "beta": 12.073068177197152,
+        "gamma": 8.699572258380869
+      },
+      "complete_sha256": "0f9184d3ffdee35e16148d1e71b68ebd2e1ace8fb5164055e7634ec804572a87",
+      "result_sha256": "6cb205e88fa3bfd7712372cab7ed9913c0b809e27401e831573ed2feb8f3250a",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02731213252991438,
+        "beta": 0.6381158828735352,
+        "gamma": 0.6446449160575867
+      },
+      "APE_percent": {
+        "nu": 120.05157700080612,
+        "beta": 28.250676925022773,
+        "gamma": 21.28860246198555
+      },
+      "complete_sha256": "6fea38cb3128686a79e96bab0176ed1173f7dad6c2fbcf2fad8d420ba92fe739",
+      "result_sha256": "d9849e70be7b3a5e39e837e98868b9b110e1474da0068289756e528dcf0dbb36",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_015",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018552294000983238,
+        "beta": 0.7602490782737732,
+        "gamma": 0.7611590027809143
+      },
+      "APE_percent": {
+        "nu": 49.47428756899616,
+        "beta": 14.518102121383713,
+        "gamma": 7.062186693526623
+      },
+      "complete_sha256": "f4e017004561062bc0d285a39b6c10f2b8f44a9b82adcc562466f44934d6cb02",
+      "result_sha256": "c51c86c48cdc8e8f7eae36b885d24e37e6082e95a5a21483e2a2b0c380eba516",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010948895510911825,
+        "beta": 1.1133757277345078,
+        "gamma": 0.5890923862813474
+      },
+      "APE_percent": {
+        "nu": 22.613653885760368,
+        "beta": 6.289198872513391,
+        "gamma": 27.20502010392558
+      },
+      "complete_sha256": "5c369435cb8d591689f677ba6a24b8467b4f473181eb2475c6e70b58b0323988",
+      "result_sha256": "913312ac0c084592014724351c9fd3cb6d13c795636a3475eba11d762c56804b",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.022734274948948408,
+        "beta": 1.100166843942182,
+        "gamma": 0.7748348247195281
+      },
+      "APE_percent": {
+        "nu": 60.68492644780866,
+        "beta": 7.400966491785488,
+        "gamma": 4.252564110889552
+      },
+      "complete_sha256": "2e0e5c5ffedb1d69fc29102638753b6f5953a97e23c93d9dd326151c3a1c8391",
+      "result_sha256": "dae70c487d273f07b7378c1e6b83743589914c70757fd471ad895613d95d6ece",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018345720377197977,
+        "beta": 1.0783356028265063,
+        "gamma": 0.7618876467154252
+      },
+      "APE_percent": {
+        "nu": 29.66680204500993,
+        "beta": 9.238462175942457,
+        "gamma": 5.852465220576349
+      },
+      "complete_sha256": "e207fd402bdffdad016fa9ca62c79c81ff2f3236edb9152f2993b679cf21784d",
+      "result_sha256": "fdb8de40eb8f00188e8b419427bf1c905b57cff14203b3ad8d5f588167018d8f",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.030354952439665794,
+        "beta": 0.8289542198181152,
+        "gamma": 0.6030060052871704
+      },
+      "APE_percent": {
+        "nu": 114.54756358174707,
+        "beta": 30.2284376225507,
+        "gamma": 25.48569451188373
+      },
+      "complete_sha256": "33f0507026d70496d951b3f62c89905041f53e8f21a5bbbedb9cfd6601c2878b",
+      "result_sha256": "27249e197279d48dcbf8e527b1f7c20b759d3ca56e641e87baeff5474ea9f598",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_016",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021599048748612404,
+        "beta": 0.9803038239479065,
+        "gamma": 0.7260299921035767
+      },
+      "APE_percent": {
+        "nu": 52.66119404762258,
+        "beta": 17.48961792312148,
+        "gamma": 10.283446349134424
+      },
+      "complete_sha256": "4383056cc668d28656a558eee773ff7c5648a20f07e2759920e26d0b7ad8f94e",
+      "result_sha256": "9ef74b43df3a8eb39c70b2b7df7cebf14fd05a7f2d61573534d3764ba4a12263",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007102785634096749,
+        "beta": 0.7468027030243388,
+        "gamma": 0.7930882292296771
+      },
+      "APE_percent": {
+        "nu": 12.729318434645691,
+        "beta": 1.810068994369581,
+        "gamma": 6.375952857818369
+      },
+      "complete_sha256": "de19e1c7640aac11ed9b453cf5281d5fd0a02dc7c3cd8eebce441e6ce4ef838a",
+      "result_sha256": "ec703f1b16a19dffffb98b83dd569f58094b147f058c6b3dbdfbfaf8a208fcbd",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018522689075793908,
+        "beta": 0.6819422701570339,
+        "gamma": 0.7998035789439313
+      },
+      "APE_percent": {
+        "nu": 127.58503259731889,
+        "beta": 10.337945771522106,
+        "gamma": 5.583205979158681
+      },
+      "complete_sha256": "7f5e9f33715f1baa608a1b6b82347edd2b9bca1db5eb62e81eaa4f07d3216827",
+      "result_sha256": "98887ef29436f51fb9ccde5e5633f50d737a099aab1b5b08641cb665c93399d9",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011137582215023636,
+        "beta": 0.6536384769300541,
+        "gamma": 0.7814259064845771
+      },
+      "APE_percent": {
+        "nu": 36.84551962673544,
+        "beta": 14.05934031508766,
+        "gamma": 7.752689788506541
+      },
+      "complete_sha256": "295f8d5e5176096a88a076393b15135e4e1f9227e518d4f159799e836af1c6d3",
+      "result_sha256": "005595d4700ae3013f85d28ba8533b116adce4f4bca36329101fc9e413258866",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023512523621320724,
+        "beta": 0.5377993285655975,
+        "gamma": 0.5728623270988464
+      },
+      "APE_percent": {
+        "nu": 188.89425465746808,
+        "beta": 29.289919877259223,
+        "gamma": 32.37361551768783
+      },
+      "complete_sha256": "9b5c8b8dbd7d956571659926fb547adc1c420c38ab2dbe27a5216ea1b987cb2f",
+      "result_sha256": "6b30adae793b617a5d08d739527f908d185d391b4150cd59239b154474f7cbba",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_017",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014025579206645489,
+        "beta": 0.6550041437149048,
+        "gamma": 0.784316897392273
+      },
+      "APE_percent": {
+        "nu": 72.32983223327564,
+        "beta": 13.879781876375363,
+        "gamma": 7.411408378627804
+      },
+      "complete_sha256": "d3acb070f444a0e82a5696c3bee861edbfbb9b58aaec3103841f8cb374c6da29",
+      "result_sha256": "0ed69e23d6718d8ff708380192812acb98dfa943ffe3c239fca238d22c54d181",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010491837850935676,
+        "beta": 1.088994631448473,
+        "gamma": 1.0126262058934055
+      },
+      "APE_percent": {
+        "nu": 2.076719187556071,
+        "beta": 1.5987754210639853,
+        "gamma": 6.065288601451481
+      },
+      "complete_sha256": "24ff76706589320714d0f3337a215607dcdabca74defdcd144ac86b69998612e",
+      "result_sha256": "7f0dd0ae57ade0478aa0d45e11fdb96d573c84441249e1b71547766e7978030d",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023504571231730907,
+        "beta": 0.9551172958876614,
+        "gamma": 0.9516793340748114
+      },
+      "APE_percent": {
+        "nu": 119.37479036579019,
+        "beta": 13.695890854063562,
+        "gamma": 11.718931358872483
+      },
+      "complete_sha256": "a85bdd676e1bed44ed34e3785576ce732f9a5dd2c555870ed18e217d7c87cf0e",
+      "result_sha256": "c912322c7e89b323a7733e9c72c152b36baaf13047044e335d02ee96250b7e1c",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014277741358406981,
+        "beta": 0.9238518324223607,
+        "gamma": 0.9529420388905168
+      },
+      "APE_percent": {
+        "nu": 33.25818567449981,
+        "beta": 16.521028649207175,
+        "gamma": 11.601798490145082
+      },
+      "complete_sha256": "06a811298949aa51406c0b372ba432222482aa8acf948898204337e2b81ca890",
+      "result_sha256": "ac5676feab6ff84c7f8b7e2473340d85bbaf2e447e8f5b498f20e19168ea2d99",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01563951652497053,
+        "beta": 0.35060952603816986,
+        "gamma": 0.3897821009159088
+      },
+      "APE_percent": {
+        "nu": 45.96801725342789,
+        "beta": 68.31902957564884,
+        "gamma": 63.84246334455421
+      },
+      "complete_sha256": "e53a15c68cb9209bee96353313d564b8acf440a27ae249eaa5394e55c745d202",
+      "result_sha256": "d16ee3a74255f46bb3ffd28c4e7fa11aeb0738002ef8b251b84eb3f30f14e58b",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_018",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023732082918286324,
+        "beta": 0.8927616477012634,
+        "gamma": 0.9891622066497803
+      },
+      "APE_percent": {
+        "nu": 121.49822108281104,
+        "beta": 19.330328310190904,
+        "gamma": 8.24189037649749
+      },
+      "complete_sha256": "51e936ea03c11d04c76a2bb89ee3c1fa87ae8f1cf90bfa7eb51729eef72b00aa",
+      "result_sha256": "d7016d4cdc5a1d161a06ba46011326a1ff3777315fc28fa8e112e7dcf5d48f0d",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007927775178019483,
+        "beta": 0.8476289282702797,
+        "gamma": 0.8027213578778367
+      },
+      "APE_percent": {
+        "nu": 14.545973292485977,
+        "beta": 3.179502826695571,
+        "gamma": 7.244197846180863
+      },
+      "complete_sha256": "800cc64241aed29170c7d0437505bdeaedcb1099269fe836585d80a593135659",
+      "result_sha256": "81c54c84815a9a97da729599d212add7152728d80fceecac6d48a6a5aabe506d",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01657339412276084,
+        "beta": 0.7767766727209606,
+        "gamma": 0.8002123739967889
+      },
+      "APE_percent": {
+        "nu": 78.6457400970813,
+        "beta": 11.272608641446253,
+        "gamma": 7.534115150851619
+      },
+      "complete_sha256": "5c8d645553cb810d704b1c64eeed7955187258d55ce715d101cb6c61eb8ba9bd",
+      "result_sha256": "e0c459757dc5d1c064c1e7183469447e2bd4847ad8076a1239b4c4c8e94e00c7",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.013335972989368361,
+        "beta": 0.7529340181104887,
+        "gamma": 0.784640908854116
+      },
+      "APE_percent": {
+        "nu": 43.749357974208806,
+        "beta": 13.996038194550401,
+        "gamma": 9.333424121323377
+      },
+      "complete_sha256": "6999a5da479787c42c87e0c1c297da5755c666514671c03d1a3fa30aac6a7b25",
+      "result_sha256": "6165e66be4859a0c7a96cd4987685f4c08ce3868b688816f9b811fafe9dd27a3",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.027847600169479847,
+        "beta": 0.6183171570301056,
+        "gamma": 0.6942933201789856
+      },
+      "APE_percent": {
+        "nu": 200.17117226290932,
+        "beta": 29.372662308016658,
+        "gamma": 19.773239853123535
+      },
+      "complete_sha256": "1776ff019d5d72cc48a306fbbe909bc848cb0587bffe02cffaf1e4c5c268a354",
+      "result_sha256": "2ab8dfab5de3012c7bfd95b15c91d4baeb227068121865915047c54596f0444a",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_019",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01651412434875965,
+        "beta": 0.7430952787399292,
+        "gamma": 0.8064504265785217
+      },
+      "APE_percent": {
+        "nu": 78.00686718044149,
+        "beta": 15.11986916072571,
+        "gamma": 6.813297689826261
+      },
+      "complete_sha256": "cdff29b5438738162e914ae3be8a6e69f4fd343df96dad0e57fea11bf9c34e06",
+      "result_sha256": "95fd2c000bddc7c0014a1fced0d31a98b4ab363df5d30df4d5971901a175483c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008587701784364687,
+        "beta": 0.8141871026036376,
+        "gamma": 0.8133902865193051
+      },
+      "APE_percent": {
+        "nu": 15.155794970593016,
+        "beta": 2.043558838798881,
+        "gamma": 9.360392428916008
+      },
+      "complete_sha256": "1cb001d155c35eab18db7a785c67b1ed42c1dae120f76e04174379dbc5a8e83f",
+      "result_sha256": "deb5fa9e4d7037594ee441f2a23d03453a7cb16753688c7cb7d6dca8092fc82d",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020060657367653105,
+        "beta": 0.7587545467141401,
+        "gamma": 0.8460606594877433
+      },
+      "APE_percent": {
+        "nu": 98.193948679572,
+        "beta": 8.712757947996723,
+        "gamma": 5.719791066767938
+      },
+      "complete_sha256": "bc9edf05e389a7338bbf04c5542966c68e63707412d7f491b8134a3b67332f24",
+      "result_sha256": "4ce1d50ae9e515ac42f8b822b15d636f9578286a06989436a962607978161477",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.013853519636545575,
+        "beta": 0.7347466086016913,
+        "gamma": 0.8459602091517118
+      },
+      "APE_percent": {
+        "nu": 36.86908208223757,
+        "beta": 11.601199891615575,
+        "gamma": 5.730984683398457
+      },
+      "complete_sha256": "8d2e5e8d955e9465ddd03957264d9f251d854dbccb39321a7cc8a05e97544d22",
+      "result_sha256": "d7b2900abca96fd88e508d126f30b551ab80883207474c7923b4fc0896d01096",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.027168169617652893,
+        "beta": 0.5671527087688446,
+        "gamma": 0.6657175421714783
+      },
+      "APE_percent": {
+        "nu": 168.4142755761022,
+        "beta": 31.764749443621376,
+        "gamma": 25.816206837408277
+      },
+      "complete_sha256": "dd5902a5e0680f552c485903cdc88d4f0b7c6d565d3df1dcabf190fa123840de",
+      "result_sha256": "f5db1c5056b40cfb70f16785056374b7aef0622a08ae65969665cf8f37405a2e",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_020",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015960996970534325,
+        "beta": 0.7056655287742615,
+        "gamma": 0.8251448273658752
+      },
+      "APE_percent": {
+        "nu": 57.69039650483632,
+        "beta": 15.100001427417615,
+        "gamma": 8.05053295902903
+      },
+      "complete_sha256": "9dd4671ee6842842ca6a6c7e36c6bbef2f19567ae5728e97581f3c075584696e",
+      "result_sha256": "f20c96012727b16094cc62036f48f00612129b8a4c232feab6233d6800dbef5a",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009340017722393318,
+        "beta": 1.0083137578926242,
+        "gamma": 1.1325543219844507
+      },
+      "APE_percent": {
+        "nu": 1.920314982519417,
+        "beta": 0.8436821089403792,
+        "gamma": 5.26435733050801
+      },
+      "complete_sha256": "837511f1a52e4b8a91eddd746f5c5d36d89a9ea89b45f9a5749e0292c0a7fffa",
+      "result_sha256": "55ed3a2bf7f45ab645de9b006a40fe84d3cc58b01139ce9a860810d8e5abd8a2",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.024751266123541876,
+        "beta": 0.8995084436380948,
+        "gamma": 1.1254433346183697
+      },
+      "APE_percent": {
+        "nu": 159.9134666908072,
+        "beta": 11.543461065648476,
+        "gamma": 5.859175561354492
+      },
+      "complete_sha256": "0420072a651a419e556a12883b65f11e09ae81642fee2d39e3e5785125f1732a",
+      "result_sha256": "9250b100a5a9c123ac69a48983091b92ba45fe86a4587422ab8b5c7f07b5ff09",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.012410047198254559,
+        "beta": 0.8617512561999998,
+        "gamma": 1.08320589777212
+      },
+      "APE_percent": {
+        "nu": 30.318116778153378,
+        "beta": 15.256455806599687,
+        "gamma": 9.392242935403578
+      },
+      "complete_sha256": "614cd47d983fa31d6a220cd25e9d7730d1a09553d302343981f9a22f9541926f",
+      "result_sha256": "760a024fa971e2b1e69274a0617894936bf338ab1330b2dc33235bed582480c2",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.029895405285060406,
+        "beta": 0.6612416803836823,
+        "gamma": 0.7638964653015137
+      },
+      "APE_percent": {
+        "nu": 213.93215955026147,
+        "beta": 34.97431751801504,
+        "gamma": 36.10176468490334
+      },
+      "complete_sha256": "f8ca8cb68afe7adb77be30500978260d06c6258d8ba5f2e63cd645d3670ee97d",
+      "result_sha256": "5948c7e545c783d107959a776bcfac3547a11a291b0d4d6d41c384c94153e9a5",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_021",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.024333300068974495,
+        "beta": 0.8095769882202148,
+        "gamma": 1.0397716760635376
+      },
+      "APE_percent": {
+        "nu": 155.5243980403611,
+        "beta": 20.38720827431303,
+        "gamma": 13.025418693544601
+      },
+      "complete_sha256": "2bff298bcda678bc9dde058322be0c6a8c1b022dd737c2112a2dd904a8091011",
+      "result_sha256": "c34cd6d0788af50c9fb89a989805e9c2d4d1a562cbe88bc7f822b9b58aac1574",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007283208532719513,
+        "beta": 1.1733929080000205,
+        "gamma": 0.7189188374521511
+      },
+      "APE_percent": {
+        "nu": 8.643059527715751,
+        "beta": 1.7034898740957303,
+        "gamma": 10.098585074605392
+      },
+      "complete_sha256": "3dabdf7c1ce2694d71f2853ebd69b75c101fe428253b730d1e5b2c3dbb837492",
+      "result_sha256": "2a4aa3efd7d0e5b5999768b4f368bfe141e1713268f8a62855af9ef90b95ad18",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007983107643900441,
+        "beta": 1.0395865116806255,
+        "gamma": 0.7224869098802996
+      },
+      "APE_percent": {
+        "nu": 0.136126342015983,
+        "beta": 12.912609769952416,
+        "gamma": 9.65239456861773
+      },
+      "complete_sha256": "79ef6b2094d2d22dfede38d489d95abdb24e79cc7cc8809c911bb9915f894758",
+      "result_sha256": "eb40d093344d4583548d49d4ebdde1222a58ed7f12566d650f90b0bdac5098c7",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010964721625109962,
+        "beta": 1.0132468578126204,
+        "gamma": 0.7012983100868508
+      },
+      "APE_percent": {
+        "nu": 37.536007145783,
+        "beta": 15.119113691611657,
+        "gamma": 12.302047078030174
+      },
+      "complete_sha256": "c975422ec41ec262cc512992ca20af27b150033de2c7daf79adab60d2afec757",
+      "result_sha256": "89c20f1d095ee2acc344c497823a0a19977328611b34fe61b3a78d67ab52d2d0",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02193289715796709,
+        "beta": 0.8091654777526855,
+        "gamma": 0.5287757515907288
+      },
+      "APE_percent": {
+        "nu": 175.1153383901466,
+        "beta": 32.215251996863415,
+        "gamma": 33.87614043510239
+      },
+      "complete_sha256": "d859dba0ac2c34b6d44b90a58f32550b1a6538580952d3b4400bd83a15fe7f5c",
+      "result_sha256": "4d2cb731d665aaf05f6fd76c6de73b54950e1bfe0dfe9248e913d8544c2d0ec0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_022",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011444431729614735,
+        "beta": -1.6801856756210327,
+        "gamma": -0.0
+      },
+      "APE_percent": {
+        "nu": 43.553251779698726,
+        "beta": 240.75113898428236,
+        "gamma": 100.0
+      },
+      "complete_sha256": "10fe002d0608c04c21cd31c135e812b0ee8d49d4059de0ef87e1b485d508a9c1",
+      "result_sha256": "290d66047a4a9c213aa98986a4283e45c79f1420e3e2d5e517a7fadf6616c7a1",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009039725526469046,
+        "beta": 0.907077147975479,
+        "gamma": 0.9651328652417216
+      },
+      "APE_percent": {
+        "nu": 7.530145313134209,
+        "beta": 1.1009225584496316,
+        "gamma": 7.276401427338876
+      },
+      "complete_sha256": "f65e258cf2d27d1634196028408397cc91f772b99d6fad449fe0002171b03148",
+      "result_sha256": "f987bc88d5ed317e2e02445cff9947f4c0010436de9a4fe6b91e511b922b3e9a",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021608607428964532,
+        "beta": 0.8181915332293502,
+        "gamma": 0.9693499624480182
+      },
+      "APE_percent": {
+        "nu": 121.04042684605298,
+        "beta": 10.792165818008453,
+        "gamma": 6.871250548552253
+      },
+      "complete_sha256": "559bfb50da988daa9de1bc8a75607306bfeb7489a06719f48ee0d077e3b7ac46",
+      "result_sha256": "1c6deace14531964d599e5d9c7f172b99b4bd3b6a4879b9f7a2bdf38247b9ccb",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.012591663736956749,
+        "beta": 0.7823691867904474,
+        "gamma": 0.9429471908022068
+      },
+      "APE_percent": {
+        "nu": 28.803613850106323,
+        "beta": 14.697894258534514,
+        "gamma": 9.40785466541517
+      },
+      "complete_sha256": "9bfa6430a95944def8c84229040f417a2ef9d73ea6e690976d411bf1a4fccc99",
+      "result_sha256": "62988ce262a4eec43803fd5286ecc2709a7740322207c148b05ae615f0c50765",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03158967290073633,
+        "beta": 0.6175723373889923,
+        "gamma": 0.6903592944145203
+      },
+      "APE_percent": {
+        "nu": 223.1395084047095,
+        "beta": 32.66577759398661,
+        "gamma": 33.6748333918094
+      },
+      "complete_sha256": "170664937cca45236ff34d2fd34407b4f3148da3f136bf310814f660a2696d11",
+      "result_sha256": "e5b19f52c54708d29104c283a80a9080fb53af5b63c8aace2adacf412210d2d0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_023",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020841510966420174,
+        "beta": 0.7527173757553101,
+        "gamma": 0.9345520734786987
+      },
+      "APE_percent": {
+        "nu": 113.19358479154732,
+        "beta": 17.930846121991166,
+        "gamma": 10.214402154066274
+      },
+      "complete_sha256": "7ba85f7e97f6bab5bbfc44c271dd5f177c59b8b8748c61be70554684f9028769",
+      "result_sha256": "d3540192e966eb926e9e300c78c716a103734539873599525aa20b216b56946b",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007799339986670726,
+        "beta": 1.1188134336015227,
+        "gamma": 0.7874293112291634
+      },
+      "APE_percent": {
+        "nu": 0.149063097394871,
+        "beta": 1.2445714008945972,
+        "gamma": 8.334686878658776
+      },
+      "complete_sha256": "b13dcc2b061d5211ed3d31e61c6255e4f6b26fe19be1f0f12166376ff69dab1f",
+      "result_sha256": "51f4f4b99f63ac3b041b9ba2831caa0119484a0a38118abb1b2ab5c300bae0f1",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.013509623749259087,
+        "beta": 1.0027545319141062,
+        "gamma": 0.7657375849071143
+      },
+      "APE_percent": {
+        "nu": 72.95676183761613,
+        "beta": 11.488858995822037,
+        "gamma": 10.85983911403752
+      },
+      "complete_sha256": "4b1d58c49427091d81993e9a7e106071b2b9eea2e5229ba93d1376da6678ecb5",
+      "result_sha256": "2282a5cd6c4985f1700e557eaec8e094cf6b5fe4c5737156c9e7c68a1d370e2d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011357740093125054,
+        "beta": 0.9723849349117634,
+        "gamma": 0.7645661504333848
+      },
+      "APE_percent": {
+        "nu": 45.40730258367915,
+        "beta": 14.169522704599652,
+        "gamma": 10.99620679340156
+      },
+      "complete_sha256": "bc104056d0d600b259f5a5640fa95a025fd4e9c69dc6bfcf93f6395f25792350",
+      "result_sha256": "26027fe4d7b4189648513570f05c1e2a988b691909653c75f5122401274ed1ab",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0289913397282362,
+        "beta": 0.7491176128387451,
+        "gamma": 0.6004881858825684
+      },
+      "APE_percent": {
+        "nu": 271.16120580374894,
+        "beta": 33.876883575767344,
+        "gamma": 30.09666163090988
+      },
+      "complete_sha256": "389572375c19423384d0cbb9d1df16b1d3e97ec37b72ec39276db1778b3e6199",
+      "result_sha256": "10c70cac77a7cf44c9faee60436f3a87658fc2486eb72f633271f6a990c972ba",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_024",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016694262623786926,
+        "beta": 0.9316052198410034,
+        "gamma": 0.7486891746520996
+      },
+      "APE_percent": {
+        "nu": 113.72805477541785,
+        "beta": 17.769066756371053,
+        "gamma": 12.844458992877925
+      },
+      "complete_sha256": "3089f219ac33fac5ff1e654bfcf0bde7ccb74ef314981f3131cdf66ebba82db6",
+      "result_sha256": "8e728f570906fee02dccb87aad1fddd0996b67eabb21f61a065240793459d487",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009521068780799974,
+        "beta": 0.8259614859766508,
+        "gamma": 1.0807583676124837
+      },
+      "APE_percent": {
+        "nu": 21.609396358644965,
+        "beta": 2.7429221345024777,
+        "gamma": 10.499707659418245
+      },
+      "complete_sha256": "cb1b77f9474dbe3a89f64746464c62ed27dec1938ad5fe765ffc9be67c9c04ac",
+      "result_sha256": "fa0dcb4a67fe63c3dc28d3196a237f43eeafbe4a76e18826dde2dac6e8119c70",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02521271225979768,
+        "beta": 0.7432378683072092,
+        "gamma": 1.1863397503431978
+      },
+      "APE_percent": {
+        "nu": 107.58591067706472,
+        "beta": 12.483639421676283,
+        "gamma": 1.7562503767354252
+      },
+      "complete_sha256": "5733804a81990dc733ac2312ad470fa397836e117224b482f92f491171a6cb48",
+      "result_sha256": "41d5cfa38c639967c55665ea3e73df388acc39c98e85be440115f88da2569e2d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014945810713355906,
+        "beta": 0.7183200559187803,
+        "gamma": 1.0612467991069896
+      },
+      "APE_percent": {
+        "nu": 23.054580394593064,
+        "beta": 15.417715236160193,
+        "gamma": 12.1155092461529
+      },
+      "complete_sha256": "6eb23378ed8cb599641aab147da140f4ea4eaa90055922527f2782b470e11712",
+      "result_sha256": "17ac64768002d3ca03832c15fbb3a151e1c3a6ce048fb03751683ea3e51a78e2",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011289701797068119,
+        "beta": 0.3398457542061806,
+        "gamma": 0.4155721962451935
+      },
+      "APE_percent": {
+        "nu": 7.047563757994296,
+        "beta": 59.98311599237982,
+        "gamma": 65.58543133491737
+      },
+      "complete_sha256": "10e33dc07f114c99e365233d270c0e4aea4b0bf040cdb77ab7cae84cafae1714",
+      "result_sha256": "d730ffdcfa882a72839d0139348be5355ae03f0d4a30dedb5d8d108abf1976b3",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_025",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020862476900219917,
+        "beta": -1.2819370031356812,
+        "gamma": 0.37508654594421387
+      },
+      "APE_percent": {
+        "nu": 71.76875782685546,
+        "beta": 250.94825733333775,
+        "gamma": 68.9381488767125
+      },
+      "complete_sha256": "6f74f6db90fae3bbe6b331b58d142919a201192714fa8455ef1d94e2b6ab938a",
+      "result_sha256": "1a52561777b5dcb4b7150a2c05e021e88a577a5eac6621070a5bc704ce156890",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008209165129026419,
+        "beta": 0.926366865336552,
+        "gamma": 1.0356352620511846
+      },
+      "APE_percent": {
+        "nu": 2.475217882920756,
+        "beta": 0.8144895913859991,
+        "gamma": 4.40214009682116
+      },
+      "complete_sha256": "2dde5cbf937d7dab77932243e9defb62c2dd15248e9fb4cedd6899dc666f6d2d",
+      "result_sha256": "ddd38b6438ba3944ac092a7115de0f164e9667439db39946ce3d82508855bc85",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021858319701224097,
+        "beta": 0.843440086765672,
+        "gamma": 0.9841838198699798
+      },
+      "APE_percent": {
+        "nu": 159.67657280639415,
+        "beta": 9.693406969445107,
+        "gamma": 9.151541687988905
+      },
+      "complete_sha256": "36c4b48cdfc13eb93c5cc27677fb367d97fd12e308496850845436dc1848231e",
+      "result_sha256": "a6c0bba1632a38bd7127d8e833423f2c6f67188c30b4bdb30e8c3e02e509f510",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011284954122513624,
+        "beta": 0.8084200405942459,
+        "gamma": 1.004557581955675
+      },
+      "APE_percent": {
+        "nu": 34.06511803593109,
+        "beta": 13.442981014048046,
+        "gamma": 7.270871798754569
+      },
+      "complete_sha256": "2a9260a4e0b3d36c97b8ac7b132a588b74ef7449ee85447b8a395fad14be4784",
+      "result_sha256": "9b2560eae11791df9e5e8a7cc7dc8ba0718d80483da0b979cafbd3a3fee80afa",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0,
+        "beta": 0.041017886251211166,
+        "gamma": -0.0
+      },
+      "APE_percent": {
+        "nu": 100.0,
+        "beta": 95.60824103717182,
+        "gamma": 100.0
+      },
+      "complete_sha256": "94e8ec07c8694b9be51faf80d8aebf4403bc6ba1d7648b4b11ae88721a4f4d6b",
+      "result_sha256": "cb27d77a5e86f0c27d1bc247e8cb525ecc8479773c156256ddab19aff6f941e7",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_026",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01917583867907524,
+        "beta": 0.7894352078437805,
+        "gamma": 0.9817480444908142
+      },
+      "APE_percent": {
+        "nu": 127.80873081436769,
+        "beta": 15.475674968071294,
+        "gamma": 9.376384276867052
+      },
+      "complete_sha256": "876480821f04bec3dcfd0333a6f7a2e3167bac73f9f5b50b38bd3e31a0bae7f3",
+      "result_sha256": "28b8d84e2df5cde0fd4fc33d03d93f5f8e4015241d3fa0bfe815f1d967aef6f4",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010022627917843613,
+        "beta": 0.9359094234959796,
+        "gamma": 1.1455389614777778
+      },
+      "APE_percent": {
+        "nu": 1.8814257821649256,
+        "beta": 0.9379055849585994,
+        "gamma": 6.342895715829619
+      },
+      "complete_sha256": "5f78d6551b161f535b697e5e2c1143b9e8bec835e778d1609803e19c634097be",
+      "result_sha256": "b282b4174fad13ac4e5d4fe6cd5b89b44f02fa4b5fbc06765e941110274e8620",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.022335673379932197,
+        "beta": 0.8513637728093886,
+        "gamma": 1.1361672282005912
+      },
+      "APE_percent": {
+        "nu": 118.65966133817281,
+        "beta": 9.88670877086024,
+        "gamma": 7.109110947594932
+      },
+      "complete_sha256": "f9a26a7beeb8cbaeb8c67879f6df9571ab6e4dba05315abdf791f603b83bb7ba",
+      "result_sha256": "415f5d1be5c337866e21af97e0ddef91faa9b6a0b267ad142517a910c2c7c264",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01397192664088855,
+        "beta": 0.819252922406724,
+        "gamma": 1.1050682855907479
+      },
+      "APE_percent": {
+        "nu": 36.78104508294698,
+        "beta": 13.285507858120093,
+        "gamma": 9.651701823229702
+      },
+      "complete_sha256": "ac43f9676b2fdbfda4f2a8f3990dfc859d854a2682dbb9b20e59f51136ba704c",
+      "result_sha256": "2445c70cf8795277d3b4fcd0798ea2253be61cf371bd10f840bd29c2beacec0f",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023730524815618992,
+        "beta": 0.4445490688085556,
+        "gamma": 0.48311102390289307
+      },
+      "APE_percent": {
+        "nu": 132.31484591023806,
+        "beta": 52.94634211296512,
+        "gamma": 60.50175413664153
+      },
+      "complete_sha256": "b22f254077c2cecce9a32caa068d62ffea439c08debe79f93dca5710921d921e",
+      "result_sha256": "517dd201a7e2897c1d6bc73df2e4c0fccc047830c5983ada5b5b51085da4abdc",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_027",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02225617691874504,
+        "beta": 0.7831872701644897,
+        "gamma": 1.0933018922805786
+      },
+      "APE_percent": {
+        "nu": 117.88141440623188,
+        "beta": 17.102906163839368,
+        "gamma": 10.613699941458234
+      },
+      "complete_sha256": "45623493cb3bc7b6fe69a4087ba1926f68150a0e25665e45145648bed2597dae",
+      "result_sha256": "3d90b19a4cc2b407a68155f99ca3fc5f578dd2392cbd1048ea1dea02d9ec9bc4",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010022725788294358,
+        "beta": 1.1062257735178038,
+        "gamma": 0.9073322182278677
+      },
+      "APE_percent": {
+        "nu": 7.203121245909541,
+        "beta": 1.7757701838484246,
+        "gamma": 6.441893569981689
+      },
+      "complete_sha256": "894264b35db0f478ad0f488eb11c0f83acf03aeb4eee5864e4a83c6b5a339c47",
+      "result_sha256": "172500d783e9a1558654041952628b955a99473e0cdae889f519e2cf7f4f2a2b",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.022084877989428313,
+        "beta": 0.9998236636611528,
+        "gamma": 0.8709050279486392
+      },
+      "APE_percent": {
+        "nu": 104.4760864831186,
+        "beta": 11.223448534577873,
+        "gamma": 10.198024870760301
+      },
+      "complete_sha256": "7e16c64b7b91dfc884f183ac77fe5fe6b653eec9c511c9f1a211afd912684b2f",
+      "result_sha256": "99ef2a8793f6544c175f8049839d14921950005121ca98451d0b91ec433d38e0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014285559332776459,
+        "beta": 0.9675701377620454,
+        "gamma": 0.8769142528403007
+      },
+      "APE_percent": {
+        "nu": 32.264949210350395,
+        "beta": 14.087310339406942,
+        "gamma": 9.578393284135894
+      },
+      "complete_sha256": "8d6de34c61d9c054f935a4445fd9448c13bd3bc28703b873b3443112e8d770b5",
+      "result_sha256": "ac84d0617e74d83bff1e747f43360c9453bc4bbbfa15a2a28d02fa8880020990",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.029559720307588577,
+        "beta": 0.7639499008655548,
+        "gamma": 0.7026867270469666
+      },
+      "APE_percent": {
+        "nu": 173.68301191994678,
+        "beta": 32.16720092136166,
+        "gamma": 27.543585166165844
+      },
+      "complete_sha256": "163be54d37ca1c95c1ca1547b4afe4e0c589c256d4d770176d7c578945f888c5",
+      "result_sha256": "bdfdfc29d2bee79ec59947658eae50af798cdb7d9781e30775e417d8f6c178c8",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_028",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02161107398569584,
+        "beta": 0.8999354243278503,
+        "gamma": 0.8588873744010925
+      },
+      "APE_percent": {
+        "nu": 100.08930252671074,
+        "beta": 20.09274593397276,
+        "gamma": 11.437205941434122
+      },
+      "complete_sha256": "966cfa324fa12f6a05dbdd1495498f4211434a23849834e8e267cf89a8554c39",
+      "result_sha256": "d4721412f190036f21ff7a54fe865d3bf72b84eb1408bb854272f9476cf36143",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.005780801834270292,
+        "beta": 0.6796723131965727,
+        "gamma": 0.5225026344797162
+      },
+      "APE_percent": {
+        "nu": 59.316993217508525,
+        "beta": 14.990776697038143,
+        "gamma": 30.833685922152384
+      },
+      "complete_sha256": "a7e2cbb0c87cb460f6cd2073452d103f30484ca64b965a4488fec0977c23d867",
+      "result_sha256": "e3a5737a3de6b52c9bfad72374101b578c15bf1857d44a51e497e06a8c4362f5",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018353658663277587,
+        "beta": 0.7454863072488236,
+        "gamma": 0.7137372517566335
+      },
+      "APE_percent": {
+        "nu": 29.165821851063136,
+        "beta": 6.759168011177951,
+        "gamma": 5.518993271266388
+      },
+      "complete_sha256": "60d5682424b182e60f90ffbd1f933f4e014b89a8c2181b85351a2bc484ca1a34",
+      "result_sha256": "20e43feebef148705c1eefaa8b7d5946dd2c7091bdba7065d1dc9706d136eaa8",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.017745642362432812,
+        "beta": 0.7261856949632425,
+        "gamma": 0.7150352094196902
+      },
+      "APE_percent": {
+        "nu": 24.886842567516084,
+        "beta": 9.173169623149347,
+        "gamma": 5.347176056464927
+      },
+      "complete_sha256": "c53b6beacc8c8a72c8a3c21eaa7d438c9e437f76311a5df0b0a9ea1107547efa",
+      "result_sha256": "f1f09745426fb489dc8378bcca407a52f2e07c684797d6867b545283bedd9799",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.026955338194966316,
+        "beta": 0.598908394575119,
+        "gamma": 0.6139613389968872
+      },
+      "APE_percent": {
+        "nu": 89.70105498324742,
+        "beta": 25.092229793786146,
+        "gamma": 18.726835038832522
+      },
+      "complete_sha256": "7ee4e61727e7ff2adc4a13c79d8e2d59aa6a5aea926efb2743e4d672eebcb730",
+      "result_sha256": "5d993d132d7abd04c0defdf6bd74ffc86121c9f87dcb2509915663be051bf038",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_029",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01631171442568302,
+        "beta": 0.7038987278938293,
+        "gamma": 0.7518576383590698
+      },
+      "APE_percent": {
+        "nu": 14.795422441235363,
+        "beta": 11.960686083013659,
+        "gamma": 0.4728050637398655
+      },
+      "complete_sha256": "768de32ebe511180b631a0e90b79a4fbf3bba989af4aa2f79008b80cce36d187",
+      "result_sha256": "4c8e7d09c5f7daf333547e387e3c0dad72c5ee8f873fe3694bd49b96114b1d93",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011343768712923738,
+        "beta": 1.1512121796789463,
+        "gamma": 1.089938448916853
+      },
+      "APE_percent": {
+        "nu": 2.1120626126886237,
+        "beta": 1.5891937503898363,
+        "gamma": 5.658708273274589
+      },
+      "complete_sha256": "88ba232e8023ea78531ef79672bb07b3423b701af7e660c9edca958e7aaaac97",
+      "result_sha256": "b6df1ac26c0ca76c4c9a85c12bd0a7dbc02d72c623d276500cbdd4098232f83b",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.025401716354989255,
+        "beta": 1.0210305134074125,
+        "gamma": 1.0364027081296214
+      },
+      "APE_percent": {
+        "nu": 119.19713659663964,
+        "beta": 12.717709381862896,
+        "gamma": 10.292576309064808
+      },
+      "complete_sha256": "972748c6a9dbeec74ef7c8257d23dd8f415ff655f0dde2aa0dff95196d29bd0f",
+      "result_sha256": "5fec86895477ef163006c26f7d56c003975fdd9c26be681670b1a3db42103042",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015970177699970837,
+        "beta": 0.9910850171039177,
+        "gamma": 1.0302077817417272
+      },
+      "APE_percent": {
+        "nu": 37.81026344251518,
+        "beta": 15.277585386296325,
+        "gamma": 10.828787650326062
+      },
+      "complete_sha256": "0ca4692bd5632d59f887de48eabf3351e6ca146cf52bb619aa3a7e131cb69a8e",
+      "result_sha256": "1b4a0889dbfffcc23b7a9cfb02d8e90e4443ec3e01592aced87e74521d7019bd",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.028815786354243755,
+        "beta": 0.4594791382551193,
+        "gamma": 0.6570172905921936
+      },
+      "APE_percent": {
+        "nu": 148.65791623526005,
+        "beta": 60.72165214307162,
+        "gamma": 43.13086216670447
+      },
+      "complete_sha256": "811354b6483d011e9e9e1329524bce02e3eb693b45f4d0f766c31e1c4289cf07",
+      "result_sha256": "fab1f36c119ff514517384c1859f1152489c083f43c7ba980ec13274de2e1f27",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_030",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02724018320441246,
+        "beta": 0.9321250319480896,
+        "gamma": 1.0256216526031494
+      },
+      "APE_percent": {
+        "nu": 135.06168147579933,
+        "beta": 20.317750681688054,
+        "gamma": 11.225747081740717
+      },
+      "complete_sha256": "a51443771463f7d70626e5931dcf2d7ccf83cad760215f1d1927559b125bdd6a",
+      "result_sha256": "6f9ba76392efb793b985c0c6df74ab792fb125dc3617f5de66745fafe1535efa",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011039955552216896,
+        "beta": 1.2258332542202384,
+        "gamma": 0.9208326801809554
+      },
+      "APE_percent": {
+        "nu": 5.756515006458217,
+        "beta": 1.5162688555948067,
+        "gamma": 6.358722698740401
+      },
+      "complete_sha256": "1a659dd2828bbccc5850cfba597cd1f1fc95274cf21bdbc0c3c289638c2154bb",
+      "result_sha256": "bdb73b15bf082938ba4eb7c827728ee49ce45bd65e5863bfdee070edc19ab774",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019971908436829645,
+        "beta": 1.1055592773016467,
+        "gamma": 0.893738105709499
+      },
+      "APE_percent": {
+        "nu": 70.49183252198715,
+        "beta": 11.179108369647382,
+        "gamma": 9.114023000357301
+      },
+      "complete_sha256": "aa4f37f7671f7a701ee5c0e3355378231cc38bb3f9c417b9558df447088fa353",
+      "result_sha256": "b4f1539f49b86aaab550f0fb3bc681028b908274471b6bb06183736ba0b730d2",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015120371766826457,
+        "beta": 1.0708988598776656,
+        "gamma": 0.8961456211581338
+      },
+      "APE_percent": {
+        "nu": 29.076292287928037,
+        "beta": 13.963734434558269,
+        "gamma": 8.869198042919455
+      },
+      "complete_sha256": "ee68e17c55200f3e80a0cfa54e6a36ed1eea7f4888cdcd18c4d9e8e713c044b3",
+      "result_sha256": "b5a7666f65c48038b3c7be4304d8961cd4a2416579ec61ee88d648ba5e355a8c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03562615904957056,
+        "beta": 0.7832923531532288,
+        "gamma": 0.6691571474075317
+      },
+      "APE_percent": {
+        "nu": 204.12562531481578,
+        "beta": 37.07010863848576,
+        "gamma": 31.952100151142673
+      },
+      "complete_sha256": "6131c2c86cb72b723cf3bca69bf6f7c27b6da390c1b745cb5928e4a605ad549a",
+      "result_sha256": "e2f9b488412a82f29e5fc501eaae5c8c31524cefc816c4ab69828372e2c8c283",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_031",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.022463075816631317,
+        "beta": 0.9977872371673584,
+        "gamma": 0.8474212884902954
+      },
+      "APE_percent": {
+        "nu": 91.75788694261342,
+        "beta": 19.837539350311886,
+        "gamma": 13.824070784589813
+      },
+      "complete_sha256": "6bae63bc15248827b063039dc716783188e0c09431665b9206f6feb5c98ab085",
+      "result_sha256": "6851f6357b77736fa884d37ab6a8982c8499d4de682b7c9ff012afbc55d1107d",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007472854050644592,
+        "beta": 0.802639773702623,
+        "gamma": 0.8974957760389733
+      },
+      "APE_percent": {
+        "nu": 0.5682332075992174,
+        "beta": 0.8157249424824249,
+        "gamma": 5.155196040534241
+      },
+      "complete_sha256": "5057f4a84952ee7749fb9bd54dd5995136c54f22c84700bd6b3a081f8777cdb2",
+      "result_sha256": "7defe5a847570d40985d84f15d1b1d245bd68df1657e89c84c72200b5fad4bb6",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.017937161370465853,
+        "beta": 0.716860357044022,
+        "gamma": 0.8695333719746432
+      },
+      "APE_percent": {
+        "nu": 138.66699847456246,
+        "beta": 11.415709561849518,
+        "gamma": 8.110183465011652
+      },
+      "complete_sha256": "9a027b6c0a2d827716b37596b8522f188f6c054a5a52fde4ae65d73fcb3cdc67",
+      "result_sha256": "c3cd697364c75d47bd25cf085477bbb028d91cc0954e62833576dcd897056ae2",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010343781835318366,
+        "beta": 0.6840017757956023,
+        "gamma": 0.8554112513204638
+      },
+      "APE_percent": {
+        "nu": 37.63155231328665,
+        "beta": 15.476129525227162,
+        "gamma": 9.602569056895934
+      },
+      "complete_sha256": "27ede8b4764d3f61b9ee6a1a3954bdb59fef85da051549b95759547a65bf5a4d",
+      "result_sha256": "fa770cc5340d7d8581240a12feefd22fb6fc22900e5c6adfcacd24ae27724379",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02447530534118414,
+        "beta": 0.5325091928243637,
+        "gamma": 0.7350327372550964
+      },
+      "APE_percent": {
+        "nu": 225.66176675797698,
+        "beta": 34.19646025252068,
+        "gamma": 22.323828445826774
+      },
+      "complete_sha256": "e88f3e728f0fb1fe92a047bddb200d22ac0a75f78a6f0ad0221f228af5273eb4",
+      "result_sha256": "54d8a0da1e6be5f918ef1ba320f606f984114d908402b948bcd532ab9fdb1f74",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_032",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014742439612746239,
+        "beta": 0.675477147102356,
+        "gamma": 0.8668701648712158
+      },
+      "APE_percent": {
+        "nu": 96.15889827250042,
+        "beta": 16.5295399650983,
+        "gamma": 8.391623625925632
+      },
+      "complete_sha256": "70c1a1e0da3492a6ec8c29ff8746225c24a83c5836abe86ed5fab2993e0b9127",
+      "result_sha256": "1288b04758e6e66d36aae5002a2a100aa339af252cea75a33308c266b71ffbfc",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008240621240867583,
+        "beta": 0.75501948796685,
+        "gamma": 0.9868279444298929
+      },
+      "APE_percent": {
+        "nu": 21.360136439213225,
+        "beta": 2.6905047433740914,
+        "gamma": 12.386501182022249
+      },
+      "complete_sha256": "4360bb6a4d2f809fbff0ff5f521a21da6fdc93f5e6203adf5e95550ebb1f6ce9",
+      "result_sha256": "14957299eed17a4c2d7685df491993907b5832d73c3b6516f96b4fd17f39b802",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02294463225290637,
+        "beta": 0.6610595080369319,
+        "gamma": 1.1119386794742665
+      },
+      "APE_percent": {
+        "nu": 118.95955378614379,
+        "beta": 14.800388484155725,
+        "gamma": 1.2788006970515495
+      },
+      "complete_sha256": "0e799b2d4aa0dfdff16658404a6dda51e051408c541ac4dbdd5f56aead151d06",
+      "result_sha256": "b7759917c7c2140435337e4361aa018cd3e09f79a8e605f02823103a37ff265a",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.012894742608448029,
+        "beta": 0.6414225895188722,
+        "gamma": 0.9742263257347203
+      },
+      "APE_percent": {
+        "nu": 23.0539263655148,
+        "beta": 17.331261739538213,
+        "gamma": 13.50531009991517
+      },
+      "complete_sha256": "bb4a9256dfc5909a0c51e04f1cde229f9639b5c0b6780dd25c0c4347cdae2587",
+      "result_sha256": "6be23c732f4f1e43c6c7e1aa7bfb5641d811f3bc216593c2aba57e8467df1e5c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016190504655241966,
+        "beta": 0.3687642365694046,
+        "gamma": 0.549208402633667
+      },
+      "APE_percent": {
+        "nu": 54.505229624467646,
+        "beta": 52.47240329399379,
+        "gamma": 51.23965630830727
+      },
+      "complete_sha256": "e824e44d99c9a4e06368d4c45f8df70c0211b6aa51a8f67f7c634fe25c151a21",
+      "result_sha256": "e35918a2daae1fc452a7e3aaa99b8ddf16d50999695d41d40a47871944370bf6",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_033",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.017248157411813736,
+        "beta": 0.6576470136642456,
+        "gamma": 1.0496479272842407
+      },
+      "APE_percent": {
+        "nu": 64.5983604747259,
+        "beta": 15.24020243633117,
+        "gamma": 6.809157608989896
+      },
+      "complete_sha256": "077217f21586a4150afcc41b51071edeaccf92199004dea30bd52e33f325c379",
+      "result_sha256": "3980b3a50c72d247508732f9470f5be3d6053d2abbe74eeaeaf4e5dc53bb3413",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007611831327694769,
+        "beta": 1.022651604535375,
+        "gamma": 0.7851447297842093
+      },
+      "APE_percent": {
+        "nu": 0.049935462686286146,
+        "beta": 1.0124521538657396,
+        "gamma": 10.244583004079052
+      },
+      "complete_sha256": "17e3e7d07945d59a940bca57cbea252a9bc5171425eff982a5a1474c76662635",
+      "result_sha256": "46d16f428176408611f5f47d9e2481e537f9529708888eea89b6688ecb5fd29f",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01793141656107726,
+        "beta": 0.9107602076060286,
+        "gamma": 0.7946124875413983
+      },
+      "APE_percent": {
+        "nu": 135.4553280764705,
+        "beta": 11.842978364350312,
+        "gamma": 9.162257015918346
+      },
+      "complete_sha256": "640721ca82291333e2944c3e480d0bc2191bd0658482faacce0feb761f3f7069",
+      "result_sha256": "9f473f2fdb3683b3a5d62effd19260b860afe4813af1ea4e2333679489c61170",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010292695463464674,
+        "beta": 0.880632775371023,
+        "gamma": 0.7950244365462479
+      },
+      "APE_percent": {
+        "nu": 35.152177123684005,
+        "beta": 14.759162748766073,
+        "gamma": 9.115164227405984
+      },
+      "complete_sha256": "05322037604dc15147d490c34dab2becc69e1c66f538d87d95c5c98e5b84f2a5",
+      "result_sha256": "7da25e0c79f3f37d3f461023cb2ec6b915deacbd44bc0b7d823fa1c44e37032b",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02692311629652977,
+        "beta": 0.7215007245540619,
+        "gamma": 0.6169087886810303
+      },
+      "APE_percent": {
+        "nu": 253.5242828612058,
+        "beta": 30.162347395656752,
+        "gamma": 29.476816851674474
+      },
+      "complete_sha256": "c69e9242f530479fbb8bff7a553604664b786c3a8cc0145a1396e02a9ad70821",
+      "result_sha256": "2c7d5debe3ca4387db0b8b19350e9d16d6c5f85f33185a8d441a448ee15e58d4",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_034",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015744488686323166,
+        "beta": 0.8476366996765137,
+        "gamma": 0.7654781341552734
+      },
+      "APE_percent": {
+        "nu": 106.73903461042498,
+        "beta": 17.953017436970327,
+        "gamma": 12.492809890923782
+      },
+      "complete_sha256": "ad3a96e0d2d5f0fb8f8ac92bf4893646c9d9544c006f13eb29861a8e7cc5206a",
+      "result_sha256": "186a54335948dc5cb1eb7c3ace4615ed98d86189fc88b0aa3cd0b97f76168cd4",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.007514419454389265,
+        "beta": 0.8791501875315278,
+        "gamma": 0.798100629824028
+      },
+      "APE_percent": {
+        "nu": 8.430132548979488,
+        "beta": 1.6725724236274815,
+        "gamma": 4.099448805994118
+      },
+      "complete_sha256": "9f1f8693fd30067f666e5ea0e3e5f556be0c0d549624f42ec5c1735e60644a73",
+      "result_sha256": "b99fc7cb4debcb0b1a5bfeb11185782d573f7650ba9a33f00ff816919fef335c",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016161353739507323,
+        "beta": 0.7741308795295238,
+        "gamma": 0.7597045728106508
+      },
+      "APE_percent": {
+        "nu": 96.94043282230093,
+        "beta": 13.418322522005864,
+        "gamma": 8.713156518605777
+      },
+      "complete_sha256": "ad9dbe9e4309dc10eec969713e11c0ede408b2a714d7c43f4bfb61e4b7e60bcb",
+      "result_sha256": "09722769bf95935e2baf9309e4053dd56964cc0e89440c86b1ead17fc3c382be",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01110090513007978,
+        "beta": 0.7459731434002792,
+        "gamma": 0.7367416811146953
+      },
+      "APE_percent": {
+        "nu": 35.27437715151819,
+        "beta": 16.567588482736394,
+        "gamma": 11.47240001292046
+      },
+      "complete_sha256": "913cf99459441eb301d28b1c0e75b0e4c68d1c5b9bc2e55474be1b772d971d93",
+      "result_sha256": "c249c1dc4b761c42748a65dca3dd5a46a8dc53738a69278aa38b696bd6862ebb",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02640808094292879,
+        "beta": 0.614577442407608,
+        "gamma": 0.6393672227859497
+      },
+      "APE_percent": {
+        "nu": 221.8058941555783,
+        "beta": 31.263372498297723,
+        "gamma": 23.173010032490843
+      },
+      "complete_sha256": "a22c6ed0cf69061bd1d3b0fdecd7a6dae25dbc904db7dabeaa2082d4d6342443",
+      "result_sha256": "5c3a312862fd25e281c471c964920862162c79feea40437885f63c7466126c14",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_035",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.015154549852013588,
+        "beta": 0.7439866065979004,
+        "gamma": 0.7651740312576294
+      },
+      "APE_percent": {
+        "nu": 84.67163426952351,
+        "beta": 16.789770149002255,
+        "gamma": 8.055941049531903
+      },
+      "complete_sha256": "89f825392683a4c642e09e992b08a63a32d38dfa9de1ba44e6f1ebfbd40861f8",
+      "result_sha256": "0b823117df29e096874513972418d209aa92b516cda983e5780129402618e947",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011821830210720712,
+        "beta": 1.0411558283801277,
+        "gamma": 1.0806541759157813
+      },
+      "APE_percent": {
+        "nu": 8.833687634547257,
+        "beta": 1.5494718415835282,
+        "gamma": 10.986497416094553
+      },
+      "complete_sha256": "3bf134006ba6cb2d8815bdee20219a61b32b9c3b36501700d3e97997e46bed6d",
+      "result_sha256": "502cf9c4a8b998b74ffc88cbc7c9e0cd0452f8871484fa4cc9461cfcd8c036dc",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.026606423014703312,
+        "beta": 0.939382999295955,
+        "gamma": 1.1519910825113122
+      },
+      "APE_percent": {
+        "nu": 105.18053704460512,
+        "beta": 11.172996488323417,
+        "gamma": 5.110475224084826
+      },
+      "complete_sha256": "85155fd5a2f40c24f481bf1bd7e633fce09f06a515744291ef008f9909674067",
+      "result_sha256": "f8c34b2b614cccdc50dc01822c2937c8ccda7d1a60e8dc0881fae4f2aaa9d3ae",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016587166395749753,
+        "beta": 0.9097382462212732,
+        "gamma": 1.1024547627826762
+      },
+      "APE_percent": {
+        "nu": 27.91511685909021,
+        "beta": 13.97617111192328,
+        "gamma": 9.190782710451074
+      },
+      "complete_sha256": "8232834e2f3bfe5477c88e88c91ca0178d55c180fb132a838cb19495b59983df",
+      "result_sha256": "69527cf6cb7af3474e9a80a9ea6b59b074920f96681beaecd12f20557b3f8281",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016268808860331774,
+        "beta": 0.3126757889986038,
+        "gamma": 0.6169541478157043
+      },
+      "APE_percent": {
+        "nu": 25.460041629580402,
+        "beta": 70.43372785305758,
+        "gamma": 49.18147650315076
+      },
+      "complete_sha256": "ffbcd131fb55e80e1e9804ba6ef132fb1c88cdad295d5ece67834094eeb41153",
+      "result_sha256": "75915c662b873b041fbe0fc1d8122f8f8ddf182c812fa06c59b6f3abe6715d72",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_036",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.027212200686335564,
+        "beta": 0.8441483974456787,
+        "gamma": 1.059786081314087
+      },
+      "APE_percent": {
+        "nu": 109.85210781255272,
+        "beta": 20.17827369615849,
+        "gamma": 12.705402718223205
+      },
+      "complete_sha256": "0d849e18fa5fc1f002c40a87d0ee0b957b90c0e91d7c6cf05c7ab12398d616c6",
+      "result_sha256": "6ffce3d742dc7e8bfbf71d110ff20ac344f73d322a8835c6fabf08d3bc9d6c6c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.00789799525768191,
+        "beta": 0.9322053813609079,
+        "gamma": 0.6222373594504021
+      },
+      "APE_percent": {
+        "nu": 28.254070306642802,
+        "beta": 4.416384597283423,
+        "gamma": 20.083777837131375
+      },
+      "complete_sha256": "5fd9a2d42b92fdd477156869650133a36abd8297ddb71b294141178c4b7d00a2",
+      "result_sha256": "718508c84ae9591b5271300add43f5abd8c7e8b4ebabcf86047609202226f01f",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016683132073878698,
+        "beta": 0.8951959203573738,
+        "gamma": 0.7274484669652598
+      },
+      "APE_percent": {
+        "nu": 51.550714046491045,
+        "beta": 8.211147165226675,
+        "gamma": 6.571130107998973
+      },
+      "complete_sha256": "6a503d005aa9cb09bbcf8d09c0006c3ac121e5f0a1413264e672da81539ad66b",
+      "result_sha256": "f77bee3b70c9a33bff18bac49e3a4b688df9508b715f85401342358255d56d84",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.014855492072268328,
+        "beta": 0.8730376233343142,
+        "gamma": 0.7366505975633565
+      },
+      "APE_percent": {
+        "nu": 34.94830713408291,
+        "beta": 10.483146644074681,
+        "gamma": 5.389266785136493
+      },
+      "complete_sha256": "3ab2548ea376b937e7b8e6d73d956bb9a46c53d14a4d2c3797653cb7f37db311",
+      "result_sha256": "66a2b46d158a2a4bec081a5fed4e82e11625ae97ca653aedf9f1bf08a58cdf2d",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.024431715719401836,
+        "beta": 0.6914149820804596,
+        "gamma": 0.5700972676277161
+      },
+      "APE_percent": {
+        "nu": 121.93937842484468,
+        "beta": 29.10581181759071,
+        "gamma": 26.780320721304317
+      },
+      "complete_sha256": "a3be55292f48a3c02a5fb0596892e6025101ec63d0bfba452b67ed1399ed0bb4",
+      "result_sha256": "4735406c9135fdf9d81fbf0194980131ed816af14b5d859743a935f90dc57e78",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_037",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01582680270075798,
+        "beta": 0.8276938796043396,
+        "gamma": 0.7071930766105652
+      },
+      "APE_percent": {
+        "nu": 43.77175938853295,
+        "beta": 15.132464324774983,
+        "gamma": 9.172604048765184
+      },
+      "complete_sha256": "3c3e25661cfdc0b6b0046c38ccd293516cf31228816fb9f5301b4bddc130d41a",
+      "result_sha256": "bbe5dfa0200a25ee4bbe0b9217ecbb61ee89be2f9af0fe975b2f47fbac9467f0",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01161287336922264,
+        "beta": 1.1963584239414873,
+        "gamma": 1.176864661361547
+      },
+      "APE_percent": {
+        "nu": 4.981308609867412,
+        "beta": 2.0034541475191325,
+        "gamma": 5.702245554446196
+      },
+      "complete_sha256": "7332d4e120891a35131e61e5992e93da76b0a01044fd42ea784195e1ef92d4e5",
+      "result_sha256": "62431e873624af296d15dce07f0ec2ebc89e0aa3816b860b9a2e536f263b240e",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021691155126705344,
+        "beta": 1.0477709203822032,
+        "gamma": 1.1364598176759375
+      },
+      "APE_percent": {
+        "nu": 77.48106858224307,
+        "beta": 14.17460772010869,
+        "gamma": 8.939734242286134
+      },
+      "complete_sha256": "d85e6be7b13cf6d7c5b2ce21327ce43d3c16b32285a3bf4a5b443dc0614181c5",
+      "result_sha256": "347d383d8ac8af6fb44f585986f45ac7aec723a93995f3d73653c0f4c72f7862",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016876089558077734,
+        "beta": 1.0083982971110697,
+        "gamma": 1.068805514207752
+      },
+      "APE_percent": {
+        "nu": 38.08330588027136,
+        "beta": 17.399712341356214,
+        "gamma": 14.360620011977911
+      },
+      "complete_sha256": "6865cee6dd44c8a91e2428d4edbb8f30a9ef137010fd6d235d9befc1f0919ea7",
+      "result_sha256": "b32b28a0d9a5cb3c1d0ee15454b630d4e574ebf8c5702b2f8a78b9c5c521729d",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0078208539634943,
+        "beta": 0.23498621582984924,
+        "gamma": 0.2617589235305786
+      },
+      "APE_percent": {
+        "nu": 36.00831718926211,
+        "beta": 80.75172371971608,
+        "gamma": 79.02623852562431
+      },
+      "complete_sha256": "3bec4d057edf97b80b35cd7ca412b7fc58543af88c964340f62f3ec7be61062f",
+      "result_sha256": "5bb3506950699e64c0472bcfb4d59e47a0bf9815ea60c27c72de849d9f0bea4b",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_038",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.027470698580145836,
+        "beta": 0.9694671034812927,
+        "gamma": 1.1342381238937378
+      },
+      "APE_percent": {
+        "nu": 124.77036885428109,
+        "beta": 20.588658417451917,
+        "gamma": 9.117750238182133
+      },
+      "complete_sha256": "f811d36558f386d10afca7ecbd26b40838a50923595274327bc98ab3596b4376",
+      "result_sha256": "98113df3bfb6042c4fd0b0615e31c2bf26ce409c68c045a19a6a1eeb613ec12c",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011921804696024415,
+        "beta": 1.128946362074907,
+        "gamma": 1.0609619987234287
+      },
+      "APE_percent": {
+        "nu": 11.02548483946651,
+        "beta": 1.897650092996826,
+        "gamma": 6.951114989390189
+      },
+      "complete_sha256": "2bcf55b19d35c19ab2869cce4429c000eced3cb2378528cd181e525abc2e8da7",
+      "result_sha256": "67ffa7998447aa1c6002d721ef4ee8b9dc69b77613bd98b9f256c31654f6c171",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02103588102897559,
+        "beta": 1.0157878931271833,
+        "gamma": 1.0249260041662744
+      },
+      "APE_percent": {
+        "nu": 56.99446210118777,
+        "beta": 11.730811426939603,
+        "gamma": 10.111557227496865
+      },
+      "complete_sha256": "eb56ed5e7e9bb6008b2bc393b799ae32031602f75f8e3dba3c315f3685865d0a",
+      "result_sha256": "55ca8e3f2b24eadecf93f1d10d5397250495468762fb8b4ada92f83334bc44f0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01784035426575164,
+        "beta": 0.9822107249635114,
+        "gamma": 1.0079862634952625
+      },
+      "APE_percent": {
+        "nu": 33.145686543308294,
+        "beta": 14.648575468470101,
+        "gamma": 11.597212683303086
+      },
+      "complete_sha256": "31fe61147976f29a3b4fb9f377bf0f8ad02c5695bd620889ab7d190d9ef79295",
+      "result_sha256": "22f528cc1d3eeaf21d3e3e5a0423bfd3c56dd6461d8be719a13e4df3b2564fd4",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016382371075451374,
+        "beta": 0.3049604445695877,
+        "gamma": 0.5560506582260132
+      },
+      "APE_percent": {
+        "nu": 22.26450279833108,
+        "beta": 73.49977178191581,
+        "gamma": 51.233037734055785
+      },
+      "complete_sha256": "5b9027d23b2b9bf53eaebb061ab21e633b8500c4c144ab8c2ebf288ee2c96e88",
+      "result_sha256": "0db23f681082cf47b254622068578ab315ceb300a4550f3f3b793c66c10d2282",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_039",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.028133314102888107,
+        "beta": 0.928815484046936,
+        "gamma": 1.004921317100525
+      },
+      "APE_percent": {
+        "nu": 109.96384741969459,
+        "beta": 19.288475807171086,
+        "gamma": 11.866015755411958
+      },
+      "complete_sha256": "64904d8530a0584df4379db0656cc6eb4f3a729b213ffa146f6ace22c1675305",
+      "result_sha256": "e8d5b4bca8792c76e00768bd070a005e4e12379d972c4f6e622edc5d9c838321",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.013314655134676869,
+        "beta": 1.1238760881149,
+        "gamma": 1.1035879020956554
+      },
+      "APE_percent": {
+        "nu": 9.677058773826909,
+        "beta": 1.6928325334500813,
+        "gamma": 5.667975314054638
+      },
+      "complete_sha256": "a59e37eb2cc75663f09bb366162bb1860d9a53fc0cdc15e9def112cd4e8eedbb",
+      "result_sha256": "b112c6713ece72f62f99f3058c8647a95b8748530efe80fb7d5248e3d326fb9e",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.028547009915867297,
+        "beta": 1.0474315436103026,
+        "gamma": 1.0766673475071955
+      },
+      "APE_percent": {
+        "nu": 93.65502694084147,
+        "beta": 8.379554244135038,
+        "gamma": 7.9690792090643745
+      },
+      "complete_sha256": "691ba53ca706b77f6dc4985e8d3283ba724d4943ae9964461ca416e960eb1450",
+      "result_sha256": "c26abe12ef430786c484239ad6b70f08ca397210f3eb5133754c66d688b780b7",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018680154891070385,
+        "beta": 1.016450187939208,
+        "gamma": 1.0896572869602899
+      },
+      "APE_percent": {
+        "nu": 26.721008937563276,
+        "beta": 11.089541005582761,
+        "gamma": 6.858730602640433
+      },
+      "complete_sha256": "bdf16a9824bf799da8bcf59247d16e465255aa4ae81d7fc9fe4b36d6e85f9295",
+      "result_sha256": "51a0a0cd2758cd874be5068309199560b9efdd50ca7733aef9d3aa229e176772",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.033163683488965034,
+        "beta": 0.7060422599315643,
+        "gamma": 0.6936015486717224
+      },
+      "APE_percent": {
+        "nu": 124.97326474613884,
+        "beta": 38.241399190212505,
+        "gamma": 40.71261719409489
+      },
+      "complete_sha256": "505d8afbe3d6ebdd60c664cb61487bc981a8ade81fb9b223fa315a5b0375346e",
+      "result_sha256": "8d62ebac601472cc732ffe5b924afa2e113e4381a14e07a5964997406891e6d0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_040",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.031211908906698227,
+        "beta": 0.9291805624961853,
+        "gamma": 1.055463433265686
+      },
+      "APE_percent": {
+        "nu": 111.73296530934071,
+        "beta": 18.72314917101712,
+        "gamma": 9.78153851372914
+      },
+      "complete_sha256": "2cefe8e238dda3796814409b8014fcdaf3e3baa7207a1c8f67d9111f12772694",
+      "result_sha256": "c83d7627544a073924e285c5165ed9fb4eb059d8c2d7730821ee96f71ecb642f",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008871151026803907,
+        "beta": 0.8470560358194543,
+        "gamma": 0.929923627467327
+      },
+      "APE_percent": {
+        "nu": 11.15758061287821,
+        "beta": 1.2453241862969258,
+        "gamma": 8.505199132089444
+      },
+      "complete_sha256": "6036ffa8e3152cf120fc1f0952d8f553716d59121fc8170a6c083f2441fda6e7",
+      "result_sha256": "51f8585d8456dd0530d67923b6c06708f1db3a5a105209ed35c80ac27a969918",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02175689639798449,
+        "beta": 0.7572428178095214,
+        "gamma": 0.9664863028300548
+      },
+      "APE_percent": {
+        "nu": 117.89002447501949,
+        "beta": 11.716266902354553,
+        "gamma": 4.907812634209144
+      },
+      "complete_sha256": "11e4cfec4b4b833e97f3eae73b792f51549ba2a8b44e1c4e8298ef673e827d79",
+      "result_sha256": "ca5282b35667ec7dc91facbd39dbf1e9961b6e71a2122b8ad9e454b35bc1726d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.013200664338883998,
+        "beta": 0.7307994459915722,
+        "gamma": 0.9152259918666602
+      },
+      "APE_percent": {
+        "nu": 32.201441936930145,
+        "beta": 14.799187631177968,
+        "gamma": 9.951293416385251
+      },
+      "complete_sha256": "1909cf56b37c6f2ac53f6451717f37f9fc5f55dde101ff25e55d6eba02b170c1",
+      "result_sha256": "6039997171721fba45dc42b16bb8bae8dd0e2352c65cceda5ce4da1d62a4f9cf",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": -0.0,
+        "beta": 0.1477891355752945,
+        "gamma": 0.19376663863658905
+      },
+      "APE_percent": {
+        "nu": 100.0,
+        "beta": 82.76989059123305,
+        "gamma": 80.93538061272457
+      },
+      "complete_sha256": "99639204043a025580e27a1b55b9b0fc6462154f776ecfe713255d76c78359a4",
+      "result_sha256": "e42ff2bf90fabbc29009e52739a9e508930d9467e6b8021efd440342a2e1fd48",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_041",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019140757620334625,
+        "beta": -1.3985803127288818,
+        "gamma": 0.42338114976882935
+      },
+      "APE_percent": {
+        "nu": 91.6900310630463,
+        "beta": 263.05455547501344,
+        "gamma": 58.34370388584724
+      },
+      "complete_sha256": "d408e502cbfe62310d7c4dfee9c2954bfee3515a63e1b3c0bc37907f02e3cebf",
+      "result_sha256": "bb92bf4e2a28db69bfdbdfe6a6d7745199120735ef1923c77f400596657adfd0",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.009219659416088523,
+        "beta": 1.2066964552110393,
+        "gamma": 0.9806837241722131
+      },
+      "APE_percent": {
+        "nu": 0.8352023702514483,
+        "beta": 0.9074332277063307,
+        "gamma": 4.713210689451069
+      },
+      "complete_sha256": "ced513abb3644fc02d10f13f956846c03af6b90551c1f3a5b594e09b555a265e",
+      "result_sha256": "659e05dcbe3ce7600ad6f9e0f53ca41b1b9fc07c644fe425b2d9dd5556362f47",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019834696423436993,
+        "beta": 1.059524863966115,
+        "gamma": 0.9146161966270565
+      },
+      "APE_percent": {
+        "nu": 116.93161726990287,
+        "beta": 12.993000123543315,
+        "gamma": 11.132571409216336
+      },
+      "complete_sha256": "2df609b946c5df5293f939f0ec4d1045e02fe4031cc0a3da85bb575af0035619",
+      "result_sha256": "8db9110b0cfc6a3d202dcca788972bc86a881cab6b09c07f864637996a4c0d1d",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.012223224121795218,
+        "beta": 1.0251035944529736,
+        "gamma": 0.9193433336434422
+      },
+      "APE_percent": {
+        "nu": 33.68512027541535,
+        "beta": 15.819636377332218,
+        "gamma": 10.67326562303879
+      },
+      "complete_sha256": "752f5d8a7f49132a4f7c5c7d3fa7ce186834d3844c3384556a2410a18d6ef14e",
+      "result_sha256": "b596298a1cd267416b45923d391ecff2ea0e073c3e2ee8dba67adf26185a974f",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.031041747890412807,
+        "beta": 0.7738504111766815,
+        "gamma": 0.6753466129302979
+      },
+      "APE_percent": {
+        "nu": 239.5028806589104,
+        "beta": 36.452267502616344,
+        "gamma": 34.38087241408968
+      },
+      "complete_sha256": "0cd769433dffcb068b9475cc5b5511d033c4d2c652b632409afbca4f0e58ceec",
+      "result_sha256": "a596e988f63a2e69759538cf913f1f88bc8e70d89fd957b6f71a164685a2f773",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_042",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020857686176896095,
+        "beta": 0.9655826091766357,
+        "gamma": 0.8653514981269836
+      },
+      "APE_percent": {
+        "nu": 128.1200326068878,
+        "beta": 20.707433289619246,
+        "gamma": 15.919308285457
+      },
+      "complete_sha256": "bf7cb27bca6e85a8449787b47bb9d601c565de48bef3d974e02cf4aaf2cb3eb6",
+      "result_sha256": "1deefb29406eaaaa1dd498f62e003b8c68ce00479d643803284da6b66a39655b",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011747691167033841,
+        "beta": 1.145716981288024,
+        "gamma": 1.0201505777871482
+      },
+      "APE_percent": {
+        "nu": 10.759845446558788,
+        "beta": 2.2073051640654042,
+        "gamma": 8.080217250740626
+      },
+      "complete_sha256": "52d291d566d77d577308ea9c67273b410583a74a275e3cd1d139a074194b7b29",
+      "result_sha256": "8251bd12bdf249df06fb0804c5695ab70b7572f9f5ea69a876ff10b677b93223",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02361256016763167,
+        "beta": 1.0580318906797108,
+        "gamma": 1.0251951894408151
+      },
+      "APE_percent": {
+        "nu": 79.3704387356585,
+        "beta": 9.691667748863614,
+        "gamma": 7.6256768942912165
+      },
+      "complete_sha256": "f2a4fd23fe37aeb854cb140c8e1773648c377d1069001a267d7b89189fb21747",
+      "result_sha256": "9ea78cc6689f7bcc626d9d4f0fdfd497e8278fbfca490bc8768451b76fd0661e",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.017373551960238043,
+        "beta": 1.0237974058111023,
+        "gamma": 1.0151750126180759
+      },
+      "APE_percent": {
+        "nu": 31.976440308938386,
+        "beta": 12.6137528591476,
+        "gamma": 8.528536233598997
+      },
+      "complete_sha256": "cd4974c2fc87a19f7ed750afa7fdc8a71aa719fb95de2980edddc43f203987ac",
+      "result_sha256": "a30bb48c5ca53ac38d659959ddb36b235a4ca41dcea866d4cd191a4eb8f88aaf",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03170065488666296,
+        "beta": 0.774299293756485,
+        "gamma": 0.7900828719139099
+      },
+      "APE_percent": {
+        "nu": 140.81083689616494,
+        "beta": 33.90966898222833,
+        "gamma": 28.810268286305494
+      },
+      "complete_sha256": "52ad232a2b10f3d96d1a9a9daa441b3ccecb95b155b35f9f06b6c9f42579580f",
+      "result_sha256": "2269360dd8f2f63bb1b1547800220d2b9c925a34042419fb3b52a460b527321e",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_043",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.027541521936655045,
+        "beta": 0.9442870020866394,
+        "gamma": 1.006080150604248
+      },
+      "APE_percent": {
+        "nu": 109.21640170122525,
+        "beta": 19.40036488873194,
+        "gamma": 9.348020884834447
+      },
+      "complete_sha256": "23c95c047f565ebe703fb9ee0b764b9055cfd412a4ee2d8a1aff678179f773f6",
+      "result_sha256": "a6c212cb237756ab2d3d6b3071486c526ea48aa1ecde7d32806430a2dfd0fc34",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011814304823861938,
+        "beta": 1.1895537606666342,
+        "gamma": 1.1294491628461525
+      },
+      "APE_percent": {
+        "nu": 5.986407189012249,
+        "beta": 1.3940675184646172,
+        "gamma": 4.62047490682898
+      },
+      "complete_sha256": "813726cc58e520efcf0869e15e11389daa77d2b0e8a07b475496dcf4169495b4",
+      "result_sha256": "604747a283508565a854cb5610e0a510690c70d1057f61a616397d1bf7e59bf0",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.023602544082222225,
+        "beta": 1.069571235125518,
+        "gamma": 1.0771066583917375
+      },
+      "APE_percent": {
+        "nu": 87.81976609979499,
+        "beta": 11.339804486116446,
+        "gamma": 9.040685555769299
+      },
+      "complete_sha256": "e432547e3e16e6a195898af908e99ea0106b8491773b2d1c1d887fbd98718b82",
+      "result_sha256": "93e179a0da5dfb608b7e460872a7ec6898ea1a0c0890958cb4b7a68b737011c0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01708807767193421,
+        "beta": 1.0341824879748556,
+        "gamma": 1.060737861091909
+      },
+      "APE_percent": {
+        "nu": 35.98020367030002,
+        "beta": 14.2732914183832,
+        "gamma": 10.422994883326606
+      },
+      "complete_sha256": "174607690c49ec63192c50b8abb469923f3a1d2153c50d4ab71312795b490584",
+      "result_sha256": "a9f92f412c3e1bd60410a5af0b33620a4e1066a0c78c11ad01920948b0f0947e",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03181677311658859,
+        "beta": 0.7560025453567505,
+        "gamma": 0.8102980852127075
+      },
+      "APE_percent": {
+        "nu": 153.18537120364863,
+        "beta": 37.33252047260114,
+        "gamma": 31.572089214942974
+      },
+      "complete_sha256": "0088f08adcc4ce9a99865752c5ffd2b906a6d2d642d01bfe5f9c8af5bdafe8e4",
+      "result_sha256": "6bbd0c23bd05614d49b5d251d8380832c5f782a20e904e991459bb0be6e12dd1",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_044",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.030311523005366325,
+        "beta": 0.9562115669250488,
+        "gamma": 1.0753949880599976
+      },
+      "APE_percent": {
+        "nu": 141.2071826309853,
+        "beta": 20.736551533883773,
+        "gamma": 9.185232392163442
+      },
+      "complete_sha256": "08ba1859fd274560f2850302f73d0478597af831fdc21637bddcd0740ba11486",
+      "result_sha256": "72fd400e5096eb191b1a2f70f4ddc9dbb900fa45ee7b8816a5e909d3fb583cea",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.010150136792572125,
+        "beta": 0.9181827301953186,
+        "gamma": 0.7537997111735222
+      },
+      "APE_percent": {
+        "nu": 26.635486406669553,
+        "beta": 4.639052015242664,
+        "gamma": 18.405947770916026
+      },
+      "complete_sha256": "0e52c9c20ceb691152b5f152b21771f3ebf0d61637c6fb8184079f204ee3ffec",
+      "result_sha256": "10ce53ec00312c1614eea11baa7e28ddb9eb56338645619e2c0496ece1eaab08",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.018509710156692685,
+        "beta": 0.8866099190744835,
+        "gamma": 0.8606873576894178
+      },
+      "APE_percent": {
+        "nu": 33.78695382637995,
+        "beta": 7.9181522422596275,
+        "gamma": 6.836035918755312
+      },
+      "complete_sha256": "9605365b704d181bce0f6eae5d2f18a9b23b666f6c0ca5396c0a7abdede27bab",
+      "result_sha256": "7bfa569774afc6864b4bf74f5e5fd9d863321f013910dd9a1117bce525272fe0",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.017738244571384648,
+        "beta": 0.8619713847316465,
+        "gamma": 0.8580247128014659
+      },
+      "APE_percent": {
+        "nu": 28.210851890341342,
+        "beta": 10.477069889717596,
+        "gamma": 7.124250391160497
+      },
+      "complete_sha256": "0fb953c9a92a49df9dee148a26da244b66bb4953bc0ea11d806237920d69022c",
+      "result_sha256": "8db2b1f6622e729820089e7caa5f2cb57cc0bb9dc1660a274de4a3f14b8e5707",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.029489253647625446,
+        "beta": 0.6745446026325226,
+        "gamma": 0.7206700444221497
+      },
+      "APE_percent": {
+        "nu": 113.14636386689992,
+        "beta": 29.942907169082414,
+        "gamma": 21.992024707766127
+      },
+      "complete_sha256": "d47df49c0dea5ee637588d7965876f92914fdb73ce570bb80cb85ea7541fde91",
+      "result_sha256": "a5574ae576fb34239b541925cbebe4eea2489c92bf0f57e6f1b67bbf72d5f4cc",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_045",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02029442973434925,
+        "beta": 0.8155607581138611,
+        "gamma": 0.8487789630889893
+      },
+      "APE_percent": {
+        "nu": 46.686788221822425,
+        "beta": 15.297201226643487,
+        "gamma": 8.125044333841107
+      },
+      "complete_sha256": "cbf4cf154c19543d62d7846939bd07dcec458b58dc017cbcaf5c1a459d3bb3f8",
+      "result_sha256": "9b80c06997ff64c967994afcac989edf226b90709d17c037c701ec49cb95a415",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011413378887766067,
+        "beta": 1.2062545875178783,
+        "gamma": 0.8133782723093411
+      },
+      "APE_percent": {
+        "nu": 10.756876547687686,
+        "beta": 2.568773894949196,
+        "gamma": 13.127826769180137
+      },
+      "complete_sha256": "055c1f721b6ea61cbcea261b3b54d47bc6fb158bba60a459cb2e399e23e59e6a",
+      "result_sha256": "9ca7b2f3ba287c223d1ee62a8486e97b8a70ab7f5e6c7de71121c6ea1b298223",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020114631716476962,
+        "beta": 1.110707009655426,
+        "gamma": 0.8603980658405552
+      },
+      "APE_percent": {
+        "nu": 57.27967844785205,
+        "beta": 10.286313590829165,
+        "gamma": 8.105917790318784
+      },
+      "complete_sha256": "588d50014d1532068d62b5361d3bce285bb32e63e94187a64d8e1c40b2f4b9a2",
+      "result_sha256": "9264c05c8e208d28d2183f369c946429839c0bbd8497edefb82e6dac1d7ffafe",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016317586428784298,
+        "beta": 1.0753142262594462,
+        "gamma": 0.8595902108662976
+      },
+      "APE_percent": {
+        "nu": 27.589944610416815,
+        "beta": 13.14504865158986,
+        "gamma": 8.192200052408023
+      },
+      "complete_sha256": "4158c665ca3dbc565390dca7827808d00885b6465e55dc128d9a3e6244c106b7",
+      "result_sha256": "7c5f2edaa029778048a4e0ece6f7bcd5517cb72ba334e950e3adb59e4f012fd2",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.030738143250346184,
+        "beta": 0.8034147322177887,
+        "gamma": 0.6225624084472656
+      },
+      "APE_percent": {
+        "nu": 140.34669660584828,
+        "beta": 35.106831310036334,
+        "gamma": 33.50775249986208
+      },
+      "complete_sha256": "b31096d1084711061dad7e8d929083b5b69684ba929c96c5a8a27a2b63cd63e5",
+      "result_sha256": "788b6fee708df775606fc66db88e092784adb67a6027c9c70e3c16338edabb56",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_046",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.020689427852630615,
+        "beta": 0.990972101688385,
+        "gamma": 0.8121964931488037
+      },
+      "APE_percent": {
+        "nu": 61.77410582497672,
+        "beta": 19.95750490609644,
+        "gamma": 13.254045685334972
+      },
+      "complete_sha256": "336c529f9f53baf6588e0f2b1f67499f8501e0689276dc602586fcaaf4c74536",
+      "result_sha256": "96ecc7577d68dcd37052f63184280f986b2873b870f6dcf3baddf5306fe4a3a0",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008783617427638578,
+        "beta": 0.922448782196737,
+        "gamma": 0.9908104225392338
+      },
+      "APE_percent": {
+        "nu": 1.0181743947798496,
+        "beta": 0.7673128695989789,
+        "gamma": 4.390731798003732
+      },
+      "complete_sha256": "310f6267837e10fda020b36142ede22b39d7aa11f76ec014207759e03fd02fff",
+      "result_sha256": "41ee53674da1c04d7482d1e5d6399bf768b79a2aa9050627853c13cbfcba0170",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0232462061520414,
+        "beta": 0.8397350999740467,
+        "gamma": 0.9413420788822386
+      },
+      "APE_percent": {
+        "nu": 161.95948790804226,
+        "beta": 9.66526049316371,
+        "gamma": 9.164230369091772
+      },
+      "complete_sha256": "81a0a64a01f1cffaa0b565e9e1c38beda133fa50dea174d65313f7b6b705ebe9",
+      "result_sha256": "8331bd98c84982a7b7d7ebceca9414d8bf73df5955371650d48c80fd7ac4ae5b",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.01221952210777476,
+        "beta": 0.8052712409552121,
+        "gamma": 0.9409190938389895
+      },
+      "APE_percent": {
+        "nu": 37.70073847308523,
+        "beta": 13.372719818090083,
+        "gamma": 9.205046744783294
+      },
+      "complete_sha256": "e36fe87c3e164301e2d75714773bbc88553660f65bd8b6086c8421bbebd226b2",
+      "result_sha256": "eed74ce4b36fc5871cc985e2582af26c7d72bc025b408f0004956200abe3d764",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": -0.0,
+        "beta": 0.12575575709342957,
+        "gamma": 0.0
+      },
+      "APE_percent": {
+        "nu": 100.0,
+        "beta": 86.47178906911115,
+        "gamma": 100.0
+      },
+      "complete_sha256": "294005f3b8e12db540e39798a6f65fe78d00e0ea5616030784fd6c216a17b5c2",
+      "result_sha256": "88ceb865b261c600d4bd449f33e242e45b3f15e46a464018ed41c6c00713686b",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_047",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.02018391154706478,
+        "beta": 0.7784305214881897,
+        "gamma": 0.9255500435829163
+      },
+      "APE_percent": {
+        "nu": 127.45075468523254,
+        "beta": 16.26011776216134,
+        "gamma": 10.688099016455057
+      },
+      "complete_sha256": "27ef0ea1a34a937a502e086d0b546b5989b1bd115bb46ce3d3466995ea0e499e",
+      "result_sha256": "079e68e22625d1b4789fa879e8bab90f1f647f50bad9004e964c1e5e3d929687",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.008740630285563364,
+        "beta": 1.070813848725969,
+        "gamma": 1.0930302459707655
+      },
+      "APE_percent": {
+        "nu": 0.9697933730570475,
+        "beta": 0.9632790344384193,
+        "gamma": 3.797991322951827
+      },
+      "complete_sha256": "72a6a9e158ddd0f3b29d5ebfc58485d3e52f084abd4681ac628f31dd1f30160b",
+      "result_sha256": "6e5f0438cc8b279cc556679d1ac0487a7ced9d7dc571c00bd9dde111bfd2c843",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.019045714036015685,
+        "beta": 0.8947975944193336,
+        "gamma": 0.9668769420689338
+      },
+      "APE_percent": {
+        "nu": 120.01180098362774,
+        "beta": 17.2425536104162,
+        "gamma": 14.901253361070124
+      },
+      "complete_sha256": "b18ee79ee39c69f1d64f053b27e98c4bdf45c77c70d73d52374588cdbbe15100",
+      "result_sha256": "38493c04110af7d80f784c369a8f2bd323c6cad4539cc57978684960137fa17f",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011763536297165755,
+        "beta": 0.8548525710275139,
+        "gamma": 0.9464849162215636
+      },
+      "APE_percent": {
+        "nu": 35.88972310418774,
+        "beta": 20.936962438173957,
+        "gamma": 16.696037956229233
+      },
+      "complete_sha256": "7adaf04479fd4859462ea847c0b0c05c8bd388a8275b1c7bbed0a1a1808375f9",
+      "result_sha256": "8d20f699a661fb8ab12117889a12eca2f7ff9bb7b5ee7f1de8d09b02dec8f06b",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.028167513199150562,
+        "beta": 0.6736287176609039,
+        "gamma": 0.7802339196205139
+      },
+      "APE_percent": {
+        "nu": 225.3847714218677,
+        "beta": 37.69787398178792,
+        "gamma": 31.32845995602251
+      },
+      "complete_sha256": "f21690351f52cc7eda62259e4fa641e57234d30fd43195a25fefd0bcf321cb64",
+      "result_sha256": "ff1a19f49423239f37a730a957b7dba5ebb865266908e4cee10a3b43896ca129",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_048",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.021478040143847466,
+        "beta": 0.8501189947128296,
+        "gamma": 0.9748560786247253
+      },
+      "APE_percent": {
+        "nu": 148.10948461741592,
+        "beta": 21.374758304565063,
+        "gamma": 14.198977310608353
+      },
+      "complete_sha256": "6efbf45f0ea6261ea744b385ee39200dceda4d763854eb5c5c53d89956608036",
+      "result_sha256": "294f578f4124500197c34964ab2b5a2047a0edd3db00212677c01f1bff8b8088",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "GIFT",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.011533990057100457,
+        "beta": 1.1038651014030378,
+        "gamma": 1.1903453198125538
+      },
+      "APE_percent": {
+        "nu": 3.0610756599751574,
+        "beta": 0.6501933352084459,
+        "gamma": 3.797895458564606
+      },
+      "complete_sha256": "8862aa3072c98d5d2a3c08fb5e52b1c002ee2391a08e447bf0dfdb07e27d1bee",
+      "result_sha256": "9f00f9b9ae50e8664b40686f3541f59b37a3ae9bfb0fd98eb25c83baa155552c",
+      "full_native_coefficient_count": 0
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PDE-FIND",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.0277034015581224,
+        "beta": 1.0133763640594506,
+        "gamma": 1.1411057060303904
+      },
+      "APE_percent": {
+        "nu": 132.83685301522397,
+        "beta": 8.79433934453508,
+        "gamma": 7.777374685145275
+      },
+      "complete_sha256": "ad8e4be10592654a84066d890e4c827e66b0c4d7362d0f62328f7ea29f465901",
+      "result_sha256": "490ab2f0166a003f3296aa82c346eb28e705884f8875cce814460ec3466da0ba",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PDE-FIND-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.016323451528228228,
+        "beta": 0.9758853465921296,
+        "gamma": 1.1487830819735236
+      },
+      "APE_percent": {
+        "nu": 37.19257818233067,
+        "beta": 12.168597061633358,
+        "gamma": 7.156899508075223
+      },
+      "complete_sha256": "7293552d77083ec0448994d3bbc963dbb43611b8dabd9d1efc22249140fbe19b",
+      "result_sha256": "e2206f89df25f54a1a6b2afd1b1d76005ee56a74d41f4e857c2ef2d3ad30c2fa",
+      "full_native_coefficient_count": 4
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PINN-SR",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.04005368612706661,
+        "beta": 0.7119243144989014,
+        "gamma": 0.8030077815055847
+      },
+      "APE_percent": {
+        "nu": 236.63643108661608,
+        "beta": 35.92555565391891,
+        "gamma": 35.10199329707848
+      },
+      "complete_sha256": "4abb3e1c5d91588ec57c50a02732a2c27067e93c5153a33f69ff3c7b743c2103",
+      "result_sha256": "b739f950359e55ac3577335d6625d65320316e1d6a7d7018a72d6a301d1737cb",
+      "full_native_coefficient_count": 90
+    },
+    {
+      "case_id": "parameter_049",
+      "method": "PINN-SR-KC",
+      "status": "complete",
+      "parameters": {
+        "nu": 0.03223414719104767,
+        "beta": 0.8801860809326172,
+        "gamma": 1.1287333965301514
+      },
+      "APE_percent": {
+        "nu": 170.91609583923355,
+        "beta": 20.781699812277953,
+        "gamma": 8.777288065027696
+      },
+      "complete_sha256": "d583693748c9569c0684971d876b3a96fa04c0cf06bf26bac04430e75c224fa5",
+      "result_sha256": "37814dced56380f75d64773bb58731f65c6b0c519d8820c94fa92813a2223c5f",
+      "full_native_coefficient_count": 4
+    }
+  ]
+}

@@ -19,6 +19,14 @@ class StaticTensorCall:
     """
 
     def __init__(self, function, inputs, *, parameters=(), backward=False, frozen=False):
+        """Warm up and capture ``function`` using cloned fixed-layout CUDA inputs.
+
+        ``function`` is responsible for any backward calculation when
+        ``backward=True``; this wrapper retains its parameter gradient buffers
+        for replay. ``frozen`` additionally records parameter versions for
+        inference calls. Setup restores CPU/device RNG states after warmup,
+        but the captured function itself must be deterministic.
+        """
         if not inputs or any(x.device.type != "cuda" for x in inputs):
             raise ValueError("CUDA graph inputs must be nonempty CUDA tensors")
         if any(x.device != inputs[0].device for x in inputs):
@@ -56,6 +64,13 @@ class StaticTensorCall:
         self.setup_seconds = time.perf_counter() - started
 
     def __call__(self, *inputs):
+        """Copy matching inputs into captured buffers and return borrowed outputs.
+
+        Shape, dtype and CUDA device must match capture. Output references
+        share graph storage and are overwritten on the next replay; clone a
+        tensor if a caller needs to retain it. Training parameter values may
+        change in place, but their storage identities must remain stable.
+        """
         if len(inputs) != len(self.inputs):
             raise ValueError("graph input count differs")
         for actual, static in zip(inputs, self.inputs):

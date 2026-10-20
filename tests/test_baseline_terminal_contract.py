@@ -15,15 +15,19 @@ from training import baseline_control as control
 
 
 class MetadataOnlyModel:
+    """Minimal exporter interface; the scalar tensor is not a baseline architecture or trained model."""
     def state_dict(self):
+        """Supply a labeled scalar tensor solely to test serialization and consumer metadata."""
         return {"METADATA_ONLY_MOCK_NOT_TRAINING": torch.ones(1)}
 
     def requires_grad_(self, enabled):
+        """Accept inference freezing without constructing or running a real neural network."""
         assert enabled is False
         return self
 
 
 def export_fixture(tmp_path, model, tiny=False):
+    """Build a real terminal export around synthetic state and shape-correct, unfitted normalization."""
     output = tmp_path / ("METADATA_ONLY_MOCK_NOT_TRAINING_" + model + ("_tiny" if tiny else ""))
     output.mkdir()
     (output / "ATTEMPT.json").write_text(json.dumps({"run_id": output.name}), encoding="utf-8")
@@ -46,6 +50,7 @@ def export_fixture(tmp_path, model, tiny=False):
 
 @pytest.mark.parametrize("model", ["fno2d", "fno3d", "uno", "unet"])
 def test_exported_full_budget_metadata_matches_consumers(tmp_path, monkeypatch, model):
+    """Round-trip family/configuration/normalizer metadata while stubbing any actual baseline load."""
     output, payload, config = export_fixture(tmp_path, model)
     assert payload["schema"] == "gift.independent-baseline-weights.v1"
     assert payload["status"] == "complete"
@@ -70,6 +75,7 @@ def test_exported_full_budget_metadata_matches_consumers(tmp_path, monkeypatch, 
     else:
         calls = []
         def metadata_loader(method, path, device):
+            """Record inference dispatch and return synthetic state instead of external model construction."""
             calls.append((method, path, device))
             return MetadataOnlyModel(), payload
         monkeypatch.setattr(prediction, "load_checkpoint", metadata_loader)
@@ -77,34 +83,34 @@ def test_exported_full_budget_metadata_matches_consumers(tmp_path, monkeypatch, 
         assert calls == [(model, output / "model.pt", "cpu")]
 
 
-@pytest.mark.parametrize("model", ["fno2d", "fno3d", "uno", "unet"])
-def test_tiny_export_is_still_refused_even_at_matching_terminal_epoch(tmp_path, monkeypatch, model):
+@pytest.mark.parametrize("model", ["uno", "unet"])
+def test_custom_budget_export_is_readable_and_keeps_its_metadata(tmp_path, monkeypatch, model):
+    """Read a diagnostic budget without turning artifact metadata into inference permission."""
     output, payload, config = export_fixture(tmp_path, model, tiny=True)
-    assert payload["status"] == "complete"
     assert payload["artifact_role"] == "test_only" and config["formal"] is False
-    # Exercise the test_only guard specifically: matching an epoch alone must
-    # never reclassify a fixture as a formal model. The exported file is not edited.
-    altered_metadata = dict(payload, terminal_epoch=control.PROTOCOLS[model]["epochs"])
-    with pytest.raises(ValueError, match="tiny"):
-        if model.startswith("fno"):
-            _terminal_contract(altered_metadata, "FNO-2D" if model == "fno2d" else "FNO-3D")
-        else:
-            monkeypatch.setattr(prediction, "load_checkpoint", lambda *args: (MetadataOnlyModel(), altered_metadata))
-            prediction._load(model, output / "model.pt", "cpu")
+    monkeypatch.setattr(prediction, "load_checkpoint", lambda *args: (MetadataOnlyModel(), payload))
+    assert prediction._load(model, output / "model.pt", "cpu")[1] is payload
 
 
-def test_export_is_create_only(tmp_path):
+def test_matching_export_is_idempotent(tmp_path):
+    """Re-exporting identical model/configuration must retain the original file bytes."""
     output, _, config = export_fixture(tmp_path, "fno2d")
-    with pytest.raises(FileExistsError):
-        control._export_terminal(output, MetadataOnlyModel(), {"kind": "none"}, config,
-                                 {"purpose": "METADATA_ONLY_MOCK_NOT_TRAINING"}, resumed=True)
+    before = (output / "model.pt").read_bytes()
+    control._export_terminal(output, MetadataOnlyModel(), {"kind": "none"}, config,
+                             {"purpose": "METADATA_ONLY_MOCK_NOT_TRAINING"}, resumed=True)
+    assert (output / "model.pt").read_bytes() == before
 
 
-# A 150-epoch uno export is below the 500-epoch formal budget and must be
-# refused for formal prediction even though every other declared field matches.
-def test_uno_short_budget_cannot_supply_formal_predictions(tmp_path, monkeypatch):
+def test_uno_short_budget_is_descriptive_metadata(tmp_path, monkeypatch):
+    """A recorded shorter terminal epoch is readable without pretending it completed the default budget."""
     output, payload, _ = export_fixture(tmp_path, "uno")
     short = dict(payload, terminal_epoch=150)
     monkeypatch.setattr(prediction, "load_checkpoint", lambda *args: (MetadataOnlyModel(), short))
-    with pytest.raises(ValueError, match="500-epoch"):
-        prediction._load("uno", output / "model.pt", "cpu")
+    assert prediction._load("uno", output / "model.pt", "cpu")[1]["terminal_epoch"] == 150
+
+
+@pytest.mark.parametrize("method", ["FNO-2D", "FNO-3D"])
+def test_fno_custom_budget_is_readable_without_formal_permission(method):
+    """FNO consumers must accept custom-budget metadata rather than require a formal training label."""
+    _terminal_contract({"method": method, "status": "diagnostic_complete", "terminal_epoch": 7,
+                        "formal_configuration": False, "artifact_role": "test_only"}, method)

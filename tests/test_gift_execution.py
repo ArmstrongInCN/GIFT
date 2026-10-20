@@ -10,18 +10,22 @@ from experiments.formal.train_low_generator import parse_args
 
 @pytest.mark.parametrize("device,expected", [("cuda", "cuda-graph"), ("cpu", "eager")])
 def test_fresh_auto_backend(device, expected):
+    """Resolve fresh automatic selection to CUDA graphs on GPU and eager execution on CPU."""
     assert resolve_execution("auto", device) == expected
 
 
 @pytest.mark.parametrize("saved", ["eager", "cuda-graph"])
 def test_auto_resume_inherits_backend_only(tmp_path, saved):
+    """Automatic resume inherits recorded execution while an explicit backend remains a caller choice."""
     (tmp_path/"ATTEMPT.json").write_text(json.dumps({"identity":{"execution":saved}}))
     assert resolve_execution("auto", "cuda", resume=True, checkpoint_directory=tmp_path) == saved
-    # Explicit selection is left for the ordinary full-identity check to reject.
+    # An explicit backend is a caller choice; saved training state is checked
+    # separately by the controller.
     assert resolve_execution("eager", "cuda", resume=True, checkpoint_directory=tmp_path) == "eager"
 
 
 def test_bad_record_and_missing_journal_are_not_fresh_training(tmp_path):
+    """A missing or invalid resume record must raise rather than silently initialize a fresh run."""
     with pytest.raises(FileNotFoundError):
         resolve_execution("auto", "cuda", resume=True, checkpoint_directory=tmp_path)
     with pytest.raises(ValueError):
@@ -34,12 +38,14 @@ def test_bad_record_and_missing_journal_are_not_fresh_training(tmp_path):
 
 
 def test_generator_cli_defaults_to_shared_auto_policy():
+    """Retain the shared automatic default while accepting an explicit eager reference run."""
     assert parse_args(["--dry-run"]).execution == "auto"
     assert parse_args(["--dry-run", "--execution", "eager"]).execution == "eager"
 
 
 @pytest.mark.parametrize("strict", [False, True])
 def test_runtime_policy_preserves_precision_rng_and_existing_workspace(monkeypatch, strict):
+    """Kernel determinism settings must preserve RNG/precision and respect an existing cuBLAS workspace choice."""
     before = (torch.backends.cudnn.benchmark, torch.backends.cudnn.deterministic,
               torch.are_deterministic_algorithms_enabled(),
               torch.is_deterministic_algorithms_warn_only_enabled())

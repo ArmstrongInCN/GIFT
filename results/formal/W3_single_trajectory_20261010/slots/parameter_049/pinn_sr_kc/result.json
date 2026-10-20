@@ -1,0 +1,240 @@
+{
+  "schema": "gift.w3-parameter-measurement.v1",
+  "status": "complete",
+  "case_id": "parameter_049",
+  "method": "PINN-SR-KC",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_049",
+      "observation_sha256": "b2e54c8845c92089adfc6712c9a7142ef04435aff54284069ec23ac1f10f97c3",
+      "data_receipt_sha256": "df883cc47ce97fdecc8a3629a75d7960aac8fbfb35adb461bc3138959ddae76d",
+      "data_lock_sha256": "0c185539c022946827bef56876ece2f9b88d7dfedf83270a576e77dc9d7db7e4",
+      "data_qa_sha256": "a02bcf332ff2754717d5de7df9c6b16e7ab3949109bc90072c9424f6148cae49",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "PINN-SR-KC",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "seed": 1234,
+      "budget": {
+        "pre_nadam": 5000,
+        "rounds": 6,
+        "ado_nadam": 1000,
+        "post_nadam": 20000,
+        "lbf_maxiter": 10000,
+        "lbf_maxfun": 10000
+      },
+      "train_rows": 24000,
+      "physics_rows": 84000,
+      "execution_profile": "native_fp32",
+      "algorithm_profile": "paper_ado_v1",
+      "terminal_checkpoint": true
+    },
+    "checkpoint_sha256": "726093eb7d71e536d1609b6b072d3f1c410dad674851f5dcb763e53ad6585623"
+  },
+  "truth": {
+    "nu": 0.011898203054784898,
+    "beta": 1.1110893301760547,
+    "gamma": 1.2373381283980724
+  },
+  "parameters": {
+    "nu": 0.03223414719104767,
+    "beta": 0.8801860809326172,
+    "gamma": 1.1287333965301514
+  },
+  "APE_percent": {
+    "nu": 170.91609583923355,
+    "beta": 20.781699812277953,
+    "gamma": 8.777288065027696
+  },
+  "measurement_seconds": 0.004409900000000189,
+  "raw_measurement": {
+    "parameters": {
+      "nu": 0.03223414719104767,
+      "beta": 0.8801860809326172,
+      "gamma": 1.1287333965301514
+    },
+    "scope": "trained_coefficients_readout",
+    "readout_scope": "trained_coefficients_readout",
+    "training": false,
+    "forward": false,
+    "training_executed": false,
+    "forward_executed": false,
+    "sparse_regression_executed": false,
+    "fresh_training": false,
+    "full_budget_retraining_verified": false,
+    "reference_binding": {
+      "method": "PINN-SR-KC",
+      "condition": "noise_000",
+      "mode": "known",
+      "parameters": {
+        "nu": 0.03223414719104767,
+        "beta": 0.8801860809326172,
+        "gamma": 1.1287333965301514
+      },
+      "coefficient_names": [
+        "w",
+        "advection",
+        "laplacian",
+        "q"
+      ],
+      "coefficients": [
+        0.24662218987941742,
+        -0.8801860809326172,
+        0.03223414719104767,
+        1.1287333965301514
+      ],
+      "readout_scope": "trained_coefficients_readout",
+      "training": false,
+      "forward": false,
+      "result_sha256": "726093EB7D71E536D1609B6B072D3F1C410DAD674851F5DCB763E53AD6585623",
+      "archive_sha256": "F155B8EE2849FB4C341F911E68DC77F269A4C3A1296D3F0962E43DF3AD0DAC88",
+      "source_data_protocol": {
+        "data_sha256": null,
+        "sampling_sha256": null
+      },
+      "training_provenance": {
+        "protocol": "native_loss_paper_fixed_coefficient_ado_phase_boundary_lbfgs",
+        "mode": "known",
+        "algorithm_profile": "paper_ado_v1",
+        "source_sha256": "128ECE6AD526CA81D0D3F9A475980B2AEC32E79AD17B40684A05A20B00FFCCC1",
+        "backend": {
+          "inputs": {
+            "sampling": {
+              "path": "C:\\GIFT-compute\\w3_single_trajectory_20261010\\data\\parameter_049\\auxiliary\\pinn_sampling\\noise_000_seed1234.npz",
+              "bytes": 1151921
+            },
+            "data": {
+              "path": "C:\\GIFT-compute\\w3_single_trajectory_20261010\\data\\parameter_049\\standard_ns_n64_full_spectrum.h5",
+              "bytes": 7160319
+            },
+            "condition": "noise_000",
+            "selection": {
+              "train_rows": 24000,
+              "physics_rows": 84000,
+              "diagnostic_subset": false
+            },
+            "selected_arrays_sha256": "41240de83d7bac33a3d7be4cccde9204493d8fde033efd0d4d6b53accb81d1e2",
+            "provenance": {
+              "profile": "regenerated"
+            }
+          },
+          "mode": "known",
+          "batching": "complete_population",
+          "algorithm_profile": "paper_ado_v1",
+          "profile": {
+            "python": "3.8.20",
+            "tensorflow": "2.10.0",
+            "numpy": "1.21.6",
+            "scipy": "1.7.3",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "dtype": "float32",
+            "device": "gpu",
+            "threads": 1,
+            "tensorflow_tf32": false,
+            "initialization": "native_Xavier_seed1234",
+            "variable_semantics": "TF1_RefVariable",
+            "scipy_result_recording": "metadata_only_native_solver_unchanged",
+            "sparse_semantics": "immediate_assign_stable_reference_final_STRidge_support",
+            "execution_profile": "native_fp32",
+            "xla_auto_clustering": false,
+            "execution_kernel_sha256": {
+              "pinn_execution_kernels.py": "799B4AC3B8102C229689F17FC624D5ECFD2734B605CB2D544239B1D96034434B",
+              "pinn_execution_factor.py": "27BDFC396C6958CF614CE936CA798EDBD9BB4D2D5BBE44B6DC80FFB42604CBEA"
+            },
+            "execution_kernel_choice": "native_repeated_reverse_AD",
+            "environment": {
+              "TF_ENABLE_ONEDNN_OPTS": "0",
+              "TF_DETERMINISTIC_OPS": "1",
+              "TF_CUDNN_DETERMINISTIC": "1",
+              "CUBLAS_WORKSPACE_CONFIG": null,
+              "TF_XLA_FLAGS": null,
+              "XLA_FLAGS": null,
+              "GIFT_PINN_EXECUTION_PROFILE": "native_fp32"
+            },
+            "session_devices": [
+              "/job:localhost/replica:0/task:0/device:CPU:0",
+              "/job:localhost/replica:0/task:0/device:GPU:0"
+            ],
+            "gpu_details": {
+              "device_name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+              "compute_capability": [
+                12,
+                0
+              ]
+            }
+          },
+          "external_sources": {
+            "pinn_sr": {
+              "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+              "repository": "https://github.com/isds-neu/EQDiscovery"
+            },
+            "tensorflow115": {
+              "commit": "590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b",
+              "repository": "https://github.com/tensorflow/tensorflow"
+            }
+          },
+          "source_sha256": "7FBA8E6A8EE2A4842D6419C11D2BD738B68ECD473B72BB3F2A3C229D9DA8D56C",
+          "input_gate_sha256": "9EF50523FACA68BE52DD7EFA4151976E2A35D5E7D59CE5BE94CB48849BE2039F"
+        },
+        "stridge": {
+          "name": "adapters.pinn_stridge.fit_stridge",
+          "source_sha256": "E4814692BCBA1A522FE81E4C5B6852C0B6A6A55307430657F827B4A8D7C88EFC"
+        },
+        "budget": {
+          "pre_nadam": 5000,
+          "rounds": 6,
+          "ado_nadam": 1000,
+          "post_nadam": 20000,
+          "lbf_maxiter": 10000,
+          "lbf_maxfun": 10000
+        },
+        "lbfgs_source_sha256": "DC47FA48F8B7DBBD8163AA1CCFE9FBF063F0DB2AD6EB16E5CF8A95B35398AD5E",
+        "diagnostic_test_only": false,
+        "nadam_checkpoint_interval": 1000
+      },
+      "training_cost": {
+        "phase_seconds": {
+          "pre_nadam": 719.1123743999979,
+          "pre_lbfgs": 1563.5155940999998,
+          "ado_stridge": 31.320052799999758,
+          "ado_nadam": 860.6594527000034,
+          "final_mask": 0.0011872999998558953,
+          "post_nadam": 2859.2122043000854
+        },
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      },
+      "sparse_structure_recovery_claimed": false
+    },
+    "native_coefficients": [
+      {
+        "term": "w",
+        "real": 0.24662218987941742,
+        "imaginary": 0.0
+      },
+      {
+        "term": "advection",
+        "real": -0.8801860809326172,
+        "imaginary": 0.0
+      },
+      {
+        "term": "laplacian",
+        "real": 0.03223414719104767,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q",
+        "real": 1.1287333965301514,
+        "imaginary": 0.0
+      }
+    ]
+  },
+  "measurement_host": "DQY_PC",
+  "measurement_device": "cpu"
+}

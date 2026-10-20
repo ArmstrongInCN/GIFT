@@ -1,0 +1,105 @@
+{
+  "schema": "gift.w3-generator-checkpoints.v1",
+  "status": "complete",
+  "experiment": "W3",
+  "conditions": [
+    "noise_000",
+    "noise_001",
+    "noise_005"
+  ],
+  "gift_checkpoints": [
+    {
+      "condition": "noise_000",
+      "path": "artifacts/w3_parameter_identification/gift_noise_000.pt",
+      "bytes": 393234,
+      "sha256": "037E813D0F99518B6167B50D896CF2B197455FE35EF392830009C154970D7A7A",
+      "source_completion_sha256": "79C1E653AB96585CD8CD1A7881335EDE6DED102D4E43456ECD03AA24139AF227",
+      "data_sha256": "C3F21EF13D0C81713F2770FC67547C91BD5A793FA34A9EECC5C46537237FA8A5",
+      "seed": 2026072301,
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 78.92594309989363,
+        "timing_scope": "all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial data preparation, initial affine fit, paused and discarded uncommitted work, terminal export",
+        "budget_unit": "random-minibatch parameter updates, not epochs"
+      },
+      "fresh_initialization": true
+    },
+    {
+      "condition": "noise_001",
+      "path": "artifacts/w3_parameter_identification/gift_noise_001.pt",
+      "bytes": 393042,
+      "sha256": "CE8B6F7252EB5CF44E5F13A7ACDA041FBD151FD77F27F8F7E7CFFB6E543EB4F1",
+      "source_completion_sha256": "54C7364599EB561B2670D68F40AEADE357ED178DFD8CD9522ADDAA32BF1D85C0",
+      "data_sha256": "E00052C976FC1FCF55234499FEC2FBE79A7E395520C5F0837EB2A77FE22E2FF8",
+      "seed": 2026072301,
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 105.5862977001816,
+        "timing_scope": "all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial data preparation, initial affine fit, paused and discarded uncommitted work, terminal export",
+        "budget_unit": "random-minibatch parameter updates, not epochs"
+      },
+      "fresh_initialization": true
+    },
+    {
+      "condition": "noise_005",
+      "path": "artifacts/w3_parameter_identification/gift_noise_005.pt",
+      "bytes": 393042,
+      "sha256": "89DF0C60915E9C3C71DC8E5F2263F89025BBA40B942F396FC8F0DD3D210B979D",
+      "source_completion_sha256": "812A05FBDFA07EDDDEA3A956DFD712E1E2BA2C9228A2956A6021085FBBF2E235",
+      "data_sha256": "D25EB5B2A06E2F07E1E861B048F8300C67B43578C71286094F9E92187C5269CA",
+      "seed": 2026072301,
+      "training_cost": {
+        "optimizer_updates": 12000,
+        "phase_updates": [
+          6000,
+          6000
+        ],
+        "training_and_final_evaluation_seconds": 99.76321689970791,
+        "timing_scope": "all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_excludes": "initial data preparation, initial affine fit, paused and discarded uncommitted work, terminal export",
+        "budget_unit": "random-minibatch parameter updates, not epochs"
+      },
+      "fresh_initialization": true
+    }
+  ],
+  "source_formal_sha256": "02B31D8F99A905097D5EE69BABF204950BEE65BECA099F2F0DF973C3CC2FC007",
+  "source_data_receipt_sha256": "F7032BE81AA20B3D0C4D259695C0DA4FC3C6BA6537024F960DDE74DAC8B9676D",
+  "data_files": {
+    "noise_000": {
+      "bytes": 528835376,
+      "sha256": "c3f21ef13d0c81713f2770fc67547c91bd5a793fa34a9eecc5c46537237fa8a5"
+    },
+    "noise_001": {
+      "bytes": 575065623,
+      "sha256": "e00052c976fc1fcf55234499fec2fbe79a7e395520c5f0837eb2a77fe22e2ff8"
+    },
+    "noise_005": {
+      "bytes": 575065668,
+      "sha256": "d25eb5b2a06e2f07e1e861b048f8300c67b43578c71286094f9e92187c5269ca"
+    },
+    "noise_000_sampling": {
+      "bytes": 1152418,
+      "sha256": "9ad042474ff1a9ee4d4e98386f8aad9cfb7db6e3610c38e9545e10ca0676108c"
+    },
+    "noise_001_sampling": {
+      "bytes": 1152510,
+      "sha256": "516f84f30a06716038feabc7cf4d989a69d94d5d680905c2a315e2cfd6a75dde"
+    },
+    "noise_005_sampling": {
+      "bytes": 1152583,
+      "sha256": "b83be6caf06806c70c6e6fc5e79473beeee61f74657c9e7bf2157a7c61654126"
+    }
+  },
+  "source_code_included": false,
+  "resumable_training_states_included": false
+}

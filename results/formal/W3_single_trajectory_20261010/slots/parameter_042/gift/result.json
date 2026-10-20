@@ -1,0 +1,72 @@
+{
+  "schema": "gift.w3-parameter-measurement.v1",
+  "status": "complete",
+  "case_id": "parameter_042",
+  "method": "GIFT",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_042",
+      "observation_sha256": "0a7526989161376d91c9972ed69017f5617c23dfbfb7303f0d9296ca42f56834",
+      "data_receipt_sha256": "d5d1c8c7da23d888e2c26fa7febc7606d715be7c815c7d520d98ff59d8f90707",
+      "data_lock_sha256": "3cd4d5dc5a0da10b06678a410d0ac605b23e3ac0e7eb3bc99c0d1dfabc741ad0",
+      "data_qa_sha256": "c41e347e18d58f53ebbd12eaf3c28c742a113d50208681b50ae534339bd37a45",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "GIFT",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "seed": 2026072301,
+      "phase_steps": [
+        6000,
+        6000
+      ],
+      "phase_learning_rates": [
+        0.01,
+        0.003
+      ],
+      "batch_size": 16,
+      "training_trajectories": 1,
+      "cutoff": 21,
+      "rank": 8,
+      "affine_refit_interval": 500,
+      "validation_interval": 250,
+      "checkpoint_interval": 250,
+      "validation_trajectories": 0,
+      "checkpoint_selection": "terminal"
+    },
+    "checkpoint_sha256": "b7db9c51c32b330114bd5a779927dfbaabc664119b6ca53bebd92a6efedafdd6"
+  },
+  "truth": {
+    "nu": 0.009143294404503045,
+    "beta": 1.2177466933356622,
+    "gamma": 1.0291916972625337
+  },
+  "parameters": {
+    "nu": 0.009219659416088523,
+    "beta": 1.2066964552110393,
+    "gamma": 0.9806837241722131
+  },
+  "APE_percent": {
+    "nu": 0.8352023702514483,
+    "beta": 0.9074332277063307,
+    "gamma": 4.713210689451069
+  },
+  "measurement_seconds": 0.039231499657034874,
+  "raw_measurement": {
+    "parameters": {
+      "nu": 0.009219659416088523,
+      "beta": 1.2066964552110393,
+      "gamma": 0.9806837241722131
+    },
+    "training_executed": false,
+    "forward_executed": true,
+    "native_coefficients": [],
+    "readout": "original P21 component projection"
+  },
+  "measurement_host": "DQY_Station",
+  "measurement_device": "cpu"
+}

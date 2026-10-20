@@ -1,0 +1,4 @@
+case_id,method,parameter,truth,estimate,APE_percent
+parameter_047,PINN-SR,nu,0.008873969917135316,-0.0,100.0
+parameter_047,PINN-SR,beta,0.9295815813035004,0.12575575709342957,86.47178906911115
+parameter_047,PINN-SR,gamma,1.036312107782189,0.0,100.0

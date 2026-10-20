@@ -15,6 +15,7 @@ GRID = 64
 
 
 def specification():
+    """Return the fixed distribution, seed rule and training-only amplitude source."""
     return {
         "family": "periodic_zero_mean_smooth_gaussian_random_field",
         "root_seed": ROOT_SEED, "rng": "NumPy PCG64 with SeedSequence([root_seed, trajectory_id])",
@@ -30,7 +31,14 @@ def specification():
 
 
 def initial_hat(trajectory_ids):
-    """Return native FFT coefficients; row order/batch size cannot change draws."""
+    """Return complex64 ``[len(trajectory_ids), 64, 64]`` native FFT coefficients.
+
+    Each distinct nonnegative integer ID seeds its own PCG64 stream, so batch
+    order and batch size cannot change a trajectory's field. The zero mode is
+    removed, and the fixed spectral envelope sets correlation length on the
+    ``2*pi`` periodic domain. Amplitude sets the ensemble pointwise standard
+    deviation, rather than normalising each realisation's RMS.
+    """
     ids = list(trajectory_ids)
     if not ids or len(ids) != len(set(ids)) or any(type(i) is not int or i < 0 for i in ids):
         raise ValueError("Initial-condition IDs must be distinct nonnegative integers")
@@ -38,6 +46,8 @@ def initial_hat(trajectory_ids):
     ky, kx = np.meshgrid(frequency, frequency, indexing="ij")
     envelope = np.exp(-LENGTH_SCALE**2 * (kx*kx + ky*ky) / 4)
     envelope[0, 0] = 0
+    # For the unnormalised FFT of unit white noise, this scale makes each
+    # physical grid point have variance ENSEMBLE_RMS**2 in the ensemble.
     amplitude = ENSEMBLE_RMS * GRID / np.sqrt(np.square(envelope).sum())
     fields = []
     for identifier in ids:

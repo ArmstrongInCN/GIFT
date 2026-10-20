@@ -1,0 +1,42 @@
+{
+  "schema": "gift.w3-parameter-measurement-commit.v1",
+  "status": "complete",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_041",
+      "observation_sha256": "9c1070157a5714d1c45b0565b53cb38d549f75cee41261b6d3a4bdd8bd399b5d",
+      "data_receipt_sha256": "be1f9ec947b0d0bf292ad63e037ffb7913ab8f6554aead5b83388ce367f8d521",
+      "data_lock_sha256": "9b89ba3ca9966b602c30d915e64dffaa8993a41916ec9b62b4ff2e82b8222cd4",
+      "data_qa_sha256": "20e0f9e657e7bc5499b10ac365fe7ae3be52cc60e88e0af05ebbed516cd2c96b",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "PINN-SR",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "seed": 1234,
+      "budget": {
+        "pre_nadam": 5000,
+        "rounds": 6,
+        "ado_nadam": 1000,
+        "post_nadam": 20000,
+        "lbf_maxiter": 10000,
+        "lbf_maxfun": 10000
+      },
+      "train_rows": 24000,
+      "physics_rows": 84000,
+      "execution_profile": "native_fp32",
+      "algorithm_profile": "paper_ado_v1",
+      "terminal_checkpoint": true
+    },
+    "checkpoint_sha256": "c6ef7e589aa509a6af502ae4510f4d31d92d54d82a8fa97423e3da998d4e437d"
+  },
+  "files": {
+    "result.json": "e42ff2bf90fabbc29009e52739a9e508930d9467e6b8021efd440342a2e1fd48",
+    "summary.csv": "42011532752701bd98cd3e11c3ddd4841b6115c8123d3b98923d867cb0b1ef39",
+    "native_coefficients.csv": "fc475ceccd33c2f4ce2a491eb3413fba60332fe2ba29c2f156e00c27a895b0ae"
+  }
+}

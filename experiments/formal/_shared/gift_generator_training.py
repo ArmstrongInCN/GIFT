@@ -1,22 +1,13 @@
-"""Deterministic independent training for the interpretable GIFT generator.
+"""Train a GIFT generator from observed fields, with phase-boundary resume.
 
-This module is the maintained implementation of the original P21 training
-protocol.  It reads only observed ``time``, ``trajectory_index`` and
-``vorticity`` HDF5 datasets. Fresh runs never load model checkpoints. Explicit
-resume accepts only this run's source/data/config-bound optimizer and model
-state. Neither path reads cached derivatives, analytic right-hand sides,
-forcing fields, physical coefficients or a PDE candidate dictionary.
-
-The affine constant and linear Fourier tables are fitted by the current
-rank-aware centered TSVD minimum-norm solver in :mod:`gift.identifiability`.
-Only the low-rank quadratic factors are gradient trained.  Callers own output
-directory creation; terminal files and saved boundaries are create-only. Only
-the checkpoint store's small LATEST pointer is atomically updated.
+The affine tables use centered TSVD minimum-norm fits; gradients train the
+low-rank quadratic factors. Training consumes time, IDs and vorticity, with
+no analytic RHS or candidate PDE library. Terminal exports can be completed
+from the saved final state after an interrupted write.
 """
 
 from __future__ import annotations
 
-import csv
 import hashlib
 import json
 import math
@@ -34,7 +25,8 @@ import numpy as np
 import torch
 
 from gift import GIFTGenerator, fit_affine_minimum_norm, identifiability_grid
-from training.checkpoints import CheckpointStore
+from training.checkpoints import CheckpointStore, state_digest, write_model_export, write_json_export, restore_optimizer
+from .common import write_csv_new
 
 
 @dataclass(frozen=True)
@@ -43,6 +35,7 @@ class GeneratorTrainingConfig:
 
     training_trajectories: int = 50
     validation_trajectories: int = 20
+    checkpoint_selection: str = "validation_best"
     cutoff: int = 21
     rank: int = 8
     phase_steps: tuple[int, ...] = (6000, 6000)
@@ -55,6 +48,7 @@ class GeneratorTrainingConfig:
     strict_determinism: bool = True
 
     def validate(self) -> None:
+        """Validate budgets and require terminal selection when no holdout exists."""
         if len(self.phase_steps) != len(self.phase_learning_rates):
             raise ValueError("phase steps and learning rates must have equal length")
         if not self.phase_steps or min(self.phase_steps) < 1:
@@ -63,7 +57,6 @@ class GeneratorTrainingConfig:
             raise ValueError("phase learning rates must be positive")
         counts = (
             self.training_trajectories,
-            self.validation_trajectories,
             self.cutoff,
             self.rank,
             self.batch_size,
@@ -72,11 +65,18 @@ class GeneratorTrainingConfig:
         )
         if min(counts) < 1:
             raise ValueError("training counts, cutoff and rank must be positive")
+        if self.validation_trajectories < 0:
+            raise ValueError("validation_trajectories must be nonnegative")
+        if self.checkpoint_selection not in ("validation_best", "terminal"):
+            raise ValueError("checkpoint_selection must be validation_best or terminal")
+        if self.validation_trajectories == 0 and self.checkpoint_selection != "terminal":
+            raise ValueError("zero validation trajectories require terminal checkpoint selection")
         if self.rank_rcond is not None and self.rank_rcond <= 0.0:
             raise ValueError("rank_rcond must be positive")
 
 
 def sha256_file(path: Path) -> str:
+    """Stream a digest for input/output provenance, independent of training eligibility."""
     digest = hashlib.sha256()
     with Path(path).open("rb") as stream:
         for block in iter(lambda: stream.read(8 * 1024 * 1024), b""):
@@ -85,6 +85,7 @@ def sha256_file(path: Path) -> str:
 
 
 def file_record(path: Path, root: Path | None = None) -> dict[str, Any]:
+    """Record an existing file's content and size for the training report."""
     resolved = Path(path).resolve(strict=True)
     display = str(resolved)
     if root is not None:
@@ -100,6 +101,7 @@ def file_record(path: Path, root: Path | None = None) -> dict[str, Any]:
 
 
 def write_json_new(path: Path, payload: Any) -> None:
+    """Create and fsync a report in its output directory without replacing existing evidence."""
     destination = Path(path)
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open("x", encoding="utf-8", newline="\n") as stream:
@@ -109,16 +111,18 @@ def write_json_new(path: Path, payload: Any) -> None:
         os.fsync(stream.fileno())
 
 
-def write_csv_new(path: Path, rows: list[dict[str, Any]]) -> None:
-    if not rows:
-        raise ValueError("training history cannot be empty")
-    fields = list(rows[0])
-    with Path(path).open("x", encoding="utf-8-sig", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(rows)
-        stream.flush()
-        os.fsync(stream.fileno())
+def publish_terminal(checkpoint, report_path, history_path, payload):
+    """Finish a saved terminal export without repeating optimization."""
+    write_model_export(checkpoint, payload["terminal_artifact"])
+    if not history_path.exists():
+        write_csv_new(history_path, payload["history"])
+    report = dict(payload["terminal_report"])
+    report["outputs"] = {
+        "checkpoint": file_record(checkpoint, checkpoint.parent),
+        "history": file_record(history_path, history_path.parent),
+    }
+    write_json_export(report_path, report)
+    return json.loads(report_path.read_text(encoding="utf-8"))
 
 
 def configure_determinism(seed: int, *, strict: bool) -> dict[str, Any]:
@@ -148,6 +152,11 @@ def configure_determinism(seed: int, *, strict: bool) -> dict[str, Any]:
 def fourth_order_derivative(
     state: np.ndarray, dt: float
 ) -> tuple[np.ndarray, np.ndarray]:
+    """Estimate dw/dt from uniformly spaced [time,N,N] observations.
+
+    Return centre states and fourth-order centred differences of length time-4;
+    no analytic PDE right-hand side is used as a training target.
+    """
     if state.ndim != 3 or state.shape[0] < 5:
         raise ValueError("one trajectory must have shape [time,N,N] with time >= 5")
     derivative = (state[:-4] - 8.0 * state[1:-3] + 8.0 * state[3:-1] - state[4:]) / (
@@ -161,7 +170,12 @@ def _load_observed_group(
     group: str,
     trajectory_count: int,
 ) -> tuple[torch.Tensor, torch.Tensor, np.ndarray, np.ndarray, dict[str, Any]]:
-    """Open only the three observation datasets allowed by the firewall."""
+    """Read time, IDs and vorticity and build observed derivative samples for one split.
+
+    Return flattened [trajectory*(time-4),N,N] state/derivative tensors plus their
+    original coordinates and selection metadata. Analytic RHS and test groups
+    are not read.
+    """
 
     time_values = np.asarray(handle[f"{group}/time"][:], dtype=np.float64)
     trajectory_ids = np.asarray(
@@ -226,6 +240,10 @@ def inspect_observation_dataset(
             ("training", config.training_trajectories),
             ("validation", config.validation_trajectories),
         ):
+            if count == 0:
+                result[group] = {"trajectory_ids": [], "trajectory_count": 0,
+                                 "observations_opened": False}
+                continue
             required = [
                 f"{group}/time",
                 f"{group}/trajectory_index",
@@ -268,13 +286,36 @@ def inspect_observation_dataset(
     return result
 
 
+def selected_observation_arrays(handle: h5py.File, config: GeneratorTrainingConfig):
+    """Read configured splits and hash only observations that actually participate.
+
+    With zero validation trajectories, no validation group is accessed. The
+    training trajectory supplies diagnostic monitoring without a second copy
+    or a validation identity. Existing nonzero-validation digests keep their
+    original eight tensor names and byte contents.
+    """
+    training = _load_observed_group(handle, "training", config.training_trajectories)
+    train_state, train_derivative, train_time, train_ids, _ = training
+    arrays = {"training_state": train_state, "training_derivative": train_derivative,
+              "training_time": torch.as_tensor(train_time), "training_ids": torch.as_tensor(train_ids)}
+    validation = None
+    if config.validation_trajectories:
+        validation = _load_observed_group(handle, "validation", config.validation_trajectories)
+        valid_state, valid_derivative, valid_time, valid_ids, _ = validation
+        arrays.update(validation_state=valid_state, validation_derivative=valid_derivative,
+                      validation_time=torch.as_tensor(valid_time), validation_ids=torch.as_tensor(valid_ids))
+    return training, validation, state_digest(arrays)
+
+
 def relative_l2(prediction: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+    """Return one spatial derivative-error ratio per tensor sample, with a small denominator floor."""
     numerator = (prediction - target).flatten(1).norm(dim=1)
     denominator = target.flatten(1).norm(dim=1).clamp_min(1.0e-20)
     return numerator / denominator
 
 
 def summarize(values: torch.Tensor) -> dict[str, float]:
+    """Detach derivative-error samples and compute their mean, median, p95 and maximum."""
     value = values.detach().double().cpu()
     return {
         "mean": float(value.mean()),
@@ -293,6 +334,11 @@ def evaluate(
     device: torch.device,
     indices: torch.Tensor | None = None,
 ) -> dict[str, float]:
+    """Evaluate observed derivative errors on selected samples in batches of 64.
+
+    States and derivatives have [sample,N,N] layout; validation values are measured
+    without updating the generator or its affine tables.
+    """
     selected = torch.arange(len(state)) if indices is None else indices
     collected: list[torch.Tensor] = []
     for start in range(0, len(selected), 64):
@@ -303,6 +349,7 @@ def evaluate(
 
 
 def clone_state(model: GIFTGenerator) -> dict[str, torch.Tensor]:
+    """Take an independent CPU snapshot so later optimizer updates cannot change a selected state."""
     return {
         name: value.detach().cpu().clone() for name, value in model.state_dict().items()
     }
@@ -311,12 +358,14 @@ def clone_state(model: GIFTGenerator) -> dict[str, torch.Tensor]:
 def configure_variable_projection_parameters(
     model: GIFTGenerator,
 ) -> list[torch.nn.Parameter]:
+    """Freeze analytically refitted affine tables and return only nonlinear trainable parameters."""
     model.linear_table.requires_grad_(False)
     model.constant_table.requires_grad_(False)
     return [parameter for parameter in model.parameters() if parameter.requires_grad]
 
 
 def rank_threshold_sensitivity(fit: Any, grid: Any) -> dict[str, Any]:
+    """Report affine-fit numerical ranks at several TSVD thresholds without refitting the model."""
     active = grid.mask.detach().cpu()
     singular = fit.singular_values.detach().double().cpu()
     base_tolerance = fit.tolerance.detach().double().cpu()
@@ -344,12 +393,13 @@ def rank_threshold_sensitivity(fit: Any, grid: Any) -> dict[str, Any]:
 
 
 def _runtime_record(device: torch.device) -> dict[str, Any]:
+    """Describe device and library versions for training-report provenance."""
     return {
         "python": platform.python_version(),
         "platform": platform.platform(),
         "numpy": np.__version__,
         "h5py": h5py.__version__,
-        "torch": torch.__version__,
+        "torch": str(torch.__version__),
         "device": str(device),
         "cuda_available": torch.cuda.is_available(),
         "cuda_runtime": torch.version.cuda,
@@ -378,19 +428,27 @@ def train_fresh_generator(
     input_binding: dict[str, Any] | None = None,
     execution: str = "auto",
 ) -> dict[str, Any]:
-    """Train from observations, optionally continuing this attempt's own state."""
+    """Train an observation-only generator with periodic affine refits and phase-boundary resume.
+
+    The nonlinear factors use AdamW; constant/linear tables are refitted by TSVD.
+    The default selects a validation-best state within each phase. Explicit
+    terminal selection retains each phase's final update, with training-only
+    monitoring when no validation trajectories were requested. A boundary restores model,
+    optimizer, scheduler, RNG and selection history before the next step. Completed
+    terminal state can publish missing exports without repeating optimization.
+    """
 
     config.validate()
     if checkpoint_interval < 1:
         raise ValueError("checkpoint_interval must be positive")
-    if condition not in ("noise_000", "noise_001", "noise_010"):
+    if condition not in ("noise_000", "noise_001", "noise_005"):
         raise ValueError("unknown observation condition")
     data_path = Path(dataset).resolve(strict=True)
     checkpoint = Path(checkpoint).resolve(strict=False)
     report_path = Path(report_path).resolve(strict=False)
     history_path = Path(history_path).resolve(strict=False)
     for destination in (checkpoint, report_path, history_path):
-        if destination.exists():
+        if not resume and destination.exists():
             raise FileExistsError(
                 f"refusing to overwrite training output: {destination}"
             )
@@ -409,7 +467,6 @@ def train_fresh_generator(
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
 
-    dataset_sha256 = sha256_file(data_path)
     root = Path(project_root).resolve(strict=True)
     source_paths = [
         *(root / "src" / "gift" / name for name in
@@ -422,11 +479,19 @@ def train_fresh_generator(
         from training.gift_data import PROFILE_SOURCES
         source_paths.extend(root / relative for relative in PROFILE_SOURCES)
     source_paths = list(dict.fromkeys([*source_paths, *(root / name for name in EXECUTION_SOURCES)]))
+    with h5py.File(data_path, "r") as handle:
+        training, validation_split, selected_arrays = selected_observation_arrays(handle, config)
+    train_state, train_derivative, train_time, train_ids, train_meta = training
+    if validation_split is None:
+        valid_state, valid_derivative = train_state, train_derivative
+        valid_time, valid_ids, valid_meta = None, np.asarray([], dtype=np.int64), None
+    else:
+        valid_state, valid_derivative, valid_time, valid_ids, valid_meta = validation_split
     identity = {
         "role": "gift_low_generator", "condition": condition,
         "execution": execution,
         "configuration": asdict(config),
-        "dataset_sha256": dataset_sha256, "dataset_bytes": data_path.stat().st_size,
+        "selected_arrays_sha256": selected_arrays,
         "input_provenance": input_binding,
         "sources": {path.relative_to(root).as_posix(): sha256_file(path)
                     for path in source_paths},
@@ -441,14 +506,14 @@ def train_fresh_generator(
     saved = store.payload
     resumed_boundary = store.boundary
     if saved is not None and saved.get("completed"):
-        raise FileExistsError("this training attempt already completed")
-    with h5py.File(data_path, "r") as handle:
-        train_state, train_derivative, train_time, train_ids, train_meta = (
-            _load_observed_group(handle, "training", config.training_trajectories)
-        )
-        valid_state, valid_derivative, valid_time, valid_ids, valid_meta = (
-            _load_observed_group(handle, "validation", config.validation_trajectories)
-        )
+        if "terminal_artifact" in saved:
+            return publish_terminal(checkpoint, report_path, history_path, saved)
+        if not all(path.is_file() for path in (checkpoint, report_path, history_path)):
+            raise ValueError("Legacy completed checkpoint has no terminal export payload")
+        write_model_export(checkpoint, {"model_state_dict": saved["model"]})
+        return json.loads(report_path.read_text(encoding="utf-8"))
+    if any(path.exists() for path in (checkpoint, report_path, history_path)):
+        raise FileExistsError("terminal output exists before training completed")
     if train_state.shape[-1] < 2 * config.cutoff + 1:
         raise ValueError("training grid cannot represent the requested cutoff")
 
@@ -519,13 +584,14 @@ def train_fresh_generator(
             if not 0 <= completed_step <= steps or len(phase_records) != phase - 1:
                 raise ValueError("saved step or preceding phases are inconsistent")
             model.load_state_dict(saved["model"], strict=True)
-            optimizer.load_state_dict(saved["optimizer"])
+            restore_optimizer(optimizer, saved["optimizer"])
             scheduler.load_state_dict(saved["scheduler"])
             best_validation, best_step = saved["best_validation"], saved["best_step"]
             best_state = saved["best_state"]
             store.restore_random_state()
 
         def save_boundary(step: int) -> None:
+            """Commit model, optimizer, scheduler, best-state and sampling progress at the completed step."""
             store.save(f"phase_{phase}_step_{step}", {
                 "model": clone_state(model), "optimizer": optimizer.state_dict(),
                 "scheduler": scheduler.state_dict(), "phase": phase, "step": step,
@@ -574,8 +640,9 @@ def train_fresh_generator(
                     indices=validation_sample_ids,
                 )["mean"]
                 if not math.isfinite(validation):
-                    raise FloatingPointError("validation metric became nonfinite")
-                if validation < best_validation:
+                    raise FloatingPointError("validation metric became nonfinite" if config.validation_trajectories
+                                             else "training monitor metric became nonfinite")
+                if config.checkpoint_selection == "terminal" or validation < best_validation:
                     best_validation = validation
                     best_step = step
                     best_state = clone_state(model)
@@ -584,7 +651,8 @@ def train_fresh_generator(
                     "phase": phase,
                     "step": step,
                     "normalized_data_loss": float(data_loss_value),
-                    "validation_relative_l2": validation,
+                    ("validation_relative_l2" if config.validation_trajectories else
+                     "training_monitor_relative_l2"): validation,
                     "learning_rate": float(optimizer.param_groups[0]["lr"]),
                     "elapsed_seconds": previous_elapsed + time.perf_counter() - started,
                 }
@@ -593,14 +661,14 @@ def train_fresh_generator(
             if step % checkpoint_interval == 0 or step == steps:
                 save_boundary(step)
         model.load_state_dict(best_state, strict=True)
-        phase_records.append(
-            {
-                "phase": phase,
-                "completed_steps": steps,
-                "best_step": best_step,
-                "best_validation_relative_l2": best_validation,
-            }
-        )
+        phase_record = {"phase": phase, "completed_steps": steps}
+        if config.checkpoint_selection == "validation_best":
+            phase_record.update(best_step=best_step, best_validation_relative_l2=best_validation)
+        else:
+            phase_record.update(selected_step=best_step, checkpoint_selection="terminal")
+            phase_record["terminal_validation_relative_l2" if config.validation_trajectories
+                         else "terminal_training_relative_l2"] = best_validation
+        phase_records.append(phase_record)
 
     final_fit = fit_affine_minimum_norm(
         model,
@@ -613,13 +681,16 @@ def train_fresh_generator(
     identifiability = final_fit.summary(grid)
     threshold_sensitivity = rank_threshold_sensitivity(final_fit, grid)
     training_metrics = evaluate(model, train_state, train_derivative, device=device)
-    validation_metrics = evaluate(model, valid_state, valid_derivative, device=device)
+    validation_metrics = (evaluate(model, valid_state, valid_derivative, device=device)
+                          if config.validation_trajectories else None)
     elapsed = previous_elapsed + time.perf_counter() - started
     training_cost = {
         "optimizer_updates": sum(item["completed_steps"] for item in phase_records),
         "phase_updates": [item["completed_steps"] for item in phase_records],
         "training_and_final_evaluation_seconds": elapsed,
-        "timing_scope": "all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO",
+        "timing_scope": ("all training phases, affine refits, validation, final evaluation and intermediate checkpoint IO"
+                         if config.validation_trajectories else
+                         "all training phases, affine refits, training monitoring, final evaluation and intermediate checkpoint IO"),
         "timing_excludes": "initial data preparation, initial affine fit, paused and discarded uncommitted work, terminal export",
         "budget_unit": "random-minibatch parameter updates, not epochs",
     }
@@ -647,7 +718,8 @@ def train_fresh_generator(
         "training_data": {
             "file": data_path.name,
             "path": str(data_path),
-            "sha256": dataset_sha256,
+            "sha256": None,
+            "selected_arrays_sha256": selected_arrays,
             "provenance": input_binding,
             "group": "training",
             "trajectory_ids": train_ids.tolist(),
@@ -673,12 +745,6 @@ def train_fresh_generator(
             "same_attempt_continuation": resume,
         },
     }
-    with checkpoint.open("xb") as stream:
-        torch.save(artifact, stream)
-        stream.flush()
-        os.fsync(stream.fileno())
-    write_csv_new(history_path, history)
-
     report = {
         "schema": "gift.generator.independent-training.v1",
         "execution": execution,
@@ -703,15 +769,17 @@ def train_fresh_generator(
                 "training/time",
                 "training/trajectory_index",
                 "training/vorticity",
+            ] + ([
                 "validation/time",
                 "validation/trajectory_index",
                 "validation/vorticity",
-            ],
+            ] if config.validation_trajectories else []),
             "forcing_or_physical_metadata_opened": False,
             "test_group_opened": False,
         },
         "data": {
-            "source": file_record(data_path, root),
+            "source": {"path": str(data_path), "bytes": data_path.stat().st_size,
+                       "selected_arrays_sha256": selected_arrays},
             "training": train_meta,
             "validation": valid_meta,
             "validation_trajectory_ids": valid_ids.tolist(),
@@ -750,17 +818,14 @@ def train_fresh_generator(
         },
         "sources": [file_record(path, root) for path in source_paths],
         "training_cost": training_cost,
-        "outputs": {
-            "checkpoint": file_record(checkpoint, checkpoint.parent),
-            "history": file_record(history_path, history_path.parent),
-        },
         "claims_boundary": {
             "minimum_norm_values_are_gauges_not_recovered_physical_coefficients": True,
             "bitwise_replay_requires_same_recorded_software_and_hardware": True,
-            "scientific_reproduction_uses_frozen_protocol_and_validation_metrics": True,
+            "scientific_reproduction_uses_frozen_protocol_and_validation_metrics": bool(config.validation_trajectories),
         },
     }
-    write_json_new(report_path, report)
-    store.save("complete", {"completed": True, "model": clone_state(model),
-                            "phase_records": phase_records, "history": history})
-    return report
+    terminal = {"completed": True, "model": clone_state(model),
+                "phase_records": phase_records, "history": history,
+                "terminal_artifact": artifact, "terminal_report": report}
+    store.save("complete", terminal)
+    return publish_terminal(checkpoint, report_path, history_path, terminal)

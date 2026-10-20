@@ -1,4 +1,4 @@
-"""Export canonical prediction IDs into a new data package, preserving M1 bytes.
+"""Export canonical prediction IDs into a new data package, preserving W3 bytes.
 
 No input is edited, removed or overwritten. Floating-point observations are
 copied losslessly. The identity-defined validation/test partition is applied
@@ -31,12 +31,14 @@ PREDICTION_FILES = (
 
 
 def write_json(path, value):
+    """Create a new finite UTF-8 package metadata file."""
     with Path(path).open("x", encoding="utf-8") as stream:
         json.dump(value, stream, ensure_ascii=False, indent=2, allow_nan=False)
         stream.write("\n")
 
 
 def safe_member(root, relative):
+    """Resolve a canonical package-relative path inside the selected input root."""
     parts = relative.split("/")
     if not relative or "\\" in relative or ":" in relative or any(x in ("", ".", "..") for x in parts):
         raise ValueError("unsafe data-package member")
@@ -47,12 +49,18 @@ def safe_member(root, relative):
 
 
 def _attributes(source, destination):
+    """Copy HDF attributes while preserving their stored values and types."""
     for key, value in source.attrs.items():
         destination.attrs[key] = value
 
 
 def _dataset(source, parent, name, rows=None):
-    """Copy along the trajectory axis and check decoded bytes after writing."""
+    """Copy a dataset, or select trajectory rows and check their decoded values.
+
+    A whole-dataset copy uses HDF5's native copy path. Explicit row selections
+    are reread for numerical equality; their source bytes supply the recorded
+    decoded hash. This check does not distinguish signed-zero representations.
+    """
     if rows is None:
         source.file.copy(source, parent, name=name)
         return None
@@ -81,6 +89,7 @@ def _dataset(source, parent, name, rows=None):
 
 
 def _observation_group(source, parent, name, ids, rows, records):
+    """Copy selected trajectory rows and write their canonical IDs and split metadata."""
     target = parent.create_group(name)
     _attributes(source, target)
     target.attrs["trajectory_id_scheme"] = "canonical"
@@ -100,6 +109,11 @@ def _observation_group(source, parent, name, ids, rows, records):
 
 
 def _walk(source, destination, records):
+    """Recurse through HDF groups, separating auxiliary validation from independent test rows.
+
+    Observation groups are recognized by their actual datasets. The copied
+    fields retain their values; only identity axes and split organization change.
+    """
     for name, value in source.items():
         if not isinstance(value, h5py.Group):
             _dataset(value, destination, name)
@@ -128,6 +142,12 @@ def _walk(source, destination, records):
 # Re-emit each prediction HDF5 under the canonical trajectory-ID scheme, applying
 # the identity-defined validation/test partition before any model result is read.
 def canonical_hdf5(source, destination):
+    """Convert storage IDs and test-group layout without changing observation values.
+
+    Each selected dataset is copied along its trajectory axis and checked after
+    writing. Metadata ID lists are derived from the copied groups rather than
+    trusting obsolete inclusive ranges in the original file.
+    """
     destination.parent.mkdir(parents=True, exist_ok=True)
     records = {}
     with h5py.File(source, "r") as original, h5py.File(destination, "x") as output:
@@ -159,6 +179,7 @@ def canonical_hdf5(source, destination):
 
 
 def prepare(source_root, output_root):
+    """Verify and convert a released or regenerated package to canonical prediction splits."""
     source_root = Path(source_root).resolve(strict=True)
     output_root = Path(output_root).resolve()
     if output_root.exists() or source_root == output_root or source_root in output_root.parents:
@@ -191,8 +212,8 @@ def prepare(source_root, output_root):
             raise ValueError(f"input package hash/size differs: {relative}")
         declared[relative.casefold()] = record
     required = (*PREDICTION_FILES, "standard_ns_n64_full_spectrum.h5",
-                "m1_parameter_identification/noise_001.h5", "m1_parameter_identification/noise_010.h5",
-                *(f"auxiliary/pinn_sampling/noise_{level}_seed1234.npz" for level in ("000", "001", "010")))
+                "w3_parameter_identification/noise_001.h5", "w3_parameter_identification/noise_005.h5",
+                *(f"auxiliary/pinn_sampling/noise_{level}_seed1234.npz" for level in ("000", "001", "005")))
     if any(name.casefold() not in declared for name in required):
         raise ValueError("source package is missing an experiment input")
     if generated:
@@ -226,7 +247,7 @@ def prepare(source_root, output_root):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source_root / name, target)
         if digest_file(target).lower() != record["sha256"].lower():
-            raise RuntimeError("byte-preserving M1/support copy failed")
+            raise RuntimeError("byte-preserving W3/support copy failed")
     for name in (*PREDICTION_FILES, "standard_ns_n64_full_spectrum.h5"):
         target_name = "prediction/" + name if name == "standard_ns_n64_full_spectrum.h5" else name
         decoded[target_name] = canonical_hdf5(source_root / name, output_root / target_name)
@@ -250,9 +271,9 @@ def prepare(source_root, output_root):
     splits["files"] = {name: {key: record for key, record in records.items() if "trajectory_ids" in record}
                        for name, records in decoded.items()}
     identification_files = ("standard_ns_n64_full_spectrum.h5",
-                            "m1_parameter_identification/noise_001.h5",
-                            "m1_parameter_identification/noise_010.h5")
-    splits["identification"] = {"identity_scope": "M1 local trajectory IDs",
+                            "w3_parameter_identification/noise_001.h5",
+                            "w3_parameter_identification/noise_005.h5")
+    splits["identification"] = {"identity_scope": "W3 local trajectory IDs",
                                 "training": list(range(50)), "validation": list(range(50, 70)),
                                 "observation_files": list(identification_files),
                                 "pinn_observation_training_rows": 24000,
@@ -274,7 +295,7 @@ def prepare(source_root, output_root):
               "paths_relative_to": "manifest.json directory", "file_count": len(files),
               "total_bytes": sum(record["bytes"] for record in files), "files": files,
               "data_license": "CC-BY-4.0", "doi": None, "contains_trained_models": False,
-              "excluded_self": ["manifest.json"], "m1_observations_unchanged": True,
+              "excluded_self": ["manifest.json"], "w3_observations_unchanged": True,
               "prediction_observations_lossless": True, "source_package_manifest_sha256": digest_file(source_root / "manifest.json"),
               "exporter_sha256": digest_file(Path(__file__))}
     write_json(output_root / "manifest.json", result)
@@ -282,6 +303,7 @@ def prepare(source_root, output_root):
 
 
 def main():
+    """Parse source/output paths and create a new canonical prediction input package."""
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)

@@ -1,5 +1,29 @@
 # Training protocol / 训练协议
 
+## W1/W2 固定训练协议
+
+[N300/76点协议](W1_W2_PROTOCOL.md) 使用有序固定N300训练名单、20条验证轨迹、t5–8每0.04秒76个真实节点和单一真实t5初态。GIFT-Lite取同一名单前50条。各方法采用固定超参数与声明种子，每方法一个训练实例。W1包括GIFT、GIFT-Lite、FNO-2D、FNO-3D、U-NO、U-Net、ANIE；W2除ANIE外包括六方法。
+
+| 方法 | 配方与模型选择 | 实际监督范围 |
+| --- | --- | --- |
+| FNO-2D | seed0，batch20，500epoch，Adam lr0.001/wd1e-4，StepLR100×0.5；epoch500终态 | 闭环课程[1,2,5,10,25,50,75]，前六阶段各20轮，从第121轮起完整75步。 |
+| FNO-3D | seed0，batch10，500epoch，同FNO-2D optimizer/scheduler；epoch500终态 | 一次联合输出未来75点，时空relative L2 batch-sum。 |
+| U-NO | seed0，batch16，保留尾12条，500epoch，Adam lr0.001/wd1e-5，StepLR100×0.5；epoch500终态 | t5闭环20步，训练目标至t5.80，batch/time-sum relative L2。 |
+| U-Net | seed0，batch20，500epoch，Adam lr0.001/wd1e-4，StepLR100×0.5；epoch500终态 | t5闭环4步，训练目标至t5.16，batch/time-sum relative L2。 |
+| ANIE | seed7，effective batch32/micro6，Adam lr1e-4/wd1e-4，延迟CosineT101，上限5000轮；第29轮validation-MSE-best，依patience1000规则在1029轮终止 | 官方NS训练c=0/y_init路径，原单位全76点MSE，含初态重建；仅W1。 |
+| GIFT / GIFT-Lite | generator seed2026072301、branch seed20260820；generator250+250，branch400/50/25/25；原阶段AdamW和日程，500轮终态 | coarse FD及局部RK4；监督时距0.08/0.48秒。 |
+
+GIFT内部RK4 dt = 0.02，每0.04秒保存；W1推进150个内部步。N300生成元/分支更新9500/13600，GIFT-Lite为2000/2600；相同阶段epoch不代表相同计算预算。W1/W2的GIFT-Lite来源键为`GIFT-N50`；辅助实验中的同名50样本模型属于独立N1000协议，使用单独日程和validation-best，不能互换权重。监督范围、loss及预算差异是实验条件，不能把表现差异单独归因于架构。网络与控制器来源见 [原生实现说明](W1_W2_PROTOCOL.md)。
+
+确认IDs100000–100179与训练、验证独立，但两个评价人口的成绩已被查看，因此不是全部方法的盲测；探索IDs1040–1219另表报告。模型路径和SHA见 [CHECKPOINTS.md](CHECKPOINTS.md)，进程计时见 [PERFORMANCE.md](PERFORMANCE.md)。其余方法配置来源为 `prediction_extension/EXTENSION_LOCK.json`。
+
+W3采用独立单轨迹参数识别协议；S1–S3采用下列N1000及GIFT-Lite辅助协议，其模型和统计范围分别声明。
+
+ANIE坐标和训练配置来源为 `prediction_aligned/PROTOCOL_LOCK.json`，具体源码适配见 [ANIE实现说明](ANIE_ADAPTATION.md)。
+
+
+## 独立辅助训练协议（N1000/46帧/0.02秒）
+
 The four supervised prediction baselines use the same 1,000 training trajectories,
 46-frame input history and **500 epochs**. Each epoch visits each trajectory once
 and selects one reproducibly seeded training window per trajectory. Use the final
@@ -22,14 +46,14 @@ dropped. All four schedulers advance once per epoch (StepLR: 100 epochs, factor
 0.0001 for the other three. Test trajectories are never used for updates,
 normalization, scheduling or checkpoint selection.
 
-## GIFT prediction training / GIFT 预测训练
+## N1000 GIFT and GIFT-Lite training / 辅助模型训练
 
 Two training regimes share the same GIFT architecture. **GIFT** uses all 1,000
 prediction-training trajectories; its generator and high-frequency branch each
 receive 500 trajectory epochs. This is **500 + 500**, not a 500-epoch total and
 not a compute-matched claim. **GIFT-Lite** uses independently trained
 50-trajectory models and its own multi-stage schedule; Lite denotes reduced
-training data, not a smaller network. M1 identification keeps its separate
+training data, not a smaller network. W3 identification keeps its separate
 protocol below: its generator is trained on, and its coefficients are read from,
 the single local training trajectory 0 that the four baselines also use.
 
@@ -45,8 +69,8 @@ Prediction training IDs are 0–999; GIFT-Lite uses 0–49. Validation IDs are
 used for checkpoint-validation measurements. Independent test IDs are
 1040–1219 (180 trajectories), paired across N64/N96/N128. Identity mapping is
 fixed before model evaluation and does not depend on errors or failures.
-The identification dataset used by M1 retains its separate local identifiers; all
-five M1 configurations identify their parameters from local training trajectory 0.
+The identification dataset used by W3 retains its separate local identifiers; all
+five W3 configurations identify their parameters from local training trajectory 0.
 
 Full-data GIFT uses **terminal stage states and terminal epoch weights**.
 Validation monitors the declared procedure and does not select a model or
@@ -122,7 +146,8 @@ All four GIFT training entry points share `--execution auto`: fresh GPU training
 uses CUDA graphs, CPU uses eager, and resume retains the journal's backend.
 Use `--execution eager` for the explicit reference implementation. This does not
 change the full-data 500 + 500 epoch budgets, the reduced-data selection protocol,
-or any batch/update counts. Source and runtime checks remain strict. See
+or any batch/update counts. Resume checks the model, data, schedule and saved state;
+source and environment versions remain descriptive metadata. See
 [execution efficiency and measured scope](PERFORMANCE.md).
 
 Full-data timers sum committed epoch time: sampling, forward/backward,
@@ -133,36 +158,17 @@ measured times from each completed run; do not substitute estimated timings.
 
 ## Independent runs, timing and continuation
 
-### PINN equation identification
+### W3 无噪声50组参数训练协议
 
-PINN is not an epoch-matched prediction baseline. Each of its six runs (three
-noise conditions, known/open library) uses 24,000 observation rows and 84,000
-physics rows with native Xavier initialization, seed 1234. The fixed schedule is:
+W3在固定的50组参数组合上逐组运行。每个case使用与其真实参数相对应的一条局部ID0轨迹、N64、t=0–10、501帧、保存间隔0.02、内部步长0.005；无测量噪声、无验证轨迹、不同case不复用轨迹。参数由锁定LHS生成，ν∈[0.0075,0.015]对数均匀，β和γ∈[0.75,1.25]线性，seed2026100901。完整CSV SHA及case逐项真值见[结果包](../results/formal/W3_single_trajectory_20261010/)。
 
-1. 5,000 joint network/coefficient NAdam updates, learning rate 0.001,
-   physics weight 1, coefficient L1 weight 0.0000001.
-2. One native public L-BFGS phase, with `maxiter=10000`, `maxfun=10000`.
-   These are upper limits, not a promise of 10,000 executed iterations.
-3. Six alternating STRidge calls and 1,000 joint NAdam updates per call,
-   learning rate 0.0001, physics weight 2 and no coefficient L1 penalty.
-4. Freeze the exact-nonzero coefficient mask, then 20,000 joint NAdam updates
-   at the same settings. No final L-BFGS phase is added.
+GIFT每case独立训练，seed2026072301、batch16、6000+6000随机小批更新、lr0.01/0.003、P21/rank8。每阶段固定采用第6000步终态checkpoint，训练内监控不选模型。每case独立执行最终affine fit和参数读出；预算为每case12000次更新。
 
-The total is 31,000 NAdam updates, six STRidge calls and the recorded L-BFGS
-callback counts. Save all native optimizer state, coefficients, mask and phase
-counters together. The terminal reader verifies this completion and rejects
-diagnostic subsets or reduced budgets. Report actual phase times and callbacks;
-the upstream optimizer interface does not expose a complete convergence result.
+PDE-FIND和PDE-FIND-KC使用各case本身的ID0轨迹、原局部多项式导数、open90/known4项库、STRidge与seed0；无SVD去噪。PINN-SR和PINN-SR-KC分别使用open90/known4库、seed1234、`paper_ado_v1`、native FP32且TF32关闭。每case固定24,000训练标签、6,000同轨迹留出标签和84,000物理点；预算为5,000次联合NAdam、一次原生SciPy L-BFGS、六轮每轮1,000次网络NAdam及最后20,000次联合NAdam，固定终态。SciPy参数上限与逐例实测停止状态见结果包，达到上限不代表收敛。
 
-M1 reads the learned physical coefficients without TensorFlow inference. In the
-known library, viscosity is the Laplacian coefficient, transport strength is
-minus the advection coefficient, and forcing strength is the `q` coefficient.
-In the open library, average the two corresponding diffusion coefficients and
-the two negated transport coefficients; forcing strength remains the coefficient
-of `q`, not of `w`. Extra learned terms are retained in the coefficient output;
-this three-parameter readout is not a claim of exact sparse-structure recovery.
+五种方法合计250个唯一方法/case槽位；不增加种子、不选参、不用测试误差选权重，每组独立初始化，科学失败按原实例保留。完整的槽位成本、并行主机尝试和中断界限见run的FINAL_COST_CLOSURE。
 
-### Prediction baselines
+### N1000 prediction baselines
 
 Train each model with its own command, for example:
 
@@ -173,7 +179,9 @@ python -m scripts.run_training uno --run-training --output ../runs/uno
 python -m scripts.run_training unet --run-training --output ../runs/unet
 ```
 
-The environment, dataset and external-source paths must be configured first.
+The environment, dataset, official external-source paths and user-prepared
+`GIFT_EXTERNAL_ADAPTER_ROOT` outside GIFT must be configured first; follow
+[EXTERNAL_MANUAL_ADAPTATION.md](EXTERNAL_MANUAL_ADAPTATION.md).
 To continue an interrupted run, add `--resume` and keep the same output directory.
 The default committed boundary is every 10 completed epochs; an explicit
 `--stop-after-epoch` also commits that boundary. Uncommitted epochs may need to

@@ -3,7 +3,7 @@
 from .data_splits import prediction_split_manifest
 
 FOUR_VORTEX = "four_vortex"
-GAUSSIAN = "gaussian_s4"
+GAUSSIAN = "gaussian_s3"
 COHORTS = (FOUR_VORTEX, GAUSSIAN)
 
 

@@ -1,8 +1,4 @@
-"""Launch one independent training command with its recorded child environment.
-
-Only the child receives these settings. No shell is used and no popup is opened.
-This is an optional convenience wrapper, not an all-experiment scheduler.
-"""
+"""Launch one model's training command with suggested thread settings."""
 import argparse
 import os
 from pathlib import Path
@@ -20,35 +16,35 @@ MODULES.update(gift_low="experiments.formal.train_low_generator",
 
 
 def child_environment(model, python, device, parent=None):
+    """Set model-specific child environment defaults without changing the parent.
+
+    Project imports precede the inherited PYTHONPATH. Thread values and visible
+    GPU mappings supplied by the user remain effective; CPU selection explicitly
+    hides CUDA only in the launched training process.
+    """
     env = dict(os.environ if parent is None else parent)
-    for name in ("PYTHONPATH", "PYTHONHOME", "NVIDIA_TF32_OVERRIDE", "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE"):
-        env.pop(name, None)
-    # unet and pinn are single-threaded friendly; the CNN/FNO baselines use 16.
     threads = "1" if model in ("unet", "pinn") else "16"
-    env.update(OMP_NUM_THREADS=threads, MKL_NUM_THREADS=threads, OPENBLAS_NUM_THREADS="1",
-               PYTHONDONTWRITEBYTECODE="1", CUBLAS_WORKSPACE_CONFIG=":4096:8")
+    for key, value in {"OMP_NUM_THREADS": threads, "MKL_NUM_THREADS": threads,
+                       "OPENBLAS_NUM_THREADS": "1"}.items():
+        env.setdefault(key, value)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env["PYTHONPATH"] = os.pathsep.join(filter(None, (str(ROOT / "src"), str(ROOT), env.get("PYTHONPATH"))))
+    if device == "cpu":
+        env["CUDA_VISIBLE_DEVICES"] = "-1"
+    else:
+        env.setdefault("CUDA_VISIBLE_DEVICES", "0")
     if model.startswith("gift_"):
-        # Prefer this checkout when an older installed package is also present.
-        env["PYTHONPATH"] = os.pathsep.join((str(ROOT / "src"), str(ROOT)))
-    if model not in ("unet", "pinn"):
-        env["CUDA_VISIBLE_DEVICES"] = "-1" if device == "cpu" else "0"
-    if model in ("fno2d", "fno3d"):
-        env.pop("CUBLAS_WORKSPACE_CONFIG", None)
+        env.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
     if model == "uno":
-        # Match the recorded native launch: train_uno fixes Torch intra-op threads
-        # to 1 and drops the BLAS/MKL thread overrides, so its timing is reproducible.
-        absent = {"MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"}
-        env = {key: value for key, value in env.items() if key.upper() not in absent | {"OMP_NUM_THREADS"}}
-        env["OMP_NUM_THREADS"] = "24"
+        env["OMP_NUM_THREADS"] = (os.environ if parent is None else parent).get("OMP_NUM_THREADS", "24")
     elif model == "unet":
-        from training.unet_environment import ABSENT_ENVIRONMENT, FIXED_ENVIRONMENT
-        controlled = set(ABSENT_ENVIRONMENT) | set(FIXED_ENVIRONMENT)
-        env = {key: value for key, value in env.items() if key.upper() not in controlled}
-        env.update(FIXED_ENVIRONMENT)
+        from training.unet_environment import FIXED_ENVIRONMENT
+        for key, value in FIXED_ENVIRONMENT.items():
+            env.setdefault(key, value)
     elif model == "pinn":
-        env.update(CUDA_VISIBLE_DEVICES="0" if device == "gpu" else "-1",
-                   TF_CPP_MIN_LOG_LEVEL="3", TF_ENABLE_ONEDNN_OPTS="0",
-                   TF_DETERMINISTIC_OPS="1", TF_CUDNN_DETERMINISTIC="1")
+        for key, value in {"TF_CPP_MIN_LOG_LEVEL": "3", "TF_ENABLE_ONEDNN_OPTS": "0",
+                           "TF_DETERMINISTIC_OPS": "1", "TF_CUDNN_DETERMINISTIC": "1"}.items():
+            env.setdefault(key, value)
         library = Path(python).resolve().parent / "Library" / "bin"
         if os.name == "nt" and library.is_dir():
             env["PATH"] = str(library) + os.pathsep + env.get("PATH", "")
@@ -56,6 +52,7 @@ def child_environment(model, python, device, parent=None):
 
 
 def main(argv=None):
+    """Dispatch one training entry with explicit device and forwarded model options."""
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument("model", choices=tuple(MODULES))
     parser.add_argument("--python", default=sys.executable)

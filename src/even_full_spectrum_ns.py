@@ -32,6 +32,7 @@ CONTOUR_POINTS = 32
 
 
 def _validate_even_grid(n: int) -> int:
+    """Return an even grid width supporting the real collocation convention."""
     n = int(n)
     if n < 4 or n % 2:
         raise ValueError("state grid must be an even integer >= 4")
@@ -39,7 +40,7 @@ def _validate_even_grid(n: int) -> int:
 
 
 def _validate_padding(n: int, p: int) -> int:
-    n = _validate_even_grid(n)
+    """Require an odd product workspace large enough for all retained modes."""
     p = int(p)
     if p < 3 * (n // 2) + 1 or p % 2 != 1:
         raise ValueError(
@@ -62,6 +63,16 @@ def split_even_native_dft(value_hat: torch.Tensor, padding_grid: int) -> torch.T
         raise ValueError("value_hat must end in square spatial dimensions")
     n = _validate_even_grid(int(value_hat.shape[-1]))
     p = _validate_padding(n, padding_grid)
+    return _split_even_native_dft(value_hat, n, p)
+
+
+def _split_even_native_dft(value_hat: torch.Tensor, n: int, p: int) -> torch.Tensor:
+    """Split checked ``[..., N, N]`` native spectra into ``[..., P, P]`` storage.
+
+    The caller has validated grid sizes. Leading axes, complex dtype and
+    device are preserved; Nyquist splitting and DFT amplitude conversion are
+    performed without imposing an additional state cutoff.
+    """
     k = n // 2
     kp = (p - 1) // 2
     shifted = torch.fft.fftshift(value_hat, dim=(-2, -1))
@@ -99,13 +110,23 @@ def split_even_native_dft(value_hat: torch.Tensor, padding_grid: int) -> torch.T
 
 
 def merge_odd_dft_to_even_native(value_hat: torch.Tensor, output_grid: int) -> torch.Tensor:
-    """Crop an odd padded DFT and merge +/- Nyquist modes to an even DFT."""
+    """Crop odd ``[..., P, P]`` spectra and merge +/- Nyquist modes to ``N``.
+
+    ``output_grid`` is even and must meet the padding relation with ``P``.
+    The factor ``(N/P)^2`` restores native N-grid DFT normalisation. Leading
+    dimensions, dtype and device are preserved.
+    """
 
     if value_hat.ndim < 2 or value_hat.shape[-2] != value_hat.shape[-1]:
         raise ValueError("value_hat must end in square spatial dimensions")
     p = int(value_hat.shape[-1])
     n = _validate_even_grid(output_grid)
     _validate_padding(n, p)
+    return _merge_odd_dft(value_hat, n, p)
+
+
+def _merge_odd_dft(value_hat: torch.Tensor, n: int, p: int) -> torch.Tensor:
+    """Merge checked padded spectra using the inverse Nyquist split convention."""
     k = n // 2
     kp = (p - 1) // 2
     start = kp - k
@@ -167,7 +188,13 @@ def alias_free_product_hat(
     *,
     padding_grid: int = PADDING_GRID,
 ) -> torch.Tensor:
-    """Native DFT of a product, retaining all even-grid representable modes."""
+    """Return the native DFT of two real fields' alias-controlled product.
+
+    Inputs are equal-layout Hermitian ``[..., N, N]`` spectra. They are split
+    onto the odd ``padding_grid`` before multiplication in physical space;
+    cropping retains every representable N-grid coefficient, including the
+    merged Nyquist entries. Output dtype/device follow the inputs.
+    """
 
     if left_hat.shape != right_hat.shape:
         raise ValueError("product inputs must have equal shapes")
@@ -181,7 +208,13 @@ def alias_free_product_hat(
 
 
 def etdrk4_coefficients(linear: torch.Tensor, dt: float) -> dict[str, torch.Tensor]:
-    """Exact dtype-compatible copy of the released 32-point formula."""
+    """Build Cox--Matthews ETDRK4 multipliers for a real spectral linear operator.
+
+    ``linear`` normally has ``[N, N]`` shape and inverse-time units; ``dt`` is
+    the fixed time step. Exponential coefficients ``e``/``e2`` and contour
+    means ``q``/``f1``/``f2``/``f3`` share that shape. The 32 complex64 contour
+    points stabilise the quotients near a zero linear eigenvalue.
+    """
 
     points = CONTOUR_POINTS
     roots = torch.exp(
@@ -220,7 +253,13 @@ def periodic_gaussian_native_hat(
     grid: int = GRID,
     device: str | torch.device = "cpu",
 ) -> torch.Tensor:
-    """Analytic Gaussian coefficients with canonical even-grid Nyquist merge."""
+    """Return complex64 ``[grid, grid]`` coefficients of one periodic Gaussian.
+
+    ``circulation`` is the spatial integral; ``sigma`` and the centre use
+    coordinates on the ``2*pi`` periodic domain. Analytic Fourier-series
+    coefficients are scaled to the native DFT, with +/- Nyquist entries
+    combined using the same convention as the product solver.
+    """
 
     n = _validate_even_grid(grid)
     k = n // 2
@@ -241,7 +280,12 @@ def build_initial_hat(
     grid: int = GRID,
     device: str | torch.device = "cpu",
 ) -> torch.Tensor:
-    """Build canonical Hermitian four-vortex states with an explicit zero mean."""
+    """Build complex64 ``[trajectories, grid, grid]`` four-vortex initial spectra.
+
+    Each trajectory supplies four ``(circulation, sigma, centre_x, centre_y)``
+    tuples in the periodic ``2*pi`` coordinates. Vortex spectra are added,
+    then the zero Fourier mode is set to zero to enforce zero spatial mean.
+    """
 
     values = []
     for trajectory in parameters:
@@ -266,12 +310,23 @@ def build_initial_hat(
 
 @dataclass(frozen=True)
 class EvenFullSpectrumConfiguration:
+    """Physical coefficients and fixed discretisation for the periodic solver.
+
+    ``grid`` is the even state width, ``padding_grid`` the odd product width,
+    and ``dt`` the internal integration interval. Viscosity multiplies the
+    Laplacian, and ``advection_coefficient`` multiplies the unit transport
+    ``u*omega_x+v*omega_y`` without changing the velocity reconstruction.
+    The vorticity forcing is
+    ``-forcing_amplitude*forcing_wavenumber*cos(forcing_wavenumber*y)``.
+    """
+
     grid: int = GRID
     padding_grid: int = PADDING_GRID
     viscosity: float = NU
     forcing_amplitude: float = FORCE_AMPLITUDE
     forcing_wavenumber: int = FORCE_WAVENUMBER
     dt: float = INTERNAL_DT
+    advection_coefficient: float = 1.0
 
 
 class EvenFullSpectrumNSSolver:
@@ -283,7 +338,15 @@ class EvenFullSpectrumNSSolver:
         *,
         device: str | torch.device = "cpu",
     ) -> None:
+        """Prepare float32 geometry and time-step coefficients on one device.
+
+        States supplied later must be complex64 native spectra on this
+        device. The streamfunction's zero mode is defined as zero, and only
+        odd derivatives suppress the self-conjugate Nyquist multiplier.
+        """
         self.configuration = configuration
+        if not math.isfinite(float(configuration.advection_coefficient)):
+            raise ValueError("advection_coefficient must be finite")
         self.device = torch.device(device)
         if self.device.type == "cuda" and self.device.index is None:
             self.device = torch.device("cuda", torch.cuda.current_device())
@@ -327,6 +390,7 @@ class EvenFullSpectrumNSSolver:
 
     @property
     def metadata(self) -> dict[str, object]:
+        """Describe represented modes, product padding and arithmetic conventions."""
         return {
             "grid": self.n,
             "native_axis_wavenumbers": [-self.n // 2, self.n // 2 - 1],
@@ -343,6 +407,10 @@ class EvenFullSpectrumNSSolver:
             ),
             "solver": "full-spectrum Fourier pseudospectral ETDRK4",
             "internal_dt": float(self.configuration.dt),
+            "viscosity": float(self.configuration.viscosity),
+            "advection_coefficient": float(self.configuration.advection_coefficient),
+            "forcing_amplitude": float(self.configuration.forcing_amplitude),
+            "forcing_wavenumber": int(self.configuration.forcing_wavenumber),
             "contour_points": CONTOUR_POINTS,
             "real_dtype": "float32",
             "complex_dtype": "complex64",
@@ -350,6 +418,7 @@ class EvenFullSpectrumNSSolver:
         }
 
     def _check(self, value_hat: torch.Tensor) -> None:
+        """Check trailing state dimensions, complex64 arithmetic and solver device."""
         if value_hat.shape[-2:] != (self.n, self.n):
             raise ValueError(f"state must end in [{self.n},{self.n}]")
         if value_hat.dtype != torch.complex64:
@@ -368,6 +437,15 @@ class EvenFullSpectrumNSSolver:
         """
 
         self._check(value_hat)
+        return self._transport_hat(value_hat)
+
+    def _transport_hat(self, value_hat: torch.Tensor) -> torch.Tensor:
+        """Evaluate checked batched spectra with ``u=psi_y`` and ``v=-psi_x``.
+
+        ``psi_hat=omega_hat/|k|^2`` solves ``-laplacian(psi)=omega``. Derivatives
+        are formed on the even state grid; velocities and vorticity gradients
+        then share the padded real workspace for ``u*omega_x+v*omega_y``.
+        """
         psi_hat = value_hat / self.safe_k2
         psi_hat[..., 0, 0] = 0.0
         spectral_fields = (
@@ -376,30 +454,51 @@ class EvenFullSpectrumNSSolver:
             1j * self.derivative_kx * value_hat,
             1j * self.derivative_ky * value_hat,
         )
-        padded_fields = [split_even_native_dft(value, self.p) for value in spectral_fields]
+        padded_fields = [_split_even_native_dft(value, self.n, self.p) for value in spectral_fields]
         velocity_u, velocity_v, omega_x, omega_y = [
             torch.fft.ifft2(value).real for value in padded_fields
         ]
         transport_padded = torch.fft.fft2(
             velocity_u * omega_x + velocity_v * omega_y
         )
-        return merge_odd_dft_to_even_native(transport_padded, self.n)
+        return _merge_odd_dft(transport_padded, self.n, self.p)
 
     def remainder(self, value_hat: torch.Tensor) -> torch.Tensor:
-        return -self.transport_hat(value_hat) + self.forcing_hat
+        """Return ``-beta*unit_transport + forcing`` after checking the state.
+
+        Beta=1 follows the original operation path exactly, preserving existing
+        experiments. Other beta values change the physical transport coefficient.
+        """
+        transport = self.transport_hat(value_hat)
+        if self.configuration.advection_coefficient == 1.0:
+            return -transport + self.forcing_hat
+        return -float(self.configuration.advection_coefficient) * transport + self.forcing_hat
+
+    def _remainder(self, value_hat: torch.Tensor) -> torch.Tensor:
+        """Evaluate the same RHS for internal ETDRK4 stages already on this grid."""
+        transport = self._transport_hat(value_hat)
+        if self.configuration.advection_coefficient == 1.0:
+            return -transport + self.forcing_hat
+        return -float(self.configuration.advection_coefficient) * transport + self.forcing_hat
 
     def advance(self, value_hat: torch.Tensor) -> torch.Tensor:
-        """One ETDRK4 step; no coefficient is masked."""
+        """Return one fixed ETDRK4 step for complex64 ``[..., N, N]`` spectra.
+
+        Viscosity is integrated through the exponential coefficients, while
+        transport and forcing are evaluated at four stages. No spatial
+        coefficient is masked; the result's zero mode alone is set to zero
+        to preserve the declared zero-mean state space.
+        """
 
         self._check(value_hat)
         coefficient = self.coefficients
-        n0 = self.remainder(value_hat)
+        n0 = self._remainder(value_hat)
         a = coefficient["e2"] * value_hat + coefficient["q"] * n0
-        na = self.remainder(a)
+        na = self._remainder(a)
         b = coefficient["e2"] * value_hat + coefficient["q"] * na
-        nb = self.remainder(b)
+        nb = self._remainder(b)
         c = coefficient["e2"] * a + coefficient["q"] * (2 * nb - n0)
-        nc = self.remainder(c)
+        nc = self._remainder(c)
         result = (
             coefficient["e"] * value_hat
             + coefficient["f1"] * n0

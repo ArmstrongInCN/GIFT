@@ -29,6 +29,13 @@ def main(argv=None):
     # Paired eager-vs-graph timing on observed training windows. Every optimizer
     # update is disposable (AdamW with a throwaway schedule); nothing is saved or
     # counted toward a scientific training budget, and it requires CUDA.
+    """Compare disposable eager and CUDA-graph updates on the same observed windows.
+
+    Each timed repeat restores matching weights and builds a fresh optimizer.
+    CUDA synchronization bounds the measured work; graph setup and validation
+    are excluded. Final losses and tensors must match before reporting a
+    speedup. Only a new timing JSON is written, never trained model weights.
+    """
     p = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     p.add_argument('--dataset', type=Path, required=True)
     p.add_argument('--generator', type=Path, required=True)
@@ -89,6 +96,7 @@ def main(argv=None):
             key = tuple((x.shape, x.dtype, device) for x in batch)
             if key not in engine.graphs: engine.gradients(*(x.to(device) for x in batch))
         def run(index, optimizer):
+            """Execute one disposable batch pass with the eager or graph optimizer path."""
             model = models[index]
             if index == 1: return engine.epoch(batches, optimizer, device)
             if kind == 'derivative': return derivative_epoch(model, batches, optimizer, device, scale)

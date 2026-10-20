@@ -1,20 +1,15 @@
-# Working on GIFT / 项目操作约定
+# GIFT 项目约定
 
-- Only edit this project and explicitly selected run directories. External datasets and upstream checkouts are read-only.
-- Keep data outside the repository. Use `GIFT_DATA_ROOT` and `GIFT_EXTERNAL_ROOT`; never search for another author's working copy as a fallback.
-- 外部算法只允许必要、少量且能逐项用简单语言说明的适配。不得接管自动微分、替换反向算子或重新实现优化器内核来追求特定结果。
-- Record every external-source adjustment in `docs/EXTERNAL_ADAPTATIONS.md`, separately from experimental settings. Use fixed upstream commits and verify source hashes before loading code.
-- Train one model per command. Resume only that run's committed model, optimizer, scheduler and random state. State the checkpoint boundary explicitly; restarting an uncommitted phase is not an internal-optimizer-state resume.
-- Every GIFT trainer uses `--execution auto`: CUDA graphs for fresh GPU training, eager on CPU, and the recorded backend for ordinary resume. `--execution eager` keeps the reference training path. Prediction remains eager unless explicitly requested via `--gift-execution cuda-graph`. Keep scientific budgets, precision and pre-update safety checks. Never bypass source/runtime/backend checkpoint identity checks. See docs/PERFORMANCE.md; benchmark updates are disposable, not scientific training progress.
-- High-frequency training layouts are segment-local differentiable views, never persistent learned-weight caches. Only verified full batches (16 derivative / 5 rollout trajectories) use them; other shapes keep the reference graph. Preserve parameter storage, native autograd, default prediction, and refresh/release the views at every backward boundary.
-- Define data access, training budget, model selection and evaluation rules before training. Equal epochs, equal parameter updates and equal compute are different comparisons; never label one as another.
-- Prediction models use the common 1,000-trajectory training set. Full-data GIFT trains its generator and branch for 500 trajectory epochs EACH; report 500 + 500, never 500 total. Each baseline uses 500 epochs. Preserve completed 50-trajectory prediction models as GIFT-Lite; Lite describes reduced training data, not a smaller architecture. M1 keeps its own protocol and its own local numbering: its generator is trained on the single local training trajectory, frozen, and the coefficients are read out from that same trajectory. See docs/TRAINING_PROTOCOL.md.
-- Do not use test outcomes to tune settings, omit difficult trajectories or choose checkpoints. Save numerical outputs before plotting.
-- Keep development diaries, intermediate implementation variants and comparisons to other project folders outside the delivered project. Current experiment settings, source identities, result provenance and known limitations must remain accurate.
-- Only update `EXPERIMENTS.md` from completed, source-bound measurements. Make the smallest necessary changes to methods, tables, figures and conclusions; do not present a pending computation as a measured result.
-- A file whose SHA-256 is recorded in `results/**/published.json`, in a `figure_manifest.json`, in a run binding or in a checkpoint identity is byte-frozen, comments included. Those records also digest the identity that carries the hashes, and nothing in this repository recomputes it, so a change to such a file means re-running the experiment and re-publishing the record; there is no supported way to refresh the entry by hand. The same applies to the entry-point paths, result directories and command-line identifiers a published record names.
-- All experiment-document images are SVG. Preserve the existing visual design; regenerate arrays from the selected model runs and figures from their numerical outputs. Check table/figure provenance together. Never enforce a preferred method ranking in plotting code.
-- Do not rewrite remote history or enable paid services automatically. Repository visibility is changed only on explicit user authorization.
-- 禁止直接运行批量删除命令；任何批量删除操作必须先向用户申请。不得覆盖现有训练或实验输出。
-- 跨学科工作只能通过新增入口进行，不得改动既有模块：`scripts/generate_crossdomain_data.py` 生成 `fixture_only` 诊断观测，`scripts/run_crossdomain.py` 以项目自带的 `PredictionTrainingConfig(fixture_only=True)` 训练生成元并用 `gift.identified` 做递归评估。fixture 产物不得表述为正式实验结果，也不得与已发布表格混排；引用其数值时须与对应 `summary/summary.json` 的模型与数据哈希绑定。
-- 跨学科运行同样遵守既有约定：每次一个新输出目录、默认只读计划、`--execute` 才落盘、输出位于仓库与 `GIFT_DATA_ROOT` 之外；一个方程对应一个固定参数集（单一自治系统），参数随轨迹变化、二阶系统或非周期区域都不在已验证范围内。
+- 用户的当前指令优先；修改限于本地项目，外部数据和依赖源码保持只读。
+- 不覆盖既有权重、训练目录或实验结果，不干预正在运行的任务。
+- 禁止直接运行批量删除命令；任何批量删除操作必须先向用户申请。
+- 围绕当前需求使用清楚的普通函数，避免无消费者兼容层和预留框架。
+- 模块、类和函数说明具体用途；数值与训练代码写清输入输出、数组轴、单位、数学约定和非显然的处理理由，测试说明验证条件。注释与实现保持一致，不逐行复述可直接读懂的语句。
+- 在输入、模型加载和恢复边界检查真实条件，内部不重复验证已保证的条件。
+- 源码版本和环境用于记录，不以源码哈希或全环境相等作为普通运行许可。
+- 恢复模型、优化器、调度器、随机状态及阶段进度；不兼容配置明确报错。
+- GIFT 仓库文件夹内不得存放外部算法源码、复制的实现、自动源码改写器或可执行补丁；仅保留官方仓库引用、版本元数据、文字适配步骤与通用外部接口。
+- 外部算法及其必要适配由使用者在 GIFT 仓库外下载、实施和保存；本机外部运行接口位于相邻 gift-external-runtime，不能复制回仓库或纳入 Git 发布。保留来源、许可证及已声明的计算语义。
+- 参考实验使用文档中的设置；自定义运行报告实际数据、预算和设备。
+- 不用 test 调参或选 checkpoint，不遗漏失败轨迹，不编造未完成的结果。
+- 数值先保存再绘图；历史测量保持原样，新计算使用新的运行记录。

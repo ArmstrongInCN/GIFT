@@ -19,6 +19,12 @@ class TrainingEngine:
     """
 
     def __init__(self, model, *, kind, frozen=None, scale=None, backend="cuda-graph"):
+        """Select an eager or graph engine for generator, derivative, short or long loss.
+
+        model owns trainable Parameters; frozen supplies the fixed low-band
+        generator for rollout. scale normalizes derivative/generator losses.
+        CPU always uses eager execution; CUDA graphs are cached by batch layout.
+        """
         if kind not in ("generator", "derivative", "short", "long"):
             raise ValueError("unknown GIFT training phase")
         if backend not in ("eager", "cuda-graph"):
@@ -60,6 +66,13 @@ class TrainingEngine:
         # The captured high-frequency graph assumes a fixed full batch (16 for
         # the derivative phase, 5 for rollout); any other size uses the
         # reference eager path so layouts stay bit-stable.
+        """Accumulate one batch's reference gradients and return losses plus a rejection flag.
+
+        Derivative batches use normalized RHS error. Rollout batches evolve low
+        and high tracks by RK4, project the high band, and backpropagate at
+        truncation boundaries. Detached tracks prevent gradients crossing those
+        boundaries. Loss entries retain the original horizon weighting.
+        """
         expected_batch = 16 if self.kind == "derivative" else 5
         view = self.branch_view if len(batch[0]) == expected_batch else None
         model = view if view is not None else self.model
@@ -141,6 +154,12 @@ class TrainingEngine:
         return values
 
     def step(self, optimizer, *batch):
+        """Validate raw gradients, clip them, apply one update and return the batch loss.
+
+        The generator clip is 5.0 and branch clips are 1.0. Rejected states,
+        corrections or gradients raise before optimizer.step, so they do not count
+        as completed updates.
+        """
         values = self.gradients(*batch)
         # Generator gradients use a looser 5.0 clip; branch/rollout phases share
         # the 1.0 clip that matches the derivative reference.
@@ -153,6 +172,11 @@ class TrainingEngine:
         return sum(value / len(values) for value in values)
 
     def epoch(self, loader, optimizer, device):
+        """Train on every loader batch and return a trajectory-weighted mean loss.
+
+        Move each batch tensor to device before the update; a smaller tail batch
+        contributes in proportion to its actual trajectory count.
+        """
         self.model.train()
         total, count = 0.0, 0
         for batch in loader:

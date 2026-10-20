@@ -1,4 +1,14 @@
-# Source, reference tables and evidence are bound by byte-level hashes.
-# Disable newline conversion for every tracked file on every platform.
-# Keep the exact source and evidence bytes across checkouts.
-* -text
+* text=auto eol=lf
+
+# Archived measurements and weights retain their original bytes.
+results/** -text
+artifacts/** -text
+*.h5 -text
+*.hdf5 -text
+*.npz -text
+*.pt -text
+*.pth -text
+*.part -text
+*.png -text
+*.jpg -text
+*.pdf -text

@@ -14,18 +14,21 @@ from training.train_pinn import (CoupledJournal, ROOT, configured_inputs,
 
 
 class TerminalTests(unittest.TestCase):
+    """Check path protection and create-only numeric completion with the diagnostic scheduling surrogate."""
     @classmethod
     def setUpClass(cls):
+        """Allocate a fresh retained output tree for journal/export tests without creating a TF graph."""
         cls.output = Path(tempfile.mkdtemp(prefix="gift_pinn_terminal_contract_"))
 
     def test_canonical_path_and_protected_output(self):
+        """Noise paths must route correctly; fresh output protects code/data while resume needs an existing journal."""
         data = self.output / "data"
         data.mkdir()
         _, inputs = configured_inputs("noise_000", data)
         self.assertEqual(inputs["data"], data / "standard_ns_n64_full_spectrum.h5")
         _, noisy = configured_inputs("noise_001", data)
-        self.assertEqual(noisy["data"], data / "m1_parameter_identification/noise_001.h5")
-        for output in (ROOT / "no_writes", data / "no_writes", data, self.output):
+        self.assertEqual(noisy["data"], data / "w3_parameter_identification/noise_001.h5")
+        for output in (ROOT / "training" / "no_writes", data / "no_writes", data, self.output):
             with self.assertRaises((ValueError, FileExistsError)):
                 validate_output(output, data, inputs)
         allowed = self.output / "new_run"
@@ -35,6 +38,7 @@ class TerminalTests(unittest.TestCase):
             validate_output(allowed, data, inputs, resume=True)
 
     def test_terminal_numeric_commit_and_completed_resume(self):
+        """Diagnostic completion must export finite numeric state, preserve bytes on resume and retain non-scientific status."""
         output = self.output / "complete"
         with contextlib.redirect_stdout(io.StringIO()):
             first = execute_schedule(coordinator(), output)
@@ -42,7 +46,7 @@ class TerminalTests(unittest.TestCase):
         result = json.loads((output / "result.json").read_text())
         self.assertFalse(result["scientific_acceptance"])
         self.assertTrue(result["diagnostic_test_only"])
-        self.assertFalse(result["eligible_for_formal_M1"])
+        self.assertFalse(result["eligible_for_formal_W3"])
         self.assertEqual(result["library"], ["w", "advection", "laplacian", "q"])
         with np.load(output / "terminal_state.npz", allow_pickle=False) as archive:
             self.assertIn("model_000", archive.files)
@@ -58,6 +62,7 @@ class TerminalTests(unittest.TestCase):
             execute_schedule(coordinator(), output)
 
     def test_unfinished_or_uncommitted_terminal_refused(self):
+        """Neither unfinished optimization nor an uncommitted complete cursor may publish terminal output."""
         control = coordinator()
         journal = CoupledJournal(self.output / "unfinished", control)
         journal.save()
@@ -68,6 +73,7 @@ class TerminalTests(unittest.TestCase):
             terminal_export(journal)
 
     def test_mismatched_existing_numeric_not_overwritten(self):
+        """An unrelated existing terminal NPZ must be preserved and must not receive a completion commit."""
         control = coordinator()
         drive(control)
         journal = CoupledJournal(self.output / "mismatch", control)

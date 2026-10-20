@@ -1,7 +1,7 @@
 """Formal experiment entry points, one per experiment.
 
-M1 equation-parameter identification, M2 recursive prediction,
-M3 cross-resolution prediction, and the side experiments S1 to S4.
+W3 equation-parameter identification, W1 recursive prediction,
+W2 cross-resolution prediction, and the side experiments S1 to S3.
 """
 
 from ._shared.common import EXPERIMENTS, SEEDS

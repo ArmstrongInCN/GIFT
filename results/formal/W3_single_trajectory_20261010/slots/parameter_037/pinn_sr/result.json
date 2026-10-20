@@ -1,0 +1,842 @@
+{
+  "schema": "gift.w3-parameter-measurement.v1",
+  "status": "complete",
+  "case_id": "parameter_037",
+  "method": "PINN-SR",
+  "identity": {
+    "schema": "gift.w3-parameter-job-binding.v1",
+    "case_binding": {
+      "case_id": "parameter_037",
+      "observation_sha256": "d22f0476989f1b003b6f5c9b2daec03ed81efdac736b7a767a80a70c615a6901",
+      "data_receipt_sha256": "6bd9d720d6ac0441deb789645f2b80d39a24706f901383e9d811f50215abdc7d",
+      "data_lock_sha256": "b808d12920a0421868c6da84851b43ba0ede7c64d51b19200f5c97aaccf7cbe3",
+      "data_qa_sha256": "9c0a99bc07a67be218c36b73dbb9470a4ac72b2c545cc11b2bc7b2c32b32de15",
+      "parameter_csv_sha256": "43b8b7d0edb5d70f4b7c7519946c7e358e88011db582f09c5d7e6940f1893a14",
+      "initial_conditions_sha256": "62632a5cb34da3159a3bbe5f0f3c251ef2ea337e729c3f08cc0f75770956e9b8",
+      "data_profile": "single_trajectory_terminal_v1"
+    },
+    "method": "PINN-SR",
+    "clean_reader_condition": "noise_000",
+    "truth_used_as_training_labels_or_initial_coefficients": false,
+    "training_configuration": {
+      "seed": 1234,
+      "budget": {
+        "pre_nadam": 5000,
+        "rounds": 6,
+        "ado_nadam": 1000,
+        "post_nadam": 20000,
+        "lbf_maxiter": 10000,
+        "lbf_maxfun": 10000
+      },
+      "train_rows": 24000,
+      "physics_rows": 84000,
+      "execution_profile": "native_fp32",
+      "algorithm_profile": "paper_ado_v1",
+      "terminal_checkpoint": true
+    },
+    "checkpoint_sha256": "0f4de1aa5f3a8328d9c7162bb23efd960cc986ac980b0c16d3b0cfe04f94356e"
+  },
+  "truth": {
+    "nu": 0.01100828338476903,
+    "beta": 0.9752773814144864,
+    "gamma": 0.7786120797630891
+  },
+  "parameters": {
+    "nu": 0.024431715719401836,
+    "beta": 0.6914149820804596,
+    "gamma": 0.5700972676277161
+  },
+  "APE_percent": {
+    "nu": 121.93937842484468,
+    "beta": 29.10581181759071,
+    "gamma": 26.780320721304317
+  },
+  "measurement_seconds": 0.005045700000000153,
+  "raw_measurement": {
+    "parameters": {
+      "nu": 0.024431715719401836,
+      "beta": 0.6914149820804596,
+      "gamma": 0.5700972676277161
+    },
+    "scope": "trained_coefficients_readout",
+    "readout_scope": "trained_coefficients_readout",
+    "training": false,
+    "forward": false,
+    "training_executed": false,
+    "forward_executed": false,
+    "sparse_regression_executed": false,
+    "fresh_training": false,
+    "full_budget_retraining_verified": false,
+    "reference_binding": {
+      "method": "PINN-SR",
+      "condition": "noise_000",
+      "mode": "open",
+      "parameters": {
+        "nu": 0.024431715719401836,
+        "beta": 0.6914149820804596,
+        "gamma": 0.5700972676277161
+      },
+      "coefficient_names": [
+        "",
+        "w_{x}",
+        "w_{y}",
+        "w_{xx}",
+        "w_{xy}",
+        "w_{yy}",
+        "u**1",
+        "u**1w_{x}",
+        "u**1w_{y}",
+        "u**1w_{xx}",
+        "u**1w_{xy}",
+        "u**1w_{yy}",
+        "u**2",
+        "u**2w_{x}",
+        "u**2w_{y}",
+        "u**2w_{xx}",
+        "u**2w_{xy}",
+        "u**2w_{yy}",
+        "v**1",
+        "v**1w_{x}",
+        "v**1w_{y}",
+        "v**1w_{xx}",
+        "v**1w_{xy}",
+        "v**1w_{yy}",
+        "v**2",
+        "v**2w_{x}",
+        "v**2w_{y}",
+        "v**2w_{xx}",
+        "v**2w_{xy}",
+        "v**2w_{yy}",
+        "w**1",
+        "w**1w_{x}",
+        "w**1w_{y}",
+        "w**1w_{xx}",
+        "w**1w_{xy}",
+        "w**1w_{yy}",
+        "w**2",
+        "w**2w_{x}",
+        "w**2w_{y}",
+        "w**2w_{xx}",
+        "w**2w_{xy}",
+        "w**2w_{yy}",
+        "uv",
+        "uvw_{x}",
+        "uvw_{y}",
+        "uvw_{xx}",
+        "uvw_{xy}",
+        "uvw_{yy}",
+        "uw",
+        "uww_{x}",
+        "uww_{y}",
+        "uww_{xx}",
+        "uww_{xy}",
+        "uww_{yy}",
+        "vw",
+        "vww_{x}",
+        "vww_{y}",
+        "vww_{xx}",
+        "vww_{xy}",
+        "vww_{yy}",
+        "q",
+        "qw_{x}",
+        "qw_{y}",
+        "qw_{xx}",
+        "qw_{xy}",
+        "qw_{yy}",
+        "q^2",
+        "q^2w_{x}",
+        "q^2w_{y}",
+        "q^2w_{xx}",
+        "q^2w_{xy}",
+        "q^2w_{yy}",
+        "u*q",
+        "u*qw_{x}",
+        "u*qw_{y}",
+        "u*qw_{xx}",
+        "u*qw_{xy}",
+        "u*qw_{yy}",
+        "v*q",
+        "v*qw_{x}",
+        "v*qw_{y}",
+        "v*qw_{xx}",
+        "v*qw_{xy}",
+        "v*qw_{yy}",
+        "w*q",
+        "w*qw_{x}",
+        "w*qw_{y}",
+        "w*qw_{xx}",
+        "w*qw_{xy}",
+        "w*qw_{yy}"
+      ],
+      "coefficients": [
+        0.0,
+        -0.0,
+        -0.0,
+        0.030464841052889824,
+        0.0,
+        0.01839859038591385,
+        -0.0,
+        -0.6261717081069946,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        0.0,
+        -0.7566582560539246,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        0.19116590917110443,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.5254908800125122,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        0.0,
+        0.5700972676277161,
+        0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        0.0,
+        -0.0
+      ],
+      "readout_scope": "trained_coefficients_readout",
+      "training": false,
+      "forward": false,
+      "result_sha256": "0F4DE1AA5F3A8328D9C7162BB23EFD960CC986AC980B0C16D3B0CFE04F94356E",
+      "archive_sha256": "7400B2246F1B4C4429567D28E18A341D548615A4648576D659F80133A36F0BA8",
+      "source_data_protocol": {
+        "data_sha256": null,
+        "sampling_sha256": null
+      },
+      "training_provenance": {
+        "protocol": "native_loss_paper_fixed_coefficient_ado_phase_boundary_lbfgs",
+        "mode": "open",
+        "algorithm_profile": "paper_ado_v1",
+        "source_sha256": "128ECE6AD526CA81D0D3F9A475980B2AEC32E79AD17B40684A05A20B00FFCCC1",
+        "backend": {
+          "inputs": {
+            "sampling": {
+              "path": "C:\\GIFT-compute\\w3_single_trajectory_20261010\\data\\parameter_037\\auxiliary\\pinn_sampling\\noise_000_seed1234.npz",
+              "bytes": 1152283
+            },
+            "data": {
+              "path": "C:\\GIFT-compute\\w3_single_trajectory_20261010\\data\\parameter_037\\standard_ns_n64_full_spectrum.h5",
+              "bytes": 7104495
+            },
+            "condition": "noise_000",
+            "selection": {
+              "train_rows": 24000,
+              "physics_rows": 84000,
+              "diagnostic_subset": false
+            },
+            "selected_arrays_sha256": "f49a18cd0f909619619a750de71428442cc49ddbbed732ece5b4ceb9a5d026f9",
+            "provenance": {
+              "profile": "regenerated"
+            }
+          },
+          "mode": "open",
+          "batching": "complete_population",
+          "algorithm_profile": "paper_ado_v1",
+          "profile": {
+            "python": "3.8.20",
+            "tensorflow": "2.10.0",
+            "numpy": "1.21.6",
+            "scipy": "1.7.3",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "dtype": "float32",
+            "device": "gpu",
+            "threads": 1,
+            "tensorflow_tf32": false,
+            "initialization": "native_Xavier_seed1234",
+            "variable_semantics": "TF1_RefVariable",
+            "scipy_result_recording": "metadata_only_native_solver_unchanged",
+            "sparse_semantics": "immediate_assign_stable_reference_final_STRidge_support",
+            "execution_profile": "native_fp32",
+            "xla_auto_clustering": false,
+            "execution_kernel_sha256": {
+              "pinn_execution_kernels.py": "799B4AC3B8102C229689F17FC624D5ECFD2734B605CB2D544239B1D96034434B",
+              "pinn_execution_factor.py": "27BDFC396C6958CF614CE936CA798EDBD9BB4D2D5BBE44B6DC80FFB42604CBEA"
+            },
+            "execution_kernel_choice": "native_repeated_reverse_AD",
+            "environment": {
+              "TF_ENABLE_ONEDNN_OPTS": "0",
+              "TF_DETERMINISTIC_OPS": "1",
+              "TF_CUDNN_DETERMINISTIC": "1",
+              "CUBLAS_WORKSPACE_CONFIG": null,
+              "TF_XLA_FLAGS": null,
+              "XLA_FLAGS": null,
+              "GIFT_PINN_EXECUTION_PROFILE": "native_fp32"
+            },
+            "session_devices": [
+              "/job:localhost/replica:0/task:0/device:CPU:0",
+              "/job:localhost/replica:0/task:0/device:GPU:0"
+            ],
+            "gpu_details": {
+              "device_name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+              "compute_capability": [
+                12,
+                0
+              ]
+            }
+          },
+          "external_sources": {
+            "pinn_sr": {
+              "commit": "9a20ebe6783e00bc53e3cdd1fd7ff07d2170f496",
+              "repository": "https://github.com/isds-neu/EQDiscovery"
+            },
+            "tensorflow115": {
+              "commit": "590d6eef7e91a6a7392c8ffffb7b58f2e0c8bc6b",
+              "repository": "https://github.com/tensorflow/tensorflow"
+            }
+          },
+          "source_sha256": "7FBA8E6A8EE2A4842D6419C11D2BD738B68ECD473B72BB3F2A3C229D9DA8D56C",
+          "input_gate_sha256": "9EF50523FACA68BE52DD7EFA4151976E2A35D5E7D59CE5BE94CB48849BE2039F"
+        },
+        "stridge": {
+          "name": "adapters.pinn_stridge.fit_stridge",
+          "source_sha256": "E4814692BCBA1A522FE81E4C5B6852C0B6A6A55307430657F827B4A8D7C88EFC"
+        },
+        "budget": {
+          "pre_nadam": 5000,
+          "rounds": 6,
+          "ado_nadam": 1000,
+          "post_nadam": 20000,
+          "lbf_maxiter": 10000,
+          "lbf_maxfun": 10000
+        },
+        "lbfgs_source_sha256": "DC47FA48F8B7DBBD8163AA1CCFE9FBF063F0DB2AD6EB16E5CF8A95B35398AD5E",
+        "diagnostic_test_only": false,
+        "nadam_checkpoint_interval": 1000
+      },
+      "training_cost": {
+        "phase_seconds": {
+          "pre_nadam": 954.0684439999959,
+          "pre_lbfgs": 2028.9436033999998,
+          "ado_stridge": 95.77257659999987,
+          "ado_nadam": 1139.9421423999474,
+          "final_mask": 0.0011019000003216206,
+          "post_nadam": 3792.207550399996
+        },
+        "nadam_updates": 31000,
+        "stridge_calls": 6,
+        "timing_excludes": "setup, checkpoint IO, paused time and discarded uncommitted work"
+      },
+      "sparse_structure_recovery_claimed": false
+    },
+    "native_coefficients": [
+      {
+        "term": "",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{xx}",
+        "real": 0.030464841052889824,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w_{yy}",
+        "real": 0.01839859038591385,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**1",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**1w_{x}",
+        "real": -0.6261717081069946,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**1w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**1w_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**1w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**1w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**2",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**2w_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**2w_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**2w_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u**2w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**1",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**1w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**1w_{y}",
+        "real": -0.7566582560539246,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**1w_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**1w_{xy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**1w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**2",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**2w_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**2w_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**2w_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**2w_{xy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v**2w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**1",
+        "real": 0.19116590917110443,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**1w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**1w_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**1w_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**1w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**1w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**2",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**2w_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**2w_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**2w_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w**2w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uv",
+        "real": 0.5254908800125122,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uvw_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uw",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uww_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uww_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uww_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uww_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "uww_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vw",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vww_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vww_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vww_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vww_{xy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "vww_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q",
+        "real": 0.5700972676277161,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "qw_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{x}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "q^2w_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*q",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*qw_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*qw_{y}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*qw_{xx}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*qw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "u*qw_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v*q",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v*qw_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v*qw_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v*qw_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v*qw_{xy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "v*qw_{yy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w*q",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w*qw_{x}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w*qw_{y}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w*qw_{xx}",
+        "real": -0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w*qw_{xy}",
+        "real": 0.0,
+        "imaginary": 0.0
+      },
+      {
+        "term": "w*qw_{yy}",
+        "real": -0.0,
+        "imaginary": 0.0
+      }
+    ]
+  },
+  "measurement_host": "DQY_PC",
+  "measurement_device": "cpu"
+}
