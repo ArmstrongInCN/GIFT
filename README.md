@@ -59,7 +59,7 @@ Prepare the external methods and runtime interfaces outside GIFT using the [adap
 
 ### Data and models
 
-The data record is available through [ScienceDB](https://doi.org/10.57760/sciencedb.013lo). The reorganized 2026-10-20 dataset package is pending upload; its [layout](docs/data_package/README.md) and [generation workflow](docs/DATA_GENERATION.md) are documented separately. Set `GIFT_DATA_ROOT` to the dataset directory.
+The dataset has been uploaded to ScienceDB. DOI: [10.57760/sciencedb.013lo](https://doi.org/10.57760/sciencedb.013lo). See the [dataset layout](docs/data_package/README.md) and [generation workflow](docs/DATA_GENERATION.md). Set `GIFT_DATA_ROOT` to the dataset directory.
 
 [Download the reference models](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip) for the seven prediction methods and two paired GIFT generators. File hashes are listed in [CURRENT_MODEL_BUNDLE.json](docs/CURRENT_MODEL_BUNDLE.json); activation and evaluation commands are in the [reproduction guide](docs/CURRENT_REPRODUCTION.md#reference-model-bundle).
 
@@ -88,7 +88,7 @@ S1–S3 分别考察高频支路、递归局部修正和初值分布。完整结
 
 ### 数据与模型
 
-数据记录见 [ScienceDB](https://doi.org/10.57760/sciencedb.013lo)。2026 年 10 月 20 日重整的数据包待上传，目录与数据生成方法见[数据包说明](docs/data_package/README.md)和[生成流程](docs/DATA_GENERATION.md)。
+数据集已上传至 ScienceDB，DOI：[10.57760/sciencedb.013lo](https://doi.org/10.57760/sciencedb.013lo)。目录与数据生成方法见[数据包说明](docs/data_package/README.md)和[生成流程](docs/DATA_GENERATION.md)。
 
 [参考模型下载](https://github.com/ArmstrongInCN/GIFT/releases/download/current-protocol-20261020-source-free/GIFT-current-models-20261020-source-free.zip)包含七种预测方法及两份配套 GIFT 生成元。[文件清单](docs/CURRENT_MODEL_BUNDLE.json)提供大小与 SHA256，[复现流程](docs/CURRENT_REPRODUCTION.md#reference-model-bundle)提供模型激活和评估命令。
 
