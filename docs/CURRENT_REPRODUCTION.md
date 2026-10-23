@@ -79,6 +79,18 @@ python -B -m scripts.package_current_models export --native-root /runs/native --
 
 The exporter validates all fixed slots, creates the nine publication files and checks their metadata and exact tensor equivalence. It refuses an existing destination. Exporting or activating a bundle does not publish it, and reference inference weights cannot be used as the resume journal for an unrelated training run.
 
+## Frozen W1 model: manuscript Table 2
+
+Use the same frozen GIFT pair as W1 prediction, including its sibling generator:
+
+```powershell
+python -B -m scripts.evaluate_w1_table2 --checkpoint "$Bundle/models/GIFT/branch/model.pt" --data "$env:GIFT_DATA_ROOT/prediction/w1_w2/confirmation_n64.h5" --output 'D:\evaluations\w1_table2' --device cuda
+```
+
+This creates `table2.csv` and `table2.json` from all 180 confirmation trajectories at the 76 W1 times (t = 5–8, interval 0.04). It reports nu, beta and gamma, their absolute percentage errors, and pooled channel relative L2 errors against the true physical terms. Linear readout jointly fits the state and Laplacian terms; the additional state coefficient `a0` is retained in JSON. The generator, its physical-unit normalization and the reference solver are reused without training. Channels use the retained P21 band, excluding the zero mode for the linear channel; the high-frequency branch is not evaluated.
+
+`norm_share_percent` normalizes the three reference terms' pooled L2 norms; `energy_share_percent` normalizes their squared L2 norms. Each column sums to 100%, and they represent different quantities. Both sum over all states and spatial points before taking ratios. Results use the supplied weights and observations, record their file identities, and require a new output directory.
+
 ## Current W3
 
 Follow [W3_REPRODUCTION.md](W3_REPRODUCTION.md) for the complete input preparation, five native methods, per-case measurement, current 250-slot aggregation and optional single-trajectory regeneration. `scripts.prepare_w3_run` builds the current run-local gate by validating the downloaded cases. `scripts.generate_w3_parameter_data --profile single_trajectory_terminal_v1` directly regenerates the current protocol into a new directory. The historical validation-best/three-noise workflows are separate protocols.
